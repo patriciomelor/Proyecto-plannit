@@ -13,12 +13,12 @@
     <title>DMP</title>
 
     <!-- vendor css -->
-    <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"> 
-    <link href="{% static 'lib/Ionicons/css/ionicons.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/rickshaw/rickshaw.min.css' %}" rel="stylesheet">
-    <link href="{% static 'lib/chartist/chartist.css' %}" rel="stylesheet">
+    <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet"> 
+    <link href="{% static 'Ionicons/css/ionicons.css' %}" rel="stylesheet">
+    <link href="{% static 'perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
+    <link href="{% static 'jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
+    <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
+    <link href="{% static 'chartist/chartist.css' %}" rel="stylesheet">
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
@@ -31,14 +31,14 @@
     <div class="br-sideleft overflow-y-auto">
       <label class="sidebar-label pd-x-15 mg-t-20">Navigacion</label>
       <div class="br-sideleft-menu">
-        <a href="index.html" class="br-menu-link active">
+        <a href="{% url 'Escritorio' %}" class="br-menu-link active">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
             <span class="menu-item-label">Escritorio</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         
-         <a href="card-dashboard.html" class="br-menu-link">
+         <a href="{% url 'PanelCarga' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
             <span class="menu-item-label">Panel de Carga</span>
@@ -728,25 +728,29 @@
       </div><!-- d-flex -->
       <div class="br-pagebody mg-t-5 pd-x-30">
       {% block content %}
+
+
+
+
+
+
       {% endblock content %}
-
-
       </div><!-- br-pagebody -->
     </div><!-- br-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
 
-    <script src="{% static 'lib/jquery/jquery.js' %}"></script> 
-    <script src="{% static 'lib/popper.js/popper.js' %}"></script>
-    <script src="{% static 'lib/bootstrap/bootstrap.js' %}"></script>
-    <script src="{% static 'lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
-    <script src="{% static 'lib/moment/moment.js' %}"></script>
-    <script src="{% static 'lib/jquery-ui/jquery-ui.js' %}"></script>
-    <script src="{% static 'lib/jquery-switchbutton/jquery.switchButton.js' %}"></script>
-    <script src="{% static 'lib/peity/jquery.peity.jss' %}"></script>
-    <script src="{% static 'lib/chartist/chartist.js' %}"></script>
-    <script src="{% static 'lib/jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
-    <script src="{% static 'lib/d3/d3.js' %} ../lib/d3/d3.js"></script>
-    <script src="{% static 'lib/rickshaw/rickshaw.min.js' %}"></script>
+    <script src="{% static 'jquery/jquery.js' %}"></script> 
+    <script src="{% static 'popper.js/popper.js' %}"></script>
+    <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
+    <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
+    <script src="{% static 'moment/moment.js' %}"></script>
+    <script src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
+    <script src="{% static 'jquery-switchbutton/jquery.switchButton.js' %}"></script>
+    <script src="{% static 'peity/jquery.peity.js' %}"></script>
+    <script src="{% static 'chartist/chartist.js' %}"></script>
+    <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
+    <script src="{% static 'd3/d3.js' %}"></script>
+    <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
 
 
     <script src="{% static 'js/bracket.js' %}"></script>
