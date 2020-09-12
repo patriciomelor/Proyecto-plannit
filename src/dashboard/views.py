@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from django.views.generic.base import TemplateView
+from django.views.generic.base import TemplateView, View, RedirectView
 # Create your views here.
 
 class IndexView(TemplateView):
