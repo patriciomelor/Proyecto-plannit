@@ -6,7 +6,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <link rel="shortcut icon" type="image/png" href="{% static '..img/favicon.ico' %}"/>
+    <link rel="shortcut icon" type="image/png" src="{% static 'img/favicon.ico' %}"/>
 
     <!-- Meta -->
     <meta name="description" content="Software de Gestion y administracion de archivos.">
@@ -15,15 +15,15 @@
     <title>DMP</title>
 
     <!-- vendor css -->
-    <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="../lib/Ionicons/css/ionicons.css" rel="stylesheet">
-    <link href="../lib/perfect-scrollbar/css/perfect-scrollbar.css" rel="stylesheet">
-    <link href="../lib/jquery-switchbutton/jquery.switchButton.css" rel="stylesheet">
-    <link href="../lib/rickshaw/rickshaw.min.css" rel="stylesheet">
-    <link href="../lib/chartist/chartist.css" rel="stylesheet">
+    <link href="{% static 'lib/font-awesome/css/font-awesome.css' %}" rel="stylesheet"> 
+    <link href="{% static 'lib/Ionicons/css/ionicons.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/rickshaw/rickshaw.min.css' %}" rel="stylesheet">
+    <link href="{% static 'lib/chartist/chartist.css' %}" rel="stylesheet">
 
     <!-- Bracket CSS -->
-    <link rel="stylesheet" href="../css/bracket.css">
+    <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
   </head>
 
   <body>
@@ -737,23 +737,23 @@
     </div><!-- br-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
 
-    <script src="../lib/jquery/jquery.js"></script>
-    <script src="../lib/popper.js/popper.js"></script>
-    <script src="../lib/bootstrap/bootstrap.js"></script>
-    <script src="../lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
-    <script src="../lib/moment/moment.js"></script>
-    <script src="../lib/jquery-ui/jquery-ui.js"></script>
-    <script src="../lib/jquery-switchbutton/jquery.switchButton.js"></script>
-    <script src="../lib/peity/jquery.peity.js"></script>
-    <script src="../lib/chartist/chartist.js"></script>
-    <script src="../lib/jquery.sparkline.bower/jquery.sparkline.min.js"></script>
-    <script src="../lib/d3/d3.js"></script>
-    <script src="../lib/rickshaw/rickshaw.min.js"></script>
+    <script src="{% static 'lib/jquery/jquery.js' %}"></script> 
+    <script src="{% static 'lib/popper.js/popper.js' %}"></script>
+    <script src="{% static 'lib/bootstrap/bootstrap.js' %}"></script>
+    <script src="{% static 'lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
+    <script src="{% static 'lib/moment/moment.js' %}"></script>
+    <script src="{% static 'lib/jquery-ui/jquery-ui.js' %}"></script>
+    <script src="{% static 'lib/jquery-switchbutton/jquery.switchButton.js' %}"></script>
+    <script src="{% static 'lib/peity/jquery.peity.jss' %}"></script>
+    <script src="{% static 'lib/chartist/chartist.js' %}"></script>
+    <script src="{% static 'lib/jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
+    <script src="{% static 'lib/d3/d3.js' %} ../lib/d3/d3.js"></script>
+    <script src="{% static 'lib/rickshaw/rickshaw.min.js' %}"></script>
 
 
-    <script src="../js/bracket.js"></script>
-    <script src="../js/ResizeSensor.js"></script>
-    <script src="../js/dashboard.js"></script>
+    <script src="{% static 'js/bracket.js' %}"></script>
+    <script src="{% static 'js/ResizeSensor.js' %}"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script> 
     <script>
       $(function(){
         'use strict'
