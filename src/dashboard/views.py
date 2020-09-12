@@ -9,11 +9,8 @@ class RootView(RedirectView):
 class IndexView(TemplateView):
     template_name = "index-base.html"
 
-<<<<<<< HEAD
-=======
 class EscritorioView(TemplateView):
     template_name = "administrador/Escritorio/dash.html"
 
 class PdcView(TemplateView):
     template_name = "administrador/PaneldeCarga/pdc.html"
->>>>>>> 651f1d35d3e67fb0f4b38914c5797a436fc7f011
