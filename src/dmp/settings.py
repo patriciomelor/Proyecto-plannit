@@ -40,20 +40,25 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'allauth',
+    'invitations',
     'allauth.account',
     'allauth.socialaccount',
+    
 ]
 
 SITE_ID = 1
+
+ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
+ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_AUTHENTICATION_METHOD = "email"
+ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
+
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
-
-ACCOUNT_EMAIL_REQUIRED = True
-ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 
 
 MIDDLEWARE = [
