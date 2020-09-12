@@ -71,7 +71,7 @@ ROOT_URLCONF = 'dmp.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [os.path.join(BASE_DIR, 'templates')],
+        'DIRS': [BASE_DIR.joinpath('templates')],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -94,7 +94,7 @@ WSGI_APPLICATION = 'dmp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'dmp.sqlite3',
     }
 }
 
@@ -121,7 +121,14 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/3.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es'
+_ = lambda s: s
+
+LANGUAGES = (
+ ('es', _('Espanish')),
+ ('zh', _('Chinese')),
+ ('en', _('English')),
+)
 
 TIME_ZONE = 'UTC'
 
