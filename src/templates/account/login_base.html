@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="en">
   <head>
     <!-- Required meta tags -->
@@ -31,11 +32,11 @@
     <title>Bracket Responsive Bootstrap 4 Admin Template</title>
 
     <!-- vendor css -->
-    <link href="../lib/font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="../lib/Ionicons/css/ionicons.css" rel="stylesheet">
+    <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'Ionicons/css/ionicons.css' %}" rel="stylesheet">
 
     <!-- Bracket CSS -->
-    <link rel="stylesheet" href="../css/bracket.css">
+    <link rel="stylesheet" href="{% static 'css/bracket.css' %}">
   </head>
 
   <body>
@@ -46,22 +47,16 @@
         <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-normal">[</span> bracket <span class="tx-normal">]</span></div>
         <div class="tx-center mg-b-60">The Admin Template For Perfectionist</div>
 
-        <div class="form-group">
-          <input type="text" class="form-control" placeholder="Enter your username">
-        </div><!-- form-group -->
-        <div class="form-group">
-          <input type="password" class="form-control" placeholder="Enter your password">
-          <a href="" class="tx-info tx-12 d-block mg-t-10">Forgot password?</a>
-        </div><!-- form-group -->
-        <button type="submit" class="btn btn-info btn-block">Sign In</button>
+        {% block content %}
+        
+        {% endblock content %}
 
-        <div class="mg-t-60 tx-center">Not yet a member? <a href="" class="tx-info">Sign Up</a></div>
       </div><!-- login-wrapper -->
     </div><!-- d-flex -->
 
-    <script src="../lib/jquery/jquery.js"></script>
-    <script src="../lib/popper.js/popper.js"></script>
-    <script src="../lib/bootstrap/bootstrap.js"></script>
+    <script src="{% static 'jquery/jquery.js' %}" ></script>
+    <script src="{% static 'popper.js/popper.js' %}" ></script>
+    <script src="{% static 'bootstrap/bootstrap.js' %}" ></script> 
 
   </body>
 </html>
