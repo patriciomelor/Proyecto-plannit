@@ -8,6 +8,6 @@ urlpatterns = [
     path('escritorio/', views.EscritorioView.as_view(), name='Escritorio'),
     path('paneldecarga/',views.PdcView.as_view(), name='PanelCarga'),
     path('bandejaeys/',views.BaesView.as_view(), name='Bandejaeys'),
-    path('borradores/',views.BorradorView,as_view(), name='Borradores'),
+    path('borradores/',views.BorradorView.as_view(), name='Borradores'),
 
 ]
