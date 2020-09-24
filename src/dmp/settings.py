@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     
 ]
 
-SITE_ID = 1
+SITE_ID = 2
 
 # Allauth methods
 ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
@@ -54,9 +54,12 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 
+
 # Invitations methods
 INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
 INVITATIONS_INVITATION_ONLY = False #debe ser True en producción
+INVITATIONS_EMAIL_SUBJECT_PREFIX = None
+
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 

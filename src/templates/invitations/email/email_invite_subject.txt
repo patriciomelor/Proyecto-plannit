@@ -1,4 +1,4 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Invitation to join {{ site_name }}{% endblocktrans %}
+{% blocktrans %} Unete a mi proyecto en {{ site_name }} !{% endblocktrans %}
 {% endautoescape %}

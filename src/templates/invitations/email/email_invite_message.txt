@@ -4,9 +4,10 @@
 
 Hola,
 
-You ({{ email }}) have been invited to join {{ site_name }}
+Tu correo, {{ email }} ha sido invitado a unirte a {{ site_name }}
 
-If you'd like to join, please go to {{ invite_url }}
+Haz click en éste link para unirte ! 
+URL: {{ invite_url }}
 
 {% endblocktrans %}
 {% endautoescape %}
