@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     
     'dashboard',
     'notifications',
+    'panel_carga',
 ]
 
 SITE_ID = 2

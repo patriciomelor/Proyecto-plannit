@@ -7,5 +7,5 @@ from .models import Notificacion
 class NotificacionList(ListView):
     model = Notificacion
     context_object_name = 'notificacion'
-    template_name=''
+    template_name='notifications/main_box.html'
     queryset = Notificacion.objects.filter(user=user).order_by('-date')
