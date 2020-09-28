@@ -21,6 +21,6 @@ urlpatterns = [
     path('', include('dashboard.urls')),
     path('account/', include('allauth.urls')),
     path('invitations/', include('invitations.urls', namespace='invitations')),
-    path('notifications/', include('notifications.urls', namespace='notifications')),
-    path('panel_carga/', include('panel_carga.urls', namespace='panel_carga')),
+    path('notifications/', include('notifications.urls')),
+    path('panel_carga/', include('panel_carga.urls')),
 ]
