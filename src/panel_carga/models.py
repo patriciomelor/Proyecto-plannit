@@ -11,9 +11,17 @@ class Proyecto(models.Model):
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
     encargado = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
+    def __str__(self):
+        return self.nombre
+    
 
 class Documento(models.Model):
     nombre = models.CharField(verbose_name="Nombre del Documento", max_length=100, null=False)
     especialidad = models.CharField(verbose_name="Especialidad", max_length=100, null=False)
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
     num_documento = models.CharField(verbose_name="Número de Documento", max_length=100, null=False)
+    archivo = models.FileField(upload_to="proyecto/documentos/")
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=False)
+
+    def __str__(self):
+        return self.nombre
