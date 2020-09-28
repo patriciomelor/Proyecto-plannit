@@ -9,8 +9,6 @@ class NotificacionList(ListView):
     context_object_name = 'notificacion'
     template_name='notifications/main_box.html'
 
-    def get_queryset(self, request):
-        queryset = Notificacion.objects.filter(user=user).order_by('-date')
-
-        return super().get_queryset(queryset)
+    def get_queryset(self):
+        return Notificacion.objects.filter(usuario=self.request.user).order_by('-date')
     
