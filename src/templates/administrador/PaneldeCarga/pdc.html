@@ -2,7 +2,19 @@
 
 {% block content %}
   <div class="br-section-wrapper">
-    <div class="row row-sm">
+    <form class="row d-flex justify-content-left" method="POST">
+      <div class="form-group">
+        <label for="exampleFormControlFile1"><strong>Subir Excel:</strong></label>
+        <input type="file" class="form-control-file" id="exampleFormControlFile1">
+      </div>
+      <div class="form-group">
+        <button class=" btn btn-oblong btn-success mg-t-15 mg-l-15" type="submit"><i class="icon ion-upload mg-r-10"></i> Cargar </button>
+      </div>      
+    </form>
+    <div class="pd-y-30 tx-center bg-dark">
+      <a href="" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-toggle="modal" data-target="#modaldemo1">Insertar Datos Por Formulario</a>
+    </div>
+    <div class="row row-sm d-flex justify-content-center">
       <div class="bd bd-gray-300 rounded table-responsive">
         <table class="table mg-b-0">
           <thead>
@@ -50,9 +62,53 @@
           </tbody>
         </table>
       </div>
-  </div>
+    </div>
   </div>
 
+  <!--Modals-->
+  <div id="modaldemo1" class="modal fade">
+    <div class="modal-dialog modal-dialog-vertical-center" role="document">
+      <div class="modal-content bd-0 tx-14">
+        <div class="modal-header pd-y-20 pd-x-25">
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Message Preview</h6>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body pd-25">
+          <h4 class="lh-3 mg-b-20"><a href="" class="tx-inverse hover-primary">Why We Use Electoral College, Not Popular Vote</a></h4>
+          <p class="mg-b-5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Save changes</button>
+          <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div><!-- modal-dialog -->
+  </div><!-- modal -->
+
+<!--Fin modals-->
+
+<script>
+  $(function(){
+
+    // showing modal with effect
+    $('.modal-effect').on('click', function(){
+      var effect = $(this).attr('data-effect');
+      $('#modaldemo1').addClass(effect, function(){
+        $('#modaldemo1').modal('show');
+      });
+      return false;
+    });
+
+    // hide modal with effect
+    $('#modaldemo1').on('hidden.bs.modal', function (e) {
+      $(this).removeClass (function (index, className) {
+          return (className.match (/(^|\s)effect-\S+/g) || []).join(' ');
+      });
+    });
+  });
+</script>
 
 {% endblock content %}
     
