@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'invitations',
     'allauth.account',
     'allauth.socialaccount',
+    'import_export',
     
     'dashboard',
     'notifications',
