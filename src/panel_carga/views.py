@@ -8,6 +8,9 @@ from .forms import ProyectoForm, DocumentoForm
 
 # Create your views here.
 
+# class ProyectoList(ListView):
+#     queryset = 
+
 class CreateProyecto(CreateView):
     form_class = ProyectoForm
     template_name = 'panel_carga/create-proyecto.html'
@@ -19,3 +22,9 @@ class DetailProyecto(DetailView):
 
 class CreateDocumento(CreateView):
     form_class = DocumentoForm
+    template_name = 'panel_carga/create-documento.html'
+    success_url = reverse_lazy("index")
+
+class DetailDocumento(DetailView):
+    model = Documento
+    template_name = 'panel_carga/detail-docuemnto.html'
