@@ -1,34 +1,12 @@
-{% extends 'index-base.html' %}
+{% extends "account/login_base.html" %}
 
 {% block content %}
 
-<div class="row row-sm d-flex justify-content-center mg-t-20" >
-      <div class="bd bd-gray-300 rounded table-responsive">
-      <h1> Listado de Proyectos </h1>
-        <table class="table mg-b-0"id="tblData">
-          <thead>
-            <tr>
-              <th style="text-align: center;border: 2px;border-color: grey;"> Nombre </th>
-              <th style="text-align: center;border: 2px;border-color: grey;"> Encargado  </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th style="text-align: center;border: 5px;border-color: black;">Inicio Proyecto </th>              
-              <th style="text-align: center;border: 5px;border-color: black;">Término Proyecto</th>
-            </tr>
-            {% for proyecto in proyectos %}
-            <tr>
-              <td> {{proyecto.nombre}} </td>
-              <td> {{proyecto.encargado}} <br>{{proyecto.encargado.email}}</br> </td>
-              <th></th>
-              <th></th>
-              <th> {{proyecto.fecha_inicio}} </th>
-              <th> {{proyecto.fecha_termino}} </th> 
-            </tr>
-            {% endfor %}
+<h2> Seleccione un proyecto </h2>
+
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
+
 {% endblock content %}

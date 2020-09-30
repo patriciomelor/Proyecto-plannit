@@ -48,8 +48,10 @@ INSTALLED_APPS = [
     'import_export',
     
     'dashboard',
+    'tools',
     'notifications',
     'panel_carga',
+
 ]
 
 SITE_ID = 2
