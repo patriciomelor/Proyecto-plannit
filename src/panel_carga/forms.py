@@ -1,4 +1,5 @@
 from django import forms
+import django.forms.widgets
 from .models import Proyecto, Documento
 
 class ProyectoForm(forms.ModelForm):

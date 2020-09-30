@@ -8,8 +8,10 @@ from .forms import ProyectoForm, DocumentoForm
 
 # Create your views here.
 
-# class ProyectoList(ListView):
-#     queryset = 
+class ProyectoList(ListView):
+    queryset = Proyecto.objects.all()
+    template_name = 'panel_carga/list-proyecto.html'
+    context_object_name = 'proyectos'
 
 class CreateProyecto(CreateView):
     form_class = ProyectoForm
