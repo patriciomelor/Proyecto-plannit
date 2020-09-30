@@ -8,6 +8,8 @@ from .models import Proyecto, Documento
 from .forms import ProyectoForm, DocumentoForm
 
 # Create your views here.
+class ProyectoSelectView(LoginRequiredMixin, FormView):
+    pass
 
 class ProyectoList(ListView):
     queryset = Proyecto.objects.all()
