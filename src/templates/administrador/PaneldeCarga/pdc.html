@@ -7,7 +7,7 @@
       <span class="breadcrumb-item active">Panel De Carga</span>
     </nav>
   </div>
-
+<!--Titulo-->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Panel de carga de entregables.</h4>
     <p class="mg-b-0"></p>
@@ -15,20 +15,23 @@
 
   <div class="br-section-wrapper">
     <div class="row row-sm mg-t-20">
+<!--Upload Archivos-->
     <form class="row d-flex justify-content-left col-6" method="POST">
-
-      <div class="form-group">
+    <div class="form-group">
         <label for="exampleFormControlFile1"><strong>Subir Excel:</strong></label>
         <input type="file" class="form-control-file" id="exampleFormControlFile1">
-      </div>
-
-      <div class="form-group">
-        <button class=" btn btn-oblong btn-success mg-t-15 mg-l-15" type="submit"><i class="icon ion-upload mg-r-10"></i> Cargar </button>
+     </div>
+<!--Boton Rojo-->      
+    <div class="form-group">
+        <button class=" btn btn-oblong btn-danger mg-t-15 mg-l-15" type="submit"><i class="icon ion-upload mg-r-10"></i> Cargar </button>
       </div>      
     </form>
+<!--Boton Modals-->
     <div class="form-group"> 
       <a href="" class=" btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-t-15" data-toggle="modal" data-target="#modaldemo1">Insertar Datos Por Formulario</a>
     </div>
+
+<!--Boton Excel-->
     <div class="form-group">
       <a href="" class="btn btn-success btn-with-icon btn-block mg-t-15"  onclick="exportTableToExcel('tblData')">
         <div class="ht-40">
@@ -38,17 +41,17 @@
       </a>
     </div>    
   </div> 
-
+<!--Tabla-->
   <div class="row row-sm d-flex justify-content-center mg-t-20" >
       <div class="bd bd-gray-300 rounded table-responsive">
-        <table class="table mg-b-0"id="tblData">
+        <table class="table table-striped mg-b-0 table-bordered table-primary"id="tblData">
           <thead>
             <tr>
-              <th style="text-align: center;border: 2px;border-color: grey;">Especialidad</th>
-              <th style="text-align: center;border: 2px;border-color: grey;">Tipo <br> Doc.</th>
-              <th style="text-align: center;border: 2px;border-color: grey;">Descripcion <br>Documentos</th>
-              <th style="text-align: center;border: 2px;border-color: grey;">N° Documento <br>Contractual</th>
-              <th style="text-align: center;border: 2px;border-color: grey;" colspan="2">Fecha Programada de Emision</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">N° Documento <br>Contractual</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>
             </tr>
           </thead>
           <tbody>
@@ -57,15 +60,15 @@
               <th></th>
               <th></th>
               <th></th>
-              <th style="text-align: center;border: 5px;border-color: black;">Inicio Emision en Rev B</th>              
-              <th style="text-align: center;border: 5px;border-color: black;">Emision en Rev 0</th>
+              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
+              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
             </tr>
             {% for documento in documentos %}
             <tr>
-              <th scope="row"> {{documento.especialidad}} </th>
-              <td> {{documento.nombre}} </td>
-              <td> {{documento.descripcion}} </td>
-              <td> {{documento.num_documento}} </td>
+              <th style="text-align: center; color: white;" scope="row"> {{documento.especialidad}} </th>
+              <td style="text-align: center; color: white;"> {{documento.nombre}} </td>
+              <td style="text-align: center; color: white;"> {{documento.descripcion}} </td>
+              <td style="text-align: center; color: white;"> {{documento.num_documento}} </td>
             </tr>
             {% endfor %}
 
