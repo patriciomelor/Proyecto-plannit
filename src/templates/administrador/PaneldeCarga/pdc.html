@@ -16,7 +16,7 @@
   <div class="br-section-wrapper">
     <div class="row row-sm mg-t-20">
 <!--Upload Archivos-->
-    <form class="row d-flex justify-content-left col-6" method="POST">
+    <div class="row d-flex justify-content-left col-6" method="POST">
     <div class="form-group">
         <label for="exampleFormControlFile1"><strong>Subir Excel:</strong></label>
         <input type="file" class="form-control-file" id="exampleFormControlFile1">
@@ -25,7 +25,7 @@
     <div class="form-group">
         <button class=" btn btn-oblong btn-danger mg-t-15 mg-l-15" type="submit"><i class="icon ion-upload mg-r-10"></i> Cargar </button>
       </div>      
-    </form>
+    </div>
 <!--Boton Modals-->
     <div class="form-group"> 
       <a href="" class=" btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-t-15" data-toggle="modal" data-target="#modaldemo1">Insertar Datos Por Formulario</a>
@@ -89,19 +89,26 @@
           </button>
         </div>
         <div class="modal-body pd-25">
-              <div class="form-layout form-layout-5">
+
+                      <div class="form-layout form-layout-5">
                 <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Insertar datos de Entregables:</h6>
+  
                 <div class="row">
                   <label class="col-sm-4 form-control-label"> Especialidad:</label>
                   <div class="col-sm-8 mg-t-10 mg-sm-t-0">
                     <input type="text" class="form-control col-12" placeholder="">
                   </div>
-                </div><!-- row -->
+                </div>
                 <div class="row mg-t-20">
                   <label class="col-sm-4 form-control-label"> Tipo doc:</label>
 
                   <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                    <input type="text" class="form-control col-12" placeholder="">
+                        <select class="form-control">
+                          <option value="WORD">WORD</option>
+                          <option value="PDF">PDF</option>
+                          <option value="EXCEL">EXCEL</option>                          
+                          <option value="DWG">DWG</option>
+                        </select>
                   </div>
                   
                   </div>
@@ -116,7 +123,7 @@
                   <div class="col-sm-8 mg-t-10 mg-sm-t-0">
                     <textarea rows="2" class="form-control col-12" placeholder=""></textarea>
                   </div>
-                </div><!-- row -->
+                </div>
 
 
                 <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10 mg-t-30">FECHA PROGRAMADA DE EMISION:</h6>
@@ -126,21 +133,21 @@
                   <label class="col-sm-4 form-control-label">Inicio Emision en Rev B</label>
                   
                   <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                  <input id="dateMask" type="datetime"class="form-control col-12 datepicker" placeholder="DD/MM/YYYY">
+                  <input size="16" type="date" class="form-control fc-datepicker" id="datetime">
                 </div>  
                 </div>
 
                 <div class="row mg-t-20">
-                <label class="col-sm-4 form-control-label">Inicio Emision en Rev 0</label>
-                <div class="col-sm-8 mg-t-10 mg-sm-t-0">
-                                 
-                  <input id="dateMask" type="datetime" class="form-control col-12 datepicker" placeholder="DD/MM/YYYY">
+                    <label class="col-sm-4 form-control-label">Inicio Emision en Rev 0</label>
+                    <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                                    
+                    <input size="16" type="date" class="form-control fc-datepicker" id="datetime">
+                    </div>
                 </div>
-              </div>
-              </div><!-- form-layout -->
-            <!--fin form-->
-          
-        </div>
+            </div>       
+            
+
+        </div>      
         <div class="modal-footer">
           <button type="button" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Guardar</button>
           <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-dismiss="modal">Cancelar</button>
@@ -150,6 +157,13 @@
   </div><!-- modal -->
 
 <!--Fin modals-->
+<script type="text/javascript">
+  $('#datepickerNoOfMonths').datepicker({
+  showOtherMonths: true,
+  selectOtherMonths: true,
+  numberOfMonths: 1
+  });
+  </script>
 
 <script>
   $(function(){
@@ -202,7 +216,8 @@
         //triggering the function
         downloadLink.click();
     }
-}
+  }
+  }
 </script>
 
 <script>

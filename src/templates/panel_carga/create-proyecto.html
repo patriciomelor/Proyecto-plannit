@@ -12,6 +12,7 @@
     <h4 class="tx-gray-800 mg-b-5">Formulario para crear proyecto</h4>
     <p class="mg-b-0"></p>
   </div>
+  
     <div class="br-section-wrapper">
             <form class="form-group col-12 col-sm-12" method="post">{% csrf_token %}                    
                     <div class="form-control col-12 col-sm-12">{{ form.as_p }}
@@ -19,5 +20,35 @@
                     </div>                    
             </form>
     </div>
+
+    <script>
+        $('#datepickerNoOfMonths').datepicker({
+        showOtherMonths: true,
+        selectOtherMonths: true,
+        numberOfMonths: 1
+        });
+    </script>
+      
+    <script>
+        $(function(){
+      
+          // showing modal with effect
+          $('.modal-effect').on('click', function(){
+            var effect = $(this).attr('data-effect');
+            $('#modaldemo1').addClass(effect, function(){
+              $('#modaldemo1').modal('show');
+            });
+            return false;
+          });
+      
+          // hide modal with effect
+          $('#modaldemo1').on('hidden.bs.modal', function (e) {
+            $(this).removeClass (function (index, className) {
+                return (className.match (/(^|\s)effect-\S+/g) || []).join(' ');
+            });
+          });
+        });
+    </script>
+      
 
 {% endblock content %}
