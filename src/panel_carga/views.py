@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from django.views.generic.base import TemplateView, RedirectView, View
 
@@ -21,6 +22,11 @@ class CreateProyecto(CreateView):
 class DetailProyecto(DetailView):
     model = Proyecto
     template_name = 'panel_carga/detail-proyecto.html'
+
+class DocumentoList(ListView):
+    model = Documento
+    context_object_name = 'documentos'
+    template_name='administrador/PaneldeCarga/pdc.html'
 
 class CreateDocumento(CreateView):
     form_class = DocumentoForm
