@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'import_export',
+    'crispy_forms,
     
     'dashboard',
     'tools',
@@ -55,6 +56,8 @@ INSTALLED_APPS = [
 ]
 
 SITE_ID = 2
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Allauth methods
 ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'

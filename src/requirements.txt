@@ -5,6 +5,7 @@ defusedxml==0.6.0
 diff-match-patch==20200713
 Django==3.1.1
 django-allauth==0.42.0
+django-crispy-forms==1.9.2
 django-import-export==2.3.0
 django-invitations==1.9.3
 et-xmlfile==1.0.1
