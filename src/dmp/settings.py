@@ -46,7 +46,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'import_export',
-    'crispy_forms,
+    'crispy_forms',
     
     'dashboard',
     'tools',
