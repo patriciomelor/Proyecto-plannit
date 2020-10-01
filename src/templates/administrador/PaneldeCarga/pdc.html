@@ -28,7 +28,7 @@
     </div>
 <!--Boton Modals-->
     <div class="form-group"> 
-      <a href="" class=" btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-t-15" data-toggle="modal" data-target="#modaldemo1">Insertar Datos Por Formulario</a>
+      <a href="{% url 'proyecto-crear' %}" class=" btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-t-15"> Insertar Datos Por Formulario</a>
     </div>
 
 <!--Boton Excel-->
@@ -63,20 +63,14 @@
               <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
               <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
             </tr>
-            {% for documento in documentos %}
-            <tr>
-              <th style="text-align: center; color: white;" scope="row"> {{documento.especialidad}} </th>
-              <td style="text-align: center; color: white;"> {{documento.nombre}} </td>
-              <td style="text-align: center; color: white;"> {{documento.descripcion}} </td>
-              <td style="text-align: center; color: white;"> {{documento.num_documento}} </td>
-            </tr>
-            {% endfor %}
 
           </tbody>
         </table>
       </div>
     </div>
   </div>
+ 
+
 
   <!--Modals-->
   <div id="modaldemo1" class="modal fade">
@@ -89,8 +83,8 @@
           </button>
         </div>
         <div class="modal-body pd-25">
-
-                      <div class="form-layout form-layout-5">
+            <div class="form-layout form-layout-5">
+{% comment %}             
                 <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Insertar datos de Entregables:</h6>
   
                 <div class="row">
@@ -134,7 +128,7 @@
                   
                   <div class="col-sm-8 mg-t-10 mg-sm-t-0">
                   <input size="16" type="date" class="form-control fc-datepicker" id="datetime">
-                </div>  
+                  </div>  
                 </div>
 
                 <div class="row mg-t-20">
@@ -142,11 +136,11 @@
                     <div class="col-sm-8 mg-t-10 mg-sm-t-0">
                                     
                     <input size="16" type="date" class="form-control fc-datepicker" id="datetime">
-                    </div>
+                    </div> {% endcomment %}
+
                 </div>
             </div>       
             
-
         </div>      
         <div class="modal-footer">
           <button type="button" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Guardar</button>
