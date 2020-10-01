@@ -19,6 +19,8 @@
     <link href="{% static 'jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
     <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
     <link href="{% static 'chartist/chartist.css' %}" rel="stylesheet">
+    <link href="{% static 'select2/css/select2.min.css' %}" rel="stylesheet">
+    <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
@@ -722,10 +724,6 @@
 
     <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
-      <div class="pd-30">
-        <h4 class="tx-gray-800 mg-b-5"><!--Name panel--></h4>
-        <p class="mg-b-0"><!--Descipcion del panel --></p>
-      </div><!-- d-flex -->
       <div class="br-pagebody mg-t-5 pd-x-30">
       {% block content %}
 
@@ -751,6 +749,8 @@
     <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
     <script src="{% static 'd3/d3.js' %}"></script>
     <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
+    <script src="{% static 'select2/js/select2.min.js' %}"></script>
+    <script src="{% static 'jt.timepicker/jquery.timepicker.js' %}"></script>
 
 
     <script src="{% static 'js/bracket.js' %}"></script>

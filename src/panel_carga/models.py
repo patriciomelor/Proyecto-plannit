@@ -5,10 +5,16 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Proyecto(models.Model):
+<<<<<<< HEAD
     id_proyecto = models.AutoField(verbose_name="id_proyecto",primary_key=True)
     nombre = models.CharField(verbose_name="Nombre_del_Proyecto", max_length=50, null=False)
     fecha_inicio = models.DateTimeField(verbose_name="Fecha_de_Inicio", editable=False, null=False)
     fecha_termino = models.DateTimeField(verbose_name="Fecha_de_Termino", blank=True)
+=======
+    nombre = models.CharField(verbose_name="Nombre del Proyecto", max_length=50, null=False)
+    fecha_inicio = models.DateField(verbose_name="Fecha de Inicio", null=False)
+    fecha_temrino = models.DateField(verbose_name="Fecha de Termino", blank=True)
+>>>>>>> 7e69b012a5abafee9f86b917902f1a5975f2f399
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
     encargado = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 

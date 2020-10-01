@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
 from pathlib import Path
+from django.urls import reverse_lazy
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,13 +46,18 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'import_export',
+    'crispy_forms',
     
     'dashboard',
+    'tools',
     'notifications',
     'panel_carga',
+
 ]
 
 SITE_ID = 2
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Allauth methods
 ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
@@ -66,6 +73,8 @@ INVITATIONS_EMAIL_SUBJECT_PREFIX = None
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+
+LOGIN_URL = reverse_lazy("account_login")
 
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',

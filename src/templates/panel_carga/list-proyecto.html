@@ -1,0 +1,12 @@
+{% extends "account/login_base.html" %}
+
+{% block content %}
+
+<h2> Seleccione un proyecto </h2>
+
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
+
+{% endblock content %}

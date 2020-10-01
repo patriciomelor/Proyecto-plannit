@@ -1,29 +1,57 @@
 {% extends 'index-base.html' %}
 
 {% block content %}
+  <div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" href="{% url 'Escritorio' %}">Escritorio</a>
+      <span class="breadcrumb-item active">Panel De Carga</span>
+    </nav>
+  </div>
+<!--Titulo-->
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Panel de carga de entregables.</h4>
+    <p class="mg-b-0"></p>
+  </div>
+
   <div class="br-section-wrapper">
-    <form class="row d-flex justify-content-left" method="POST">
-      <div class="form-group">
+    <div class="row row-sm mg-t-20">
+<!--Upload Archivos-->
+    <div class="row d-flex justify-content-left col-6" method="POST">
+    <div class="form-group">
         <label for="exampleFormControlFile1"><strong>Subir Excel:</strong></label>
         <input type="file" class="form-control-file" id="exampleFormControlFile1">
-      </div>
-      <div class="form-group">
-        <button class=" btn btn-oblong btn-success mg-t-15 mg-l-15" type="submit"><i class="icon ion-upload mg-r-10"></i> Cargar </button>
+     </div>
+<!--Boton Rojo-->      
+    <div class="form-group">
+        <button class=" btn btn-oblong btn-danger mg-t-15 mg-l-15" type="submit"><i class="icon ion-upload mg-r-10"></i> Cargar </button>
       </div>      
-    </form>
-    <div class="pd-y-30 tx-center bg-dark">
-      <a href="" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-toggle="modal" data-target="#modaldemo1">Insertar Datos Por Formulario</a>
     </div>
-    <div class="row row-sm d-flex justify-content-center">
+<!--Boton Modals-->
+    <div class="form-group"> 
+      <a href="" class=" btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-t-15" data-toggle="modal" data-target="#modaldemo1">Insertar Datos Por Formulario</a>
+    </div>
+
+<!--Boton Excel-->
+    <div class="form-group">
+      <a href="" class="btn btn-success btn-with-icon btn-block mg-t-15"  onclick="exportTableToExcel('tblData')">
+        <div class="ht-40">
+          <span class="icon wd-40"><i class="fa fa-download"></i></span>
+          <span class="pd-x-15">Descargar Excel</span>
+        </div>
+      </a>
+    </div>    
+  </div> 
+<!--Tabla-->
+  <div class="row row-sm d-flex justify-content-center mg-t-20" >
       <div class="bd bd-gray-300 rounded table-responsive">
-        <table class="table mg-b-0">
+        <table class="table table-striped mg-b-0 table-bordered table-primary"id="tblData">
           <thead>
             <tr>
-              <th style="text-align: center;border: 2px;border-color: grey;">Especialidad</th>
-              <th style="text-align: center;border: 2px;border-color: grey;">Tipo <br> Doc.</th>
-              <th style="text-align: center;border: 2px;border-color: grey;">Descripcion <br>Documentos</th>
-              <th style="text-align: center;border: 2px;border-color: grey;">N° Documento <br>Contractual</th>
-              <th style="text-align: center;border: 2px;border-color: grey;" colspan="2">Fecha Programada de Emision</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">N° Documento <br>Contractual</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>
             </tr>
           </thead>
           <tbody>
@@ -32,33 +60,18 @@
               <th></th>
               <th></th>
               <th></th>
-              <th style="text-align: center;border: 5px;border-color: black;">Inicio Emision en Rev 0</th>              
-              <th style="text-align: center;border: 5px;border-color: black;">Emision en Rev 0</th>
+              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
+              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
             </tr>
+            {% for documento in documentos %}
             <tr>
-              <th scope="row">2</th>
-              <td>Garrett Winters</td>
-              <td>Accountant</td>
-              <td>$170,750</td>
+              <th style="text-align: center; color: white;" scope="row"> {{documento.especialidad}} </th>
+              <td style="text-align: center; color: white;"> {{documento.nombre}} </td>
+              <td style="text-align: center; color: white;"> {{documento.descripcion}} </td>
+              <td style="text-align: center; color: white;"> {{documento.num_documento}} </td>
             </tr>
-            <tr>
-              <th scope="row">3</th>
-              <td>Ashton Cox</td>
-              <td>Junior Technical Author</td>
-              <td>$86,000</td>
-            </tr>
-            <tr>
-              <th scope="row">4</th>
-              <td>Cedric Kelly</td>
-              <td>Senior Javascript Developer</td>
-              <td>$433,060</td>
-            </tr>
-            <tr>
-              <th scope="row">5</th>
-              <td>Airi Satou</td>
-              <td>Accountant</td>
-              <td>$162,700</td>
-            </tr>
+            {% endfor %}
+
           </tbody>
         </table>
       </div>
@@ -70,24 +83,87 @@
     <div class="modal-dialog modal-dialog-vertical-center" role="document">
       <div class="modal-content bd-0 tx-14">
         <div class="modal-header pd-y-20 pd-x-25">
-          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Message Preview</h6>
+          <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Panel de carga de Entregables.</h6>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body pd-25">
-          <h4 class="lh-3 mg-b-20"><a href="" class="tx-inverse hover-primary">Why We Use Electoral College, Not Popular Vote</a></h4>
-          <p class="mg-b-5">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using 'Content here, content here', making it look like readable English. </p>
-        </div>
+
+                      <div class="form-layout form-layout-5">
+                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10">Insertar datos de Entregables:</h6>
+  
+                <div class="row">
+                  <label class="col-sm-4 form-control-label"> Especialidad:</label>
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" class="form-control col-12" placeholder="">
+                  </div>
+                </div>
+                <div class="row mg-t-20">
+                  <label class="col-sm-4 form-control-label"> Tipo doc:</label>
+
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                        <select class="form-control">
+                          <option value="WORD">WORD</option>
+                          <option value="PDF">PDF</option>
+                          <option value="EXCEL">EXCEL</option>                          
+                          <option value="DWG">DWG</option>
+                        </select>
+                  </div>
+                  
+                  </div>
+                <div class="row mg-t-20">
+                  <label class="col-sm-4 form-control-label "> Descripcion Documentos:</label>
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <input type="text" class="form-control col-12" placeholder="">
+                  </div>
+                </div>
+                <div class="row mg-t-20">
+                  <label class="col-sm-4 form-control-label"> N° DOCUMENTO CONTRACTUAL:</label>
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                    <textarea rows="2" class="form-control col-12" placeholder=""></textarea>
+                  </div>
+                </div>
+
+
+                <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-b-10 mg-t-30">FECHA PROGRAMADA DE EMISION:</h6>
+
+                
+                <div class="row mg-t-20">
+                  <label class="col-sm-4 form-control-label">Inicio Emision en Rev B</label>
+                  
+                  <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                  <input size="16" type="date" class="form-control fc-datepicker" id="datetime">
+                </div>  
+                </div>
+
+                <div class="row mg-t-20">
+                    <label class="col-sm-4 form-control-label">Inicio Emision en Rev 0</label>
+                    <div class="col-sm-8 mg-t-10 mg-sm-t-0">
+                                    
+                    <input size="16" type="date" class="form-control fc-datepicker" id="datetime">
+                    </div>
+                </div>
+            </div>       
+            
+
+        </div>      
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Save changes</button>
-          <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Guardar</button>
+          <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-dismiss="modal">Cancelar</button>
         </div>
       </div>
     </div><!-- modal-dialog -->
   </div><!-- modal -->
 
 <!--Fin modals-->
+<script type="text/javascript">
+  $('#datepickerNoOfMonths').datepicker({
+  showOtherMonths: true,
+  selectOtherMonths: true,
+  numberOfMonths: 1
+  });
+  </script>
 
 <script>
   $(function(){
@@ -110,5 +186,129 @@
   });
 </script>
 
+<script>
+  function exportTableToExcel(tableID, filename = ''){
+    var downloadLink;
+    var dataType = 'application/vnd.ms-excel';
+    var tableSelect = document.getElementById(tableID);
+    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
+    
+    // Specify file name
+    filename = filename?filename+'.xlsx':'excel_data.xls';
+    
+    // Create download link element
+    downloadLink = document.createElement("a");
+    
+    document.body.appendChild(downloadLink);
+    
+    if(navigator.msSaveOrOpenBlob){
+        var blob = new Blob(['ufeff', tableHTML], {
+            type: dataType
+        });
+        navigator.msSaveOrOpenBlob( blob, filename);
+    }else{
+        // Create a link to the file
+        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
+    
+        // Setting the file name
+        downloadLink.download = filename;
+        
+        //triggering the function
+        downloadLink.click();
+    }
+  }
+  }
+</script>
+
+<script>
+  $(function(){
+    'use strict'
+
+    // Toggles
+    $('.toggle').toggles({
+      on: true,
+      height: 26
+    });
+
+    // Input Masks
+    $('#dateMask').mask('99/99/9999');
+    $('#phoneMask').mask('(999) 999-9999');
+    $('#ssnMask').mask('999-99-9999');
+
+    // Datepicker
+    $('.fc-datepicker').datepicker({
+      showOtherMonths: true,
+      selectOtherMonths: true
+    });
+
+    $('#datepickerNoOfMonths').datepicker({
+      showOtherMonths: true,
+      selectOtherMonths: true,
+      numberOfMonths: 2
+    });
+
+    // Time Picker
+    $('#tpBasic').timepicker();
+    $('#tp2').timepicker({'scrollDefault': 'now'});
+    $('#tp3').timepicker();
+
+    $('#setTimeButton').on('click', function (){
+      $('#tp3').timepicker('setTime', new Date());
+    });
+
+    // Color picker
+    $('#colorpicker').spectrum({
+      color: '#17A2B8'
+    });
+
+    $('#showAlpha').spectrum({
+      color: 'rgba(23,162,184,0.5)',
+      showAlpha: true
+    });
+
+    $('#showPaletteOnly').spectrum({
+        showPaletteOnly: true,
+        showPalette:true,
+        color: '#DC3545',
+        palette: [
+            ['#1D2939', '#fff', '#0866C6','#23BF08', '#F49917'],
+            ['#DC3545', '#17A2B8', '#6610F2', '#fa1e81', '#72e7a6']
+        ]
+    });
+
+
+    // Rangeslider
+    if($().ionRangeSlider) {
+      $('#rangeslider1').ionRangeSlider();
+
+      $('#rangeslider2').ionRangeSlider({
+          min: 100,
+          max: 1000,
+          from: 550
+      });
+
+      $('#rangeslider3').ionRangeSlider({
+          type: 'double',
+          grid: true,
+          min: 0,
+          max: 1000,
+          from: 200,
+          to: 800,
+          prefix: '$'
+      });
+
+      $('#rangeslider4').ionRangeSlider({
+          type: 'double',
+          grid: true,
+          min: -1000,
+          max: 1000,
+          from: -500,
+          to: 500,
+          step: 250
+      });
+    }
+
+  });
+</script>
 {% endblock content %}
     
