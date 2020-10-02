@@ -1,8 +1,11 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from django.views.generic.base import TemplateView, RedirectView, View
+from import_export import resources
+from tablib import Dataset
 
 from django.urls import reverse_lazy
 from .models import Proyecto, Documento
@@ -10,8 +13,15 @@ from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm
 from tools.views import ProyectoSeleccionadoMixin
 # Create your views here.
 
+# Document Resources
+class DocumentResource(resources.ModelResource):
+    class Meta:
+        model = Documento
+        exclude = ('proyecto', 'emision', 'archivo')
+
+# End Document Resources
+
 class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
-    nombre_proyecto = ''
     template_name = 'panel_carga/list-proyecto.html'
     form_class = ProyectoSelectForm
     model = Proyecto
@@ -20,9 +30,6 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
         self.request.session['proyecto'] = form.cleaned_data['proyectos'].pk
         self.nombre_proyecto = form.cleaned_data['proyectos'].pk
         return super().form_valid(form)
-
-    success_message = 'Bienvenido a' + nombre_proyecto
-    print(success_message)
 
 class ProyectoMixin(SuccessMessageMixin, ProyectoSeleccionadoMixin):
     model = Proyecto
@@ -41,10 +48,7 @@ class DetailProyecto(ProyectoMixin, DetailView):
     model = Proyecto
     template_name = 'panel_carga/detail-proyecto.html'
 
-class DocumentoList(ProyectoMixin, ListView):
-    model = Documento
-    context_object_name = 'documentos'
-    template_name='administrador/PaneldeCarga/pdc.html'
+
 
 class CreateDocumento(CreateView):
     form_class = DocumentoForm
@@ -54,3 +58,28 @@ class CreateDocumento(CreateView):
 class DetailDocumento(DetailView):
     model = Documento
     template_name = 'panel_carga/detail-docuemnto.html'
+
+def export_document(request):
+    context = {}
+    dataset = DocumentResource().export()
+    response  = HttpResponse(dataset.csv, content_type='text/csv')
+    response['Content-Disposition'] = 'attachment; filename="documento.csv"'
+    return response
+
+
+def import_document(request):
+    context = {}
+
+    if request.method == 'POST':
+        document_resource = DocumentResource()
+        dataset = Dataset()
+        new_documentos = request.FILES['import-file']
+
+        imported_data = dataset.load(new_persons.read())
+        result = document_resource.import_data(dataset, dry_run=True)
+
+        print(result)
+    
+    context['documentos'] = Documento.objects.all()
+
+    return render(request, 'administrador/PaneldeCarga/pdc.html', context)

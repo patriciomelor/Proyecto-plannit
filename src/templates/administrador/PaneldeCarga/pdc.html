@@ -16,16 +16,18 @@
   <div class="br-section-wrapper">
     <div class="row row-sm mg-t-20">
 <!--Upload Archivos-->
+  <form enctype="multipart/form-data" class="form-group">
+
     <div class="row d-flex justify-content-left col-6" method="POST">
-    <div class="form-group">
         <label for="exampleFormControlFile1"><strong>Subir Excel:</strong></label>
-        <input type="file" class="form-control-file" id="exampleFormControlFile1">
-     </div>
-<!--Boton Rojo-->      
-    <div class="form-group">
-        <button class=" btn btn-oblong btn-danger mg-t-15 mg-l-15" type="submit"><i class="icon ion-upload mg-r-10"></i> Cargar </button>
-      </div>      
+        <input type="file" class="form-control-file" id="exampleFormControlFile1" name="import-file">
     </div>
+<!--Boton Rojo-->      
+        <div class="form-group">
+            <button class=" btn btn-oblong btn-danger mg-t-15 mg-l-15" type="submit"><i class="icon ion-upload mg-r-10"></i> Cargar </button>
+        </div>      
+  </form>
+
 <!--Boton Modals-->
     <div class="form-group"> 
       <a href="{% url 'proyecto-crear' %}" class=" btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-t-15"> Insertar Datos Por Formulario</a>

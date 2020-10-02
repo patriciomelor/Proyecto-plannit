@@ -36,10 +36,10 @@ class Documento(models.Model):
     especialidad = models.CharField(verbose_name="Especialidad", max_length=100, null=False)
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
     num_documento = models.CharField(verbose_name="Número_de_Documento", max_length=100, null=False)
-    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=False)
-    emision = models.ForeignKey(Revision, on_delete=models.CASCADE, null=False)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True)
+    emision = models.ForeignKey(Revision, on_delete=models.CASCADE, null=True)
     tipo = models.CharField(verbose_name="tipo_documento", max_length=50,null=False)
-    archivo = models.FileField(upload_to="proyecto/documentos/")
+    archivo = models.FileField(upload_to="proyecto/documentos/", null=True)
 
     def __str__(self):
         return self.nombre

@@ -13,12 +13,10 @@ class IndexView(TemplateView):
 class EscritorioView(TemplateView):
     template_name = "administrador/Escritorio/dash.html"
 
-class PdcView(TemplateView):
-    template_name = "administrador/PaneldeCarga/pdc.html"
 
 class BaesView(TemplateView):
     template_name = "administrador/BandejaEyS/baes.html"
 
 class BorradorView(TemplateView):
-    Template_name = "administrador/Borradores/borrador.html"
+    template_name = "administrador/Borradores/borrador.html"
 
