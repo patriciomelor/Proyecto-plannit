@@ -11,15 +11,18 @@ from tools.views import ProyectoSeleccionadoMixin
 # Create your views here.
 
 class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
-    success_message = 'Bienvenido!'
-    success_url = reverse_lazy('index')
+    nombre_proyecto = ''
     template_name = 'panel_carga/list-proyecto.html'
     form_class = ProyectoSelectForm
     model = Proyecto
 
     def form_valid(self, form):
         self.request.session['proyecto'] = form.cleaned_data['proyectos'].pk
+        self.nombre_proyecto = form.cleaned_data['proyectos'].pk
         return super().form_valid(form)
+
+    success_message = 'Bienvenido a' + nombre_proyecto
+    print(success_message)
 
 class ProyectoMixin(SuccessMessageMixin, ProyectoSeleccionadoMixin):
     model = Proyecto
@@ -29,7 +32,7 @@ class ProyectoList(ListView):
     template_name = 'panel_carga/list-proyecto.html'
     context_object_name = 'proyectos'
 
-class CreateProyecto(ProyectoMixin, CreateView):
+class CreateProyecto(CreateView):
     form_class = ProyectoForm
     template_name = 'panel_carga/create-proyecto.html'
     success_url = reverse_lazy("index")
