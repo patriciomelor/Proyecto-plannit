@@ -17,7 +17,7 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        exclude = ('proyecto', 'emision', 'archivo')
+        exclude = ('id', 'proyecto', 'emision', 'archivo')
 
 # End Document Resources
 
@@ -49,7 +49,6 @@ class DetailProyecto(ProyectoMixin, DetailView):
     template_name = 'panel_carga/detail-proyecto.html'
 
 
-
 class CreateDocumento(CreateView):
     form_class = DocumentoForm
     template_name = 'panel_carga/create-documento.html'
@@ -62,8 +61,8 @@ class DetailDocumento(DetailView):
 def export_document(request):
     context = {}
     dataset = DocumentResource().export()
-    response  = HttpResponse(dataset.csv, content_type='text/csv')
-    response['Content-Disposition'] = 'attachment; filename="documento.csv"'
+    response  = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
+    response['Content-Disposition'] = 'attachment; filename="documento.xls"'
     return response
 
 
@@ -73,12 +72,10 @@ def import_document(request):
     if request.method == 'POST':
         document_resource = DocumentResource()
         dataset = Dataset()
-        new_documentos = request.FILES['import-file']
-
-        imported_data = dataset.load(new_persons.read())
+        new_documentos = request.FILES['importfile']
+        imported_data = dataset.load(new_documentos.read(), format='xls')
         result = document_resource.import_data(dataset, dry_run=True)
-
-        print(result)
+        print(result.has_errors())
     
     context['documentos'] = Documento.objects.all()
 
