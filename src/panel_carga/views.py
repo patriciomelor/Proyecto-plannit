@@ -61,8 +61,8 @@ class DetailDocumento(DetailView):
 def export_document(request):
     context = {}
     dataset = DocumentResource().export()
-    response  = HttpResponse(dataset.xls, content_type='application/vnd.ms-excel')
-    response['Content-Disposition'] = 'attachment; filename="documento.xls"'
+    response  = HttpResponse(dataset.xlsx, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
     return response
 
 
@@ -73,10 +73,9 @@ def import_document(request):
         document_resource = DocumentResource()
         dataset = Dataset()
         new_documentos = request.FILES['importfile']
-        imported_data = dataset.load(new_documentos.read(), format='xls')
+        imported_data = dataset.load(new_documentos.read(), format='xlsx')
         result = document_resource.import_data(dataset, dry_run=True)
         print(result.has_errors())
-    
     context['documentos'] = Documento.objects.all()
 
     return render(request, 'administrador/PaneldeCarga/pdc.html', context)
