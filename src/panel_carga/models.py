@@ -30,17 +30,17 @@ class Revision(models.Model):
         (2, "Para aprobación"),
     )
 
-    tipo = models.CharField(verbose_name="Tipo_Revision", max_length=50, null=False)
-    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1)
-    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1)
-    emitida_para = models.TextField(verbose_name="Emitida_para")
+    tipo = models.CharField(verbose_name="Tipo Revision", max_length=50, null=False)
+    estado_cliente = models.IntegerField(verbose_name="Estado por Cliente",choices=ESTADOS_CLIENTE, default=1)
+    estado_contratista = models.IntegerField(verbose_name="Estado por Contratista", choices=ESTADO_CONTRATISTA, default=1)
+    emitida_para = models.TextField(verbose_name="Emitida para")
     fecha = models.DateTimeField(verbose_name="Fecha", editable=False, null=False)
 
     def __str__(self):
         return self.tipo
 
 class Documento(models.Model):
-    nombre = models.CharField(verbose_name="Nombre_del_Documento", max_length=100, null=False)
+    nombre = models.CharField(verbose_name="Nombre del Documento", max_length=100, null=False)
     especialidad = models.CharField(verbose_name="Especialidad", max_length=100, null=False)
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
     num_documento = models.CharField(verbose_name="Número de Documento", max_length=100, null=False)
