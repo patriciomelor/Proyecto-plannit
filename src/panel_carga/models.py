@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from .choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION
 
 
 # Create your models here.
@@ -16,28 +17,15 @@ class Proyecto(models.Model):
    
 class Revision(models.Model):
 
-    ESTADOS_CLIENTE = (
-        (1, "Aprobado con Comentarios"),
-        (2, "Rechazado"), 
-        (3, "Eliminado"),
-        (4, "Aprobado"),
-        (5, "Valido para construcción"),
-        (6, "Aprobado"),
-    )
-
-    ESTADO_CONTRATISTA =  (
-        (1, "Para revisión"),
-        (2, "Para aprobación"),
-    )
-
-    tipo = models.CharField(verbose_name="Tipo Revision", max_length=50, null=False)
-    estado_cliente = models.IntegerField(verbose_name="Estado por Cliente",choices=ESTADOS_CLIENTE, default=1)
-    estado_contratista = models.IntegerField(verbose_name="Estado por Contratista", choices=ESTADO_CONTRATISTA, default=1)
-    emitida_para = models.TextField(verbose_name="Emitida para")
+    tipo = models.IntegerField(choices=TYPES_REVISION, verbose_name="Tipo_Revision", max_length=50, null=False, default=1)
+    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1)
+    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1)
+    emitida_para = models.TextField(verbose_name="Emitida_para")
     fecha = models.DateTimeField(verbose_name="Fecha", editable=False, null=False)
 
     def __str__(self):
         return self.tipo
+    
 
 class Documento(models.Model):
     nombre = models.CharField(verbose_name="Nombre del Documento", max_length=100, null=False)
