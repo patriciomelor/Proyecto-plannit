@@ -14,17 +14,25 @@ class Proyecto(models.Model):
     def __str__(self):
         return self.nombre
    
-class Estado(models.Model):
-    estado = models.IntegerField(verbose_name="estado",null=False)
-    fecha_inicio = models.DateTimeField(verbose_name="Fecha_de_Inicio", editable=False, null=False)
-    fecha_temrino = models.DateTimeField(verbose_name="Fecha_de_Termino", blank=True)
-    
-    def __str__(self):
-        return str(self.estado)
-
 class Revision(models.Model):
+
+    ESTADOS_CLIENTE = (
+        (1, "Aprobado con Comentarios"),
+        (2, "Rechazado"), 
+        (3, "Eliminado"),
+        (4, "Aprobado"),
+        (5, "Valido para construcción"),
+        (6, "Aprobado"),
+    )
+
+    ESTADO_CONTRATISTA =  (
+        (1, "Para revisión"),
+        (2, "Para aprobación"),
+    )
+
     tipo = models.CharField(verbose_name="Tipo_Revision", max_length=50, null=False)
-    estado = models.ForeignKey(Estado, on_delete=models.CASCADE, null=False)
+    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1)
+    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1)
     emitida_para = models.TextField(verbose_name="Emitida_para")
     fecha = models.DateTimeField(verbose_name="Fecha", editable=False, null=False)
 

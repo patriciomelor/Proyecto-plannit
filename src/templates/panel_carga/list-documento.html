@@ -1,4 +1,4 @@
-{% extends "account/login_base.html" %}
+{% extends 'index-base.html' %}
 
 {% block content %}
 
@@ -8,7 +8,7 @@
         <table class="table table-striped mg-b-0 table-bordered table-primary"id="tblData">
           <thead>
             <tr>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">N° Documento <br>Contractual</th>
@@ -16,14 +16,16 @@
             </tr>
           </thead>
           <tbody>
+          {% for documento in documentos %}
             <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
-              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
+              <th> {{documento.nombre}} </th>
+              <th> </th>
+              <th> </th>
+              <th> </th>
+              <th> </th>              
+              <th> </th>
             </tr>
+          {% endfor %}
 
           </tbody>
         </table>

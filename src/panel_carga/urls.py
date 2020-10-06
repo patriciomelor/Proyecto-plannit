@@ -9,6 +9,7 @@ urlpatterns = [
     path('proyecto/lista/', login_required(views.ProyectoList.as_view()) , name="proyecto-lista"),
     path('proyecto/crear/', login_required(views.CreateProyecto.as_view()) , name="proyecto-crear"),
     path('proyecto/detalle/', login_required(views.DetailProyecto.as_view()) , name="proyecto-detalle"),
+    path('documento/lista/', login_required(views.ListDocumento.as_view()) , name="documento-lista"),
     path('documento/crear/', login_required(views.CreateDocumento.as_view()) , name="documento-crear"),
     path('documento/detalle/', login_required(views.DetailDocumento.as_view()) , name="documento-detalle"),
 

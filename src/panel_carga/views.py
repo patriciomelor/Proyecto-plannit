@@ -58,10 +58,15 @@ class DetailDocumento(DetailView):
     model = Documento
     template_name = 'panel_carga/detail-docuemnto.html'
 
+class ListDocumento(ListView):
+    model = Documento
+    template_name = 'panel_carga/list-documento.html'
+    context_object_name = "documentos"
+
 def export_document(request):
     context = {}
     dataset = DocumentResource().export()
-    response  = HttpResponse(dataset.xlsx, content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
     return response
 
