@@ -26,14 +26,13 @@ class Revision(models.Model):
     def __str__(self):
         return self.tipo
     
-
 class Documento(models.Model):
     nombre = models.CharField(verbose_name="Nombre del Documento", max_length=100, null=False)
     especialidad = models.CharField(verbose_name="Especialidad", max_length=100, null=False)
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
     num_documento = models.CharField(verbose_name="Número de Documento", max_length=100, null=False)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True)
-    emision = models.ForeignKey(Revision, on_delete=models.CASCADE, null=True)
+    emision = models.ForeignKey(Revision, on_delete=models.CASCADE, blank=True, null=True)
     tipo = models.CharField(verbose_name="Típo de Documento", max_length=50, null=False)
     archivo = models.FileField(upload_to="proyecto/documentos/", null=True)
 

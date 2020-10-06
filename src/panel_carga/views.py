@@ -9,8 +9,8 @@ from import_export import resources
 from tablib import Dataset
 
 from django.urls import reverse_lazy
-from .models import Proyecto, Documento
-from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm
+from .models import Proyecto, Documento, Revision
+from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm
 from tools.views import ProyectoSeleccionadoMixin
 # Create your views here.
 
@@ -63,6 +63,11 @@ class ListDocumento(ListView):
     model = Documento
     template_name = 'panel_carga/list-documento.html'
     context_object_name = "documentos"
+
+class CreateRevision(CreateView):
+    form_class = RevisionForm
+    template_name = 'panel_carga/create-revision.html'
+    success_url = reverse_lazy("index")
 
 def export_document(request):
     context = {}

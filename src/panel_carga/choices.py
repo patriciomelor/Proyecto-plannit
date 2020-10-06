@@ -12,7 +12,6 @@ ESTADO_CONTRATISTA =  (
     (2, "Para aprobación"),
 )
 
-
 TYPES_REVISION = (
     (1,"Revision B"),
     (2,"Revision C"),
