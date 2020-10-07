@@ -34,7 +34,7 @@ class Documento(models.Model):
     num_documento = models.CharField(verbose_name="Codigo Documento", max_length=100, null=False)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True)
     emision = models.ForeignKey(Revision, on_delete=models.CASCADE, null=True)
-    tipo = models.IntegerField(choices=DOCUMENT_TYPE, default=1)
+    tipo = models.IntegerField(choices=DOCUMENT_TYPE, default=1, null=False)
     archivo = models.FileField(upload_to="proyecto/documentos/", null=True)
 
     def __str__(self):
