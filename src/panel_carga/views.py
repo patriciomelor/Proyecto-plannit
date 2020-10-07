@@ -23,48 +23,60 @@ class DocumentResource(resources.ModelResource):
 # End Document Resources
 
 class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
+    success_message = "Proyecto seleccionado correctamente"
     template_name = 'panel_carga/list-proyecto.html'
     form_class = ProyectoSelectForm
     model = Proyecto
+    success_url = reverse_lazy("index")
+
 
     def form_valid(self, form):
-        self.request.session['proyecto'] = form.cleaned_data['proyectos'].pk
-        self.nombre_proyecto = form.cleaned_data['proyectos'].pk
+        self.request.session['proyecto'] = form.cleaned_data['proyectos'].id
         return super().form_valid(form)
 
 class ProyectoMixin(SuccessMessageMixin, ProyectoSeleccionadoMixin):
     model = Proyecto
 
-class ProyectoList(ListView):
+class ProyectoList(ProyectoMixin, ListView):
     queryset = Proyecto.objects.all()
     template_name = 'panel_carga/list-proyecto.html'
     context_object_name = 'proyectos'
 
-class CreateProyecto(CreateView):
+class CreateProyecto(ProyectoMixin, CreateView):
     form_class = ProyectoForm
     template_name = 'panel_carga/create-proyecto.html'
     success_url = reverse_lazy("index")
 
 class DetailProyecto(ProyectoMixin, DetailView):
-    model = Proyecto
     template_name = 'panel_carga/detail-proyecto.html'
 
-
-class CreateDocumento(CreateView):
-    form_class = DocumentoForm
+class CreateDocumento(ProyectoMixin, CreateView):
+    model = Documento
+    fields = ['nombre', 'especialidad', 'descripcion', 'num_documento', 'tipo', 'archivo' ]
     template_name = 'panel_carga/create-documento.html'
     success_url = reverse_lazy("index")
+    
+    def get_object(self, queryset=None):
+        instance = self.request.session.get('proyecto')
+        proyecto = super().get_object(queryset=Proyecto.objects.get(pk=instance))
+        return proyecto
 
-class DetailDocumento(DetailView):
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        form.instance.proyecto = self.proyecto
+        return super().form_valid(form)
+
+class DetailDocumento(ProyectoMixin, DetailView):
     model = Documento
     template_name = 'panel_carga/detail-docuemnto.html'
 
-class ListDocumento(ListView):
+class ListDocumento(ProyectoMixin, ListView):
     model = Documento
     template_name = 'panel_carga/list-documento.html'
     context_object_name = "documentos"
+    
 
-class CreateRevision(CreateView):
+class CreateRevision(ProyectoMixin, CreateView):
     form_class = RevisionForm
     template_name = 'panel_carga/create-revision.html'
     success_url = reverse_lazy("index")

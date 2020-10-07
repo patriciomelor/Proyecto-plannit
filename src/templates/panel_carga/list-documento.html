@@ -19,11 +19,10 @@
           {% for documento in documentos %}
             <tr>
               <th> {{documento.nombre}} </th>
-              <th> </th>
-              <th> </th>
-              <th> </th>
+              <th> {{documento.tipo}} </th>
+              <th> {{documento.descripcion}} </th>
+              <th> {{documento.num_documento}} </th>
               <th> </th>              
-              <th> </th>
             </tr>
           {% endfor %}
 

@@ -2,33 +2,9 @@
 
 {% block content %}
 
-<!--Tabla-->
-  <div class="row row-sm d-flex justify-content-center mg-t-20" >
-      <div class="bd bd-gray-300 rounded table-responsive">
-        <table class="table table-striped mg-b-0 table-bordered table-primary"id="tblData">
-          <thead>
-            <tr>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">N° Documento <br>Contractual</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
-              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
-            </tr>
-
-          </tbody>
-        </table>
-      </div>
-    </div>
-  </div>
+<form method="post">{% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Save">
+</form>
 
 {% endblock content %}
