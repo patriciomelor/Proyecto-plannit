@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION
+from .choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION,DOCUMENT_TYPE
 
 
 # Create your models here.
@@ -8,7 +8,7 @@ from .choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION
 class Proyecto(models.Model):
     nombre = models.CharField(verbose_name="Nombre del Proyecto", max_length=50, null=False)
     fecha_inicio = models.DateField(verbose_name="Fecha de Inicio", null=False)
-    fecha_temrino = models.DateField(verbose_name="Fecha de Termino", blank=True)
+    fecha_termino = models.DateField(verbose_name="Fecha de Termino", blank=True)
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
     encargado = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
@@ -34,7 +34,7 @@ class Documento(models.Model):
     num_documento = models.CharField(verbose_name="Codigo Documento", max_length=100, null=False)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True)
     emision = models.ForeignKey(Revision, on_delete=models.CASCADE, null=True)
-    tipo = models.CharField(verbose_name="Típo de Documento", max_length=50, null=False)
+    tipo = models.IntegerField(choices=DOCUMENT_TYPE, default=1)
     archivo = models.FileField(upload_to="proyecto/documentos/", null=True)
 
     def __str__(self):

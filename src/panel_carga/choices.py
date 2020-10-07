@@ -12,6 +12,11 @@ ESTADO_CONTRATISTA =  (
     (2, "Para aprobación"),
 )
 
+DOCUMENT_TYPE = (
+    (1,"Documento"),
+    (2,"Plano"),
+)
+
 
 TYPES_REVISION = (
     (1,"Revision B"),
