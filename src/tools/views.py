@@ -13,7 +13,7 @@ class ProyectoSeleccionadoMixin(LoginRequiredMixin, ContextMixin):
     def dispatch(self, request, *args, **kwargs):
         if not request.user.is_authenticated:
             return self.handle_no_permission()
-        if not request.session.get('proyecto', None):
+        if request.session.get('proyecto', None):
             return HttpResponseRedirect(reverse_lazy('proyecto-select'))
         proyecto_id = request.session.get('proyecto')
         self.proyecto = Proyecto.objects.get(pk=proyecto_id)

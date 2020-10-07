@@ -39,7 +39,7 @@ class Documento(models.Model):
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True)
     emision = models.ForeignKey(Revision, on_delete=models.CASCADE, null=True)
     tipo = models.IntegerField(choices=DOCUMENT_TYPE, default=1, null=False)
-    archivo = models.FileField(upload_to="proyecto/documentos/", null=True)
+    archivo = models.FileField(upload_to="proyecto/documentos/", null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
 
