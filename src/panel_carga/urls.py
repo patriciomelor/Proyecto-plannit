@@ -12,5 +12,7 @@ urlpatterns = [
     path('documento/lista/', login_required(views.ListDocumento.as_view()) , name="documento-lista"),
     path('documento/crear/', login_required(views.CreateDocumento.as_view()) , name="documento-crear"),
     path('documento/detalle/', login_required(views.DetailDocumento.as_view()) , name="documento-detalle"),
+    path('revision/crear/', login_required(views.CreateRevision.as_view()) , name="revision-crear"),
+
 
 ]
