@@ -15,7 +15,6 @@ class ProyectoSeleccionadoMixin(LoginRequiredMixin, ContextMixin):
             return self.handle_no_permission()
         if not request.session.get('proyecto', None):
             return HttpResponseRedirect(reverse_lazy('proyecto-select'))
-        return super().dispatch(request, *args, **kwargs)
         proyecto_id = request.session.get('proyecto')
         self.proyecto = Proyecto.objects.get(pk=proyecto_id)
         return super().dispatch(request, *args, **kwargs)

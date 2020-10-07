@@ -56,11 +56,6 @@ class CreateDocumento(ProyectoMixin, CreateView):
     template_name = 'panel_carga/create-documento.html'
     success_url = reverse_lazy("index")
     
-    def get_object(self, queryset=None):
-        instance = self.request.session.get('proyecto')
-        proyecto = super().get_object(queryset=Proyecto.objects.get(pk=instance))
-        return proyecto
-
     def form_valid(self, form):
         form.instance.owner = self.request.user
         form.instance.proyecto = self.proyecto
@@ -74,8 +69,10 @@ class ListDocumento(ProyectoMixin, ListView):
     model = Documento
     template_name = 'panel_carga/list-documento.html'
     context_object_name = "documentos"
-    
 
+    def get_queryset(self):
+        return Documento.objects.filter(proyecto=self.proyecto)
+    
 class CreateRevision(ProyectoMixin, CreateView):
     form_class = RevisionForm
     template_name = 'panel_carga/create-revision.html'
