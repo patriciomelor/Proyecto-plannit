@@ -16,23 +16,26 @@
   
     <div class="br-section-wrapper">
             <form class="form-group col-12 col-sm-12" method="post">{% csrf_token %}                    
-                    <div class="form-control col-12 col-sm-12">{{ form|crispy }}
-                        <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar" >
-                    </div>                    
+                    <div class="form-control col-12 col-sm-12">
+                      {{form.nombre|as_crispy_field}}                    
+                   
+                      {{form.fecha_inicio|as_crispy_field}}                   
+                      
+                      {{form.fecha_temrino|as_crispy_field type="date"}}                   
+                     
+                      {{form.descripcion|as_crispy_field}} 
+
+                      {{form.encargado|as_crispy_field}}                     
+                      </div>
+
+                    <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar" >
+                                    
             </form>
     </div>
-
-    <script>
-        $('#datepickerNoOfMonths').datepicker({
-        showOtherMonths: true,
-        selectOtherMonths: true,
-        numberOfMonths: 1
-        });
-    </script>
-    <script>
+ <script>
   $(function () {
-    $("#datetimepicker1").datetimepicker({
-      format: 'DD/MM/YYYY HH:mm',
+    $("#id_date").datepicker({
+      format:'dd/mm/yyyy',
     });
   });
 </script>
