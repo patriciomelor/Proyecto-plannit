@@ -25,10 +25,19 @@ class Revision(models.Model):
     fecha = models.DateField(verbose_name="Fecha", editable=False, null=False)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
 
-
     def __str__(self):
         return self.tipo
     
+#Tabla que almacena el historico de las ediciones por documento, la idea es mostrar siempre el ultimo para saber quien le metio mano a ese documento
+#De ser necesario tambien se puede revisar quien lo hizo antes, pero la idea es que este restringida su vista al ultimo 
+#por ende esta tabla deberia mejorar 
+class Historial(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False) #Quien lo edito
+    fecha = models.DateField(verbose_name="Fecha ultima edicion",editable= False, null=False) #fecha de la edicion
+
+
+    def __str__(self):
+        return self.fecha
 
 class Documento(models.Model):
     
@@ -48,15 +57,5 @@ class Documento(models.Model):
         return self.nombre
 
 
-#Tabla que almacena el historico de las ediciones por documento, la idea es mostrar siempre el ultimo para saber quien le metio mano a ese documento
-#De ser necesario tambien se puede revisar quien lo hizo antes, pero la idea es que este restringida su vista al ultimo 
-#por ende esta tabla deberia mejorar 
-class Historial(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=false) #Quien lo edito
-    fecha = models.DateField(verbose_name="Fecha ultima edicion",editable= False, null=False) #fecha de la edicion
 
 
-    def __str__(self):
-        return self.fecha
-
-)
