@@ -17,16 +17,16 @@
     <div class="row row-sm mg-t-20">
 
 <!--Upload Archivos-->
-  <form method="post" enctype="multipart/form-data">
+  <form class="col-12" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <label><strong>Subir Excel:</strong></label>
-    <input type="file" name="importfile" class="form-control-file">
+    <input type="file" id="file" onchange="return fileValidation()" name="importfile" class="form-control-file">
     <button type="submit" class="btn btn-oblong btn-danger mg-t-15 mg-l-15"><i class="icon ion-upload mg-r-10"></i> Cargar </button>
   </form>
 
 <!--Boton Modals-->
     <div> 
-      <a href="{% url 'proyecto-crear' %}" class=" btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-t-15"> Insertar Datos Por Formulario</a>
+      <a href="{% url 'documento-crear' %}" class=" btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-t-15"> Insertar Datos Por Formulario</a>
     </div>
 
 <!--Boton Excel-->
@@ -221,6 +221,27 @@
     }
 
   });
+</script>
+<script>
+function fileValidation(){
+    var fileInput = document.getElementById('file');
+    var filePath = fileInput.value;
+    var allowedExtensions = /(.xlsx|.xls|.csv)$/i;
+    if(!allowedExtensions.exec(filePath)){
+        alert('Porfavor, Adjuntar Archivos formato: .xlsx/ .xls/ .csx.');
+        fileInput.value = '';
+        return false;
+    }else{
+        //Image preview
+        if (fileInput.files && fileInput.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.getElementById('imagePreview').innerHTML = '<img src="'+e.target.result+'"/>';
+            };
+            reader.readAsDataURL(fileInput.files[0]);
+        }
+    }
+}
 </script>
 {% endblock content %}
     
