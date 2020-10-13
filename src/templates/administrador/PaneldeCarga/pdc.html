@@ -67,7 +67,7 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.num_documento}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.emision.fecha}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > </th>
-                <th><a href="" class="btn btn-danger">Eliminar</a></th>
+                <th><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-danger"> Actualizar </a></th>
             </tr>           
             {% endfor %} 
             <!--Fin Loop-->

@@ -1,4 +1,5 @@
 import os.path
+import datetime
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -9,7 +10,7 @@ from import_export import resources
 from tablib import Dataset
 
 from django.urls import reverse_lazy
-from .models import Proyecto, Documento, Revision
+from .models import Proyecto, Documento, Revision, Historial
 from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
 from tools.views import ProyectoSeleccionadoMixin
 # Create your views here.
@@ -89,6 +90,23 @@ class ListDocumento(ProyectoMixin, ListView):
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
         result = document_resource.import_data(dataset, dry_run=True)
         return HttpResponse(result.has_errors())
+
+class DeleteDocumento(ProyectoMixin, DeleteView):
+    pass
+
+class UpdateDocumento(ProyectoMixin, UpdateView):
+    model = Documento
+    form_class = DocumentoForm
+    template_name = 'panel_carga/update-documento.html'
+    success_url = reverse_lazy('PanelCarga')
+
+    def form_valid(self, form):
+        registro = Historial.objects.create(
+            owner= self.request.user,
+            fecha= datetime.datetime.now(),
+            documento= Documento.pk
+        )
+
     
 class CreateRevision(ProyectoMixin, CreateView):
     form_class = RevisionForm
