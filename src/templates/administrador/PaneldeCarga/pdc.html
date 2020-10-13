@@ -14,30 +14,27 @@
   </div>
 
   <div class="br-section-wrapper">
-    <div class="row row-sm mg-t-20">
-
-<!--Upload Archivos-->
-
-<form  method="POST" enctype="multipart/form-data">{% csrf_token %}
-  <div class="pd-10 bd rounded mg-t-10">
-    <ul class="nav nav-pills flex-column flex-md-row justify-content-end" role="tablist">
-      <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-auto">{{proyecto}}</h4>
-     
-      <input type="file" id="file" onchange="return fileValidation()" name="importfile" class="nav-link active mg-l-20"></li>  
-      
-      <li class="nav-item"><a class="nav-link  mg-l-5 mg-r-5"  data-toggle="tab" href="#" role="tab">cargar</a></li>
-
-      <li class="nav-item"><a class="nav-link  mg-r-5" href="{% url 'documento-crear' %}" >Insertar por formulario</a></li>
-</form>
-      <li class="nav-item"><a class="nav-link  mg-l-5" href=""  onclick="exportTableToExcel('tblData')">Exportar Excel</a></li>
-    </ul>
-  </div>
-
-
 <!--Tabla-->
-  <div class="row row-sm d-flex justify-content-center mg-t-20" >
+  <div class="row row-sm d-flex justify-content-center" >
+  <!--Upload Archivos-->
+      <form  method="POST" enctype="multipart/form-data">{% csrf_token %}
+        <div class="pd-10 bd rounded mg-t-10">
+          <ul class="nav nav-pills flex-column flex-md-row justify-content-end" role="tablist">
+            <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-auto">{{proyecto}}</h4>
+          
+            <input type="file" id="file" onchange="fileValidation()" name="importfile" class="nav-link active mg-l-20"></li>  
+            
+            <li class="nav-item"><a class="nav-link  mg-l-5 mg-r-5"  data-toggle="tab" href="#" role="tab"><button class="btn btn-outline-danger">cargar</button></a></li>
+
+            <li class="nav-item"><a class="nav-link  mg-r-5" href="{% url 'documento-crear' %}" ><button class="btn btn-outline-primary">Insertar por formulario</button></a></li>
+         
+            <li class="nav-item"><a class="nav-link  mg-l-5" ><button class="btn btn-outline-success"href=""  onclick="exportTableToExcel('tblData')">Descargar Excel</button></a></li>
+          </ul>
+        </div>
+      </form>
+  <!--Table-->
       <div class="bd bd-gray-300 rounded table-responsive">
-        <table class="table table-striped mg-b-0 table-bordered table-primary"id="tblData">
+        <table class="table table-striped mg-b-0 table-bordered table-primary" id="tblData">
           <thead>
             <tr>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
@@ -77,36 +74,6 @@
     </div>
   </div>
 
-<!--Fin modals-->
-<script type="text/javascript">
-  $('#datepickerNoOfMonths').datepicker({
-  showOtherMonths: true,
-  selectOtherMonths: true,
-  numberOfMonths: 1
-  });
-  </script>
-
-<script>
-  $(function(){
-
-    // showing modal with effect
-    $('.modal-effect').on('click', function(){
-      var effect = $(this).attr('data-effect');
-      $('#modaldemo1').addClass(effect, function(){
-        $('#modaldemo1').modal('show');
-      });
-      return false;
-    });
-
-    // hide modal with effect
-    $('#modaldemo1').on('hidden.bs.modal', function (e) {
-      $(this).removeClass (function (index, className) {
-          return (className.match (/(^|\s)effect-\S+/g) || []).join(' ');
-      });
-    });
-  });
-</script>
-
 <script>
   function exportTableToExcel(tableID, filename = ''){
     var downloadLink;
@@ -115,7 +82,7 @@
     var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
     
     // Specify file name
-    filename = filename?filename+'.xlsx':'excel_data.xls';
+    filename = filename?filename+'.xlsx':'DocumentosCarga.xls';
     
     // Create download link element
     downloadLink = document.createElement("a");
@@ -142,115 +109,25 @@
 </script>
 
 <script>
-  $(function(){
-    'use strict'
-
-    // Toggles
-    $('.toggle').toggles({
-      on: true,
-      height: 26
-    });
-
-    // Input Masks
-    $('#dateMask').mask('99/99/9999');
-    $('#phoneMask').mask('(999) 999-9999');
-    $('#ssnMask').mask('999-99-9999');
-
-    // Datepicker
-    $('.fc-datepicker').datepicker({
-      showOtherMonths: true,
-      selectOtherMonths: true
-    });
-
-    $('#datepickerNoOfMonths').datepicker({
-      showOtherMonths: true,
-      selectOtherMonths: true,
-      numberOfMonths: 2
-    });
-
-    // Time Picker
-    $('#tpBasic').timepicker();
-    $('#tp2').timepicker({'scrollDefault': 'now'});
-    $('#tp3').timepicker();
-
-    $('#setTimeButton').on('click', function (){
-      $('#tp3').timepicker('setTime', new Date());
-    });
-
-    // Color picker
-    $('#colorpicker').spectrum({
-      color: '#17A2B8'
-    });
-
-    $('#showAlpha').spectrum({
-      color: 'rgba(23,162,184,0.5)',
-      showAlpha: true
-    });
-
-    $('#showPaletteOnly').spectrum({
-        showPaletteOnly: true,
-        showPalette:true,
-        color: '#DC3545',
-        palette: [
-            ['#1D2939', '#fff', '#0866C6','#23BF08', '#F49917'],
-            ['#DC3545', '#17A2B8', '#6610F2', '#fa1e81', '#72e7a6']
-        ]
-    });
-
-
-    // Rangeslider
-    if($().ionRangeSlider) {
-      $('#rangeslider1').ionRangeSlider();
-
-      $('#rangeslider2').ionRangeSlider({
-          min: 100,
-          max: 1000,
-          from: 550
-      });
-
-      $('#rangeslider3').ionRangeSlider({
-          type: 'double',
-          grid: true,
-          min: 0,
-          max: 1000,
-          from: 200,
-          to: 800,
-          prefix: '$'
-      });
-
-      $('#rangeslider4').ionRangeSlider({
-          type: 'double',
-          grid: true,
-          min: -1000,
-          max: 1000,
-          from: -500,
-          to: 500,
-          step: 250
-      });
-    }
-
-  });
-</script>
-<script>
-function fileValidation(){
-    var fileInput = document.getElementById('file');
-    var filePath = fileInput.value;
-    var allowedExtensions = /(.xlsx|.xls|.csv)$/i;
-    if(!allowedExtensions.exec(filePath)){
-        alert('Porfavor, Adjuntar Archivos formato: .xlsx/ .xls/ .csx.');
-        fileInput.value = '';
-        return false;
-    }else{
-        //Image preview
-        if (fileInput.files && fileInput.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-                document.getElementById('imagePreview').innerHTML = '<img src="'+e.target.result+'"/>';
-            };
-            reader.readAsDataURL(fileInput.files[0]);
-        }
-    }
-}
+  function fileValidation(){
+      var fileInput = document.getElementById('file');
+      var filePath = fileInput.value;
+      var allowedExtensions = /(.xlsx|.xls|.csv)$/i;
+      if(!allowedExtensions.exec(filePath)){
+          alert('Porfavor, Adjuntar Archivos formato: .xlsx/ .xls/ .csv.');
+          fileInput.value = '';
+          return false;
+      }else{
+          //Image preview
+          if (fileInput.files && fileInput.files[0]) {
+              var reader = new FileReader();
+              reader.onload = function(e) {
+                  document.getElementById('imagePreview').innerHTML = '<img src="'+e.target.result+'"/>';
+              };
+              reader.readAsDataURL(fileInput.files[0]);
+          }
+      }
+  }
 </script>
   
     
