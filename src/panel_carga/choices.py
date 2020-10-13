@@ -13,8 +13,10 @@ ESTADO_CONTRATISTA =  (
 )
 
 DOCUMENT_TYPE = (
-    (1,"Documento"),
-    (2,"Plano"),
+    (1,"WORD"),
+    (2,"PDF"),
+    (3,"EXCEL"),
+    (4,"DWG"),
 )
 
 

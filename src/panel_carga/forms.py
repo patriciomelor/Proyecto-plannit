@@ -4,13 +4,16 @@ from .models import Proyecto, Documento, Revision
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
+class UploadFileForm(forms.Form):
+    importfile = forms.FileField()
+
 class ProyectoSelectForm(forms.Form):
     proyectos =  forms.ModelChoiceField(queryset=Proyecto.objects.all())
 
 class ProyectoForm(forms.ModelForm):
     nombre = forms.CharField( max_length=50, required=True)
-    fecha_inicio = forms.DateField(input_formats=['%d/%m/%Y'])
-    fecha_termino = forms.DateField(input_formats=['%d/%m/%Y'])
+    fecha_inicio = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}),input_formats=['%d/%m/%Y'])
+    fecha_termino = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}),input_formats=['%d/%m/%Y'])
     descripcion = forms.CharField(widget=forms.Textarea, max_length=100, required=True)
     class Meta:
         model = Proyecto
@@ -24,6 +27,8 @@ class DocumentoForm(forms.ModelForm):
     num_documento = forms.CharField( max_length=10, required=True)
     tipo = forms.IntegerField(required=True)
     archivo = forms.FileField(required=True)
+    fecha_inicio_Emision = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'})) 
+    fecha_fin_Emision =  forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     
 
     class Meta:
