@@ -61,7 +61,8 @@ class DetailProyecto(ProyectoMixin, DetailView):
 
 class CreateDocumento(ProyectoMixin, CreateView):
     model = Documento
-    fields = ['nombre', 'especialidad', 'descripcion', 'num_documento', 'tipo', 'fecha_inicio_Emision','fecha_fin_Emision', 'archivo']
+    form_class = DocumentoForm
+    # fields = ['nombre', 'especialidad', 'descripcion', 'num_documento', 'tipo', 'fecha_inicio_Emision','fecha_fin_Emision', 'archivo']
     template_name = 'panel_carga/create-documento.html'
     success_url = reverse_lazy("index")
     

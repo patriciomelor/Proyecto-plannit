@@ -25,15 +25,14 @@ class DocumentoForm(forms.ModelForm):
     especialidad = forms.CharField( max_length=50, required=True)
     descripcion = forms.CharField(widget=forms.Textarea, max_length=150, required=True)
     num_documento = forms.CharField( max_length=10, required=True)
-    tipo = forms.IntegerField(required=True)
-    archivo = forms.FileField(required=True)
+    archivo = forms.FileField(required=False)
     fecha_inicio_Emision = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'})) 
     fecha_fin_Emision =  forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     
 
     class Meta:
         model = Documento
-        fields = ['owner','emision','proyecto']
+        exclude = ['owner','emision','proyecto', 'ultima_edicion']
 
 class RevisionForm(forms.ModelForm):
     tipo = forms.IntegerField( required=True)

@@ -46,11 +46,11 @@ class Documento(models.Model):
     descripcion = models.TextField(verbose_name="Descripción", blank=False)
     num_documento = models.CharField(verbose_name="Codigo Documento", max_length=100, null=False, unique=True)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
-    emision = models.ForeignKey(Revision, on_delete=models.CASCADE, blank=True)
+    emision = models.ForeignKey(Revision, on_delete=models.CASCADE, blank=True, null=True, default=None)
     tipo = models.IntegerField(choices=DOCUMENT_TYPE, default=1, null=False)
     archivo = models.FileField(upload_to="proyecto/documentos/", null=False, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    ultima_edicion = models.ForeignKey(Historial, on_delete=models.CASCADE, blank=True)
+    ultima_edicion = models.ForeignKey(Historial, on_delete=models.CASCADE, blank=True, null=True, default=None)
     fecha_inicio_Emision = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
     fecha_fin_Emision = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
     
