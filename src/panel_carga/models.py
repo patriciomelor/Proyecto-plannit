@@ -54,7 +54,7 @@ class Documento(models.Model):
 class Historial(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True) #Quien lo edito
     fecha = models.DateTimeField(verbose_name="Fecha ultima edicion", editable=False, blank=True) #fecha de la edicion
-    documento = models.ForeignKey(Documento, on_delete=models.CASCADE, blak=True) 
+    documento = models.ForeignKey(Documento, on_delete=models.CASCADE, blank=True) 
 
     def __str__(self):
         return self.fecha
