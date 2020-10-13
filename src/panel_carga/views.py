@@ -52,6 +52,10 @@ class CreateProyecto(CreateView):
     template_name = 'panel_carga/create-proyecto.html'
     success_url = reverse_lazy("index")
 
+    def form_valid(self, form):
+        form.instance.encargado = self.request.user
+        return super().form_valid(form)
+
 class DetailProyecto(ProyectoMixin, DetailView):
     template_name = 'panel_carga/detail-proyecto.html'
 
@@ -72,7 +76,7 @@ class DetailDocumento(ProyectoMixin, DetailView):
 
 class ListDocumento(ProyectoMixin, ListView):
     model = Documento
-    template_name = 'panel_carga/list-documento.html'
+    template_name = 'administrador/PaneldeCarga/pdc.html'
     context_object_name = "documentos"
 
     def get_queryset(self):
@@ -93,7 +97,6 @@ def export_document(request):
 
 def import_document(request):
     context = {}
-
     if request.method == 'POST':
         document_resource = DocumentResource()
         dataset = Dataset()
@@ -101,6 +104,3 @@ def import_document(request):
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
         result = document_resource.import_data(dataset, dry_run=True)
         print(result.has_errors())
-    context['documentos'] = Documento.objects.all()
-
-    return render(request, 'administrador/PaneldeCarga/pdc.html', context)

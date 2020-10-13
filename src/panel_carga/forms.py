@@ -14,7 +14,7 @@ class ProyectoForm(forms.ModelForm):
     descripcion = forms.CharField(widget=forms.Textarea, max_length=100, required=True)
     class Meta:
         model = Proyecto
-        fields = ['encargado']
+        exclude = ['encargado']
 
 class DocumentoForm(forms.ModelForm):
 
