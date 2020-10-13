@@ -32,8 +32,8 @@ class Revision(models.Model):
 #De ser necesario tambien se puede revisar quien lo hizo antes, pero la idea es que este restringida su vista al ultimo 
 #por ende esta tabla deberia mejorar 
 class Historial(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False) #Quien lo edito
-    fecha = models.DateField(verbose_name="Fecha ultima edicion",editable= False, null=False) #fecha de la edicion
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=True) #Quien lo edito
+    fecha = models.DateField(verbose_name="Fecha ultima edicion", editable= False, null=False, blank=True) #fecha de la edicion
 
 
     def __str__(self):
@@ -50,7 +50,7 @@ class Documento(models.Model):
     tipo = models.IntegerField(choices=DOCUMENT_TYPE, default=1, null=False, unique=True)
     archivo = models.FileField(upload_to="proyecto/documentos/", null=True, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    ultima_edicion = models.ForeignKey(Historial, on_delete=models.CASCADE, null=False)
+    ultima_edicion = models.ForeignKey(Historial, on_delete=models.CASCADE, null=True, blank=True)
 
 
     def __str__(self):
