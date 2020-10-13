@@ -104,7 +104,7 @@ class UpdateDocumento(ProyectoMixin, UpdateView):
         registro = Historial.objects.create(
             owner= self.request.user,
             fecha= datetime.datetime.now(),
-            documento= Documento.pk
+            documento_editado= Documento.pk
         )
 
     
