@@ -17,30 +17,23 @@
     <div class="row row-sm mg-t-20">
 
 <!--Upload Archivos-->
-  <form method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <label><strong>Subir Excel:</strong></label>
-    <input type="file" id="file" onchange="return fileValidation()" name="importfile" class="form-control-file">
-    <button type="submit" class="btn btn-oblong btn-danger mg-t-15 mg-l-15"><i class="icon ion-upload mg-r-10"></i> Cargar </button>
-  </form>
 
-<!--Boton Modals-->
-    <div> 
-      <a href="{% url 'documento-crear' %}" class=" btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-t-15"> Insertar Datos Por Formulario</a>
-    </div>
+<form  method="POST" enctype="multipart/form-data">{% csrf_token %}
+  <div class="pd-10 bd rounded mg-t-10">
+    <ul class="nav nav-pills flex-column flex-md-row justify-content-end" role="tablist">
+      <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-auto">{{proyecto}}</h4>
+     
+      <input type="file" id="file" onchange="return fileValidation()" name="importfile" class="nav-link active mg-l-20"></li>  
+      
+      <li class="nav-item"><a class="nav-link  mg-l-5 mg-r-5"  data-toggle="tab" href="#" role="tab">cargar</a></li>
 
-<!--Boton Excel-->
-    <div class="form-group">
-      <a href="" class="btn btn-success btn-with-icon btn-block mg-t-15"  onclick="exportTableToExcel('tblData')">
-        <div class="ht-40">
-          <span class="icon wd-40"><i class="fa fa-download"></i></span>
-          <span class="pd-x-15">Descargar Excel</span>
-        </div>
-      </a>
-    </div>    
-  </div> 
+      <li class="nav-item"><a class="nav-link  mg-r-5" href="{% url 'documento-crear' %}" >Insertar por formulario</a></li>
+</form>
+      <li class="nav-item"><a class="nav-link  mg-l-5" href=""  onclick="exportTableToExcel('tblData')">Exportar Excel</a></li>
+    </ul>
+  </div>
 
-  {{proyecto}}
+
 <!--Tabla-->
   <div class="row row-sm d-flex justify-content-center mg-t-20" >
       <div class="bd bd-gray-300 rounded table-responsive">
@@ -63,6 +56,7 @@
               <th></th>
               <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
               <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
+              <th></th>
             </tr>
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
@@ -258,5 +252,8 @@ function fileValidation(){
     }
 }
 </script>
+  
+    
+   
 {% endblock content %}
     
