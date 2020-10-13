@@ -17,7 +17,7 @@
     <div class="row row-sm mg-t-20">
 
 <!--Upload Archivos-->
-  <form class="col-12" method="post" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
     <label><strong>Subir Excel:</strong></label>
     <input type="file" id="file" onchange="return fileValidation()" name="importfile" class="form-control-file">
@@ -65,16 +65,17 @@
               <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
             </tr>
             <!--Loop Listar Documento-->
-            
+            {% for documento in documentos %}
             <tr>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" >1</th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" >2</th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" >3</th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" >4</th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" >5</th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" >6</th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.especialidad}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.tipo}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.descripcion}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.num_documento}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.emision.fecha}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > </th>
                 <th><a href="" class="btn btn-danger">Eliminar</a></th>
-            </tr>            
+            </tr>           
+            {% endfor %} 
             <!--Fin Loop-->
           </tbody>
         </table>

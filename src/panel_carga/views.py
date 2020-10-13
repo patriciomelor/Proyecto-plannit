@@ -10,7 +10,7 @@ from tablib import Dataset
 
 from django.urls import reverse_lazy
 from .models import Proyecto, Documento, Revision
-from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm
+from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
 from tools.views import ProyectoSeleccionadoMixin
 # Create your views here.
 
@@ -18,7 +18,7 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        exclude = ('id', 'proyecto', 'emision', 'archivo')
+        exclude = ('id', 'proyecto', 'emision', 'archivo', 'ultima_edicion')
 
 # End Document Resources
 
@@ -81,6 +81,14 @@ class ListDocumento(ProyectoMixin, ListView):
 
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
+
+    def post(self, request, *args, **kwargs):
+        document_resource = DocumentResource()
+        dataset = Dataset(headers=['id'])
+        new_documentos = request.FILES['importfile']
+        imported_data = dataset.load(new_documentos.read(), format='xlsx')
+        result = document_resource.import_data(dataset, dry_run=True)
+        return HttpResponse(result.has_errors())
     
 class CreateRevision(ProyectoMixin, CreateView):
     form_class = RevisionForm
@@ -95,12 +103,5 @@ def export_document(request):
     return response
 
 
-def import_document(request):
-    context = {}
-    if request.method == 'POST':
-        document_resource = DocumentResource()
-        dataset = Dataset()
-        new_documentos = request.FILES['importfile']
-        imported_data = dataset.load(new_documentos.read(), format='xlsx')
-        result = document_resource.import_data(dataset, dry_run=True)
-        print(result.has_errors())
+
+

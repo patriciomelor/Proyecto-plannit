@@ -4,6 +4,9 @@ from .models import Proyecto, Documento, Revision
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 
+class UploadFileForm(forms.Form):
+    importfile = forms.FileField()
+
 class ProyectoSelectForm(forms.Form):
     proyectos =  forms.ModelChoiceField(queryset=Proyecto.objects.all())
 
