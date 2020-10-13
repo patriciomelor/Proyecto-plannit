@@ -22,23 +22,17 @@
   <div class="pd-10 bd rounded mg-t-10">
     <ul class="nav nav-pills flex-column flex-md-row justify-content-end" role="tablist">
       <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-auto">{{proyecto}}</h4>
-      <!--Relleno-->
-      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" role="tab"></a></li>
-      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" role="tab"></a></li>
-      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" role="tab"></a></li>
-      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#" role="tab"></a></li>
-  
-      <!--Fin Relleno-->
-      <input type="file" id="file" onchange="return fileValidation()" name="importfile" class="nav-link active"></li>  
+     
+      <input type="file" id="file" onchange="return fileValidation()" name="importfile" class="nav-link active mg-l-20"></li>  
       
-      <li class="nav-item"><a class="nav-link btn btn-danger mg-l-5 mg-r-5" style="color:#fff;"  data-toggle="tab" href="#" role="tab">cargar</a></li>
+      <li class="nav-item"><a class="nav-link  mg-l-5 mg-r-5"  data-toggle="tab" href="#" role="tab">cargar</a></li>
 
-      <li class="nav-item"><a class="nav-link btn btn-primary mg-r-5"style="color: #fff;"  href="{% url 'documento-crear' %}" >Insertar por formulario</a></li>
-
-      <li class="nav-item"><a class="nav-link btn btn-success mg-l-5" style="color: #fff;" href=""  onclick="exportTableToExcel('tblData')">Exportar Excel</a></li>
+      <li class="nav-item"><a class="nav-link  mg-r-5" href="{% url 'documento-crear' %}" >Insertar por formulario</a></li>
+</form>
+      <li class="nav-item"><a class="nav-link  mg-l-5" href=""  onclick="exportTableToExcel('tblData')">Exportar Excel</a></li>
     </ul>
   </div>
-</form>
+
 
 <!--Tabla-->
   <div class="row row-sm d-flex justify-content-center mg-t-20" >
@@ -62,6 +56,7 @@
               <th></th>
               <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
               <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
+              <th></th>
             </tr>
             <!--Loop Listar Documento-->
             
