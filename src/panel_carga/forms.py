@@ -12,8 +12,8 @@ class ProyectoSelectForm(forms.Form):
 
 class ProyectoForm(forms.ModelForm):
     nombre = forms.CharField( max_length=50, required=True)
-    fecha_inicio = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}),input_formats=['%d/%m/%Y'])
-    fecha_termino = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}),input_formats=['%d/%m/%Y'])
+    fecha_inicio = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), input_formats=['%Y-%m-%d'])
+    fecha_termino = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), input_formats=['%Y-%m-%d'])
     descripcion = forms.CharField(widget=forms.Textarea, max_length=100, required=True)
     class Meta:
         model = Proyecto

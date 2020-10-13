@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION,DOCUMENT_TYPE
+from .choices import (ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION,DOCUMENT_TYPE)
 
 
 # Create your models here.
@@ -32,8 +32,8 @@ class Revision(models.Model):
 #De ser necesario tambien se puede revisar quien lo hizo antes, pero la idea es que este restringida su vista al ultimo 
 #por ende esta tabla deberia mejorar 
 class Historial(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False, blank=True) #Quien lo edito
-    fecha = models.DateField(verbose_name="Fecha ultima edicion", editable= False, null=False, blank=True) #fecha de la edicion
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True) #Quien lo edito
+    fecha = models.DateField(verbose_name="Fecha ultima edicion", editable=False, blank=True) #fecha de la edicion
 
 
     def __str__(self):
@@ -41,18 +41,18 @@ class Historial(models.Model):
 
 class Documento(models.Model):
     
-    nombre = models.CharField(verbose_name="Nombre del Documento", max_length=100, null=False, unique=True) #deberia ir un editable=False? debido a que no deberia cambiarse el nombre de un documento
-    especialidad = models.CharField(verbose_name="Especialidad", max_length=100, null=False)
-    descripcion = models.TextField(verbose_name="Descripción", blank=True)
+    nombre = models.CharField(verbose_name="Nombre del Documento", max_length=100, blank=False, unique=True) #deberia ir un editable=False? debido a que no deberia cambiarse el nombre de un documento
+    especialidad = models.CharField(verbose_name="Especialidad", max_length=100, blank=False)
+    descripcion = models.TextField(verbose_name="Descripción", blank=False)
     num_documento = models.CharField(verbose_name="Codigo Documento", max_length=100, null=False, unique=True)
-    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, null=True)
-    emision = models.ForeignKey(Revision, on_delete=models.CASCADE, null=True)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
+    emision = models.ForeignKey(Revision, on_delete=models.CASCADE, blank=True)
     tipo = models.IntegerField(choices=DOCUMENT_TYPE, default=1, null=False)
-    archivo = models.FileField(upload_to="proyecto/documentos/", null=True, blank=True)
+    archivo = models.FileField(upload_to="proyecto/documentos/", null=False, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=False)
-    ultima_edicion = models.ForeignKey(Historial, on_delete=models.CASCADE, null=True, blank=True)
-    fecha_inicio_Emision = models.DateField(verbose_name="Fecha inicio emision",null=False, blank=True) 
-    fecha_fin_Emision = models.DateField(verbose_name="Fecha inicio emision",null=False, blank=True) 
+    ultima_edicion = models.ForeignKey(Historial, on_delete=models.CASCADE, blank=True)
+    fecha_inicio_Emision = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
+    fecha_fin_Emision = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
     
 
 
