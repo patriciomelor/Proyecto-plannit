@@ -20,10 +20,10 @@
         <div class="pd-10 bd rounded mg-t-10">
           <ul class="nav nav-pills flex-column flex-md-row justify-content-end" role="tablist">
             <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-auto">{{proyecto}}</h4>
-            <form  method="POST" enctype="multipart/form-data">{% csrf_token %}
-            <input type="file" id="file" onchange="fileValidation()" name="importfile" class="nav-link active mg-l-20"></li>  
+            <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+            <input type="file" name="importfile" id="file" onchange="return fileValidation()"  class="nav-link active mg-l-20"></li>  
+            <li class="nav-item"><a class="nav-link  mg-l-5 mg-r-5"><button type="submit" class="btn btn-outline-danger"> Importar </button></a></li>
             </form>
-            <li class="nav-item"><a class="nav-link  mg-l-5 mg-r-5"  data-toggle="tab" href="#" role="tab"><button class="btn btn-outline-danger">cargar</button></a></li>
 
             <li class="nav-item"><a class="nav-link  mg-r-5" href="{% url 'documento-crear' %}" ><button class="btn btn-outline-primary">Insertar por formulario</button></a></li>
          
