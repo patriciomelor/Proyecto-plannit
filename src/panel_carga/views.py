@@ -19,7 +19,9 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        exclude = ('id', 'proyecto', 'emision', 'archivo', 'ultima_edicion', 'owner')
+        field = ('nombre', 'especialidad', 'descripcion', 'num_documento', 'proyecto', 'fecha_inicio_Emision', 'fecha_fin_Emision')
+        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner')
+        import_id_fields = ('id')
 
 # End Document Resources
 
@@ -115,6 +117,7 @@ class CreateRevision(ProyectoMixin, CreateView):
     template_name = 'panel_carga/create-revision.html'
     success_url = reverse_lazy("index")
 
+# funcion de exportación
 def export_document(request):
     context = {}
     dataset = DocumentResource().export()
