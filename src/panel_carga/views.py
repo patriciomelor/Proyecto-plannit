@@ -19,7 +19,9 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        exclude = ('id', 'proyecto', 'emision', 'archivo', 'ultima_edicion')
+        field = ('nombre', 'especialidad', 'descripcion', 'num_documento', 'proyecto', 'fecha_inicio_Emision', 'fecha_fin_Emision')
+        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner')
+        import_id_fields = ('id')
 
 # End Document Resources
 
@@ -99,13 +101,15 @@ class UpdateDocumento(ProyectoMixin, UpdateView):
     form_class = DocumentoForm
     template_name = 'panel_carga/update-documento.html'
     success_url = reverse_lazy('PanelCarga')
+    
 
     def form_valid(self, form):
         registro = Historial.objects.create(
             owner= self.request.user,
             fecha= datetime.datetime.now(),
-            documento= Documento.pk
+            documento= Documento.objects.get(pk=self.kwargs['pk'])
         )
+        return super().form_valid(form)
 
     
 class CreateRevision(ProyectoMixin, CreateView):
@@ -113,6 +117,7 @@ class CreateRevision(ProyectoMixin, CreateView):
     template_name = 'panel_carga/create-revision.html'
     success_url = reverse_lazy("index")
 
+# funcion de exportación
 def export_document(request):
     context = {}
     dataset = DocumentResource().export()
