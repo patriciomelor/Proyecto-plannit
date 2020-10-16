@@ -23,11 +23,11 @@
             <form  method="POST" enctype="multipart/form-data">{% csrf_token %}
             <input type="file" id="file" onchange="fileValidation()" name="importfile" class="nav-link active mg-l-20"></li>  
             </form>
-            <li class="nav-item"><a class="nav-link  mg-l-5 mg-r-5"  data-toggle="tab" href="#" role="tab"><button class="btn btn-outline-danger">cargar</button></a></li>
+            <li class="nav-item"><a class="nav-link  mg-l-5"  data-toggle="tab" href="#" role="tab"><button class="btn btn-outline-danger">cargar</button></a></li>
 
-            <li class="nav-item"><a class="nav-link  mg-r-5" href="{% url 'documento-crear' %}" ><button class="btn btn-outline-primary">Insertar por formulario</button></a></li>
+            <li class="nav-item"><a class="nav-link " href="{% url 'documento-crear' %}" ><button class="btn btn-outline-primary">Insertar por formulario</button></a></li>
          
-            <li class="nav-item"><a class="nav-link  mg-l-5" href="{% url 'panel-export' %}" ><button class="btn btn-outline-success" href="{% url 'panel-export' %}"  >Descargar Excel</button></a></li>
+            <li class="nav-item"><a class="nav-link  " href="{% url 'panel-export' %}" ><button class="btn btn-outline-success" href="{% url 'panel-export' %}"  >Descargar Excel</button></a></li>
           </ul>
         </div>
   <!--Table-->
@@ -60,8 +60,8 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.tipo}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.descripcion}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.num_documento}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.emision.fecha}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_inicio_Emision}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_fin_Emision}}</th>
                 <th><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-danger"> Actualizar </a></th>
             </tr>           
             {% endfor %} 
