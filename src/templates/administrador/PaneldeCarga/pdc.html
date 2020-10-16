@@ -61,7 +61,7 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.descripcion}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.num_documento}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_inicio_Emision}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_fin_Emision}}</th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{revision.fecha}}</th>
                 <th><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-danger"> Actualizar </a></th>
             </tr>           
             {% endfor %} 
