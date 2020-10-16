@@ -4,6 +4,8 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from panel_carga.views import ProyectoMixin
 # Create your views here.
 
+class Profile(TemplateView):
+    template_name = 'account/profile.html'
 
 class RootView(RedirectView):
     pattern_name = 'account_login'
