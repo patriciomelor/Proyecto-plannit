@@ -94,7 +94,8 @@ class ListDocumento(ProyectoMixin, ListView):
         return HttpResponse(result.has_errors())
 
 class DeleteDocumento(ProyectoMixin, DeleteView):
-    pass
+    model = Documento
+    success_url = reverse_lazy('PanelCarga')
 
 class UpdateDocumento(ProyectoMixin, UpdateView):
     model = Documento
