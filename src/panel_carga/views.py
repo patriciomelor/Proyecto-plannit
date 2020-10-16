@@ -94,15 +94,17 @@ class ListDocumento(ProyectoMixin, ListView):
         return HttpResponse(result.has_errors())
 
 class DeleteDocumento(ProyectoMixin, DeleteView):
+    template_name = 'panel_carga/delete-documento.html'
     model = Documento
     success_url = reverse_lazy('PanelCarga')
+    
 
 class UpdateDocumento(ProyectoMixin, UpdateView):
     model = Documento
     form_class = DocumentoForm
     template_name = 'panel_carga/update-documento.html'
     success_url = reverse_lazy('PanelCarga')
-    
+    context_object_name = "documento"
 
     def form_valid(self, form):
         registro = Historial.objects.create(
@@ -113,6 +115,7 @@ class UpdateDocumento(ProyectoMixin, UpdateView):
         return super().form_valid(form)
 
     
+        
 class CreateRevision(ProyectoMixin, CreateView):
     form_class = RevisionForm
     template_name = 'panel_carga/create-revision.html'

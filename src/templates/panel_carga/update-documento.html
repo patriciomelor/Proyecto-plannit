@@ -11,7 +11,7 @@
 </div>
 <!--Titulo-->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Formulario para crear documentos</h4>
+    <h4 class="tx-gray-800 mg-b-5"> Editar el documentos</h4>
     <p class="mg-b-0"></p>
   </div>
 
@@ -22,11 +22,11 @@
         
         <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar">
         <input class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="button" onClick="javascript:history.go(-1);" value="Volver">
-      
+        <button class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"  href="{% url 'documento-eliminar' documento.pk %}"> Eliminar </button>
+
     </form>
       
       
-       <input class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" onclick="confirm('¿Estás seguro que deseas eliminar el registro?');" Value="Eliminar">
       
        </div>
         
