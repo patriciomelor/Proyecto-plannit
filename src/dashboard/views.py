@@ -2,6 +2,9 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, RedirectView, View
 from panel_carga.views import ProyectoMixin
+
+from panel_carga.models import Proyecto, Documento, Revision, Historial
+
 # Create your views here.
 
 class ProfileView(TemplateView):
@@ -25,6 +28,20 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
 class BaesView(ProyectoMixin, TemplateView):
     template_name = "administrador/BandejaEyS/baes.html"
+
+    # OPCION 1
+    # select Documento.num_docuemto, Documento.nombre, Documento.owner, documento.emision.estado_contratista, Historial.fecha
+    # from Docuemto, Historial
+    # when (documento.pk == Historial.documento)
+
+    # OPCION 2
+    # select Documento.num_docuemto, Documento.nombre, Documento.owner, Revision.estado_contratista, Historial.fecha
+    # from Docuemto, Revision, Historial
+    # when (documento.pk == Historial.documento) and (documento.pk == Revision.documento)
+
+
+
+
 
 class BorradorView(ProyectoMixin, TemplateView):
     template_name = "administrador/Borradores/borrador.html"
