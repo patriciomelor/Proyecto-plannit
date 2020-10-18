@@ -1,14 +1,17 @@
 {% extends 'index-base.html' %}
 
-{% block content %}
-
+{% block navegacion %}
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="{% url 'Escritorio' %}">Escritorio</a>
-      <span class="breadcrumb-item">Panel De Carga</span>      
+      <a class="breadcrumb-item"> {{proyecto}} </a>
+      <a class="breadcrumb-item" href="{% url 'PanelCarga' %}">Panel de Carga</a>      
       <span class="breadcrumb-item active">Listado de Errores</span>
     </nav>
   </div>
+{% endblock navegacion %}
+
+{% block content %}
+
 <!--Titulo-->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Listado de Errores de importacion.</h4>
@@ -21,24 +24,21 @@
             <tr>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">N° Documento <br>Contractual</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>              
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Acciones</th>
             </tr>
           </thead>
           <tbody>
             <!--Loop Listar Documento-->
-            {% for documento in documentos %}
+            {% for error in errores %}
             <tr>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.nombre}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.especialidad}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.tipo}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.descripcion}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.num_documento}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_inicio_Emision}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{revision.fecha}}</th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{error.1}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{error.2}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{error.3}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{error.4}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{error.5}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{error.6}} </th>
                
             </tr>           
             {% endfor %} 

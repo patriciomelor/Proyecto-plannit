@@ -111,7 +111,7 @@ class ListDocumento(ProyectoMixin, ListView):
                 documento.save()
             except IntegrityError:
                 self.documentos_erroneos.append(data)
-        return HttpResponseRedirect(reverse_lazy('PanelCarga'))
+        return render(request, 'panel_carga/list-error.html', {'errores': self.documentos_erroneos})
 
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
