@@ -37,7 +37,7 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
         obj = None
         if not Proyecto.objects.filter(encargado=request.user):
             return HttpResponseRedirect(reverse_lazy('proyecto-crear'))
-        return super().dispatch(request, *args, **kwargs)
+        return super(ProyectoSelectView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         self.request.session['proyecto'] = form.cleaned_data['proyectos'].id
@@ -46,7 +46,7 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
 class ProyectoMixin(SuccessMessageMixin, ProyectoSeleccionadoMixin):
     model = Proyecto
 
-class ProyectoList(ProyectoMixin, ListView):
+class ListaProyecto(ProyectoMixin, ListView):
     queryset = Proyecto.objects.all()
     template_name = 'panel_carga/list-proyecto.html'
     context_object_name = 'proyectos'
@@ -62,6 +62,7 @@ class CreateProyecto(CreateView):
 
 class DetailProyecto(ProyectoMixin, DetailView):
     template_name = 'panel_carga/detail-proyecto.html'
+    context_object_name = "proyecto"
 
 class CreateDocumento(ProyectoMixin, CreateView):
     model = Documento
