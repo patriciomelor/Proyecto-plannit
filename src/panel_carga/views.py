@@ -91,27 +91,26 @@ class ListDocumento(ProyectoMixin, ListView):
 
     def post(self, request, *args, **kwargs):
         document_resource = DocumentResource()
-        dataset = Dataset(headers=['id'])
+        dataset = Dataset()
         new_documentos = request.FILES['importfile']
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
         for data in imported_data:
             try:
                 documento = Documento(
                     nombre= data[1],
-                    especialidad=[2],
+                    especialidad= data[2],
                     descripcion= data[3],
                     num_documento= data[4],
+                    fecha_inicio_Emision= data[5],
+                    fecha_fin_Emision= data[6],
                     proyecto= self.proyecto,
-                    tipo= data[6],
-                    fecha_inicio_Emision= data[7],
-                    fecha_fin_Emision= data[8],
                     owner= request.user
                 )
 
                 documento.save()
             except IntegrityError:
                 self.documentos_erroneos.append(data)
-        return HttpResponse(self.documentos_erroneos)
+        return HttpResponseRedirect(reverse_lazy('PanelCarga'))
 
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
