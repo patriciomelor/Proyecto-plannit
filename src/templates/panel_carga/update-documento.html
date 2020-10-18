@@ -22,7 +22,7 @@
         
         <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar">
         <input class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="button" onClick="javascript:history.go(-1);" value="Volver">
-        <button class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"  href="{% url 'documento-eliminar' documento.pk %}"> Eliminar </button>
+        <a  href="{% url 'documento-eliminar' documento.pk %}"><button class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" href="{% url 'documento-eliminar' documento.pk %}"> Eliminar </button></a>
 
     </form>
       
