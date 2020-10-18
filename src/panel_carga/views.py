@@ -95,7 +95,8 @@ class ListDocumento(ProyectoMixin, ListView):
         dataset = Dataset()
         new_documentos = request.FILES['importfile']
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
-        for data in imported_data:
+        for tuple_data in imported_data:
+            data = list(tuple_data)
             try:
                 documento = Documento(
                     nombre= data[1],
@@ -111,6 +112,8 @@ class ListDocumento(ProyectoMixin, ListView):
                 documento.save()
             except IntegrityError:
                 self.documentos_erroneos.append(data)
+            except ValueError:
+                pass
         return render(request, 'panel_carga/list-error.html', {'errores': self.documentos_erroneos})
 
 class DeleteDocumento(ProyectoMixin, DeleteView):
