@@ -8,7 +8,8 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from django.views.generic.base import TemplateView, RedirectView, View
 from import_export import resources
 from tablib import Dataset
-
+from django.core.exceptions import FieldError, ValidationError
+from django.db import IntegrityError
 from django.urls import reverse_lazy
 from .models import Proyecto, Documento, Revision, Historial
 from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
@@ -19,8 +20,8 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        field = ('nombre', 'especialidad', 'descripcion', 'num_documento', 'proyecto', 'fecha_inicio_Emision', 'fecha_fin_Emision')
-        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner')
+        field = ('nombre', 'especialidad', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
+        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto', 'tipo')
         import_id_fields = ('id')
 
 # End Document Resources
@@ -79,7 +80,10 @@ class DetailDocumento(ProyectoMixin, DetailView):
     template_name = 'panel_carga/detail-docuemnto.html'
 
 class ListDocumento(ProyectoMixin, ListView):
+    model = Documento
     template_name = 'administrador/PaneldeCarga/pdc.html'
+    documentos_erroneos = []
+    extra_context = documentos_erroneos
     context_object_name = "documentos"
 
     def get_queryset(self):
@@ -90,8 +94,24 @@ class ListDocumento(ProyectoMixin, ListView):
         dataset = Dataset(headers=['id'])
         new_documentos = request.FILES['importfile']
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
-        result = document_resource.import_data(dataset, dry_run=True)
-        return HttpResponse(result.has_errors())
+        for data in imported_data:
+            try:
+                documento = Documento(
+                    nombre= data[1],
+                    especialidad=[2],
+                    descripcion= data[3],
+                    num_documento= data[4],
+                    proyecto= self.proyecto,
+                    tipo= data[6],
+                    fecha_inicio_Emision= data[7],
+                    fecha_fin_Emision= data[8],
+                    owner= request.user
+                )
+
+                documento.save()
+            except IntegrityError:
+                self.documentos_erroneos.append(data)
+        return HttpResponse(self.documentos_erroneos)
 
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'

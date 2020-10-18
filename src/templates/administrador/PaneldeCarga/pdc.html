@@ -21,13 +21,13 @@
           <ul class="nav nav-pills flex-column flex-md-row justify-content-end" role="tablist">
             <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-auto">{{proyecto}}</h4>
             <form  method="POST" enctype="multipart/form-data">{% csrf_token %}
-            <input type="file" id="file" onchange="fileValidation()" name="importfile" class="nav-link active mg-l-20"></li>  
+            <input type="file" name="importfile" id="file" onchange="fileValidation()"  class="nav-link active mg-l-20"></li>  
+            <li class="nav-item"><a class="nav-link  mg-l-5"><button class="btn btn-outline-danger"> Importar Excel </button></li>
             </form>
-            <li class="nav-item"><a class="nav-link  mg-l-5"  data-toggle="tab" href="#" role="tab"><button class="btn btn-outline-danger">cargar</button></a></li>
 
-            <li class="nav-item"><a class="nav-link " href="{% url 'documento-crear' %}" ><button class="btn btn-outline-primary">Insertar por formulario</button></a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'documento-crear' %}"><button class="btn btn-outline-primary">Insertar por formulario</button></a></li>
          
-            <li class="nav-item"><a class="nav-link  " href="{% url 'panel-export' %}" ><button class="btn btn-outline-success" href="{% url 'panel-export' %}"  >Descargar Excel</button></a></li>
+            <li class="nav-item"><a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-outline-success"> Descargar Excel </button></a></li>
           </ul>
         </div>
   <!--Table-->
@@ -63,6 +63,7 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_inicio_Emision}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{revision.fecha}}</th>
                 <th><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-info"> Acciones </a></th>
+                <th><a href="{% url 'documento-eliminar' documento.pk %}" class="btn btn-danger"> Eliminar </a></th>
             </tr>           
             {% endfor %} 
             <!--Fin Loop-->
