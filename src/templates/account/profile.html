@@ -1,20 +1,18 @@
 {% extends 'account/login_perfil.html' %}
 
 {% block content %}
-  <div class="br-profile-page">
+  <div class="br-profile-page bg-warning">
 
       <div class="card shadow-base bd-0 rounded-0 widget-4">
-        <div class="card-header ht-75">
+        <div class="card-header ht-75" style="background-color:onion;">
        
         </div><!-- card-header -->
         <div class="card-body">
           
-          <h2 class="tx-white-9"style="color:#fff;">¡Bienvenido! </h2>
-          <div class="card-profile-img">
-            
-          </div><!-- card-profile-img -->
-          <h4 class="tx-normal tx-roboto tx-white"> {{user}} </h4>
-          <p class="mg-b-25">Insertar Cargo</p>
+          <h1 class="d-block tx-25 col-12 tx-uppercase tx-medium tx-spacing-1" style="color: white;">¡Bienvenido! </h1>
+        
+          <h2 class="d-block tx-22 col-12 tx-uppercase tx-medium tx-spacing-1" style="color: #fff;"> {{user}} </h2>
+          <p class="mg-b-25 tx-18 tx-white">Insertar Cargo</p>
 
           <!--<p class="wd-md-500 mg-md-l-auto mg-md-r-auto mg-b-25">Singer, Lawyer, Achiever, Wearer of unrelated hats, Data Visualizer, Mayonaise Tester. I don't know what alt-tab does. Storyteller.</p>-->
 
@@ -25,8 +23,10 @@
             <a href="{% url 'proyecto-crear' %}"><input type="button" class="btn btn-teal" href="{% url 'proyecto-crear' %}" value="Crear Proyecto"></a>
           </p>
         </div><!-- card-body -->
-      </div><!-- card -->
-
+      </div><!-- card -->     
+          
+    
+      </div><!-- br-pagebody -->
     
     </div><!-- br-mainpanel -->
 {% endblock content %}
