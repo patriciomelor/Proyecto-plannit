@@ -17,17 +17,23 @@
 <!--Tabla-->
   <div class="row row-sm d-flex justify-content-center" >
   <!--Upload Archivos-->
-        <div class="pd-10 bd rounded mg-t-10">
-          <ul class="nav nav-pills flex-column flex-md-row justify-content-end" role="tablist">
-            <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-auto">{{proyecto}}</h4>
-            <form  method="POST" enctype="multipart/form-data">{% csrf_token %}
-            <input type="file" name="importfile" id="file" onchange="fileValidation()"  class="nav-link active mg-l-20"></li>  
-            <li class="nav-item"><a class="nav-link  mg-l-5"><button class="btn btn-outline-danger"> Importar Excel </button></li>
+        <div class="col-12 bd rounded mg-t-10">
+          
+          <ul class="col-lg-12 nav nav-pills  justify-content-center" role="tablist">
+            
+          <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
+            <form  class="nav-item "method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+               <li class="nav-item float-left mg-t-7" style="width: auto;"><a class="nav-link active"><input type="file" name="importfile" id="file" onchange="fileValidation()"></a></li>
+
+              <li class="nav-item float-left"style="width: auto;"><a class="nav-link"><button class="btn btn-outline-danger" type="submit"> Importar </button></a></li>
+
             </form>
 
-            <li class="nav-item"><a class="nav-link" href="{% url 'documento-crear' %}"><button class="btn btn-outline-primary">Insertar por formulario</button></a></li>
+            <li class="nav-item float-left"style="width: auto;"><a class="nav-link" href="{% url 'documento-crear' %}"><button class="btn btn-outline-primary">Insertar por formulario</button></a></li>
          
-            <li class="nav-item"><a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-outline-success"> Descargar Excel </button></a></li>
+            <li class="nav-item float-left"style="width: auto;"><a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-outline-success"> Descargar Excel </button></a></li>
           </ul>
         </div>
   <!--Table-->
@@ -40,7 +46,7 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">N° Documento <br>Contractual</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>              
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">accion</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Acciones</th>
             </tr>
           </thead>
           <tbody>
@@ -51,7 +57,8 @@
               <th></th>
               <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
               <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
-              <th></th>
+              <th style="text-align: center;border: 5px;border-color: black; color: black;">Modificar</th>
+              <th style="text-align: center;border: 5px;border-color: black; color: black;">Eliminar</th>
             </tr>
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
@@ -63,7 +70,8 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_inicio_Emision}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{revision.fecha}}</th>
                 <th><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-info"> Acciones </a></th>
-                <th><a href="{% url 'documento-eliminar' documento.pk %}" class="btn btn-danger"> Eliminar </a></th>
+                <th><a href="{% url 'documento-eliminar' documento.pk %}"onclick="window.opener.location.reload('{% url 'documento-eliminar' documento.pk %}');" class="btn btn-danger"> Eliminar </a></th>
+               
             </tr>           
             {% endfor %} 
             <!--Fin Loop-->

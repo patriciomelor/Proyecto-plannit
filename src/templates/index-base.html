@@ -19,8 +19,10 @@
     <link href="{% static 'jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
     <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
     <link href="{% static 'chartist/chartist.css' %}" rel="stylesheet">
-    <link href="{% static 'select2/css/select2.min.css' %}" rel="stylesheet">
     <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
@@ -308,8 +310,8 @@
                 <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
                 <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
-                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>
-                <li><a href=""><i class="icon ion-ios-folder"></i> Collections</a></li>-->
+                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>-->
+                <li><a href="{% url 'proyecto-lista' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
                 <li><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesion</a></li>
               </ul>
             </div><!-- dropdown-menu -->
@@ -752,7 +754,6 @@
     <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
     <script src="{% static 'd3/d3.js' %}"></script>
     <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
-    <script src="{% static 'select2/js/select2.min.js' %}"></script>
     <script src="{% static 'jt.timepicker/jquery.timepicker.js' %}"></script>
     <script src="{% static 'highlightjs/highlight.pack.js' %}"></script>
 

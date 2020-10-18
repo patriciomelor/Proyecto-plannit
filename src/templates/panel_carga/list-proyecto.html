@@ -1,9 +1,11 @@
-{% extends "account/login_base.html" %}
+
+<!--{% extends "account/login_base.html" %}-->
 
 {% block content %}
-
+{% load crispy_forms_tags %}
 <form method="post">{% csrf_token %}
-    {{ form.as_p }}
+
+    {{ form|crispy }}
     <input class="btn btn-teal "type="submit" value="ELEGIR">
 </form>
 
