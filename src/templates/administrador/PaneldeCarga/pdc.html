@@ -37,10 +37,11 @@
           </ul>
         </div>
   <!--Table-->
-      <div class="bd bd-gray-300 rounded table-responsive">
+      <div class="rounded table-responsive">
         <table class="table table-striped mg-b-0 table-bordered table-primary" id="tblData">
           <thead>
             <tr>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
@@ -63,6 +64,7 @@
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
             <tr>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.nombre}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.especialidad}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.tipo}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.descripcion}} </th>

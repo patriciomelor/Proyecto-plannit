@@ -4,8 +4,13 @@
   <div class="br-profile-page bg-warning">
 
       <div class="card shadow-base bd-0 rounded-0 widget-4">
-        <div class="card-header ht-75" style="background-color:onion;">
-       
+        <div class="card-header ht-75"  style="background-color: #F49917;">
+          <a href="{% url 'account_logout' %}">
+          <button href="{% url 'account_logout' %}" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            <span >Cerrar Sesion</span>
+          </button>
+        </a>
         </div><!-- card-header -->
         <div class="card-body">
           
@@ -18,9 +23,9 @@
 
           <p class="mg-b-0 tx-24">
            
-            <a href="{% url 'proyecto-lista' %}"><input type="button" class="btn btn-teal" href="{% url 'proyecto-lista' %}" value="Elegir Proyecto"></a>
+            <a href="{% url 'proyecto-lista' %}"><input type="button" class="btn btn-warning"  href="{% url 'proyecto-lista' %}" value="Elegir Proyecto"></a>
             
-            <a href="{% url 'proyecto-crear' %}"><input type="button" class="btn btn-teal" href="{% url 'proyecto-crear' %}" value="Crear Proyecto"></a>
+            <a href="{% url 'proyecto-crear' %}"><input type="button" class="btn btn-warning"   href="{% url 'proyecto-crear' %}" value="Crear Proyecto"></a>
           </p>
         </div><!-- card-body -->
       </div><!-- card -->     
