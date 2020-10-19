@@ -20,8 +20,8 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        field = ('nombre', 'especialidad', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
-        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto', 'tipo')
+        field = ('nombre', 'especialidad', 'tipo', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
+        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto', 'tipo_doc' )
         import_id_fields = ('id')
 
 # End Document Resources
@@ -87,7 +87,9 @@ class ListDocumento(ProyectoMixin, ListView):
 
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
-        
+
+
+
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
     model = Documento
@@ -127,33 +129,30 @@ def export_document(request):
 def import_document(request):
     context = {}
     if request.method == 'POST':
-        documentos = DocumentResource()
         documentos_erroneos = []
+        documentos = DocumentResource()
         dataset = Dataset()
         new_documentos = request.FILES['importfile']
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
-        for data in imported_data:
+        for tuple_data in imported_data:
+            data = list(tuple_data)
             try:
                 Documento.objects.create(
-                    nombre= data[1],
-                    especialidad= data[2],
-                    descripcion= data[3],
-                    num_documento= data[4],
-                    fecha_inicio_Emision= data[5],
-                    fecha_fin_Emision= data[6],
+                    nombre=data[1],
+                    especialidad=data[2],
+                    tipo=data[3],
+                    num_documento=data[4],
+                    descripcion=data[5],
+                    fecha_inicio_Emision= data[6],
+                    fecha_fin_Emision= data[7],
                     proyecto= request.session.get('proyecto'),
                     owner= request.user
                 )
+
             except IntegrityError:
                 documentos_erroneos.append(data)
-            except ValueError:
-                documentos_erroneos.append(data)
-            except TypeError:
-                documentos_erroneos.append(data)
-            finally:
-                context['erroneos'] = documentos_erroneos
-        return render(request, 'panel_carga/list-error.html', context)
-    return render(request, 'panel_carga/import-documento.html')
+        context['erroneos'] = documentos_erroneos
+    return render(request, 'panel_carga/import-documento.html', context)
     
 
 
