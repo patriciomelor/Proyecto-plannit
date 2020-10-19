@@ -1,0 +1,24 @@
+{% extends "index-base.html" %}
+
+
+{% block navegacion %}
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item" href="{% url 'PanelCarga' %}">Panel de Carga</a>      
+      <span class="breadcrumb-item active"> Eliminar Documento</span>
+    </nav>
+</div>
+{% endblock navegacion %}
+
+{% block content %}
+
+        <form  class="nav-item "method="POST" enctype="multipart/form-data"> {% csrf_token %}
+
+        <li class="nav-item float-left mg-t-7" style="width: auto;"><a class="nav-link active"><input type="file" name="importfile" id="file"></a></li>
+
+        <li class="nav-item float-left"style="width: auto;"><a class="nav-link"><button class="btn btn-outline-info" type="submit"> Importar </button></a></li>
+
+        </form>
+
+{% endblock content %}
