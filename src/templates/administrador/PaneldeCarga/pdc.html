@@ -43,7 +43,7 @@
         </div>
   <!--Table-->
       <div class="rounded table-responsive">
-        <table class="table table-striped mg-b-0 table-bordered table-primary" id="tblData">
+        <table class="table table-striped mg-b-0 table-bordered table-warning" id="tblData">
           <thead>
             <tr>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
@@ -77,7 +77,7 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.num_documento}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_inicio_Emision}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{revision.fecha}}</th>
-                <th><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-info"> Acciones </a></th>
+                <th><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-teal"> Modificar </a></th>
                 <th><a href="{% url 'documento-eliminar' documento.pk %}"onclick="window.opener.location.reload('{% url 'documento-eliminar' documento.pk %}');" class="btn btn-danger"> Eliminar </a></th>
                
             </tr>           
