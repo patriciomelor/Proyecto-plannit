@@ -87,8 +87,7 @@ class ListDocumento(ProyectoMixin, ListView):
 
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
-
-
+        
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
     model = Documento
