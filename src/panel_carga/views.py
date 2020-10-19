@@ -88,7 +88,6 @@ class ListDocumento(ProyectoMixin, ListView):
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
 
-<<<<<<< HEAD
     def post(self, request, *args, **kwargs):
         dataset = Dataset()
         new_documentos = request.FILES['importfile']
@@ -116,9 +115,6 @@ class ListDocumento(ProyectoMixin, ListView):
                 self.documentos_erroneos.append(data)
         self.listado = dict(self.documentos_erroneos)
         return render(request, 'panel_carga/list-error.html', context={'errores': self.listado})
-=======
-
->>>>>>> c62914a063d63065a22e040c16011d3562d6903a
 
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
