@@ -89,7 +89,6 @@ class ListDocumento(ProyectoMixin, ListView):
         return Documento.objects.filter(proyecto=self.proyecto)
 
 
-
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
     model = Documento
@@ -127,16 +126,16 @@ def export_document(request):
     return response
 
 def import_document(request):
-    documentos_erroneos = []
     context = {}
     if request.method == 'POST':
+        documentos = DocumentResource()
+        documentos_erroneos = []
         dataset = Dataset()
         new_documentos = request.FILES['importfile']
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
-        for tuple_data in imported_data:
-            data = list(tuple_data)
+        for data in imported_data:
             try:
-                documento = Documento(
+                Documento.objects.create(
                     nombre= data[1],
                     especialidad= data[2],
                     descripcion= data[3],
@@ -146,8 +145,6 @@ def import_document(request):
                     proyecto= request.session.get('proyecto'),
                     owner= request.user
                 )
-
-                documento.save()
             except IntegrityError:
                 documentos_erroneos.append(data)
             except ValueError:
@@ -157,7 +154,7 @@ def import_document(request):
             finally:
                 context['erroneos'] = documentos_erroneos
         return render(request, 'panel_carga/list-error.html', context)
-    return render(request, 'panel_carga/import-documento.html', context={})
+    return render(request, 'panel_carga/import-documento.html')
     
 
 
