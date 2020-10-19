@@ -91,7 +91,6 @@ class ListDocumento(ProyectoMixin, ListView):
         return Documento.objects.filter(proyecto=self.proyecto)
 
     def post(self, request, *args, **kwargs):
-        document_resource = DocumentResource()
         dataset = Dataset()
         new_documentos = request.FILES['importfile']
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
@@ -113,8 +112,11 @@ class ListDocumento(ProyectoMixin, ListView):
             except IntegrityError:
                 self.documentos_erroneos.append(data)
             except ValueError:
-                pass
-        return render(request, 'panel_carga/list-error.html', {'errores': self.documentos_erroneos})
+                self.documentos_erroneos.append(data)
+            except TypeError:
+                self.documentos_erroneos.append(data)
+        self.listado = dict(self.documentos_erroneos)
+        return render(request, 'panel_carga/list-error.html', context={'errores': self.listado})
 
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'

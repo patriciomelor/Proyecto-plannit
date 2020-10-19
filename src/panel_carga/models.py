@@ -31,7 +31,7 @@ class Documento(models.Model):
     num_documento = models.CharField(verbose_name="Codigo Documento", max_length=100, unique=True)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
     # emision = models.ForeignKey(Revision, on_delete=models.CASCADE, blank=True, null=True, default=None) # debe ser un listado a partir del documento 
-    # tipo = models.ForeignKey(Tipo_Documento, on_delete=models.CASCADE, default=1)
+    tipo = models.CharField(verbose_name="Tipo Documento", max_length=15, default='PDF')
     tipo_doc = models.ForeignKey(Tipo_Documento, on_delete=models.CASCADE)
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
