@@ -12,12 +12,12 @@ ESTADO_CONTRATISTA =  (
     (2, "Para aprobación"),
 )
 
-DOCUMENT_TYPE = (
-    (1,"WORD"),
-    (2,"PDF"),
-    (3,"EXCEL"),
-    (4,"DWG"),
-)
+# DOCUMENT_TYPE = (
+#     (1,"WORD"),
+#     (2,"PDF"),
+#     (3,"EXCEL"),
+#     (4,"DWG"),
+# )
 
 
 TYPES_REVISION = (
