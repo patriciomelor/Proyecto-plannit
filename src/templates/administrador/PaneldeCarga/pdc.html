@@ -33,8 +33,55 @@
             <li class="nav-item float-left"style="width: auto;"><a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-outline-success"> Descargar Excel </button></a></li>
           </ul>
         </div>
+
+   
+
   <!--Table-->
       <div class="rounded table-responsive">
+
+        <div class="col-3 mg-t-10 mg-b-10 float-left">
+       <label for="">Buscar por Nombre:</label>
+          <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr" style="width: 100%;">
+          <span class="selection">
+          <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-yn2d-container">
+          <span class="select2-selection__rendered" id="select2-yn2d-container">
+          <span class="select2-selection__placeholder" >Choose one</span>
+        </span>
+          <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b>
+          </span>
+          </span>
+          </span>
+          <span class="dropdown-wrapper" aria-hidden="true"></span></span>
+        </div>
+        <div class="col-3 mg-t-10 mg-b-10 mg-l-10 float-left">
+              
+       <label for="">Buscar por tipo:</label>
+                <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr" style="width: 100%;">
+                <span class="selection">
+                <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-yn2d-container">
+                <span class="select2-selection__rendered" id="select2-yn2d-container">
+                <span class="select2-selection__placeholder">Choose one</span></span>
+                <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b>
+                </span>
+                </span>
+                </span>
+                <span class="dropdown-wrapper" aria-hidden="true"></span></span>
+        </div>
+        <div class="col-3 mg-t-10 mg-b-10 mg-l-10 float-left">
+                
+       <label for="">Buscar por Numero contractual:</label>
+                <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus"value="Elegir"dir="ltr" style="width: 100%;">
+                <span class="selection">
+                <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-yn2d-container">
+                <span class="select2-selection__rendered" id="select2-yn2d-container">
+                <span class="select2-selection__placeholder">Choose one</span></span>
+                <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b>
+                </span>
+                </span>
+                </span>
+                <span class="dropdown-wrapper" aria-hidden="true"></span></span>
+        </div>
+
         <table class="table table-striped mg-b-0 table-bordered table-warning" id="tblData">
           <thead>
             <tr>
@@ -48,6 +95,7 @@
             </tr>
           </thead>
           <tbody>
+          
             <tr>
               <th></th>
               <th></th>
@@ -81,39 +129,7 @@
     </div>
   </div>
 
-<script>
-  function exportTableToExcel(tableID, filename = ''){
-    var downloadLink;
-    var dataType = 'application/vnd.ms-excel';
-    var tableSelect = document.getElementById(tableID);
-    var tableHTML = tableSelect.outerHTML.replace(/ /g, '%20');
-    
-    // Specify file name
-    filename = filename?filename+'.xlsx':'DocumentosCarga.xls';
-    
-    // Create download link element
-    downloadLink = document.createElement("a");
-    
-    document.body.appendChild(downloadLink);
-    
-    if(navigator.msSaveOrOpenBlob){
-        var blob = new Blob(['ufeff', tableHTML], {
-            type: dataType
-        });
-        navigator.msSaveOrOpenBlob( blob, filename);
-    }else{
-        // Create a link to the file
-        downloadLink.href = 'data:' + dataType + ', ' + tableHTML;
-    
-        // Setting the file name
-        downloadLink.download = filename;
-        
-        //triggering the function
-        downloadLink.click();
-    }
-  }
-  }
-</script>
+
 
 <script>
   function fileValidation(){
@@ -137,7 +153,101 @@
   }
 </script>
   
-    
-   
+    <script>
+    $(document).ready(function() {
+      $('.js-example-basic-single').select2();
+  });
+  </script>
+  <script>
+        $(function(){
+        'use strict'
+
+        // Toggles
+        $('.toggle').toggles({
+          on: true,
+          height: 26
+        });
+
+        // Input Masks
+        $('#dateMask').mask('99/99/9999');
+        $('#phoneMask').mask('(999) 999-9999');
+        $('#ssnMask').mask('999-99-9999');
+
+        // Datepicker
+        $('.fc-datepicker').datepicker({
+          showOtherMonths: true,
+          selectOtherMonths: true
+        });
+
+        $('#datepickerNoOfMonths').datepicker({
+          showOtherMonths: true,
+          selectOtherMonths: true,
+          numberOfMonths: 2
+        });
+
+        // Time Picker
+        $('#tpBasic').timepicker();
+        $('#tp2').timepicker({'scrollDefault': 'now'});
+        $('#tp3').timepicker();
+
+        $('#setTimeButton').on('click', function (){
+          $('#tp3').timepicker('setTime', new Date());
+        });
+
+        // Color picker
+        $('#colorpicker').spectrum({
+          color: '#17A2B8'
+        });
+
+        $('#showAlpha').spectrum({
+          color: 'rgba(23,162,184,0.5)',
+          showAlpha: true
+        });
+
+        $('#showPaletteOnly').spectrum({
+            showPaletteOnly: true,
+            showPalette:true,
+            color: '#DC3545',
+            palette: [
+                ['#1D2939', '#fff', '#0866C6','#23BF08', '#F49917'],
+                ['#DC3545', '#17A2B8', '#6610F2', '#fa1e81', '#72e7a6']
+            ]
+        });
+
+
+        // Rangeslider
+        if($().ionRangeSlider) {
+          $('#rangeslider1').ionRangeSlider();
+
+          $('#rangeslider2').ionRangeSlider({
+              min: 100,
+              max: 1000,
+              from: 550
+          });
+
+          $('#rangeslider3').ionRangeSlider({
+              type: 'double',
+              grid: true,
+              min: 0,
+              max: 1000,
+              from: 200,
+              to: 800,
+              prefix: '$'
+          });
+
+          $('#rangeslider4').ionRangeSlider({
+              type: 'double',
+              grid: true,
+              min: -1000,
+              max: 1000,
+              from: -500,
+              to: 500,
+              step: 250
+          });
+        }
+
+      });
+    </script>
+  
 {% endblock content %}
     
