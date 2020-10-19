@@ -20,8 +20,8 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        field = ('nombre', 'especialidad', 'tipo', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
-        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto', 'tipo_doc' )
+        field = ('nombre', 'especialidad', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
+        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto', 'tipo')
         import_id_fields = ('id')
 
 # End Document Resources
@@ -88,7 +88,33 @@ class ListDocumento(ProyectoMixin, ListView):
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
 
+    def post(self, request, *args, **kwargs):
+        documentos_erroneos = []
+        dataset = Dataset()
+        new_documentos = request.FILES['importfile']
+        imported_data = dataset.load(new_documentos.read(), format='xlsx')
+        for data in imported_data:
+            try:
+                documento = Documento(
+                    nombre= data[1],
+                    especialidad= data[2],
+                    tipo= data[3],
+                    descripcion= data[4],
+                    num_documento= data[5],
+                    fecha_inicio_Emision= data[6],
+                    fecha_fin_Emision= data[7],
+                    proyecto= self.proyecto,
+                    owner= request.user
+                )
 
+                documento.save()
+            except IntegrityError:
+                documentos_erroneos.append(data)
+            except ValueError:
+                documentos_erroneos.append(data)
+            except TypeError:
+                documentos_erroneos.append(data)
+        return render(request, 'panel_carga/list-error.html', context={'errores': documentos_erroneos})
 
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
@@ -126,33 +152,6 @@ def export_document(request):
     response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
     return response
 
-def import_document(request):
-    context = {}
-    if request.method == 'POST':
-        documentos_erroneos = []
-        documentos = DocumentResource()
-        dataset = Dataset()
-        new_documentos = request.FILES['importfile']
-        imported_data = dataset.load(new_documentos.read(), format='xlsx')
-        for tuple_data in imported_data:
-            data = list(tuple_data)
-            try:
-                Documento.objects.create(
-                    nombre=data[1],
-                    especialidad=data[2],
-                    tipo=data[3],
-                    num_documento=data[4],
-                    descripcion=data[5],
-                    fecha_inicio_Emision= data[6],
-                    fecha_fin_Emision= data[7],
-                    proyecto= request.session.get('proyecto'),
-                    owner= request.user
-                )
 
-            except IntegrityError:
-                documentos_erroneos.append(data)
-        context['erroneos'] = documentos_erroneos
-    return render(request, 'panel_carga/import-documento.html', context)
-    
 
 
