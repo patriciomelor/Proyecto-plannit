@@ -1,14 +1,18 @@
 {% extends "index-base.html" %}
 {% load crispy_forms_tags %}
 
-{% block content %}
+
+{% block navegacion %}
 <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="{% url 'Escritorio' %}">Escritorio</a>      
       <a class="breadcrumb-item"> {{proyecto}}</a>
-      <span class="breadcrumb-item active"> Editar Documento</span>
+      <a class="breadcrumb-item" href="{% url 'PanelCarga' %}">Panel de Carga</a>      
+      <span class="breadcrumb-item active">Editar Documento</span>
     </nav>
 </div>
+{% endblock navegacion %}
+
+{% block content %}
 <!--Titulo-->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5"> Editar el documentos</h4>
@@ -22,14 +26,7 @@
         
         <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar">
         <input class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="button" onClick="javascript:history.go(-1);" value="Volver">
-        <a  href="{% url 'documento-eliminar' documento.pk %}"><button class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" href="{% url 'documento-eliminar' documento.pk %}"> Eliminar </button></a>
 
     </form>
-      
-      
-      
-       </div>
-        
-      
 </div>
 {% endblock %}
