@@ -83,40 +83,12 @@ class DetailDocumento(ProyectoMixin, DetailView):
 class ListDocumento(ProyectoMixin, ListView):
     model = Documento
     template_name = 'administrador/PaneldeCarga/pdc.html'
-    documentos_erroneos = []
-    extra_context = documentos_erroneos
     context_object_name = "documentos"
 
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
 
-    def post(self, request, *args, **kwargs):
-        dataset = Dataset()
-        new_documentos = request.FILES['importfile']
-        imported_data = dataset.load(new_documentos.read(), format='xlsx')
-        for tuple_data in imported_data:
-            data = list(tuple_data)
-            try:
-                documento = Documento(
-                    nombre= data[1],
-                    especialidad= data[2],
-                    descripcion= data[3],
-                    num_documento= data[4],
-                    fecha_inicio_Emision= data[5],
-                    fecha_fin_Emision= data[6],
-                    proyecto= self.proyecto,
-                    owner= request.user
-                )
 
-                documento.save()
-            except IntegrityError:
-                self.documentos_erroneos.append(data)
-            except ValueError:
-                self.documentos_erroneos.append(data)
-            except TypeError:
-                self.documentos_erroneos.append(data)
-        self.listado = dict(self.documentos_erroneos)
-        return render(request, 'panel_carga/list-error.html', context={'errores': self.listado})
 
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
@@ -154,6 +126,38 @@ def export_document(request):
     response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
     return response
 
+def import_document(request):
+    documentos_erroneos = []
+    context = {}
+    if request.method == 'POST':
+        dataset = Dataset()
+        new_documentos = request.FILES['importfile']
+        imported_data = dataset.load(new_documentos.read(), format='xlsx')
+        for tuple_data in imported_data:
+            data = list(tuple_data)
+            try:
+                documento = Documento(
+                    nombre= data[1],
+                    especialidad= data[2],
+                    descripcion= data[3],
+                    num_documento= data[4],
+                    fecha_inicio_Emision= data[5],
+                    fecha_fin_Emision= data[6],
+                    proyecto= request.session.get('proyecto'),
+                    owner= request.user
+                )
 
+                documento.save()
+            except IntegrityError:
+                documentos_erroneos.append(data)
+            except ValueError:
+                documentos_erroneos.append(data)
+            except TypeError:
+                documentos_erroneos.append(data)
+            finally:
+                context['erroneos'] = documentos_erroneos
+        return render(request, 'panel_carga/list-error.html', context)
+    return render(request, 'panel_carga/import-documento.html', context={})
+    
 
 
