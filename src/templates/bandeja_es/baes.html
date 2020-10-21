@@ -19,9 +19,12 @@
     <p class="mg-b-0"></p>
   </div>
 
+ 
 <div class="col-lg-12 mg-t-20 mg-lg-t-0">
             <div class="card shadow-base bd-0">
+
               <div class="card-header pd-20 bg-transparent">
+                <a href="{% url 'paquete-crear' %}"><input type="button" class="btn btn-primary tx-9 tx-uppercase pd-y-10 pd-x-5 tx-mont tx-medium" value="Crear Paquete"></a>
                 <h6 class="card-title tx-uppercase tx-12 mg-b-0"></h6>
               </div><!-- card-header -->
               <table class="table table-responsive mg-b-0 tx-12">
@@ -38,16 +41,16 @@
                   </tr>
                 </thead>
                 <tbody>
-                  {% for documento in documentos %}
+                  {% for paquete in paquetes %}
                   <tr>
                     <td>
-                      <a href="" class="tx-inverse tx-14 tx-medium d-block">{{documento.num_documento}}</a>
+                      <a href="" class="tx-inverse tx-14 tx-medium d-block">{{paquete.pk}}</a>
                     </td>
-                    <td class="valign-middle tx-right">{{documento.num_documento}}</td>
-                    <td class="valign-middle"><span class="tx-success"><i class="icon ion-android-arrow-up mg-r-5"></i>33.34%</span> from last week</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td class="valign-middle tx-right">{{paquete.nombre}}</td>
+                    <td class="valign-middle tx-right">{{paquete.owner}}</td>
+                    <td class="valign-middle tx-right">{{paquete.owner}}</td>
+                    <td class="valign-middle tx-right">{{paquete.owner}}</td>
+                    <td class="valign-middle tx-right">{{paquete.owner}}</td>
                     <td><span class="tx-11 d-block"><span class="square-8 bg-success mg-r-5 rounded-circle"></span> 20 </span></td>
                     <td class="valign-middle tx-center">
                       <a href="" class="tx-gray-600 tx-24"><i class="icon ion-android-more-horizontal"></i></a>

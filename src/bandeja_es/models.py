@@ -9,7 +9,7 @@ class Paquete(models.Model):
     nombre = models.CharField(verbose_name="Nombre del paquete", max_length=100, blank=False)
     fecha_creacion = models.DateField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
     fecha_respuesta = models.DateField(verbose_name="Fecha de respuesta", editable=True) #a que fecha corresponde?
-    asunto = models.TextField(verbose_name="Emitida para")
+    asunto = models.TextField(verbose_name="Descripción")
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     periodo = models.CharField(verbose_name="Periodo", max_length=20) #ej Agosto 2020
 
