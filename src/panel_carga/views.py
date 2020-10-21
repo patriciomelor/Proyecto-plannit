@@ -82,7 +82,7 @@ class DetailDocumento(ProyectoMixin, DetailView):
 
 class ListDocumento(ProyectoMixin, ListView):
     model = Documento
-    template_name = 'administrador/PaneldeCarga/pdc.html'
+    template_name = 'admin/PaneldeCarga/pdc.html'
     context_object_name = "documentos"
 
     def get_queryset(self):

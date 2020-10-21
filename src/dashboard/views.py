@@ -23,11 +23,11 @@ class IndexView(ProyectoMixin, TemplateView):
     
 
 class EscritorioView(ProyectoMixin, TemplateView):
-    template_name = "administrador/Escritorio/dash.html"
+    template_name = "admin/Escritorio/dash.html"
 
 
 class BaesView(ProyectoMixin, TemplateView):
-    template_name = "administrador/BandejaEyS/baes.html"
+    template_name = "admin/BandejaEyS/baes.html"
 
     # model = Documento
     # context_object_name = "documentos"
@@ -51,5 +51,5 @@ class BaesView(ProyectoMixin, TemplateView):
 
 
 class BorradorView(ProyectoMixin, TemplateView):
-    template_name = "administrador/Borradores/borrador.html"
+    template_name = "admin/Borradores/borrador.html"
 
