@@ -6,3 +6,6 @@ from panel_carga.views import ProyectoMixin
 
 # from .models import 
 # Create your views here.
+
+class IndexView(ProyectoMixin, TemplateView):
+    template_name = 'bandeja_es/baes.html'
