@@ -20,8 +20,8 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        field = ('nombre', 'especialidad', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
-        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto', 'tipo')
+        field = ('nombre', 'especialidad','tipo', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
+        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
         import_id_fields = ('id')
 
 # End Document Resources
@@ -82,7 +82,7 @@ class DetailDocumento(ProyectoMixin, DetailView):
 
 class ListDocumento(ProyectoMixin, ListView):
     model = Documento
-    template_name = 'administrador/PaneldeCarga/pdc.html'
+    template_name = 'admin/PaneldeCarga/pdc.html'
     context_object_name = "documentos"
 
     def get_queryset(self):
