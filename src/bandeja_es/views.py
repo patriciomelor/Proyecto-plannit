@@ -34,8 +34,8 @@ class CrearPaquete(ProyectoMixin, CreateView):
         return render(request, self.template_name, context={'form': form})
 
     def form_valid(self, form):
-
-        form.instance.owner = self.request.user
+        documentos = form.cleaned_data.get('documento')
+        print(documentos)
         return super().form_valid(form)
     
 
