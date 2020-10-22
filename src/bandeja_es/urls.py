@@ -4,5 +4,6 @@ from . import views
 
 urlpatterns = [
     path('index/', views.IndexView.as_view(), name= 'Bandejaeys'),
-    path('paquete/crear/', login_required(views.create_paquete), name='paquete-crear'),
+    path('paquete/crear/', views.CreatePaquete.as_view(), name='paquete-crear'),
+    path('paquete/cargar/<pk>/', login_required(views.cargar_documentos), name='cargar-documentos' )
 ]
