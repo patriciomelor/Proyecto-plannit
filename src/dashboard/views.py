@@ -26,10 +26,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
     template_name = "administrador/Escritorio/dash.html"
 
 
-class BaesView(ProyectoMixin, TemplateView):
-    template_name = "administrador/BandejaEyS/baes.html"
-
-
 class BorradorView(ProyectoMixin, TemplateView):
     template_name = "administrador/Borradores/borrador.html"
 

@@ -1,6 +1,4 @@
 from django.db import models
-<<<<<<< HEAD
-=======
 from django.contrib.auth.models import User
 
 from panel_carga.models import Documento
@@ -11,7 +9,7 @@ class Paquete(models.Model):
     nombre = models.CharField(verbose_name="Nombre del paquete", max_length=100, blank=False)
     fecha_creacion = models.DateField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
     fecha_respuesta = models.DateField(verbose_name="Fecha de respuesta", editable=True) #a que fecha corresponde?
-    asunto = models.TextField(verbose_name="Emitida para")
+    asunto = models.TextField(verbose_name="Descripcion")
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     periodo = models.CharField(verbose_name="Periodo", max_length=20) #ej Agosto 2020
 
@@ -23,6 +21,5 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
     documento_id = models.ForeignKey(Documento, on_delete=models.CASCADE)
     paquete_id = models.ForeignKey(Paquete, on_delete=models.CASCADE)
     cantidad = models.IntegerField(default=1)
->>>>>>> parent of a893e82... funcion crear paquete, no guarda pero carga
-
+    fecha_creacion = models.DateField(verbose_name="Fecha de creacion", auto_now_add=True, editable=False)
 # Create your models here.
