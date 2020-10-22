@@ -9,3 +9,5 @@ src/panel_carga/__pycache__/urls.cpython-37.pyc
 src/panel_carga/__pycache__/urls.cpython-38.pyc
 src/panel_carga/__pycache__/views.cpython-37.pyc
 src/panel_carga/__pycache__/views.cpython-38.pyc
+src/dmp/__pycache__/urls.cpython-37.pyc
+*.pyc
