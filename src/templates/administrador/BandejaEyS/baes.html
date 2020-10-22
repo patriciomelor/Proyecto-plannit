@@ -1,60 +1,443 @@
-{% extends 'index-base.html' %}
+{% extends 'index-blank.html' %}
 
 {% block content %}   
-<div class="br-pageheader pd-y-15 pd-l-20">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="{% url 'index' %}">Escritorio</a>
-      <span class="breadcrumb-item active">Bandeja de Entrada y Salida</span>
-    </nav>
-  </div>
-<!--Titulo-->
-  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Bandeja de Entrada y Salida</h4>
-    <p class="mg-b-0"></p>
+
+<div class="br-subleft">
+  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">Filter Users</h6>
+
+  <div class="mg-t-20 pd-x-10 mg-b-40">
+    <div class="form-group">
+      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Enter name of user">
+    </div><!-- form-group -->
+    <div class="form-group">
+      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Enter location of user">
+    </div><!-- form-group -->
+    <button class="btn btn-info btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium">Filter List</button>
   </div>
 
-<div class="col-lg-12 mg-t-20 mg-lg-t-0">
-            <div class="card shadow-base bd-0">
-              <div class="card-header pd-20 bg-transparent">
-                <h6 class="card-title tx-uppercase tx-12 mg-b-0"></h6>
-              </div><!-- card-header -->
-              <table class="table table-responsive mg-b-0 tx-12">
-                <thead>
-                  <tr class="tx-10">
-                    <th class="pd-y-5">Package Number</th>
-                    <th class="pd-y-5 tx-right">Nombre</th>
-                    <th class="pd-y-5">Propietario</th>
-                    <th class="pd-y-5 tx-center">Revisado por</th>
-                    <th class="pd-y-5">Revisado</th>
-                    <th class="pd-y-5 tx-right">Status</th>
-                    <th class="pd-y-5">Cant. Reviciones</th>
-                    <th class="pd-y-5">Accion</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {% for documento in documentos %}
-                  <tr>
-                    <td>
-                      <a href="" class="tx-inverse tx-14 tx-medium d-block">{{documento.num_documento}}</a>
-                    </td>
-                    <td class="valign-middle tx-right">{{documento.num_documento}}</td>
-                    <td class="valign-middle"><span class="tx-success"><i class="icon ion-android-arrow-up mg-r-5"></i>33.34%</span> from last week</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td><span class="tx-11 d-block"><span class="square-8 bg-success mg-r-5 rounded-circle"></span> 20 </span></td>
-                    <td class="valign-middle tx-center">
-                      <a href="" class="tx-gray-600 tx-24"><i class="icon ion-android-more-horizontal"></i></a>
-                    </td>
-                  </tr>
-                  {% endfor %} 
-                  
-                 
-                </tbody>
-              </table>
-              <div class="card-footer tx-12 pd-y-15 bg-transparent">
-                <a href=""><i class="fa fa-angle-down mg-r-5"></i>Ver Mas.</a>
-              </div><!-- card-footer -->
-            </div><!-- card -->
-          </div>
+  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">User Groups</h6>
+
+  <nav class="nav br-nav-mailbox flex-column">
+    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> My Co-Workers</a>
+    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> Family</a>
+    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> Friends</a>
+    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> Others</a>
+  </nav>
+</div><!-- br-subleft -->
+
+<div class="br-contentpanel">
+  <div class="br-pageheader pd-y-15 pd-md-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" href="index.html">Bracket</a>
+      <a class="breadcrumb-item" href="pages.html">Pages</a>
+      <span class="breadcrumb-item active">Contacts Manager</span>
+    </nav>
+  </div><!-- br-pageheader -->
+
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Contacts Manager</h4>
+    <p class="mg-b-0">This is the contact manager where you can manage users/contacts.</p>
+  </div>
+
+  <div class="d-flex align-items-center justify-content-start pd-x-20 pd-sm-x-30 pd-t-25 mg-b-20 mg-sm-b-30">
+
+    <button id="showSubLeft" class="btn btn-secondary mg-r-10 hidden-lg-up"><i class="fa fa-navicon"></i></button>
+
+    <!-- START: DISPLAYED FOR MOBILE ONLY -->
+    <div class="dropdown hidden-sm-up">
+      <a href="#" class="btn btn-outline-secondary" data-toggle="dropdown"><i class="icon ion-more"></i></a>
+      <div class="dropdown-menu pd-10">
+        <nav class="nav nav-style-1 flex-column">
+          <a href="" class="nav-link">Share</a>
+          <a href="" class="nav-link">Download</a>
+          <div class="dropdown-divider"></div>
+          <a href="" class="nav-link">Edit</a>
+          <a href="" class="nav-link">Delete</a>
+        </nav>
+      </div><!-- dropdown-menu -->
+    </div><!-- dropdown -->
+    <!-- END: DISPLAYED FOR MOBILE ONLY -->
+
+    <div class="btn-group hidden-xs-down">
+      <a href="#" class="btn btn-outline-info"><i class="fa fa-th"></i></a>
+      <a href="#" class="btn btn-outline-info active"><i class="fa fa-th-list"></i></a>
+    </div><!-- btn-group -->
+
+    <div class="mg-l-auto hidden-xs-down">
+      <a href="#" class="btn btn-info">New Contact</a>
+      <a href="#" class="btn btn-outline-info mg-l-5">Add to Group</a>
+    </div>
+
+  </div><!-- d-flex -->
+
+  <div class="br-pagebody pd-x-20 pd-sm-x-30">
+    <div class="card bd-0 shadow-base">
+      <table class="table mg-b-0 table-contact">
+        <thead>
+          <tr>
+            <th class="wd-5p">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </th>
+            <th class="tx-10-force tx-mont tx-medium">Name / Email</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Phone</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Salary</th>
+            <th class="wd-5p hidden-xs-down"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td class="valign-middle">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                <div class="mg-l-15">
+                  <div class="tx-inverse">Katherine Lumaad</div>
+                  <span class="tx-12">klumaad@themepixels.me</span>
+                </div>
+              </div>
+            </td>
+            <td class="valign-middle hidden-xs-down">+1 234 6789</td>
+            <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td class="dropdown hidden-xs-down">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column">
+                  <a href="" class="nav-link">Info</a>
+                  <a href="" class="nav-link">Email</a>
+                  <a href="" class="nav-link">Edit</a>
+                  <a href="" class="nav-link">Delete</a>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+          </tr>
+          <tr>
+            <td class="valign-middle">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                <div class="mg-l-15">
+                  <div class="tx-inverse">Gorgonia Magalpok</div>
+                  <span class="tx-12">you@themepixels.me</span>
+                </div>
+              </div>
+            </td>
+            <td class="valign-middle hidden-xs-down">+1 743 2423</td>
+            <td class="valign-middle hidden-xs-down">$40,000</td>
+            <td class="dropdown hidden-xs-down">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column">
+                  <a href="" class="nav-link">Info</a>
+                  <a href="" class="nav-link">Email</a>
+                  <a href="" class="nav-link">Edit</a>
+                  <a href="" class="nav-link">Delete</a>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+          </tr>
+          <tr>
+            <td class="valign-middle">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                <div class="mg-l-15">
+                  <div class="tx-inverse">Marilyn Tarter</div>
+                  <span class="tx-12">mrilyn@themepixels.me</span>
+                </div>
+              </div>
+            </td>
+            <td class="valign-middle hidden-xs-down">+1 234 1211</td>
+            <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td class="dropdown hidden-xs-down">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column">
+                  <a href="" class="nav-link">Info</a>
+                  <a href="" class="nav-link">Email</a>
+                  <a href="" class="nav-link">Edit</a>
+                  <a href="" class="nav-link">Delete</a>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+          </tr>
+          <tr>
+            <td class="valign-middle">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                <div class="mg-l-15">
+                  <div class="tx-inverse">Belinda Connor</div>
+                  <span class="tx-12">klumaad@themepixels.me</span>
+                </div>
+              </div>
+            </td>
+            <td class="valign-middle hidden-xs-down">+1 234 2222</td>
+            <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td class="dropdown hidden-xs-down">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column">
+                  <a href="" class="nav-link">Info</a>
+                  <a href="" class="nav-link">Email</a>
+                  <a href="" class="nav-link">Edit</a>
+                  <a href="" class="nav-link">Delete</a>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+          </tr>
+          <tr>
+            <td class="valign-middle">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                <div class="mg-l-15">
+                  <div class="tx-inverse">Brandon Lawrence</div>
+                  <span class="tx-12">brandon@themepixels.me</span>
+                </div>
+              </div>
+            </td>
+            <td class="valign-middle hidden-xs-down">+1 111 6789</td>
+            <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td class="dropdown hidden-xs-down">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column">
+                  <a href="" class="nav-link">Info</a>
+                  <a href="" class="nav-link">Email</a>
+                  <a href="" class="nav-link">Edit</a>
+                  <a href="" class="nav-link">Delete</a>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+          </tr>
+          <tr>
+            <td class="valign-middle">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                <div class="mg-l-15">
+                  <div class="tx-inverse">Katherine Lumaad</div>
+                  <span class="tx-12">klumaad@themepixels.me</span>
+                </div>
+              </div>
+            </td>
+            <td class="valign-middle hidden-xs-down">+1 234 6789</td>
+            <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td class="dropdown hidden-xs-down">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column">
+                  <a href="" class="nav-link">Info</a>
+                  <a href="" class="nav-link">Email</a>
+                  <a href="" class="nav-link">Edit</a>
+                  <a href="" class="nav-link">Delete</a>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+          </tr>
+          <tr>
+            <td class="valign-middle">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                <div class="mg-l-15">
+                  <div class="tx-inverse">Gorgonia Magalpok</div>
+                  <span class="tx-12">you@themepixels.me</span>
+                </div>
+              </div>
+            </td>
+            <td class="valign-middle hidden-xs-down">+1 743 2423</td>
+            <td class="valign-middle hidden-xs-down">$40,000</td>
+            <td class="dropdown hidden-xs-down">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column">
+                  <a href="" class="nav-link">Info</a>
+                  <a href="" class="nav-link">Email</a>
+                  <a href="" class="nav-link">Edit</a>
+                  <a href="" class="nav-link">Delete</a>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+          </tr>
+          <tr>
+            <td class="valign-middle">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                <div class="mg-l-15">
+                  <div class="tx-inverse">Marilyn Tarter</div>
+                  <span class="tx-12">mrilyn@themepixels.me</span>
+                </div>
+              </div>
+            </td>
+            <td class="valign-middle hidden-xs-down">+1 234 1211</td>
+            <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td class="dropdown hidden-xs-down">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column">
+                  <a href="" class="nav-link">Info</a>
+                  <a href="" class="nav-link">Email</a>
+                  <a href="" class="nav-link">Edit</a>
+                  <a href="" class="nav-link">Delete</a>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+          </tr>
+          <tr>
+            <td class="valign-middle">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                <div class="mg-l-15">
+                  <div class="tx-inverse">Belinda Connor</div>
+                  <span class="tx-12">klumaad@themepixels.me</span>
+                </div>
+              </div>
+            </td>
+            <td class="valign-middle hidden-xs-down">+1 234 2222</td>
+            <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td class="dropdown hidden-xs-down">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column">
+                  <a href="" class="nav-link">Info</a>
+                  <a href="" class="nav-link">Email</a>
+                  <a href="" class="nav-link">Edit</a>
+                  <a href="" class="nav-link">Delete</a>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+          </tr>
+          <tr>
+            <td class="valign-middle">
+              <label class="ckbox mg-b-0">
+                <input type="checkbox"><span></span>
+              </label>
+            </td>
+            <td>
+              <div class="d-flex align-items-center">
+                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
+                <div class="mg-l-15">
+                  <div class="tx-inverse">Brandon Lawrence</div>
+                  <span class="tx-12">brandon@themepixels.me</span>
+                </div>
+              </div>
+            </td>
+            <td class="valign-middle hidden-xs-down">+1 111 6789</td>
+            <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td class="dropdown hidden-xs-down">
+              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
+              <div class="dropdown-menu dropdown-menu-right pd-10">
+                <nav class="nav nav-style-1 flex-column">
+                  <a href="" class="nav-link">Info</a>
+                  <a href="" class="nav-link">Email</a>
+                  <a href="" class="nav-link">Edit</a>
+                  <a href="" class="nav-link">Delete</a>
+                </nav>
+              </div><!-- dropdown-menu -->
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div><!-- br-pagebody -->
+  <footer class="br-footer">
+     <div class="footer-left">
+      <div class="mg-b-2">Copyright &copy; 2017. Bracket. All Rights Reserved.</div>
+      <div>Attentively and carefully made by ThemePixels.</div>
+    </div>
+    <div class="footer-right d-flex align-items-center">
+      <span class="tx-uppercase mg-r-10">Share:</span>
+      <a target="_blank" class="pd-x-5" href="https://www.facebook.com/sharer/sharer.php?u=http%3A//themepixels.me/bracket/intro"><i class="fa fa-facebook tx-20"></i></a>
+      <a target="_blank" class="pd-x-5" href="https://twitter.com/home?status=Bracket,%20your%20best%20choice%20for%20premium%20quality%20admin%20template%20from%20Bootstrap.%20Get%20it%20now%20at%20http%3A//themepixels.me/bracket/intro"><i class="fa fa-twitter tx-20"></i></a>
+    </div>
+  </footer>
+</div><!-- br-contentpanel -->
+ 
+<!--Script-->
+<script>
+  $(function(){
+    'use strict';
+
+    // show only the icons and hide left menu label by default
+    $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
+
+    $(document).on('mouseover', function(e){
+      e.stopPropagation();
+      if($('body').hasClass('collapsed-menu')) {
+        var targ = $(e.target).closest('.br-sideleft').length;
+        if(targ) {
+          $('body').addClass('expand-menu');
+
+          // show current shown sub menu that was hidden from collapsed
+          $('.show-sub + .br-menu-sub').slideDown();
+
+          var menuText = $('.menu-item-label,.menu-item-arrow');
+          menuText.removeClass('d-lg-none');
+          menuText.removeClass('op-lg-0-force');
+
+        } else {
+          $('body').removeClass('expand-menu');
+
+          // hide current shown menu
+          $('.show-sub + .br-menu-sub').slideUp();
+
+          var menuText = $('.menu-item-label,.menu-item-arrow');
+          menuText.addClass('op-lg-0-force');
+          menuText.addClass('d-lg-none');
+        }
+      }
+    });
+
+    // Showing sub left menu
+    $('#showSubLeft').on('click', function(){
+      if($('body').hasClass('show-subleft')) {
+        $('body').removeClass('show-subleft');
+      } else {
+        $('body').addClass('show-subleft');
+      }
+    });
+
+  });
+</script>
 {% endblock content %}
