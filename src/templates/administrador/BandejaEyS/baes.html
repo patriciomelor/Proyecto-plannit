@@ -7,36 +7,35 @@
 
   <div class="mg-t-20 pd-x-10 mg-b-40">
     <div class="form-group">
-      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Enter name of user">
+      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Nombre de paquete">
     </div><!-- form-group -->
     <div class="form-group">
-      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Enter location of user">
+      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Usuario">
     </div><!-- form-group -->
-    <button class="btn btn-info btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium">Filter List</button>
+    <button class="btn btn-info btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium">Filtros</button>
   </div>
 
-  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">User Groups</h6>
+  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
 
   <nav class="nav br-nav-mailbox flex-column">
-    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> My Co-Workers</a>
-    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> Family</a>
-    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> Friends</a>
-    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> Others</a>
+    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
+    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
+    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
+    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Todos</strong></a>
   </nav>
 </div><!-- br-subleft -->
 
 <div class="br-contentpanel">
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" href="index.html">Bracket</a>
-      <a class="breadcrumb-item" href="pages.html">Pages</a>
-      <span class="breadcrumb-item active">Contacts Manager</span>
+      <a class="breadcrumb-item" href="index.html">Escritorio</a>
+      <span class="breadcrumb-item active">Bandeja de Entrada y Salida</span>
     </nav>
   </div><!-- br-pageheader -->
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Contacts Manager</h4>
-    <p class="mg-b-0">This is the contact manager where you can manage users/contacts.</p>
+    <h4 class="tx-gray-800 mg-b-5">Bandeja de Entrada y Salida</h4>
+    <p class="mg-b-0"></p>
   </div>
 
   <div class="d-flex align-items-center justify-content-start pd-x-20 pd-sm-x-30 pd-t-25 mg-b-20 mg-sm-b-30">
@@ -64,8 +63,8 @@
     </div><!-- btn-group -->
 
     <div class="mg-l-auto hidden-xs-down">
-      <a href="#" class="btn btn-info">New Contact</a>
-      <a href="#" class="btn btn-outline-info mg-l-5">Add to Group</a>
+      <a href="#" class="btn btn-info">Nuevo Paquete</a>
+      <!--<a href="#" class="btn btn-outline-info mg-l-5">Add to Group</a>-->
     </div>
 
   </div><!-- d-flex -->
@@ -80,9 +79,13 @@
                 <input type="checkbox"><span></span>
               </label>
             </th>
-            <th class="tx-10-force tx-mont tx-medium">Name / Email</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Phone</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Salary</th>
+            <th class="tx-10-force tx-mont tx-medium">Package Number</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Name</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Owner</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">issued for</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">respond by</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">status</th>            
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Owner</th>
             <th class="wd-5p hidden-xs-down"></th>
           </tr>
         </thead>
@@ -104,6 +107,10 @@
             </td>
             <td class="valign-middle hidden-xs-down">+1 234 6789</td>
             <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td class="dropdown hidden-xs-down">
               <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
               <div class="dropdown-menu dropdown-menu-right pd-10">
@@ -133,6 +140,10 @@
             </td>
             <td class="valign-middle hidden-xs-down">+1 743 2423</td>
             <td class="valign-middle hidden-xs-down">$40,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td class="dropdown hidden-xs-down">
               <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
               <div class="dropdown-menu dropdown-menu-right pd-10">
@@ -162,6 +173,10 @@
             </td>
             <td class="valign-middle hidden-xs-down">+1 234 1211</td>
             <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td class="dropdown hidden-xs-down">
               <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
               <div class="dropdown-menu dropdown-menu-right pd-10">
@@ -191,6 +206,10 @@
             </td>
             <td class="valign-middle hidden-xs-down">+1 234 2222</td>
             <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td class="dropdown hidden-xs-down">
               <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
               <div class="dropdown-menu dropdown-menu-right pd-10">
@@ -220,6 +239,10 @@
             </td>
             <td class="valign-middle hidden-xs-down">+1 111 6789</td>
             <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td class="dropdown hidden-xs-down">
               <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
               <div class="dropdown-menu dropdown-menu-right pd-10">
@@ -249,6 +272,10 @@
             </td>
             <td class="valign-middle hidden-xs-down">+1 234 6789</td>
             <td class="valign-middle hidden-xs-down">$23,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td class="dropdown hidden-xs-down">
               <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
               <div class="dropdown-menu dropdown-menu-right pd-10">
@@ -278,6 +305,10 @@
             </td>
             <td class="valign-middle hidden-xs-down">+1 743 2423</td>
             <td class="valign-middle hidden-xs-down">$40,000</td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
             <td class="dropdown hidden-xs-down">
               <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
               <div class="dropdown-menu dropdown-menu-right pd-10">
@@ -290,108 +321,11 @@
               </div><!-- dropdown-menu -->
             </td>
           </tr>
-          <tr>
-            <td class="valign-middle">
-              <label class="ckbox mg-b-0">
-                <input type="checkbox"><span></span>
-              </label>
-            </td>
-            <td>
-              <div class="d-flex align-items-center">
-                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                <div class="mg-l-15">
-                  <div class="tx-inverse">Marilyn Tarter</div>
-                  <span class="tx-12">mrilyn@themepixels.me</span>
-                </div>
-              </div>
-            </td>
-            <td class="valign-middle hidden-xs-down">+1 234 1211</td>
-            <td class="valign-middle hidden-xs-down">$23,000</td>
-            <td class="dropdown hidden-xs-down">
-              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
-              <div class="dropdown-menu dropdown-menu-right pd-10">
-                <nav class="nav nav-style-1 flex-column">
-                  <a href="" class="nav-link">Info</a>
-                  <a href="" class="nav-link">Email</a>
-                  <a href="" class="nav-link">Edit</a>
-                  <a href="" class="nav-link">Delete</a>
-                </nav>
-              </div><!-- dropdown-menu -->
-            </td>
-          </tr>
-          <tr>
-            <td class="valign-middle">
-              <label class="ckbox mg-b-0">
-                <input type="checkbox"><span></span>
-              </label>
-            </td>
-            <td>
-              <div class="d-flex align-items-center">
-                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                <div class="mg-l-15">
-                  <div class="tx-inverse">Belinda Connor</div>
-                  <span class="tx-12">klumaad@themepixels.me</span>
-                </div>
-              </div>
-            </td>
-            <td class="valign-middle hidden-xs-down">+1 234 2222</td>
-            <td class="valign-middle hidden-xs-down">$23,000</td>
-            <td class="dropdown hidden-xs-down">
-              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
-              <div class="dropdown-menu dropdown-menu-right pd-10">
-                <nav class="nav nav-style-1 flex-column">
-                  <a href="" class="nav-link">Info</a>
-                  <a href="" class="nav-link">Email</a>
-                  <a href="" class="nav-link">Edit</a>
-                  <a href="" class="nav-link">Delete</a>
-                </nav>
-              </div><!-- dropdown-menu -->
-            </td>
-          </tr>
-          <tr>
-            <td class="valign-middle">
-              <label class="ckbox mg-b-0">
-                <input type="checkbox"><span></span>
-              </label>
-            </td>
-            <td>
-              <div class="d-flex align-items-center">
-                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
-                <div class="mg-l-15">
-                  <div class="tx-inverse">Brandon Lawrence</div>
-                  <span class="tx-12">brandon@themepixels.me</span>
-                </div>
-              </div>
-            </td>
-            <td class="valign-middle hidden-xs-down">+1 111 6789</td>
-            <td class="valign-middle hidden-xs-down">$23,000</td>
-            <td class="dropdown hidden-xs-down">
-              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
-              <div class="dropdown-menu dropdown-menu-right pd-10">
-                <nav class="nav nav-style-1 flex-column">
-                  <a href="" class="nav-link">Info</a>
-                  <a href="" class="nav-link">Email</a>
-                  <a href="" class="nav-link">Edit</a>
-                  <a href="" class="nav-link">Delete</a>
-                </nav>
-              </div><!-- dropdown-menu -->
-            </td>
-          </tr>
+       
         </tbody>
       </table>
     </div>
   </div><!-- br-pagebody -->
-  <footer class="br-footer">
-     <div class="footer-left">
-      <div class="mg-b-2">Copyright &copy; 2017. Bracket. All Rights Reserved.</div>
-      <div>Attentively and carefully made by ThemePixels.</div>
-    </div>
-    <div class="footer-right d-flex align-items-center">
-      <span class="tx-uppercase mg-r-10">Share:</span>
-      <a target="_blank" class="pd-x-5" href="https://www.facebook.com/sharer/sharer.php?u=http%3A//themepixels.me/bracket/intro"><i class="fa fa-facebook tx-20"></i></a>
-      <a target="_blank" class="pd-x-5" href="https://twitter.com/home?status=Bracket,%20your%20best%20choice%20for%20premium%20quality%20admin%20template%20from%20Bootstrap.%20Get%20it%20now%20at%20http%3A//themepixels.me/bracket/intro"><i class="fa fa-twitter tx-20"></i></a>
-    </div>
-  </footer>
 </div><!-- br-contentpanel -->
  
 <!--Script-->
