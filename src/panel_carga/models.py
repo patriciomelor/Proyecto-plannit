@@ -28,7 +28,7 @@ class Documento(models.Model):
     nombre = models.CharField(verbose_name="Nombre del Documento", max_length=100, blank=False) #deberia ir un editable=False? debido a que no deberia cambiarse el nombre de un documento
     especialidad = models.CharField(verbose_name="Especialidad", max_length=100, blank=False)
     descripcion = models.TextField(verbose_name="Descripción", blank=False)
-    num_documento = models.CharField(verbose_name="Codigo Documento", max_length=100)
+    num_documento = models.CharField(verbose_name="Codigo Documento",unique=True, max_length=100)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
     # emision = models.ForeignKey(Revision, on_delete=models.CASCADE, blank=True, null=True, default=None) # debe ser un listado a partir del documento 
     tipo = models.CharField(verbose_name="Tipo Documento", max_length=15, default='PDF')
@@ -64,9 +64,10 @@ class Revision(models.Model):
 #por ende esta tabla deberia mejorar 
 class Historial(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True) #Quien lo edito
-    fecha = models.DateTimeField(verbose_name="Fecha ultima edicion", auto_now_add=True, editable=False, blank=True) #fecha de la edicion
+    fecha = models.DateTimeField(verbose_name="Fecha ultima edicion", editable=False, blank=True) #fecha de la edicion
     documento = models.ForeignKey(Documento, on_delete=models.CASCADE, blank=True) 
 
     def __str__(self):
         return self.fecha
+
 

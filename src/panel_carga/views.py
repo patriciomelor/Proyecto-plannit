@@ -1,4 +1,5 @@
 import os.path
+import datetime
 from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -81,7 +82,7 @@ class DetailDocumento(ProyectoMixin, DetailView):
 
 class ListDocumento(ProyectoMixin, ListView):
     model = Documento
-    template_name = 'admin/PaneldeCarga/pdc.html'
+    template_name = 'administrador/PaneldeCarga/pdc.html'
     context_object_name = "documentos"
 
     def get_queryset(self):
@@ -131,6 +132,7 @@ class UpdateDocumento(ProyectoMixin, UpdateView):
     def form_valid(self, form):
         registro = Historial.objects.create(
             owner= self.request.user,
+            fecha= datetime.datetime.now(),
             documento= Documento.objects.get(pk=self.kwargs['pk'])
         )
         return super().form_valid(form)

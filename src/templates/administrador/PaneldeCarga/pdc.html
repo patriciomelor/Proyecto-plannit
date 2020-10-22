@@ -47,7 +47,7 @@
   <!--Table-->
       <div class="rounded table-responsive">
 
-        <div class="col-3 mg-t-10 mg-b-10 float-left">
+        <div class="col-2 mg-t-10 mg-b-10 float-left">
        <label for="">Buscar por Nombre:</label>
           <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr" style="width: 100%;">
           <span class="selection">
@@ -61,7 +61,7 @@
           </span>
           <span class="dropdown-wrapper" aria-hidden="true"></span></span>
         </div>
-        <div class="col-3 mg-t-10 mg-b-10 mg-l-10 float-left">
+        <div class="col-2 mg-t-10 mg-b-10 float-left">
               
        <label for="">Buscar por tipo:</label>
                 <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr" style="width: 100%;">
@@ -75,7 +75,21 @@
                 </span>
                 <span class="dropdown-wrapper" aria-hidden="true"></span></span>
         </div>
-        <div class="col-3 mg-t-10 mg-b-10 mg-l-10 float-left">
+        <div class="col-2 mg-t-10 mg-b-10 float-left">
+                
+          <label for="">Buscar por Descripcion:</label>
+                   <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus"value="Elegir"dir="ltr" style="width: 100%;">
+                   <span class="selection">
+                   <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-yn2d-container">
+                   <span class="select2-selection__rendered" id="select2-yn2d-container">
+                   <span class="select2-selection__placeholder">Choose one</span></span>
+                   <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b>
+                   </span>
+                   </span>
+                   </span>
+                   <span class="dropdown-wrapper" aria-hidden="true"></span></span>
+        </div>
+        <div class="col-2 mg-t-10 mg-b-10 float-left">
                 
        <label for="">Buscar por Numero :</label>
                 <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus"value="Elegir"dir="ltr" style="width: 100%;">
@@ -89,11 +103,31 @@
                 </span>
                 <span class="dropdown-wrapper" aria-hidden="true"></span></span>
         </div>
+        <div class="col-2 mg-t-10 mg-b-10 float-left">
+                
+          <label for="">desde:</label>
+          <div class="input-group">
+            <input type="date" class="form-control fc-datepicker" placeholder="DD/MM/AAAA">
+          </div>
+        </div>
+        <div class="col-2 mg-t-10 mg-b-10 float-left">
+                
+          <label for="">Hasta:</label>
+          <div class="input-group">
+            <input type="date" class="form-control fc-datepicker" placeholder="DD/MM/AAAA">
+          </div>
+        </div>
+        <script>
+          $('#datepickerNoOfMonths').datepicker({
+            showOtherMonths: true,
+            selectOtherMonths: true,
+            numberOfMonths: 1
+          });
+        </script>
 
         <table class="table table-striped mg-b-0 table-bordered table-warning">
           <thead>
             <tr>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
@@ -118,13 +152,12 @@
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
             <tr>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.nombre}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.especialidad}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.tipo}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.descripcion}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.num_documento}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_inicio_Emision}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{revision.fecha}}</th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_fin_Emision}}</th>
                 <th><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-teal"> Modificar </a></th>
                 <th><a href="{% url 'documento-eliminar' documento.pk %}"onclick="window.opener.location.reload('{% url 'documento-eliminar' documento.pk %}');" class="btn btn-danger"> Eliminar </a></th>
                
@@ -255,6 +288,13 @@
 
       });
 </script>
-  
+<script>
+  $('#datepickerNoOfMonths').datepicker({
+    showOtherMonths: true,
+    selectOtherMonths: true,
+    numberOfMonths: 1
+  });
+</script>
+
 {% endblock content %}
     

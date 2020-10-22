@@ -52,7 +52,6 @@ INSTALLED_APPS = [
     'tools',
     'notifications',
     'panel_carga',
-    'bandeja_es',
 
 ]
 

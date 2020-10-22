@@ -23,33 +23,13 @@ class IndexView(ProyectoMixin, TemplateView):
     
 
 class EscritorioView(ProyectoMixin, TemplateView):
-    template_name = "admin/Escritorio/dash.html"
+    template_name = "administrador/Escritorio/dash.html"
 
 
 class BaesView(ProyectoMixin, TemplateView):
-    template_name = "admin/BandejaEyS/baes.html"
-
-    # model = Documento
-    # context_object_name = "documentos"
-
-    # def get_queryset(self):
-    #     return Documento.objects.filter(proyecto=self.proyecto)
-
-    # OPCION 1
-    # select Documento.num_docuemto, Documento.nombre, Documento.owner, documento.emision.estado_contratista, Historial.fecha
-    # from Docuemto, Historial
-    # when (documento.pk == Historial.documento)
-
-    # OPCION 2 (MAS FACTIBLE)
-    # select Documento.num_docuemto, Documento.nombre, Documento.owner, Revision.estado_contratista, Historial.fecha
-    # from Docuemto, Revision, Historial
-    # join revision on Documento.pk = revision.Documento
-    # when (documento.pk == Historial.documento)
-
-
-
+    template_name = "administrador/BandejaEyS/baes.html"
 
 
 class BorradorView(ProyectoMixin, TemplateView):
-    template_name = "admin/Borradores/borrador.html"
+    template_name = "administrador/Borradores/borrador.html"
 

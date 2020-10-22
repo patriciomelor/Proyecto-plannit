@@ -1,24 +1,18 @@
 from django.shortcuts import render
+from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
-from panel_carga.models import Documento
-from .models import Paquete, PaqueteDocumento
+
+# from .models import 
 from .forms import DocumentoListForm
 # Create your views here.
 
-class IndexView(ProyectoMixin, ListView):
+class IndexView(ProyectoMixin, TemplateView):
     template_name = 'bandeja_es/baes.html'
-    model = Paquete
-    context_object_name = 'paquetes'
 
-    def get_queryset(self):
-        return Paquete.objects.filter(owner=self.request.user)
-    
-class CrearPaquete(ProyectoMixin, CreateView):
-    model = Paquete
-    template_name = 'bandeja_es/create-paquete.html'
+class CreatePaquete(ProyectoMixin, FormView):
     form_class = DocumentoListForm
     success_url = reverse_lazy('Bandejaeys')
 
@@ -40,4 +34,3 @@ class CrearPaquete(ProyectoMixin, CreateView):
     
 
 
-        
