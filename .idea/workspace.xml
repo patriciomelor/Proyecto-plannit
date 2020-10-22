@@ -26,16 +26,10 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="55dd7ddb-910a-490b-a260-755bbf26e025" name="Default Changelist" comment="">
-<<<<<<< HEAD
-      <change beforePath="$PROJECT_DIR$/src/dmp.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/src/dmp.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/panel_carga/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/panel_carga/views.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/templates/administrador/PaneldeCarga/pdc.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/administrador/PaneldeCarga/pdc.html" afterDir="false" />
-=======
       <change afterPath="$PROJECT_DIR$/src/templates/bandeja_es/baes.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/bandeja_es/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/src/bandeja_es/views.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/templates/panel_carga/update-documento.html" beforeDir="false" afterPath="$PROJECT_DIR$/src/templates/panel_carga/update-documento.html" afterDir="false" />
->>>>>>> parent of a893e82... funcion crear paquete, no guarda pero carga
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -68,10 +62,7 @@
       <workItem from="1602861402487" duration="1342000" />
       <workItem from="1602966799355" duration="914000" />
       <workItem from="1602967789236" duration="106000" />
-<<<<<<< HEAD
-=======
       <workItem from="1603246368946" duration="2500000" />
->>>>>>> parent of a893e82... funcion crear paquete, no guarda pero carga
     </task>
     <servers />
   </component>
