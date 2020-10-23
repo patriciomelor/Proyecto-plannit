@@ -121,6 +121,7 @@ class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
     model = Documento
     success_url = reverse_lazy('PanelCarga')
+    context_object_name = 'documento'
     
 
 class UpdateDocumento(ProyectoMixin, UpdateView):

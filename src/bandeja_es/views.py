@@ -43,7 +43,7 @@ class PaqueteDelete(ProyectoMixin, DeleteView):
     model = Paquete
     template_name = 'bandeja_es/paquete-delete.html'
     success_url = reverse_lazy('Bandejaeys')
-
+    context_object_name = 'paquete'
 
 def create_paquete(request):
     context = {}
