@@ -10,22 +10,40 @@ from .models import Documento, Paquete, PaqueteDocumento
 from .forms import DocumentoListForm, CreatePaqueteForm
 # Create your views here.
 
-class IndexView(ProyectoMixin, TemplateView):
-    template_name = 'bandeja_es/baes.html'
-
-
-class CreatePaquete(ProyectoMixin, CreateView):
+class InBoxView(ProyectoMixin, ListView):
     model = Paquete
-    template_name = 'bandeja_es/create-paquete.html'
-    fields = ['nombre', 'asunto', 'periodo']
-    pk_url_kwarg = 'pk'
+    template_name = 'bandeja_es/baes.html'
+    context_object_name = 'paquetes'
+    paginate_by = 5
 
-
-    def form_valid(self, form):
-        return super().form_valid(form)
+    def get_queryset(self):
+        return Paquete.objects.filter(owner=self.request.user)
     
-    def get_success_url(self, **kwargs):
-        return reverse('cargar-documentos', kwargs={'pk': self.object.pk})
+class EnviadosView(ProyectoMixin, ListView):
+    model = Paquete
+    template_name = 'bandeja_es/baes_Enviado.html'
+    context_object_name = 'paquetes'
+class PapeleraView(ProyectoMixin, ListView):
+    model = Paquete
+    # template_name = 
+    context_object_name = 'paquetes'
+
+class PaqueteDetail(ProyectoMixin, DetailView):
+    model = Paquete
+    template_name = 'bandeja_es/paquete-detail.html'
+    context_object_name = 'paquete'
+
+class PaqueteUpdate(ProyectoMixin, UpdateView):
+    model = Paquete
+    template_name = 'bandeja_es/paquete-update.html'
+    form_class = CreatePaqueteForm
+    success_url = reverse_lazy('paquete-detalle')
+
+class PaqueteDelete(ProyectoMixin, DeleteView):
+    model = Paquete
+    template_name = 'bandeja_es/paquete-delete.html'
+    success_url = reverse_lazy('Bandejaeys')
+
 
 def create_paquete(request):
     context = {}
