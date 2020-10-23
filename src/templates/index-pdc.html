@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<!DOCTYPE html>
 {% load static %}
 <html lang="en">
   <head>
@@ -29,7 +27,7 @@
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
   </head>
 
-  <body class="collapsed-menu with-subleft">
+  <body>
 
     <!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo"><a href=""><span>[</span>DMP<span>]</span></a></div>
@@ -43,16 +41,16 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         
-         <a href="{% url 'PanelCarga' %}" class="br-menu-link">
+         <a href="{% url 'PanelCarga' %}" class="br-menu-link active">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
             <span class="menu-item-label">Panel de Carga</span>
           </div><!-- menu-item -->
         
-        <a href="{% url 'Bandejaeys' %}" class="br-menu-link active">
+        <a href="{% url 'Bandejaeys' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
-            <span class="menu-item-label">Bandeja de Archivos</span>
+            <span class="menu-item-label">Bandeja de Entrada y Salida</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <a href="{% url 'Borradores' %}" class="br-menu-link">
@@ -726,10 +724,21 @@
     <!-- ########## END: RIGHT PANEL ########## -->
 
     <!-- ########## START: MAIN PANEL ########## -->
+    <div class="br-mainpanel">
+      <div class="br-pagebody mg-t-5 pd-x-30">
+   
+      
+      {% block navegacion %}
+      
+      {% endblock navegacion %}
+      
+      
+      {% block content %}
 
 
-{% block content %}
-{% endblock content %}
+      {% endblock content %}
+      </div><!-- br-pagebody -->
+    </div><!-- br-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
 
     <script src="{% static 'jquery/jquery.js' %}"></script> 
@@ -764,40 +773,21 @@
         $(window).resize(function(){
           minimizeMenu();
         });
-   <script>
-      $(function(){
-        'use strict';
 
-        // show only the icons and hide left menu label by default
-        $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
+        minimizeMenu();
 
-        $(document).on('mouseover', function(e){
-          e.stopPropagation();
-          if($('body').hasClass('collapsed-menu')) {
-            var targ = $(e.target).closest('.br-sideleft').length;
-            if(targ) {
-              $('body').addClass('expand-menu');
-
-              // show current shown sub menu that was hidden from collapsed
-              $('.show-sub + .br-menu-sub').slideDown();
-
-              var menuText = $('.menu-item-label,.menu-item-arrow');
-              menuText.removeClass('d-lg-none');
-              menuText.removeClass('op-lg-0-force');
-
-            } else {
-              $('body').removeClass('expand-menu');
-
-              // hide current shown menu
-              $('.show-sub + .br-menu-sub').slideUp();
-
-              var menuText = $('.menu-item-label,.menu-item-arrow');
-              menuText.addClass('op-lg-0-force');
-              menuText.addClass('d-lg-none');
-            }
+        function minimizeMenu() {
+          if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
+            // show only the icons and hide left menu label by default
+            $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
+            $('body').addClass('collapsed-menu');
+            $('.show-sub + .br-menu-sub').slideUp();
+          } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
+            $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
+            $('body').removeClass('collapsed-menu');
+            $('.show-sub + .br-menu-sub').slideDown();
           }
-        });
-
+        }
       });
     </script>
   </body>
