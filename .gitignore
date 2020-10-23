@@ -16,3 +16,5 @@ src/dashboard/__pycache__/urls.cpython-37.pyc
 src/dashboard/__pycache__/views.cpython-37.pyc
 src/dmp/__pycache__/settings.cpython-37.pyc
 src/dmp/__pycache__/urls.cpython-37.pyc
+src/dmp/__pycache__/settings.cpython-37.pyc
+src/bandeja_es/views.py
