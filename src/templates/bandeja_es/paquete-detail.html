@@ -1,0 +1,20 @@
+{% extends 'index-base.html' %}
+
+
+{% block navegacion %}
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item" href="{% url 'PanelCarga' %}">Panel de Carga</a>      
+      <span class="breadcrumb-item active">Detalle Proyecto</span>
+    </nav>
+</div>
+{% endblock navegacion %}
+
+{% block content %}
+
+    <div>
+        {{paquete}}
+    </div>
+
+{% endblock content %}

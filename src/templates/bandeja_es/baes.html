@@ -81,15 +81,16 @@
             </th>
               <th class="tx-10-force tx-mont tx-medium">Package Number</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Name</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Owner</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">issued for</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">respond by</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">status</th>            
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Owner</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Enviado a</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Revisado por</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Esado</th>            
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Autor</th>
             <th class="wd-5p hidden-xs-down"></th>
           </tr>
         </thead>
         <tbody>
+        {% for paquete in paquetes %}
           <tr>
             <td class="valign-middle">
               <label class="ckbox mg-b-0">
@@ -98,32 +99,43 @@
             </td>
             <td>
               <div class="d-flex align-items-center">
-                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
                 <div class="mg-l-15">
-                  <div class="tx-inverse">Katherine Lumaad</div>
-                  <span class="tx-12">klumaad@themepixels.me</span>
+                  <div class="tx-inverse"> {{paquete.id}} </div>
+                  <span class="tx-9">Creado el {{paquete.fecha_creacion}} </span>
                 </div>
               </div>
             </td>
-            <td class="valign-middle hidden-xs-down">+1 234 6789</td>
-            <td class="valign-middle hidden-xs-down">$23,000</td>
-               <td></td>
+            <td class="valign-middle hidden-xs-down"> {{paquete.nombre}} </td>
+            <td class="valign-middle hidden-xs-down"> {{paquete.owner}} </td>
+            <td class="valign-middle hidden-xs-down"> {{paquete.asunto}} </td>
             <td></td>
             <td></td>
-            <td></td>
+            <td class="valign-middle hidden-xs-down"> {{paquete.owner}}</td>
             <td class="dropdown hidden-xs-down">
               <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
               <div class="dropdown-menu dropdown-menu-right pd-10">
-                <nav class="nav nav-style-1 flex-column">
-                  <a href="" class="nav-link">Info</a>
-                  <a href="" class="nav-link">Email</a>
-                  <a href="" class="nav-link">Edit</a>
-                  <a href="" class="nav-link">Delete</a>
-                </nav>
+                  <a href="{% url 'paquete-detalle' paquete.id %}" class="nav-link">Detalle</a>
+                  <a href="{% url 'paquete-editar' paquete.id %}" class="nav-link">Editar</a>
+                  <a href="{% url 'paquete-eliminar' paquete.id %}" class="nav-link">Eliminar</a>
               </div><!-- dropdown-menu -->
             </td>
           </tr>
+          {% endfor %}
       </table>
+      {% if is_paginated %}
+        <nav aria-label="Page navigation conatiner"></nav>
+        <ul class="pagination justify-content-center">
+        {% if page_obj.has_previous %}
+        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; ANT </a></li>
+        {% endif %}
+        {% if page_obj.has_next %}
+        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> SIG &raquo;</a></li>
+
+      {% endif %}
+  </ul>
+  </nav>
+</div>
+{% endif %}
     </div>
   </div><!-- br-pagebody -->  
 </div><!-- br-contentpanel -->
