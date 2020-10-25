@@ -9,9 +9,12 @@ class Paquete(models.Model):
     nombre = models.CharField(verbose_name="Nombre del paquete", max_length=100, blank=False)
     fecha_creacion = models.DateField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
     fecha_respuesta = models.DateField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
-    asunto = models.TextField(verbose_name="Descripcion")
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    asunto = models.CharField(verbose_name="Asunto", max_length=50)
+    descripcion = models.CharField(verbose_name="Descripcion", max_length=200, blank=True, null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE,related_name="propietario")
+    destinatario = models.ForeignKey(User, on_delete=models.CASCADE,related_name="destinatario")
     periodo = models.CharField(verbose_name="Periodo", max_length=20) #ej Agosto 2020
+    status = models.CharField(verbose_name="Status", max_length=10, default="to open")
 
     def __str__(self):
         return self.nombre
