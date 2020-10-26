@@ -41,7 +41,9 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{error.6}} </th>
                
             </tr>           
-            {% endfor %} 
+            {% empty %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No se Registraron Errores ! </th>
+            {% endfor %}
             <!--Fin Loop-->
           </tbody>
         </table>

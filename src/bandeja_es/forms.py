@@ -12,5 +12,5 @@ class DocumentoListForm(forms.Form):
 class CreatePaqueteForm(forms.ModelForm):
     class Meta:
         model = Paquete
-        fields = ['nombre', 'asunto', 'periodo']
+        fields = ['nombre', 'asunto', 'periodo', 'destinatario']
 

@@ -160,7 +160,10 @@
                 <th><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-teal"> Modificar </a></th>
                 <th><a href="{% url 'documento-eliminar' documento.pk %}"onclick="window.opener.location.reload('{% url 'documento-eliminar' documento.pk %}');" class="btn btn-danger"> Eliminar </a></th>
             </tr>           
-            {% endfor %} 
+            
+            {% empty %}
+                <h5 style="text-align: center;border: 2px;border-color: grey; color: black;" > Aun no hay documentos cargados para el proyecto actual.</h5>
+            {% endfor %}
             <!--Fin Loop-->
           </tbody>
         </table>

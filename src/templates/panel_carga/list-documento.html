@@ -24,6 +24,8 @@
               <th> {{documento.num_documento}} </th>
               <th> {{documento.owner}} </th>              
             </tr>
+          {% empty %}
+              <th> Aun no hay documentos cargados para el proyecto actual. </th>              
           {% endfor %}
 
           </tbody>
