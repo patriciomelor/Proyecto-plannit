@@ -21,7 +21,7 @@ class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
         field = ('nombre', 'especialidad','tipo', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
-        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
+        exclude = ('id', 'emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
         import_id_fields = ('id')
 
 # End Document Resources
@@ -123,7 +123,6 @@ class DeleteDocumento(ProyectoMixin, DeleteView):
     success_url = reverse_lazy('PanelCarga')
     context_object_name = 'documento'
     
-
 class UpdateDocumento(ProyectoMixin, UpdateView):
     model = Documento
     form_class = DocumentoForm
@@ -138,8 +137,6 @@ class UpdateDocumento(ProyectoMixin, UpdateView):
             documento= Documento.objects.get(pk=self.kwargs['pk'])
         )
         return super().form_valid(form)
-
-    
         
 class CreateRevision(ProyectoMixin, CreateView):
     form_class = RevisionForm
@@ -153,7 +150,6 @@ def export_document(request):
     response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
     return response
-
 
 class DocumentoFileUploadView(ProyectoMixin, ListView):
     model = Documento

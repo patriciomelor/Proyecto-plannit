@@ -55,9 +55,9 @@ def create_paquete(request):
             obj.owner = request.user
             obj.save()
             package_pk = obj.pk
-        form_documento = DocumentoListForm(request.POST or None)
+        form_documento = DocumentoListForm(request.POST or None, request.FILES or None)
         docs = request.POST.getlist('documento')
-        files = request.POST.getlist('file_field')
+        files = request.FILES.getlist('file_field')
         package = Paquete.objects.get(pk=package_pk)
         for documento in docs:
             doc_seleccionado = Documento.objects.get(pk=documento)
