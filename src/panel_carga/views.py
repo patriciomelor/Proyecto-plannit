@@ -97,12 +97,12 @@ class ListDocumento(ProyectoMixin, ListView):
         for data in imported_data:
             try:
                 documento = Documento(
-                    especialidad= data[1],
-                    tipo= data[2],
-                    descripcion= data[3],
-                    num_documento= data[4],
-                    fecha_inicio_Emision= data[5],
-                    fecha_fin_Emision= data[6],
+                    especialidad= data[0],
+                    descripcion= data[1],
+                    num_documento= data[2],
+                    tipo= data[3],
+                    fecha_inicio_Emision= data[4],
+                    fecha_fin_Emision= data[5],
                     proyecto= self.proyecto,
                     owner= request.user
                 )
