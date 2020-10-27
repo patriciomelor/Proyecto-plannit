@@ -97,13 +97,12 @@ class ListDocumento(ProyectoMixin, ListView):
         for data in imported_data:
             try:
                 documento = Documento(
-                    nombre= data[1],
-                    especialidad= data[2],
-                    tipo= data[3],
-                    descripcion= data[4],
-                    num_documento= data[5],
-                    fecha_inicio_Emision= data[6],
-                    fecha_fin_Emision= data[7],
+                    especialidad= data[1],
+                    tipo= data[2],
+                    descripcion= data[3],
+                    num_documento= data[4],
+                    fecha_inicio_Emision= data[5],
+                    fecha_fin_Emision= data[6],
                     proyecto= self.proyecto,
                     owner= request.user
                 )
@@ -117,6 +116,13 @@ class ListDocumento(ProyectoMixin, ListView):
                 documentos_erroneos.append(data)
         return render(request, 'panel_carga/list-error.html', context={'errores': documentos_erroneos})
 
+# funcion de exportación
+def export_document(request):
+    context = {}
+    dataset = DocumentResource().export()
+    response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
+    return response
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
     model = Documento
@@ -143,13 +149,7 @@ class CreateRevision(ProyectoMixin, CreateView):
     template_name = 'panel_carga/create-revision.html'
     success_url = reverse_lazy("index")
 
-# funcion de exportación
-def export_document(request):
-    context = {}
-    dataset = DocumentResource().export()
-    response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
-    return response
+
 
 class DocumentoFileUploadView(ProyectoMixin, ListView):
     model = Documento
