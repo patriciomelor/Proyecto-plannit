@@ -24,4 +24,5 @@ urlpatterns = [
     path('notifications/', include('notifications.urls')),
     path('panel_carga/', include('panel_carga.urls')),
     path('bandeja_es/', include('bandeja_es.urls')),
+#     url(r'^select2/',include('select2.urls')),
 ]

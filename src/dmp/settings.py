@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     'notifications',
     'panel_carga',
     'bandeja_es',
+    'select2',
 
 ]
 
