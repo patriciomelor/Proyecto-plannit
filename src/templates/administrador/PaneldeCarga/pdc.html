@@ -152,12 +152,29 @@
             </tr>           
             
             {% empty %}
-            <div class="alert alert-warning pd-x-0" role="alert">
-              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                <span aria-hidden="true">×</span>
-              </button>
-              <strong class="d-block d-sm-inline-block-force">¡ATENCIÓN!</strong> No hay LIsta de Documentos Cargadas.
-            </div>
+            <div class="modal fade in" id="myModal" role="dialog" style="display: block; padding-right: 16px;">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content tx-size-sm">
+                  <div class="modal-body tx-center pd-y-20 pd-x-20">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                    <h4 class="tx-danger  tx-semibold mg-b-20">Error: No hay Información Ingresada!</h4>
+                    <p class="mg-b-20 mg-x-20">Recuerde Que puede importar desde <strong>Excel</strong> o Insertar Manualmente por formulario.</p>
+                    <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
+                      Continue</button>
+                    </div><!-- modal-body -->
+                  </div><!-- modal-content -->
+                </div><!-- modal-dialog -->
+          </div>
+          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+          <script type="text/javascript">
+           $(function(){
+            $("#myModal").modal();
+           });
+          </script>
       {% endfor %}
             <!--Fin Loop-->
           </tbody>
@@ -187,21 +204,17 @@
               </a>
               SIGUIENTE
             </li>
-          </ul>
-        {% endif %}
-      {% endif %}
+          </ul>      
       </div>  
+      {% endif %}
+      {% endif %}
       </div>
     </div>
   </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-<script>
-$("#fileInput").change(function(){
-  $("button").prop("disabled", this.files.length == 0);
-});
-</script>
+
 
 <script>
   function fileValidation(){
@@ -224,11 +237,7 @@ $("#fileInput").change(function(){
       }
   }
 </script>
-<script>
-    $(document).ready(function() {
-      $('.js-example-basic-single').select2();
-  });
-</script>
+
 <script>
         $(function(){
         'use strict'
@@ -326,6 +335,7 @@ $("#fileInput").change(function(){
     numberOfMonths: 1
   });
 </script>
+
 
 {% endblock content %}
     

@@ -20,7 +20,7 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        field = ('nombre', 'especialidad','tipo', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
+        field = ( 'especialidad','tipo', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
         exclude = ('id', 'emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
         import_id_fields = ('id')
 
@@ -67,7 +67,7 @@ class DetailProyecto(ProyectoMixin, DetailView):
 class CreateDocumento(ProyectoMixin, CreateView):
     model = Documento
     form_class = DocumentoForm
-    # fields = ['nombre', 'especialidad', 'descripcion', 'num_documento', 'tipo', 'fecha_inicio_Emision','fecha_fin_Emision', 'archivo']
+    # fields = ['especialidad', 'descripcion', 'num_documento', 'tipo', 'fecha_inicio_Emision','fecha_fin_Emision', 'archivo']
     template_name = 'panel_carga/create-documento.html'
     success_url = reverse_lazy("index")
     
