@@ -21,10 +21,9 @@ class ProyectoForm(forms.ModelForm):
 
 class DocumentoForm(forms.ModelForm):
 
-    nombre = forms.CharField( max_length=50, required=True)
     especialidad = forms.CharField( max_length=50, required=True)
-    descripcion = forms.CharField(widget=forms.Textarea, max_length=150, required=True)
-    num_documento = forms.CharField( max_length=10, required=True)
+    descripcion = forms.CharField( max_length=150, required=True)
+    num_documento = forms.CharField( max_length=100, required=True)
     archivo = forms.FileField(required=False)
     fecha_inicio_Emision = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'})) 
     fecha_fin_Emision =  forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
@@ -32,7 +31,7 @@ class DocumentoForm(forms.ModelForm):
 
     class Meta:
         model = Documento
-        exclude = ['owner','emision','proyecto', 'ultima_edicion']
+        exclude = ['nombre','tipo','owner','emision','proyecto', 'ultima_edicion']
 
 class RevisionForm(forms.ModelForm):
     tipo = forms.IntegerField( required=True)
