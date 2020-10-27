@@ -46,7 +46,11 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'import_export',
-    'crispy_forms',
+    'crispy_forms',    
+    'easy_thumbnails',
+    'filer',
+    'mptt',
+    'multiupload',
     
     'dashboard',
     'tools',
