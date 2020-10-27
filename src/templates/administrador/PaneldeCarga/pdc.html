@@ -32,9 +32,9 @@
           <form  class="nav-item "method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
-               <li class="nav-item float-left mg-t-7" style="width: auto;"><a class="nav-link active"><input type="file" name="importfile" id="file" onchange="fileValidation()"></a></li>
+               <li class="nav-item float-left mg-t-7" style="width: auto;"><a class="nav-link active"><input type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a></li>
 
-              <li class="nav-item float-left"style="width: auto;"><a class="nav-link"><button class="btn btn-outline-danger" type="submit"> Importar </button></a></li>
+              <li class="nav-item float-left"style="width: auto;"><a class="nav-link"><button class="btn btn-outline-danger" type="submit" disabled="disabled"> Importar </button></a></li>
 
             </form>
 
@@ -141,7 +141,7 @@
             {% for documento in documentos %}
             <tr>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.especialidad}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.tipo}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.tipo_doc}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.descripcion}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.num_documento}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_inicio_Emision}} </th>
@@ -334,7 +334,11 @@
     numberOfMonths: 1
   });
 </script>
-
+<script>
+  $("#fileInput").change(function(){
+    $("button").prop("disabled", this.files.length == 0);
+});
+</script>
 
 {% endblock content %}
     
