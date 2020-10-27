@@ -57,10 +57,7 @@
     </div><!-- dropdown -->
     <!-- END: DISPLAYED FOR MOBILE ONLY -->
 
-    <div class="btn-group hidden-xs-down">
-      <a href="#" class="btn btn-outline-info"><i class="fa fa-th"></i></a>
-      <a href="#" class="btn btn-outline-info active"><i class="fa fa-th-list"></i></a>
-    </div><!-- btn-group -->
+    
 
     <div class="mg-l-auto hidden-xs-down">
       <a href="{% url 'paquete-crear' %}" class="btn btn-info">Nuevo Paquete</a>
@@ -126,21 +123,32 @@
             <td class="valign-middle hidden-xs-down"> No hay paquetes nuevos recividos. </td>
 
           {% endfor %}
-      </table>
-      {% if is_paginated %}
-        <nav aria-label="Page navigation conatiner"></nav>
-        <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; ANT </a></li>
-        {% endif %}
-        {% if page_obj.has_next %}
-        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> SIG &raquo;</a></li>
-        {% endif %}
-      {% endif %}
-      
-  </ul>
-  </nav>
+      </table>    
 </div>
+{% if is_paginated %}
+<div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
+<ul class="pagination pagination-basic mg-b-0"> 
+{% if page_obj.has_previous %}
+<li class="page-item">
+  <a href="?page={{ page_obj.previous_page_number }}" class="page-link" aria-label="ANTERIOR">
+    <i class="fa fa-angle-left"></i>
+  </a>
+  ANTERIOR 
+</li>
+</ul>
+{% endif %}
+{% if page_obj.has_next %}
+<ul class="pagination pagination-basic mg-b-0">
+<li class="page-item">
+  <a href="?page={{ page_obj.next_page_number }}" class="page-link">
+    <i class="fa fa-angle-right"></i>  
+  </a>
+</li>
+</ul>
+{% endif %}
+{% endif %}      
+ </ul>
+</nav>
     </div>
   </div><!-- br-pagebody -->  
 </div><!-- br-contentpanel -->
