@@ -34,7 +34,7 @@ class Documento(models.Model):
 
 
     def __str__(self):
-        return self.nombre
+        return self.num_documento
 
 
 #Tabla que almacena el historico de las ediciones por documento, la idea es mostrar siempre el ultimo para saber quien le metio mano a ese documento
