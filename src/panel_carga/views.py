@@ -155,5 +155,12 @@ def export_document(request):
     return response
 
 
+class DocumentoFileUploadView(ProyectoMixin, ListView):
+    model = Documento
+    template_name = 'panel_carga/list-documento.html'
+    context_object_name = "documentos"
+    paginate_by = 15
 
+    def get_queryset(self):
+        return Documento.objects.filter(proyecto=self.proyecto)
 

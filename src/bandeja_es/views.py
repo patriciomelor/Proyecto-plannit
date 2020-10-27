@@ -57,11 +57,14 @@ def create_paquete(request):
             package_pk = obj.pk
         form_documento = DocumentoListForm(request.POST or None)
         docs = request.POST.getlist('documento')
-        cant_docs = len(docs)
+        files = request.POST.getlist('file_field')
         package = Paquete.objects.get(pk=package_pk)
         for documento in docs:
             doc_seleccionado = Documento.objects.get(pk=documento)
             package.documento.add(doc_seleccionado)
+            for file in files:
+                doc_seleccionado.archivo = file
+
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
     else:

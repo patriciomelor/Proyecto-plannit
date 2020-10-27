@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from .choices import (ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION)
+from .choices import (ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION, DOCUMENT_TYPE)
 
 
 # Create your models here.
@@ -17,32 +17,18 @@ class Proyecto(models.Model):
     def __str__(self):
         return self.nombre
 
-class Tipo_Documento(models.Model):
-    tipo = models.CharField(verbose_name="Tipo Documento", max_length=15, unique=True)
+#Tabla que almacena el historico de las ediciones por documento, la idea es mostrar siempre el ultimo para saber quien le metio mano a ese documento
+#De ser necesario tambien se puede revisar quien lo hizo antes, pero la idea es que este restringida su vista al ultimo 
+#por ende esta tabla deberia mejorar 
+class Historial(models.Model):
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True) #Quien lo edito
+    fecha = models.DateTimeField(verbose_name="Fecha ultima edicion", editable=False, blank=True) #fecha de la edicion
+    documento = models.ForeignKey(Documento, on_delete=models.CASCADE, blank=True) 
 
     def __str__(self):
-        return self.tipo
-   
-class Documento(models.Model):
-    
-    nombre = models.CharField(verbose_name="Nombre del Documento", max_length=100, blank=False) #deberia ir un editable=False? debido a que no deberia cambiarse el nombre de un documento
-    especialidad = models.CharField(verbose_name="Especialidad", max_length=100, blank=False)
-    descripcion = models.TextField(verbose_name="Descripción", blank=False)
-    num_documento = models.CharField(verbose_name="Codigo Documento",unique=True, max_length=100)
-    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
-    # emision = models.ForeignKey(Revision, on_delete=models.CASCADE, blank=True, null=True, default=None) # debe ser un listado a partir del documento 
-    tipo = models.CharField(verbose_name="Tipo Documento", max_length=15, default='PDF')
-    tipo_doc = models.ForeignKey(Tipo_Documento, on_delete=models.CASCADE, blank=True, null=True)
-    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    # ultima_edicion = models.ForeignKey(Historial, on_delete=models.CASCADE, blank=True, null=True, default=None)
-    fecha_inicio_Emision = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
-    fecha_fin_Emision = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
-    
+        return self.fecha
 
 
-    def __str__(self):
-        return self.nombre
 
 class Revision(models.Model):
 
@@ -58,16 +44,26 @@ class Revision(models.Model):
     def __str__(self):
         return self.tipo
 
+class Documento(models.Model):
+    
+    especialidad = models.CharField(verbose_name="Especialidad", max_length=100, blank=False)
+    descripcion = models.TextField(verbose_name="Descripción", blank=False)
+    num_documento = models.CharField(verbose_name="Codigo Documento",unique=True, max_length=100)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
+    revision = models.ForeignKey(Revision, on_delete=models.CASCADE, blank=True, default=None) # debe ser un listado a partir del documento 
+    tipo = models.CharField(verbose_name="Tipo Documento", max_length=15, choices=DOCUMENT_TYPE)
+    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    ultima_edicion = models.ForeignKey(Historial, on_delete=models.CASCADE, blank=True, null=True, default=None)
+    fecha_inicio_Emision = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
+    fecha_fin_Emision = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
+    
 
-#Tabla que almacena el historico de las ediciones por documento, la idea es mostrar siempre el ultimo para saber quien le metio mano a ese documento
-#De ser necesario tambien se puede revisar quien lo hizo antes, pero la idea es que este restringida su vista al ultimo 
-#por ende esta tabla deberia mejorar 
-class Historial(models.Model):
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, blank=True) #Quien lo edito
-    fecha = models.DateTimeField(verbose_name="Fecha ultima edicion", editable=False, blank=True) #fecha de la edicion
-    documento = models.ForeignKey(Documento, on_delete=models.CASCADE, blank=True) 
 
     def __str__(self):
-        return self.fecha
+        return self.nombre
+
+
+
 
 
