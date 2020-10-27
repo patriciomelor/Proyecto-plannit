@@ -73,7 +73,7 @@ def create_paquete(request):
         doc = Documento.objects.filter(proyecto=request.session.get('proyecto'))
         documento_opciones = ()
         for documento in doc:
-            documento_opciones = documento_opciones + ((documento.pk, documento.nombre) ,)
+            documento_opciones = documento_opciones + ((documento.pk, documento.num_documento) ,)
         form_documento.fields['documento'].choices = documento_opciones
     context['form_documento'] = form_documento
     context['form_paraquete'] = form_paraquete
