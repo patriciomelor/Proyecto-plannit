@@ -64,7 +64,6 @@ def create_paquete(request):
             package.documento.add(doc_seleccionado)
             for file in files:
                 doc_seleccionado.archivo = file
-
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
     else:
