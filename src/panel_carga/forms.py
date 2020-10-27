@@ -31,7 +31,7 @@ class DocumentoForm(forms.ModelForm):
 
     class Meta:
         model = Documento
-        exclude = ['nombre','tipo','owner','emision','proyecto', 'ultima_edicion']
+        exclude = ['tipo','owner','emision','proyecto', 'ultima_edicion']
 
 class RevisionForm(forms.ModelForm):
     tipo = forms.IntegerField( required=True)
