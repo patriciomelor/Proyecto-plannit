@@ -20,8 +20,8 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        field = ('nombre', 'especialidad','tipo', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
-        exclude = ('emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
+        field = ( 'especialidad','tipo', 'descripcion', 'num_documento', 'fecha_inicio_Emision', 'fecha_fin_Emision')
+        exclude = ('id', 'emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
         import_id_fields = ('id')
 
 # End Document Resources
@@ -67,7 +67,7 @@ class DetailProyecto(ProyectoMixin, DetailView):
 class CreateDocumento(ProyectoMixin, CreateView):
     model = Documento
     form_class = DocumentoForm
-    # fields = ['nombre', 'especialidad', 'descripcion', 'num_documento', 'tipo', 'fecha_inicio_Emision','fecha_fin_Emision', 'archivo']
+    # fields = ['especialidad', 'descripcion', 'num_documento', 'tipo', 'fecha_inicio_Emision','fecha_fin_Emision', 'archivo']
     template_name = 'panel_carga/create-documento.html'
     success_url = reverse_lazy("index")
     
@@ -97,13 +97,12 @@ class ListDocumento(ProyectoMixin, ListView):
         for data in imported_data:
             try:
                 documento = Documento(
-                    nombre= data[1],
-                    especialidad= data[2],
-                    tipo= data[3],
-                    descripcion= data[4],
-                    num_documento= data[5],
-                    fecha_inicio_Emision= data[6],
-                    fecha_fin_Emision= data[7],
+                    especialidad= data[1],
+                    tipo= data[2],
+                    descripcion= data[3],
+                    num_documento= data[4],
+                    fecha_inicio_Emision= data[5],
+                    fecha_fin_Emision= data[6],
                     proyecto= self.proyecto,
                     owner= request.user
                 )
@@ -117,13 +116,19 @@ class ListDocumento(ProyectoMixin, ListView):
                 documentos_erroneos.append(data)
         return render(request, 'panel_carga/list-error.html', context={'errores': documentos_erroneos})
 
+# funcion de exportación
+def export_document(request):
+    context = {}
+    dataset = DocumentResource().export()
+    response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
+    response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
+    return response
 class DeleteDocumento(ProyectoMixin, DeleteView):
     template_name = 'panel_carga/delete-documento.html'
     model = Documento
     success_url = reverse_lazy('PanelCarga')
     context_object_name = 'documento'
     
-
 class UpdateDocumento(ProyectoMixin, UpdateView):
     model = Documento
     form_class = DocumentoForm
@@ -138,22 +143,20 @@ class UpdateDocumento(ProyectoMixin, UpdateView):
             documento= Documento.objects.get(pk=self.kwargs['pk'])
         )
         return super().form_valid(form)
-
-    
         
 class CreateRevision(ProyectoMixin, CreateView):
     form_class = RevisionForm
     template_name = 'panel_carga/create-revision.html'
     success_url = reverse_lazy("index")
 
-# funcion de exportación
-def export_document(request):
-    context = {}
-    dataset = DocumentResource().export()
-    response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
-    return response
 
 
+class DocumentoFileUploadView(ProyectoMixin, ListView):
+    model = Documento
+    template_name = 'panel_carga/list-documento.html'
+    context_object_name = "documentos"
+    paginate_by = 15
 
+    def get_queryset(self):
+        return Documento.objects.filter(proyecto=self.proyecto)
 

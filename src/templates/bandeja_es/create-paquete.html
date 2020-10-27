@@ -22,7 +22,7 @@
 
 
 <div class="br-section-wrapper">
-    <form method="POST">{% csrf_token %}
+    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
         <label class="form-control col-12 col-sm-12">
         <div>{{ form_paraquete|crispy }}</div>
 
