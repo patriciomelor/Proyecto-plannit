@@ -117,13 +117,6 @@
             <input type="date" id="datepickerNoOfMonths" class="form-control fc-datepicker" placeholder="DD/MM/AAAA">
           </div>
         </div>
-        <script>
-          $('#datepickerNoOfMonths').datepicker({
-            showOtherMonths: true,
-            selectOtherMonths: true,
-            numberOfMonths: 1
-          });
-        </script>
 
         <table class="table table-striped mg-b-0 table-bordered table-warning">
           <thead>
@@ -167,21 +160,46 @@
             <!--Fin Loop-->
           </tbody>
         </table>
+
+
+
+
+
       {% if is_paginated %}
-        <nav aria-label="Page navigation conatiner"></nav>
-        <ul class="pagination justify-content-center">
-        {% if page_obj.has_previous %}
-        <li><a href="?page={{ page_obj.previous_page_number }}" class="page-link">&laquo; ANT </a></li>
+       <div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
+          <ul class="pagination pagination-basic mg-b-0">            
+              {% if page_obj.has_previous %}
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR">                  
+                <i class="fa fa-angle-left"></i>
+                </a>                
+                ANTERIOR 
+              </li>
+          </ul>
         {% endif %}
         {% if page_obj.has_next %}
-        <li><a href="?page={{ page_obj.next_page_number }}" class="page-link"> SIG &raquo;</a></li>
+          <ul class="pagination pagination-basic mg-b-0">
+            <li class="page-item">
+              <a href="?page={{ page_obj.next_page_number }}" class="page-link" aria-label="SIGUIENTE">
+                <i class="fa fa-angle-right"></i>                
+              </a>
+              SIGUIENTE
+            </li>
+          </ul>
         {% endif %}
       {% endif %}
+      </div>  
       </div>
     </div>
   </div>
 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
+<script>
+$("#fileInput").change(function(){
+  $("button").prop("disabled", this.files.length == 0);
+});
+</script>
 
 <script>
   function fileValidation(){
