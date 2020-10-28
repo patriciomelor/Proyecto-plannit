@@ -154,9 +154,10 @@
           <thead>
             <tr>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">N° Documento <br>Contractual</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Codigo Documento <br>Contractual</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Numero Documento <br> Interno</th>              
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>              
               <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Acciones</th>
             </tr>
@@ -176,12 +177,13 @@
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
             <tr>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.especialidad}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.tipo_doc}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.descripcion}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.num_documento}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_inicio_Emision}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_fin_Emision}}</th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}}</th>                  
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0}}</th>
                 <th><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-teal"> Modificar </a></th>
                 <th><a href="{% url 'documento-eliminar' documento.pk %}"onclick="window.opener.location.reload('{% url 'documento-eliminar' documento.pk %}');" class="btn btn-danger"> Eliminar </a></th>
             </tr>           
