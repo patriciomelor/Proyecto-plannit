@@ -22,7 +22,7 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        field = ( 'especialidad','descripcion','num_documento','tipo_doc',  'fecha_inicio_Emision', 'fecha_fin_Emision')
+        field = ( 'Especialidad','descripcion','Codigo_documento','Numero_documento_interno','Tipo_Documento', 'fecha_Emision_B', 'fecha_Emision_0')
         exclude = ('id', 'emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
         import_id_fields = ('id')
 
@@ -114,12 +114,13 @@ class ListDocumento(ProyectoMixin, FormMixin, ListView):
         for data in imported_data:
             try:
                 documento = Documento(
-                    especialidad= data[0],
-                    descripcion= data[1],
-                    num_documento= data[2],
-                    tipo_doc= data[3],
-                    fecha_inicio_Emision= data[4],
-                    fecha_fin_Emision= data[5],
+                    Especialidad= data[0],
+                    Descripcion= data[1],
+                    Codigo_documento= data[2],
+                    Numero_documento_interno= data[3], 
+                    Tipo_Documento= data[4],
+                    fecha_Emision_B= data[5],
+                    fecha_Emision_0= data[6],
                     proyecto= self.proyecto,
                     owner= request.user
                 )
