@@ -45,6 +45,8 @@
 
             <li class="nav-item float-left"style="width: auto;"><a class="nav-link" href="{% url 'documento-crear' %}"><button class="btn btn-outline-primary">Insertar por formulario</button></a></li>
             <li class="nav-item float-left"style="width: auto;"><a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-outline-success"> Descargar Excel </button></a></li>
+            <li class="nav-item float-left"style="width: auto;"><a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-outline-warning"> Descargar Plantilla </button></a></li>
+          
           </ul>
         </div>
 <!-- 
@@ -213,6 +215,7 @@
                     <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
                     <h4 class="tx-danger  tx-semibold mg-b-20">Error: No hay Información Ingresada!</h4>
                     <p class="mg-b-20 mg-x-20">Recuerde Que puede importar desde <strong>Excel</strong> o Insertar Manualmente por formulario.</p>
+                    <h6 class="tx-info tx-semibold mg-b-20">Descargar plantilla de informacion <a href="{% url 'panel-export' %}">Aqui</a></h6>
                     <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
                       Continue</button>
                     </div><!-- modal-body -->
