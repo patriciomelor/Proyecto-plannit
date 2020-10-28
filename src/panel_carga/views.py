@@ -82,30 +82,15 @@ class DetailDocumento(ProyectoMixin, DetailView):
     model = Documento
     template_name = 'panel_carga/detail-docuemnto.html'
 
-class ListDocumento(ProyectoMixin, FormMixin, ListView):
+class ListDocumento(ProyectoMixin, ListView):
     model = Documento
     template_name = 'administrador/PaneldeCarga/pdc.html'
     context_object_name = "documentos"
     paginate_by = 15
-    form_class = DocFilter
 
     def get_queryset(self):
-        # listado_doc = self.get_queryset()
-        # documento_filter_list = DocFilter(self.request.GET, queryset=listado_doc)
         return  Documento.objects.filter(proyecto=self.proyecto)
-
-    # def get_context_data(self, filter=None, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     context["filtro"] = filter
-    #     return context
-    
-    # def get(self, request, *args, **kwargs):
-    #     lista_documento_filtrada = DocFilter(queryset=self.get_queryset(), request=self.request.GET)
-    #     return self.render_to_response(self.get_context_data(filter=lista_documento_filtrada))
-    #     # return render(request, self.template_name, context=self.get_context_data(filter=lista_documento_filtrada, **kwargs))
-
-    
-
+  
     def post(self, request, *args, **kwargs):
         documentos_erroneos = []
         dataset = Dataset()
