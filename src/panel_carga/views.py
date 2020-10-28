@@ -13,6 +13,7 @@ from django.db import IntegrityError
 from django.urls import reverse_lazy
 from .models import Proyecto, Documento, Revision, Historial
 from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
+from .filters import DocFilter
 from tools.views import ProyectoSeleccionadoMixin
 # Create your views here.
 
@@ -88,9 +89,6 @@ class ListDocumento(ProyectoMixin, ListView):
 
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
-
-    def get(self, request, *args, **kwargs):
-        self.listado_doc = self.get_queryset()
 
     def post(self, request, *args, **kwargs):
         documentos_erroneos = []
