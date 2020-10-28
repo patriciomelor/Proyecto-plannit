@@ -24,12 +24,13 @@ class ProyectoForm(forms.ModelForm):
 
 class DocumentoForm(forms.ModelForm):
 
-    especialidad = forms.CharField( max_length=50, required=True)
-    descripcion = forms.CharField( max_length=150, required=True)
-    num_documento = forms.CharField( max_length=100, required=True)
+    Especialidad = forms.CharField( max_length=50, required=True)
+    Descripcion = forms.CharField( max_length=150, required=True)
+    Codigo_documento = forms.CharField( max_length=100, required=True)
+    Numero_documento_interno = forms.CharField(max_length=30, required=False)
     archivo = forms.FileField(required=False)
-    fecha_inicio_Emision = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'})) 
-    fecha_fin_Emision =  forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
+    fecha_Emision_B = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'})) 
+    fecha_Emision_0 =  forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
     
 
     class Meta:

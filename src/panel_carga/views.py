@@ -6,6 +6,7 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from django.views.generic.base import TemplateView, RedirectView, View
+from django.views.generic.edit import FormMixin
 from import_export import resources
 from tablib import Dataset
 from django.core.exceptions import FieldError, ValidationError
@@ -13,6 +14,7 @@ from django.db import IntegrityError
 from django.urls import reverse_lazy
 from .models import Proyecto, Documento, Revision, Historial
 from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
+from .filters import DocFilter
 from tools.views import ProyectoSeleccionadoMixin
 # Create your views here.
 
@@ -20,7 +22,7 @@ from tools.views import ProyectoSeleccionadoMixin
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        field = ( 'especialidad','descripcion','num_documento','tipo_doc',  'fecha_inicio_Emision', 'fecha_fin_Emision')
+        field = ( 'Especialidad','descripcion','Codigo_documento','Numero_documento_interno','Tipo_Documento', 'fecha_Emision_B', 'fecha_Emision_0')
         exclude = ('id', 'emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
         import_id_fields = ('id')
 
@@ -69,7 +71,7 @@ class CreateDocumento(ProyectoMixin, CreateView):
     form_class = DocumentoForm
     # fields = ['especialidad', 'descripcion', 'num_documento', 'tipo', 'fecha_inicio_Emision','fecha_fin_Emision', 'archivo']
     template_name = 'panel_carga/create-documento.html'
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("PanelCarga")
     
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -87,8 +89,8 @@ class ListDocumento(ProyectoMixin, ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        return Documento.objects.filter(proyecto=self.proyecto)
-
+        return  Documento.objects.filter(proyecto=self.proyecto)
+  
     def post(self, request, *args, **kwargs):
         documentos_erroneos = []
         dataset = Dataset()
@@ -97,12 +99,13 @@ class ListDocumento(ProyectoMixin, ListView):
         for data in imported_data:
             try:
                 documento = Documento(
-                    especialidad= data[0],
-                    descripcion= data[1],
-                    num_documento= data[2],
-                    tipo_doc= data[3],
-                    fecha_inicio_Emision= data[4],
-                    fecha_fin_Emision= data[5],
+                    Especialidad= data[0],
+                    Descripcion= data[1],
+                    Codigo_documento= data[2],
+                    Numero_documento_interno= data[3], 
+                    Tipo_Documento= data[4],
+                    fecha_Emision_B= data[5],
+                    fecha_Emision_0= data[6],
                     proyecto= self.proyecto,
                     owner= request.user
                 )

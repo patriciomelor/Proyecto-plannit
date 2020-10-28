@@ -21,15 +21,16 @@ class Proyecto(models.Model):
 
 class Documento(models.Model):
     
-    especialidad = models.CharField(verbose_name="Especialidad", max_length=100, blank=False)
-    descripcion = models.TextField(verbose_name="Descripción", blank=False)
-    num_documento = models.CharField(verbose_name="Codigo Documento",unique=True, max_length=100)
+    Especialidad = models.CharField(verbose_name="Especialidad", max_length=100, blank=False)
+    Descripcion = models.TextField(verbose_name="Descripción", blank=False)
+    Codigo_documento = models.CharField(verbose_name="Codigo Documento",unique=True, max_length=100)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
-    tipo_doc = models.CharField(verbose_name="Tipo Documento", max_length=50)
+    Tipo_Documento = models.CharField(verbose_name="Tipo Documento", max_length=50)
+    Numero_documento_interno = models.CharField(verbose_name="Numero documento Interno", max_length=50)
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    fecha_inicio_Emision = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
-    fecha_fin_Emision = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
+    fecha_Emision_B = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
+    fecha_Emision_0 = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
     
 
 
