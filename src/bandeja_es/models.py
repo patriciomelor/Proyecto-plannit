@@ -15,6 +15,8 @@ class Paquete(models.Model):
     destinatario = models.ForeignKey(User, on_delete=models.CASCADE,related_name="destinatario")
     periodo = models.CharField(verbose_name="Periodo", max_length=20) #ej Agosto 2020
     status = models.CharField(verbose_name="Status", max_length=10, default="to open")
+    is_trashed = models.BooleanField(verbose_name="Trashed", default=False)
+    
 
     def __str__(self):
         return self.nombre
