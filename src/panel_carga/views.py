@@ -69,7 +69,7 @@ class CreateDocumento(ProyectoMixin, CreateView):
     form_class = DocumentoForm
     # fields = ['especialidad', 'descripcion', 'num_documento', 'tipo', 'fecha_inicio_Emision','fecha_fin_Emision', 'archivo']
     template_name = 'panel_carga/create-documento.html'
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("PanelCarga")
     
     def form_valid(self, form):
         form.instance.owner = self.request.user
@@ -88,6 +88,9 @@ class ListDocumento(ProyectoMixin, ListView):
 
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
+
+    def get(self, request, *args, **kwargs):
+        self.listado_doc = self.get_queryset()
 
     def post(self, request, *args, **kwargs):
         documentos_erroneos = []
