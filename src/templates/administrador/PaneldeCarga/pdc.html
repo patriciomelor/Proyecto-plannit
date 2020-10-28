@@ -8,12 +8,7 @@
     </nav>
   </div>
 {% endblock navegacion %}
-{% load static %}
-{% block <head> %}
-  <link href="{% static 'lib/select2-4.0.13/css/select2.min.css' %}" rel="stylesheet" />
-  <link href="{% static 'lib/select2-4.0.13/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
-  <script src="{% static 'lib/select2-4.0.13/js/select2.min.js' %}"></script>
-{%endblock%}
+
 
 
 {% block content %}
@@ -49,37 +44,6 @@
           
           </ul>
         </div>
-<!-- 
-  <form method="post" action="." enctype="multipart/form-data" ></form>
-  <script>
-    $(function (){
-      var id = $(this).val();
-      var select_documents = $('select[name=documentos]');
-      var options = `<option value="">---------------------</option>`;
-      if(id=== ''){
-        select_documents.html(options);
-        return false;
-      }
-      $.ajax({
-        url: window.location.pathname,
-        type: 'POST',
-        data: {
-          'action': 'search_document_id',
-          'id': id
-        },
-        dataType: 'json',
-
-      }).done(function(data)){
-
-      }
-      $('.select2').select2({
-        theme: "bootstrap"
-      });
-    })
-    
-
-    "$('Select[name="Documentos]"').on('change',function () {...});"
-  </script> -->
 
   <!--Table-->
   <label for="">Buscar por:</label>

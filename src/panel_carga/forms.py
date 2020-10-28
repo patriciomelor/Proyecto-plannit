@@ -21,14 +21,6 @@ class ProyectoForm(forms.ModelForm):
         model = Proyecto
         exclude = ['encargado']
 
-# class MultipleSearching(forms.Form):
-#     proyecto = forms.ModelChoiceField(queryset=Proyecto.objects.all(), widget=Select(attrs={
-#             'class': 'form-control select2'
-#         }))
-    
-#     documentos = forms.ModelChoiceField(queryset=Documento.objects.all(), widget=Select(attrs={
-#         'class': 'form-control select2'
-#     }))
 
 class DocumentoForm(forms.ModelForm):
 
