@@ -3,7 +3,9 @@ from django.contrib.auth.decorators import login_required
 from . import views
 
 urlpatterns = [
-    path('index/', views.InBoxView.as_view(), name= 'Bandejaeys'),
+    path('recibidos/', views.InBoxView.as_view(), name= 'Bandejaeys'),
+    path('enviados/', views.EnviadosView.as_view(), name= 'bandeja-enviados'),
+    path('papelera/', views.PapeleraView.as_view(), name= 'bandeja-papelera'),
     path('paquete/crear/', login_required(views.create_paquete), name='paquete-crear'),
     path('paquete/detalle/<pk>/', views.PaqueteDetail.as_view(), name='paquete-detalle'),
     path('paquete/editar/<pk>/', views.PaqueteUpdate.as_view(), name='paquete-editar'),

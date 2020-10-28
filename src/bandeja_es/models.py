@@ -25,4 +25,7 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
     paquete_id = models.ForeignKey(Paquete, on_delete=models.CASCADE)
     cantidad = models.IntegerField(default=1)
     fecha_creacion = models.DateField(verbose_name="Fecha de creacion", auto_now_add=True, editable=False)
+
+    def __str__(self):
+        return str(self.documento_id.Descripcion)
 # Create your models here.

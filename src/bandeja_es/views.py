@@ -14,15 +14,20 @@ class InBoxView(ProyectoMixin, ListView):
     model = Paquete
     template_name = 'bandeja_es/baes.html'
     context_object_name = 'paquetes'
-    paginate_by = 5
+    paginate_by = 10
 
     def get_queryset(self):
-        return Paquete.objects.filter(owner=self.request.user)
+        return Paquete.objects.filter(destinatario=self.request.user).order_by('-fecha_creacion')
     
 class EnviadosView(ProyectoMixin, ListView):
     model = Paquete
     template_name = 'bandeja_es/baes_Enviado.html'
     context_object_name = 'paquetes'
+    paginate_by = 10
+
+    def get_queryset(self):
+        return Paquete.objects.filter(owner=self.request.user).order_by('-fecha_creacion')
+   
 class PapeleraView(ProyectoMixin, ListView):
     model = Paquete
     # template_name = 
@@ -33,6 +38,12 @@ class PaqueteDetail(ProyectoMixin, DetailView):
     template_name = 'bandeja_es/paquete-detail.html'
     context_object_name = 'paquete'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pakg_doc = PaqueteDocumento.objects.filter(paquete_id=self.kwargs['pk'])
+        context["documentos"] = pakg_doc
+        return context
+    
 class PaqueteUpdate(ProyectoMixin, UpdateView):
     model = Paquete
     template_name = 'bandeja_es/paquete-update.html'
@@ -73,7 +84,7 @@ def create_paquete(request):
         doc = Documento.objects.filter(proyecto=request.session.get('proyecto'))
         documento_opciones = ()
         for documento in doc:
-            documento_opciones = documento_opciones + ((documento.pk, documento.num_documento) ,)
+            documento_opciones = documento_opciones + ((documento.pk, documento.Codigo_documento) ,)
         form_documento.fields['documento'].choices = documento_opciones
     context['form_documento'] = form_documento
     context['form_paraquete'] = form_paraquete
