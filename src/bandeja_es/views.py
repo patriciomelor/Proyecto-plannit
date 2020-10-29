@@ -82,9 +82,9 @@ class CreatePaqueteView(ProyectoMixin, CreateView):
         for documento in docs:
             doc_seleccionado = Documento.objects.get(pk=documento)
             package.documento.add(doc_seleccionado)
-            for file in files:
-                doc_seleccionado.archivo = file
-                doc_seleccionado.save()
+        for file in files:
+            doc_seleccionado.archivo = file
+            doc_seleccionado.save()
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
     
 
