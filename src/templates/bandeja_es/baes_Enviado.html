@@ -17,9 +17,9 @@
 <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
 
   <nav class="nav br-nav-mailbox flex-column">
-       <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
+       <a href="{% url 'Bandejaeys' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
     <!--<a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>-->
-    <a href="" class="nav-link avtive"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
+    <a href="{% url 'bandeja-enviados' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
     <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Todos</strong></a>
   </nav>
 </div><!-- br-subleft -->
@@ -28,7 +28,7 @@
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
-      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entrada y Salida</a>      
+      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Salida.</a>      
       <span class="breadcrumb-item active">Enviados</span>
     </nav>
   </div><!-- br-pageheader -->

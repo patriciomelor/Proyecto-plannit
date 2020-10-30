@@ -46,89 +46,15 @@
         </div>
 
   <!--Table-->
-      <div class="rounded table-responsive">
+  <label for="">Buscar por:</label>
+      <form method="GET">
+        <div class="rounded table-responsive">              
+          {{filter.form.as_ul}}
+          <input type="submit" value="Filtrar">
+        </div>
+      </form>
 
-        <div class="col-1 mg-t-10 mg-b-10 float-left">
-       <label for="">Buscar por Especialidad:</label>
-          <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr" style="width: 100%;">
-          <span class="selection">
-          <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-yn2d-container">
-          <span class="select2-selection__rendered" id="select2-yn2d-container">
-          <span class="select2-selection__placeholder" >Choose one</span>
-        </span>
-          <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b>
-          </span>
-          </span>
-          </span>
-          <span class="dropdown-wrapper" aria-hidden="true"></span></span>
-        </div>
-        <div class="col-1 mg-t-10 mg-b-10 float-left">
-              
-       <label for="">Buscar por Descripción:</label>
-                <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus" dir="ltr" style="width: 100%;">
-                <span class="selection">
-                <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-yn2d-container">
-                <span class="select2-selection__rendered" id="select2-yn2d-container">
-                <span class="select2-selection__placeholder">Choose one</span></span>
-                <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b>
-                </span>
-                </span>
-                </span>
-                <span class="dropdown-wrapper" aria-hidden="true"></span></span>
-        </div>
-        <div class="col-1 mg-t-10 mg-b-10 float-left">
-                
-          <label for="">Buscar por Codigo Documento:</label>
-                   <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus"value="Elegir"dir="ltr" style="width: 100%;">
-                   <span class="selection">
-                   <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-yn2d-container">
-                   <span class="select2-selection__rendered" id="select2-yn2d-container">
-                   <span class="select2-selection__placeholder">Choose one</span></span>
-                   <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b>
-                   </span>
-                   </span>
-                   </span>
-                   <span class="dropdown-wrapper" aria-hidden="true"></span></span>
-        </div>
-        <div class="col-1 mg-t-10 mg-b-10 float-left">
-                
-       <label for="">Buscar por Numero Interno:</label>
-                <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus"value="Elegir"dir="ltr" style="width: 100%;">
-                <span class="selection">
-                <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-yn2d-container">
-                <span class="select2-selection__rendered" id="select2-yn2d-container">
-                <span class="select2-selection__placeholder">Choose one</span></span>
-                <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b>
-                </span>
-                </span>
-                </span>
-                <span class="dropdown-wrapper" aria-hidden="true"></span></span>
-        </div>
-        <div class="col-1 mg-t-10 mg-b-10 float-left">
-                
-          <label for="">Buscar por Tipo Documento:</label>
-                   <span class="select2 select2-container select2-container--default select2-container--below select2-container--focus"value="Elegir"dir="ltr" style="width: 100%;">
-                   <span class="selection">
-                   <span class="select2-selection select2-selection--single" role="combobox" aria-haspopup="true" aria-expanded="false" tabindex="0" aria-labelledby="select2-yn2d-container">
-                   <span class="select2-selection__rendered" id="select2-yn2d-container">
-                   <span class="select2-selection__placeholder">Choose one</span></span>
-                   <span class="select2-selection__arrow" role="presentation"><b role="presentation"></b>
-                   </span>
-                   </span>
-                   </span>
-                   <span class="dropdown-wrapper" aria-hidden="true"></span></span>
-           </div>
-        <div class="col-2 mg-t-10 mg-b-10 float-left">
-                
-          <label for="">desde:</label>
-            <input type="date" class="form-control fc-datepicker" placeholder="DD/MM/AAAA">
-        
-        </div>
-        <div class="col-2 mg-t-10 mg-b-10 float-left">                
-          <label for="">Hasta:</label>
-            <input type="date" id="datepickerNoOfMonths" class="form-control fc-datepicker" placeholder="DD/MM/AAAA">
-          
-        </div>
+
 
         <table class="table table-striped mg-b-0 table-bordered table-warning">
           <thead>

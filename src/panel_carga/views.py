@@ -89,8 +89,17 @@ class ListDocumento(ProyectoMixin, ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        return  Documento.objects.filter(proyecto=self.proyecto)
-  
+        qs =  Documento.objects.filter(proyecto=self.proyecto)
+        lista_documentos_filtrados = DocFilter(self.request.GET, queryset=qs)
+        return  lista_documentos_filtrados.qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        doc = Documento.objects.filter(proyecto=self.proyecto)
+        context["filter"] = DocFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+    
+
     def post(self, request, *args, **kwargs):
         documentos_erroneos = []
         dataset = Dataset()
