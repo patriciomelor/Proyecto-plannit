@@ -3,4 +3,4 @@ from .models import Documento
 class DocFilter(django_filters.FilterSet):
     class Meta:
         model = Documento
-        fields = ['Especialidad', 'Descripcion', 'Codigo_documento']
+        fields = ['Especialidad', 'Descripcion', 'Codigo_documento', 'fecha_Emision_B', 'fecha_Emision_0']
