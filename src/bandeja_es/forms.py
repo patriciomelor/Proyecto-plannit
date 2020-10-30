@@ -15,7 +15,7 @@ class CreatePaqueteForm(forms.ModelForm):
     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), label="Adjunte archivo al los documentos: ")
     class Meta:
         model = Paquete
-        fields = ['asunto', 'periodo', 'destinatario']
+        fields = ['destinatario', 'asunto', 'descripcion']
 
     def __init__(self, *args, **kwargs):
         self.documento = kwargs.pop('documento', None)

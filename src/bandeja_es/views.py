@@ -87,6 +87,8 @@ class CreatePaqueteView(ProyectoMixin, CreateView):
             doc_seleccionado.save()
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
     
+    def form_invalid(self, form, **kwargs):
+        pass
 
 
 def create_paquete(request):
