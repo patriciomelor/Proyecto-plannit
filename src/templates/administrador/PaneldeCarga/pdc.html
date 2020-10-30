@@ -1,5 +1,4 @@
 {% extends 'index-pdc.html' %}
-
 {% block navegacion %}
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -12,7 +11,7 @@
 
 
 {% block content %}
-
+{% load crispy_forms_tags %}
 <!--Titulo-->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Panel de carga de entregables.</h4>
@@ -46,15 +45,36 @@
         </div>
 
   <!--Table-->
-  <label for="">Buscar por:</label>
       <form method="GET">
-        <div class="rounded table-responsive">              
-          {{filter.form.as_ul}}
-          <input type="submit" value="Filtrar">
-        </div>
+      <div class="col-12 bd rounded mg-t-10" >
+      <div class="col-2" style="float:left;">      
+        {{filter.form.Especialidad|as_crispy_field}}
+      </div>
+      <div class="col-2"style="float:left;">      
+        {{filter.form.Descripcion|as_crispy_field}}
+      </div>
+      <div class="col-2"style="float:left;">      
+        {{filter.form.Codigo_documento|as_crispy_field}}
+      </div> 
+      </div>
+      <div class="col-12 bd rounded mg-t-10" > 
+      <div class="col-2" style="float:left;">      
+        {{filter.form.Tipo_Documento|as_crispy_field}}
+      </div>    
+      <div class="col-2" style="float:left;">      
+        {{filter.form.Numero_documento_interno|as_crispy_field}}
+      </div>  
+      <div class="col-2" style="float:left;">      
+        {{filter.form.fecha_Emision_B|as_crispy_field}}
+      </div> 
+      <div class="col-2" style="float:left;">      
+        {{filter.form.fecha_Emision_0|as_crispy_field}}
+      </div>
+      </div>  
+      
+          <input class="btn btn-info" type="submit" value="Filtrar">
       </form>
-
-
+  
 
         <table class="table table-striped mg-b-0 table-bordered table-warning">
           <thead>
