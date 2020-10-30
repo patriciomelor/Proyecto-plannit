@@ -26,7 +26,7 @@ class Documento(models.Model):
     Codigo_documento = models.CharField(verbose_name="Codigo Documento",unique=True, max_length=100)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE)
     Tipo_Documento = models.CharField(verbose_name="Tipo Documento", max_length=50)
-    Numero_documento_interno = models.CharField(verbose_name="Numero documento Interno", max_length=50)
+    Numero_documento_interno = models.CharField(verbose_name="Numero documento Interno", max_length=50, blank=True))
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha_Emision_B = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
