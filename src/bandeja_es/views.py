@@ -92,7 +92,7 @@ class CreatePaqueteView(ProyectoMixin, CreateView):
 
 
 class BorradorCreate(ProyectoMixin, CreateView):
-    model = Borrador7
+    model = Borrador
     success_url = reverse_lazy('Bandejaeys')
     pass
 
