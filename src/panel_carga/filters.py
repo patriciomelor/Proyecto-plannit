@@ -1,4 +1,5 @@
 import django_filters
+from django import forms
 from .models import Documento
 from django import forms
 from crispy_forms.helper import FormHelper
@@ -6,6 +7,8 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 
 
 class DocFilter(django_filters.FilterSet): 
+    fecha_Emision_B = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), input_formats=['%Y-%m-%d'])
+    fecha_Emision_0 = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), input_formats=['%Y-%m-%d'])
 
     class Meta:
         model=Documento

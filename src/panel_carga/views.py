@@ -140,7 +140,14 @@ class DeleteDocumento(ProyectoMixin, DeleteView):
     model = Documento
     success_url = reverse_lazy('PanelCarga')
     context_object_name = 'documento'
-    
+
+def delete_multiple_documentos(request, pk):
+    if request.method == 'POST':
+        documentos = request.POST.getlist('id[]')
+        for documento in documentos:
+            doc = Documento.objects.get(pk=documento)
+            doc.delete()
+        return HttpResponseRedirect(reverse_lazy("PanelCarga"))
 class UpdateDocumento(ProyectoMixin, UpdateView):
     model = Documento
     form_class = DocumentoForm
