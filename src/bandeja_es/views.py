@@ -6,7 +6,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 
-from .models import Documento, Paquete, PaqueteDocumento
+from .models import Documento, Paquete, PaqueteDocumento, Borrador, BorradorDocumento
 from .forms import CreatePaqueteForm
 # Create your views here.
 
@@ -14,7 +14,7 @@ class InBoxView(ProyectoMixin, ListView):
     model = Paquete
     template_name = 'bandeja_es/baes.html'
     context_object_name = 'paquetes'
-    paginate_by = 10
+    paginate_by = 15
 
     def get_queryset(self):
         return Paquete.objects.filter(destinatario=self.request.user).order_by('-fecha_creacion')
@@ -90,6 +90,27 @@ class CreatePaqueteView(ProyectoMixin, CreateView):
     def form_invalid(self, form, **kwargs):
         pass
 
+
+class BorradorCreate(ProyectoMixin, CreateView):
+    model = Borrador7
+    success_url = reverse_lazy('Bandejaeys')
+    pass
+
+class BorradorList(ProyectoMixin, ListView):
+    model = Borrador
+    context_object_name = 'borradores'
+    paginate_by = 15
+    pass
+
+class BorradorDetail(ProyectoMixin, DetailView):
+    model = Borrador
+    context_object_name = 'borrador'
+    pass
+
+class BorradorDelete(ProyectoMixin, DeleteView):
+    model = Borrador
+    success_url = reverse_lazy('Bandejaeys')
+    pass
 
 def create_paquete(request):
     context = {}
