@@ -203,7 +203,7 @@
             method: "POST",
             data: {
               id,
-              csrf: 
+              csrfmiddlewaretoken:csrf 
             },
             success:function(response){
               for (var i=0; i < id.length; i++){
