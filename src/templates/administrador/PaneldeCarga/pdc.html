@@ -20,6 +20,8 @@
 
   <div class="br-section-wrapper">
 <!--Tabla-->
+<a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-outline-warning"> Descargar Plantilla </button></a>
+          
   <div class="row row-sm d-flex justify-content-center" >
   <!--Upload Archivos-->
         <div class="col-12 bd rounded mg-t-10">
@@ -39,44 +41,42 @@
 
             <li class="nav-item float-left"style="width: auto;"><a class="nav-link" href="{% url 'documento-crear' %}"><button class="btn btn-outline-primary">Insertar por formulario</button></a></li>
             <li class="nav-item float-left"style="width: auto;"><a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-outline-success"> Descargar Excel </button></a></li>
-            <li class="nav-item float-left"style="width: auto;"><a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-outline-warning"> Descargar Plantilla </button></a></li>
-          
+            
           </ul>
         </div>
 
-  <!--Table-->
-      <form method="GET">
-      <div class="col-12 bd rounded mg-t-10" >
-      <div class="col-2" style="float:left;">      
-        {{filter.form.Especialidad|as_crispy_field}}
-      </div>
-      <div class="col-2"style="float:left;">      
-        {{filter.form.Descripcion|as_crispy_field}}
-      </div>
-      <div class="col-2"style="float:left;">      
-        {{filter.form.Codigo_documento|as_crispy_field}}
-      </div> 
-      </div>
-      <div class="col-12 bd rounded mg-t-10" > 
-      <div class="col-2" style="float:left;">      
-        {{filter.form.Tipo_Documento|as_crispy_field}}
-      </div>    
-      <div class="col-2" style="float:left;">      
-        {{filter.form.Numero_documento_interno|as_crispy_field}}
-      </div>  
-      <div class="col-2" style="float:left;">      
-        {{filter.form.fecha_Emision_B|as_crispy_field}}
-      </div> 
-      <div class="col-2" style="float:left;">      
-        {{filter.form.fecha_Emision_0|as_crispy_field}}
-      </div>
-      </div>  
-      
-          <input class="btn btn-info" type="submit" value="Filtrar">
-      </form>
   
 
         <table class="table table-striped mg-b-0 table-bordered table-warning">
+          
+  <!--Table-->
+      <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
+        <div class="col-4" style="margin-top: 30px;">      
+          {{filter.form.Especialidad|as_crispy_field}}
+        </div>
+        <div class="col-4" style="margin-top: 30px;">      
+          {{filter.form.Descripcion|as_crispy_field}}
+        </div>
+        <div class="col-4" style="margin-top: 30px;">      
+          {{filter.form.Codigo_documento|as_crispy_field}}
+        </div>     
+        <div class="col-3" style="margin-top: 10px;">      
+          {{filter.form.Tipo_Documento|as_crispy_field}}
+        </div>    
+        <div class="col-3" style="margin-top: 10px;">      
+          {{filter.form.Numero_documento_interno|as_crispy_field}}
+        </div>  
+        <div class="col-2" style="margin-top: 10px;">      
+          {{filter.form.fecha_Emision_B|as_crispy_field}}
+        </div> 
+        <div class="col-2" style="margin-top: 10px;">      
+          {{filter.form.fecha_Emision_0|as_crispy_field}}
+        </div>    
+        <div class="col-2" style="margin-top: 35px;">      
+          
+          <input class="btn btn-info btn-oblong" type="submit" value="Filtrar">
+        </div>     
+      </form>
           <thead>
             <tr>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
@@ -91,6 +91,7 @@
           <tbody>
           
             <tr>
+              <th></th>
               <th></th>
               <th></th>
               <th></th>
