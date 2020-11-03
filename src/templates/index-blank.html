@@ -1,6 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<!DOCTYPE html>
 {% load static %}
 <html lang="en">
   <head>
@@ -28,9 +26,9 @@
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
   </head>
-
   <body class="collapsed-menu with-subleft">
-
+  {% block menublank %}
+ 
     <!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo"><a href=""><span>[</span>DMP<span>]</span></a></div>
     <div class="br-sideleft overflow-y-auto">
@@ -55,12 +53,12 @@
             <span class="menu-item-label">Bandeja de Archivos</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <a href="{% url 'Borradores' %}" class="br-menu-link">
+        <!--<a href="{% url 'Borradores' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-book-outline tx-22"></i>
             <span class="menu-item-label">Borradores</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+          </div> 
+        </a>br-menu-link -->
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
@@ -725,11 +723,16 @@
     </div><!-- br-sideright -->
     <!-- ########## END: RIGHT PANEL ########## -->
 
+ {% endblock menublank %}
     <!-- ########## START: MAIN PANEL ########## -->
 
 
 {% block content %}
 {% endblock content %}
+
+{% block mailing %}
+
+{% endblock mailing %}
     <!-- ########## END: MAIN PANEL ########## -->
 
     <script src="{% static 'jquery/jquery.js' %}"></script> 

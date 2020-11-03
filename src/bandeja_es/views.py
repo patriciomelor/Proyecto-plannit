@@ -93,39 +93,8 @@ class CreatePaqueteView(ProyectoMixin, CreateView):
 
 class BorradorCreate(ProyectoMixin, CreateView):
     model = Borrador
-    template_name = 'bandeja_es/create-paquete.html'
     success_url = reverse_lazy('Bandejaeys')
-    form_class = CreateBorradorForm
-
-    def get_form_kwargs(self):
-        kwargs = super(BorradorCreate, self).get_form_kwargs()
-        doc = Documento.objects.filter(proyecto=self.proyecto)
-        documento_opciones = ()
-        for docs in doc:
-            documento_opciones = documento_opciones + ((docs.pk, docs.Codigo_documento) ,)
-        kwargs['documento'] = documento_opciones
-        return kwargs
-
-    def form_valid(self, form, **kwargs):
-        package_pk = 0
-        obj = form.save(commit=False)
-        obj.owner = self.request.user
-        obj.save()
-        package_pk = obj.pk
-        docs = self.request.POST.getlist('documento')
-        files = self.request.FILES.getlist('file_field')
-        package = Paquete.objects.get(pk=package_pk)
-        for documento in docs:
-            doc_seleccionado = Documento.objects.get(pk=documento)
-            package.documento.add(doc_seleccionado)
-        for file in files:
-            doc_seleccionado.archivo = file
-            doc_seleccionado.save()
-        return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
-    
-    def form_invalid(self, form, **kwargs):
-        pass
-
+    pass
 
 class BorradorList(ProyectoMixin, ListView):
     model = Borrador
@@ -135,18 +104,11 @@ class BorradorList(ProyectoMixin, ListView):
 
 class BorradorDetail(ProyectoMixin, DetailView):
     model = Borrador
-    template_name = 'Borrador/paquete_detail.html'
     context_object_name = 'borrador'
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        pakg_doc = BorradorDocumento.objects.filter(borrador_id=self.kwargs['pk'])
-        context["borradores"] = pakg_doc
-        return context
+    pass
 
 class BorradorDelete(ProyectoMixin, DeleteView):
     model = Borrador
-    template_name = 'Borrador/paquete_delete.html'
     success_url = reverse_lazy('Bandejaeys')
     pass
 

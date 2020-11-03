@@ -1,4 +1,30 @@
-{% extends 'index-borrador.html' %}
+{% extends 'index-blank.html' %}
+
+
+{% block mailing %}
+<div class="br-subleft bg-info">
+  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">Filter Users</h6>
+
+  <div class="mg-t-20 pd-x-10 mg-b-40">
+    <div class="form-group">
+     <input type="text" class="form-control form-control-inverse tx-13" placeholder="Nombre de paquete">
+    </div><!-- form-group -->
+    <div class="form-group">
+      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Enter location of user">
+    </div><!-- form-group -->
+       <button class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium">Filtros</button>
+  </div>
+<h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
+
+  <nav class="nav br-nav-mailbox flex-column">
+       <a href="{% url 'Bandejaeys' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
+    <a href="{% url 'Borradores' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
+    <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
+  </nav>
+</div><!-- br-subleft -->
+
+{% endblock mailing %}
+
 
 {% block content %}
   <div class="br-pageheader pd-y-15 pd-md-l-20">

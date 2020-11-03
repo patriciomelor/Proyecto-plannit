@@ -1,7 +1,7 @@
 {% extends 'index-blank.html' %}
 
-{% block content %}   
 
+{% block mailing %}
 <div class="br-subleft bg-info">
   <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">Filter Users</h6>
 
@@ -18,11 +18,14 @@
 
   <nav class="nav br-nav-mailbox flex-column">
        <a href="{% url 'Bandejaeys' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
-    <!--<a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>-->
+    <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
     <a href="{% url 'bandeja-enviados' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
-    <a href="" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Todos</strong></a>
   </nav>
 </div><!-- br-subleft -->
+
+{% endblock mailing %}
+
+{% block content %}   
 
 <div class="br-contentpanel">
   <div class="br-pageheader pd-y-15 pd-md-l-20">
