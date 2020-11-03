@@ -3,17 +3,18 @@
 
 {% block mailing %}
 <div class="br-subleft bg-info">
-  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">Filter Users</h6>
-
+  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">Filtros de Busqueda</h6>
+  <form method="GET" class="form-group col-lg-17 mg-t-33">
   <div class="mg-t-20 pd-x-10 mg-b-40">
     <div class="form-group">
-     <input type="text" class="form-control form-control-inverse tx-13" placeholder="Nombre de paquete">
+     <input type="text" class="form-control form-control-inverse tx-13" placeholder="Número de paquete">
     </div><!-- form-group -->
     <div class="form-group">
-      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Enter location of user">
+      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Autor">
     </div><!-- form-group -->
-       <button class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium">Filtros</button>
+       <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium" value="Filtrar">
   </div>
+  </form>
 <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
 
   <nav class="nav br-nav-mailbox flex-column">
