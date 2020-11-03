@@ -8,6 +8,7 @@ from panel_carga.views import ProyectoMixin
 
 from .models import Documento, Paquete, PaqueteDocumento, Borrador, BorradorDocumento
 from .forms import CreatePaqueteForm
+from .filters import PaqueteFilter
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -17,7 +18,15 @@ class InBoxView(ProyectoMixin, ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        return Paquete.objects.filter(destinatario=self.request.user).order_by('-fecha_creacion')
+        pkg =  Paquete.objects.filter(destinatario=self.request.user).order_by('-fecha_creacion')
+        lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
+        return  lista_paquetes_filtrados.qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pkg = Paquete.objects.filter(destinatario=self.request.user).order_by('-fecha_creacion')
+        context["filter"] = PaqueteFilter(self.request.GET, queryset=pkg)
+        return context
     
 class EnviadosView(ProyectoMixin, ListView):
     model = Paquete
