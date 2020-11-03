@@ -4,7 +4,7 @@ from .models import Paquete, PaqueteDocumento, Borrador, BorradorDocumento
 class PaqueteFilter(django_filters.FilterSet):
     class Meta:
         model = Paquete
-        fields = ['nombre', 'owner']
+        fields = ['id', 'owner', 'fecha_creacion']
 
 class PaqueteDocumentoFilter(django_filters.FilterSet):
     class Meta:

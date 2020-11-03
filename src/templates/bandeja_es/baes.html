@@ -1,16 +1,20 @@
 {% extends 'index-blank.html' %}
 
 
+
 {% block mailing %}
+{% load crispy_forms_tags %}
+
 <div class="br-subleft bg-info">
   <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">Filtros de Busqueda</h6>
   <form method="GET" class="form-group col-lg-17 mg-t-33">
   <div class="mg-t-20 pd-x-10 mg-b-40">
-    <div class="form-group">
-     <input type="text" class="form-control form-control-inverse tx-13" placeholder="Número de paquete">
+    <div class="form-group" >
+          {{filter.form.id|as_crispy_field}}
     </div><!-- form-group -->
+          {{filter.form.owner|as_crispy_field}}
     <div class="form-group">
-      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Autor">
+          {{filter.form.fecha_creacion|as_crispy_field}}
     </div><!-- form-group -->
        <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium" value="Filtrar">
   </div>
