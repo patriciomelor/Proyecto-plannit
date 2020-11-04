@@ -1,24 +1,34 @@
 {% extends 'index-blank.html' %}
 
+{% load crispy_forms_tags %}
+
 
 {% block mailing %}
-<div class="br-subleft bg-info">
-  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">Filter Users</h6>
 
-  <div class="mg-t-20 pd-x-10 mg-b-40">
-    <div class="form-group">
-     <input type="text" class="form-control form-control-inverse tx-13" placeholder="Nombre de paquete">
-    </div><!-- form-group -->
-    <div class="form-group">
-      <input type="text" class="form-control form-control-inverse tx-13" placeholder="Enter location of user">
-    </div><!-- form-group -->
-       <button class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium">Filtros</button>
-  </div>
+<div class="br-subleft">
+
+  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">Filtros de Busqueda</h6>
+    <form method="GET" class="form-group col-lg-17">
+      <div class="mg-t-20 pd-x-10 mg-b-40">
+        <div class="form-group" >
+            <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.id|as_crispy_field}}</label>
+        </div><!-- form-group -->
+            <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.owner|as_crispy_field}}</label>
+        <div class="form-group">
+            <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.fecha_creacion|as_crispy_field}}</label>
+        </div><!-- form-group -->
+            <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
+      </div>
+    </form>
+    <div class=" hidden-xs-down mg-l-10">
+      <a href="{% url 'paquete-crear' %}" class="btn btn-warning">Nuevo Paquete</a>
+    </div>
+  
 <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
 
   <nav class="nav br-nav-mailbox flex-column">
-       <a href="{% url 'Bandejaeys' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
-    <a href="{% url 'Borradores' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
+       <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
+    <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
     <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
   </nav>
 </div><!-- br-subleft -->
