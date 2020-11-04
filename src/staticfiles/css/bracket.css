@@ -14090,8 +14090,8 @@ textarea.parsley-success:focus {
   color: #17A2B8;
 }
 .br-nav-mailbox .nav-link.active {
-  background-color: #223043;
-  color: #17A2B8;
+  background-color: #00b297;
+  color: #ffffff;
 }
 .br-nav-mailbox .nav-link + .nav-link {
   margin-top: 1px;
