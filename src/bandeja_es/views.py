@@ -6,9 +6,11 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 
-from .models import Documento, Paquete, PaqueteDocumento, Borrador, BorradorDocumento
+from .models import Paquete, PaqueteDocumento, Borrador, BorradorDocumento
 from .forms import CreatePaqueteForm
-from .filters import PaqueteFilter, PaqueteDocumentoFilter
+from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
+from panel_carga.filters import DocFilter
+from panel_carga.models import Documento
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -83,9 +85,20 @@ class CreatePaqueteView(ProyectoMixin, CreateView):
     success_url = reverse_lazy('Bandejaeys')
     form_class = CreatePaqueteForm
 
+    def get_queryset(self):
+        qs =  Documento.objects.filter(proyecto=self.proyecto)
+        lista_documentos_filtrados = DocFilter(self.request.GET, queryset=qs)
+        return  lista_documentos_filtrados.qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        doc = Documento.objects.filter(proyecto=self.proyecto)
+        context["filter"] = DocFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
     def get_form_kwargs(self):
         kwargs = super(CreatePaqueteView, self).get_form_kwargs()
-        doc = Documento.objects.filter(proyecto=self.proyecto)
+        doc =  self.get_queryset()
         documento_opciones = ()
         for docs in doc:
             documento_opciones = documento_opciones + ((docs.pk, docs.Codigo_documento) ,)
@@ -113,16 +126,29 @@ class CreatePaqueteView(ProyectoMixin, CreateView):
         pass
 
 
+class BorradorList(ProyectoMixin, ListView):
+    model = Borrador
+    template_name = 'bandeja_es/borrador.html'
+    context_object_name = 'borradores'
+    paginate_by = 15
+
+    def get_queryset(self):
+        qs =  Borrador.objects.filter(owner=self.request.user)
+        lista_borradores_filtrados = BorradorFilter(self.request.GET, queryset=qs)
+        return  lista_borradores_filtrados.qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        draft = Borrador.objects.filter(owner=self.request.user)
+        context["filter"] = BorradorFilter(self.request.GET, queryset=self.get_queryset())
+        return context
+
+
 class BorradorCreate(ProyectoMixin, CreateView):
     model = Borrador
     success_url = reverse_lazy('Bandejaeys')
     pass
 
-class BorradorList(ProyectoMixin, ListView):
-    model = Borrador
-    context_object_name = 'borradores'
-    paginate_by = 15
-    pass
 
 class BorradorDetail(ProyectoMixin, DetailView):
     model = Borrador

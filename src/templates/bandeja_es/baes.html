@@ -6,9 +6,7 @@
 {% load crispy_forms_tags %}
 
 <div class="br-subleft">
-  <div class=" hidden-xs-down mg-l-40">
-    <a href="{% url 'paquete-crear' %}" class="btn btn-warning">Nuevo Paquete</a>
-  </div>
+
   <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">Filtros de Busqueda</h6>
     <form method="GET" class="form-group col-lg-17">
       <div class="mg-t-20 pd-x-10 mg-b-40">
@@ -22,6 +20,9 @@
             <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
       </div>
     </form>
+    <div class=" hidden-xs-down mg-l-10">
+      <a href="{% url 'paquete-crear' %}" class="btn btn-warning">Nuevo Paquete</a>
+    </div>
   
 <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
 
