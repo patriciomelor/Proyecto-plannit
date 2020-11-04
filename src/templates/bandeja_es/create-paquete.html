@@ -30,27 +30,28 @@
 
 {% endblock mailing %}
 
-{% block navegacion %}
-<div class="br-pageheader pd-y-15 pd-l-20">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item"> {{proyecto}}</a>
-      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entada y Salida</a>      
-      <span class="breadcrumb-item active">Crear Paquete</span>
-    </nav>
-</div>
-{% endblock navegacion %}
+
 
 {% block content %}
 
 <!--Titulo-->
+
+<div class="br-contentpanel">
+  <div class="br-pageheader pd-y-15 pd-md-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entrada y Salida</a>      
+      <span class="breadcrumb-item active">Crear Paquete</span>
+    </nav>
+  </div><!-- br-pageheader -->
+
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Formulario para crear documentos</h4>
-    <p class="mg-b-0"></p>
+    <h4 class="tx-gray-800 mg-b-5">Crear Paquete</h4>
   </div>
 
-
-<div class="br-section-wrapper">
-    <form method="POST" enctype="multipart/form-data">{% csrf_token %}
+  <div class="br-pagebody pd-x-20 pd-sm-x-30">
+    <div class="card bd-0 shadow-base">
+         <form method="POST" enctype="multipart/form-data">{% csrf_token %}
         <label class="form-control col-12 col-sm-12">
         <div>{{ form|crispy }}</div>
 
@@ -61,7 +62,7 @@
         <input class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="button" onClick="javascript:history.go(-1);" value="Volver">
     </form>
 </div>
-        
+</div>    
       
 
 
