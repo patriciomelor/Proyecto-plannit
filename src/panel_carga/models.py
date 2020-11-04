@@ -8,8 +8,8 @@ from .choices import (ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION, DOCUMEN
 class Proyecto(models.Model):
 
     nombre = models.CharField(verbose_name="Nombre del Proyecto", max_length=50, unique=True)
-    fecha_inicio = models.DateField(verbose_name="Fecha de Inicio")
-    fecha_termino = models.DateField(verbose_name="Fecha de Termino", blank=True)
+    fecha_inicio = models.DateTimeField(verbose_name="Fecha de Inicio")
+    fecha_termino = models.DateTimeField(verbose_name="Fecha de Termino", blank=True)
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
     encargado = models.ForeignKey(User, on_delete=models.CASCADE)
     #dias para revision
@@ -29,13 +29,24 @@ class Documento(models.Model):
     Numero_documento_interno = models.CharField(verbose_name="Numero documento Interno", max_length=50, blank=True)
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    fecha_Emision_B = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
-    fecha_Emision_0 = models.DateField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
+    fecha_Emision_B = models.DateTimeField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
+    fecha_Emision_0 = models.DateTimeField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
     
 
 
     def __str__(self):
         return self.num_documento
+
+
+class Version(models.Model):
+    document_version = models.CharField(verbose_name="Version documento", max_length=5)
+    fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
+    comentario = models.FileField(upload_to="proyecto/comentarios/",blank=True)
+    documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
+    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
+
+    def __str__(self):
+        return self.document_version
 
 
 #Tabla que almacena el historico de las ediciones por documento, la idea es mostrar siempre el ultimo para saber quien le metio mano a ese documento
@@ -56,7 +67,11 @@ class Revision(models.Model):
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1)
     emitida_para = models.TextField(verbose_name="Emitida para")
     fecha = models.DateTimeField(verbose_name="Fecha", editable=False)
+<<<<<<< HEAD
     fecha_estimada = models.DateField(verbose_name="Fecha rev 0", editable=True, default='2021-01-01') #preguntar a davis por el calculo de los dias
+=======
+    fecha_estimada = models.DateTimeField(verbose_name="Fecha rev 0", editable=True, default='2021-01-01') #preguntar a davis por el calculo de los dias
+>>>>>>> 1030e6ed3e1c2e38d79254b83a22e1d1579f0422
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     documento = models.ForeignKey(Documento, on_delete=models.CASCADE, blank=True, default=5) #Hay que dar vuelta la relacion 
 
