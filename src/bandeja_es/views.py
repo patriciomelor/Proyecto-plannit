@@ -8,7 +8,7 @@ from panel_carga.views import ProyectoMixin
 
 from .models import Documento, Paquete, PaqueteDocumento, Borrador, BorradorDocumento
 from .forms import CreatePaqueteForm
-from .filters import PaqueteFilter
+from .filters import PaqueteFilter, PaqueteDocumentoFilter
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -18,14 +18,14 @@ class InBoxView(ProyectoMixin, ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        pkg =  Paquete.objects.filter(destinatario=self.request.user).order_by('-fecha_creacion')
+        pkg =  Paquete.objects.filter(destinatario=self.request.user)
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
-        return  lista_paquetes_filtrados.qs
+        return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pkg = Paquete.objects.filter(destinatario=self.request.user).order_by('-fecha_creacion')
-        context["filter"] = PaqueteFilter(self.request.GET, queryset=pkg)
+        pkg = Paquete.objects.filter(destinatario=self.request.user)
+        context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
         return context
     
 class EnviadosView(ProyectoMixin, ListView):
@@ -35,7 +35,15 @@ class EnviadosView(ProyectoMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        return Paquete.objects.filter(owner=self.request.user).order_by('-fecha_creacion')
+        pkg =  Paquete.objects.filter(owner=self.request.user)
+        lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
+        return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        pkg = Paquete.objects.filter(owner=self.request.user)
+        context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
+        return context
    
 class PapeleraView(ProyectoMixin, ListView):
     model = Paquete
@@ -46,6 +54,11 @@ class PaqueteDetail(ProyectoMixin, DetailView):
     model = Paquete
     template_name = 'bandeja_es/paquete-detail.html'
     context_object_name = 'paquete'
+
+    def get_queryset(self):
+        pkg_doc =  PaqueteDocumento.objects.filter(paquete_id=self.kwargs['pk'])
+        lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg_doc)
+        return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
