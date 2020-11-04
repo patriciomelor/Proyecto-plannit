@@ -67,11 +67,7 @@ class Revision(models.Model):
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1)
     emitida_para = models.TextField(verbose_name="Emitida para")
     fecha = models.DateTimeField(verbose_name="Fecha", editable=False)
-<<<<<<< HEAD
-    fecha_estimada = models.DateField(verbose_name="Fecha rev 0", editable=True, default='2021-01-01') #preguntar a davis por el calculo de los dias
-=======
     fecha_estimada = models.DateTimeField(verbose_name="Fecha rev 0", editable=True, default='2021-01-01') #preguntar a davis por el calculo de los dias
->>>>>>> 1030e6ed3e1c2e38d79254b83a22e1d1579f0422
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     documento = models.ForeignKey(Documento, on_delete=models.CASCADE, blank=True, default=5) #Hay que dar vuelta la relacion 
 
