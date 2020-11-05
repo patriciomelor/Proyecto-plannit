@@ -11,8 +11,9 @@ from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 #     # documento = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False, label="Escoja los documentos a enviar: ")
 
 class CreatePaqueteForm(forms.ModelForm):
-    documento = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False, label="Escoja los documentos a enviar: ")
+    documento = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'class': "form-check-input"}), required=False, label="Escoja los documentos a enviar: ")
     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), label="Adjunte archivo al los documentos: ")
+
     class Meta:
         model = Paquete
         fields = ['destinatario', 'asunto', 'descripcion']

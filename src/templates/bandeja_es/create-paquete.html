@@ -18,7 +18,9 @@
             <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
       </div>
     </form>
-  
+     <div class=" hidden-xs-down mg-l-10">
+      <a href="{% url 'paquete-crear' %}" class="btn btn-warning">Nuevo Paquete</a>
+    </div>
 <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
 
   <nav class="nav br-nav-mailbox flex-column">
@@ -53,14 +55,18 @@
     <div class="card bd-0 shadow-base">
          <form method="POST" enctype="multipart/form-data">{% csrf_token %}
         <label class="form-control col-12 col-sm-12">
-        <div>{{ form|crispy }}</div>
-
+          <div style="height:350px;padding-left: 30px; overflow-y: scroll;">
+            {{form|crispy}}
+          </div>                                
+          <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar">
+          <input class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="button" onClick="javascript:history.go(-1);" value="Volver">
+                        
+                
+       
+        </label>
         
         
-        
-        <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar">
-        <input class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="button" onClick="javascript:history.go(-1);" value="Volver">
-    </form>
+     </form>
 </div>
 </div>    
       
