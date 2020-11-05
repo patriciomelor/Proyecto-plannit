@@ -5,7 +5,7 @@ from . import views
 urlpatterns = [
     path('recibidos/', views.InBoxView.as_view(), name= 'Bandejaeys'),
     path('enviados/', views.EnviadosView.as_view(), name= 'bandeja-enviados'),
-    path('booradores/', views.BorradorList.as_view(), name= 'Borradores'),
+    path('borradores/', views.BorradorList.as_view(), name= 'Borradores'),
     path('papelera/', views.PapeleraView.as_view(), name= 'bandeja-papelera'),
     path('paquete/crear/', views.CreatePaqueteView.as_view(), name='paquete-crear'),
     path('paquete/detalle/<pk>/', views.PaqueteDetail.as_view(), name='paquete-detalle'),
