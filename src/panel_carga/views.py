@@ -135,13 +135,17 @@ def export_document(request):
     response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
     return response
-class DeleteDocumento(ProyectoMixin, DeleteView):
-    template_name = 'panel_carga/delete-documento.html'
+class DeleteDocumento(ProyectoMixin, ListView):
+    template_name = 'panel_carga/delete-lista_documentos.html'
     model = Documento
     success_url = reverse_lazy('PanelCarga')
     context_object_name = 'documento'
 
-def delete_multiple_documentos(request, pk):
+    def get_queryset(self):
+        return Documento.objects.filter(proyecto=self.proyecto)
+    
+
+def delete_multiple_documentos(request):
     if request.method == 'POST':
         documentos = request.POST.getlist('id[]')
         for documento in documentos:
@@ -167,8 +171,6 @@ class CreateRevision(ProyectoMixin, CreateView):
     form_class = RevisionForm
     template_name = 'panel_carga/create-revision.html'
     success_url = reverse_lazy("index")
-
-
 
 class DocumentoFileUploadView(ProyectoMixin, ListView):
     model = Documento

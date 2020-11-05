@@ -1,0 +1,157 @@
+{% extends 'index-base.html' %}
+
+{% block navegacion %}
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item" href="{% url 'PanelCarga' %}">Panel de Carga</a>      
+      <span class="breadcrumb-item active"> Eliminar Documentos</span>
+    </nav>
+</div>
+{% endblock navegacion %}
+
+
+{% block content %}
+
+<table class="table table-striped mg-b-0 table-bordered table-warning"style="width:100%;">       
+    <!--Table-->  
+            <thead>
+              <tr>
+                <th></th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: white;">Codigo Documento <br>Contractual</th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: white;">Numero Documento <br> Interno</th>              
+                <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>              
+                <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="1"></th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: white;">
+                  <a class="nav-link"><button class="btn btn-danger" id="delete_btn" type="submit"> Eliminar Todos<br>los Registros </button></a></th>
+              </tr>
+            </thead>
+            <tbody>
+            
+              <tr>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th></th>
+                <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
+                <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
+                <th></th>
+                <th></th>
+              </tr>
+              <!--Loop Listar Documento-->
+              {% for documento in documentos %}
+              <tr id="{{documento.pk}}">
+                <th><input type="checkbox" name="document_id[]" value="={{documento.pk}}" id="delete_document"><span></span></th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}}</th>                  
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0}}</th>
+              </tr>           
+              
+              {% empty %}
+              <div class="modal fade in" id="myModal" role="dialog" style="display: block; padding-right: 16px;">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content tx-size-sm">
+                    <div class="modal-body tx-center pd-y-20 pd-x-20">
+                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                      <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                      <h4 class="tx-danger  tx-semibold mg-b-20">Error: No hay Información Ingresada!</h4>
+                      <p class="mg-b-20 mg-x-20">Recuerde Que puede importar desde <strong>Excel</strong> o Insertar Manualmente por formulario.</p>
+                      <h6 class="tx-info tx-semibold mg-b-20">Descargar plantilla de informacion <a href="{% url 'panel-export' %}">Aqui</a></h6>
+                      <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
+                        Continue</button>
+                      </div><!-- modal-body -->
+                    </div><!-- modal-content -->
+                  </div><!-- modal-dialog -->
+            </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+            <script type="text/javascript">
+             $(function(){
+              $("#myModal").modal();
+             });
+            </script>
+        {% endfor %}
+              <!--Fin Loop-->
+            </tbody>
+          </table>
+    
+  
+        {% if is_paginated %}
+         <div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
+            <ul class="pagination pagination-basic mg-b-0">            
+                {% if page_obj.has_previous %}
+                <li class="page-item">
+                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR">                  
+                  <i class="fa fa-angle-left"></i>
+                  </a>                
+                  ANTERIOR 
+                </li>
+            </ul>
+          {% endif %}
+          {% if page_obj.has_next %}
+            <ul class="pagination pagination-basic mg-b-0">
+              <li class="page-item">
+                <a href="?page={{ page_obj.next_page_number }}" class="page-link" aria-label="SIGUIENTE">
+                  <i class="fa fa-angle-right"></i>                
+                </a>
+                SIGUIENTE
+              </li>
+            </ul>      
+        </div>  
+        {% endif %}
+        {% endif %}
+        </div>
+      </div>
+    </div>
+
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+<script>
+      $(document).ready(function()
+      {
+        $('#delete_btn').click(function(){
+          if(confirm("Seguro que desea borrar estos registros??"))
+          {
+            var id=[];
+            $(':checkbox:checked').each(function(i){
+              id[i]=$(this).val()
+            })
+            if(id.length==0)
+            {
+              alert("No se ha seleccionado ningun documento para eliminar")
+            }
+            else
+            {
+              $.ajax({
+                url: "documento/eliminar_multiple/",
+                method: "POST",
+                data: {
+                  id,
+                  csrf: ,
+                
+                success:function(response){
+                  for (var i=0; i < id.length; i++){
+                    $('tr#'+id[i]+'').css('background-color', '#ccc');
+                    $('tr#'+id[i]+'').fadeOut('slow');
+    
+                  }
+                }
+              }) 
+            }
+          }
+        }    
+      }
+</script>
+{% endblock content %}
