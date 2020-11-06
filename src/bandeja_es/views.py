@@ -101,7 +101,7 @@ class CreatePaqueteView(ProyectoMixin, CreateView):
         doc =  self.get_queryset()
         documento_opciones = ()
         for docs in doc:
-            documento_opciones = documento_opciones + ((docs.pk, docs.Codigo_documento) ,)
+            documento_opciones = documento_opciones + ((docs.pk, str(docs.Codigo_documento + " -- " + " -- " + docs.Especialidad)) ,)
         kwargs['documento'] = documento_opciones
         return kwargs
 
