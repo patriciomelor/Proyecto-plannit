@@ -46,5 +46,14 @@ class BorradorDocumento(models.Model):
     def __str__(self):
         return str(self.documento_id.Descripcion)
 
+class Version(models.Model):
+    document_version = models.CharField(verbose_name="Version documento", max_length=5)
+    fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
+    comentario = models.FileField(upload_to="proyecto/comentarios/",blank=True)
+    documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
+    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
+
+    def __str__(self):
+        return self.document_version
 
      
