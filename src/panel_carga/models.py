@@ -38,15 +38,6 @@ class Documento(models.Model):
         return self.num_documento
 
 
-class Version(models.Model):
-    document_version = models.CharField(verbose_name="Version documento", max_length=5)
-    fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
-    comentario = models.FileField(upload_to="proyecto/comentarios/",blank=True)
-    documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
-    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-
-    def __str__(self):
-        return self.document_version
 
 
 #Tabla que almacena el historico de las ediciones por documento, la idea es mostrar siempre el ultimo para saber quien le metio mano a ese documento
