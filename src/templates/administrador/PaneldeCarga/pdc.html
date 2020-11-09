@@ -156,9 +156,9 @@
           <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR"><i class="fa fa-angle-left"></i></a></li>
           
           {% if page_obj.has_previous %}
-            <li class="page-item active"><a class="page-link active" href="page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+            <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
           {% endif %}
-          <li class="page-item"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+          <li class="page-item active"><a class="page-link active" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
           <li class="page-item disabled"><span class="page-link">...</span></li>
           <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>          
        {% endif %}
