@@ -35,11 +35,6 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
     model = Proyecto
     success_url = reverse_lazy("index")
 
-    def dispatch(self, request, *args, **kwargs):
-        obj = None
-        if not Proyecto.objects.filter(encargado=request.user):
-            return HttpResponseRedirect(reverse_lazy('proyecto-crear'))
-        return super(ProyectoSelectView, self).dispatch(request, *args, **kwargs)
 
     def form_valid(self, form):
         self.request.session['proyecto'] = form.cleaned_data['proyectos'].id
