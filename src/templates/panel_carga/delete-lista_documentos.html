@@ -13,6 +13,11 @@
 
 {% block content %}
 
+
+                  <a class="nav-link"><button class="btn btn-danger" id="delete_btn" type="submit"> Eliminar Registros <br> Seleccionados </button></a></th>
+                  <a class="nav-link"><button class="btn btn-danger" type="submit"> Eliminar Todos<br>los Registros </button></a></th>
+
+
 <table class="table table-striped mg-b-0 table-bordered table-warning"style="width:100%;">       
     <!--Table-->  
             <thead>
@@ -26,7 +31,6 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>              
                 <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="1"></th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: white;">
-                  <a class="nav-link"><button class="btn btn-danger" id="delete_btn" type="submit"> Eliminar Todos<br>los Registros </button></a></th>
               </tr>
             </thead>
             <tbody>
@@ -46,14 +50,14 @@
               <!--Loop Listar Documento-->
               {% for documento in documentos %}
               <tr id="{{documento.pk}}">
-                <th><input type="checkbox" name="document_id[]" value="={{documento.pk}}" id="delete_document"><span></span></th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}}</th>                  
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0}}</th>
+                <td><input type="checkbox" name="document_id[]" value="={{documento.pk}}" id="delete_document"></th>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </th>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </th>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}}</th>                  
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}} </th>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B}} </th>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0}}</th>
               </tr>           
               
               {% empty %}
@@ -73,7 +77,7 @@
                       </div><!-- modal-body -->
                     </div><!-- modal-content -->
                   </div><!-- modal-dialog -->
-            </div>
+              </div>
             <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
             <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
             <script type="text/javascript">
@@ -85,7 +89,7 @@
               <!--Fin Loop-->
             </tbody>
           </table>
-    
+
   
         {% if is_paginated %}
          <div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
@@ -116,42 +120,25 @@
     </div>
 
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-    <script>
-      $(document).ready(function()
-      {
-        $('#delete_btn').click(function(){
-          if(confirm("Seguro que desea borrar estos registros??"))
-          {
-            var id=[];
-            $(':checkbox:checked').each(function(i){
-              id[i]=$(this).val()
-            })
-            if(id.length==0)
-            {
-              alert("No se ha seleccionado ningun documento para eliminar")
-            }
-            else
-            {
-              $.ajax({
-                url: "documento/eliminar_multiple/",
-                method: "POST",
-                data: {
-                  id,
-                  csrf: ,
-                
-                success:function(response){
-                  for (var i=0; i < id.length; i++){
-                    $('tr#'+id[i]+'').css('background-color', '#ccc');
-                    $('tr#'+id[i]+'').fadeOut('slow');
-    
-                  }
-                }
-              }) 
-            }
-          }
-        }    
+
+<script>
+  $(document).ready(function(){
+    $('#delete_btn').click(function(){
+      if(confirm("Estás seguro?")){
+        var id =[];
+        $(':checkbox:checked').each(function(i){
+          id[i]=$(this).val()
+        })
+        if(id.length==0){
+          alert("No has seleccionado nada")
+        }else{
+          console.log(id)
+        }
       }
+    })
+  })
+
 </script>
 {% endblock content %}

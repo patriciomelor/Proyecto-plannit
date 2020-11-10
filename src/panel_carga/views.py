@@ -134,18 +134,16 @@ class DeleteDocumento(ProyectoMixin, ListView):
     template_name = 'panel_carga/delete-lista_documentos.html'
     model = Documento
     success_url = reverse_lazy('PanelCarga')
-    context_object_name = 'documento'
+    context_object_name = 'documentos'
 
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
     
 
-def delete_multiple_documentos(request):
+def delete_todos_documentos(request):
     if request.method == 'POST':
-        documentos = request.POST.getlist('id[]')
-        for documento in documentos:
-            doc = Documento.objects.get(pk=documento)
-            doc.delete()
+        doc = Documento.objects.filter(proyecto=request.session.get('proyecto'))
+        doc.delete()
         return HttpResponseRedirect(reverse_lazy("PanelCarga"))
 class UpdateDocumento(ProyectoMixin, UpdateView):
     model = Documento
