@@ -13,51 +13,24 @@
 
 {% block content %}
 
-
-                  <a class="nav-link"><button class="btn btn-danger" id="delete_btn" type="submit"> Eliminar Registros <br> Seleccionados </button></a></th>
-                  <a class="nav-link"><button class="btn btn-danger" type="submit"> Eliminar Todos<br>los Registros </button></a></th>
-
+<a class="nav-link"><button class="btn btn-danger" id="delete_btn" type="submit"> Eliminar Registros <br> Seleccionados </button></a></th>
+  
+                 
 
 <table class="table table-striped mg-b-0 table-bordered table-warning"style="width:100%;">       
     <!--Table-->  
-            <thead>
-              <tr>
-                <th></th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: white;">Codigo Documento <br>Contractual</th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: white;">Numero Documento <br> Interno</th>              
-                <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>              
-                <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="1"></th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: white;">
-              </tr>
-            </thead>
-            <tbody>
-            
-              <tr>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th></th>
-                <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
-                <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
-                <th></th>
-                <th></th>
-              </tr>
+                 
               <!--Loop Listar Documento-->
               {% for documento in documentos %}
               <tr id="{{documento.pk}}">
-                <td><input type="checkbox" name="document_id[]" value="={{documento.pk}}" id="delete_document"></th>
-                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </th>
-                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </th>
-                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
-                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}}</th>                  
-                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}} </th>
-                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B}} </th>
-                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0}}</th>
+                <td><input class="onoffswitch-checkbox" type="checkbox" name="document_id[]" checked="false" value="={{documento.pk}}" id="delete_document"></td>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </td>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </td>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </td>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}}</td>                  
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}} </td>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B}} </td>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0}}</td>
               </tr>           
               
               {% empty %}
@@ -123,7 +96,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 
-<script>
+<script type="text/javascript">
   $(document).ready(function(){
     $('#delete_btn').click(function(){
       if(confirm("Estás seguro?")){

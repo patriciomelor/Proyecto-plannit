@@ -183,44 +183,7 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-<script>
-  $(document).ready(function()
-  {
-    $('#delete_btn').click(function(){
-      if(confirm("Seguro que desea borrar estos registros??"))
-      {
-        var id=[];
-        $(':checkbox:checked').each(function(i){
-          id[i]=$(this).val()
-        })
-        if(id.length==0)
-        {
-          alert("No se ha seleccionado ningun documento para eliminar")
-        }
-        else
-        {
-          $.ajax({
-            url: "documento/eliminar_multiple/",
-            method: "POST",
-            data: {
-              id,
-              csrf: 
-            
-            success:function(response){
-              for (var i=0; i < id.length; i++){
-                $('tr#'+id[i]+'').css('background-color', '#ccc');
-                $('tr#'+id[i]+'').fadeOut('slow')
 
-              }
-            }
-          }) 
-        }
-      }
-    }
-  
-  }
-
-</script>
 
 <script>
   function fileValidation(){
