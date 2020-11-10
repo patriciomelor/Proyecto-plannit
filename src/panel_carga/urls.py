@@ -14,7 +14,7 @@ urlpatterns = [
     path('documento/detalle/<pk>/', views.DetailDocumento.as_view() , name="documento-detalle"),
     path('documento/actualizar/<pk>/', views.UpdateDocumento.as_view() , name="documento-actualizar"),
     path('documento/eliminar/', views.DeleteDocumento.as_view() , name="documento-eliminar"),
-    path('documento/eliminar_multiple/', login_required(views.delete_todos_documentos), name="documento-eliminar-multiple"),
+    path('documento/eliminar_multiple/', views.DeleteAllDocuments.as_view(), name="documento-eliminar-multiple"),
     path('documento/lista/', views.DocumentoFileUploadView.as_view() , name="documento-list"),
     path('revision/crear/', login_required(views.CreateRevision.as_view()) , name="revision-crear"),
 
