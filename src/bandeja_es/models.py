@@ -1,5 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
+from panel_carga.choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE
 
 from panel_carga.models import Documento
 
@@ -38,6 +39,7 @@ class Borrador(models.Model):
     
     def __str__(self):
         return self.nombre
+
 class BorradorDocumento(models.Model):
     documento_id = models.ForeignKey(Documento, on_delete=models.CASCADE)
     borrador_id = models.ForeignKey(Borrador, on_delete=models.CASCADE)
@@ -52,8 +54,13 @@ class Version(models.Model):
     comentario = models.FileField(upload_to="proyecto/comentarios/",blank=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
+    revision = models.CharField(verbose_name="Emicion/Revision", max_length=1,default="B")
+    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
+    is_cliente_contratista = models.BooleanField(verbose_name="Cliente",default=1) # 0 = Contratista ;; 1 = Cliente
+    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", default=1)
 
     def __str__(self):
-        return self.document_version
+        return (self.document_version, self.fecha)
 
-     
+    
