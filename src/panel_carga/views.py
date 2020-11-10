@@ -139,6 +139,12 @@ class DeleteDocumento(ProyectoMixin, ListView):
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
     
+    def post(self, request, *args, **kwargs):
+        documentos_ids = self.request.POST.getlist('id[]')
+        for documento in documentos_ids:
+            doc = Documento.objects.get(pk=documento)
+            doc.delete()
+        return render(request, self.template_name, context=self.get_context_data())
 
 def delete_todos_documentos(request):
     if request.method == 'POST':
