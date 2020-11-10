@@ -21,9 +21,10 @@
     <!--Table-->  
                  
               <!--Loop Listar Documento-->
+              {% csrf_token %}
               {% for documento in documentos %}
               <tr id="{{documento.pk}}">
-                <td><input class="onoffswitch-checkbox" type="checkbox" name="document_id[]" checked="false" value="={{documento.pk}}" id="delete_document"></td>
+                <td><input type="checkbox" name="document_id[]" value="{{documento.pk}}" id="delete_document"></td>
                 <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </td>
                 <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </td>
                 <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </td>
@@ -101,6 +102,7 @@
     $('#delete_btn').click(function(){
       if(confirm("Estás seguro?")){
         var id =[];
+        var csrf=$('input[name=csrfmiddlewaretoken]').val();
         $(':checkbox:checked').each(function(i){
           id[i]=$(this).val()
         })
@@ -108,6 +110,21 @@
           alert("No has seleccionado nada")
         }else{
           console.log(id)
+          $.ajax({
+            url: ".",
+            method: "POST",
+            data:{
+              id,
+              csrfmiddlewaretoken:csrf
+            },
+            success:function(response){
+              for(var i=0; i < id.length; i++){
+                $('tr#'+id[i]+'').css('background-color','#ccc');
+                $('tr#'+id[i]+'').fadeOut('slow');
+                
+              }
+            }
+          })
         }
       }
     })

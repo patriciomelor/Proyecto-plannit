@@ -144,7 +144,7 @@ class DeleteDocumento(ProyectoMixin, ListView):
         for documento in documentos_ids:
             doc = Documento.objects.get(pk=documento)
             doc.delete()
-        return render(request, self.template_name, context=self.get_context_data())
+        return render(request, self.template_name)
 
 def delete_todos_documentos(request):
     if request.method == 'POST':

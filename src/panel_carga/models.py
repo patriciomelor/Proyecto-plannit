@@ -35,7 +35,7 @@ class Documento(models.Model):
 
 
     def __str__(self):
-        return self.num_documento
+        return self.Codigo_documento
 
 
 
