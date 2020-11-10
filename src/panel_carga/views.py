@@ -147,10 +147,18 @@ class DeleteDocumento(ProyectoMixin, ListView):
         return render(request, self.template_name)
 
 def delete_todos_documentos(request):
+    context={}
+    cant_registros = 0
     if request.method == 'POST':
         doc = Documento.objects.filter(proyecto=request.session.get('proyecto'))
         doc.delete()
         return HttpResponseRedirect(reverse_lazy("PanelCarga"))
+    else:
+        doc = Documento.objects.filter(proyecto=request.session.get('proyecto'))
+        cant_registros = len(doc)
+        print(cant_registros)
+    context['cantidad'] = cant_registros
+    return render(request, 'panel_carga/delete-documento.html', context)
 class UpdateDocumento(ProyectoMixin, UpdateView):
     model = Documento
     form_class = DocumentoForm
