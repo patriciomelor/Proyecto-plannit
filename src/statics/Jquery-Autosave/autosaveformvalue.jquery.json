@@ -1,0 +1,25 @@
+{
+  "name": "autosaveformvalue",
+  "title": "Auto Save Form script",
+  "description": "The most agonizing thing that can happen while filling out a form is accidently losing the entered contents before having a chance to submit it. This can happen if you inadvertently navigate to another page or close the window, among other things, during the process. Well, Auto Save Form script is here to add a layer of insurance against such a travesty from occurring. A nifty plug and play script, it periodically saves the contents of any form and recalls them if needed, up until when the form is actually submitted. This means if the user accidently leaves or reloads the page or even if the browser crashes (Firefox only feature) before then- the entered form contents will be restored.",
+  "keywords": ["cookies", "form", "domstorage", "persist"],
+  "version": "1.0.0",
+  "author": {
+    "name": "Dynamic Drive",
+    "email" : "ddrivehelp@gmail.com",
+		"url": "http://www.dynamicdrive.com"
+  },
+  "licenses": [
+    {
+      "type": "Freeware",
+      "url": "http://www.dynamicdrive.com/notice.htm"
+    }
+  ],
+  "dependencies": {
+    "jquery": ">=1.4"
+  },
+  "homepage": "http://www.dynamicdrive.com/dynamicindex16/autosaveform.htm",
+  "docs": "http://www.dynamicdrive.com/dynamicindex16/autosaveform.htm",
+  "demo": "http://www.dynamicdrive.com/dynamicindex16/autosaveform.htm",
+  "download": "http://www.dynamicdrive.com/dynamicindex16/autosaveform.htm"
+}
