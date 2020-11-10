@@ -125,7 +125,6 @@ class CreatePaqueteView(ProyectoMixin, CreateView):
     def form_invalid(self, form, **kwargs):
         pass
 
-
 class BorradorList(ProyectoMixin, ListView):
     model = Borrador
     template_name = 'bandeja_es/borrador.html'
