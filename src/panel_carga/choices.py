@@ -4,7 +4,7 @@ ESTADOS_CLIENTE = (
     (3, "Eliminado"),
     (4, "Aprobado"),
     (5, "Valido para construcción"),
-    (6, "Aprobado"),
+    (6, "Aprobado (en numeracion)"),
 )
 
 ESTADO_CONTRATISTA =  (
