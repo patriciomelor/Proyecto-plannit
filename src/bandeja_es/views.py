@@ -112,14 +112,14 @@ class CreatePaqueteView(ProyectoMixin, CreateView):
         obj.save()
         package_pk = obj.pk
         docs = self.request.POST.getlist('documento')
-        files = self.request.FILES.getlist('file_field')
+        # files = self.request.FILES.getlist('file_field')
         package = Paquete.objects.get(pk=package_pk)
         for documento in docs:
             doc_seleccionado = Documento.objects.get(pk=documento)
             package.documento.add(doc_seleccionado)
-        for file in files:
-            doc_seleccionado.archivo = file
-            doc_seleccionado.save()
+        # for file in files:
+        #     doc_seleccionado.archivo = file
+        #     doc_seleccionado.save()
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
     
     def form_invalid(self, form, **kwargs):

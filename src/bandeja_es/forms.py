@@ -1,8 +1,9 @@
 from django import forms
+from django.forms import (formset_factory, modelformset_factory)
 import django.forms.widgets
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .models import Paquete
+from .models import Paquete, Version
 from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 
 # class DocumentoListForm(forms.Form):
@@ -12,7 +13,6 @@ from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 
 class CreatePaqueteForm(forms.ModelForm):
     documento = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'class': "form-check-input"}), required=False, label="Escoja los documentos a enviar: ")
-    file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), label="Adjunte archivo al los documentos: ")
 
     class Meta:
         model = Paquete
@@ -23,3 +23,7 @@ class CreatePaqueteForm(forms.ModelForm):
         super(CreatePaqueteForm, self).__init__(*args, **kwargs)
         self.fields['documento'].choices = self.documento
 
+VersionFormset = modelformset_factory(
+    Version,
+    fields=('document_version')
+)
