@@ -12,19 +12,42 @@
 
 
 {% block content %}
+<div class="row col-8 mg-t-10 mg-b-20">
+    <a ><button class="btn btn-danger " id="delete_btn" type="submit"> Eliminar Registros <br> Seleccionados </button></a></th>
+    <a  href="{% url 'documento-eliminar-multiple' %}" ><button class="btn btn-danger mg-l-10" type="submit"> Eliminar todo <br> Registro </button></a></th>
+</div>
 
-<a class="nav-link"><button class="btn btn-danger" id="delete_btn" type="submit"> Eliminar Registros <br> Seleccionados </button></a></th>
-<a class="nav-link" href="{% url 'documento-eliminar-multiple' %}" ><button class="btn btn-danger" type="submit"> Eliminar todo <br> Registro </button></a></th>
-  
-                 
+<div class="br-pagebody pd-x-20 pd-sm-x-30">
+  <div class="card bd-0 shadow-base" style="overflow-y: scroll; height: 600px;">                 
 
-<table class="table table-striped mg-b-0 table-bordered table-warning"style="width:100%;">       
+          <table class="table table-striped mg-b-0 table-bordered table-primary"style="width:100%;">       
     <!--Table-->  
-                 
+    
+         <thead>
+            <tr>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Codigo Documento <br>Contractual</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Numero Documento <br> Interno</th>              
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Codigo Interno</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+          
+            <tr>
+              <th colspan="6"></th>
+              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
+              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
+            </tr>
+          
+          <tbody>   
               <!--Loop Listar Documento-->
               {% csrf_token %}
               {% for documento in documentos %}
-              <tr id="{{documento.pk}}">
+              <tr id="{{documento.pk}}" >
                 <td><input type="checkbox" name="document_id[]" value="{{documento.pk}}" id="delete_document"></td>
                 <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </td>
                 <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </td>
@@ -40,15 +63,14 @@
                 <div class="modal-dialog" role="document">
                   <div class="modal-content tx-size-sm">
                     <div class="modal-body tx-center pd-y-20 pd-x-20">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
+                    
                       <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
                       <h4 class="tx-danger  tx-semibold mg-b-20">Error: No hay Información Ingresada!</h4>
                       <p class="mg-b-20 mg-x-20">Recuerde Que puede importar desde <strong>Excel</strong> o Insertar Manualmente por formulario.</p>
                       <h6 class="tx-info tx-semibold mg-b-20">Descargar plantilla de informacion <a href="{% url 'panel-export' %}">Aqui</a></h6>
                       <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
                         Continue</button>
+                        
                       </div><!-- modal-body -->
                     </div><!-- modal-content -->
                   </div><!-- modal-dialog -->
@@ -65,32 +87,6 @@
             </tbody>
           </table>
 
-  
-        {% if is_paginated %}
-         <div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
-            <ul class="pagination pagination-basic mg-b-0">            
-                {% if page_obj.has_previous %}
-                <li class="page-item">
-                  <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR">                  
-                  <i class="fa fa-angle-left"></i>
-                  </a>                
-                  ANTERIOR 
-                </li>
-            </ul>
-          {% endif %}
-          {% if page_obj.has_next %}
-            <ul class="pagination pagination-basic mg-b-0">
-              <li class="page-item">
-                <a href="?page={{ page_obj.next_page_number }}" class="page-link" aria-label="SIGUIENTE">
-                  <i class="fa fa-angle-right"></i>                
-                </a>
-                SIGUIENTE
-              </li>
-            </ul>      
-        </div>  
-        {% endif %}
-        {% endif %}
-        </div>
       </div>
     </div>
 
@@ -122,7 +118,7 @@
               for(var i=0; i < id.length; i++){
                 $('tr#'+id[i]+'').css('background-color','#ccc');
                 $('tr#'+id[i]+'').fadeOut('slow');
-                
+                location.reload();
               }
             }
           })
