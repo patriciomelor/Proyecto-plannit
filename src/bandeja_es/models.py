@@ -30,7 +30,7 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
 
 class Borrador(models.Model):
     documento = models.ManyToManyField(Documento, through='BorradorDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
-    nombre = models.CharField(verbose_name="Nombre del paquete", max_length=100, blank=False)
+    nombre = models.CharField(verbose_name="Nombre", max_length=100, blank=False)
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
     asunto = models.CharField(verbose_name="Asunto", max_length=50)
     descripcion = models.CharField(verbose_name="Descripcion", max_length=200, blank=True, null=True)

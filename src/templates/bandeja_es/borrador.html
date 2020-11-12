@@ -11,11 +11,11 @@
     <form method="GET" class="form-group col-lg-17">
       <div class="mg-t-20 pd-x-10 mg-b-40">
         <div class="form-group" >
-            <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.id|as_crispy_field}}</label>
+            <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.documento|as_crispy_field}}</label>
         </div><!-- form-group -->
-            <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.owner|as_crispy_field}}</label>
-        <div class="form-group">
             <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.fecha_creacion|as_crispy_field}}</label>
+        <div class="form-group">
+            <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.nombre|as_crispy_field}}</label>
         </div><!-- form-group -->
             <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
       </div>
