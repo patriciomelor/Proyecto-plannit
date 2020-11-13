@@ -13,21 +13,17 @@ from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 
 class CreatePaqueteForm(forms.ModelForm):
     documento = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'class': "form-check-input"}), required=False, label="Escoja los documentos a enviar: ")
-
+    
     class Meta:
         model = Paquete
+         
         fields = ['destinatario', 'asunto', 'descripcion']
-        widgets = {
-            'descripcion': forms.TextInput()
-        }
-
-    # def __init__(self, *args, **kwargs):
-    #     self.documento = kwargs.pop('documento', None)
-    #     super(CreatePaqueteForm, self).__init__(*args, **kwargs)
-    #     self.fields['documento'].choices = self.documento
+       
 
 VersionFormset = modelformset_factory(
     Version,
     fields=('document_version','comentario','archivo', 'revision', 'estado_cliente', 'estado_contratista'),
-    extra=2,
+    extra=1,
+     
 )
+
