@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 
-from .models import Paquete, PaqueteDocumento, Borrador, BorradorDocumento
+from .models import Paquete, PaqueteDocumento, Borrador, BorradorDocumento, Version
 from .forms import CreatePaqueteForm, VersionFormset
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
@@ -164,33 +164,32 @@ def create_paquete(request):
     if request.method == 'POST':
         package_pk = 0
         form_paraquete = CreatePaqueteForm(request.POST or None)
-        formset_version = VersionFormset(request.POST or None, request.FILES or None)
+        # formset_version = VersionFormset(request.POST or None, request.FILES or None)
         docs = request.POST.getlist('documento')
-        if form_paraquete.is_valid() and formset_version.is_valid():
+        if form_paraquete.is_valid(): # and formset_version.is_valid():
             obj = form_paraquete.save(commit=False)
             obj.owner = request.user
             obj.save()
             package_pk = obj.pk
             package = Paquete.objects.get(pk=package_pk)
-            for documento, form in zip(docs, formset_version):
-                version = form.save(commit=False)
+            for documento in docs:
+                # version = form.save(commit=False)
                 doc_seleccionado = Documento.objects.get(pk=documento)
                 package.documento.add(doc_seleccionado)
-                version.owner = request.user
-                version.documento_fk = doc_seleccionado
-                version.save()
-
+                # version.owner = request.user
+                # version.documento_fk = doc_seleccionado
+                # version.save()
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
     else:
         form_paraquete = CreatePaqueteForm()
-        formset_version = VersionFormset()
+        # formset_version = VersionFormset()
         doc = Documento.objects.filter(proyecto=request.session.get('proyecto'))
         documento_opciones = ()
         for documento in doc:
-            documento_opciones = documento_opciones + ((documento.pk, documento.Codigo_documento) ,)
+            documento_opciones = documento_opciones + ((documento.pk, str(documento.Codigo_documento + "-   -   -  -   -" + documento.Especialidad)) ,)
         form_paraquete.fields['documento'].choices = documento_opciones
-    context['form_paraquete'] = form_paraquete
-    context['formset'] = formset_version
+    context['form'] = form_paraquete
+    # context['formset'] = formset_version
 
-    return render(request, 'bandeja_es/create-paquete2.html', context)
+    return render(request, 'bandeja_es/create-paquete.html', context)
