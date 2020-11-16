@@ -14,7 +14,7 @@ class Paquete(models.Model):
     descripcion = models.CharField(verbose_name="Descripcion", max_length=200, blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario")
     destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario")
-    status = models.CharField(verbose_name="Status", max_length=10, default="Para revision", blank=True)
+    status = models.CharField(verbose_name="Status", max_length=10, default="Para revision")
 
     def __str__(self):
         return self.nombre
@@ -51,13 +51,14 @@ class BorradorDocumento(models.Model):
 class Version(models.Model):
     document_version = models.CharField(verbose_name="Version documento", max_length=5)
     fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
-    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
+    comentario = models.FileField(upload_to="proyecto/comentarios/",blank=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    revision = models.CharField(verbose_name="Emicion/Revision", max_length=1, default="B")
+    revision = models.CharField(verbose_name="Emicion/Revision", max_length=1,default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
+    is_cliente_contratista = models.BooleanField(verbose_name="Cliente",default=1) # 0 = Contratista ;; 1 = Cliente
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", default=1)
 
     def __str__(self):
         return (self.document_version, self.fecha)

@@ -24,6 +24,7 @@
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="{% static 'Jquery-Autosave/autosaveform.js' %}"></script>
 
+
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Bracket CSS -->
@@ -53,7 +54,7 @@
         <a href="{% url 'Bandejaeys' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
-            <span class="menu-item-label">Bandeja de Entrada y Salida</span>
+            <span class="menu-item-label">Bandeja</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
       
@@ -64,33 +65,19 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
       
-        <a href="#" class="br-menu-link">
+        <a href="#" class="br-menu-link disabled">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
             <span class="menu-item-label">Status</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="navigation.html" class="nav-link">Basic Nav</a></li>
-          <li class="nav-item"><a href="navigation-layouts.html" class="nav-link">Nav Layouts</a></li>
-        </ul>
-        <a href="#" class="br-menu-link">
+        
+        <a href="#" class="br-menu-link disabled">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
             <span class="menu-item-label">Buscador</span>
-            <i class="menu-item-arrow fa fa-angle-down"></i>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <ul class="br-menu-sub nav flex-column">
-          <li class="nav-item"><a href="chart-morris.html" class="nav-link">Morris Charts</a></li>
-          <li class="nav-item"><a href="chart-flot.html" class="nav-link">Flot Charts</a></li>
-          <li class="nav-item"><a href="chart-chartjs.html" class="nav-link">Chart JS</a></li>
-          <li class="nav-item"><a href="chart-rickshaw.html" class="nav-link">Rickshaw</a></li>
-          <li class="nav-item"><a href="chart-chartist.html" class="nav-link">Chartist</a></li>
-          <li class="nav-item"><a href="chart-sparkline.html" class="nav-link">Sparkline</a></li>
-          <li class="nav-item"><a href="chart-peity.html" class="nav-link">Peity</a></li>
-        </ul>
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
@@ -101,42 +88,7 @@
         
       </div><!-- br-sideleft-menu -->
 
-      <label class="sidebar-label pd-x-15 mg-t-25 mg-b-20 tx-info op-9">Information Summary</label>
-
-      <div class="info-list">
-        <div class="d-flex align-items-center justify-content-between pd-x-15">
-          <div>
-            <p class="tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap">Memory Usage</p>
-            <h5 class="tx-lato tx-white tx-normal mg-b-0">32.3%</h5>
-          </div>
-          <span class="peity-bar" data-peity='{ "fill": ["#336490"], "height": 35, "width": 60 }'>8,6,5,9,8,4,9,3,5,9</span>
-        </div><!-- d-flex -->
-
-        <div class="d-flex align-items-center justify-content-between pd-x-15 mg-t-20">
-          <div>
-            <p class="tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap">CPU Usage</p>
-            <h5 class="tx-lato tx-white tx-normal mg-b-0">140.05</h5>
-          </div>
-          <span class="peity-bar" data-peity='{ "fill": ["#1C7973"], "height": 35, "width": 60 }'>4,3,5,7,12,10,4,5,11,7</span>
-        </div><!-- d-flex -->
-
-        <div class="d-flex align-items-center justify-content-between pd-x-15 mg-t-20">
-          <div>
-            <p class="tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap">Disk Usage</p>
-            <h5 class="tx-lato tx-white tx-normal mg-b-0">82.02%</h5>
-          </div>
-          <span class="peity-bar" data-peity='{ "fill": ["#8E4246"], "height": 35, "width": 60 }'>1,2,1,3,2,10,4,12,7</span>
-        </div><!-- d-flex -->
-
-        <div class="d-flex align-items-center justify-content-between pd-x-15 mg-t-20">
-          <div>
-            <p class="tx-10 tx-roboto tx-uppercase tx-spacing-1 tx-white op-3 mg-b-2 space-nowrap">Daily Traffic</p>
-            <h5 class="tx-lato tx-white tx-normal mg-b-0">62,201</h5>
-          </div>
-          <span class="peity-bar" data-peity='{ "fill": ["#9C7846"], "height": 35, "width": 60 }'>3,12,7,9,2,3,4,5,2</span>
-        </div><!-- d-flex -->
-      </div><!-- info-lst -->
-
+      
       <br>
     </div><!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
@@ -326,6 +278,7 @@
     <!-- ########## END: MAIN PANEL ########## -->
 
     <script src="{% static 'jquery/jquery.js' %}"></script> 
+    
     <script src="{% static 'popper.js/popper.js' %}"></script>
     <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
     <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>

@@ -165,21 +165,21 @@ def create_paquete(request):
         package_pk = 0
         form_paraquete = CreatePaqueteForm(request.POST or None)
         formset_version = VersionFormset(request.POST or None, request.FILES or None)
-        docs = request.POST.getlist('documento')
         if form_paraquete.is_valid() and formset_version.is_valid():
+            files = request.FILES.getlist('file_field')
             obj = form_paraquete.save(commit=False)
             obj.owner = request.user
             obj.save()
             package_pk = obj.pk
             package = Paquete.objects.get(pk=package_pk)
-            for documento, form in zip(docs, formset_version):
-                version = form.save(commit=False)
+            docs = request.POST.getlist('documento')
+            print(docs)
+            for documento in docs:
                 doc_seleccionado = Documento.objects.get(pk=documento)
                 package.documento.add(doc_seleccionado)
-                version.owner = request.user
-                version.documento_fk = doc_seleccionado
-                version.save()
-
+                for form in formset_version:
+                    version = form.save(commit=False)
+                    version.documento_fk = doc_seleccionado
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
     else:
