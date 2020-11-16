@@ -11,10 +11,9 @@
     </nav>
 </div>
 {% endblock navegacion %}
-
 {% block content %}
 
-<form class="form-horizontal" method="POST" action="">
+<form class="form-control" method="POST" action="">
     {% csrf_token %}
 
     <div class="form-group col-md-12">
@@ -48,7 +47,7 @@
 {% endfor %}
 <div class="row spacer">
     <div class="col-4 offset-2">
-        <button type="submit" class="btn btn-block btn-primary">Crear</button>
+        <button type="submit" class="btn btn-block btn-primary">Create</button>
     </div>
 </div>
 </form>

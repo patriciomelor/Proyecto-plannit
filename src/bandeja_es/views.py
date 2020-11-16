@@ -177,14 +177,12 @@ def create_paquete(request):
                 doc_seleccionado = Documento.objects.get(pk=documento)
                 package.documento.add(doc_seleccionado)
                 # version.owner = request.user
-                # version.documento_fk = doc_seleccionado
                 # version.save()
-        return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
-
-    else:
-        form_paraquete = CreatePaqueteForm()
-        # formset_version = VersionFormset()
-        doc = Documento.objects.filter(proyecto=request.session.get('proyecto'))
+            docs = request.POST.getlist('documento')
+            print(docs)
+            for documento in docs:
+                doc_seleccionado = Documento.objects.get(pk=documento)
+                package.documento.add(doc_seleccionado)
         documento_opciones = ()
         for documento in doc:
             documento_opciones = documento_opciones + ((documento.pk, str(documento.Codigo_documento + "-   -   -  -   -" + documento.Especialidad)) ,)
