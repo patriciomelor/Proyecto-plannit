@@ -19,9 +19,13 @@
     <link href="{% static 'jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
     <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
     <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="{% static 'Jquery-Autosave/autosaveform.js' %}"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
   </head>
@@ -40,7 +44,7 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         
-         <a href="{% url 'PanelCarga' %}" class="br-menu-link active">
+         <a href="{% url 'PanelCarga' %}" class="br-menu-link ">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
             <span class="menu-item-label">Panel de Carga</span>
@@ -53,13 +57,13 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
       
-        <a href="{% url 'analitica-index' %}" class="br-menu-link">
+        <a href="{% url 'analitica-index' %}" class="br-menu-link active">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
             <span class="menu-item-label">Analitica</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-  
+      
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
@@ -297,11 +301,11 @@
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->
         </nav>
-        
       </div><!-- br-header-right -->
     </div><!-- br-header -->
     <!-- ########## END: HEAD PANEL ########## -->
 
+  
 
     <!-- ########## START: MAIN PANEL ########## -->
     <div class="br-mainpanel">
@@ -322,6 +326,7 @@
     <!-- ########## END: MAIN PANEL ########## -->
 
     <script src="{% static 'jquery/jquery.js' %}"></script> 
+    <script src="{% static 'popper.js/popper.js' %}"></script>
     <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
     <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
     <script src="{% static 'moment/moment.js' %}"></script>
@@ -336,7 +341,7 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{% static 'select2/js/select2.min.js' %}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="{% static 'js/bracket.js' %}"></script>
     <script src="{% static 'js/ResizeSensor.js' %}"></script>
     <script src="{% static 'js/dashboard.js' %}"></script> 
