@@ -11,15 +11,15 @@
     </nav>
 </div>
 {% endblock navegacion %}
+
 {% block content %}
 
-<form class="form-control" method="POST" action="">
+<form class="form-horizontal" method="POST" action="">
     {% csrf_token %}
 <div class="row spacer">
-
 <div class="col-4">
     <div class="input-group">
-        {{form_paraquete|crispy}}
+        {{form_paraquete.as_ul}}
     </div>
 </div>
 </div>
@@ -28,7 +28,7 @@
 <div class="row form-row spacer">
     <div class="col-4">
         <div class="input-group">
-            {{form|crispy}}
+            {{form}}   
             <div class="input-group-append">
                 <button class="btn btn-success add-form-row">+</button>
             </div>
@@ -38,7 +38,7 @@
 {% endfor %}
 <div class="row spacer">
     <div class="col-4 offset-2">
-        <button type="submit" class="btn btn-block btn-primary">Create</button>
+        <button type="submit" class="btn btn-block btn-primary">Crear</button>
     </div>
 </div>
 </form>
