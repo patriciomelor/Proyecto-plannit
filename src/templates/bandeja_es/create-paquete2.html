@@ -26,29 +26,39 @@
     </div>
     <div class="form-group col-md-12"style="overflow-y: scroll;height: 300px;">
     {% for doc in form_paraquete.documento %}
-        <div  class="form-control col-md-12 tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-dark-7">
-            <div class="input-group-append">
-                <label class="mg-l-50">{{doc}}</label>
-                <button class="btn btn-success add-form-row">+</button>
+    
+        <div  class="form-controltx-dark-7">            
+            <div class="input-group-append"> 
+                <div class="form-control">
+                <a href="" class="btn btn-primary btn-with-icon">
+                    <div class="ht-40 justify-content-between">
+                      <span class="pd-x-15">{{doc}}</span>
+                      <span class="icon wd-40 add-form-row"><i class="fa fa-plus"></i></span>
+                    </div>
+                  </a>
+                </div>
             </div>
         </div>
-        
+       
 
     {% endfor %}
     </div>
- 
+    
     <br>
     <br>    
 {{ formset.management_form }}
 {% for form in formset %}
 <div class="row form-row spacer">
-        <div class="input-group col-12">
-                <label class="form-control tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-dark-7" style="float: left;">
-                    {{form|crispy}}
-                    <div class="input-group-append">
-                        <button class="btn btn-success add-form-row">+</button>
+        <div class="form-group col-12">
+                <div class="form-control"style="float: left;">
+                    <label for="" class="col-md-1 mg-20"style="float: left;"> {{form.revision|as_crispy_field}}</label>             
+                    <label for="" class="col-md-3 mg-20"style="float: left;"> {{form.estado_cliente|as_crispy_field}}</label>               
+                    <label for="" class="col-md-2 mg-20"style="float: left;"> {{form.estado_contratista|as_crispy_field}}</label>
+                
+                    <div class="input-group-append mg-40" style="float: left;">
+                        <button class="btn btn-success add-form-row " >+</button>
                     </div>
-                </label>
+                </div>
         </div>
 </div>
 {% endfor %}
@@ -78,7 +88,9 @@ function cloneMore(selector, prefix) {
             var id = 'id_' + name;
             $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
         }
+        
     });
+    
     newElement.find('label').each(function() {
         var forValue = $(this).attr('for');
         if (forValue) {
@@ -122,4 +134,16 @@ $(document).on('click', '.remove-form-row', function(e){
 });
 
 </script>
+<script>
+ $('.form-disable').on('submit',function(){
+     var self = $(this),
+        button = self.find('input[type="button"],button');
+        submitvalue = button.data('submit-value')
+
+        button  .attr('disabled', 'disabled').val(submitvalue);
+        return false;
+ });
+
+</script>
+
 {% endblock content %}
