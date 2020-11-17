@@ -1,4 +1,4 @@
-{% extends 'index-blank.html' %}
+{% extends 'index-pdc.html' %}
 {% block navegacion %}
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -26,9 +26,7 @@
   <div class="row row-sm d-flex justify-content-center"style="overflow-x:auto;" >
   <!--Upload Archivos-->
         <div class="col-12 bd rounded mg-t-10">
-          
           <ul class="col-lg-12 nav nav-pills  justify-content-center" role="tablist">            
-          
           <form  method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
