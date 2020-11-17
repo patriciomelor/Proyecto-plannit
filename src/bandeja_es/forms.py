@@ -24,15 +24,14 @@ class BaseArticleFormSet(BaseFormSet):
         form.fields["descripcion"] = forms.CharField(max_length=500)
 
 class CreatePaqueteForm(forms.ModelForm):
-    documento = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'class': "form-check-input"}), required=False, label="Escoja los documentos a enviar: ")
+    documento = forms.MultipleChoiceField(required=False, label="Escoja los documentos a enviar: ")
     class Meta:
         model = Paquete
         fields = ['destinatario', 'asunto', 'descripcion']
        
 class VersionDocForm(forms.ModelForm):
-    documento = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'class': "form-check-input"}), required=False, label="Escoja los documentos a enviar: ")
     class Meta:
         model = Version
-        fields = ['document_version', 'revision', 'estado_cliente', 'estado_contratista']
+        fields = ['revision', 'estado_cliente', 'estado_contratista']
 
 VersionFormset = formset_factory(VersionDocForm, formset=BaseArticleFormSet)
