@@ -18,7 +18,6 @@ from django.contrib.auth.models import User
 class BaseArticleFormSet(BaseFormSet):
     def add_fields(self, form, index):
         super().add_fields(form, index)
-        form.fields["documento"] = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple(attrs={'class': "form-check-input"}), required=False, label="Escoja los documentos a enviar: ")
         form.fields["destinatario"] = forms.ModelChoiceField(queryset=User.objects.all())
         form.fields["asunto"] = forms.CharField(max_length=250)
         form.fields["descripcion"] = forms.CharField(max_length=500)
@@ -34,4 +33,4 @@ class VersionDocForm(forms.ModelForm):
         model = Version
         fields = ['revision', 'estado_cliente', 'estado_contratista']
 
-VersionFormset = formset_factory(VersionDocForm, formset=BaseArticleFormSet)
+VersionFormset = formset_factory(VersionDocForm)
