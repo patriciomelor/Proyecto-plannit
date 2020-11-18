@@ -49,13 +49,13 @@ class BorradorDocumento(models.Model):
 
 class Version(models.Model):
     fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
-    comentario = models.FileField(upload_to="proyecto/comentarios/")
+    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
-    archivo = models.FileField(upload_to="proyecto/documentos/")
+    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
     revision = models.CharField(verbose_name="Emicion/Revision", max_length=1, default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", default=1)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", blank=True)
 
     def __str__(self):
         return (self.document_version, self.fecha)
