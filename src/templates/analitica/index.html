@@ -7,25 +7,70 @@
       <span class="breadcrumb-item active">Analitica</span>
     </nav>
   </div>
-    <div class="card bd-0 shadow-base">
-          <div class="row mg-b-20">
-              <div class="col-6 chart">
-                  <canvas id="myChart1" width="500" height="400"></canvas>
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Panel de Analita</h4>
+  </div>
+  <div class="row row-sm mg-t-20">
+          <div class="col-md-6">
+              <div class="widget-2">
+                  <div class="card shadow-base overflow-hidden chart">
+                      <div class="card-header">
+                        <div class="card-title">
+                            Estados de los Documentos
+                        </div>
+                        <div class="card-body">
+                            <canvas id="myChart2" width="500" height="400"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
               </div>
-              <div class="col-6 chart">
-                  <canvas id="myChart2" width="500" height="400"></canvas>
+          <div class="col-md-6">
+                <div class="widget-2">
+                    <div class="card shadow-base overflow-hidden chart">
+                        <div class="card-header">
+                          <div class="card-title">
+                              Documentos por emitir por SubEstacion
+                          </div> 
+                          <div class="card-body">
+                            <canvas id="myChart1" width="500" height="400"></canvas>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
               </div>
-          </div>
-          <div class="row mg-b-20">
-            <div class="col-6 chart">
-                <canvas id="myChart3" width="500" height="400"></canvas>
+   </div>
+  <div class="row row-sm mg-t-20">
+        <div class="col-md-6">
+            <div class="widget-2">
+                <div class="card shadow-base overflow-hidden chart">
+                    <div class="card-header">
+                      <div class="card-title">
+                        Estatus Documento Aprovado <strong>VS</strong> Totales por SubEstacion
+                      </div>
+                      <div class="card-body">
+                        <canvas id="myChart3" width="500" height="400"></canvas>
+                      </div>
+                    </div>
+                  </div>
+                </div>
             </div>
-            <div class="col-6 chart">
-                <canvas id="myChart4" width="500" height="400"></canvas>
+        <div class="col-md-6">
+              <div class="widget-2">
+                  <div class="card shadow-base overflow-hidden chart">
+                      <div class="card-header">
+                        <div class="card-title">
+                            curva de avance Fisico Ingenieria
+                        </div> 
+                        <div class="card-body">
+                            <canvas id="myChart4" width="500" height="400"></canvas>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
             </div>
-        </div>
-<div id="ui-datepicker-div" class="ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all"></div>
-
+   </div>            
+          
 <script>
   $(document).ready(function(){
     var ctx = document.getElementById('myChart1').getContext('2d');
