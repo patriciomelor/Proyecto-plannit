@@ -25,21 +25,22 @@
         </div>
     </div>
     <div class="form-group col-md-12"style="overflow-y: scroll;height: 300px;">
-    {% for doc in form_paraquete.documento %}
-    
-        <div  class="form-controltx-dark-7">            
-            <div class="input-group-append"> 
+    {% for documento in documentos %}
+        <div  class="form-controltx-dark-7">
+            <div class="input-group-append">
                 <div class="form-control">
-                <a href="" class="btn btn-primary btn-with-icon">
-                    <div class="ht-40 justify-content-between">
-                      <span class="pd-x-15">{{doc}}</span>
-                      <span class="icon wd-40 add-form-row"><i class="fa fa-plus"></i></span>
-                    </div>
-                  </a>
+                    <a href="#" class="btn btn-primary btn-with-icon add-form-row">
+                        <div class="ht-40 justify-content-between">
+                            <span class="pd-x-15" value="{{documento.pk}}">
+                                <option value="{{documento.pk}}" onclick="hola(event)">{{documento.Codigo_documento}} - - - - {{documento.Especialidad}}</option>
+                            </span>
+                        
+                            <span class="icon wd-40 "><i class="fa fa-plus"></i></span>
+                        </div>
+                    </a>
                 </div>
             </div>
         </div>
-       
 
     {% endfor %}
     </div>
@@ -70,6 +71,12 @@
 </form>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>
+function hola(event){
+    console.log(event.target.value)
+}
+</script>
+
 <script type="text/javascript">
 function updateElementIndex(el, prefix, ndx) {
     var id_regex = new RegExp('(' + prefix + '-\\d+)');
