@@ -176,10 +176,10 @@ def create_paquete(request):
                 version = form.save(commit=False)
                 documento = form.cleaned_data.get('documento_fk')
                 package.documento.add(documento)
-                doc_seleccionado = Documento.objects.get(pk=documento.pk)
                 version.owner = request.user
                 version.save()
-            return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
+        
+        return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
     else:
         data = {
