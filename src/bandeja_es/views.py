@@ -169,26 +169,27 @@ def create_paquete(request):
         if form_paraquete.is_valid() and formset_version.is_valid():
             obj = form_paraquete.save(commit=False)
             obj.owner = request.user
-            obj.save()
-            package_pk = obj.pk
-            package = Paquete.objects.get(pk=package_pk)
+            # obj.save()
+            # package_pk = obj.pk
+            # package = Paquete.objects.get(pk=package_pk)
             for form in formset_version:
-                package.documento.add(documento)
                 version = form.save(commit=False)
-                documento = form.cleaned_data.get('documento_fk')
+                documento = version.cleaned_data.get('documento_fk')
+                print(documento)
+                # package.documento.add(documento)
                 # doc_seleccionado = Documento.objects.get(pk=documento)
-                version.owner = request.user
-                version.save()
-        return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
+                # version.owner = request.user
+                # version.save()
+            return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
     else:
         form_paraquete = CreatePaqueteForm()
         formset_version = VersionFormset()
         doc = Documento.objects.filter(proyecto=request.session.get('proyecto'))
         documento_opciones = ()
-    context['form_paraquete'] = form_paraquete
-    context['formset'] = formset_version
-    context['documentos'] = doc
+        context['form_paraquete'] = form_paraquete
+        context['formset'] = formset_version
+        context['documentos'] = doc
 
     return render(request, 'bandeja_es/create-paquete2.html', context)
     
