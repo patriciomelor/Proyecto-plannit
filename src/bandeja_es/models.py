@@ -10,7 +10,7 @@ class Paquete(models.Model):
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
     fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
     asunto = models.CharField(verbose_name="Asunto", max_length=50)
-    descripcion = models.CharField(verbose_name="Descripcion", max_length=200, blank=True, null=True)
+    descripcion = models.CharField(verbose_name="Descripcion", max_length=500, blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario")
     destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario")
     status = models.BooleanField(verbose_name="Status", default=0, blank=True)

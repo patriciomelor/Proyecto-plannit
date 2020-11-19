@@ -14,7 +14,11 @@
 
 {% block content %}
 
-<form class="form-horizontal" method="POST" action="">
+ <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">CREAR PAQUETE</h4>
+  </div>
+
+<form method="POST" action="">
     {% csrf_token %}
 <div class="row form-row spacer">
     <div class="form-group col-md-12">
