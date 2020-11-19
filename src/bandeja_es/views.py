@@ -55,6 +55,12 @@ class PaqueteDetail(ProyectoMixin, DetailView):
     model = Paquete
     template_name = 'bandeja_es/paquete-detail.html'
     context_object_name = 'paquete'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        documentos = Version.objects.filter(paquete=self.kwargs['pk'])
+        context['documentos'] = documentos
+        return context
     
 class PaqueteUpdate(ProyectoMixin, UpdateView):
     model = Paquete
