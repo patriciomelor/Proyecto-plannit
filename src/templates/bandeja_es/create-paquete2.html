@@ -2,58 +2,57 @@
 
 {% load crispy_forms_tags %}
 
-{% block navegacion %}
-<div class="br-pageheader pd-y-15 pd-l-20">
-    <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item"> {{proyecto}}</a>
-      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entada y Salida</a>      
-      <span class="breadcrumb-item active">Carga de Documentos</span>
-    </nav>
-</div>
-{% endblock navegacion %}
-
 {% block content %}
 
- <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+<div class="br-contentpanel">
+    <div class="br-pageheader pd-y-15 pd-l-20">
+        <nav class="breadcrumb pd-0 mg-0 tx-12">
+          <a class="breadcrumb-item"> {{proyecto}}</a>
+          <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entada y Salida</a>      
+          <span class="breadcrumb-item active">Carga de Documentos</span>
+        </nav>
+    </div>
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">CREAR PAQUETE</h4>
-  </div>
-
-<form method="POST" action="">
-    {% csrf_token %}
-<div class="row form-row spacer">
-    <div class="form-group col-md-12">
-        <div class="form-control">
-        <label for="" class="col-md-5">{{form_paraquete.destinatario|as_crispy_field}}</label>
-        <label for="" class="col-md-5">{{form_paraquete.asunto|as_crispy_field}}</label><br>
-        <label for="" class="col-md-12">{{form_paraquete.descripcion|as_crispy_field}}</label>
-        </div>
-    </div> 
 </div>
-{{ formset.management_form }}
-{% for form in formset %}
-<div class="row form-row spacer">
-        <div class="form-group col-12">
-                <div class="form-control"style="float: left;">
-                    <label for="" class="col-md-2 mg-5"> {{form.documento_fk|as_crispy_field}}</label>           
-                    <label for="" class="col-md-2 mg-5"> {{form.revision|as_crispy_field}}</label>             
-                    <label for="" class="col-md-3 mg-5"> {{form.estado_cliente|as_crispy_field}}</label>               
-                    <label for="" class="col-md-2 mg-5"> {{form.estado_contratista|as_crispy_field}}</label><br>                                 
-                    <label for="" class="col-md-4 mg-5"> {{form.archivo|as_crispy_field}}</label>             
-                    <label for="" class="col-md-4 mg-5"> {{form.comentario|as_crispy_field}}</label>  
-                
-                    <div class="input-group-append mg-20" style="float:right;">
-                        <button class="btn btn-success add-form-row" >Agregar +</button>
-                    </div>
+ 
+        <form method="POST" action="">
+            {% csrf_token %}
+        <div class="row form-row spacer">
+            <div class="form-group col-md-12">
+                <div class="form-control">
+                <label for="" class="col-md-5">{{form_paraquete.destinatario|as_crispy_field}}</label>
+                <label for="" class="col-md-5">{{form_paraquete.asunto|as_crispy_field}}</label><br>
+                <label for="" class="col-md-12">{{form_paraquete.descripcion|as_crispy_field}}</label>
+                </div>
+            </div> 
+        </div>
+        {{ formset.management_form }}
+        {% for form in formset %}
+        <div class="row form-row spacer">
+                <div class="form-group col-12">
+                        <div class="form-control"style="float: left;">
+                            <label for="" class="col-md-2 mg-5"> {{form.documento_fk|as_crispy_field}}</label>           
+                            <label for="" class="col-md-2 mg-5"> {{form.revision|as_crispy_field}}</label>             
+                            <label for="" class="col-md-3 mg-5"> {{form.estado_cliente|as_crispy_field}}</label>               
+                            <label for="" class="col-md-2 mg-5"> {{form.estado_contratista|as_crispy_field}}</label><br>                                 
+                            <label for="" class="col-md-4 mg-5"> {{form.archivo|as_crispy_field}}</label>             
+                            <label for="" class="col-md-4 mg-5"> {{form.comentario|as_crispy_field}}</label>  
+                        
+                            <div class="input-group-append mg-20" style="float:right;">
+                                <button class="btn btn-success add-form-row" >Agregar +</button>
+                            </div>
+                        </div>
                 </div>
         </div>
-</div>
-{% endfor %}
-<div class="row spacer">
-    <div class="col-4 offset-2">
-        <button type="submit" class="btn btn-block btn-primary">Crear</button>
-    </div>
-</div>
-</form>
+        {% endfor %}
+        <div class="row spacer">
+            <div class="col-4 offset-2">
+                <button type="submit" class="btn btn-block btn-primary">Crear</button>
+            </div>
+        </div>
+        </form>
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script>
