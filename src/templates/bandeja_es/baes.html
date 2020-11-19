@@ -106,7 +106,7 @@
             <td>
               <div class="d-flex align-items-center">
                 <div class="mg-l-15">
-                  <div class="tx-inverse"> {{paquete.id}} </div>
+                  <div class="tx-inverse"> <a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.id}}</a> </div>
                   <span class="tx-9">Creado el {{ paquete.fecha_creacion|date }} </span>
                 </div>
               </div>
