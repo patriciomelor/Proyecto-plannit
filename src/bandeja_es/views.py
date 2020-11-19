@@ -55,17 +55,6 @@ class PaqueteDetail(ProyectoMixin, DetailView):
     model = Paquete
     template_name = 'bandeja_es/paquete-detail.html'
     context_object_name = 'paquete'
-
-    def get_queryset(self):
-        pkg_doc =  PaqueteDocumento.objects.filter(paquete_id=self.kwargs['pk'])
-        lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg_doc)
-        return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        pakg_doc = PaqueteDocumento.objects.filter(paquete_id=self.kwargs['pk'])
-        context["documentos"] = pakg_doc
-        return context
     
 class PaqueteUpdate(ProyectoMixin, UpdateView):
     model = Paquete
