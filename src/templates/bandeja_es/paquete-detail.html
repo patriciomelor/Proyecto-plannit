@@ -1,5 +1,5 @@
 {% extends 'index-blank.html' %}
-
+{% load crispy_forms_tags %}
 
 {% block navegacion %}
 <div class="br-pageheader pd-y-15 pd-l-20">
@@ -10,27 +10,81 @@
     </nav>
 </div>
 {% endblock navegacion %}
+{% block mailing %}
 
+<div class="br-subleft"
+ 
+  
+<h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
+
+  <nav class="nav br-nav-mailbox flex-column">
+       <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
+    <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
+    <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
+  </nav>
+</div><!-- br-subleft -->
+
+{% endblock mailing %}
 {% block content %}
- <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Detalle del Paquete</h4>
+
+<div class="br-contentpanel">
+  <div class="br-pageheader pd-y-15 pd-md-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entrada y Salida</a>      
+      <span class="breadcrumb-item active">Detalle Paquete</span>
+    </nav>
+  </div><!-- br-pageheader -->
+
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Detalle del paquete.</h4>
   </div>
- 
- 
+
+  <div class="d-flex align-items-center justify-content-start pd-x-20 pd-sm-x-30 pd-t-25 mg-b-20 mg-sm-b-30">
+
+    <button id="showSubLeft" class="btn btn-secondary mg-r-10 hidden-lg-up"><i class="fa fa-navicon"></i></button>
+
+    <!-- START: DISPLAYED FOR MOBILE ONLY -->
+    <div class="dropdown hidden-sm-up">
+      <a href="#" class="btn btn-outline-secondary" data-toggle="dropdown"><i class="icon ion-more"></i></a>
+      <div class="dropdown-menu pd-10">
+        <nav class="nav nav-style-1 flex-column">
+          <a href="" class="nav-link">Share</a>
+          <a href="" class="nav-link">Download</a>
+          <div class="dropdown-divider"></div>
+          <a href="" class="nav-link">Edit</a>
+          <a href="" class="nav-link">Delete</a>
+        </nav>
+      </div><!-- dropdown-menu -->
+    </div><!-- dropdown -->
+    <!-- END: DISPLAYED FOR MOBILE ONLY -->
+
+    
+
+   
+
+  </div><!-- d-flex -->
+
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
-    <div class="card bd-0 shadow-base col-12">
-       <label class="mg-x-10 form-control">{{paquete.nombre}}</label>
-       <label class="mg-x-10 form-control">{{paquete.asunto}}</label>
-       <label class="mg-x-10 form-control">{{paquete.owner}}</label>
-       <label class="mg-x-10 form-control">{{paquete.status}}</label>
-    </div>
-</div>
+    <div class="card bd-0 shadow-base">
+        <div class="form-group mg-t-10">
+        <div class="col-md-3 form-control"style="float:left;text-align:center;">{{paquete.nombre}}</div>
+        <div class="col-md-3 form-control"style="float:left;text-align:center;">{{paquete.asunto}}</div>
+        <div class="col-md-3 form-control"style="float:left;text-align:center;">{{paquete.owner}}</div>
+        <div class="col-md-3 form-control"style="float:left;text-align:center;">{{paquete.status}}</div>
+        </div>    
     <div>
         {% for documento in documentos %}
-            {{documento}}
+         <div class="col-md-3 form-control">{{documento}}</div>
         {% empty %}
             <h4> El paquete no tiene documentos. </h4>
         {% endfor %}
-    </div>
+        </div>
 
+</div>
+    </div>
+</div>
+</div>
+
+    
 {% endblock content %}
