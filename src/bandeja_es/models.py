@@ -10,7 +10,7 @@ class Paquete(models.Model):
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
     fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
     asunto = models.CharField(verbose_name="Asunto", max_length=50)
-    descripcion = models.CharField(verbose_name="Descripcion", max_length=200, blank=True, null=True)
+    descripcion = models.CharField(verbose_name="Descripcion", max_length=500, blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario")
     destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario")
     status = models.BooleanField(verbose_name="Status", default=0, blank=True)
@@ -49,9 +49,9 @@ class BorradorDocumento(models.Model):
 
 class Version(models.Model):
     fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
-    comentario = models.FileField(upload_to="proyecto/comentarios/")
+    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
-    archivo = models.FileField(upload_to="proyecto/documentos/")
+    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
     revision = models.CharField(verbose_name="Emicion/Revision", max_length=1, default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)

@@ -55,17 +55,6 @@ class PaqueteDetail(ProyectoMixin, DetailView):
     model = Paquete
     template_name = 'bandeja_es/paquete-detail.html'
     context_object_name = 'paquete'
-
-    def get_queryset(self):
-        pkg_doc =  PaqueteDocumento.objects.filter(paquete_id=self.kwargs['pk'])
-        lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg_doc)
-        return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        pakg_doc = PaqueteDocumento.objects.filter(paquete_id=self.kwargs['pk'])
-        context["documentos"] = pakg_doc
-        return context
     
 class PaqueteUpdate(ProyectoMixin, UpdateView):
     model = Paquete
@@ -163,37 +152,37 @@ def create_paquete(request):
     context = {}
     if request.method == 'POST':
         package_pk = 0
+        documentos_list = []
         form_paraquete = CreatePaqueteForm(request.POST or None)
         formset_version = VersionFormset(request.POST or None, request.FILES or None)
         if form_paraquete.is_valid() and formset_version.is_valid():
-            archivos = request.FILES.getlist('archivo')
-            comentarios = request.FILES.getlist('comentario')
             obj = form_paraquete.save(commit=False)
             obj.owner = request.user
             obj.save()
             package_pk = obj.pk
             package = Paquete.objects.get(pk=package_pk)
-            docs = request.POST.getlist('documento')
-            for documento, form, archivo, comentario in zip(docs, formset_version, archivos, comentarios):
-                doc_seleccionado = Documento.objects.get(pk=documento)
-                package.documento.add(doc_seleccionado)
+            for form in formset_version:
                 version = form.save(commit=False)
-                version.documento_fk = doc_seleccionado
-                version.archivo = archivo
-                version.comentario = comentario
+                documento = form.cleaned_data.get('documento_fk')
+                package.documento.add(documento)
                 version.owner = request.user
                 version.save()
+        
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
     else:
+        data = {
+            'form-TOTAL_FORMS': '1',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '',
+        }
         form_paraquete = CreatePaqueteForm()
-        formset_version = VersionFormset()
+        formset_version = VersionFormset(data)
         doc = Documento.objects.filter(proyecto=request.session.get('proyecto'))
         documento_opciones = ()
-        for documento in doc:
-            documento_opciones = documento_opciones + ((documento.pk, str(documento.Codigo_documento + "-   -   -  -   -" + documento.Especialidad)) ,)
-        form_paraquete.fields['documento'].choices = documento_opciones
-    context['form_paraquete'] = form_paraquete
-    context['formset'] = formset_version
+        context['form_paraquete'] = form_paraquete
+        context['formset'] = formset_version
+        context['documentos'] = doc
 
     return render(request, 'bandeja_es/create-paquete2.html', context)
+    

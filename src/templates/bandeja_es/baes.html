@@ -85,7 +85,7 @@
                 <input type="checkbox"><span></span>
               </label>
             </th>
-              <th class="tx-10-force tx-mont tx-medium">Package Number</th>
+            <th class="tx-10-force tx-mont tx-medium">Package Number</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Name</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Enviado a</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th>
@@ -106,7 +106,7 @@
             <td>
               <div class="d-flex align-items-center">
                 <div class="mg-l-15">
-                  <div class="tx-inverse"> {{paquete.id}} </div>
+                  <div class="tx-inverse"> <a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.id}}</a> </div>
                   <span class="tx-9">Creado el {{ paquete.fecha_creacion|date }} </span>
                 </div>
               </div>
@@ -120,9 +120,9 @@
             <td class="dropdown hidden-xs-down">
               <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
               <div class="dropdown-menu dropdown-menu-right pd-10">
-                  <a href="{% url 'paquete-detalle' paquete.id %}" class="nav-link">Detalle</a>
-                  <a href="{% url 'paquete-editar' paquete.id %}" class="nav-link">Editar</a>
-                  <a href="{% url 'paquete-eliminar' paquete.id %}" class="nav-link">Eliminar</a>
+                  <a href="{% url 'paquete-detalle' paquete.pk %}" class="nav-link">Detalle</a>
+                  <a href="{% url 'paquete-editar' paquete.pk %}" class="nav-link">Editar</a>
+                  <a href="{% url 'paquete-eliminar' paquete.pk %}" class="nav-link">Eliminar</a>
               </div><!-- dropdown-menu -->
             </td>
           </tr>

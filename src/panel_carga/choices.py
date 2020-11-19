@@ -1,17 +1,15 @@
 ESTADOS_CLIENTE = (
-    (1, "-------"),
-    (2, "Aprobado con Comentarios"),
-    (3, "Rechazado"), 
-    (4, "Eliminado"),
-    (5, "Aprobado"),
-    (6, "Valido para construcción"),
-    (7, "Aprobado (en numeracion)"),
+    (1, "Aprobado con Comentarios"),
+    (2, "Rechazado"), 
+    (3, "Eliminado"),
+    (4, "Aprobado"),
+    (5, "Valido para construcción"),
+    (6, "Aprobado (en numeracion)"),
 )
 
 ESTADO_CONTRATISTA =  (
-    (1, "-------"),
-    (2, "Para revisión"),
-    (3, "Para aprobación"),
+    (1, "Para revisión"),
+    (2, "Para aprobación"),
 )
 
 DOCUMENT_TYPE = (

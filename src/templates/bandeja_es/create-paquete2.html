@@ -1,4 +1,4 @@
-{% extends 'index-base.html' %}
+{% extends 'index-blank.html' %}
 
 {% load crispy_forms_tags %}
 
@@ -14,41 +14,37 @@
 
 {% block content %}
 
-<form class="form-horizontal" method="POST" action="">
-    {% csrf_token %}
+ <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">CREAR PAQUETE</h4>
+  </div>
 
+<form method="POST" action="">
+    {% csrf_token %}
+<div class="row form-row spacer">
     <div class="form-group col-md-12">
         <div class="form-control">
-        <label for="" class="col-md-3 mg-10">{{form_paraquete.destinatario|as_crispy_field}}</label>
-        <label for="" class="col-md-3 mg-10">{{form_paraquete.asunto|as_crispy_field}}</label>
-        <label for="" class="col-md-3 mg-10">{{form_paraquete.descripcion|as_crispy_field}}</label>
+        <label for="" class="col-md-5">{{form_paraquete.destinatario|as_crispy_field}}</label>
+        <label for="" class="col-md-5">{{form_paraquete.asunto|as_crispy_field}}</label><br>
+        <label for="" class="col-md-12">{{form_paraquete.descripcion|as_crispy_field}}</label>
         </div>
-    </div>
-    <div class="form-group col-md-12"style="overflow-y: scroll;height: 300px;">
-    {% for doc in form_paraquete.documento %}
-        <div  class="form-control col-md-12 tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-dark-7">
-            <div class="input-group-append">
-                <label class="mg-l-50">{{doc}}</label>
-                <button class="btn btn-success add-form-row">+</button>
-            </div>
-        </div>
-        
-
-    {% endfor %}
-    </div>
- 
-    <br>
-    <br>    
+    </div> 
+</div>
 {{ formset.management_form }}
 {% for form in formset %}
 <div class="row form-row spacer">
-        <div class="input-group col-12">
-                <label class="form-control tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-dark-7" style="float: left;">
-                    {{form|crispy}}
-                    <div class="input-group-append">
-                        <button class="btn btn-success add-form-row">+</button>
+        <div class="form-group col-12">
+                <div class="form-control"style="float: left;">
+                    <label for="" class="col-md-2 mg-5"> {{form.documento_fk|as_crispy_field}}</label>           
+                    <label for="" class="col-md-2 mg-5"> {{form.revision|as_crispy_field}}</label>             
+                    <label for="" class="col-md-3 mg-5"> {{form.estado_cliente|as_crispy_field}}</label>               
+                    <label for="" class="col-md-2 mg-5"> {{form.estado_contratista|as_crispy_field}}</label><br>                                 
+                    <label for="" class="col-md-4 mg-5"> {{form.archivo|as_crispy_field}}</label>             
+                    <label for="" class="col-md-4 mg-5"> {{form.comentario|as_crispy_field}}</label>  
+                
+                    <div class="input-group-append mg-20" style="float:right;">
+                        <button class="btn btn-success add-form-row" >Agregar +</button>
                     </div>
-                </label>
+                </div>
         </div>
 </div>
 {% endfor %}
@@ -60,6 +56,12 @@
 </form>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script>
+function hola(event){
+    console.log(event.target.value)
+}
+</script>
+
 <script type="text/javascript">
 function updateElementIndex(el, prefix, ndx) {
     var id_regex = new RegExp('(' + prefix + '-\\d+)');
@@ -78,7 +80,9 @@ function cloneMore(selector, prefix) {
             var id = 'id_' + name;
             $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
         }
+        
     });
+    
     newElement.find('label').each(function() {
         var forValue = $(this).attr('for');
         if (forValue) {
@@ -122,4 +126,16 @@ $(document).on('click', '.remove-form-row', function(e){
 });
 
 </script>
+<script>
+ $('.form-disable').on('submit',function(){
+     var self = $(this),
+        button = self.find('input[type="button"],button');
+        submitvalue = button.data('submit-value')
+
+        button  .attr('disabled', 'disabled').val(submitvalue);
+        return false;
+ });
+
+</script>
+
 {% endblock content %}
