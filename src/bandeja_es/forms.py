@@ -23,9 +23,10 @@ class BaseArticleFormSet(BaseFormSet):
         form.fields["descripcion"] = forms.CharField(max_length=500)
 
 class CreatePaqueteForm(forms.ModelForm):
+    descripcion = forms.CharField(widget=forms.Textarea,max_length=150,required=False)
     class Meta:
         model = Paquete
-        fields = ['destinatario', 'asunto', 'descripcion']
+        fields = ['destinatario', 'asunto']
        
 # class VersionDocForm(forms.ModelForm):
 #     class Meta:

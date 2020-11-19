@@ -16,31 +16,29 @@
 
 <form class="form-horizontal" method="POST" action="">
     {% csrf_token %}
-
+<div class="row form-row spacer">
     <div class="form-group col-md-12">
         <div class="form-control">
-        <label for="" class="col-md-3 mg-10">{{form_paraquete.destinatario|as_crispy_field}}</label>
-        <label for="" class="col-md-3 mg-10">{{form_paraquete.asunto|as_crispy_field}}</label>
-        <label for="" class="col-md-3 mg-10">{{form_paraquete.descripcion|as_crispy_field}}</label>
+        <label for="" class="col-md-5">{{form_paraquete.destinatario|as_crispy_field}}</label>
+        <label for="" class="col-md-5">{{form_paraquete.asunto|as_crispy_field}}</label><br>
+        <label for="" class="col-md-12">{{form_paraquete.descripcion|as_crispy_field}}</label>
         </div>
-    </div>
-    
-    <br>
-    <br>    
+    </div> 
+</div>
 {{ formset.management_form }}
 {% for form in formset %}
 <div class="row form-row spacer">
         <div class="form-group col-12">
                 <div class="form-control"style="float: left;">
-                    <label for="" class="col-md-2 mg-5"style="float: left;"> {{form.documento_fk|as_crispy_field}}</label>             
-                    <label for="" class="col-md-2 mg-5"style="float: left;"> {{form.archivo|as_crispy_field}}</label>             
-                    <label for="" class="col-md-2 mg-5"style="float: left;"> {{form.comentario|as_crispy_field}}</label>             
-                    <label for="" class="col-md-2 mg-5"style="float: left;"> {{form.revision|as_crispy_field}}</label>             
-                    <label for="" class="col-md-3 mg-5"style="float: left;"> {{form.estado_cliente|as_crispy_field}}</label>               
-                    <label for="" class="col-md-2 mg-5"style="float: left;"> {{form.estado_contratista|as_crispy_field}}</label>
+                    <label for="" class="col-md-2 mg-5"> {{form.documento_fk|as_crispy_field}}</label>           
+                    <label for="" class="col-md-2 mg-5"> {{form.revision|as_crispy_field}}</label>             
+                    <label for="" class="col-md-3 mg-5"> {{form.estado_cliente|as_crispy_field}}</label>               
+                    <label for="" class="col-md-2 mg-5"> {{form.estado_contratista|as_crispy_field}}</label><br>                                 
+                    <label for="" class="col-md-4 mg-5"> {{form.archivo|as_crispy_field}}</label>             
+                    <label for="" class="col-md-4 mg-5"> {{form.comentario|as_crispy_field}}</label>  
                 
-                    <div class="input-group-append mg-20" style="float: left;">
-                        <button class="btn btn-success add-form-row" >+</button>
+                    <div class="input-group-append mg-20" style="float:right;">
+                        <button class="btn btn-success add-form-row" >Agregar +</button>
                     </div>
                 </div>
         </div>
