@@ -56,6 +56,8 @@ class Version(models.Model):
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", default=1)
+    paquete_fk = models.ForeignKey(Paquete, on_delete=models.CASCADE, verbose_name=Paquete)
+    valido = models.BooleanField(verbose_name="Valido", default=1) #1=VALIDO  0=ANULADO
 
     def __str__(self):
         return (self.document_version, self.fecha)
