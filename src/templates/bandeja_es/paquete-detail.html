@@ -1,25 +1,30 @@
-{% extends 'index-base.html' %}
+{% extends 'index-blank.html' %}
 
 
 {% block navegacion %}
 <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
-      <a class="breadcrumb-item" href="{% url 'PanelCarga' %}">Panel de Carga</a>      
+      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja de Entrada</a>      
       <span class="breadcrumb-item active">Detalle Paquete</span>
     </nav>
 </div>
 {% endblock navegacion %}
 
 {% block content %}
-
-    <div>
-        {{paquete.nombre}}
-        {{paquete.asunto}}
-        {{paquete.owner}}
-        {{paquete.status}}
+ <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Detalle del Paquete</h4>
+  </div>
+ 
+ 
+  <div class="br-pagebody pd-x-20 pd-sm-x-30">
+    <div class="card bd-0 shadow-base col-12">
+       <label class="mg-x-10 form-control">{{paquete.nombre}}</label>
+       <label class="mg-x-10 form-control">{{paquete.asunto}}</label>
+       <label class="mg-x-10 form-control">{{paquete.owner}}</label>
+       <label class="mg-x-10 form-control">{{paquete.status}}</label>
     </div>
-
+</div>
     <div>
         {% for documento in documentos %}
             {{documento}}
