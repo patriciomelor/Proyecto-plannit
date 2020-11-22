@@ -121,6 +121,22 @@ class PaqueteDelete(ProyectoMixin, DeleteView):
 #     def form_invalid(self, form, **kwargs):
 #         pass
 
+    def post(self, request, *args, **kwargs):
+        data = {}
+        try:
+            action = request.POST['action']
+            if action == 'searchdata':
+                data = []
+                for i in Paquete.objects.filter(name__icontains=request.POST['term'])[0:20]:
+                    item = i.toJSON()
+                    item['text'] = i.name
+                    data.append(item)
+            else:
+                data['error'] = 'Ha ocurrido un error'
+        except Exception as e:
+            data['error'] = str(e)
+        return JsonResponse(data, safe=False)
+
 class BorradorList(ProyectoMixin, ListView):
     model = Borrador
     template_name = 'bandeja_es/borrador.html'

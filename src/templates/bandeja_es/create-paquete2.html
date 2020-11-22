@@ -2,6 +2,23 @@
 
 {% load crispy_forms_tags %}
 
+{% block mailing %}
+
+<div class="br-subleft">
+
+ 
+  
+<h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
+
+  <nav class="nav br-nav-mailbox flex-column">
+       <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
+    <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
+    <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
+  </nav>
+</div><!-- br-subleft -->
+
+{% endblock mailing %}
+
 {% block content %}
 
 <div class="br-contentpanel">
@@ -26,6 +43,10 @@
                 <label for="" class="col-md-12">{{form_paraquete.descripcion|as_crispy_field}}</label>
                 </div>
             </div> 
+        </div>
+        <div class="form-group">
+            <label>Buscador:</label>
+            {{ form.search }}
         </div>
         {{ formset.management_form }}
         {% for form in formset %}
@@ -52,7 +73,39 @@
             </div>
         </div>
         </form>
+<script>
+function(){
+    var avaliableTags=[
+        "1"
+        "2"
+        "3"
+    
+    ];
+    $("#tags").autocomplete({
+        source: function (request, response){
+            $.ajax({
+                url: 'paquete-crear2',
+                type: 'POST',
+                data: {
+                    'action': 'autocomplete',
+                    'term': request.term
+                },
+            }).done(function (data){
+                response(data)>
+            }).fail(function (jqXHR,textStatus,error,Thrown){
+                //alert(textStatus + ': ' + errorThrown);
+            }).always(function (data){
 
+            });
+        },
+        delay: 500,
+        minLength: 2,
+        select: function( event , ui){
+            console.log(ui);
+        }
+    })
+}
+</script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
@@ -128,6 +181,32 @@ $(document).on('click', '.remove-form-row', function(e){
 
         button  .attr('disabled', 'disabled').val(submitvalue);
         return false;
+ });
+
+ $('select[name="search"]').select2({
+     theme: "bootstrap4",
+     languaje: 'es',
+     allowClear: true,
+     ajax:{
+         delay: 250,
+         type: 'POST',
+         url: 'paquete-crear2',
+         data: function (params){
+             var queryParameters = {
+                term: params.term,
+                action: 'autocomplete'
+             }
+
+         return queryParameters;
+         },
+         processResults: function (data){
+            return {
+                 results: data
+            }:
+         }, 
+     },
+     placeholder: 'Ingrese una opcion',
+     minimumInputLength: 2,
  });
 
 </script>

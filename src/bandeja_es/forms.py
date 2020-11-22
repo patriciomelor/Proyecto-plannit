@@ -24,9 +24,22 @@ class BaseArticleFormSet(BaseFormSet):
 
 class CreatePaqueteForm(forms.ModelForm):
     descripcion = forms.CharField(widget=forms.Textarea,max_length=500)
+
+    # search = forms.CharField(widget=forms.TextInput(attrs={
+    #     'class': 'form-control',
+    #     'placeholder': 'Ingrese una descripcion'
+    # }))
+
+    search = forms.ModelChoiceField(queryset= Documento.objects.none(),widget=forms.Select(attrs={
+        'class': 'form-control select2',
+        'style': 'width: 100%' 
+    }))
+
     class Meta:
         model = Paquete
         fields = ['destinatario', 'asunto']
+    
+
        
 # class VersionDocForm(forms.ModelForm):
 #     class Meta:
