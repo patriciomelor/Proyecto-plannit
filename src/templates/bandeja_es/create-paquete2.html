@@ -84,20 +84,16 @@ function(){
     $("#tags").autocomplete({
         source: function (request, response){
             $.ajax({
-                url: 'paquete/crear/',
+                url: 'paquete-crear2',
                 type: 'POST',
                 data: {
-                    'action': 'autocomplete'
+                    'action': 'autocomplete',
+                    'term': request.term
                 },
             }).done(function (data){
-                console.log(data);
-                if(!data.hasOwnProperty('error')){
-                    callback();
-                    return false;
-                }
-                message_error(data.error);
+                response(data)>
             }).fail(function (jqXHR,textStatus,error,Thrown){
-                alert(textStatus + ': ' + errorThrown);
+                //alert(textStatus + ': ' + errorThrown);
             }).always(function (data){
 
             });
@@ -190,6 +186,32 @@ $(document).on('click', '.remove-form-row', function(e){
 
         button  .attr('disabled', 'disabled').val(submitvalue);
         return false;
+ });
+
+ $('select[name="search"]').select2({
+     theme: "bootstrap4",
+     languaje: 'es',
+     allowClear: true,
+     ajax:{
+         delay: 250,
+         type: 'POST',
+         url: 'paquete-crear2',
+         data: function (params){
+             var queryParameters = {
+                term: params.term,
+                action: 'autocomplete'
+             }
+
+         return queryParameters;
+         },
+         processResults: function (data){
+            return {
+                 results: data
+            }:
+         }, 
+     },
+     placeholder: 'Ingrese una opcion',
+     minimumInputLength: 2,
  });
 
 </script>
