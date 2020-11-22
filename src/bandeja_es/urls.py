@@ -12,6 +12,6 @@ urlpatterns = [
     path('paquete/editar/<pk>/', views.PaqueteUpdate.as_view(), name='paquete-editar'),
     path('paquete/eliminar/<pk>/', views.PaqueteDelete.as_view(), name='paquete-eliminar'),
     path('paquete/crear/func/', login_required(views.create_paquete), name='paquete-crear'),
-
+    
     # path('paquete/cargar/<int:pk>/', login_required(views.cargar_documentos), name='cargar-documentos' )
 ]

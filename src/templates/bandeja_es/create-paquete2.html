@@ -27,6 +27,10 @@
                 </div>
             </div> 
         </div>
+        <div class="form-group">
+            <label>Buscador:</label>
+            {{ form.search }}
+        </div>
         {{ formset.management_form }}
         {% for form in formset %}
         <div class="row form-row spacer">
@@ -52,7 +56,43 @@
             </div>
         </div>
         </form>
+<script>
+function(){
+    var avaliableTags=[
+        "1"
+        "2"
+        "3"
+    
+    ];
+    $("#tags").autocomplete({
+        source: function (request, response){
+            $.ajax({
+                url: 'paquete/crear/',
+                type: 'POST',
+                data: {
+                    'action': 'autocomplete'
+                },
+            }).done(function (data){
+                console.log(data);
+                if(!data.hasOwnProperty('error')){
+                    callback();
+                    return false;
+                }
+                message_error(data.error);
+            }).fail(function (jqXHR,textStatus,error,Thrown){
+                alert(textStatus + ': ' + errorThrown);
+            }).always(function (data){
 
+            });
+        },
+        delay: 500,
+        minLength: 2,
+        select: function( event , ui){
+            console.log(ui);
+        }
+    })
+}
+</script>
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script>
