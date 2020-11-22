@@ -1,4 +1,5 @@
 {% extends 'index-blank.html' %}
+
 {% load crispy_forms_tags %}
 
 {% block navegacion %}
@@ -12,7 +13,7 @@
 {% endblock navegacion %}
 {% block mailing %}
 
-<div class="br-subleft"
+<div class="br-subleft">
  
   
 <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
@@ -74,12 +75,16 @@
         <div class="col-md-3 form-control"style="float:left;text-align:center;">{{paquete.status}}</div>
         </div>    
     <div>
-        {% for documento in documentos %}
-         <div class="col-md-3 form-control">{{documento}}</div>
+        {% for version in versiones %}
+         <div class="col-md-3 form-control">{{version.documento_fk.Especialidad}}</div>
+         <div class="col-md-3 form-control">{{version.documento_fk.Codigo_documento}}</div>
+         <div class="col-md-3 form-control">{{version.documento_fk.Tipo_Documento}}</div>
+         <div class="col-md-3 form-control">{{version.documento_fk.Numero_documento_interno}}</div>
+         <div class="col-md-3 form-control">{{version.archivo}}</div>
         {% empty %}
             <h4> El paquete no tiene documentos. </h4>
         {% endfor %}
-        </div>
+    </div>
 
 </div>
     </div>

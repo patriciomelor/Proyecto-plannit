@@ -60,6 +60,6 @@ class Version(models.Model):
     valido = models.BooleanField(verbose_name="Valido", default=1) #1=VALIDO  0=ANULADO
 
     def __str__(self):
-        return (self.document_version, self.fecha)
+        return str(self.documento_fk.Especialidad + self.revision)
 
     

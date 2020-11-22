@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView, RedirectView, View
@@ -58,8 +58,9 @@ class PaqueteDetail(ProyectoMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        documentos = Version.objects.filter(paquete=self.kwargs['pk'])
-        context['documentos'] = documentos
+        paquete = Paquete.objects.get(pk=self.kwargs['pk'])
+        versiones = Version.objects.filter(paquete_fk=paquete)
+        context['versiones'] = versiones
         return context
     
 class PaqueteUpdate(ProyectoMixin, UpdateView):
@@ -74,51 +75,51 @@ class PaqueteDelete(ProyectoMixin, DeleteView):
     success_url = reverse_lazy('Bandejaeys')
     context_object_name = 'paquete'
 
-class CreatePaqueteView(ProyectoMixin, CreateView):
-    template_name = 'bandeja_es/create-paquete.html'
-    success_url = reverse_lazy('Bandejaeys')
-    form_class = CreatePaqueteForm
+# class CreatePaqueteView(ProyectoMixin, CreateView):
+#     template_name = 'bandeja_es/create-paquete.html'
+#     success_url = reverse_lazy('Bandejaeys')
+#     form_class = CreatePaqueteForm
     
 
-    def get_queryset(self):
-        qs =  Documento.objects.filter(proyecto=self.proyecto)
-        lista_documentos_filtrados = DocFilter(self.request.GET, queryset=qs)
-        return  lista_documentos_filtrados.qs
+#     def get_queryset(self):
+#         qs =  Documento.objects.filter(proyecto=self.proyecto)
+#         lista_documentos_filtrados = DocFilter(self.request.GET, queryset=qs)
+#         return  lista_documentos_filtrados.qs
     
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        doc = Documento.objects.filter(proyecto=self.proyecto)
-        context["filter"] = DocFilter(self.request.GET, queryset=self.get_queryset())
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         doc = Documento.objects.filter(proyecto=self.proyecto)
+#         context["filter"] = DocFilter(self.request.GET, queryset=self.get_queryset())
+#         return context
 
-    def get_form_kwargs(self):
-        kwargs = super(CreatePaqueteView, self).get_form_kwargs()
-        doc =  self.get_queryset()
-        documento_opciones = ()
-        for docs in doc:
-            documento_opciones = documento_opciones + ((docs.pk, str(docs.Codigo_documento + " -- " + " -- " + docs.Especialidad)) ,)
-        kwargs['documento'] = documento_opciones
-        return kwargs
+#     def get_form_kwargs(self):
+#         kwargs = super(CreatePaqueteView, self).get_form_kwargs()
+#         doc =  self.get_queryset()
+#         documento_opciones = ()
+#         for docs in doc:
+#             documento_opciones = documento_opciones + ((docs.pk, str(docs.Codigo_documento + " -- " + " -- " + docs.Especialidad)) ,)
+#         kwargs['documento'] = documento_opciones
+#         return kwargs
 
-    def form_valid(self, form, **kwargs):
-        package_pk = 0
-        obj = form.save(commit=False)
-        obj.owner = self.request.user
-        obj.save()
-        package_pk = obj.pk
-        docs = self.request.POST.getlist('documento')
-        # files = self.request.FILES.getlist('file_field')
-        package = Paquete.objects.get(pk=package_pk)
-        for documento in docs:
-            doc_seleccionado = Documento.objects.get(pk=documento)
-            package.documento.add(doc_seleccionado)
-        # for file in files:
-        #     doc_seleccionado.archivo = file
-        #     doc_seleccionado.save()
-        return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
+#     def form_valid(self, form, **kwargs):
+#         package_pk = 0
+#         obj = form.save(commit=False)
+#         obj.owner = self.request.user
+#         obj.save()
+#         package_pk = obj.pk
+#         docs = self.request.POST.getlist('documento')
+#         # files = self.request.FILES.getlist('file_field')
+#         package = Paquete.objects.get(pk=package_pk)
+#         for documento in docs:
+#             doc_seleccionado = Documento.objects.get(pk=documento)
+#             package.documento.add(doc_seleccionado)
+#         # for file in files:
+#         #     doc_seleccionado.archivo = file
+#         #     doc_seleccionado.save()
+#         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
     
-    def form_invalid(self, form, **kwargs):
-        pass
+#     def form_invalid(self, form, **kwargs):
+#         pass
 
 class BorradorList(ProyectoMixin, ListView):
     model = Borrador
@@ -172,9 +173,10 @@ def create_paquete(request):
                 documento = form.cleaned_data.get('documento_fk')
                 package.documento.add(documento)
                 version.owner = request.user
+                version.paquete_fk = package
                 version.save()
         
-        return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
+        return redirect(reverse_lazy('Bandejaeys'))
 
     else:
         data = {
