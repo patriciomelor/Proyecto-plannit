@@ -63,11 +63,32 @@
 
    <div class="col-lg-12">
             <div class="card shadow-base bd-0">
-              <div class="card-header bg-transparent pd-20">
-                <h6 class="card-title tx-uppercase tx-15 mg-b-0">Numero de paquete: {{paquete.id}} </h6>                
-                <h6 class="card-title tx-uppercase tx-15 mg-b-0">Asunto: {{paquete.asunto}} </h6>
-                <h6 class="card-title tx-uppercase tx-15 mg-b-0">creador: {{paquete.owner}} </h6>
-              </div><!-- card-header -->
+                <div class="form-layout form-layout-7 ">               
+              <div class="row no-gutters">
+              <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                Numero de paquete:
+              </div><!-- col-4 -->
+              <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                {{paquete.id}}
+              </div><!-- col-8 -->
+              </div> 
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                  Asunto:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                  {{paquete.asunto}}
+                </div><!-- col-8 -->
+              </div>
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                  creador:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                  {{paquete.owner}}
+                </div><!-- col-8 -->
+              </div>                               
+            </div>
               <table class="table table-striped mg-b-0 table-bordered table-primary">
                 <thead class="thead-colored thead-primary">
                   <tr class="tx-10">
@@ -97,4 +118,6 @@
             
             </div><!-- card -->
           </div> 
+          
+        </div><!-- card-header -->
 {% endblock content %}
