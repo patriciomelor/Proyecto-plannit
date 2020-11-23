@@ -17,7 +17,12 @@ class Proyecto(models.Model):
     def __str__(self):
         return self.nombre
 
-
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['Nombre'] = self.nombre
+        item['Fecha Inicio'] = self.fecha_inicio
+        item['Fecha Termino'] = self.fecha_termino
+        return item
 
 class Documento(models.Model):
     
@@ -36,6 +41,13 @@ class Documento(models.Model):
 
     def __str__(self):
         return self.Codigo_documento
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['Codigo Documento'] = self.Codigo_documento
+        item['Fecha Emision B'] = self.fecha_Emision_B
+        return item
+
 
 
 
@@ -50,6 +62,13 @@ class Historial(models.Model):
 
     def __str__(self):
         return self.fecha
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['Codigo Documento'] = self.documento
+        item['Fecha'] = self.fecha
+        return item
+
 
 class Revision(models.Model):
 
@@ -65,3 +84,9 @@ class Revision(models.Model):
     def __str__(self):
         return self.tipo
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['Codigo Documento'] = self.documento
+        item['Fecha'] = self.fecha
+        item['Emitida Para'] = self.emitida_para
+        return item

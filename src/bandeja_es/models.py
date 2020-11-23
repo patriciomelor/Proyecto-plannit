@@ -3,6 +3,7 @@ from django.contrib.auth.models import User
 from panel_carga.choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE
 
 from panel_carga.models import Documento
+from django.forms import model_to_dict
 
 
 class Paquete(models.Model):
@@ -27,6 +28,13 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
     def __str__(self):
         return str(self.documento_id.Descripcion)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['Documento'] = self.documento_id
+        item['Fecha Creacion'] = self.fecha_creacion
+        item['Paquete'] = self.paquete_id
+        return item
+
 class Borrador(models.Model):
     documento = models.ManyToManyField(Documento, through='BorradorDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
     nombre = models.CharField(verbose_name="Nombre", max_length=100, blank=False)
@@ -46,6 +54,12 @@ class BorradorDocumento(models.Model):
     
     def __str__(self):
         return str(self.documento_id.Descripcion)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['Documento'] = self.documento_id
+        item['Fecha Creacion'] = self.fecha_creacion
+        return item
 
 class Version(models.Model):
     fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
@@ -61,5 +75,14 @@ class Version(models.Model):
 
     def __str__(self):
         return str(self.documento_fk.Especialidad + self.revision)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['Documento'] = self.documento_fk
+        item['Fecha Creacion'] = self.fecha
+        item['Paquete'] = self.paquete_id
+        item['Revision'] = self.revision
+        item['Paquete'] = self.paquete_fk
+        return item
 
     
