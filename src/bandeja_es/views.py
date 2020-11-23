@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.urls import (reverse_lazy, reverse)
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
@@ -173,6 +173,10 @@ class BorradorDelete(ProyectoMixin, DeleteView):
 
 def create_paquete(request):
     context = {}
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        term = request.GET.get('term')
+        documentos = Documento.objects.all().filter(Codigo_documento__icontains=term)
+        return JsonResponse(documentos.values_list(), safe=False)
     if request.method == 'POST':
         package_pk = 0
         documentos_list = []
