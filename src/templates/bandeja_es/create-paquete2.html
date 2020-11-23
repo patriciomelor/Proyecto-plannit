@@ -74,13 +74,15 @@
         </div>
         </form>
 <script>
+    $(document).ready(function() {
+    $('#id_form-0-documento_fk').select2();
+    });
+</script>
+
+
+
+<script>
 function(){
-    var avaliableTags=[
-        "1"
-        "2"
-        "3"
-    
-    ];
     $("#tags").autocomplete({
         source: function (request, response){
             $.ajax({
@@ -106,6 +108,8 @@ function(){
     })
 }
 </script>
+
+
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
