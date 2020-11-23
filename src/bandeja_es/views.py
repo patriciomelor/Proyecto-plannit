@@ -158,7 +158,11 @@ class BorradorList(ProyectoMixin, ListView):
 class BorradorCreate(ProyectoMixin, CreateView):
     model = Borrador
     success_url = reverse_lazy('Bandejaeys')
-    pass
+    
+    def post(self, request, *args, **kwargs):
+        if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+            form = self.request.POST.get('str')
+        return redirect(reverse_lazy('Bandejaeys'))
 
 
 class BorradorDetail(ProyectoMixin, DetailView):
