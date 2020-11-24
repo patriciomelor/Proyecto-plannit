@@ -49,6 +49,6 @@ class CreatePaqueteForm(forms.ModelForm):
 # VersionFormset = formset_factory(VersionDocForm)
 VersionFormset = modelformset_factory(
     Version,
-    fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista'],
+    fields = [ 'documento_fk','revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista'],
     extra=1,
 )

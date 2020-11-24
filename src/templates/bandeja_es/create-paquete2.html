@@ -46,10 +46,7 @@
                 </div>
             </div> 
         </div>
-        <div class="form-group">
-            <label>Buscador:</label>
-            {{ form.search }}
-        </div>
+    
         {{ formset.management_form }}
         {% for form in formset %}
         <div class="row form-row spacer">
@@ -102,6 +99,28 @@
     })
 </script>
 
+    <script>
+        function poner() {
+            $('#id_form-0-documento_fk').prop("required", true);
+        }
+        function quitar() {
+            $('#id_form-0-documento_fk').removeAttr("required");
+        }
+    </script>
+    <script>
+        function poner() {
+            $('#id_form-0-revision').prop("required", true);
+        }
+        function quitar() {
+            $('#id_form-0-revision').removeAttr("required");
+        }
+    </script>
+    <script>
+     document.getElementById("error_1_id_form-0-revision").innerHTML = "";
+    </script>
+     <script>
+     document.getElementById("error_1_id_form-0-documento_fk").innerHTML = "";
+    </script>
 <script>
     $(document).ready(function() {
     $('#id_destinatario').select2();
