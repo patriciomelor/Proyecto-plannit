@@ -161,7 +161,7 @@ class BorradorCreate(ProyectoMixin, CreateView):
     
     def post(self, request, *args, **kwargs):
         if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.request.POST.get('str')
+            form = self.request.POST.get('borrador')
         return redirect(reverse_lazy('Bandejaeys'))
 
 
