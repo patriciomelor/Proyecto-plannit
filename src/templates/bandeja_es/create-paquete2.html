@@ -35,7 +35,7 @@
     <h4 class="tx-gray-800 mg-b-5">CREAR PAQUETE</h4>
 </div>
  
-    <form method="POST" action="">
+    <form method="POST" action="" id="form">
             {% csrf_token %}
         <div class="row form-row spacer">
             <div class="form-group col-md-12">
@@ -81,8 +81,25 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
 <script language="JavaScript" type="text/javascript">
-    $(window).on('beforeunload', function(){
-        return $('#form').on('submit', function(e){e.preventDefault();var borrador = $('#form').serialize();$.ajax({type : "POST", url: "{% url 'borrador-crear' %}",data: {borrador: borrador,csrfmiddlewaretoken: '{{ csrf_token }}',dataType: "json",},});});});
+    const form = document.getElementById('form')
+    window.addEventListener('beforeunload', (event){
+        event.preventDefault();
+        $.ajax({
+            type: 'POST',
+            url: '{% url 'borrador-crear' %}',
+            data: $("#form").serialize(),
+            dataType: 'json',
+            success: successHandler,
+
+        });
+        function successHandler(data){
+            if (data.msg === 'Success'){
+                alert('Formulario guardado en Borrador')
+            }
+        }
+
+        event.returnValue = '';
+    })
 </script>
 
 <script>
