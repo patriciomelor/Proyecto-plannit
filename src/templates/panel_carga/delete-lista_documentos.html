@@ -97,14 +97,14 @@
 <script type="text/javascript">
   $(document).ready(function(){
     $('#delete_btn').click(function(){
-      if(confirm("Estás seguro?")){
+      if(confirm("Estás seguro que desea eliminar los registros selecionados?")){
         var id =[];
         var csrf=$('input[name=csrfmiddlewaretoken]').val();
         $(':checkbox:checked').each(function(i){
           id[i]=$(this).val()
         })
         if(id.length==0){
-          alert("No has seleccionado nada")
+          alert("No has seleccionado ningun registro para eliminar.")
         }else{
           console.log(id)
           $.ajax({
