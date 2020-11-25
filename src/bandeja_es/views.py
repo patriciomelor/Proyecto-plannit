@@ -160,11 +160,31 @@ class BorradorCreate(ProyectoMixin, CreateView):
     success_url = reverse_lazy('Bandejaeys')
     
     def post(self, request, *args, **kwargs):
-        if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.request.POST.get('borrador')
-            print(form)
+        form = self.request.POST.get('borrador')
+        print(form)
         return redirect(reverse_lazy('Bandejaeys'))
 
+def create_borrador(request):
+    form_paraquete = CreatePaqueteForm()
+    formset_version = VersionFormset()
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        package_pk = 0
+        documentos_list = []
+        form_paraquete = CreatePaqueteForm(request.POST or None)
+        formset_version = VersionFormset(request.POST or None, request.FILES or None)
+        if form_paraquete.is_valid() and formset_version.is_valid():
+            obj = form_paraquete.save(commit=False)
+            obj.owner = request.user
+            obj.save()
+            package_pk = obj.pk
+            package = Paquete.objects.get(pk=package_pk)
+            for form in formset_version:
+                version = form.save(commit=False)
+                documento = form.cleaned_data.get('documento_fk')
+                package.documento.add(documento)
+                version.owner = request.user
+                version.paquete_fk = package
+                version.save()
 
 class BorradorDetail(ProyectoMixin, DetailView):
     model = Borrador
