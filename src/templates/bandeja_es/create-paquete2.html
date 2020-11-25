@@ -111,29 +111,28 @@
         event.returnValue = '';
     })
 </script>
-
+<script>
+    function poner() {
+        $('#id_form-0-documento_fk').prop("required", true);
+    }
+    function quitar() {
+        $('#id_form-0-documento_fk').removeAttr("required");
+    }
+</script>
+<script>
+    function poner() {
+        $('#id_form-0-revision').prop("required", true);
+    }
+    function quitar() {
+        $('#id_form-0-revision').removeAttr("required");
+    }
+</script>
+<script>
+    document.getElementById("error_1_id_form-0-revision").innerHTML = "";
+</script>
     <script>
-        function poner() {
-            $('#id_form-0-documento_fk').prop("required", true);
-        }
-        function quitar() {
-            $('#id_form-0-documento_fk').removeAttr("required");
-        }
-    </script>
-    <script>
-        function poner() {
-            $('#id_form-0-revision').prop("required", true);
-        }
-        function quitar() {
-            $('#id_form-0-revision').removeAttr("required");
-        }
-    </script>
-    <script>
-     document.getElementById("error_1_id_form-0-revision").innerHTML = "";
-    </script>
-     <script>
-     document.getElementById("error_1_id_form-0-documento_fk").innerHTML = "";
-    </script>
+    document.getElementById("error_1_id_form-0-documento_fk").innerHTML = "";
+</script>
 <script>
     $(document).ready(function() {
     $('#id_destinatario').select2();
@@ -141,8 +140,33 @@
 </script>
 
 <script>
+    $(document).ready(function () {
+        $('#documento_fk').select2({
+            ajax: {
+                url: '{% url 'paquete-crear' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.title};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1
+        });
+    });
+</script>
+
+<script>
     $(document).ready(function() {
-    $('#id_form-0-documento_fk').select2();
+    $('#id_form-0-documento_fk').select2(
+        ajax: {
+            url: ,
+            dataType: 'json',
+
+        }
+    );
     });
 </script>
 
