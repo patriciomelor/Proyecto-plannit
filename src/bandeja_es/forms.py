@@ -23,24 +23,10 @@ class BaseArticleFormSet(BaseFormSet):
         form.fields["descripcion"] = forms.CharField(widget=forms.Textarea,max_length=500)
 
 class CreatePaqueteForm(forms.ModelForm):
-    descripcion = forms.CharField(widget=forms.Textarea,max_length=500)
-
-    # search = forms.CharField(widget=forms.TextInput(attrs={
-    #     'class': 'form-control',
-    #     'placeholder': 'Ingrese una descripcion'
-    # }))
-
-    search = forms.ModelChoiceField(queryset= Documento.objects.none(),widget=forms.Select(attrs={
-        'class': 'form-control select2',
-        'style': 'width: 100%' 
-    }))
-
+    descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
     class Meta:
         model = Paquete
         fields = ['destinatario', 'asunto']
-    
-
-       
 class VersionDocForm(forms.ModelForm):
     class Meta:
         model = Version
@@ -56,3 +42,11 @@ VersionFormset = formset_factory(VersionDocForm, extra=1)
 #     fields = [ 'documento_fk','revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista'],
 #     extra=1,
 # )
+
+class PaqueteBorradorForm(forms.ModelForm):
+    class Meta:
+        model = Borrador
+        fields = ['descripcion', 'destinatario', 'asunto']
+
+# class VersionDocBorrador(forms.ModelForm):
+#     class Meta:
