@@ -41,14 +41,18 @@ class CreatePaqueteForm(forms.ModelForm):
     
 
        
-# class VersionDocForm(forms.ModelForm):
-#     class Meta:
-#         model = Version
-#         fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista']
+class VersionDocForm(forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista']
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields['documento_fk'].queryset = Documento.objects.none()
         
-# VersionFormset = formset_factory(VersionDocForm)
-VersionFormset = modelformset_factory(
-    Version,
-    fields = [ 'documento_fk','revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista'],
-    extra=1,
-)
+VersionFormset = formset_factory(VersionDocForm, extra=1)
+# VersionFormset = modelformset_factory(
+#     Version,
+#     fields = [ 'documento_fk','revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista'],
+#     extra=1,
+# )
