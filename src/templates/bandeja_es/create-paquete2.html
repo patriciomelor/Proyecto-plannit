@@ -81,7 +81,7 @@
         {% endfor %}
         <div class="row spacer">
             <div class="col-4 offset-2">
-                <button type="submit" class="btn btn-block btn-primary">Crear</button>
+                <button type="submit" class="btn btn-block btn-primary">Enviar</button>
             </div>
         </div>
     </form>
@@ -92,7 +92,7 @@
 
 <script language="JavaScript" type="text/javascript">
     const form = document.getElementById('form')
-    window.addEventListener('beforeunload', (event){
+    window.addEventListener('beforeunload', (event) => {
         event.preventDefault();
         $.ajax({
             type: 'POST',
