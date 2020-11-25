@@ -92,24 +92,22 @@
 
 <script language="JavaScript" type="text/javascript">
     const form = document.getElementById('form')
-    window.addEventListener('beforeunload', (event) => {
-        event.preventDefault();
+    form.addEventListener("submit", submitHandler);
+
+    function submitHandler(e){
+        e.preventDefault();
         $.ajax({
             type: 'POST',
             url: '{% url 'borrador-crear' %}',
             data: $("#form").serialize(),
             dataType: 'json',
-            success: successHandler,
-
-        });
-        function successHandler(data){
-            if (data.msg === 'Success'){
-                alert('Formulario guardado en Borrador')
+            success: function(data){
+                if (data.msg === 'Success'){
+                    alert('Formulario guardado en Borrador')
+                }
             }
-        }
-
-        event.returnValue = '';
-    })
+        })
+    }
 </script>
 <script>
     function poner() {

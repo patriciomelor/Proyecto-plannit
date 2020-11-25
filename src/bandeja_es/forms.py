@@ -4,7 +4,7 @@ from django.forms import (formset_factory, modelformset_factory)
 import django.forms.widgets
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .models import Paquete, Version
+from .models import Paquete, Version, Borrador
 from panel_carga.models import Documento
 from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 from django.contrib.auth.models import User
