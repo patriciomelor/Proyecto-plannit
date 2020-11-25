@@ -87,7 +87,15 @@
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                   {{paquete.owner}}
                 </div><!-- col-8 -->
-              </div>                               
+              </div>
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                  fecha creacion:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                  {{paquete.fecha_creacion}}
+                </div><!-- col-8 -->
+              </div>                                       
             </div>
               <table class="table table-striped mg-b-0 table-bordered table-primary">
                 <thead class="thead-colored thead-primary">
@@ -97,6 +105,8 @@
                     <th class="pd-y-5"style="text-align: center;">Tipo Documento</th>                    
                     <th class="pd-y-5"style="text-align: center;">Numero Documento Interno</th>        
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
+                    <th class="pd-y-5"style="text-align: center;">Revisión</th>
+                    <th class="pd-y-5"style="text-align: center;">Status</th>
                   </tr>
                 </thead>
                
@@ -108,6 +118,8 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Numero_documento_interno}}</td>
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.archivo}}</td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.revision}}</td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.estado_cliente}}</td>
                   </tr>    
                      {% empty %}
               <h4> El paquete no tiene documentos. </h4>
