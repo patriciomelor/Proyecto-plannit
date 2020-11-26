@@ -36,18 +36,18 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
         return item
 
 class Borrador(models.Model):
-    documento = models.ManyToManyField(Documento, through='BorradorDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
-    nombre = models.CharField(verbose_name="Nombre", max_length=100, blank=False)
-    fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
-    asunto = models.CharField(verbose_name="Asunto", max_length=50)
+    documento = models.ManyToManyField(Documento, through='BorradorDocumento', blank=True, null=True) #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
+    nombre = models.CharField(verbose_name="Nombre", max_length=100, blank=True, null=True)
+    fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True, blank=True, null=True)
+    asunto = models.CharField(verbose_name="Asunto", max_length=50, blank=True, null=True)
     descripcion = models.CharField(verbose_name="Descripcion", max_length=200, blank=True, null=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario_borrador")
-    destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario_borrador")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario_borrador", blank=True, null=True)
+    destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario_borrador", blank=True, null=True)
     
     def __str__(self):
         return self.nombre
 
-class BorradorDocumento(models.Model):
+class BorradorDocumento(models.Model): # Una vez almacenado debe quedar este registro si o si, por ende no debe ser ninguno blank=True, null=True
     documento_id = models.ForeignKey(Documento, on_delete=models.CASCADE)
     borrador_id = models.ForeignKey(Borrador, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=False)
@@ -86,7 +86,7 @@ class Version(models.Model):
         return item
 
 # INICIO DE PREVISUALIZACION
-
+# PREVISUALIZACION DEL PAQUETE
 class PrevPaquete(models.Model):
     prev_documento = models.ManyToManyField(Documento, through='PrevPaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
     prev_fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
@@ -100,6 +100,7 @@ class PrevPaquete(models.Model):
     def __str__(self):
         return self.prev_fecha_creacion
 
+# PREVISUALIZACION DEL PAQUETEDOCUMENTO
 class PrevPaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mismo que crea automaticamente django para la realizacion de un many to many, pero customizable a lo que necesitemos, cosa que mas adelante si necesitamos almacenar otra informacion del registro de los paquetes, se puede hacer
     prev_documento_id = models.ForeignKey(Documento, on_delete=models.CASCADE)
     prev_paquete_id = models.ForeignKey(PrevPaquete, on_delete=models.CASCADE)
@@ -115,6 +116,7 @@ class PrevPaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo 
         item['Paquete'] = self.prev_paquete_id
         return item
 
+# PREVISUALIZACION DEL LA VERSION
 class PrevVersion(models.Model):
     prev_fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
     prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
@@ -138,3 +140,5 @@ class PrevVersion(models.Model):
         item['Revision'] = self.prev_revision
         item['Paquete'] = self.prev_paquete_fk
         return item
+
+# FIN PREVISUALIZACION 
