@@ -36,13 +36,13 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
         return item
 
 class Borrador(models.Model):
-    documento = models.ManyToManyField(Documento, through='BorradorDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
-    nombre = models.CharField(verbose_name="Nombre", max_length=100, blank=False)
-    fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
-    asunto = models.CharField(verbose_name="Asunto", max_length=50)
+    documento = models.ManyToManyField(Documento, through='BorradorDocumento', blank=True, null=True) #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
+    nombre = models.CharField(verbose_name="Nombre", max_length=100, blank=True, null=True)
+    fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True, blank=True, null=True)
+    asunto = models.CharField(verbose_name="Asunto", max_length=50, blank=True, null=True)
     descripcion = models.CharField(verbose_name="Descripcion", max_length=200, blank=True, null=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario_borrador")
-    destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario_borrador")
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario_borrador", blank=True, null=True)
+    destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario_borrador", blank=True, null=True)
     
     def __str__(self):
         return self.nombre
