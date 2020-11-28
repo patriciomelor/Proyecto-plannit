@@ -82,6 +82,7 @@
         <div class="row spacer">
             <div class="col-4 offset-2">
                 <button type="submit" class="btn btn-block btn-primary">Enviar</button>
+                <button id="borrador" class="btn btn-block btn-danger">Borrador</button>
             </div>
         </div>
     </form>
@@ -91,11 +92,9 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
 <script language="JavaScript" type="text/javascript">
-    const form = document.getElementById('form')
-    form.addEventListener("submit", submitHandler);
-
-    function submitHandler(e){
+    $("#borrador").click(function submitHandler(e){
         e.preventDefault();
+        const form = document.getElementById('form')
         $.ajax({
             type: 'POST',
             url: '{% url 'borrador-crear' %}',
@@ -108,6 +107,8 @@
             }
         })
     }
+)
+
 </script>
 <script>
     function poner() {

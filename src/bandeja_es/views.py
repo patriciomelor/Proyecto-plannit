@@ -168,7 +168,10 @@ def create_borrador(request):
     borrador_paraquete = PaqueteBorradorForm()
     borrador_version_set = VersionFormset()
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-        print(request)
+        borrador_paraquete = PaqueteBorradorForm(request.POST or None)
+        borrador_version_set = VersionFormset(request.POST or None, request.FILES or None)
+        if borrador_paraquete.is_valid() and borrador_version_set.is_valid():
+            print(borrador_version_set)
         # package_pk = 0
         # documentos_list = []
         # borrador_paraquete = CreatePaqueteForm(request.POST or None)
@@ -186,8 +189,7 @@ def create_borrador(request):
         #         version.owner = request.user
         #         version.paquete_fk = package
         #         version.save()
-        return redirect(reverse_lazy('Bandejaeys'))
-
+        return JsonResponse('Success', safe=False)
 class BorradorDetail(ProyectoMixin, DetailView):
     model = Borrador
     context_object_name = 'borrador'
