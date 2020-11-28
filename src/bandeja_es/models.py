@@ -36,7 +36,7 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
         return item
 
 class Borrador(models.Model):
-    documento = models.ManyToManyField(Documento, through='BorradorDocumento', blank=True, null=True) #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
+    documento = models.ManyToManyField(Documento, through='BorradorDocumento', blank=True) #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
     nombre = models.CharField(verbose_name="Nombre", max_length=100, blank=True, null=True)
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True, blank=True, null=True)
     asunto = models.CharField(verbose_name="Asunto", max_length=50, blank=True, null=True)
@@ -60,6 +60,20 @@ class BorradorDocumento(models.Model): # Una vez almacenado debe quedar este reg
         item['Documento'] = self.documento_id
         item['Fecha Creacion'] = self.fecha_creacion
         return item
+
+class BorradorVersion(models.Model):
+    fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
+    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
+    documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
+    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
+    revision = models.CharField(verbose_name="Emicion/Revision", max_length=1, default="B")
+    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
+    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", default=1)
+    paquete_fk = models.ForeignKey(Paquete, on_delete=models.CASCADE, verbose_name=Paquete)
+
+    def __str__(self):
+        return str(self.documento_fk.Especialidad + self.revision)
 
 class Version(models.Model):
     fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)

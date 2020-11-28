@@ -4,7 +4,7 @@ from django.forms import (formset_factory, modelformset_factory)
 import django.forms.widgets
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .models import Paquete, Version, Borrador
+from .models import Paquete, Version, Borrador, BorradorVersion
 from panel_carga.models import Documento
 from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 from django.contrib.auth.models import User
@@ -48,5 +48,9 @@ class PaqueteBorradorForm(forms.ModelForm):
         model = Borrador
         fields = ['descripcion', 'destinatario', 'asunto']
 
-# class VersionDocBorrador(forms.ModelForm):
-#     class Meta:
+class VersionDocBorrador(forms.ModelForm):
+    class Meta:
+        model = BorradorVersion
+        fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista']
+
+BorradorVersionFormset = formset_factory(VersionDocBorrador, extra=1)
