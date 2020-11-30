@@ -155,6 +155,7 @@ class CreatePaqueteView(ProyectoMixin, TemplateView):
             destinatario = paquete_prev.destinatario,
             owner = paquete_prev.owner,
         )
+        
         paquete.save()
         versiones = self.kwargs['versiones']
         for version in versiones:
