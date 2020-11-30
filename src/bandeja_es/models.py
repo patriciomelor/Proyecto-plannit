@@ -62,15 +62,15 @@ class BorradorDocumento(models.Model): # Una vez almacenado debe quedar este reg
         return item
 
 class BorradorVersion(models.Model):
-    fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
-    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
+    fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True, null=True)
+    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
-    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    revision = models.CharField(verbose_name="Emicion/Revision", max_length=1, default="B")
-    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
-    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", default=1)
-    paquete_fk = models.ForeignKey(Paquete, on_delete=models.CASCADE, verbose_name=Paquete)
+    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True)
+    revision = models.CharField(verbose_name="Emicion/Revision", max_length=1, default="B", blank=True, null=True)
+    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True, null=True)
+    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True, null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", blank=True, null=True)
+    paquete_fk = models.ForeignKey(Borrador, on_delete=models.CASCADE, verbose_name="Paquete Borrador", blank=True, null=True)
 
     def __str__(self):
         return str(self.documento_fk.Especialidad + self.revision)
@@ -83,7 +83,7 @@ class Version(models.Model):
     revision = models.CharField(verbose_name="Emicion/Revision", max_length=1, default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", default=1)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
     paquete_fk = models.ForeignKey(Paquete, on_delete=models.CASCADE, verbose_name=Paquete)
     valido = models.BooleanField(verbose_name="Valido", default=1) #1=VALIDO  0=ANULADO
 
@@ -103,7 +103,7 @@ class Version(models.Model):
 # PREVISUALIZACION DEL PAQUETE
 class PrevPaquete(models.Model):
     prev_documento = models.ManyToManyField(Documento, through='PrevPaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
-    prev_fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
+    prev_fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True)
     prev_fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
     prev_asunto = models.CharField(verbose_name="Asunto", max_length=50)
     prev_descripcion = models.CharField(verbose_name="Descripcion", max_length=500, blank=True, null=True)
@@ -139,8 +139,8 @@ class PrevVersion(models.Model):
     prev_revision = models.CharField(verbose_name="Emicion/Revision", max_length=1, default="B")
     prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
-    prev_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", default=1)
-    prev_paquete_fk = models.ForeignKey(PrevPaquete, on_delete=models.CASCADE, verbose_name=Paquete)
+    prev_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
+    prev_paquete_fk = models.ForeignKey(PrevPaquete, on_delete=models.CASCADE, verbose_name="Paquete Preview")
     prev_valido = models.BooleanField(verbose_name="Valido", default=1) #1=VALIDO  0=ANULADO
 
     def __str__(self):
