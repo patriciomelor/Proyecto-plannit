@@ -82,6 +82,7 @@
         <div class="row spacer">
             <div class="col-4 offset-2">
                 <button type="submit" class="btn btn-block btn-primary">Enviar</button>
+                <button id="borrador" class="btn btn-block btn-danger">Borrador</button>
             </div>
         </div>
     </form>
@@ -91,49 +92,46 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 
 <script language="JavaScript" type="text/javascript">
-    const form = document.getElementById('form')
-    window.addEventListener('beforeunload', (event) => {
-        event.preventDefault();
+    $("#borrador").click(function submitHandler(e){
+        e.preventDefault();
+        const form = document.getElementById('form')
         $.ajax({
             type: 'POST',
             url: '{% url 'borrador-crear' %}',
             data: $("#form").serialize(),
             dataType: 'json',
-            success: successHandler,
-
-        });
-        function successHandler(data){
-            if (data.msg === 'Success'){
-                alert('Formulario guardado en Borrador')
+            success: function(data){
+                if (data.msg === 'Success'){
+                    alert('Formulario guardado en Borrador')
+                }
             }
-        }
+        })
+    }
+)
 
-        event.returnValue = '';
-    })
 </script>
-
+<script>
+    function poner() {
+        $('#id_form-0-documento_fk').prop("required", true);
+    }
+    function quitar() {
+        $('#id_form-0-documento_fk').removeAttr("required");
+    }
+</script>
+<script>
+    function poner() {
+        $('#id_form-0-revision').prop("required", true);
+    }
+    function quitar() {
+        $('#id_form-0-revision').removeAttr("required");
+    }
+</script>
+<script>
+    document.getElementById("error_1_id_form-0-revision").innerHTML = "";
+</script>
     <script>
-        function poner() {
-            $('#id_form-0-documento_fk').prop("required", true);
-        }
-        function quitar() {
-            $('#id_form-0-documento_fk').removeAttr("required");
-        }
-    </script>
-    <script>
-        function poner() {
-            $('#id_form-0-revision').prop("required", true);
-        }
-        function quitar() {
-            $('#id_form-0-revision').removeAttr("required");
-        }
-    </script>
-    <script>
-     document.getElementById("error_1_id_form-0-revision").innerHTML = "";
-    </script>
-     <script>
-     document.getElementById("error_1_id_form-0-documento_fk").innerHTML = "";
-    </script>
+    document.getElementById("error_1_id_form-0-documento_fk").innerHTML = "";
+</script>
 <script>
     $(document).ready(function() {
     $('#id_destinatario').select2();
@@ -141,8 +139,33 @@
 </script>
 
 <script>
+    $(document).ready(function () {
+        $('#documento_fk').select2({
+            ajax: {
+                url: '{% url 'paquete-crear' %}',
+                dataType: 'json',
+                processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.title};
+                        })
+                    };
+                }
+            },
+            minimumInputLength: 1
+        });
+    });
+</script>
+
+<script>
     $(document).ready(function() {
-    $('#id_form-0-documento_fk').select2();
+    $('#id_form-0-documento_fk').select2(
+        ajax: {
+            url: ,
+            dataType: 'json',
+
+        }
+    );
     });
 </script>
 

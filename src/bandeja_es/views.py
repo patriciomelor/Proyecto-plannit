@@ -6,7 +6,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 
 from .models import Paquete, PaqueteDocumento, Borrador, BorradorDocumento, Version
-from .forms import CreatePaqueteForm, VersionFormset
+from .forms import CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
@@ -160,11 +160,36 @@ class BorradorCreate(ProyectoMixin, CreateView):
     success_url = reverse_lazy('Bandejaeys')
     
     def post(self, request, *args, **kwargs):
-        if self.request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-            form = self.request.POST.get('borrador')
+        form = self.request.POST.get('borrador')
+        print(form)
         return redirect(reverse_lazy('Bandejaeys'))
 
-
+def create_borrador(request):
+    borrador_paraquete = PaqueteBorradorForm()
+    borrador_version_set = VersionFormset()
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        borrador_paraquete = PaqueteBorradorForm(request.POST or None)
+        borrador_version_set = VersionFormset(request.POST or None, request.FILES or None)
+        if borrador_paraquete.is_valid() and borrador_version_set.is_valid():
+            print(borrador_version_set)
+        # package_pk = 0
+        # documentos_list = []
+        # borrador_paraquete = CreatePaqueteForm(request.POST or None)
+        # borrador_version_set = BorradorVersionFormset(request.POST or None, request.FILES or None)
+        # if borrador_paraquete.is_valid() and borrador_version_set.is_valid():
+        #     obj = form_paraquete.save(commit=False)
+        #     obj.owner = request.user
+        #     obj.save()
+        #     borrador_pk = obj.pk
+        #     borrador = Borrador.objects.get(pk=borrador_pk)
+        #     for form in borrador_version_set:
+        #         version = form.save(commit=False)
+        #         documento = form.cleaned_data.get('documento_fk')
+        #         package.documento.add(documento)
+        #         version.owner = request.user
+        #         version.paquete_fk = package
+        #         version.save()
+        return JsonResponse('Success', safe=False)
 class BorradorDetail(ProyectoMixin, DetailView):
     model = Borrador
     context_object_name = 'borrador'

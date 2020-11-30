@@ -4,7 +4,7 @@ from django.forms import (formset_factory, modelformset_factory)
 import django.forms.widgets
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .models import Paquete, Version
+from .models import Paquete, Version, Borrador, BorradorVersion
 from panel_carga.models import Documento
 from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 from django.contrib.auth.models import User
@@ -23,32 +23,34 @@ class BaseArticleFormSet(BaseFormSet):
         form.fields["descripcion"] = forms.CharField(widget=forms.Textarea,max_length=500)
 
 class CreatePaqueteForm(forms.ModelForm):
-    descripcion = forms.CharField(widget=forms.Textarea,max_length=500)
-
-    # search = forms.CharField(widget=forms.TextInput(attrs={
-    #     'class': 'form-control',
-    #     'placeholder': 'Ingrese una descripcion'
-    # }))
-
-    search = forms.ModelChoiceField(queryset= Documento.objects.none(),widget=forms.Select(attrs={
-        'class': 'form-control select2',
-        'style': 'width: 100%' 
-    }))
-
+    descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
     class Meta:
         model = Paquete
         fields = ['destinatario', 'asunto']
-    
+class VersionDocForm(forms.ModelForm):
+    class Meta:
+        model = Version
+        fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista']
 
-       
-# class VersionDocForm(forms.ModelForm):
-#     class Meta:
-#         model = Version
-#         fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista']
+    # def __init__(self, *args, **kwargs):
+    #     super().__init__(*args, **kwargs)
+    #     self.fields['documento_fk'].queryset = Documento.objects.none()
         
-# VersionFormset = formset_factory(VersionDocForm)
-VersionFormset = modelformset_factory(
-    Version,
-    fields = [ 'documento_fk','revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista'],
-    extra=1,
-)
+VersionFormset = formset_factory(VersionDocForm, extra=1)
+# VersionFormset = modelformset_factory(
+#     Version,
+#     fields = [ 'documento_fk','revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista'],
+#     extra=1,
+# )
+
+class PaqueteBorradorForm(forms.ModelForm):
+    class Meta:
+        model = Borrador
+        fields = ['descripcion', 'destinatario', 'asunto']
+
+class VersionDocBorrador(forms.ModelForm):
+    class Meta:
+        model = BorradorVersion
+        fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista']
+
+BorradorVersionFormset = formset_factory(VersionDocBorrador, extra=1)
