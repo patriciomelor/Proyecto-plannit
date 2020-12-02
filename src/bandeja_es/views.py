@@ -102,14 +102,15 @@ class BorradorCreate(ProyectoMixin, CreateView):
         return redirect(reverse_lazy('Bandejaeys'))
 
 def create_borrador(request):
-    borrador_paraquete = PaqueteBorradorForm()
-    borrador_version_set = VersionFormset()
+
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-        borrador_paraquete = PaqueteBorradorForm(request.POST or None)
-        borrador_version_set = VersionFormset(request.POST or None, request.FILES or None)
-        if borrador_paraquete.is_valid() and borrador_version_set.is_valid():
-            print(borrador_version_set)
-        # package_pk = 0
+        if request.method == 'POST':
+            borrador_paraquete = PaquetePreviewForm(request.POST or None)
+            borrador_version_set = BorradorVersionFormset(request.POST or None, request.FILES or None)
+            if borrador_paraquete.is_valid():
+                print(borrador_paraquete.cleaned_data.get('prev_asunto'))
+
+        # # package_pk = 0
         # documentos_list = []
         # borrador_paraquete = CreatePaqueteForm(request.POST or None)
         # borrador_version_set = BorradorVersionFormset(request.POST or None, request.FILES or None)
@@ -137,7 +138,7 @@ class BorradorDelete(ProyectoMixin, DeleteView):
     pass
 
 class CreatePaqueteView(ProyectoMixin, TemplateView):
-    template_name = 'bandeja_es/create-paquete2.html'
+    template_name = 'bandeja_es/create-paquete.html'
     success_url = reverse_lazy('Bandejaeys')
 
     def get(self, request, *args, **kwargs):
@@ -147,27 +148,28 @@ class CreatePaqueteView(ProyectoMixin, TemplateView):
         context['versiones'] = self.kwargs['versiones']
         return render(request, self.template_name, context)
 
-    def post(self, request, *args, **kwargs):
-        paquete_prev = PrevPaquete.objects.get(pk=self.kwargs['paquete'])
-        paquete = Paquete(
-            asunto = paquete_prev.asunto,
-            descripcion = paquete_prev.descripcion,
-            destinatario = paquete_prev.destinatario,
-            owner = paquete_prev.owner,
-        )
-        
-        paquete.save()
-        versiones = self.kwargs['versiones']
-        for version in versiones:
-            paquete.documento.add(version)
-            vertion = Version(
-                owner= version.prev_owner,
-                documento_fk= version.prev_documento_fk,
-                revision= version.prev_revision,
-                estado_cliente= version.prev_estado_cliente,
-                estado_contratista= version.prev_estado_contratista,
-                paquete_fk= version.prev_paquete_fk
-            )
+    # def post(self, request, *args, **kwargs):
+    #     paquete_prev = PrevPaquete.objects.get(pk=self.kwargs['paquete'])
+    #     paquete = Paquete(
+    #         asunto = paquete_prev.asunto,
+    #         descripcion = paquete_prev.descripcion,
+    #         destinatario = paquete_prev.destinatario,
+    #         owner = paquete_prev.owner,
+    #     )
+    #     paquete.save()
+    #     versiones = self.kwargs['versiones']
+    #     for version in versiones:
+    #         paquete.documento.add(version)
+    #         vertion = Version(
+    #             owner= version.prev_owner,
+    #             documento_fk= version.prev_documento_fk,
+    #             revision= version.prev_revision,
+    #             estado_cliente= version.prev_estado_cliente,
+    #             estado_contratista= version.prev_estado_contratista,
+    #             paquete_fk= version.prev_paquete_fk
+    #         )
+    #         version.save()
+    #     return self.success_url
 
 
 # def create_paquete(request, ):
@@ -185,7 +187,7 @@ def create_preview(request):
         formset_version = PreviewVersionFormset(request.POST or None, request.FILES or None)
         if form_paraquete.is_valid() and formset_version.is_valid():
             obj = form_paraquete.save(commit=False)
-            obj.owner = request.user
+            obj.prev_propietario = request.user
             obj.save()
             package_pk = obj.pk
             package = PrevPaquete.objects.get(pk=package_pk)

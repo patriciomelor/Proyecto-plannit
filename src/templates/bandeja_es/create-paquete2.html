@@ -48,19 +48,19 @@
     <h4 class="tx-gray-800 mg-b-5">CREAR PAQUETE</h4>
 </div>
  
-    <form method="POST" action="" id="form">
+    <form method="POST" id="form">
             {% csrf_token %}
         <div class="row form-row spacer">
             <div class="form-group col-md-12">
                 <div class="form-control">
                 <label for="" class="col-md-5">{{form_paraquete.prev_receptor|as_crispy_field}}</label>
-                <label for="" class="col-md-5">{{form_paraquete.prev_asunto|as_crispy_field}}</label><br>
+                <label for="" class="col-md-5">{{form_paraquete.prev_asunto|as_crispy_field}}</label>
                 <label for="" class="col-md-12">{{form_paraquete.descripcion|as_crispy_field}}</label>
                 </div>
             </div> 
         </div>
     
-        {{ formset.management_form }}
+        {% comment %} {{ formset.management_form }}
         {% for form in formset %}
         <div class="row form-row spacer">
                 <div class="form-group col-12">
@@ -78,10 +78,12 @@
                         </div>
                 </div>
         </div>
-        {% endfor %}
+        {% endfor %} {% endcomment %}
         <div class="row spacer">
             <div class="col-4 offset-2">
                 <button type="submit" class="btn btn-block btn-primary">Enviar</button>
+            </div>
+            <div class="col-4 offset-2">
                 <button id="borrador" class="btn btn-block btn-danger">Borrador</button>
             </div>
         </div>

@@ -59,7 +59,7 @@ class VersionDocBorrador(forms.ModelForm):
         model = BorradorVersion
         fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista']
 
-BorradorVersionFormset = formset_factory(VersionDocBorrador, extra=1)
+BorradorVersionFormset = formset_factory(VersionDocBorrador)
 
 # ***********************************
 #formularios para crear la PREVIEW del paquete y versiones, con el debido FORMSET
