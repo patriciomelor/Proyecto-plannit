@@ -102,14 +102,19 @@
             url: '{% url 'borrador-crear' %}',
             data: $("#form").serialize(),
             dataType: 'json',
-            success: function(data){
+            success: successHandler
+        })
+        function successHandler(data){
                 if (data.msg === 'Success'){
+                    window.location.href = "{% url 'Borradores' %}";
                     alert('Formulario guardado en Borrador')
                 }
+                if (data.msg === 'Invalid'){
+                    alert('El formulario ingresado no es válido. Puede el formulario esté vacío o los campos obligatorios no sean correctos')
+                }
             }
-        })
     }
-)
+)   
 
 </script>
 <script>
