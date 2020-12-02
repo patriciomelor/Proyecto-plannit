@@ -102,32 +102,30 @@ class BorradorCreate(ProyectoMixin, CreateView):
         return redirect(reverse_lazy('Bandejaeys'))
 
 def create_borrador(request):
-
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         if request.method == 'POST':
             borrador_paraquete = PaquetePreviewForm(request.POST or None)
-            borrador_version_set = BorradorVersionFormset(request.POST or None, request.FILES or None)
-            if borrador_paraquete.is_valid():
-                print(borrador_paraquete.cleaned_data.get('prev_asunto'))
+            borrador_version_set = PreviewVersionFormset(request.POST or None, request.FILES or None)
+            if borrador_paraquete.is_valid() and borrador_version_set.is_valid():
+                print('all is working')
+                asunto_b = borrador_paraquete.cleaned_data.get('prev_asunto')
+                destinatario_b = borrador_paraquete.cleaned_data.get('prev_receptor')
+                descripcion_b = borrador_paraquete.cleaned_data.get('descripcion')
+                print(
+                    asunto_b,
+                    destinatario_b,
+                    descripcion_b,
+                )
+                # borrador = Borrador(
+                #     asunto= asunto_b,
+                #     descripcion= descripcion_b,
+                #     destinatario=destinatario_b,
+                #     owner= request.user
+                # )
+                # borrador.save()
+                # for form in borrador_version_set:
 
-        # # package_pk = 0
-        # documentos_list = []
-        # borrador_paraquete = CreatePaqueteForm(request.POST or None)
-        # borrador_version_set = BorradorVersionFormset(request.POST or None, request.FILES or None)
-        # if borrador_paraquete.is_valid() and borrador_version_set.is_valid():
-        #     obj = form_paraquete.save(commit=False)
-        #     obj.owner = request.user
-        #     obj.save()
-        #     borrador_pk = obj.pk
-        #     borrador = Borrador.objects.get(pk=borrador_pk)
-        #     for form in borrador_version_set:
-        #         version = form.save(commit=False)
-        #         documento = form.cleaned_data.get('documento_fk')
-        #         package.documento.add(documento)
-        #         version.owner = request.user
-        #         version.paquete_fk = package
-        #         version.save()
-    return JsonResponse('Success', safe=False)
+            return JsonResponse('Success', safe=False)
 class BorradorDetail(ProyectoMixin, DetailView):
     model = Borrador
     context_object_name = 'borrador'
@@ -194,7 +192,6 @@ def create_preview(request):
             for form in formset_version:
                 version = form.save(commit=False)
                 documento = form.cleaned_data.get('prev_documento_fk')
-                versiones_list.append()
                 package.documento.add(documento)
                 version.owner = request.user
                 version.paquete_fk = package

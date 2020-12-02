@@ -60,7 +60,7 @@
             </div> 
         </div>
     
-        {% comment %} {{ formset.management_form }}
+        {{ formset.management_form }}
         {% for form in formset %}
         <div class="row form-row spacer">
                 <div class="form-group col-12">
@@ -78,7 +78,7 @@
                         </div>
                 </div>
         </div>
-        {% endfor %} {% endcomment %}
+        {% endfor %}
         <div class="row spacer">
             <div class="col-4 offset-2">
                 <button type="submit" class="btn btn-block btn-primary">Enviar</button>
