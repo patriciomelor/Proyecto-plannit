@@ -97,14 +97,14 @@
                 <input type="checkbox"><span></span>
               </label>
             </th>
-            <th class="tx-10-force tx-mont tx-medium">Package Number</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Name</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Transmital</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Nombre</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Enviado a</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Revisado por</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Esado</th>            
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Autor</th>
-            <th class="wd-5p hidden-xs-down"></th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Accion</th>
           </tr>
         </thead>
         <tbody>
@@ -129,13 +129,8 @@
             <td></td>
             <td></td>
             <td class="valign-middle hidden-xs-down"> {{ paquete.owner }}</td>
-            <td class="dropdown hidden-xs-down">
-              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
-              <div class="dropdown-menu dropdown-menu-right pd-10">
-                  <a href="{% url 'paquete-detalle' paquete.pk %}" class="nav-link">Detalle</a>
-                  <a href="{% url 'paquete-editar' paquete.pk %}" class="nav-link">Editar</a>
-                  <a href="{% url 'paquete-eliminar' paquete.pk %}" class="nav-link">Eliminar</a>
-              </div><!-- dropdown-menu -->
+            <td class="valign-middle hidden-xs-down">
+              <a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}" class="nav-link">Detalle</a>       
             </td>
           </tr>
           
