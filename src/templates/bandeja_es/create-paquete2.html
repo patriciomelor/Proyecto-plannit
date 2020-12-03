@@ -60,7 +60,7 @@
             </div> 
         </div>
     
-        {% comment %} {{ formset.management_form }}
+        {{ formset.management_form }}
         {% for form in formset %}
         <div class="row form-row spacer">
                 <div class="form-group col-12">
@@ -78,7 +78,7 @@
                         </div>
                 </div>
         </div>
-        {% endfor %} {% endcomment %}
+        {% endfor %}
         <div class="row spacer">
             <div class="col-4 offset-2">
                 <button type="submit" class="btn btn-block btn-primary">Enviar</button>
@@ -102,14 +102,19 @@
             url: '{% url 'borrador-crear' %}',
             data: $("#form").serialize(),
             dataType: 'json',
-            success: function(data){
+            success: successHandler
+        })
+        function successHandler(data){
                 if (data.msg === 'Success'){
+                    window.location.href = "{% url 'Borradores' %}";
                     alert('Formulario guardado en Borrador')
                 }
+                if (data.msg === 'Invalid'){
+                    alert('El formulario ingresado no es válido. Puede el formulario esté vacío o los campos obligatorios no sean correctos')
+                }
             }
-        })
     }
-)
+)   
 
 </script>
 <script>
