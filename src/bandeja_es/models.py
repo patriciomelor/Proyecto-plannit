@@ -65,7 +65,7 @@ class BorradorVersion(models.Model):
     comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True)
-    revision = models.CharField(verbose_name="Emicion/Revision", max_length=1, default="B", blank=True, null=True)
+    revision = models.CharField(verbose_name="Revision", max_length=1, default="B", blank=True, null=True)
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True, null=True)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", blank=True, null=True)
@@ -79,7 +79,7 @@ class Version(models.Model):
     comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    revision = models.CharField(verbose_name="Emicion/Revision", max_length=1, default="B")
+    revision = models.CharField(verbose_name="Revision", max_length=1, default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
@@ -111,7 +111,7 @@ class PrevPaquete(models.Model):
     prev_status = models.BooleanField(verbose_name="Status", default=0, blank=True)
 
     def __str__(self):
-        return self.prev_fecha_creacion
+        return self.prev_asunto
 
 # PREVISUALIZACION DEL PAQUETEDOCUMENTO
 class PrevPaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mismo que crea automaticamente django para la realizacion de un many to many, pero customizable a lo que necesitemos, cosa que mas adelante si necesitamos almacenar otra informacion del registro de los paquetes, se puede hacer

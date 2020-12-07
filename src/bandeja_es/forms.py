@@ -75,4 +75,4 @@ class VersionDocPreview(forms.ModelForm):
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo', 'prev_comentario', 'prev_estado_cliente', 'prev_estado_contratista']
 
-PreviewVersionFormset = formset_factory(VersionDocPreview, extra=1)
+PreviewVersionFormset = formset_factory(VersionDocPreview)
