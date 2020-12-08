@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 
-from .models import Paquete, PaqueteDocumento, Borrador, BorradorDocumento, BorradorVersion, Version, PrevVersion, PrevVersion, PrevPaquete
+from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete
 from .forms import CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, PreviewVersionFormset
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
@@ -75,25 +75,25 @@ class PaqueteDelete(ProyectoMixin, DeleteView):
     success_url = reverse_lazy('Bandejaeys')
     context_object_name = 'paquete'
 class BorradorList(ProyectoMixin, ListView):
-    model = Borrador
+    model = BorradorPaquete
     template_name = 'bandeja_es/borrador.html'
     context_object_name = 'borradores'
     paginate_by = 15
 
     def get_queryset(self):
-        qs =  Borrador.objects.filter(owner=self.request.user)
+        qs =  BorradorPaquete.objects.filter(owner=self.request.user)
         lista_borradores_filtrados = BorradorFilter(self.request.GET, queryset=qs)
         return  lista_borradores_filtrados.qs
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        draft = Borrador.objects.filter(owner=self.request.user)
+        draft = BorradorPaquete.objects.filter(owner=self.request.user)
         context["filter"] = BorradorFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
 
 class BorradorCreate(ProyectoMixin, CreateView):
-    model = Borrador
+    model = BorradorPaquete
     success_url = reverse_lazy('Bandejaeys')
     
     def post(self, request, *args, **kwargs):
@@ -112,7 +112,7 @@ def create_borrador(request):
                 asunto_b = borrador_paraquete.cleaned_data.get('prev_asunto')
                 destinatario_b = borrador_paraquete.cleaned_data.get('prev_receptor')
                 descripcion_b = borrador_paraquete.cleaned_data.get('descripcion')
-                borrador = Borrador(
+                borrador = BorradorPaquete(
                     asunto= asunto_b,
                     descripcion= descripcion_b,
                     destinatario=destinatario_b,
@@ -147,11 +147,11 @@ def create_borrador(request):
                     'msg': 'Invalid',
                 })
 class BorradorDetail(ProyectoMixin, DetailView):
-    model = Borrador
+    model = BorradorPaquete
     context_object_name = 'borrador'
     pass
 class BorradorDelete(ProyectoMixin, DeleteView):
-    model = Borrador
+    model = BorradorPaquete
     success_url = reverse_lazy('Bandejaeys')
     pass
 

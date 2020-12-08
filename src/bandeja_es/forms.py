@@ -8,7 +8,7 @@ from panel_carga.models import Documento
 from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 from django.contrib.auth.models import User
 
-from .models import Paquete, Version, Borrador, BorradorVersion, PrevPaquete, PrevPaqueteDocumento, PrevVersion
+from .models import Paquete, Version, BorradorPaquete, BorradorVersion, PrevPaquete, PrevVersion
 
 
 
@@ -51,7 +51,7 @@ VersionFormset = formset_factory(VersionDocForm, extra=1)
 
 class PaqueteBorradorForm(forms.ModelForm):
     class Meta:
-        model = Borrador
+        model = BorradorPaquete
         fields = ['descripcion', 'destinatario', 'asunto']
 
 class VersionDocBorrador(forms.ModelForm):
