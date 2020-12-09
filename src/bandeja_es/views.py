@@ -174,16 +174,17 @@ def create_paquete(request, paquete_pk, versiones_pk):
         )
         paquete.save()
         for v in versiones_pk_list:
-            version = PrevVersion.objects.get(pk=v)
-            paquete.documento.add(version)
-            vertion = Version(
-                owner= version.prev_owner,
-                documento_fk= version.prev_documento_fk,
-                revision= version.prev_revision,
-                estado_cliente= version.prev_estado_cliente,
-                estado_contratista= version.prev_estado_contratista,
+            vertion = PrevVersion.objects.get(pk=v)
+            vertion_f = Version(
+                owner= vertion.prev_owner,
+                documento_fk= vertion.prev_documento_fk,
+                revision= vertion.prev_revision,
+                estado_cliente= vertion.prev_estado_cliente,
+                estado_contratista= vertion.prev_estado_contratista,
             )
-            vertion.save()
+            vertion_f.save()
+            paquete.version.add(vertion_f)
+
 
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
@@ -192,30 +193,33 @@ def create_paquete(request, paquete_pk, versiones_pk):
 
 def create_preview(request):
     context = {}
+    context2 = {}
     if request.method == 'POST':
         version_list = []
         version_list_pk = []
         form_paraquete = PaquetePreviewForm(request.POST or None)
         formset_version = PreviewVersionFormset(request.POST or None, request.FILES or None)
         if form_paraquete.is_valid() and formset_version.is_valid():
+            package_pk = 0
             obj = form_paraquete.save(commit=False)
             obj.prev_propietario = request.user
             obj.save()
             package_pk = obj.pk
-            package = PrevPaquete.objects.get(pk=package_pk)
             for form in formset_version:
+                package = PrevPaquete.objects.get(pk=package_pk)
                 version = form.save(commit=False)
-                documento = form.cleaned_data.get('prev_documento_fk')
-                print(documento)
-                package.prev_documento.add(documento)
                 version.prev_owner = request.user
-                version.prev_paquete_fk = package
                 version.save()
-                version_list.append(version)
+                package.prev_documento.add(version)
                 v = version.pk
+                version_list.append(version)
                 version_list_pk.append(v)
+        context2['paquete'] = package
+        context2['paquete_pk'] = package_pk
+        context2['versiones'] = version_list
+        context2['versiones_pk'] = version_list_pk
 
-        return render(request, 'bandeja_es/create-paquete.html', {'paquete': package, 'paquete_pk': package_pk, 'versiones': version_list, 'versiones_pk': version_list_pk} )
+        return render(request, 'bandeja_es/create-paquete.html', context2)
 
     else:
         data = {
