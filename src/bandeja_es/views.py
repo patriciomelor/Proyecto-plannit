@@ -74,6 +74,7 @@ class PaqueteDelete(ProyectoMixin, DeleteView):
     template_name = 'bandeja_es/paquete-delete.html'
     success_url = reverse_lazy('Bandejaeys')
     context_object_name = 'paquete'
+
 class BorradorList(ProyectoMixin, ListView):
     model = BorradorPaquete
     template_name = 'bandeja_es/borrador.html'
@@ -120,7 +121,7 @@ def create_borrador(request):
                 )
                 borrador.save()
                 borrador_fk = borrador.pk
-                paquete_borrador = Borrador.objects.get(pk=borrador_fk)
+                paquete_borrador = BorradorPaquete.objects.get(pk=borrador_fk)
                 for form in borrador_version_set:
                     documento_b = form.cleaned_data.get('prev_documento_fk')
                     revision_b = form.cleaned_data.get('prev_revision')
@@ -136,7 +137,6 @@ def create_borrador(request):
                         comentario= comentario_b,
                         estado_cliente= cliente_estado_b,
                         estado_contratista= contratista_estado_b,
-                        paquete_fk= paquete_borrador,
                     )
                     version.save()
                 return JsonResponse({
@@ -182,7 +182,6 @@ def create_paquete(request, paquete_pk, versiones_pk):
                 revision= version.prev_revision,
                 estado_cliente= version.prev_estado_cliente,
                 estado_contratista= version.prev_estado_contratista,
-                paquete_fk= version.prev_paquete_fk
             )
             vertion.save()
 
