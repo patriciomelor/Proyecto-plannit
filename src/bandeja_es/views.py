@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 
-from .models import Paquete, PaqueteDocumento, Borrador, BorradorDocumento, BorradorVersion, Version, PrevVersion, PrevVersion, PrevPaquete
+from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, BorradorDocumento, PaqueteDocumento
 from .forms import CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, PreviewVersionFormset
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
@@ -74,32 +74,23 @@ class PaqueteDelete(ProyectoMixin, DeleteView):
     template_name = 'bandeja_es/paquete-delete.html'
     success_url = reverse_lazy('Bandejaeys')
     context_object_name = 'paquete'
+
 class BorradorList(ProyectoMixin, ListView):
-    model = Borrador
     template_name = 'bandeja_es/borrador.html'
-    context_object_name = 'borradores'
     paginate_by = 15
 
     def get_queryset(self):
-        qs =  Borrador.objects.filter(owner=self.request.user)
+        qs =  BorradorPaquete.objects.filter(owner=self.request.user)
         lista_borradores_filtrados = BorradorFilter(self.request.GET, queryset=qs)
         return  lista_borradores_filtrados.qs
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        draft = Borrador.objects.filter(owner=self.request.user)
+        draft = BorradorPaquete.objects.filter(owner=self.request.user)
         context["filter"] = BorradorFilter(self.request.GET, queryset=self.get_queryset())
+        borrador_paquete = BorradorPaquete.objects.all().filter(owner=self.request.user)
+        context['borrador_paquete'] = borrador_paquete
         return context
-
-
-class BorradorCreate(ProyectoMixin, CreateView):
-    model = Borrador
-    success_url = reverse_lazy('Bandejaeys')
-    
-    def post(self, request, *args, **kwargs):
-        form = self.request.POST.get('borrador')
-        print(form)
-        return redirect(reverse_lazy('Bandejaeys'))
 
 def create_borrador(request):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
@@ -112,7 +103,7 @@ def create_borrador(request):
                 asunto_b = borrador_paraquete.cleaned_data.get('prev_asunto')
                 destinatario_b = borrador_paraquete.cleaned_data.get('prev_receptor')
                 descripcion_b = borrador_paraquete.cleaned_data.get('descripcion')
-                borrador = Borrador(
+                borrador = BorradorPaquete(
                     asunto= asunto_b,
                     descripcion= descripcion_b,
                     destinatario=destinatario_b,
@@ -120,7 +111,7 @@ def create_borrador(request):
                 )
                 borrador.save()
                 borrador_fk = borrador.pk
-                paquete_borrador = Borrador.objects.get(pk=borrador_fk)
+                paquete_borrador = BorradorPaquete.objects.get(pk=borrador_fk)
                 for form in borrador_version_set:
                     documento_b = form.cleaned_data.get('prev_documento_fk')
                     revision_b = form.cleaned_data.get('prev_revision')
@@ -136,7 +127,6 @@ def create_borrador(request):
                         comentario= comentario_b,
                         estado_cliente= cliente_estado_b,
                         estado_contratista= contratista_estado_b,
-                        paquete_fk= paquete_borrador,
                     )
                     version.save()
                 return JsonResponse({
@@ -146,24 +136,45 @@ def create_borrador(request):
                 return JsonResponse({
                     'msg': 'Invalid',
                 })
-class BorradorDetail(ProyectoMixin, DetailView):
-    model = Borrador
-    context_object_name = 'borrador'
-    pass
+
+def editar_borrador(request, paquete_borrador, version_borrador):
+    context = {}
+    if request.method == 'POST':
+        form_paquete = PaqueteBorradorForm(request.POST or None)
+        formset_versiones = VersionDocBorrador(request.POST or None, request.FILES or None)
+        if form_paquete.is_valid() and formset_versiones.is_valid():
+            form_paquete.save()
+            for form in formset_versiones:
+                form.save()
+    else:
+        pkg_borrador = BorradorPaquete.objects.get(pk=paquete_borrador)
+        vrs_borrador = BorradorDocumento.objects.filter(borrador=pkg_borrador)
+        form_paquete = PaqueteBorradorForm(instance=pkg_borrador)
+        formset_versiones = VersionDocBorrador(instance=vrs_borrador)
+        context['form_paquete'] = form_paquete
+        context['formset_versiones'] = formset_versiones
+    return render(request, 'bandeja_es/crear-borrador.html', context)
+
+
 class BorradorDelete(ProyectoMixin, DeleteView):
-    model = Borrador
+    model = BorradorPaquete
     success_url = reverse_lazy('Bandejaeys')
     pass
 
 def create_paquete(request, paquete_pk, versiones_pk):
     context = {}
     if request.method == 'GET':
-        print('aquí se tendría que hacer la lógica de almacenado')
+
+    #########################################################
+    #             Transformación de str                     #
+    #                a Lista de Pk's                        #
         lista_nueva = versiones_pk.lstrip("[").rstrip("]")
         new_list = lista_nueva.replace(',', "")
-        print(new_list)
         versiones_pk_1 = list(new_list.split())
         versiones_pk_list = list(map(int, versiones_pk_1))
+    #                                                       #
+    #                                                       #
+    #########################################################
 
         paquete_prev = PrevPaquete.objects.get(pk=paquete_pk)
         paquete = Paquete(
@@ -174,49 +185,49 @@ def create_paquete(request, paquete_pk, versiones_pk):
         )
         paquete.save()
         for v in versiones_pk_list:
-            version = PrevVersion.objects.get(pk=v)
-            paquete.documento.add(version)
-            vertion = Version(
-                owner= version.prev_owner,
-                documento_fk= version.prev_documento_fk,
-                revision= version.prev_revision,
-                estado_cliente= version.prev_estado_cliente,
-                estado_contratista= version.prev_estado_contratista,
-                paquete_fk= version.prev_paquete_fk
+            vertion = PrevVersion.objects.get(pk=v)
+            vertion_f = Version(
+                owner= vertion.prev_owner,
+                documento_fk= vertion.prev_documento_fk,
+                revision= vertion.prev_revision,
+                estado_cliente= vertion.prev_estado_cliente,
+                estado_contratista= vertion.prev_estado_contratista,
             )
-            vertion.save()
+            vertion_f.save()
+            paquete.version.add(vertion_f)
+
 
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
-
-
-
 def create_preview(request):
     context = {}
+    context2 = {}
     if request.method == 'POST':
         version_list = []
         version_list_pk = []
         form_paraquete = PaquetePreviewForm(request.POST or None)
         formset_version = PreviewVersionFormset(request.POST or None, request.FILES or None)
         if form_paraquete.is_valid() and formset_version.is_valid():
+            package_pk = 0
             obj = form_paraquete.save(commit=False)
             obj.prev_propietario = request.user
             obj.save()
             package_pk = obj.pk
-            package = PrevPaquete.objects.get(pk=package_pk)
             for form in formset_version:
+                package = PrevPaquete.objects.get(pk=package_pk)
                 version = form.save(commit=False)
-                documento = form.cleaned_data.get('prev_documento_fk')
-                print(documento)
-                package.prev_documento.add(documento)
                 version.prev_owner = request.user
-                version.prev_paquete_fk = package
                 version.save()
-                version_list.append(version)
+                package.prev_documento.add(version)
                 v = version.pk
+                version_list.append(version)
                 version_list_pk.append(v)
+        context2['paquete'] = package
+        context2['paquete_pk'] = package_pk
+        context2['versiones'] = version_list
+        context2['versiones_pk'] = version_list_pk
 
-        return render(request, 'bandeja_es/create-paquete.html', {'paquete': package, 'paquete_pk': package_pk, 'versiones': version_list, 'versiones_pk': version_list_pk} )
+        return render(request, 'bandeja_es/create-paquete.html', context2)
 
     else:
         data = {

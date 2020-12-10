@@ -8,8 +8,8 @@ from panel_carga.models import Documento
 from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 from django.contrib.auth.models import User
 
-from .models import Paquete, Version, Borrador, BorradorVersion, PrevPaquete, PrevPaqueteDocumento, PrevVersion
-
+from .models import Paquete, Version, BorradorPaquete, BorradorVersion, PrevPaquete, PrevVersion
+from panel_carga.views import ProyectoMixin
 
 
 # class DocumentoListForm(forms.Form):
@@ -51,7 +51,7 @@ VersionFormset = formset_factory(VersionDocForm, extra=1)
 
 class PaqueteBorradorForm(forms.ModelForm):
     class Meta:
-        model = Borrador
+        model = BorradorPaquete
         fields = ['descripcion', 'destinatario', 'asunto']
 
 class VersionDocBorrador(forms.ModelForm):
@@ -70,9 +70,15 @@ class PaquetePreviewForm(forms.ModelForm):
     class Meta:
         model = PrevPaquete
         fields = ['prev_receptor', 'prev_asunto']
+        labels = {
+            'prev_receptor': 'Destinatario'
+        }
 class VersionDocPreview(forms.ModelForm):
     class Meta:
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo', 'prev_comentario', 'prev_estado_cliente', 'prev_estado_contratista']
-
+        labels = {
+            'prev_documento_fk': 'N° Documento',
+            'prev_revision': 'Revisión'
+        }
 PreviewVersionFormset = formset_factory(VersionDocPreview)

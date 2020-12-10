@@ -98,11 +98,8 @@
               </label>
             </th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Transmital</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Nombre</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Enviado a</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Revisado por</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Esado</th>            
+            <!--<th class="tx-10-force tx-mont tx-medium hidden-xs-down">Esado</th>-->            
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Autor</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Accion</th>
           </tr>
@@ -122,12 +119,8 @@
                   <span class="tx-9">Creado el {{ paquete.fecha_creacion|date }} </span>
                 </div>
               </div>
-            </td>
-            <td class="valign-middle hidden-xs-down"> {{ paquete.nombre }} </td>
-            <td class="valign-middle hidden-xs-down"> {{ paquete.owner }} </td>
-            <td class="valign-middle hidden-xs-down"> {{ paquete.asunto }} </td>
-            <td></td>
-            <td></td>
+            </td>            
+            <td class="valign-middle hidden-xs-down"> {{ paquete.asunto }} </td>           
             <td class="valign-middle hidden-xs-down"> {{ paquete.owner }}</td>
             <td class="valign-middle hidden-xs-down">
               <a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}" class="nav-link">Detalle</a>       

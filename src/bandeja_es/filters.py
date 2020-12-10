@@ -1,5 +1,5 @@
 import django_filters
-from .models import Paquete, PaqueteDocumento, Borrador, BorradorDocumento
+from .models import Paquete, PaqueteDocumento, BorradorPaquete, BorradorDocumento
 
 from django.http import JsonResponse
 
@@ -15,7 +15,7 @@ class PaqueteDocumentoFilter(django_filters.FilterSet):
 
 class BorradorFilter(django_filters.FilterSet):
     class Meta:
-        model = Borrador
+        model = BorradorPaquete
         fields = ['fecha_creacion']
 
 class BorradorDocumentoFilter(django_filters.FilterSet):

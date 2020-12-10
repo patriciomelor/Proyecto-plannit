@@ -106,7 +106,7 @@
                 
               </table>
                 <a href="{% url 'paquete-crear' paquete_pk versiones_pk %}"><button  class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit"> Envíar </button></a>
-            
+                <a class="btn btn-warning" onclick="bPreguntar = true;" href="javascript:location.reload()">Volver</a>
             </div><!-- card -->
           </div> 
           
@@ -121,5 +121,16 @@
   });
 </script>
 
-
+<script language="JavaScript" type="text/javascript">
+     
+    var bPreguntar = true;
+     
+    window.onbeforeunload = preguntarAntesDeSalir;
+     
+    function preguntarAntesDeSalir()
+    {
+      if (bPreguntar)
+        return "¿Seguro que quieres salir?";
+    }
+</script>
 {% endblock content %}
