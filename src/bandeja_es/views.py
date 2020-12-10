@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 
-from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete
+from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, BorradorDocumento, PaqueteDocumento
 from .forms import CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, PreviewVersionFormset
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
@@ -76,9 +76,7 @@ class PaqueteDelete(ProyectoMixin, DeleteView):
     context_object_name = 'paquete'
 
 class BorradorList(ProyectoMixin, ListView):
-    model = BorradorPaquete
     template_name = 'bandeja_es/borrador.html'
-    context_object_name = 'borradores'
     paginate_by = 15
 
     def get_queryset(self):
@@ -90,17 +88,9 @@ class BorradorList(ProyectoMixin, ListView):
         context = super().get_context_data(**kwargs)
         draft = BorradorPaquete.objects.filter(owner=self.request.user)
         context["filter"] = BorradorFilter(self.request.GET, queryset=self.get_queryset())
+        borrador_paquete = BorradorPaquete.objects.all().filter(owner=self.request.user)
+        context['borrador_paquete'] = borrador_paquete
         return context
-
-
-class BorradorCreate(ProyectoMixin, CreateView):
-    model = BorradorPaquete
-    success_url = reverse_lazy('Bandejaeys')
-    
-    def post(self, request, *args, **kwargs):
-        form = self.request.POST.get('borrador')
-        print(form)
-        return redirect(reverse_lazy('Bandejaeys'))
 
 def create_borrador(request):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
@@ -146,10 +136,26 @@ def create_borrador(request):
                 return JsonResponse({
                     'msg': 'Invalid',
                 })
-class BorradorDetail(ProyectoMixin, DetailView):
-    model = BorradorPaquete
-    context_object_name = 'borrador'
-    pass
+
+def editar_borrador(request, paquete_borrador, version_borrador):
+    context = {}
+    if request.method == 'POST':
+        form_paquete = PaqueteBorradorForm(request.POST or None)
+        formset_versiones = VersionDocBorrador(request.POST or None, request.FILES or None)
+        if form_paquete.is_valid() and formset_versiones.is_valid():
+            form_paquete.save()
+            for form in formset_versiones:
+                form.save()
+    else:
+        pkg_borrador = BorradorPaquete.objects.get(pk=paquete_borrador)
+        vrs_borrador = BorradorDocumento.objects.filter(borrador=pkg_borrador)
+        form_paquete = PaqueteBorradorForm(instance=pkg_borrador)
+        formset_versiones = VersionDocBorrador(instance=vrs_borrador)
+        context['form_paquete'] = form_paquete
+        context['formset_versiones'] = formset_versiones
+    return render(request, 'bandeja_es/crear-borrador.html', context)
+
+
 class BorradorDelete(ProyectoMixin, DeleteView):
     model = BorradorPaquete
     success_url = reverse_lazy('Bandejaeys')
@@ -158,12 +164,17 @@ class BorradorDelete(ProyectoMixin, DeleteView):
 def create_paquete(request, paquete_pk, versiones_pk):
     context = {}
     if request.method == 'GET':
-        print('aquí se tendría que hacer la lógica de almacenado')
+
+    #########################################################
+    #             Transformación de str                     #
+    #                a Lista de Pk's                        #
         lista_nueva = versiones_pk.lstrip("[").rstrip("]")
         new_list = lista_nueva.replace(',', "")
-        print(new_list)
         versiones_pk_1 = list(new_list.split())
         versiones_pk_list = list(map(int, versiones_pk_1))
+    #                                                       #
+    #                                                       #
+    #########################################################
 
         paquete_prev = PrevPaquete.objects.get(pk=paquete_pk)
         paquete = Paquete(
@@ -187,9 +198,6 @@ def create_paquete(request, paquete_pk, versiones_pk):
 
 
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
-
-
-
 
 def create_preview(request):
     context = {}
