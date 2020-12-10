@@ -1,4 +1,4 @@
-{% extends 'index-blank.html' %}
+{% extends 'index-pdc.html' %}
 
 {% load crispy_forms_tags %}
 
@@ -20,7 +20,7 @@
 <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
 
           
-  <div class="row row-sm d-flex justify-content-center"style="overflow-x:auto;" >
+  <div class="row row-sm d-flex justify-content-center"style="overflow-x:scroll;" >
   <!--Upload Archivos-->
         <div class="col-12 bd rounded mg-t-10">
           <ul class="col-lg-12 nav nav-pills  justify-content-center" role="tablist">            
@@ -41,7 +41,7 @@
 
 
    
-<table class="table table-striped mg-b-0 table-bordered table-primary"style="width:100%;">       
+<table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
       <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
         <div class="col-4" style="margin-top: 30px;">      
@@ -143,7 +143,7 @@
       
     </div>
 {% if is_paginated %}
-    <div class="ht-80 bd d-flex align-items-center justify-content-center">
+    <div class="ht-80 d-flex align-items-center justify-content-center">
       <nav aria-label="Page navigation">      
         <ul class="pagination pagination-basic mg-b-0">
         {% if page_obj.has_previous %}
