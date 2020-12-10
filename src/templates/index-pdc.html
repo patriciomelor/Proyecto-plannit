@@ -18,23 +18,21 @@
     <link href="{% static 'perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
     <link href="{% static 'jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
     <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
+    <link href="{% static 'chartist/chartist.css' %}" rel="stylesheet">
     <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
-    
-    
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="{% static 'Jquery-Autosave/autosaveform.js' %}"></script>
+    <link href="{% static 'lib/jquery-ui/jquery-ui.min.css' %}" rel="stylesheet" />
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
   </head>
-
   <body>
-
+  {% block menublank %}
+ 
     <!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo"><a href=""><span>[</span>DMP<span>]</span></a></div>
-    <div class="br-sideleft overflow-y-auto">
+    <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-x ps--active-y" data-ps-id="9f275960-8fc4-263c-8019-2d3495e7d5c1">
       <label class="sidebar-label pd-x-15 mg-t-20">Navigacion</label>
       <div class="br-sideleft-menu">
         <a href="{% url 'index' %}" class="br-menu-link">
@@ -62,7 +60,7 @@
             <span class="menu-item-label">Analitica</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-      
+       
         <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
@@ -83,23 +81,15 @@
         </a><!-- br-menu-link -->
         
       </div><!-- br-sideleft-menu -->
-
-
-      <br>
     </div><!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
 
-    <!-- ########## START: HEAD PANEL ########## -->
+     <!-- ########## START: HEAD PANEL ########## -->
     <div class="br-header">
       <div class="br-header-left">
         <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
         <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
-        <div class="input-group hidden-xs-down wd-170 transition">
-          <input id="searchbox" type="text" class="form-control" placeholder="Search">
-          <span class="input-group-btn">
-            <button class="btn btn-secondary" type="button"><i class="fa fa-search"></i></button>
-          </span>
-        </div><!-- input-group -->
+    
       </div><!-- br-header-left -->
       <div class="br-header-right">
         <nav class="nav">
@@ -125,24 +115,17 @@
     </div><!-- br-header -->
     <!-- ########## END: HEAD PANEL ########## -->
 
-  
 
-    <!-- ########## START: MAIN PANEL ########## -->
-    <div class="br-mainpanel">
-      <div class="br-pagebody mg-t-5 pd-x-30">
-   
-      
-      {% block navegacion %}
-      
-      {% endblock navegacion %}
-      
-      
-      {% block content %}
+ {% endblock menublank %}
+ <div class="br-mainpanel">
+  <div class="br-pagebody mg-t-5 pd-x-30">
+
+{% block content %}
+{% endblock content %}
+</div><!-- br-pagebody -->
+</div><!-- br-mainpanel -->
 
 
-      {% endblock content %}
-      </div><!-- br-pagebody -->
-    </div><!-- br-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
 
     <script src="{% static 'jquery/jquery.js' %}"></script> 
@@ -153,6 +136,7 @@
     <script src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
     <script src="{% static 'jquery-switchbutton/jquery.switchButton.js' %}"></script>
     <script src="{% static 'peity/jquery.peity.js' %}"></script>
+    <script src="{% static 'chartist/chartist.js' %}"></script>
     <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
     <script src="{% static 'd3/d3.js' %}"></script>
     <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
@@ -160,8 +144,9 @@
     <script src="{% static 'highlightjs/highlight.pack.js' %}"></script>    
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{% static 'select2/js/select2.min.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script scr="{% static 'lib/jquery-ui/jquery-ui.min.js' %}"></script>
+
+
     <script src="{% static 'js/bracket.js' %}"></script>
     <script src="{% static 'js/ResizeSensor.js' %}"></script>
     <script src="{% static 'js/dashboard.js' %}"></script> 
@@ -176,21 +161,40 @@
         $(window).resize(function(){
           minimizeMenu();
         });
+   <script>
+      $(function(){
+        'use strict';
 
-        minimizeMenu();
+        // show only the icons and hide left menu label by default
+        $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
 
-        function minimizeMenu() {
-          if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
-            // show only the icons and hide left menu label by default
-            $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
-            $('body').addClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideUp();
-          } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
-            $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
-            $('body').removeClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideDown();
+        $(document).on('mouseover', function(e){
+          e.stopPropagation();
+          if($('body').hasClass('collapsed-menu')) {
+            var targ = $(e.target).closest('.br-sideleft').length;
+            if(targ) {
+              $('body').addClass('expand-menu');
+
+              // show current shown sub menu that was hidden from collapsed
+              $('.show-sub + .br-menu-sub').slideDown();
+
+              var menuText = $('.menu-item-label,.menu-item-arrow');
+              menuText.removeClass('d-lg-none');
+              menuText.removeClass('op-lg-0-force');
+
+            } else {
+              $('body').removeClass('expand-menu');
+
+              // hide current shown menu
+              $('.show-sub + .br-menu-sub').slideUp();
+
+              var menuText = $('.menu-item-label,.menu-item-arrow');
+              menuText.addClass('op-lg-0-force');
+              menuText.addClass('d-lg-none');
+            }
           }
-        }
+        });
+
       });
     </script>
   </body>

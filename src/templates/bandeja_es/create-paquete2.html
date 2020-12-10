@@ -48,14 +48,13 @@
     <h4 class="tx-gray-800 mg-b-5">CREAR PAQUETE</h4>
 </div>
  
-    <form method="POST" action="" id="form">
-            {% csrf_token %}
+    <form method="POST" id="form">{% csrf_token %}
         <div class="row form-row spacer">
             <div class="form-group col-md-12">
                 <div class="form-control">
-                <label for="" class="col-md-5">{{form_paraquete.destinatario|as_crispy_field}}</label>
-                <label for="" class="col-md-5">{{form_paraquete.asunto|as_crispy_field}}</label><br>
-                <label for="" class="col-md-12">{{form_paraquete.descripcion|as_crispy_field}}</label>
+                <label class="col-md-5">{{form_paraquete.prev_receptor|as_crispy_field}}</label>
+                <label class="col-md-5">{{form_paraquete.prev_asunto|as_crispy_field}}</label>
+                <label class="col-md-12">{{form_paraquete.descripcion|as_crispy_field}}</label>
                 </div>
             </div> 
         </div>
@@ -65,12 +64,12 @@
         <div class="row form-row spacer">
                 <div class="form-group col-12">
                         <div class="form-control"style="float: left;">
-                            <label for="" class="col-md-2 mg-5"> {{form.documento_fk|as_crispy_field}}</label>           
-                            <label for="" class="col-md-2 mg-5"> {{form.revision|as_crispy_field}}</label>             
-                            <label for="" class="col-md-3 mg-5"> {{form.estado_cliente|as_crispy_field}}</label>               
-                            <label for="" class="col-md-2 mg-5"> {{form.estado_contratista|as_crispy_field}}</label><br>                                 
-                            <label for="" class="col-md-4 mg-5"> {{form.archivo|as_crispy_field}}</label>             
-                            <label for="" class="col-md-4 mg-5"> {{form.comentario|as_crispy_field}}</label>  
+                            <label for="" class="col-md-2 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>           
+                            <label for="" class="col-md-2 mg-5"> {{form.prev_revision|as_crispy_field}}</label>             
+                            <label for="" class="col-md-3 mg-5"> {{form.prev_estado_cliente|as_crispy_field}}</label>               
+                            <label for="" class="col-md-2 mg-5"> {{form.prev_estado_contratista|as_crispy_field}}</label><br>                                 
+                            <label for="" class="col-md-4 mg-5"> {{form.prev_archivo|as_crispy_field}}</label>             
+                            <label for="" class="col-md-4 mg-5"> {{form.prev_comentario|as_crispy_field}}</label>  
                         
                             <div class="input-group-append mg-20" style="float:right;">
                                 <button class="btn btn-success add-form-row" >Agregar +</button>
@@ -82,7 +81,9 @@
         <div class="row spacer">
             <div class="col-4 offset-2">
                 <button type="submit" class="btn btn-block btn-primary">Enviar</button>
-                <button id="borrador" class="btn btn-block btn-danger">Borrador</button>
+            </div>
+            <div class="col-4 offset-2">
+                <button id="borrador" class="btn btn-block btn-success">Borrador</button>
             </div>
         </div>
     </form>
@@ -100,14 +101,19 @@
             url: '{% url 'borrador-crear' %}',
             data: $("#form").serialize(),
             dataType: 'json',
-            success: function(data){
+            success: successHandler
+        })
+        function successHandler(data){
                 if (data.msg === 'Success'){
+                    window.location.href = "{% url 'Borradores' %}";
                     alert('Formulario guardado en Borrador')
                 }
+                if (data.msg === 'Invalid'){
+                    alert('El formulario ingresado no es válido. Puede el formulario esté vacío o los campos obligatorios no sean correctos')
+                }
             }
-        })
     }
-)
+)   
 
 </script>
 <script>
@@ -139,25 +145,6 @@
 </script>
 
 <script>
-    $(document).ready(function () {
-        $('#documento_fk').select2({
-            ajax: {
-                url: '{% url 'paquete-crear' %}',
-                dataType: 'json',
-                processResults: function (data) {
-                    return {
-                        results: $.map(data, function (item) {
-                            return {id: item.id, text: item.title};
-                        })
-                    };
-                }
-            },
-            minimumInputLength: 1
-        });
-    });
-</script>
-
-<script>
     $(document).ready(function() {
     $('#id_form-0-documento_fk').select2(
         ajax: {
@@ -180,37 +167,6 @@
     $('#id_form-0-estado_contratista').select2();
     });
 </script>
-
-
-<script>
-function func(){
-    $("#tags").autocomplete({
-        source: function (request, response){
-            $.ajax({
-                url: 'paquete-crear2',
-                type: 'POST',
-                data: {
-                    'action': 'autocomplete',
-                    'term': request.term
-                },
-            }).done(function (data){
-                response(data)
-            }).fail(function (jqXHR,textStatus,error,Thrown){
-                //alert(textStatus + ': ' + errorThrown);
-            }).always(function (data){
-
-            });
-        },
-        delay: 500,
-        minLength: 2,
-        select: function( event , ui){
-            console.log(ui);
-        }
-    })
-}
-</script>
-
-
 
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 

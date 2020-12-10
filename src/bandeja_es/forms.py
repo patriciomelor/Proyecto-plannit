@@ -4,10 +4,12 @@ from django.forms import (formset_factory, modelformset_factory)
 import django.forms.widgets
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-from .models import Paquete, Version, Borrador, BorradorVersion
 from panel_carga.models import Documento
 from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 from django.contrib.auth.models import User
+
+from .models import Paquete, Version, BorradorPaquete, BorradorVersion, PrevPaquete, PrevVersion
+from panel_carga.views import ProyectoMixin
 
 
 # class DocumentoListForm(forms.Form):
@@ -21,6 +23,10 @@ class BaseArticleFormSet(BaseFormSet):
         form.fields["destinatario"] = forms.ModelChoiceField(queryset=User.objects.all())
         form.fields["asunto"] = forms.CharField(max_length=250)
         form.fields["descripcion"] = forms.CharField(widget=forms.Textarea,max_length=500)
+
+# ***********************************
+#   formularios para crear paquete y versiones, pronto quedarán inactivos
+# ***********************************
 
 class CreatePaqueteForm(forms.ModelForm):
     descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
@@ -37,15 +43,15 @@ class VersionDocForm(forms.ModelForm):
     #     self.fields['documento_fk'].queryset = Documento.objects.none()
         
 VersionFormset = formset_factory(VersionDocForm, extra=1)
-# VersionFormset = modelformset_factory(
-#     Version,
-#     fields = [ 'documento_fk','revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista'],
-#     extra=1,
-# )
+
+
+# ***********************************
+#   formularios para crear el BORRADOR del paquete y versiones, con el debido FORMSET
+# ***********************************
 
 class PaqueteBorradorForm(forms.ModelForm):
     class Meta:
-        model = Borrador
+        model = BorradorPaquete
         fields = ['descripcion', 'destinatario', 'asunto']
 
 class VersionDocBorrador(forms.ModelForm):
@@ -53,4 +59,26 @@ class VersionDocBorrador(forms.ModelForm):
         model = BorradorVersion
         fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista']
 
-BorradorVersionFormset = formset_factory(VersionDocBorrador, extra=1)
+BorradorVersionFormset = formset_factory(VersionDocBorrador)
+
+# ***********************************
+#formularios para crear la PREVIEW del paquete y versiones, con el debido FORMSET
+# ***********************************
+
+class PaquetePreviewForm(forms.ModelForm):
+    descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
+    class Meta:
+        model = PrevPaquete
+        fields = ['prev_receptor', 'prev_asunto']
+        labels = {
+            'prev_receptor': 'Destinatario'
+        }
+class VersionDocPreview(forms.ModelForm):
+    class Meta:
+        model = PrevVersion
+        fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo', 'prev_comentario', 'prev_estado_cliente', 'prev_estado_contratista']
+        labels = {
+            'prev_documento_fk': 'N° Documento',
+            'prev_revision': 'Revisión'
+        }
+PreviewVersionFormset = formset_factory(VersionDocPreview)
