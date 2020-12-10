@@ -126,8 +126,13 @@ WSGI_APPLICATION = 'dmp.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'dmp.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dmpdb',
+        'USER': 'postgres',
+        'PASSWORD': 'dmp.2020',
+        'HOST': '134.209.78.27',
+        'PORT': 5432,
+        'SSLMODE': 'require',
     }
 }
 
