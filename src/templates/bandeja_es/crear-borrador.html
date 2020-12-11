@@ -1,3 +1,37 @@
-Aquí patito, hay que agregar un formulario
+{% extends "index-blank.html" %}
 
-la vista se llama ***editar_borrador***
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="br-contentpanel">
+  <div class="br-subleft">
+
+    
+  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
+
+    <nav class="nav br-nav-mailbox flex-column">
+        <a href="{% url 'Bandejaeys' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
+      <a href="{% url 'Borradores' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
+      <a href="{% url 'bandeja-enviados' %}" class="nav-link "><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
+    </nav>
+  </div><!-- br-subleft -->
+  <div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja de Entrada</a>      
+      <span class="breadcrumb-item active">Editar borrador</span>
+    </nav>
+  </div>
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Editar borrador</h4>
+  </div>
+  <!--PANEL PRINCIPAL-->
+   <div class="br-pagebody pd-x-20 pd-sm-x-30">
+    <div class="card bd-0 shadow-base">   
+             
+    </div><!-- card-header -->
+    </div>
+  <!--FIN PANEL PRINCIPAL-->
+</div>
+{% endblock content %}

@@ -1,4 +1,5 @@
 ESTADOS_CLIENTE = (
+    ('', "---"),
     (1, "Aprobado con Comentarios"),
     (2, "Rechazado"), 
     (3, "Eliminado"),
@@ -8,17 +9,20 @@ ESTADOS_CLIENTE = (
 )
 
 ESTADO_CONTRATISTA =  (
+    ('', "---"),
     (1, "Para revisión"),
     (2, "Para aprobación"),
 )
 
 DOCUMENT_TYPE = (
+    ('', "---"),
     ("PLANO", "PLANO"),
     ("DOCUMENTO", "DOCUMENTO"),
 )
 
 
 TYPES_REVISION = (
+    ('', "---"),
     (1,"Revision B"),
     (2,"Revision C"),
     (3,"Revision D"),
