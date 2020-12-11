@@ -5,6 +5,8 @@ from panel_carga.choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE
 from panel_carga.models import Documento
 from django.forms import model_to_dict
 
+from django.conf import settings
+
 #################################################
                 # VERSION Y PAQUETE
 #################################################
@@ -17,7 +19,7 @@ class Version(models.Model):
     revision = models.CharField(verbose_name="Revisión", max_length=1, default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Creador")
     valido = models.BooleanField(verbose_name="Válido", default=1) #1=VALIDO  0=ANULADO
 
     def __str__(self):
@@ -29,8 +31,8 @@ class Paquete(models.Model):
     fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
     asunto = models.CharField(verbose_name="Asunto", max_length=50)
     descripcion = models.CharField(verbose_name="Descripción", max_length=500, blank=True, null=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario")
-    destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario")
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="propietario")
+    destinatario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="destinatario")
     status = models.BooleanField(verbose_name="Status", default=0, blank=True)
 
     def __str__(self):
@@ -56,7 +58,7 @@ class BorradorVersion(models.Model):
     revision = models.CharField(verbose_name="Revisión", max_length=1, blank=True, null=True, default=None)
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True, null=True, default=None)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True, null=True, default=None)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", blank=True, null=True, default=None)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Creador", blank=True, null=True, default=None)
 
     def __str__(self):
         return str(self.documento_fk.Especialidad + self.revision)
@@ -66,8 +68,8 @@ class BorradorPaquete(models.Model):
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creación", auto_now_add=True, blank=True, null=True)
     asunto = models.CharField(verbose_name="Asunto", max_length=50, blank=True, null=True, default=None)
     descripcion = models.CharField(verbose_name="Descripción", max_length=200, blank=True, null=True, default=None)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario_borrador", blank=True, null=True, default=None)
-    destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario_borrador", blank=True, null=True, default=None)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="propietario_borrador", blank=True, null=True, default=None)
+    destinatario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="destinatario_borrador", blank=True, null=True, default=None)
     
     def __str__(self):
         return self.asunto
@@ -93,7 +95,7 @@ class PrevVersion(models.Model):
     prev_revision = models.CharField(verbose_name="Revisión", max_length=1, default="B")
     prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
-    prev_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
+    prev_owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, verbose_name="Creador")
     prev_valido = models.BooleanField(verbose_name="Valido", default=1) #1=VALIDO  0=ANULADO
 
 
@@ -106,8 +108,8 @@ class PrevPaquete(models.Model):
     prev_fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
     prev_asunto = models.CharField(verbose_name="Asunto", max_length=50)
     prev_descripcion = models.CharField(verbose_name="Descripción", max_length=500, blank=True, null=True)
-    prev_propietario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevpropietario")
-    prev_receptor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevdestinatario")
+    prev_propietario = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="prevpropietario")
+    prev_receptor = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name="prevdestinatario")
     prev_status = models.BooleanField(verbose_name="Status", default=0, blank=True)
 
     def __str__(self):
