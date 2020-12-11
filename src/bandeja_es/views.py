@@ -218,10 +218,11 @@ def create_preview(request):
                 version = form.save(commit=False)
                 version.prev_owner = request.user
                 version.save()
-                package.prev_documento.add(version)
-                v = version.pk
+                version_pk = version.pk
+                version_qs = PrevVersion.objects.get(pk=version_pk)
+                package.prev_documento.add(version_qs)
                 version_list.append(version)
-                version_list_pk.append(v)
+                version_list_pk.append(version_pk)
         context2['paquete'] = package
         context2['paquete_pk'] = package_pk
         context2['versiones'] = version_list
