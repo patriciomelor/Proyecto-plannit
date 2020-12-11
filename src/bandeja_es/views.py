@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.models import User
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.base import TemplateView, RedirectView, View
@@ -97,45 +98,71 @@ def create_borrador(request):
         if request.method == 'POST':
             borrador_paraquete = PaquetePreviewForm(request.POST or None)
             borrador_version_set = PreviewVersionFormset(request.POST or None, request.FILES or None)
-            if borrador_paraquete.is_valid() and borrador_version_set.is_valid():
-                print('all is working')
-                borrador_fk = 0
-                asunto_b = borrador_paraquete.cleaned_data.get('prev_asunto')
-                destinatario_b = borrador_paraquete.cleaned_data.get('prev_receptor')
-                descripcion_b = borrador_paraquete.cleaned_data.get('descripcion')
+            borrador_fk = 0
+            asunto_b =  borrador_paraquete['prev_asunto'].value()
+            destinatario_b = borrador_paraquete['prev_receptor'].value()
+            descripcion_b = borrador_paraquete['descripcion'].value()
+            # Valida y transforma valores vacíos a su correspondiente tipo
+            if destinatario_b:
+                destinatario_b = int(destinatario_b)
+            else:
+                destinatario_b = 0
+
+            if not destinatario_b:
+                desti = User.objects.none()
                 borrador = BorradorPaquete(
                     asunto= asunto_b,
                     descripcion= descripcion_b,
-                    destinatario=destinatario_b,
+                    destinatario= desti,
                     owner= request.user
                 )
-                borrador.save()
-                borrador_fk = borrador.pk
-                paquete_borrador = BorradorPaquete.objects.get(pk=borrador_fk)
-                for form in borrador_version_set:
-                    documento_b = form.cleaned_data.get('prev_documento_fk')
-                    revision_b = form.cleaned_data.get('prev_revision')
-                    archivo_b = form.cleaned_data.get('prev_archivo')
-                    comentario_b = form.cleaned_data.get('prev_comentario')
-                    cliente_estado_b = form.cleaned_data.get('prev_estado_cliente')
-                    contratista_estado_b = form.cleaned_data.get('prev_estado_contratista')
+            else:
+                desti = User.objects.get(pk=destinatario_b)
+                borrador = BorradorPaquete(
+                    asunto= asunto_b,
+                    descripcion= descripcion_b,
+                    destinatario= desti,
+                    owner= request.user
+                )
+            borrador.save()
+            borrador_fk = borrador.pk
+            paquete_borrador = BorradorPaquete.objects.get(pk=borrador_fk)
+            for form in borrador_version_set:
+                documento_b = form['prev_documento_fk'].value()
+                revision_b = form['prev_revision'].value() 
+                archivo_b = form['prev_archivo'].value()
+                comentario_b = form['prev_comentario'].value()
+                cliente_estado_b = form['prev_estado_cliente'].value()
+                contratista_estado_b = form['prev_estado_contratista'].value()
+                if documento_b:
+                    documento_b = int(documento_b)
+                else:
+                    documento_b = 0
+                if not documento_b:
+                    document = Documento.objects.none()
                     version = BorradorVersion(
                         owner= request.user,
-                        documento_fk= documento_b,
+                        documento_fk= document,
                         revision= revision_b,
                         archivo= archivo_b,
                         comentario= comentario_b,
                         estado_cliente= cliente_estado_b,
                         estado_contratista= contratista_estado_b,
                     )
-                    version.save()
-                return JsonResponse({
-                    'msg': 'Success',
-                })
-            else:
-                return JsonResponse({
-                    'msg': 'Invalid',
-                })
+                else:
+                    document = Documento.objects.get(pk=documento_b)
+                    version = BorradorVersion(
+                        owner= request.user,
+                        documento_fk= document,
+                        revision= revision_b,
+                        archivo= archivo_b,
+                        comentario= comentario_b,
+                        estado_cliente= cliente_estado_b,
+                        estado_contratista= contratista_estado_b,
+                    )
+                version.save()
+
+            return JsonResponse('Success', safe=False) #JsonResponse({'msg': 'Success'})
 
 def editar_borrador(request, paquete_borrador, version_borrador):
     context = {}

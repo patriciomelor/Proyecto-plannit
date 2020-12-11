@@ -50,24 +50,24 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
 
 class BorradorVersion(models.Model):
     fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True, null=True)
-    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
-    documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
-    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True)
-    revision = models.CharField(verbose_name="Revisión", max_length=1, default="B", blank=True, null=True)
-    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True, null=True)
-    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True, null=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", blank=True, null=True)
+    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True, default=None)
+    documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE, blank=True, null=True, default=None) #relacion por defecto one to many en django
+    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True, default=None)
+    revision = models.CharField(verbose_name="Revisión", max_length=1, blank=True, null=True, default=None)
+    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True, null=True, default=None)
+    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True, null=True, default=None)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", blank=True, null=True, default=None)
 
     def __str__(self):
         return str(self.documento_fk.Especialidad + self.revision)
 
 class BorradorPaquete(models.Model):
-    version = models.ManyToManyField(BorradorVersion, through='BorradorDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
+    version = models.ManyToManyField(BorradorVersion, through='BorradorDocumento', blank=True, default=None) #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creación", auto_now_add=True, blank=True, null=True)
-    asunto = models.CharField(verbose_name="Asunto", max_length=50, blank=True, null=True)
-    descripcion = models.CharField(verbose_name="Descripción", max_length=200, blank=True, null=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario_borrador")
-    destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario_borrador")
+    asunto = models.CharField(verbose_name="Asunto", max_length=50, blank=True, null=True, default=None)
+    descripcion = models.CharField(verbose_name="Descripción", max_length=200, blank=True, null=True, default=None)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario_borrador", blank=True, null=True, default=None)
+    destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario_borrador", blank=True, null=True, default=None)
     
     def __str__(self):
         return self.asunto
