@@ -22,7 +22,6 @@
     
     
     <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="path/to/chartjs/dist/Chart.js"></script>
     <script src="{% static 'Jquery-Autosave/autosaveform.js' %}"></script>
     <!--Chart js-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
@@ -37,7 +36,7 @@
 
   <body class="collapsed-menu with-subleft">
 
-    <!-- ########## START: LEFT PANEL ########## -->
+<!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo"><a href=""><span>[</span>DMP<span>]</span></a></div>
     <div class="br-sideleft overflow-y-auto">
       <label class="sidebar-label pd-x-15 mg-t-20">Navigacion</label>
@@ -49,34 +48,32 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         
-         <a href="{% url 'PanelCarga' %}" class="br-menu-link ">
+         <a href="{% url 'PanelCarga' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
             <span class="menu-item-label">Panel de Carga</span>
           </div><!-- menu-item -->
         
-        <a href="{% url 'Bandejaeys' %}" class="br-menu-link">
+        <a href="{% url 'Bandejaeys' %}" class="br-menu-link ">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
             <span class="menu-item-label">Bandeja</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-      
         <a href="{% url 'analitica-index' %}" class="br-menu-link active">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
             <span class="menu-item-label">Analitica</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-      
-        <a href="#" class="br-menu-link disabled">
+       
+        <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
             <span class="menu-item-label">Status</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        
-        <a href="#" class="br-menu-link disabled">
+        <a href="#" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
             <span class="menu-item-label">Buscador</span>
@@ -90,9 +87,6 @@
         </a><!-- br-menu-link -->
         
       </div><!-- br-sideleft-menu -->
-
-      
-      <br>
     </div><!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
 
@@ -107,7 +101,7 @@
         <nav class="nav">
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-              <span class="logged-name hidden-md-down"> {{user}} </span>
+              <span class="logged-name hidden-md-down"> {{user.first_name}} {{user.last_name}} </span>
               <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
               <span class="square-10 bg-success"></span>
             </a>
@@ -144,8 +138,10 @@
     </div><!-- br-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
 
-    <script src="{% static 'jquery/jquery.js' %}"></script> 
     
+    <!-- ########## END: MAIN PANEL ########## -->
+
+    <script src="{% static 'jquery/jquery.js' %}"></script> 
     <script src="{% static 'popper.js/popper.js' %}"></script>
     <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
     <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
@@ -153,6 +149,7 @@
     <script src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
     <script src="{% static 'jquery-switchbutton/jquery.switchButton.js' %}"></script>
     <script src="{% static 'peity/jquery.peity.js' %}"></script>
+    <script src="{% static 'chartist/chartist.js' %}"></script>
     <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
     <script src="{% static 'd3/d3.js' %}"></script>
     <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
@@ -160,8 +157,8 @@
     <script src="{% static 'highlightjs/highlight.pack.js' %}"></script>    
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <script src="{% static 'select2/js/select2.min.js' %}"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
+
     <script src="{% static 'js/bracket.js' %}"></script>
     <script src="{% static 'js/ResizeSensor.js' %}"></script>
     <script src="{% static 'js/dashboard.js' %}"></script> 
@@ -176,21 +173,40 @@
         $(window).resize(function(){
           minimizeMenu();
         });
+   <script>
+      $(function(){
+        'use strict';
 
-        minimizeMenu();
+        // show only the icons and hide left menu label by default
+        $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
 
-        function minimizeMenu() {
-          if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
-            // show only the icons and hide left menu label by default
-            $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
-            $('body').addClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideUp();
-          } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
-            $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
-            $('body').removeClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideDown();
+        $(document).on('mouseover', function(e){
+          e.stopPropagation();
+          if($('body').hasClass('collapsed-menu')) {
+            var targ = $(e.target).closest('.br-sideleft').length;
+            if(targ) {
+              $('body').addClass('expand-menu');
+
+              // show current shown sub menu that was hidden from collapsed
+              $('.show-sub + .br-menu-sub').slideDown();
+
+              var menuText = $('.menu-item-label,.menu-item-arrow');
+              menuText.removeClass('d-lg-none');
+              menuText.removeClass('op-lg-0-force');
+
+            } else {
+              $('body').removeClass('expand-menu');
+
+              // hide current shown menu
+              $('.show-sub + .br-menu-sub').slideUp();
+
+              var menuText = $('.menu-item-label,.menu-item-arrow');
+              menuText.addClass('op-lg-0-force');
+              menuText.addClass('d-lg-none');
+            }
           }
-        }
+        });
+
       });
     </script>
   </body>

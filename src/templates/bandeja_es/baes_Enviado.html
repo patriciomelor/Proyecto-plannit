@@ -20,16 +20,13 @@
             <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
       </div>
     </form>
-    <div class=" hidden-xs-down mg-l-10">
-      <a href="#" class="btn btn-warning">Nuevo Paquete</a>
-    </div>
   
 <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
 
   <nav class="nav br-nav-mailbox flex-column">
-       <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
+       <a href="{% url 'Bandejaeys' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
     <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
-    <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
+    <a href="{% url 'bandeja-enviados' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
   </nav>
 </div><!-- br-subleft -->
 
@@ -70,15 +67,6 @@
     </div><!-- dropdown -->
     <!-- END: DISPLAYED FOR MOBILE ONLY -->
 
-    <div class="btn-group hidden-xs-down">
-      <a href="#" class="btn btn-outline-info"><i class="fa fa-th"></i></a>
-      <a href="#" class="btn btn-outline-info active"><i class="fa fa-th-list"></i></a>
-    </div><!-- btn-group -->
-
-    <div class="mg-l-auto hidden-xs-down">
-      <a href="#" class="btn btn-info">Nuevo Paquete</a>
-    <!--<a href="#" class="btn btn-outline-info mg-l-5">Add to Group</a>-->
-    </div>
 
   </div><!-- d-flex -->
 
@@ -86,23 +74,21 @@
     <div class="card bd-0 shadow-base">
       <table class="table mg-b-0 table-contact">
         <thead>
-          <tr>
+         <tr>
             <th class="wd-5p">
               <label class="ckbox mg-b-0">
                 <input type="checkbox"><span></span>
               </label>
             </th>
-              <th class="tx-10-force tx-mont tx-medium">Package Number</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Name</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Owner</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">issued for</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">respond by</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">status</th>            
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Owner</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Transmital</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th>
+            <!--<th class="tx-10-force tx-mont tx-medium hidden-xs-down">Esado</th>-->            
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Autor</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Accion</th>
             <th class="wd-5p hidden-xs-down"></th>
           </tr>
         </thead>
-        <tbody>
+           {% for paquete in paquetes %}
           <tr>
             <td class="valign-middle">
               <label class="ckbox mg-b-0">
@@ -111,32 +97,45 @@
             </td>
             <td>
               <div class="d-flex align-items-center">
-                <img src="http://via.placeholder.com/280x280" class="wd-40 rounded-circle" alt="">
                 <div class="mg-l-15">
-                  <div class="tx-inverse">Katherine Lumaad</div>
-                  <span class="tx-12">klumaad@themepixels.me</span>
+                  <div class="tx-inverse"> <a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.id}}</a> </div>
+                  <span class="tx-9">Creado el {{ paquete.fecha_creacion|date }} </span>
                 </div>
               </div>
-            </td>
-            <td class="valign-middle hidden-xs-down">+1 234 6789</td>
-            <td class="valign-middle hidden-xs-down">$23,000</td>
-               <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td class="dropdown hidden-xs-down">
-              <a href="#" data-toggle="dropdown" class="btn pd-y-3 tx-gray-500 hover-info"><i class="icon ion-more"></i></a>
-              <div class="dropdown-menu dropdown-menu-right pd-10">
-                <nav class="nav nav-style-1 flex-column">
-                  <a href="" class="nav-link">Info</a>
-                  <a href="" class="nav-link">Email</a>
-                  <a href="" class="nav-link">Edit</a>
-                  <a href="" class="nav-link">Delete</a>
-                </nav>
-              </div><!-- dropdown-menu -->
+            </td>            
+            <td class="valign-middle hidden-xs-down"> {{ paquete.asunto }} </td>           
+            <td class="valign-middle hidden-xs-down"> {{ paquete.owner }}</td>
+            <td class="valign-middle hidden-xs-down">
+              <a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}" class="nav-link">Detalle</a>       
             </td>
           </tr>
-        </tbody>
+          
+          {% empty %}
+
+          <div class="modal fade in" id="myModal" role="dialog" style="display: block; padding-right: 16px;">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content tx-size-sm">
+                <div class="modal-body tx-center pd-y-20 pd-x-20">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                  <h4 class="tx-danger  tx-semibold mg-b-20">Error: No hay Información Ingresada!</h4>
+                  <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
+                    Continue</button>
+                  </div><!-- modal-body -->
+                </div><!-- modal-content -->
+              </div><!-- modal-dialog -->
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+         $(function(){
+          $("#myModal").modal();
+         });
+        </script>
+
+          {% endfor %}
       </table>
     </div>
   </div><!-- br-pagebody -->  
