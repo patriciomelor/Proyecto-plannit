@@ -1,4 +1,4 @@
-{% extends 'index-blank.html' %}
+{% extends 'index-pdc.html' %}
 
 {% load crispy_forms_tags %}
 
@@ -106,7 +106,7 @@
                 
               </table>
                 <a href="{% url 'paquete-crear' paquete_pk versiones_pk %}"><button  class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit"> Envíar </button></a>
-                <a class="btn btn-warning" onclick="bPreguntar = true;" href="javascript:location.reload()">Volver</a>
+                <a class="btn btn-warning" href="javascript:location.reload()">Volver</a>
             </div><!-- card -->
           </div> 
           
