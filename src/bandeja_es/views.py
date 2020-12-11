@@ -59,7 +59,7 @@ class PaqueteDetail(ProyectoMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         paquete = Paquete.objects.get(pk=self.kwargs['pk'])
-        versiones = Version.objects.filter(paquete_fk=paquete)
+        versiones = PaqueteDocumento.objects.filter(paquete=paquete)
         context['versiones'] = versiones
         return context
     
