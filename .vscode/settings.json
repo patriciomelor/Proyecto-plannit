@@ -1,3 +1,7 @@
 {
+<<<<<<< HEAD
+    "python.pythonPath": "C:\\Miniconda3\\envs\\dmp\\python.exe"
+=======
     "python.pythonPath": "/home/gringows/miniconda3/envs/dmp/bin/python"
+>>>>>>> 26feff5b44ebada78e22381baeff43e8d3576669
 }

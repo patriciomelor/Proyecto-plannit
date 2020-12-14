@@ -64,4 +64,8 @@ from django.contrib.auth.models import User, AbstractUser
 #         return self.is_admin
 
 #     def has_module_perms(self, app_label):
+
 #         return True
+
+#         return True
+    
