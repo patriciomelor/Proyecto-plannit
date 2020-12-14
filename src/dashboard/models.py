@@ -2,14 +2,18 @@ from django.db import models
 from django.contrib.auth.models import User, AbstractUser
 
 # Create your models here.
-# class Usuario(AbstractUser):
 
-#     image = models.ImageField(upload_to='users/%Y/%m/%d', null=True, blank=True)
+class Usuario(AbstractUser):
 
-#     def get_image(self):
-#         if self.image:
-#             return '{}{}'.format(MEDIA_URL, self.image)
-#         return '{}{}'.format(STATIC_URL, 'img/empty.png')
+    image = models.ImageField(upload_to='users/%Y/%m/%d', null=True, blank=True)
+    administrador = models.BooleanField(default=0, blank=True, null=True)
+    reviror = models.BooleanField(default=0, blank=True, null=True)
+    visualizador = models.BooleanField(default=0, blank=True, null=True)
+
+    def get_image(self):
+        if self.image:
+            return '{}{}'.format(MEDIA_URL, self.image)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
 # class MyAccountManager(BaseUserManager):
 #     def create_user(self, email, username, password=None):
