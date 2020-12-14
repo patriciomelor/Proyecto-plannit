@@ -8,7 +8,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, BorradorDocumento, PaqueteDocumento
-from .forms import VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador
+from .forms import PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
@@ -64,7 +64,6 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         versiones = PaqueteDocumento.objects.filter(paquete=paquete)
         context['versiones'] = versiones
         return context
-    
 class PaqueteUpdate(ProyectoMixin, UpdateView):
     model = Paquete
     template_name = 'bandeja_es/paquete-update.html'
@@ -98,7 +97,7 @@ def create_borrador(request):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         if request.method == 'POST':
             borrador_paraquete = PaquetePreviewForm(request.POST or None)
-            borrador_version_set = PreviewVersionFormset(request.POST or None, request.FILES or None)
+            borrador_version_set = PreviewVersionSet(request.POST or None, request.FILES or None)
             borrador_fk = 0
 
             #   Borrador para el Form #
@@ -186,7 +185,6 @@ def editar_borrador(request, package):
         context['formset_versiones'] = formset_versiones
     return render(request, 'bandeja_es/crear-borrador.html', context)
 
-
 class BorradorDelete(ProyectoMixin, DeleteView):
     model = BorradorPaquete
     success_url = reverse_lazy('Bandejaeys')
@@ -262,28 +260,35 @@ def create_preview(request, borrador_pk=None):
         return render(request, 'bandeja_es/create-paquete.html', context2)
 
     else:
-
-        data = {
-            'form-TOTAL_FORMS': '1',
-            'form-INITIAL_FORMS': '0',
-            'form-MAX_NUM_FORMS': '',
-        }
         try:
+
             pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
             versiones = BorradorDocumento.objects.all().filter(borrador=pkg_borrador)
+            print(pkg_borrador)
+            print(versiones)
             form_paraquete = PaquetePreviewForm(initial={
                 'descripcion': pkg_borrador.descripcion,
                 'prev_receptor': pkg_borrador.destinatario,
                 'prev_asunto': pkg_borrador.asunto,
             })
-            PreviewVersionFormset = formset_factory(VersionDocPreview, extra=len(versiones))
+            if len(versiones) != 0: 
+                PreviewVersionFormset = formset_factory(VersionDocPreview, extra= len(versiones)) 
+                 
+            else: 
+                PreviewVersionFormset = formset_factory(VersionDocPreview, extra= 1) 
+
             formset_version = PreviewVersionFormset(initial=[{'prev_documento_fk': x.version.documento_fk, 'prev_revision': x.version.revision, 'prev_estado_cliente': x.version.estado_cliente, 'prev_estado_contratista': x.version.estado_contratista, 'prev_archivo': x.version.archivo, 'prev_comentario': x.version.comentario} for x in versiones])
             context['formset'] = formset_version
             context['form_paraquete'] = form_paraquete
 
         
         except:
-            PreviewVersionFormset = formset_factory(VersionDocPreview)
+            data = {
+            'form-TOTAL_FORMS': '1',
+            'form-INITIAL_FORMS': '0',
+            'form-MAX_NUM_FORMS': '',
+        }
+            PreviewVersionFormset = formset_factory(VersionDocPreview, extra=1)
             form_paraquete = PaquetePreviewForm()
             formset_version = PreviewVersionFormset(data)
             context['formset'] = formset_version

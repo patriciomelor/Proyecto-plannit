@@ -90,9 +90,9 @@ class PrevVersion(models.Model):
     prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     prev_documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     prev_archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    prev_revision = models.CharField(verbose_name="Revisión", max_length=1, default="B")
-    prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
-    prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
+    prev_revision = models.CharField(verbose_name="Revisión", max_length=1)
+    prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True)
+    prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True)
     prev_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
     prev_valido = models.BooleanField(verbose_name="Valido", default=1) #1=VALIDO  0=ANULADO
 
