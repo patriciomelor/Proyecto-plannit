@@ -63,7 +63,7 @@ INSTALLED_APPS = [
 
 ]
 
-AUTH_USER_MODEL = 'dashboard.Usuario'
+# AUTH_USER_MODEL = 'dashboard.Usuario'
 
 SITE_ID = 2
 
