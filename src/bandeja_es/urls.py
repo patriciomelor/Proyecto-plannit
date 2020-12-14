@@ -19,12 +19,12 @@ urlpatterns = [
     path('enviados/', views.EnviadosView.as_view(), name= 'bandeja-enviados'),
     path('borradores/', views.BorradorList.as_view(), name= 'Borradores'),
     path('papelera/', views.PapeleraView.as_view(), name= 'bandeja-papelera'),
-    path('paquete/preview/', login_required(views.create_preview), name='paquete-preview'),
+    path('paquete/preview/<borrador_pk>/', login_required(views.create_preview), name='paquete-preview'),
     path('paquete/crear/<paquete_pk>/<versiones_pk>', login_required(views.create_paquete), name='paquete-crear'),
     path('paquete/detalle/<pk>/', views.PaqueteDetail.as_view(), name='paquete-detalle'),
     path('paquete/editar/<pk>/', views.PaqueteUpdate.as_view(), name='paquete-editar'),
     path('paquete/eliminar/<pk>/', views.PaqueteDelete.as_view(), name='paquete-eliminar'),
-    path('borrador/crear/', login_required(views.create_borrador), name='borrador-crear'),
-    path('borrador/editar/', login_required(views.editar_borrador), name='borrador-editar'),
+    path('borrador/crear/<borrador_pk>', login_required(views.create_borrador), name='borrador-crear'),
+    path('borrador/editar/<package>/', login_required(views.editar_borrador), name='borrador-editar'),
     # path('paquete/cargar/<int:pk>/', login_required(views.cargar_documentos), name='cargar-documentos' )
 ]

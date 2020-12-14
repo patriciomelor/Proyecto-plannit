@@ -63,6 +63,8 @@ INSTALLED_APPS = [
 
 ]
 
+AUTH_USER_MODEL = 'dashboard.Usuario'
+
 SITE_ID = 2
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -119,7 +121,6 @@ TEMPLATES = [
     },
 ]
 
-#variable global del usuario
 
 
 WSGI_APPLICATION = 'dmp.wsgi.application'
@@ -171,8 +172,9 @@ LANGUAGES = (
  ('zh', _('Chinese')),
  ('en', _('English')),
 )
+TIME_ZONE = 'UTC'  # use this, whenever possible
+TIME_ZONE = 'America/Santiago'
 
-TIME_ZONE = 'UTC'
 
 USE_I18N = True
 

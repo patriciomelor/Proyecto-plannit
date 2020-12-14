@@ -1,23 +1,34 @@
 from django.db import models
-from django.contrib.auth.models import AbstractUser, BaseUserManager
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, AbstractUser
+
+# Create your models here.
 
 class Usuario(AbstractUser):
 
+<<<<<<< HEAD
     image =models.ImageField(upload_to='users/%Y/%m/%d', null=True, blank=True)
     administrador =models.BooleanField(null=True, blank=True, default=0)
     revisor =models.BooleanField(null=True, blank=True, default=0)
     visualizador =models.BooleanField(null=True, blank=True, default=0)
+=======
+    image = models.ImageField(upload_to='users/%Y/%m/%d', null=True, blank=True)
+    administrador = models.BooleanField(default=0, blank=True, null=True)
+    reviror = models.BooleanField(default=0, blank=True, null=True)
+    visualizador = models.BooleanField(default=0, blank=True, null=True)
+>>>>>>> b9958da4be10642001e6175afc19779cb9875cfd
 
     def get_image(self):
         if self.image:
             return '{}{}'.format(MEDIA_URL, self.image)
         return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
+<<<<<<< HEAD
     
 
 
 
+=======
+>>>>>>> b9958da4be10642001e6175afc19779cb9875cfd
 # class MyAccountManager(BaseUserManager):
 #     def create_user(self, email, username, password=None):
 #         if not email:
@@ -49,14 +60,14 @@ class Usuario(AbstractUser):
 
 # class Account(AbstractBaseUser):
 
-#     email 					= models.EmailField(verbose_name="email", max_length=60, unique=True)
-# 	username 				= models.CharField( max_length=30, unique=True)
-# 	date_joined				= models.DateTimeFieldDateTimeField(verbose_name='date joined', auto_now_add=True)
-# 	last_login				= models.(verbose_name='last login', auto_now=True)
-# 	is_admin				= models.BooleanField(default=False)
-# 	is_active				= models.BooleanField(default=True)
-# 	is_staff				= models.BooleanField(default=False)
-# 	is_superuser			= models.BooleanField(default=False)
+#     email                     = models.EmailField(verbose_name="email", max_length=60, unique=True)
+#     username                 = models.CharField( max_length=30, unique=True)
+#     date_joined                = models.DateTimeFieldDateTimeField(verbose_name='date joined', auto_now_add=True)
+#     last_login                = models.(verbose_name='last login', auto_now=True)
+#     is_admin                = models.BooleanField(default=False)
+#     is_active                = models.BooleanField(default=True)
+#     is_staff                = models.BooleanField(default=False)
+#     is_superuser            = models.BooleanField(default=False)
 #     #first_name              = models.CharField(default=False)
 
 #     USERNAME_FIELD = 'email'
@@ -64,11 +75,17 @@ class Usuario(AbstractUser):
 
 #     objects = MyAccountManager()
 
-#     def __str__(self):
+#     def str(self):
 #         return self.email
 
 #     def has_perm(self, perm, obj=None):
 #         return self.is_admin
 
 #     def has_module_perms(self, app_label):
+<<<<<<< HEAD
+=======
+
+#         return True
+
+>>>>>>> b9958da4be10642001e6175afc19779cb9875cfd
 #         return True
