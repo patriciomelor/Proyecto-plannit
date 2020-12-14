@@ -103,8 +103,8 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}}  </th>                  
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0}}</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="2"><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-teal center"> Modificar </a></th>
             </tr>           
             
