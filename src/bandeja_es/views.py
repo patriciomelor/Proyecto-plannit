@@ -231,11 +231,12 @@ def create_paquete(request, paquete_pk, versiones_pk):
 def create_preview(request, borrador_pk=None):
     context = {}
     context2 = {}
+    PreviewVersionFormset = formset_factory(VersionDocPreview, extra= 1)
     if request.method == 'POST':
         version_list = []
         version_list_pk = []
         form_paraquete = PaquetePreviewForm(request.POST or None)
-        formset_version = PreviewVersionFormset(request.POST or None, request.FILES or None, queryset=pkg_borrador)
+        formset_version = PreviewVersionFormset(request.POST or None, request.FILES or None)
         if form_paraquete.is_valid() and formset_version.is_valid():
             package_pk = 0
             obj = form_paraquete.save(commit=False)
