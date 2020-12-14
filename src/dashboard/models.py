@@ -11,6 +11,8 @@ class User(AbstractUser):
             return '{}{}'.format(MEDIA_URL, self.image)
         return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
+    
+
 
 
 # class MyAccountManager(BaseUserManager):
