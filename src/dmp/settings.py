@@ -120,7 +120,7 @@ TEMPLATES = [
 ]
 
 #variable global del usuario
-AUTH_USER_MODEL = 'dashboard.User'
+AUTH_USER_MODEL = 'dashboard.Usuario'
 
 WSGI_APPLICATION = 'dmp.wsgi.application'
 
