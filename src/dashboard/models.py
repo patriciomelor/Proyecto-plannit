@@ -2,14 +2,17 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.contrib.auth.models import User
 
-#class User(AbstractUser):
+class Usuario(AbstractUser):
 
-#    image =models.ImageField(upload_to='users/%Y/%m/%d', null=True, blank=True)
+    image =models.ImageField(upload_to='users/%Y/%m/%d', null=True, blank=True)
+    administrador =models.BooleanField(null=True, blank=True, default=0)
+    revisor =models.BooleanField(null=True, blank=True, default=0)
+    visualizador =models.BooleanField(null=True, blank=True, default=0)
 
-#    def get_image(self):
-#        if self.image:
-#            return '{}{}'.format(MEDIA_URL, self.image)
-#        return '{}{}'.format(STATIC_URL, 'img/empty.png')
+    def get_image(self):
+        if self.image:
+            return '{}{}'.format(MEDIA_URL, self.image)
+        return '{}{}'.format(STATIC_URL, 'img/empty.png')
 
     
 
@@ -69,5 +72,3 @@ from django.contrib.auth.models import User
 
 #     def has_module_perms(self, app_label):
 #         return True
-
-    
