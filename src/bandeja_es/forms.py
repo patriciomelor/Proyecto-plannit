@@ -81,4 +81,3 @@ class VersionDocPreview(forms.ModelForm):
             'prev_documento_fk': 'N° Documento',
             'prev_revision': 'Revisión'
         }
-PreviewVersionFormset = formset_factory(VersionDocPreview)

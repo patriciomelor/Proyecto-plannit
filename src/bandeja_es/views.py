@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.forms import formset_factory
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.base import TemplateView, RedirectView, View
@@ -7,7 +8,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, BorradorDocumento, PaqueteDocumento
-from .forms import CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, PreviewVersionFormset
+from .forms import VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
@@ -99,24 +100,15 @@ def create_borrador(request):
             borrador_paraquete = PaquetePreviewForm(request.POST or None)
             borrador_version_set = PreviewVersionFormset(request.POST or None, request.FILES or None)
             borrador_fk = 0
+
+            #   Borrador para el Form #
+            #    del Paquete que contendrá las versiones #
             asunto_b =  borrador_paraquete['prev_asunto'].value()
             destinatario_b = borrador_paraquete['prev_receptor'].value()
             descripcion_b = borrador_paraquete['descripcion'].value()
-            # Valida y transforma valores vacíos a su correspondiente tipo
+            # Valida y transforma valores vacíos a su correspondiente tipo #
             if destinatario_b:
                 destinatario_b = int(destinatario_b)
-            else:
-                destinatario_b = 0
-
-            if not destinatario_b:
-                desti = User.objects.none()
-                borrador = BorradorPaquete(
-                    asunto= asunto_b,
-                    descripcion= descripcion_b,
-                    destinatario= desti,
-                    owner= request.user
-                )
-            else:
                 desti = User.objects.get(pk=destinatario_b)
                 borrador = BorradorPaquete(
                     asunto= asunto_b,
@@ -124,7 +116,15 @@ def create_borrador(request):
                     destinatario= desti,
                     owner= request.user
                 )
+            else:
+                borrador = BorradorPaquete(
+                    asunto= asunto_b,
+                    descripcion= descripcion_b,
+                    owner= request.user
+                )
             borrador.save()
+            #   Borrador para #
+            #   el Formset de Versiones #
             borrador_fk = borrador.pk
             paquete_borrador = BorradorPaquete.objects.get(pk=borrador_fk)
             for form in borrador_version_set:
@@ -134,22 +134,16 @@ def create_borrador(request):
                 comentario_b = form['prev_comentario'].value()
                 cliente_estado_b = form['prev_estado_cliente'].value()
                 contratista_estado_b = form['prev_estado_contratista'].value()
-                if documento_b:
+            #############################################################
+                if cliente_estado_b and contratista_estado_b:            #
+                    cliente_estado_b = int(cliente_estado_b)            #  If que comprueba que estados del
+                    contratista_estado_b = int(contratista_estado_b)    #   cliente y contratista existan
+                else:                                                   #
+                    cliente_estado_b = 0                                #
+                    contratista_estado_b = 0                            #
+            #############################################################
+                if documento_b: #if que comprueba un valor no vacío para //documento_b// #
                     documento_b = int(documento_b)
-                else:
-                    documento_b = 0
-                if not documento_b:
-                    document = Documento.objects.none()
-                    version = BorradorVersion(
-                        owner= request.user,
-                        documento_fk= document,
-                        revision= revision_b,
-                        archivo= archivo_b,
-                        comentario= comentario_b,
-                        estado_cliente= cliente_estado_b,
-                        estado_contratista= contratista_estado_b,
-                    )
-                else:
                     document = Documento.objects.get(pk=documento_b)
                     version = BorradorVersion(
                         owner= request.user,
@@ -160,11 +154,22 @@ def create_borrador(request):
                         estado_cliente= cliente_estado_b,
                         estado_contratista= contratista_estado_b,
                     )
+                else:
+                    documento_b = 0
+                    version = BorradorVersion(
+                        owner= request.user,
+                        revision= revision_b,
+                        archivo= archivo_b,
+                        comentario= comentario_b,
+                        estado_cliente= cliente_estado_b,
+                        estado_contratista= contratista_estado_b,
+                    )
+
                 version.save()
+                paquete_borrador.version.add(version)
+            return JsonResponse({'msg': 'Success'})
 
-            return JsonResponse('Success', safe=False) #JsonResponse({'msg': 'Success'})
-
-def editar_borrador(request, paquete_borrador, version_borrador):
+def editar_borrador(request, package):
     context = {}
     if request.method == 'POST':
         form_paquete = PaqueteBorradorForm(request.POST or None)
@@ -174,10 +179,9 @@ def editar_borrador(request, paquete_borrador, version_borrador):
             for form in formset_versiones:
                 form.save()
     else:
-        pkg_borrador = BorradorPaquete.objects.get(pk=paquete_borrador)
         vrs_borrador = BorradorDocumento.objects.filter(borrador=pkg_borrador)
         form_paquete = PaqueteBorradorForm(instance=pkg_borrador)
-        formset_versiones = VersionDocBorrador(instance=vrs_borrador)
+        formset_versiones = VersionDocBorrador()
         context['form_paquete'] = form_paquete
         context['formset_versiones'] = formset_versiones
     return render(request, 'bandeja_es/crear-borrador.html', context)
@@ -226,14 +230,14 @@ def create_paquete(request, paquete_pk, versiones_pk):
 
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
-def create_preview(request):
+def create_preview(request, borrador_pk=None):
     context = {}
     context2 = {}
     if request.method == 'POST':
         version_list = []
         version_list_pk = []
         form_paraquete = PaquetePreviewForm(request.POST or None)
-        formset_version = PreviewVersionFormset(request.POST or None, request.FILES or None)
+        formset_version = PreviewVersionFormset(request.POST or None, request.FILES or None, queryset=pkg_borrador)
         if form_paraquete.is_valid() and formset_version.is_valid():
             package_pk = 0
             obj = form_paraquete.save(commit=False)
@@ -258,15 +262,32 @@ def create_preview(request):
         return render(request, 'bandeja_es/create-paquete.html', context2)
 
     else:
+
         data = {
             'form-TOTAL_FORMS': '1',
             'form-INITIAL_FORMS': '0',
             'form-MAX_NUM_FORMS': '',
         }
-        form_paraquete = PaquetePreviewForm()
-        formset_version = PreviewVersionFormset(data)
-        context['form_paraquete'] = form_paraquete
-        context['formset'] = formset_version
+        try:
+            pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
+            versiones = BorradorDocumento.objects.all().filter(borrador=pkg_borrador)
+            form_paraquete = PaquetePreviewForm(initial={
+                'descripcion': pkg_borrador.descripcion,
+                'prev_receptor': pkg_borrador.destinatario,
+                'prev_asunto': pkg_borrador.asunto,
+            })
+            PreviewVersionFormset = formset_factory(VersionDocPreview, extra=len(versiones))
+            formset_version = PreviewVersionFormset(initial=[{'prev_documento_fk': x.version.documento_fk, 'prev_revision': x.version.revision, 'prev_estado_cliente': x.version.estado_cliente, 'prev_estado_contratista': x.version.estado_contratista, 'prev_archivo': x.version.archivo, 'prev_comentario': x.version.comentario} for x in versiones])
+            context['formset'] = formset_version
+            context['form_paraquete'] = form_paraquete
+
+        
+        except:
+            PreviewVersionFormset = formset_factory(VersionDocPreview)
+            form_paraquete = PaquetePreviewForm()
+            formset_version = PreviewVersionFormset(data)
+            context['formset'] = formset_version
+            context['form_paraquete'] = form_paraquete
 
     return render(request, 'bandeja_es/create-paquete2.html', context)
     
