@@ -59,6 +59,7 @@ INSTALLED_APPS = [
     'notifications',
     'panel_carga',
     'bandeja_es',
+    
 
 ]
 
@@ -117,6 +118,9 @@ TEMPLATES = [
         },
     },
 ]
+
+#variable global del usuario
+AUTH_USER_MODEL = 'dashboard.Usuario'
 
 WSGI_APPLICATION = 'dmp.wsgi.application'
 
