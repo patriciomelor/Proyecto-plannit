@@ -78,7 +78,7 @@ class BorradorDocumento(models.Model): # Una vez almacenado debe quedar este reg
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=False)
     
     def __str__(self):
-        return str(self.documento_id.Descripcion)
+        return str(self.version.documento_fk.Codigo_documento)
 
 #################################################
                 # PREVIZUALIZACIONES
