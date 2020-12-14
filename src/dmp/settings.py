@@ -121,7 +121,7 @@ TEMPLATES = [
     },
 ]
 
-#variable global del usuario
+
 
 WSGI_APPLICATION = 'dmp.wsgi.application'
 

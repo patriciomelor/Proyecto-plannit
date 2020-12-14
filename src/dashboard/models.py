@@ -5,15 +5,27 @@ from django.contrib.auth.models import User, AbstractUser
 
 # class Usuario(AbstractUser):
 
+
 #     image = models.ImageField(upload_to='users/%Y/%m/%d', null=True, blank=True)
 #     administrador = models.BooleanField(default=0, blank=True, null=True)
 #     reviror = models.BooleanField(default=0, blank=True, null=True)
 #     visualizador = models.BooleanField(default=0, blank=True, null=True)
 
+    # image =models.ImageField(upload_to='users/%Y/%m/%d', null=True, blank=True)
+    # administrador =models.BooleanField(null=True, blank=True, default=0)
+    # revisor =models.BooleanField(null=True, blank=True, default=0)
+    # visualizador =models.BooleanField(null=True, blank=True, default=0)
+
+
+
 #     def get_image(self):
 #         if self.image:
 #             return '{}{}'.format(MEDIA_URL, self.image)
 #         return '{}{}'.format(STATIC_URL, 'img/empty.png')
+
+    
+
+
 
 # class MyAccountManager(BaseUserManager):
 #     def create_user(self, email, username, password=None):
@@ -68,7 +80,4 @@ from django.contrib.auth.models import User, AbstractUser
 #         return self.is_admin
 
 #     def has_module_perms(self, app_label):
-
-#         return True
-
 #         return True

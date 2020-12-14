@@ -1,6 +1,8 @@
 from django.contrib import admin
 
-#from account.models import Account
+from dashboard.models import User
+
+admin.site.register(Usuario)
 
 #admin.site.register(Account)
 # Register your models here.
