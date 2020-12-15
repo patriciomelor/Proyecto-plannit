@@ -5,16 +5,18 @@
 {% block content %}
 <div class="br-contentpanel">
   <div class="br-subleft">
+      <div class="pd-10">
+        <a  href="{% url 'paquete-preview' borrador_pk=None %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
+      </div>
 
-    
-  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
+      <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
 
-    <nav class="nav br-nav-mailbox flex-column">
-        <a href="{% url 'Bandejaeys' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
-      <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
-      <a href="{% url 'bandeja-enviados' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
-    </nav>
-  </div><!-- br-subleft -->
+      <nav class="nav br-nav-mailbox flex-column">
+        <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon fa fa-reply"></i> Recibidos</a>
+        <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
+        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
+      </nav>
+</div>
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -72,26 +74,26 @@
                 <table class="table table-striped mg-b-0 table-bordered table-primary">
                   <thead class="thead-colored thead-primary">
                     <tr class="tx-10">
-                      <th class="pd-y-5"style="text-align: center;">Especialidad</th>
-                      <th class="pd-y-5"style="text-align: center;">Codigo Documento</th>
-                      <th class="pd-y-5"style="text-align: center;">Tipo Documento</th>                    
-                      <th class="pd-y-5"style="text-align: center;">Numero Documento Interno</th>        
-                      <th class="pd-y-5"style="text-align: center;">Archivo</th>
+                      <th class="pd-y-5"style="text-align: center;">Especialidad</th>                      
+                      <th class="pd-y-5"style="text-align: center;">Tipo Documento</th>   
+                      <th class="pd-y-5"style="text-align: center;">Nombre</th>   
+                      <th class="pd-y-5"style="text-align: center;">Codigo Documento</th>  
                       <th class="pd-y-5"style="text-align: center;">Revisión</th>
-                      <th class="pd-y-5"style="text-align: center;">Status</th>
+                      <th class="pd-y-5"style="text-align: center;">Status</th>                                    
+                      <th class="pd-y-5"style="text-align: center;">Archivo</th>
                     </tr>
                   </thead>
                 
                   <tbody>
                   {% for version in versiones %}
                     <tr>                    
-                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Especialidad}} </td>
-                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Codigo_documento}} </td>                    
-                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Numero_documento_interno}}</td>
+                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Especialidad}} </td>    
+                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Descripcion}}</td>                          
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Tipo_Documento}}</td>
-                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_archivo}}</td>
+                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Codigo_documento}} </td>  
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_revision}}</td>
-                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_estado_cliente}}</td>
+                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_estado_cliente}}</td>                      
+                      <td class="tx-12"style="text-align: center;font-weight:800;"><i class="icon ion-archive"></i>{{version.prev_archivo}}</td>
                     </tr>    
                     {% empty %}
                     <h4> El paquete no tiene documentos. </h4>

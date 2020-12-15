@@ -35,9 +35,17 @@
                   fecha creacion:
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
-                  {{paquete.prev_fecha_creacion}}
+                  {{paquete.prev_fecha_creacion|date:"dd-MM-YYYY"}}
                 </div><!-- col-8 -->
-              </div>                                       
+              </div>
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                  Hora de creacion:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                  {{paquete.prev_fecha_creacion|date:"HH:i"}}
+                </div><!-- col-8 -->
+              </div>                                        
             </div>
               <table class="table table-striped mg-b-0 table-bordered table-primary">
                 <thead class="thead-colored thead-primary">

@@ -4,31 +4,28 @@
 
 
 {% block mailing %}
-
 <div class="br-subleft">
-
-  <h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">Filtros de Busqueda</h6>
-    <form method="GET" class="form-group col-lg-17">
-      <div class="mg-t-20 pd-x-10 mg-b-40">
-        <div class="form-group" >
-            <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.id|as_crispy_field}}</label>
-        </div><!-- form-group -->
-            <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.owner|as_crispy_field}}</label>
-        <div class="form-group">
-            <label class="tx-uppercase tx-10 tx-mont tx-spacing-1  pd-l-10 tx-white-7">  {{filter.form.fecha_creacion|as_crispy_field}}</label>
-        </div><!-- form-group -->
-            <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
+      <div class="pd-10">
+        <a  href="{% url 'paquete-preview' borrador_pk=None %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
       </div>
-    </form>
-  
-<h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
+    
+      <nav class="nav br-nav-mailbox flex-column">
+        <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">filtros</h6>
+        <label class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-white-7">{{filter.form.id|as_crispy_field}}</label>
+        <label class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-white-7">{{filter.form.owner|as_crispy_field}}</label>
+        <label class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-white-7">{{filter.form.fecha_creacion|as_crispy_field}}</label>
+        <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
+      
+      </nav>
 
-  <nav class="nav br-nav-mailbox flex-column">
-       <a href="{% url 'Bandejaeys' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
-    <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
-    <a href="{% url 'bandeja-enviados' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
-  </nav>
-</div><!-- br-subleft -->
+      <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
+
+      <nav class="nav br-nav-mailbox flex-column">
+        <a href="{% url 'Bandejaeys' %}" class="nav-link "><i class="icon fa fa-reply"></i> Recibidos</a>
+        <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
+        <a href="{% url 'bandeja-enviados' %}" class="nav-link active"><i class="icon fa fa-share"></i> Enviados</a>
+      </nav>
+</div>
 
 {% endblock mailing %}
 
