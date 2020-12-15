@@ -14,16 +14,25 @@
 {% block mailing %}
 
 <div class="br-subleft">
- 
-  
-<h6 class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-t-10 pd-x-10 tx-white-7">SECCIONES</h6>
+      <div class="pd-10">
+        <a  href="{% url 'paquete-preview' borrador_pk=None %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
+      </div>
+    
+      <nav class="nav br-nav-mailbox flex-column">
+        <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">filtros</h6>
+        <label class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-white-7">{{filter.form|crispy}}</label>
+        <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
+      
+      </nav>
 
-  <nav class="nav br-nav-mailbox flex-column">
-       <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Inbox</strong></a>
-    <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Borradores</strong></a>
-    <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon ion-person-stalker tx-16-force"></i> <strong>Enviados</strong></a>
-  </nav>
-</div><!-- br-subleft -->
+      <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
+
+      <nav class="nav br-nav-mailbox flex-column">
+        <a href="{% url 'Bandejaeys' %}" class="nav-link "><i class="icon fa fa-reply"></i> Recibidos</a>
+        <a href="{% url 'Borradores' %}" class="nav-link active"><i class="icon icon ion-edit"></i> Borradores</a>
+        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
+      </nav>
+</div>
 
 {% endblock mailing %}
 {% block content %}
