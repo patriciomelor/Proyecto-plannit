@@ -165,7 +165,7 @@ def create_borrador(request, borrador_pk=None):
 
                 except ValueError:
                     pass
-                
+
                 return JsonResponse({'msg': 'Update'})
 
             except BorradorPaquete.DoesNotExist:
@@ -303,6 +303,8 @@ def create_preview(request, borrador_pk):
         versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
     except ValueError:
         borrador_pk = 0
+        pkg_borrador = 0
+        versiones = 0
     finally:
         pass
 
@@ -311,7 +313,11 @@ def create_preview(request, borrador_pk):
         version_list = []
         version_list_pk = []
         form_paraquete = PaquetePreviewForm(request.POST or None)
-        formset_version = PreviewVersionFormset(request.POST or None, request.FILES or None, initial=[{'prev_documento_fk': x.version.documento_fk, 'prev_revision': x.version.revision, 'prev_estado_cliente': x.version.estado_cliente, 'prev_estado_contratista': x.version.estado_contratista, 'prev_archivo': x.version.archivo, 'prev_comentario': x.version.comentario} for x in versiones])
+        if versiones:
+            formset_version = PreviewVersionFormset(request.POST or None, request.FILES or None, initial=[{'prev_documento_fk': x.version.documento_fk, 'prev_revision': x.version.revision, 'prev_estado_cliente': x.version.estado_cliente, 'prev_estado_contratista': x.version.estado_contratista, 'prev_archivo': x.version.archivo, 'prev_comentario': x.version.comentario} for x in versiones])
+        else:
+            formset_version = PreviewVersionFormset(request.POST or None, request.FILES or None)
+
         if form_paraquete.is_valid() and formset_version.is_valid():
             package_pk = 0
             obj = form_paraquete.save(commit=False)
