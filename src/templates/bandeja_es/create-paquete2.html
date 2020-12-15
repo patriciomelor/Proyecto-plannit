@@ -126,7 +126,7 @@
         const form = document.getElementById('form')
         $.ajax({
             type: 'POST',
-            url: '{% url 'borrador-crear' borrador_pk %}',
+            url: '{% url 'borrador-crear' borrador_pk=borr_pk %}',
             data: $("#form").serialize(),
             dataType: 'json',
             success: successHandler
@@ -137,6 +137,7 @@
                     alert('Formulario guardado en Borrador.')
                 }
                 if (data.msg === 'Update'){
+                    window.location.href = "{% url 'Borradores' %}";
                     alert('Se ha actualizado la información del paquete. Formulario guardado en Borrador')
                 }
             }

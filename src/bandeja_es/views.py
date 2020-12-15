@@ -46,6 +46,7 @@ class EnviadosView(ProyectoMixin, ListView):
         context = super().get_context_data(**kwargs)
         pkg = Paquete.objects.filter(owner=self.request.user)
         context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
+        context['borrador_pk'] = 0
         return context
    
 class PapeleraView(ProyectoMixin, ListView):
@@ -292,13 +293,18 @@ def create_paquete(request, paquete_pk, versiones_pk):
 
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
-def create_preview(request, borrador_pk=None):
+def create_preview(request, borrador_pk):
     context = {}
     context2 = {}
-    pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-    versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
+    if borrador_pk == None:
+        borrador_pk = 0
+        pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
+        versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
+    else:
+        pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
+        versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
+
     PreviewVersionFormset = formset_factory(VersionDocPreview, extra= 1)
-    print(len(versiones))
     if request.method == 'POST':
         version_list = []
         version_list_pk = []
@@ -350,7 +356,7 @@ def create_preview(request, borrador_pk=None):
             formset_version = PreviewVersionFormset(data)
             context['formset'] = formset_version
             context['form_paraquete'] = form_paraquete
-            context['borrador_pk'] = borrador_pk
+        context['borr_pk'] = borrador_pk
 
     return render(request, 'bandeja_es/create-paquete2.html', context)
     
