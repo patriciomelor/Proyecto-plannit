@@ -46,7 +46,6 @@ class EnviadosView(ProyectoMixin, ListView):
         context = super().get_context_data(**kwargs)
         pkg = Paquete.objects.filter(owner=self.request.user)
         context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
-        context['borrador_pk'] = 0
         return context
    
 class PapeleraView(ProyectoMixin, ListView):
