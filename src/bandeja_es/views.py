@@ -338,7 +338,10 @@ def create_preview(request, borrador_pk):
                 'prev_receptor': pkg_borrador.destinatario,
                 'prev_asunto': pkg_borrador.asunto,
             })
-            PreviewVersionFormset = formset_factory(VersionDocPreview, extra= (len(versiones))-3)
+            if len(versiones) == 0:
+                PreviewVersionFormset = formset_factory(VersionDocPreview, extra= 1)
+            else:
+                PreviewVersionFormset = formset_factory(VersionDocPreview, extra= (len(versiones))-3)
             formset_version = PreviewVersionFormset(initial=[{'prev_documento_fk': x.version.documento_fk, 'prev_revision': x.version.revision, 'prev_estado_cliente': x.version.estado_cliente, 'prev_estado_contratista': x.version.estado_contratista, 'prev_archivo': x.version.archivo, 'prev_comentario': x.version.comentario} for x in versiones])
             context['formset'] = formset_version
             context['form_paraquete'] = form_paraquete
