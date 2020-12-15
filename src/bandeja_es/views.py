@@ -109,65 +109,68 @@ def create_borrador(request, borrador_pk=None):
             #        Si existe borrador, lo actualiza, si no lo crea        #  
             try:
                 versiones_pk = []
-                borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-                borrador_versiones = BorradorDocumento.objects.filter(borrador=borrador)
-                for x in borrador_versiones:
-                    versiones_pk.append(x.version.pk)
-
-                if destinatario_b:
-                    destinatario_b = int(destinatario_b)
-                    desti = User.objects.get(pk=destinatario_b)
-                    borrador.asunto = asunto_b
-                    borrador.descripcion = descripcion_b
-                    borrador.destinatario = desti
-                    borrador.save()
-                else:
+                try:
                     borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-                    borrador.asunto = asunto_b
-                    borrador.descripcion = descripcion_b
-                    borrador.save()
-                
-                for form, version_pk in zip(borrador_version_set, versiones_pk):
-                    documento_b = form['prev_documento_fk'].value()
-                    revision_b = form['prev_revision'].value() 
-                    archivo_b = form['prev_archivo'].value()
-                    comentario_b = form['prev_comentario'].value()
-                    cliente_estado_b = form['prev_estado_cliente'].value()
-                    contratista_estado_b = form['prev_estado_contratista'].value()
-
-                    if cliente_estado_b and contratista_estado_b:            #
-                        cliente_estado_b = int(cliente_estado_b)            #  If que comprueba que estados del
-                        contratista_estado_b = int(contratista_estado_b)    #   cliente y contratista existan
-                    else:                                                   #
-                        cliente_estado_b = 0                                #
-                        contratista_estado_b = 0
-                    
-                    version = BorradorVersion.objects.get(pk=version_pk)
-                    
-                    if documento_b:
-                        documento_b = int(documento_b)
-                        document = Documento.objects.get(pk=documento_b)
-                        version.documento_fk = document
-                        version.revision = revision_b
-                        version.archivo = archivo_b
-                        version.comentario = comentario_b
-                        version.estado_cliente = cliente_estado_b
-                        version.estado_contratista = contratista_estado_b
+                    borrador_versiones = BorradorDocumento.objects.filter(borrador=borrador)
+                    for x in borrador_versiones:
+                        versiones_pk.append(x.version.pk)
+                    if destinatario_b:
+                        destinatario_b = int(destinatario_b)
+                        desti = User.objects.get(pk=destinatario_b)
+                        borrador.asunto = asunto_b
+                        borrador.descripcion = descripcion_b
+                        borrador.destinatario = desti
+                        borrador.save()
                     else:
-                        documento_b = 0
-                        version.revision = revision_b
-                        version.archivo = archivo_b
-                        version.comentario = comentario_b
-                        version.estado_cliente = cliente_estado_b
-                        version.estado_contratista = contratista_estado_b
+                        borrador = BorradorPaquete.objects.get(pk=borrador_pk)
+                        borrador.asunto = asunto_b
+                        borrador.descripcion = descripcion_b
+                        borrador.save()
+                    
+                    for form, version_pk in zip(borrador_version_set, versiones_pk):
+                        documento_b = form['prev_documento_fk'].value()
+                        revision_b = form['prev_revision'].value() 
+                        archivo_b = form['prev_archivo'].value()
+                        comentario_b = form['prev_comentario'].value()
+                        cliente_estado_b = form['prev_estado_cliente'].value()
+                        contratista_estado_b = form['prev_estado_contratista'].value()
 
-                    version.save()
+                        if cliente_estado_b and contratista_estado_b:            #
+                            cliente_estado_b = int(cliente_estado_b)            #  If que comprueba que estados del
+                            contratista_estado_b = int(contratista_estado_b)    #   cliente y contratista existan
+                        else:                                                   #
+                            cliente_estado_b = 0                                #
+                            contratista_estado_b = 0
+                        
+                        version = BorradorVersion.objects.get(pk=version_pk)
+                        
+                        if documento_b:
+                            documento_b = int(documento_b)
+                            document = Documento.objects.get(pk=documento_b)
+                            version.documento_fk = document
+                            version.revision = revision_b
+                            version.archivo = archivo_b
+                            version.comentario = comentario_b
+                            version.estado_cliente = cliente_estado_b
+                            version.estado_contratista = contratista_estado_b
+                        else:
+                            documento_b = 0
+                            version.revision = revision_b
+                            version.archivo = archivo_b
+                            version.comentario = comentario_b
+                            version.estado_cliente = cliente_estado_b
+                            version.estado_contratista = contratista_estado_b
 
-                    return JsonResponse({'msg': 'Update'})
+                        version.save()
+
+                except ValueError:
+                    pass
+                
+                return JsonResponse({'msg': 'Update'})
 
             except BorradorPaquete.DoesNotExist:
-            #################################################################
 
+            #################################################################
                 # Valida y transforma valores vacíos a su correspondiente tipo #
                 if destinatario_b:
                     destinatario_b = int(destinatario_b)
@@ -229,6 +232,7 @@ def create_borrador(request, borrador_pk=None):
 
                     version.save()
                     paquete_borrador.version.add(version)
+
                 return JsonResponse({'msg': 'Success'})
 
 def editar_borrador(request, package):
@@ -294,13 +298,13 @@ def create_paquete(request, paquete_pk, versiones_pk):
 def create_preview(request, borrador_pk):
     context = {}
     context2 = {}
-    if borrador_pk == None:
+    try:
+        pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
+        versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
+    except ValueError:
         borrador_pk = 0
-        pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-        versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
-    else:
-        pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-        versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
+    finally:
+        pass
 
     PreviewVersionFormset = formset_factory(VersionDocPreview, extra= 1)
     if request.method == 'POST':
