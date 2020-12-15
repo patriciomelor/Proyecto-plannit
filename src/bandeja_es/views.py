@@ -110,10 +110,9 @@ def create_borrador(request, borrador_pk=None):
             try:
                 versiones_pk = []
                 borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-                borrador_versiones = BorradorDocumento.objects.get(borrador=borrador)
+                borrador_versiones = BorradorDocumento.objects.filter(borrador=borrador)
                 for x in borrador_versiones:
-                    versiones.append(x.version.pk)
-                    return versiones_pk
+                    versiones_pk.append(x.version.pk)
 
                 if destinatario_b:
                     destinatario_b = int(destinatario_b)
