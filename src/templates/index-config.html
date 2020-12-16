@@ -27,12 +27,12 @@
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
   </head>
-  <body>
+  <body class="collapsed-menu with-subleft">
   {% block menublank %}
  
     <!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo"><a href=""><span>[</span>DMP<span>]</span></a></div>
-    <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-x ps--active-y" data-ps-id="9f275960-8fc4-263c-8019-2d3495e7d5c1">
+    <div class="br-sideleft overflow-y-auto">
       <label class="sidebar-label pd-x-15 mg-t-20">Navigacion</label>
       <div class="br-sideleft-menu">
         <a href="{% url 'index' %}" class="br-menu-link">
@@ -42,7 +42,7 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         
-         <a href="{% url 'PanelCarga' %}" class="br-menu-link active">
+         <a href="{% url 'PanelCarga' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
             <span class="menu-item-label">Panel de Carga</span>
@@ -73,7 +73,7 @@
             <span class="menu-item-label">Buscador</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <a href="{% url 'crear-usuario' %}" class="br-menu-link">
+        <a href="{% url 'crear-usuario' %}" class="br-menu-link active">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
             <span class="menu-item-label">Configuracíon</span>
@@ -95,7 +95,7 @@
         <nav class="nav">
           <div class="dropdown">
             <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-              <span class="logged-name hidden-md-down"> {{user.first_name}} {{user.last_name}}</span>
+              <span class="logged-name hidden-md-down"> {{user.first_name}} {{user.last_name}} </span>
               <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
               <span class="square-10 bg-success"></span>
             </a>
@@ -117,14 +117,10 @@
 
 
  {% endblock menublank %}
- <div class="br-mainpanel">
-  <div class="br-pagebody mg-t-5 pd-x-30">
+
 
 {% block content %}
 {% endblock content %}
-</div><!-- br-pagebody -->
-</div><!-- br-mainpanel -->
-
 
     <!-- ########## END: MAIN PANEL ########## -->
 

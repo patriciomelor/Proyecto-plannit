@@ -29,14 +29,14 @@
   </div>
    <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">   
-              <div class="form-layout form-layout-7 ">               
+       <div class="form-layout form-layout-7 ">               
                 <div class="row no-gutters">
-          <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                  Numero de paquete:
-          </div><!-- col-4 -->
-          <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
-                  {{paquete.pk}}
-          </div><!-- col-8 -->
+                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                          Numero de paquete:
+                  </div><!-- col-4 -->
+                  <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                          {{paquete.pk}}
+                  </div><!-- col-8 -->
                 </div> 
                 <div class="row no-gutters">
                   <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
@@ -106,11 +106,10 @@
                   <a href="{% url 'paquete-crear' paquete_pk versiones_pk %}"><button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit"> Envíar </button></a>
                   <a onclick="history.back();"><button  class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="buttom"> volver </button></a>
                 </div>
-                </div><!-- card -->
-            </div> 
-            
-   </div><!-- card-header -->
-  </div>
+        </div><!-- card -->
+    </div> 
+  </div><!-- card-header -->
+</div>
 <script>
   $(function () {
     $("#id_date").datepicker({
