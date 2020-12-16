@@ -42,7 +42,6 @@ INSTALLED_APPS = [
     'django.contrib.sites',
 
     'allauth',
-    'invitations',
     'allauth.account',
     'allauth.socialaccount',
     'import_export',
@@ -59,6 +58,7 @@ INSTALLED_APPS = [
     'notifications',
     'panel_carga',
     'bandeja_es',
+    'configuracion',
     
 
 ]
@@ -70,16 +70,12 @@ SITE_ID = 2
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 # Allauth methods
-ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
-
-
-# Invitations methods
-INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
-INVITATIONS_INVITATION_ONLY = False #debe ser True en producción
-INVITATIONS_EMAIL_SUBJECT_PREFIX = None
+ACCOUNT_EMAIL_VERIFICATION = True
+ACCOUNT_SIGNUP_FORM_CLAS = 'dashboard.forms.CrearUsuario'
+ACCOUNT_ADAPTER = 'configuracion.adapters.AccountAdapter'
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
@@ -145,6 +141,7 @@ DATABASES = {
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
 
+
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -192,6 +189,6 @@ STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
 STATIC_ROOT = STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 
-MEDIA_ROOT = str(BASE_DIR.joinpath('static/media'))
+MEDIA_ROOT = os.path.join(BASE_DIR,'static/media')
 
 MEDIA_URL = '/media/'
