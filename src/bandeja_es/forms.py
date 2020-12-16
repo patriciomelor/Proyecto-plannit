@@ -79,6 +79,8 @@ class VersionDocPreview(forms.ModelForm):
         fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo', 'prev_comentario', 'prev_estado_cliente', 'prev_estado_contratista']
         labels = {
             'prev_documento_fk': 'N° Documento',
-            'prev_revision': 'Revisión'
+            'prev_revision': 'Revisión',
+            'prev_revision': 'Archivo de Revisión',
+            'prev_archivo': "Adjuntar Comentario"
         }
 PreviewVersionSet = formset_factory(VersionDocPreview)
