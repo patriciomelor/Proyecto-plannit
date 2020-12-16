@@ -1,9 +1,11 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic.base import TemplateView, RedirectView, View
+from django.views.generic.base import TemplateView, RedirectView
+from django.views.generic import FormView
 from panel_carga.views import ProyectoMixin
 
-from panel_carga.models import Proyecto, Documento, Revision, Historial
+from .models import Perfil
+from .forms import CrearUsuario
 
 # Create your views here.
 
@@ -25,4 +27,12 @@ class IndexView(ProyectoMixin, TemplateView):
 class EscritorioView(ProyectoMixin, TemplateView):
     template_name = "administrador/Escritorio/dash.html"
 
+class UsuarioView(ProyectoMixin, FormView):
+    template_name = "administrador/Escritorio/create-user.html"
+    form_class = CrearUsuario
+    success_url = reverse_lazy('index')
 
+    # def form_valid(self):
+    # def form_invalid(self):
+    # def get(self, request, *args, **kwargs):
+    # def post(self, request, *args, **kwargs):
