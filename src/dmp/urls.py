@@ -26,6 +26,7 @@ urlpatterns = [
     path('panel_carga/', include('panel_carga.urls')),
     path('bandeja_es/', include('bandeja_es.urls')),
     path('analitica/', include('analitica.urls')),
+    path('configuracion/', include('configuracion.urls')),
 ]
 
 if settings.DEBUG:
