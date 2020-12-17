@@ -176,9 +176,14 @@ $(document).on('click', '.remove-form-row', function(e){
 </script>
 
  <script>
-  $(document).ready(function() {
-    $('.select2').select2();
-});
+   $(function () {
+
+            $('.select2').select2({
+                theme: "bootstrap4",
+                language: 'es'
+            });
+            }
+   )}
 </script>
 
 {% endblock content %}
