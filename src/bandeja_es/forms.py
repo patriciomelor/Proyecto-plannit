@@ -85,8 +85,8 @@ class VersionDocPreview(forms.ModelForm):
         'class': 'form-control select2',
         'style': 'width: 100%'
     }))
-    prev_archivo = forms.FileField#(widget=forms.FileInput(attrs={'class':'custom-file-input'}))
-    prev_comentario = forms.FileField#(widget=forms.FileInput(attrs={'class':'custom-file-input'}))
+    prev_archivo = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'}))
+    prev_comentario = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'}))
     class Meta:
         model = PrevVersion
         fields = [ 'prev_documento_fk','prev_revision','prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']

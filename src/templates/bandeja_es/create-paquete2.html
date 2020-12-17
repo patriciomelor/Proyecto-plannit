@@ -53,9 +53,22 @@
         <div class="row form-row spacer">
                 <div class="form-group col-12">
                         <div class="form-control">
-
-                            {{form|crispy}}
-                           
+                            <label for="" class="col-md-2 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>
+                            <label for="" class="col-md-2 mg-5"> {{form.prev_revision|as_crispy_field}}</label>
+                            <label for="" class="col-md-3 mg-5"> {{form.prev_estado_cliente|as_crispy_field}}</label>
+                            <label for="" class="col-md-2 mg-5"> {{form.prev_estado_contratista|as_crispy_field}}</label><br>
+                            <div class="col-lg-3"style="float:float;">
+                                <label class="custom-file">
+                                    {{form.prev_archivo|as_crispy_field}}
+                                    <span class="custom-file-control custom-file-control-primary"></span>
+                                </label>
+                            </div>
+                            <div class="col-lg-3"style="float:float;">
+                                <label class="custom-file">
+                                    {{form.prev_comentario|as_crispy_field}}
+                                    <span class="custom-file-control custom-file-control-primary"></span>
+                                </label>
+                            </div>
                         </div>
                 </div>
         </div>
