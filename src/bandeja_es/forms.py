@@ -72,7 +72,7 @@ BorradorVersionFormset = formset_factory(VersionDocBorrador)
 
 class PaquetePreviewForm(forms.ModelForm):
     descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
-    prev_receptor = forms.ModelChoiceField(queryset=User.objects.all(),label="Destinatario",widget=forms.Select(attrs={'class':'select2'}))
+    prev_receptor = forms.ModelChoiceField(queryset=User.objects.all(),label="Destinatario",widget=forms.Select(attrs={'class':'form-control select2'}))
     class Meta:
         model = PrevPaquete
         fields = ['prev_receptor', 'prev_asunto']
@@ -80,13 +80,17 @@ class PaquetePreviewForm(forms.ModelForm):
             'prev_receptor': 'Destinatario'
         }
 class VersionDocPreview(forms.ModelForm):
-    prev_revision = forms.ChoiceField(choices=TYPES_REVISION,widget=forms.Select(attrs={'class':'select2'}))
-    prev_documento_fk = forms.ModelChoiceField(queryset=Documento.objects.all(),widget=forms.Select(attrs={'class':'select2'}))
-    prev_archivo = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input'}))
-    prev_comentario = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input'}))
+    prev_revision = forms.ChoiceField(choices=TYPES_REVISION,label="Revisión",widget=forms.Select(attrs={'class':'form-control select2'}))
+    prev_documento_fk = forms.ModelChoiceField(queryset=Documento.objects.all(),label="Documento",widget=forms.Select(attrs={
+        'class': 'form-control select2',
+        'style': 'width: 100%'
+    }))
+    prev_archivo = forms.FileField#(widget=forms.FileInput(attrs={'class':'custom-file-input'}))
+    prev_comentario = forms.FileField#(widget=forms.FileInput(attrs={'class':'custom-file-input'}))
     class Meta:
         model = PrevVersion
-        fields = [ 'prev_estado_cliente', 'prev_estado_contratista']
+        fields = [ 'prev_documento_fk','prev_revision','prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
+        
 
     
       

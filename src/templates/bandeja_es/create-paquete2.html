@@ -2,7 +2,6 @@
 
 {% load crispy_forms_tags %}
 
-
 {% block mailing %}
 
 <div class="br-subleft">
@@ -50,43 +49,13 @@
             </div> 
         </div>
     
-        {{ formset.management_form }}
         {% for form in formset %}
         <div class="row form-row spacer">
                 <div class="form-group col-12">
-                        <div class="form-control"style="float: left;">
-                            <div class="row mg-t-20">
-                            <div class="col-lg-4">
-                            {{form.prev_documento_fk|as_crispy_field}}
-                            </div>
-                            </div>   
-                             <div class="row mg-t-20">
-                            <div class="col-lg-4">       
-                            {{form.prev_revision|as_crispy_field}}
-                              </div>
-                            </div>     
-                             <div class="row mg-t-20">
-                            <div class="col-lg-4">           
-                            {{form.prev_estado_cliente|as_crispy_field}} 
-                              </div>
-                            </div>    
-                             <div class="row mg-t-20">
-                            <div class="col-lg-4">            
-                            {{form.prev_estado_contratista|as_crispy_field}}    
-                              </div>
-                            </div>                                
-                            <label class="custom-file">
-                                {{form.prev_archivo|as_crispy_field}}
-                                <span class="custom-file-control custom-file-control-primary"> Seleccionar</span>
-                            </label> 
-                              <label class="custom-file">
-                               {{form.prev_comentario|as_crispy_field}}
-                                <span class="custom-file-control custom-file-control-primary"> Seleccionar</span>
-                            </label> 
-                       
-                            <div class="input-group-append mg-20">
-                                <button class="btn btn-success add-form-row" >Agregar +</button>
-                            </div>
+                        <div class="form-control">
+
+                            {{form|crispy}}
+                           
                         </div>
                 </div>
         </div>
@@ -192,12 +161,11 @@ $(document).on('click', '.remove-form-row', function(e){
 });
   
 </script>
+
  <script>
-                            $(function(){
-                                $('.select2').select2({
-                                    theme:'bootstrap4'
-                                });
-                            })
-                        </script>
+  $(document).ready(function() {
+    $('.select2').select2();
+});
+</script>
 
 {% endblock content %}
