@@ -92,7 +92,7 @@
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Tipo_Documento}}</td>
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Codigo_documento}} </td>  
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_revision}}</td>
-                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_estado_cliente}}</td>                      
+                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_prev_estado_cliente_display}}</td>                      
                       <td class="tx-12"style="text-align: center;font-weight:800;"><a href="{{version.prev_archivo.url}}"><i class="icon ion-archive"></i></a></td>
                     </tr>    
                     {% empty %}
