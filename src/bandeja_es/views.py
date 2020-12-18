@@ -6,7 +6,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
-
+from django.contrib import messages
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, BorradorDocumento, PaqueteDocumento
 from .forms import PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
@@ -319,8 +319,8 @@ def post(self, request, *args, **kwargs):
         data['error'] = str(e)
     return JsonResponse(data, safe=False)
 
-def verificar_nombre_archivo(nombre_documento, nombre_archivio):
-    if nombre_documento == nombre_archivio:
+def verificar_nombre_archivo(nombre_documento, nombre_archivo):
+    if nombre_documento == nombre_archivo:
         return True
     else:
         return False
@@ -348,38 +348,44 @@ def create_preview(request, borrador_pk):
 
             
         if form_paraquete.is_valid() and formset_version.is_valid():
+            valido = True
             for form in formset_version:
                 nombre_documento = str(form.cleaned_data['prev_documento_fk'])
-                nombre_archivio = str(form.cleaned_data['prev_archivo']).rstrip(".xlsx")
-
-                if verificar_nombre_archivo(nombre_documento, nombre_archivio):
-                    print(True)
-                else:
-                    print(False)
-                    
-
+                nombre_archivo = str(form.cleaned_data['prev_archivo']).rstrip(".xlsx")
+                if not verificar_nombre_archivo(nombre_documento, nombre_archivo):
+                    valido = False
+            if valido:
+                package_pk = 0
+                obj = form_paraquete.save(commit=False)
+                obj.prev_propietario = request.user
+                obj.save()
+                package_pk = obj.pk
+                context2['paquete_pk'] = paquete_pk
+                for form in formset_version:
+                    package = PrevPaquete.objects.get(pk=package_pk)
+                    context2['paquete'] = package
+                    version = form.save(commit=False)
+                    version.prev_owner = request.user
+                    version.save()
+                    version_pk = version.pk
+                    version_qs = PrevVersion.objects.get(pk=version_pk)
+                    package.prev_documento.add(version_qs)
+                    version_list.append(version)
+                    version_list_pk.append(version_pk)
+                context2['versiones'] = version_list
+                context2['versiones_pk'] = versiones_pk
                 
-            # package_pk = 0
-            # obj = form_paraquete.save(commit=False)
-            # obj.prev_propietario = request.user
-            # obj.save()
-            # package_pk = obj.pk
-            # for form in formset_version:
-            #     package = PrevPaquete.objects.get(pk=package_pk)
-            #     version = form.save(commit=False)
-            #     version.prev_owner = request.user
-            #     version.save()
-            #     version_pk = version.pk
-            #     version_qs = PrevVersion.objects.get(pk=version_pk)
-            #     package.prev_documento.add(version_qs)
-            #     version_list.append(version)
-            #     version_list_pk.append(version_pk)
-            # context2['paquete'] = package
-            context2['paquete_pk'] = 0
-            # context2['versiones'] = version_list
-            context2['versiones_pk'] = [1,2]
-        return render(request, 'bandeja_es/create-paquete.html', context2)
+                return render(request, 'bandeja_es/create-paquete.html', context2)
 
+            else:
+                context2['paquete_pk'] = 0
+                context2['versiones_pk'] = [0,0,0,0]
+                messages.add_message(request, messages.ERROR, message='El nombre de un archivo no coincide con el documento. Porfavor revise sus formularios e intentelo de nuevo.')
+                return render(request, 'bandeja_es/create-paquete.html', context2)
+
+                # else:
+                #     messages.add_message(request, message.INFO, message='')
+                #     return render(request, 'bandeja_es/create-paquete2.html', context)
     else:
         try:
             form_paraquete = PaquetePreviewForm(initial={
