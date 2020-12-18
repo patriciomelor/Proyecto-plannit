@@ -45,7 +45,7 @@ class Documento(models.Model):
     
     def toJSON(self):
         item = model_to_dict(self)
-        item['Codigo Documento'] = self.Codigo_documento
+        item['Codigo_Documento'] = {'id': self.Codigo_documento, 'name': self.get_Codigo_documento_display()}
         item['Fecha Emision B'] = self.fecha_Emision_B
         return item
 

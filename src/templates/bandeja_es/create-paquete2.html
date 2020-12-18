@@ -85,6 +85,9 @@
 
 
 <script language="JavaScript" type="text/javascript">
+
+
+
     $("#borrador").click(function submitHandler(e){
         e.preventDefault();
         const form = document.getElementById('form')
@@ -175,9 +178,38 @@ $(document).on('click', '.remove-form-row', function(e){
   
 </script>
 
- <script>
-  $(document).ready(function() {
-    $('.select2').select2();
+<script>
+
+
+   /* var select_documents = $('select[name="document"]');
+    $(document).ready(function() {
+        ('.select2').select2({
+            theme: "bootstrap4",
+            language: 'es'
+    });
+
+    var id = $(this).val();
+    var options = '<option value="">--------------------</option>';
+    if (id === '') {
+        select_documents.html(options);
+        return false;
+    }
+    $.ajax({
+        url: window.location.pathname,
+        type: 'POST',
+        data: {
+            'action': 'select2-id_form-0-prev_documento_fk-container',
+            'id': id
+        },
+        dataType: 'json',
+        }).done(function (data) {
+        message_error(data.error);
+        }).fail(function (jqXHR, textStatus, errorThrown) {
+        alert(textStatus + ': ' + errorThrown);
+        }).always(function (data) {
+                    //select_products.html(options);
+        });*/
+
 });
 </script>
 

@@ -295,6 +295,28 @@ def create_paquete(request, paquete_pk, versiones_pk):
 
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
+#intento de post para select2
+
+def post(self, request, *args, **kwargs):
+    data = {}
+    try:
+        action = request.POST['action']
+        if action == 'prev_revision':
+            data = [{'id': '', 'text': '------------'}]
+            for i in Paquete.objects.filter(cat_id=request.POST['id']):
+                data.append({'id': i.id, 'text': i.name, 'data': i.descripcion.toJSON()})
+        elif action == 'autocomplete':
+            data = []
+            for i in Documento.objects.filter(name__icontains=request.POST['term'])[0:10]:
+                item = i.toJSON()
+                item['text'] = i.Codigo_Documento
+                data.append(item)
+        else:
+            data['error'] = 'Ha ocurrido un error'
+    except Exception as e:
+        data['error'] = str(e)
+    return JsonResponse(data, safe=False)
+
 def create_preview(request, borrador_pk):
     context = {}
     context2 = {}
