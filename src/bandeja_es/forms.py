@@ -17,6 +17,8 @@ from panel_carga.models import Documento
 
 
 
+
+
 # class DocumentoListForm(forms.Form):
 #     documento = forms.MultipleChoiceField(required=False, label="Escoja los documentos a enviar: ")
 #     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), label="Adjunte archivo al los documentos: ")
@@ -72,7 +74,7 @@ BorradorVersionFormset = formset_factory(VersionDocBorrador)
 
 class PaquetePreviewForm(forms.ModelForm):
     descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
-    prev_receptor = forms.ModelChoiceField(queryset=User.objects.all(),label="Destinatario",widget=forms.Select(attrs={'class':'form-control select2'}))
+    prev_receptor = forms.ModelChoiceField(queryset=User.objects.all(),label="Destinatario",widget=forms.Select(attrs={'class':'form-control'}))
     class Meta:
         model = PrevPaquete
         fields = ['prev_receptor', 'prev_asunto']
@@ -80,18 +82,14 @@ class PaquetePreviewForm(forms.ModelForm):
             'prev_receptor': 'Destinatario'
         }
 class VersionDocPreview(forms.ModelForm):
-    prev_revision = forms.ChoiceField(choices=TYPES_REVISION,label="Revisión",widget=forms.Select(attrs={'class':'form-control select2'}))
-    prev_documento_fk = forms.ModelChoiceField(queryset=Documento.objects.all(),label="Documento",widget=forms.Select(attrs={
-        'class': 'form-control select2',
-        'style': 'width: 100%'
-    }))
+    prev_revision = forms.ChoiceField(choices=TYPES_REVISION,label="Revisión",widget=forms.Select(attrs={'class':'form-control'}))
+    prev_documento_fk = forms.ModelChoiceField(queryset=Documento.objects.all(),label="Documento")
     prev_archivo = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'}))
-    prev_comentario = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'}))
+    prev_comentario = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file','data-placeholders':'Seleccionar'}))
     class Meta:
         model = PrevVersion
         fields = [ 'prev_documento_fk','prev_revision','prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
-        
-
+      
     
       
 PreviewVersionSet = formset_factory(VersionDocPreview)

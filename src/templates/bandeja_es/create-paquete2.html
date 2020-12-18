@@ -50,24 +50,18 @@
         </div>
     
         {% for form in formset %}
-        <div class="row form-row spacer">
+          <div class="row form-row spacer">
                 <div class="form-group col-12">
-                        <div class="form-control">
-                            <label for="" class="col-md-2 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>
-                            <label for="" class="col-md-2 mg-5"> {{form.prev_revision|as_crispy_field}}</label>
-                            <label for="" class="col-md-3 mg-5"> {{form.prev_estado_cliente|as_crispy_field}}</label>
-                            <label for="" class="col-md-2 mg-5"> {{form.prev_estado_contratista|as_crispy_field}}</label><br>
-                            <div class="col-lg-3"style="float:float;">
-                                <label class="custom-file">
-                                    {{form.prev_archivo|as_crispy_field}}
-                                    <span class="custom-file-control custom-file-control-primary"></span>
-                                </label>
-                            </div>
-                            <div class="col-lg-3"style="float:float;">
-                                <label class="custom-file">
-                                    {{form.prev_comentario|as_crispy_field}}
-                                    <span class="custom-file-control custom-file-control-primary"></span>
-                                </label>
+                        <div class="form-control"style="float: left;">
+                            <label for="" class="col-md-2 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>           
+                            <label for="" class="col-md-2 mg-5"> {{form.prev_revision|as_crispy_field}}</label>             
+                            <label for="" class="col-md-3 mg-5"> {{form.prev_estado_cliente|as_crispy_field}}</label>               
+                            <label for="" class="col-md-2 mg-5"> {{form.prev_estado_contratista|as_crispy_field}}</label><br>                                 
+                            <label for="" class="col-md-4 mg-5"> {{form.prev_archivo|as_crispy_field}}</label>             
+                            <label for="" class="col-md-4 mg-5"> {{form.prev_comentario|as_crispy_field}}</label>  
+                        
+                            <div class="input-group-append mg-20" style="float:right;">
+                                <button class="btn btn-success add-form-row" >Agregar +</button>
                             </div>
                         </div>
                 </div>
@@ -178,39 +172,5 @@ $(document).on('click', '.remove-form-row', function(e){
   
 </script>
 
-<script>
-
-
-   /* var select_documents = $('select[name="document"]');
-    $(document).ready(function() {
-        ('.select2').select2({
-            theme: "bootstrap4",
-            language: 'es'
-    });
-
-    var id = $(this).val();
-    var options = '<option value="">--------------------</option>';
-    if (id === '') {
-        select_documents.html(options);
-        return false;
-    }
-    $.ajax({
-        url: window.location.pathname,
-        type: 'POST',
-        data: {
-            'action': 'select2-id_form-0-prev_documento_fk-container',
-            'id': id
-        },
-        dataType: 'json',
-        }).done(function (data) {
-        message_error(data.error);
-        }).fail(function (jqXHR, textStatus, errorThrown) {
-        alert(textStatus + ': ' + errorThrown);
-        }).always(function (data) {
-                    //select_products.html(options);
-        });*/
-
-});
-</script>
 
 {% endblock content %}
