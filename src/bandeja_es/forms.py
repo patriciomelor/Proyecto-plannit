@@ -10,11 +10,7 @@ from django.contrib.auth.models import User
 
 from .models import Paquete, Version, BorradorPaquete, BorradorVersion, PrevPaquete, PrevVersion
 from panel_carga.views import ProyectoMixin
-
 from panel_carga.choices import TYPES_REVISION
-from django.contrib.auth.models import User
-from panel_carga.models import Documento
-
 
 
 # class DocumentoListForm(forms.Form):
