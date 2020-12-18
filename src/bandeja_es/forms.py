@@ -79,14 +79,14 @@ class PaquetePreviewForm(forms.ModelForm):
             'prev_receptor': 'Destinatario'
         }
 class VersionDocPreview(forms.ModelForm):
-    prev_revision = forms.ChoiceField(choices=TYPES_REVISION,label="Revisión",widget=forms.Select(attrs={'class':'form-control select2'}))
-    prev_archivo = forms.FileField(label='Archivo', widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'}))
-    prev_comentario = forms.FileField(label='Archivo Comentario', widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'}))
     class Meta:
         model = PrevVersion
-        fields = [ 'prev_documento_fk','prev_revision','prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
+        fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
         labels = {
-            'prev_documento_fk': 'Código Documento'
+            'prev_documento_fk': 'Código Documento',
+            'prev_archivo' : 'Archivo',
+            'prev_comentario' : 'Archivo de Comentario',
+            'prev_revision' : 'Revisión'
         }
 
     

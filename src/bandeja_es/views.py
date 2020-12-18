@@ -320,20 +320,18 @@ def post(self, request, *args, **kwargs):
 def create_preview(request, borrador_pk):
     context = {}
     context2 = {}
-    try:
-        pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-        versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
-    except ValueError:
-        borrador_pk = 0
-        pkg_borrador = 0
-        versiones = 0
-    finally:
-        pass
-
-    PreviewVersionFormset = formset_factory(VersionDocPreview, extra= 1)
+    version_list = []
+    version_list_pk = []
     if request.method == 'POST':
-        version_list = []
-        version_list_pk = []
+        try:
+            pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
+            versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
+        except ValueError:
+            borrador_pk = 0
+            pkg_borrador = 0
+            versiones = 0
+        PreviewVersionFormset = formset_factory(VersionDocPreview, extra= 1)
+
         form_paraquete = PaquetePreviewForm(request.POST or None)
         if versiones:
             formset_version = PreviewVersionFormset(request.POST or None, request.FILES, initial=[{'prev_documento_fk': x.version.documento_fk, 'prev_revision': x.version.revision, 'prev_estado_cliente': x.version.estado_cliente, 'prev_estado_contratista': x.version.estado_contratista, 'prev_archivo': x.version.archivo, 'prev_comentario': x.version.comentario} for x in versiones])
@@ -349,10 +347,6 @@ def create_preview(request, borrador_pk):
             for form in formset_version:
                 package = PrevPaquete.objects.get(pk=package_pk)
                 version = form.save(commit=False)
-                file_rev = request.FILES.get('prev_archivo')
-                file_comentario = request.FILES.get('prev_revision')
-                print(file_rev)
-                print(file_comentario)
                 version.prev_owner = request.user
                 version.save()
                 version_pk = version.pk
@@ -360,11 +354,10 @@ def create_preview(request, borrador_pk):
                 package.prev_documento.add(version_qs)
                 version_list.append(version)
                 version_list_pk.append(version_pk)
-        context2['paquete'] = package
-        context2['paquete_pk'] = package_pk
-        context2['versiones'] = version_list
-        context2['versiones_pk'] = version_list_pk
-
+            context2['paquete'] = package
+            context2['paquete_pk'] = package_pk
+            context2['versiones'] = version_list
+            context2['versiones_pk'] = version_list_pk
         return render(request, 'bandeja_es/create-paquete.html', context2)
 
     else:

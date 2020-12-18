@@ -127,7 +127,7 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.version.revision}}</td>
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.version.estado_cliente}}</td>                    
-                    <td class="tx-12"style="text-align: center;font-weight:800;"><i class="icon ion-archive"></i>{{version.version.archivo}}</td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;"><a href="{{version.version.archivo}}"><i class="icon ion-archive"></i></a></td>
                   </tr>    
                      {% empty %}
               <h4> El paquete no tiene documentos. </h4>
