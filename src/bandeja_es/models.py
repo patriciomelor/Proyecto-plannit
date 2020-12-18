@@ -22,6 +22,13 @@ class Version(models.Model):
 
     def __str__(self):
         return str(self.documento_fk.Especialidad + self.revision)
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['documento_fk'] = {'id': self.documento_fk, 'name': self.get_documento_fk_display()}
+        item['revision'] = {'id': self.revision, 'name': self.get_revision_display()}
+        item['fecha'] = self.fecha
+        return item
 
 class Paquete(models.Model):
     version = models.ManyToManyField(Version, through='PaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
@@ -35,6 +42,12 @@ class Paquete(models.Model):
 
     def __str__(self):
         return self.fecha_creacion
+    
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['descripcion'] = {'id': self.descripcion, 'name': self.get_descripcion_display()}
+        item['fecha_creacion'] = self.fecha_creacion
+        return item
 
 class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mismo que crea automaticamente django para la realizacion de un many to many, pero customizable a lo que necesitemos, cosa que mas adelante si necesitamos almacenar otra informacion del registro de los paquetes, se puede hacer
     version = models.ForeignKey(Version, on_delete=models.CASCADE)
@@ -44,6 +57,12 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
     def __str__(self):
         return str(self.documento_id.Descripcion)
 
+    def toJSON(self):
+        item = model_to_dict(self)
+        item['version'] = {'id': self.version, 'name': self.get_version_display()}
+        item['paquete'] = {'id': self.paquete, 'name': self.get_paquete_display()}
+        item['fecha_creacion'] = self.fecha_creacion
+        return item
 #################################################
                 # BORRADORES
 #################################################
