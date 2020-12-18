@@ -25,6 +25,8 @@
 
 {% block content %}
 
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet"/>
+
 <div class="br-contentpanel">
     <div class="br-pageheader pd-y-15 pd-l-20">
         <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -38,7 +40,7 @@
 </div>
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">  
-    <form method="POST" id="form" enctype="multipart/form-data">{% csrf_token %}
+    <form method="POST" id="form">{% csrf_token %}
         <div class="row form-row spacer">
             <div class="form-group col-md-12">
                 <div class="form-control">
@@ -49,8 +51,9 @@
             </div> 
         </div>
     
+        {{ formset.management_form }}
         {% for form in formset %}
-          <div class="row form-row spacer">
+        <div class="row form-row spacer">
                 <div class="form-group col-12">
                         <div class="form-control"style="float: left;">
                             <label for="" class="col-md-2 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>           
@@ -69,7 +72,7 @@
         {% endfor %}
         <div class="row no-gutters" style="float: left;margin-top: 10px;margin-right: 10px;margin-bottom: 10px;">
           <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit"> Envíar </button>
-          <button id="borrador" class="btn btn-teal tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="buttom"> Guardar en Borrador </button>
+          <button id="borrador" class="btn btn-teal tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="buttom"> borrador </button>
         </div>
       
     </form>
@@ -78,10 +81,37 @@
 </div>
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js" integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+
 <script language="JavaScript" type="text/javascript">
-
-
-
     $("#borrador").click(function submitHandler(e){
         e.preventDefault();
         const form = document.getElementById('form')
@@ -106,6 +136,55 @@
 )   
 
 </script>
+<script>
+    function poner() {
+        $('#id_form-0-documento_fk').prop("required", true);
+    }
+    function quitar() {
+        $('#id_form-0-documento_fk').removeAttr("required");
+    }
+</script>
+<script>
+    function poner() {
+        $('#id_form-0-revision').prop("required", true);
+    }
+    function quitar() {
+        $('#id_form-0-revision').removeAttr("required");
+    }
+</script>
+<script>
+    document.getElementById("error_1_id_form-0-revision").innerHTML = "";
+</script>
+<script>
+    document.getElementById("error_1_id_form-0-documento_fk").innerHTML = "";
+</script>
+<script>
+    $(document).ready(function() {
+    $('#id_destinatario').select2();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+    $('#id_form-0-documento_fk').select2(
+        ajax: {
+            url: ,
+            dataType: 'json',
+
+        }
+    );
+    });
+</script>
+<script>
+    $(document).ready(function() {
+    $('#id_form-0-estado_cliente').select2();
+    });
+</script>
+<script>
+    $(document).ready(function() {
+    $('#id_form-0-estado_contratista').select2();
+    });
+</script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
 <script type="text/javascript">
 function updateElementIndex(el, prefix, ndx) {
@@ -169,8 +248,44 @@ $(document).on('click', '.remove-form-row', function(e){
     deleteForm('form', $(this));
     return false;
 });
-  
-</script>
 
+</script>
+<script>
+ $('.form-disable').on('submit',function(){
+     var self = $(this),
+        button = self.find('input[type="button"],button');
+        submitvalue = button.data('submit-value')
+
+        button  .attr('disabled', 'disabled').val(submitvalue);
+        return false;
+ });
+
+ $('select[name="search"]').select2({
+     theme: "bootstrap4",
+     languaje: 'es',
+     allowClear: true,
+     ajax:{
+         delay: 250,
+         type: 'POST',
+         url: 'paquete-crear2',
+         data: function (params){
+             var queryParameters = {
+                term: params.term,
+                action: 'autocomplete'
+             }
+
+         return queryParameters;
+         },
+         processResults: function (data){
+            return {
+                 results: data
+            }:
+         }, 
+     },
+     placeholder: 'Ingrese una opcion',
+     minimumInputLength: 2,
+ });
+
+</script>
 
 {% endblock content %}

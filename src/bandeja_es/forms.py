@@ -11,13 +11,6 @@ from django.contrib.auth.models import User
 from .models import Paquete, Version, BorradorPaquete, BorradorVersion, PrevPaquete, PrevVersion
 from panel_carga.views import ProyectoMixin
 
-from panel_carga.choices import TYPES_REVISION
-from django.contrib.auth.models import User
-from panel_carga.models import Documento
-
-
-
-
 
 # class DocumentoListForm(forms.Form):
 #     documento = forms.MultipleChoiceField(required=False, label="Escoja los documentos a enviar: ")
@@ -74,7 +67,6 @@ BorradorVersionFormset = formset_factory(VersionDocBorrador)
 
 class PaquetePreviewForm(forms.ModelForm):
     descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
-    prev_receptor = forms.ModelChoiceField(queryset=User.objects.all(),label="Destinatario",widget=forms.Select(attrs={'class':'form-control'}))
     class Meta:
         model = PrevPaquete
         fields = ['prev_receptor', 'prev_asunto']
@@ -82,14 +74,11 @@ class PaquetePreviewForm(forms.ModelForm):
             'prev_receptor': 'Destinatario'
         }
 class VersionDocPreview(forms.ModelForm):
-    prev_revision = forms.ChoiceField(choices=TYPES_REVISION,label="Revisión",widget=forms.Select(attrs={'class':'form-control'}))
-    prev_documento_fk = forms.ModelChoiceField(queryset=Documento.objects.all(),label="Documento")
-    prev_archivo = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'}))
-    prev_comentario = forms.FileField(widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file','data-placeholders':'Seleccionar'}))
     class Meta:
         model = PrevVersion
-        fields = [ 'prev_documento_fk','prev_revision','prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
-      
-    
-      
+        fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo', 'prev_comentario', 'prev_estado_cliente', 'prev_estado_contratista']
+        labels = {
+            'prev_documento_fk': 'N° Documento',
+            'prev_revision': 'Revisión'
+        }
 PreviewVersionSet = formset_factory(VersionDocPreview)
