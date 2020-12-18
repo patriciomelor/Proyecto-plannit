@@ -10,7 +10,11 @@ from django.contrib.auth.models import User
 
 from .models import Paquete, Version, BorradorPaquete, BorradorVersion, PrevPaquete, PrevVersion
 from panel_carga.views import ProyectoMixin
+
 from panel_carga.choices import TYPES_REVISION
+from django.contrib.auth.models import User
+from panel_carga.models import Documento
+
 
 
 # class DocumentoListForm(forms.Form):
@@ -75,13 +79,14 @@ class PaquetePreviewForm(forms.ModelForm):
             'prev_receptor': 'Destinatario'
         }
 class VersionDocPreview(forms.ModelForm):
-    prev_revision = forms.ChoiceField(choices=TYPES_REVISION,label="Revisión")
+    prev_revision = forms.ChoiceField(choices=TYPES_REVISION,label="Revisión",widget=forms.Select(attrs={'class':'form-control select2'}))
+    prev_archivo = forms.FileField(label='Archivo', widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'}))
+    prev_comentario = forms.FileField(label='Archivo Comentario', widget=forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'}))
     class Meta:
         model = PrevVersion
         fields = [ 'prev_documento_fk','prev_revision','prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
-        widgets = {
-            'prev_archivo' : forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'}),
-            'prev_comentario' : forms.FileInput(attrs={'class':'custom-file-input','id':'file','type':'file'})
+        labels = {
+            'prev_documento_fk': 'Código Documento'
         }
 
     
