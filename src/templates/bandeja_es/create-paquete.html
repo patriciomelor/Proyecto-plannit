@@ -17,6 +17,15 @@
         <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
       </nav>
 </div>
+
+{% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -92,7 +101,7 @@
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Tipo_Documento}}</td>
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Codigo_documento}} </td>  
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_revision}}</td>
-                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_estado_cliente}}</td>                      
+                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_prev_estado_cliente_display}}</td>                      
                       <td class="tx-12"style="text-align: center;font-weight:800;"><a href="{{version.prev_archivo.url}}"><i class="icon ion-archive"></i></a></td>
                     </tr>    
                     {% empty %}
