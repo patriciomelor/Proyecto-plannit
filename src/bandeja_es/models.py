@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from panel_carga.choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE
+from panel_carga.choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION
 from django.conf import settings
 from panel_carga.models import Documento
 from django.forms import model_to_dict
@@ -14,7 +14,8 @@ class Version(models.Model):
     comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    revision = models.CharField(verbose_name="Revisión", max_length=1, default="B")
+    revision = models.IntegerField(choices=TYPES_REVISION, verbose_name="Revisión")
+    #revision = models.CharField(verbose_name="Revisión", max_length=1, default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
