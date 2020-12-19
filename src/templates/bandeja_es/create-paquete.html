@@ -18,13 +18,7 @@
       </nav>
 </div>
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
+
 
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -36,6 +30,21 @@
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Detalle del paquete.</h4>
   </div>
+  {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+           <div class="alert alert-danger alert-bordered pd-y-20" role="alert">           
+            <div class="d-sm-flex align-items-center justify-content-start">
+              <i class="icon ion-ios-close alert-icon tx-52 tx-danger mg-r-20"></i>
+              <div class="mg-t-20 mg-sm-t-0">
+                <h5 class="mg-b-2 tx-danger"><strong>Oh Rayos!</strong> {% if message.tags %} {% endif %}{{ message }}</h5>
+                <p class="mg-b-0 tx-gray">Regresa y Verifica el nombre del documento.</p>
+              </div>
+            </div><!-- d-flex -->
+          </div>
+    {% endfor %}
+</ul>
+{% endif %}
    <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">   
        <div class="form-layout form-layout-7 ">               
@@ -112,7 +121,22 @@
                   
                 </table>
                 <div class="row no-gutters" style="float: left;margin-top: 10px;margin-right: 10px;margin-bottom: 10px;">
-                  <a href="{% url 'paquete-crear' paquete_pk versiones_pk %}"><button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit"> Envíar </button></a>
+                  
+                  {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                       
+                        {% if message.tags %}{% endif %}
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} {% endif %}
+                            <a><button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium disabled mg-l-20" type="submit"> Envíar </button></a>
+               
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <a href="{% url 'paquete-crear' paquete_pk versiones_pk %}"><button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-20" type="submit"> Envíar </button></a>
+                  
+                    {% endif %}
+                  
                   <a onclick="history.back();"><button  class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="buttom"> volver </button></a>
                 </div>
         </div><!-- card -->

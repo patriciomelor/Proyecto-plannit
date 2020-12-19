@@ -73,7 +73,7 @@
               <div class="d-flex align-items-center">
                 <div class="mg-l-15">
                   <div class="tx-inverse"> <a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.id}}</a> </div>
-                  <span class="tx-9">Creado el {{ paquete.fecha_creacion|date }} </span>
+                  <span class="tx-12">Creado el {{ paquete.fecha_creacion|date:'d-M-yy H:i' }} </span>
                 </div>
               </div>
             </td>            
