@@ -73,7 +73,7 @@ class Historial(models.Model):
 
 class Revision(models.Model):
 
-    tipo = models.IntegerField(choices=TYPES_REVISION, verbose_name="Tipo Revision", default=1)
+    tipo = models.IntegerField(choices=TYPES_REVISION, verbose_name="Tipo Revision")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1)
     emitida_para = models.TextField(verbose_name="Emitida para")

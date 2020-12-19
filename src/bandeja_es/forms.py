@@ -79,6 +79,7 @@ class PaquetePreviewForm(forms.ModelForm):
             'prev_receptor': 'Destinatario'
         }
 class VersionDocPreview(forms.ModelForm):
+    prev_revision = forms.ChoiceField(choices=TYPES_REVISION)
     class Meta:
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
