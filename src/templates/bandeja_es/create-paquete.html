@@ -18,13 +18,6 @@
       </nav>
 </div>
 
-{% if messages %}
-<ul class="messages">
-    {% for message in messages %}
-    <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-    {% endfor %}
-</ul>
-{% endif %}
 
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -33,9 +26,13 @@
       <span class="breadcrumb-item active">Pre-visualización Paquete</span>
     </nav>
   </div>
+
+
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Detalle del paquete.</h4>
   </div>
+
+  {% if invalido == 0 %}
    <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">   
        <div class="form-layout form-layout-7 ">               
@@ -117,8 +114,15 @@
                 </div>
         </div><!-- card -->
     </div> 
-  </div><!-- card-header -->
+    </div><!-- card-header -->
 </div>
+  {% else %}
+  <h1> ERROR</H1>
+    <a onclick="history.back();"><button  class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="buttom"> volver </button></a>
+
+  {% endif %}
+  
+
 <script>
   $(function () {
     $("#id_date").datepicker({

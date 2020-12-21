@@ -14,7 +14,7 @@ class Version(models.Model):
     comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    revision = models.IntegerField(choices=TYPES_REVISION, verbose_name="Revisión")
+    revision = models.IntegerField(max_length=3, verbose_name="Revisión")
     #revision = models.CharField(verbose_name="Revisión", max_length=1, default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
@@ -23,13 +23,7 @@ class Version(models.Model):
 
     def __str__(self):
         return str(self.documento_fk.Especialidad + self.revision)
-    
-    def toJSON(self):
-        item = model_to_dict(self)
-        item['documento_fk'] = {'id': self.documento_fk, 'name': self.get_documento_fk_display()}
-        item['revision'] = {'id': self.revision, 'name': self.get_revision_display()}
-        item['fecha'] = self.fecha
-        return item
+
 
 class Paquete(models.Model):
     version = models.ManyToManyField(Version, through='PaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
@@ -110,7 +104,7 @@ class PrevVersion(models.Model):
     prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     prev_documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     prev_archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    prev_revision = models.CharField(verbose_name="Revisión", max_length=1)
+    prev_revision = models.IntegerField(verbose_name="Revisión", max_length=1)
     prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True)
     prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True)
     prev_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
