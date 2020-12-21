@@ -4,9 +4,9 @@
   <div class="br-profile-page bg-warning">
 
       <div class="card shadow-base bd-0 rounded-0 widget-4">
-        <div class="card-header ht-75"  style="background-color: #F49917;">
+        <div class="card-header ht-75 bg-teal">
           <a href="{% url 'account_logout' %}">
-          <button href="{% url 'account_logout' %}" type="button" class="btn btn-primary" data-dismiss="modal" aria-label="Close">
+          <button href="{% url 'account_logout' %}" type="button" class="btn btn-warning" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             <span >Cerrar Sesion</span>
           </button>
@@ -16,8 +16,8 @@
           
           <h1 class="d-block tx-25 col-12 tx-uppercase tx-medium tx-spacing-1" style="color: white;">¡Bienvenido! </h1>
         
-          <h2 class="d-block tx-22 col-12 tx-uppercase tx-medium tx-spacing-1" style="color: #fff;"> {{user}} </h2>
-          <p class="mg-b-25 tx-18 tx-white">Insertar Cargo</p>
+          <h2 class="d-block tx-22 col-12 tx-uppercase tx-medium tx-spacing-1" style="color: #fff;">{{user.first_name}} {{user.last_name}} </h2>
+    
 
           <!--<p class="wd-md-500 mg-md-l-auto mg-md-r-auto mg-b-25">Singer, Lawyer, Achiever, Wearer of unrelated hats, Data Visualizer, Mayonaise Tester. I don't know what alt-tab does. Storyteller.</p>-->
 

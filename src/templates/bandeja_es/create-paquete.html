@@ -18,6 +18,10 @@
       </nav>
 </div>
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> 1b341758ec3687e1a57a9dac4d277c95344edf62
 
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -109,7 +113,22 @@
                   
                 </table>
                 <div class="row no-gutters" style="float: left;margin-top: 10px;margin-right: 10px;margin-bottom: 10px;">
-                  <a href="{% url 'paquete-crear' paquete_pk versiones_pk %}"><button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit"> Envíar </button></a>
+                  
+                  {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                       
+                        {% if message.tags %}{% endif %}
+                            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %} {% endif %}
+                            <a><button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium disabled mg-l-20" type="submit"> Envíar </button></a>
+               
+                        {% endfor %}
+                    </ul>
+                    {% else %}
+                    <a href="{% url 'paquete-crear' paquete_pk versiones_pk %}"><button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-20" type="submit"> Envíar </button></a>
+                  
+                    {% endif %}
+                  
                   <a onclick="history.back();"><button  class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="buttom"> volver </button></a>
                 </div>
         </div><!-- card -->

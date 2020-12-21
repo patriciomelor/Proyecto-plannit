@@ -90,6 +90,9 @@ class VersionDocPreview(forms.ModelForm):
             'prev_archivo' : 'Archivo',
             'prev_comentario' : 'Archivo de Comentario',
         }
+        placeholders = {
+            'prev_revision' : "Elegir Opción"
+        }
 
     
       
