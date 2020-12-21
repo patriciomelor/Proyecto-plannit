@@ -14,7 +14,7 @@ class Version(models.Model):
     comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    revision = models.IntegerField(max_length=3, verbose_name="Revisión")
+    revision = models.IntegerField(verbose_name="Revisión", choices=TYPES_REVISION)
     #revision = models.CharField(verbose_name="Revisión", max_length=1, default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
@@ -67,7 +67,7 @@ class BorradorVersion(models.Model):
     comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True, default=None)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE, blank=True, null=True, default=None) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True, default=None)
-    revision = models.CharField(verbose_name="Revisión", max_length=1, blank=True, null=True, default=None)
+    revision = models.IntegerField(verbose_name="Revisión", blank=True, null=True, default=None)
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True, null=True, default=None)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True, null=True, default=None)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", blank=True, null=True, default=None)
@@ -104,9 +104,9 @@ class PrevVersion(models.Model):
     prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     prev_documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     prev_archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    prev_revision = models.IntegerField(verbose_name="Revisión", max_length=1)
-    prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True)
-    prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True)
+    prev_revision = models.IntegerField(verbose_name="Revisión")
+    prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True, null=True)
+    prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True, null=True)
     prev_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
     prev_valido = models.BooleanField(verbose_name="Valido", default=1) #1=VALIDO  0=ANULADO
 
