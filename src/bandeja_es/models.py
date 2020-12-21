@@ -67,7 +67,7 @@ class BorradorVersion(models.Model):
     comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True, default=None)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE, blank=True, null=True, default=None) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True, default=None)
-    revision = models.IntegerField(verbose_name="Revisión", blank=True, null=True, default=None)
+    revision = models.IntegerField(verbose_name="Revisión",choices=TYPES_REVISION, blank=True, null=True, default=None)
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True, null=True, default=None)
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True, null=True, default=None)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador", blank=True, null=True, default=None)
@@ -104,7 +104,7 @@ class PrevVersion(models.Model):
     prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     prev_documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     prev_archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    prev_revision = models.IntegerField(verbose_name="Revisión")
+    prev_revision = models.IntegerField(verbose_name="Revisión",choices=TYPES_REVISION)
     prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True, null=True)
     prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True, null=True)
     prev_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
