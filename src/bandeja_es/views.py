@@ -200,46 +200,44 @@ def create_borrador(request, borrador_pk):
                     cliente_estado_b = form['prev_estado_cliente'].value()
                     contratista_estado_b = form['prev_estado_contratista'].value()
                 #############################################################
-                    if cliente_estado_b and contratista_estado_b:           #
-                        cliente_estado_b = int(cliente_estado_b)            #  If que comprueba que estados del
-                        contratista_estado_b = int(contratista_estado_b)    #   cliente y contratista existan
-                    else:                                                   #
+                                                                            #
+                    if not cliente_estado_b:                                #
                         cliente_estado_b = 0                                #
+                                                                            #   Si no existe/vacío
+                    if not contratista_estado_b:                            #   se vuelve 0.                                              #
                         contratista_estado_b = 0                            #
+                                                                            #
+                    if not revision_b:                                      #   
+                        revision_b = 0                                      #   
+                                                                            #                                                     #
                 #############################################################
-                    if documento_b and revision_b: #if que comprueba un valor no vacío para //documento_b// #
-                        documento_b = int(documento_b)
+                    if  documento_b:                                        #    if que comprueba un valor no vacío para //documento_b// #
                         document = Documento.objects.get(pk=documento_b)
                         version = BorradorVersion(
+                                owner= request.user,
+                                documento_fk= document,
+                                revision= revision_b,
+                                archivo= archivo_b,
+                                comentario= comentario_b,
+                                estado_cliente= cliente_estado_b,
+                                estado_contratista= contratista_estado_b,
+                            )
+                    else:
+                        documento_b = 0  
+                        version = BorradorVersion(
                             owner= request.user,
-                            documento_fk= document,
                             revision= revision_b,
                             archivo= archivo_b,
                             comentario= comentario_b,
                             estado_cliente= cliente_estado_b,
                             estado_contratista= contratista_estado_b,
                         )
-
-                    else:
-                        documento_b = 0
-                        revision_b = 0
-                        version = BorradorVersion(
-                            owner= request.user,
-                            archivo= archivo_b,
-                            comentario= comentario_b,
-                            estado_cliente= cliente_estado_b,
-                            estado_contratista= contratista_estado_b,
-                        )
-
                     version.save()
                     paquete_borrador.version.add(version)
 
                 return JsonResponse({'msg': 'Success'})
 
             except BorradorPaquete.DoesNotExist:
-
-            #################################################################
-                # Valida y transforma valores vacíos a su correspondiente tipo #
                 if destinatario_b:
                     destinatario_b = int(destinatario_b)
                     desti = User.objects.get(pk=destinatario_b)
@@ -268,27 +266,30 @@ def create_borrador(request, borrador_pk):
                     cliente_estado_b = form['prev_estado_cliente'].value()
                     contratista_estado_b = form['prev_estado_contratista'].value()
                 #############################################################
-                    if cliente_estado_b and contratista_estado_b:           #
-                        cliente_estado_b = int(cliente_estado_b)            #  If que comprueba que estados del
-                        contratista_estado_b = int(contratista_estado_b)    #   cliente y contratista existan
-                    else:                                                   #
+                                                                            #
+                    if not cliente_estado_b:                                #
                         cliente_estado_b = 0                                #
+                                                                            #   Si no existe/vacío
+                    if not contratista_estado_b:                            #   se vuelve 0.                                              #
                         contratista_estado_b = 0                            #
+                                                                            #
+                    if not revision_b:                                      #   
+                        revision_b = 0                                      #   
+                                                                            #                                                     #
                 #############################################################
-                    if documento_b: #if que comprueba un valor no vacío para //documento_b// #
-                        documento_b = int(documento_b)
+                    if  documento_b:                                        #    if que comprueba un valor no vacío para //documento_b// #
                         document = Documento.objects.get(pk=documento_b)
                         version = BorradorVersion(
-                            owner= request.user,
-                            documento_fk= document,
-                            revision= revision_b,
-                            archivo= archivo_b,
-                            comentario= comentario_b,
-                            estado_cliente= cliente_estado_b,
-                            estado_contratista= contratista_estado_b,
-                        )
+                                owner= request.user,
+                                documento_fk= document,
+                                revision= revision_b,
+                                archivo= archivo_b,
+                                comentario= comentario_b,
+                                estado_cliente= cliente_estado_b,
+                                estado_contratista= contratista_estado_b,
+                            )
                     else:
-                        documento_b = 0
+                        documento_b = 0  
                         version = BorradorVersion(
                             owner= request.user,
                             revision= revision_b,
@@ -297,7 +298,6 @@ def create_borrador(request, borrador_pk):
                             estado_cliente= cliente_estado_b,
                             estado_contratista= contratista_estado_b,
                         )
-
                     version.save()
                     paquete_borrador.version.add(version)
 
