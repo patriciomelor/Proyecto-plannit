@@ -91,8 +91,7 @@ class BorradorDocumento(models.Model): # Una vez almacenado debe quedar este reg
     borrador = models.ForeignKey(BorradorPaquete, on_delete=models.CASCADE)
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=False)
     
-    def __str__(self):
-        return str(self.version.documento_fk.Codigo_documento)
+
 
 #################################################
                 # PREVIZUALIZACIONES

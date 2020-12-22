@@ -14,12 +14,10 @@ class UsuarioView(ProyectoMixin, FormView):
     form_class = CrearUsuario
     success_url = reverse_lazy('index')
 
-    # def form_valid(self):
-    #     data = form.cleaned_data
-    #     user = User(
-
-
-    #     )
+    def form_valid(self):
+        data = form.cleaned_data
+        print(data['username'])
+        return super().form_valid(form)
     # def form_invalid(self):
     # def get(self, request, *args, **kwargs):
     # def post(self, request, *args, **kwargs):
