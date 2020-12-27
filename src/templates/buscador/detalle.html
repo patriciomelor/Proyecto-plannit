@@ -1,0 +1,107 @@
+{% extends 'index-buscador.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item">Busqueda</a>      
+      <span class="breadcrumb-item active">Detalle Busqueda</span>
+    </nav>
+</div>
+<div class="br-contentpanel">
+  <div class="br-pageheader pd-y-15 pd-md-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entrada y Salida</a>      
+      <span class="breadcrumb-item active">Detalle Paquete</span>
+    </nav>
+  </div><!-- br-pageheader -->
+
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Detalle del paquete.</h4>
+  </div>
+
+
+   <div class="col-lg-12">
+            <div class="card shadow-base bd-0">
+                <div class="form-layout form-layout-7 ">               
+              <div class="row no-gutters">
+              <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                Numero de paquete:
+              </div><!-- col-4 -->
+              <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+               
+              </div><!-- col-8 -->
+              </div> 
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                  Asunto:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+
+                </div><!-- col-8 -->
+              </div>
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                  creador:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+
+                </div><!-- col-8 -->
+              </div>
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                  fecha creacion:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+
+                </div><!-- col-8 -->
+              </div> 
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                  Hora de creacion:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+
+                </div><!-- col-8 -->
+              </div>                                      
+            </div>
+              <table class="table table-striped mg-b-0 table-bordered table-primary">
+                <thead class="thead-colored thead-primary">
+                  <tr class="tx-10">
+                    <th class="pd-y-5"style="text-align: center;">Especialidad</th>     
+                    <th class="pd-y-5"style="text-align: center;">Nombre</th>                     
+                    <th class="pd-y-5"style="text-align: center;">Tipo Documento</th>  
+                    <th class="pd-y-5"style="text-align: center;">Codigo Documento</th>  
+                    <th class="pd-y-5"style="text-align: center;">Revisión</th>
+                    <th class="pd-y-5"style="text-align: center;">Status</th>                                    
+                    <th class="pd-y-5"style="text-align: center;">Archivo</th>
+                  </tr>
+                </thead>
+               
+                <tbody>
+                 {% for version in versiones %}
+                  <tr>                    
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> </td>       
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> </td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> </td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> </td>  
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> </td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> </td>                    
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> </td>
+                  </tr>    
+                     {% empty %}
+              <h4> El paquete no tiene documentos. </h4>
+          {% endfor %}          
+                </tbody>
+                
+              </table>
+            
+            </div><!-- card -->
+          </div> 
+          
+        </div><!-- card-header -->
+{% endblock content %}
+    
