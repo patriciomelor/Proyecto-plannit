@@ -1,7 +1,6 @@
 from django import forms
 from django.forms import BaseFormSet
 from django.forms import (formset_factory, modelformset_factory)
-import django.forms.widgets
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from panel_carga.models import Documento
@@ -12,7 +11,6 @@ from .models import Paquete, Version, BorradorPaquete, BorradorVersion, PrevPaqu
 from panel_carga.views import ProyectoMixin
 
 from panel_carga.choices import TYPES_REVISION
-from django.contrib.auth.models import User
 from panel_carga.models import Documento
 
 

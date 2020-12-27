@@ -27,6 +27,7 @@ urlpatterns = [
     path('bandeja_es/', include('bandeja_es.urls')),
     path('analitica/', include('analitica.urls')),
     path('configuracion/', include('configuracion.urls')),
+    path('buscador/', include('buscador.urls')),
 ]
 
 if settings.DEBUG:
