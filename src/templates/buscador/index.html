@@ -29,7 +29,7 @@
 <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
       <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
-        <div class="col-4" style="margin-top: 30px;">      
+        <div class="col-4" style="margin-top: 10px;">      
           {{filter.form.Especialidad|as_crispy_field}}
         </div>       
         <div class="col-3" style="margin-top: 10px;">      
@@ -52,7 +52,6 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">
-                <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"> Eliminar Registros </button></a></th>
             </tr>
           </thead>
           <tbody>
