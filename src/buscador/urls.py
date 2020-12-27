@@ -4,4 +4,5 @@ from . import views
 
 urlpatterns = [
     path('filtro/', views.BuscadorIndex.as_view() , name='buscador-index'),
+    path('lista_versiones/', views.VersionesList.as_view() , name='buscador-detalle'),
 ]

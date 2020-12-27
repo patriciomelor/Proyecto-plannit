@@ -7,7 +7,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
 from panel_carga.models import Documento
-
+from bandeja_es.models import Version
 # Create your views here.
 
 class BuscadorIndex(ProyectoMixin, ListView):
@@ -27,5 +27,14 @@ class BuscadorIndex(ProyectoMixin, ListView):
         context["filter"] = DocFilter(self.request.GET, queryset=self.get_queryset())
         return context
 
-class VersionesList(ProyectoMixin, ListView):
-    pass
+class VersionesList(ProyectoMixin, DetailView):
+    model = Documento
+    template_name = 'buscador/detalle.html'
+    context_object_name = 'documento'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        doc = Documento.objects.get(pk=self.kwargs['pk'])
+        versiones = Version.objects.filter(documento_fk=doc)
+        context['versiones'] = versiones
+        return context
