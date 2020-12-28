@@ -73,11 +73,12 @@
           
 <script>
   $(document).ready(function(){
+    //DOCUMENTOS POR EMITIR POR SUBESTACION
     var ctx = document.getElementById('myChart1').getContext('2d');
     var myChart1 = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']|,
           datasets: [{
               label: '# of Votes',
               data: [12, 19, 3, 5, 2, 3],
@@ -111,14 +112,15 @@
       }
     });
 
+    //STADOS DE LOS DOCUMENTOS
     var ctx = document.getElementById('myChart2').getContext('2d');
     var myChart2 = new Chart(ctx, {
       type: 'horizontalBar',
       data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: ['Aprobado con comentarios', 'Rechazado', 'Eliminado', 'Aprobado', 'Válido para construcción', 'Aprobado (en numeración)'],
           datasets: [{
               label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
+              data: {{report_states|safe}},
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -150,6 +152,7 @@
     });
   });
 
+    //ESTATUS DOCUMENTO APROVADO VS TOTALES POR SUBESTACION
     var ctx = document.getElementById('myChart3').getContext('2d');
     var myChart3 = new Chart(ctx, {
       type: 'bar',
@@ -209,6 +212,8 @@
           }
       }
   });
+
+    //Curva S
     var ctx = document.getElementById('myChart4').getContext('2d');
     var myChart4 = new Chart(ctx, {
       type: 'line',
