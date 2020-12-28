@@ -78,7 +78,7 @@
     var myChart1 = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange']|,
+          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
           datasets: [{
               label: '# of Votes',
               data: [12, 19, 3, 5, 2, 3],
@@ -120,7 +120,7 @@
           labels: ['Aprobado con comentarios', 'Rechazado', 'Eliminado', 'Aprobado', 'Válido para construcción', 'Aprobado (en numeración)'],
           datasets: [{
               label: '# of Votes',
-              data: {{report_states|safe}},
+              data: [report_states|safe],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
