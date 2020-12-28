@@ -120,7 +120,7 @@
           labels: ['Aprobado con comentarios', 'Rechazado', 'Eliminado', 'Aprobado', 'Válido para construcción', 'Aprobado (en numeración)'],
           datasets: [{
               label: '# of Votes',
-              data: [report_states|safe],
+              data: [{{get_report_states_AcC}},{{get_report_states_Rec}},{{get_report_states_Eli}},{{get_report_states_Apr}},{{get_report_states_VcC}},{{get_report_states_ANu}}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',

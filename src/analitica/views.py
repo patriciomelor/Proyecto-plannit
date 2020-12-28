@@ -11,35 +11,37 @@ from bandeja_es.models import Version
 
 class IndexAnalitica(ProyectoMixin, TemplateView):
     template_name =  'analitica/index.html'
- 
-    def get_report_states(self):
-        data = []
-        try: 
-            for v in versiones_pk_list:
-                if (version.estado_cliente == 1):
-                    AprobadocC = AprobadocC + 1
-                elif (version.estado_cliente == 2):
-                    Rechazado = Rechazado + 1
-                elif (version.estado_cliente == 3):
-                    Eliminado = Eliminado + 1
-                elif (version.estado_cliente == 4):
-                    Aprobado = Aprobado + 1
-                elif (version.estado_cliente == 5):
-                    ValidoCons = ValidoCons + 1
-                elif (version.estado_cliente == 6):
-                    AprobadoNum = AprobadoNum + 1
-            data.append(AprobadocC)
-            data.append(Rechazado)
-            data.append(Eliminado)
-            data.append(Aprobado)
-            data.append(ValidoCons)
-            data.append(AprobadoNum)
-            #data = [AprobadocC, Rechazado, Eliminado, Aprobado, ValidoCons, AprobadoNum]
-        except:
-            pass
-        return data
+
+    def get_report_states_AcC(self):
+        version_aprobadocCs = Version.objects.filter(estado_cliente = 1).count() #Aprobado con comentarios
+        return version_aprobadocCs
+
+    def get_report_states_Rec(self):
+        version_rechazados = Version.objects.filter(estado_cliente = 2).count() #Rechazado
+        return version_rechazados
+
+    def get_report_states_Eli(self):
+        version_eliminados = Version.objects.filter(estado_cliente = 3).count() #Eliminado
+        return version_eliminados
+        
+    def get_report_states_Apr(self):
+        version_aprobados = Version.objects.filter(estado_cliente = 4).count() #Aprobado
+        return version_aprobados
+
+    def get_report_states_VcC(self):
+        version_validoConss = Version.objects.filter(estado_cliente = 5).count() #Valido para construcción
+        return version_validoConss
+
+    def get_report_states_ANu(self):
+        version_aprobadoNums = Version.objects.filter(estado_cliente = 6).count() #Aprobado en número
+        return version_aprobadoNums
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['report_states'] = self.get_report_states()
+        context['get_report_states_AcC'] = self.get_report_states_AcC()
+        context['get_report_states_Rec'] = self.get_report_states_Rec()
+        context['get_report_states_Eli'] = self.get_report_states_Eli()
+        context['get_report_states_Apr'] = self.get_report_states_Apr()
+        context['get_report_states_VcC'] = self.get_report_states_VcC()
+        context['get_report_states_ANu'] = self.get_report_states_ANu()
         return context
