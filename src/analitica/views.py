@@ -14,29 +14,20 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
  
     def get_report_states(self):
         data = []
-        try: 
-            for v in versiones_pk_list:
-                if (version.estado_cliente == 1):
-                    AprobadocC = AprobadocC + 1
-                elif (version.estado_cliente == 2):
-                    Rechazado = Rechazado + 1
-                elif (version.estado_cliente == 3):
-                    Eliminado = Eliminado + 1
-                elif (version.estado_cliente == 4):
-                    Aprobado = Aprobado + 1
-                elif (version.estado_cliente == 5):
-                    ValidoCons = ValidoCons + 1
-                elif (version.estado_cliente == 6):
-                    AprobadoNum = AprobadoNum + 1
-            data.append(AprobadocC)
-            data.append(Rechazado)
-            data.append(Eliminado)
-            data.append(Aprobado)
-            data.append(ValidoCons)
-            data.append(AprobadoNum)
-            #data = [AprobadocC, Rechazado, Eliminado, Aprobado, ValidoCons, AprobadoNum]
-        except:
-            pass
+        version_aprobadocCs = Version.objects.filter(estado_cliente = 1).count() #Aprobado con comentarios
+        version_rechazados = Version.objects.filter(estado_cliente = 2).count() #Rechazado
+        version_eliminados = Version.objects.filter(estado_cliente = 3).count() #Eliminado
+        version_aprobados = Version.objects.filter(estado_cliente = 4).count() #Aprobado
+        version_validoConss = Version.objects.filter(estado_cliente = 5).count() #Valido para construcción
+        version_aprobadoNums = Version.objects.filter(estado_cliente = 6).count() #Aproba en numeros
+        data = [version_aprobadocCs,version_rechazados,version_eliminados,version_aprobados,version_validoConss,version_aprobadoNums]
+        # data.append(version_aprobadocCs)
+        # data.append(version_rechazados)
+        # data.append(version_eliminados)
+        # data.append(version_aprobados)
+        # data.append(version_validoConss)
+        # data.append(version_aprobadoNums)
+        #data = [AprobadocC, Rechazado, Eliminado, Aprobado, ValidoCons, AprobadoNum]
         return data
 
     def get_context_data(self, **kwargs):
