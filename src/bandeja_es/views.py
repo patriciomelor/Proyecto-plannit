@@ -83,13 +83,13 @@ class BorradorList(ProyectoMixin, ListView):
     def get_queryset(self):
         qs =  BorradorPaquete.objects.filter(owner=self.request.user)
         lista_borradores_filtrados = BorradorFilter(self.request.GET, queryset=qs)
-        return  lista_borradores_filtrados.qs
+        return  lista_borradores_filtrados.qs.order_by('-fecha_creacion')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         draft = BorradorPaquete.objects.filter(owner=self.request.user)
         context["filter"] = BorradorFilter(self.request.GET, queryset=self.get_queryset())
-        borrador_paquete = BorradorPaquete.objects.all().filter(owner=self.request.user)
+        borrador_paquete = BorradorPaquete.objects.all().filter(owner=self.request.user).order_by('-fecha_creacion')
         context['borrador_paquete'] = borrador_paquete
         return context
 
@@ -100,21 +100,21 @@ def create_borrador(request, borrador_pk):
             borrador_version_set = PreviewVersionSet(request.POST or None, request.FILES or None)
             borrador_fk = 0
             versiones_pk = []
-
-            #   Borrador para el Form #
-            #    del Paquete que contendrá las versiones #
             asunto_b =  borrador_paraquete['prev_asunto'].value()
             destinatario_b = borrador_paraquete['prev_receptor'].value()
             descripcion_b = borrador_paraquete['descripcion'].value()
+
             #################################################################
             #        Si existe borrador, lo actualiza                       #
-
-            print(borrador_pk)  
+            print(borrador_pk)
+            count = 0
             try:
+                    #   Borrador para el Form #
+                    #    del Paquete que contendrá las versiones #
                 borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-                borrador_versiones = BorradorDocumento.objects.filter(borrador=borrador)
-                for x in borrador_versiones:
-                    versiones_pk.append(x.version.pk)
+                borrador_versiones = borrador.version.all()
+                borrador_versiones.delete() #   eliminar los registros previos 
+                
                 if destinatario_b:
                     destinatario_b = int(destinatario_b)
                     desti = User.objects.get(pk=destinatario_b)
@@ -127,45 +127,54 @@ def create_borrador(request, borrador_pk):
                     borrador.descripcion = descripcion_b
 
                 borrador.save()
-                borrador_fk = borrador.pk
-                paquete_borrador = BorradorPaquete.objects.get(pk=borrador_fk)
 
-                for form, version_pk in zip(borrador_version_set, versiones_pk):
+                for form in borrador_version_set:
                     documento_b = form['prev_documento_fk'].value()
                     revision_b = form['prev_revision'].value() 
                     archivo_b = form['prev_archivo'].value()
                     comentario_b = form['prev_comentario'].value()
                     cliente_estado_b = form['prev_estado_cliente'].value()
                     contratista_estado_b = form['prev_estado_contratista'].value()
-                    #########################################################
-                    if cliente_estado_b and contratista_estado_b:           #
-                        cliente_estado_b = int(cliente_estado_b)            #  If que comprueba que estados del
-                        contratista_estado_b = int(contratista_estado_b)    #   cliente y contratista existan
-                    else:                                                   #
+                #############################################################
+                                                                            #
+                    if not cliente_estado_b:                                #
                         cliente_estado_b = 0                                #
+                                                                            #   Si no existe/vacío
+                    if not contratista_estado_b:                            #   se vuelve 0.                                              #
                         contratista_estado_b = 0                            #
-                    #########################################################
-                    version = BorradorVersion.objects.get(pk=version_pk)
-                    
-                    if documento_b:
-                        documento_b = int(documento_b)
+                                                                            #
+                    if not revision_b:                                      #   
+                        revision_b = 0                                      #   
+                                                                            #                                                     #
+                #############################################################
+                    if  documento_b:                                        #    if que comprueba un valor no vacío para //documento_b// #
                         document = Documento.objects.get(pk=documento_b)
-                        version.documento_fk = document
-                        version.revision = revision_b
-                        version.archivo = archivo_b
-                        version.comentario = comentario_b
-                        version.estado_cliente = cliente_estado_b
-                        version.estado_contratista = contratista_estado_b
-                    else:
-                        documento_b = 0
-                        version.revision = revision_b
-                        version.archivo = archivo_b
-                        version.comentario = comentario_b
-                        version.estado_cliente = cliente_estado_b
-                        version.estado_contratista = contratista_estado_b
+                        version = BorradorVersion(
+                                owner= request.user,
+                                documento_fk= document,
+                                revision= revision_b,
+                                archivo= archivo_b,
+                                comentario= comentario_b,
+                                estado_cliente= cliente_estado_b,
+                                estado_contratista= contratista_estado_b,
+                            )
+                        version.save()
+                        borrador.version.add(version)
 
-                    version.save()
-                    paquete_borrador.version.add(version)
+                    else:
+                        documento_b = 0  
+                        version = BorradorVersion(
+                            owner= request.user,
+                            revision= revision_b,
+                            archivo= archivo_b,
+                            comentario= comentario_b,
+                            estado_cliente= cliente_estado_b,
+                            estado_contratista= contratista_estado_b,
+                        )
+                        version.save()
+                        borrador.version.add(version)
+
+
                 
                     return JsonResponse({'msg': 'Update'})
             

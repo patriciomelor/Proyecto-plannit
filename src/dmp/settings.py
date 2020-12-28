@@ -51,7 +51,6 @@ INSTALLED_APPS = [
     # 'mptt',
     # 'multiupload',
     'django_filters',
-    'graficos',
     
     'dashboard',
     'tools',
@@ -59,6 +58,9 @@ INSTALLED_APPS = [
     'panel_carga',
     'bandeja_es',
     'configuracion',
+    'buscador',
+    'status',
+    'analitica',
     
 
 ]
