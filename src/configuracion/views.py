@@ -25,6 +25,7 @@ class UsuarioView(ProyectoMixin, CreateView):
         )
         perfil.save()
         return response
+        
     # def form_invalid(self):
     # def get(self, request, *args, **kwargs):
     # def post(self, request, *args, **kwargs):
