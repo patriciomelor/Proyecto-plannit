@@ -9,15 +9,22 @@ from .models import Perfil
 from .forms import CrearUsuario
 
 # Create your views here.
-class UsuarioView(ProyectoMixin, FormView):
+class UsuarioView(ProyectoMixin, CreateView):
     template_name = "configuracion/create-user.html"
     form_class = CrearUsuario
-    success_url = reverse_lazy('index')
+    success_message = 'Usuario Creado.'
+    success_url = reverse_lazy('crear-usuario')
 
-    def form_valid(self):
-        data = form.cleaned_data
-        print(data['username'])
-        return super().form_valid(form)
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user_pk = form.instance.pk
+        user = User.objects.get(pk=user_pk)
+        perfil = Perfil(
+            rol_usuario= form.cleaned_data['rol_usuario'],
+            usuario= user
+        )
+        perfil.save()
+        return response
     # def form_invalid(self):
     # def get(self, request, *args, **kwargs):
     # def post(self, request, *args, **kwargs):

@@ -33,6 +33,15 @@
         <span class="breadcrumb-item active">Registrar Usuario </span>
       </nav>
     </div><!-- br-pageheader -->
+    
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+{% endif %}
+    
     <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
         <h4 class="tx-gray-800 mg-b-5">Registrar Usuario</h4>
       </div>
