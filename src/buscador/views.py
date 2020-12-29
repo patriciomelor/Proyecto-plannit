@@ -18,6 +18,7 @@ class BuscadorIndex(ProyectoMixin, ListView):
     paginate_by = 15
     context_object_name = 'documentos'
     
+    
     def get_queryset(self):
         qs =  Documento.objects.filter(proyecto=self.proyecto)
         lista_documentos_filtrados = DocFilter(self.request.GET, queryset=qs)

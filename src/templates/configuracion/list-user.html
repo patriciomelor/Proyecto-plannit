@@ -32,19 +32,26 @@
           <thead>
             <tr>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Usuario</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Correo</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">ROL</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Editar </th>
             </tr>
           </thead>
           <tbody>
             <!--Loop Listar Documento-->
-            {% for documento in documentos %}
+            {% for usuario in usuarios %}
             <tr>            
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="" class="btn btn-teal center"> Modificar </a></th>
+              {% if usuario.first_name %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
+              {% endif %}              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
+              {% if usuario.perfil.rol_usuario %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
+              {% endif %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'editar-usuario' usuario.pk %}" class="btn btn-teal center"> Modificar </a></th>
             </tr>           
             
             {% empty %}

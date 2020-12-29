@@ -6,7 +6,7 @@ from panel_carga.views import ProyectoMixin
 from django.contrib.auth.models import User
 
 from .models import Perfil
-from .forms import CrearUsuario
+from .forms import CrearUsuario, EditUsuario
 
 # Create your views here.
 class UsuarioView(ProyectoMixin, CreateView):
@@ -28,36 +28,32 @@ class UsuarioView(ProyectoMixin, CreateView):
     
 class UsuarioLista(ProyectoMixin, ListView):
     model = User
-    template_name = 'configuracion/list-users.html'
+    template_name = 'configuracion/list-user.html'
     context_object_name = 'usuarios'
 
 class UsuarioEdit(ProyectoMixin, UpdateView):
     model = User
     template_name = 'configuracion/edit-user.html'
-    form_class = CrearUsuario
+    success_url = reverse_lazy('listar-usuarios')
+    form_class = EditUsuario
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        user_pk = form.instance.pk
-        user = User.objects.get(pk=user_pk)
-        perfil = Perfil.objects.get(usuario=user)
-        perfil.rol_usuario = form.cleaned_data['rol_usuario']
-        perfil.save()
+        try:
+            user_pk = form.instance.pk
+            user = User.objects.get(pk=user_pk)
+            perfil = Perfil.objects.get(usuario=user)
+            perfil.rol_usuario = form.cleaned_data['rol_usuario']
+            perfil.save()
+        except Perfil.DoesNotExist:
+            pass
         return response
 
 class UsuarioDelete(ProyectoMixin, DeleteView):
     model = User
-    template_name = 'configuracion/delete-usuario.html'
+    template_name = 'configuracion/delete-user.html'
     success_url = reverse_lazy('listar-usuarios')
-
-    def get_queryset(self):
-        return User.objects.get(pk=self.kwargs['pk'])
-
-    def get(self, request, *args, **kwargs):
-        context = {}
-        user = User.objects.get(pk=self.kwargs['pk'])
-        context['usuario'] = user
-        return render(request, self.template_name, context)
+    context_object_name = 'usuario'
     
     def post(self, request, *args, **kwargs):
         self.get_queryset().delete()
