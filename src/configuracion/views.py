@@ -25,7 +25,41 @@ class UsuarioView(ProyectoMixin, CreateView):
         )
         perfil.save()
         return response
-        
-    # def form_invalid(self):
-    # def get(self, request, *args, **kwargs):
-    # def post(self, request, *args, **kwargs):
+    
+class UsuarioLista(ProyectoMixin, ListView):
+    model = User
+    template_name = 'configuracion/list-users.html'
+    context_object_name = 'usuarios'
+
+class UsuarioEdit(ProyectoMixin, UpdateView):
+    model = User
+    template_name = 'configuracion/edit-user.html'
+    form_class = CrearUsuario
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user_pk = form.instance.pk
+        user = User.objects.get(pk=user_pk)
+        perfil = Perfil.objects.get(usuario=user)
+        perfil.rol_usuario = form.cleaned_data['rol_usuario']
+        perfil.save()
+        return response
+
+class UsuarioDelete(ProyectoMixin, DeleteView):
+    model = User
+    template_name = 'configuracion/delete-usuario.html'
+    success_url = reverse_lazy('listar-usuarios')
+
+    def get_queryset(self):
+        return User.objects.get(pk=self.kwargs['pk'])
+
+    def get(self, request, *args, **kwargs):
+        context = {}
+        user = User.objects.get(pk=self.kwargs['pk'])
+        context['usuario'] = user
+        return render(request, self.template_name, context)
+    
+    def post(self, request, *args, **kwargs):
+        self.get_queryset().delete()
+        return self.success_url
+    
