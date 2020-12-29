@@ -36,6 +36,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         version_aprobadoNums = Version.objects.filter(estado_cliente = 6).count() #Aprobado en número
         return version_aprobadoNums
 
+    def get_report_states_total(self):
+        total = Version.objects.all().count() #Total de documentos (Versiones)
+        return total
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['get_report_states_AcC'] = self.get_report_states_AcC()
@@ -44,4 +48,5 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['get_report_states_Apr'] = self.get_report_states_Apr()
         context['get_report_states_VcC'] = self.get_report_states_VcC()
         context['get_report_states_ANu'] = self.get_report_states_ANu()
+        context['get_report_states_total'] = self.get_report_states_total()
         return context
