@@ -19,10 +19,8 @@ class UsuarioView(ProyectoMixin, CreateView):
         response = super().form_valid(form)
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
-        perfil = Perfil(
-            rol_usuario= form.cleaned_data['rol_usuario'],
-            usuario= user
-        )
+        perfil = Perfil.objects.get_or_create(usuario= user)
+        perfil.rol_usuario= form.cleaned_data['rol_usuario']
         perfil.save()
         return response
     
@@ -39,14 +37,12 @@ class UsuarioEdit(ProyectoMixin, UpdateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        try:
-            user_pk = form.instance.pk
-            user = User.objects.get(pk=user_pk)
-            perfil = Perfil.objects.get(usuario=user)
-            perfil.rol_usuario = form.cleaned_data['rol_usuario']
-            perfil.save()
-        except Perfil.DoesNotExist:
-            pass
+        user_pk = form.instance.pk
+        user = User.objects.get(pk=user_pk)
+        perfil = Perfil.objects.get_or_create(
+            usuario=user,
+            rol_usuario= form.cleaned_data['rol_usuario']
+        )
         return response
 
 class UsuarioDelete(ProyectoMixin, DeleteView):
