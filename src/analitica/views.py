@@ -11,7 +11,13 @@ from bandeja_es.models import Version
 
 class IndexAnalitica(ProyectoMixin, TemplateView):
     template_name =  'analitica/index.html'
-
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #   PRIMER GRÁFICO DE ESTADOS DE LOS DOCUMENTOS   #
+    #                                                 #
+    #                                                 #
+    ###################################################
     def get_report_states_AcC(self):
         version_aprobadocCs = Version.objects.filter(estado_cliente = 1).count() #Aprobado con comentarios
         return version_aprobadocCs
@@ -39,6 +45,17 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     def get_report_states_total(self):
         total = Version.objects.all().count() #Total de documentos (Versiones)
         return total
+
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #   SEGUNDO GRÁFICO DE EMITIDOS POR SUBESTACION   #
+    #                                                 #
+    #                                                 #
+    ###################################################
+
+    # def get_report_issued_substation(self):
+    #     return 
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
