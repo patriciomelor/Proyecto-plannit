@@ -33,7 +33,8 @@
                               Documentos por emitir por SubEstacion
                           </div> 
                           <div class="card-body">
-                            <canvas id="myChart1" width="500" height="400"></canvas>
+                            <canvas id="myChart5" width="500" height="400"></canvas>
+
                           </div>
                         </div>
                       </div>
@@ -74,9 +75,9 @@
 <script>
   $(document).ready(function(){
     //DOCUMENTOS POR EMITIR POR SUBESTACION
-    var ctx = document.getElementById('myChart1').getContext('2d');
-    var myChart1 = new Chart(ctx, {
-      type: 'bar',
+    var ctx = document.getElementById('myChart5').getContext('2d');
+    var myChart5 = new Chart(ctx, {
+      type: 'pie',
       data: {
           labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
           datasets: [{
@@ -119,10 +120,10 @@
       data: {
           labels: ['Documentos Totales','Aprobado con comentarios', 'Rechazado', 'Eliminado', 'Aprobado', 'Válido para construcción', 'Aprobado (en numeración)'],
           datasets: [{
-              label: '# of Votes',
+              label: '# Doc Totates',
               data: [{{get_report_states_total}},{{get_report_states_AcC}},{{get_report_states_Rec}},{{get_report_states_Eli}},{{get_report_states_Apr}},{{get_report_states_VcC}},{{get_report_states_ANu}}],
               backgroundColor: [
-                  'rgba(255, 159, 64, 0.2)',
+                  'rgba(209, 104, 210, 0.2)',
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
                   'rgba(255, 206, 86, 0.2)',
@@ -131,7 +132,7 @@
                   'rgba(255, 159, 64, 0.2)'
               ],
               borderColor: [
-                  'rgba(255, 159, 64, 1)',
+                  'rgba(209, 104, 210, 1)',
                   'rgba(255, 99, 132, 1)',
                   'rgba(54, 162, 235, 1)',
                   'rgba(255, 206, 86, 1)',
