@@ -50,22 +50,10 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Codigo Documento <br>Contractual</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Numero Documento <br> Interno</th>              
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">
             </tr>
           </thead>
           <tbody>
-          
-            <tr>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
-              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
-              <th style="text-align: center;border: 5px;border-color: black; color: black;"colspan="2">Modificar</th>
-            </tr>
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
             <tr>            
@@ -74,8 +62,6 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}}  </th>                  
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="2"><a href="{% url 'buscador-detalle' documento.pk %}" class="btn btn-teal center">Ver Detalle</a></th>
             </tr>           
             

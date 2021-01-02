@@ -9,3 +9,9 @@ class DocFilter(django_filters.FilterSet):
     class Meta:
         model = Documento
         fields = ['Codigo_documento', 'fecha_Emision_B', 'Especialidad']
+    
+    def __init__(self, *args, **kwargs):
+        super(DocFilter, self).__init__(*args, **kwargs)
+        if self.data == {}:
+            self.queryset = self.queryset.none()
+    

@@ -3,48 +3,68 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<div class="br-contentpanel">
+    <div class="br-subleft">
+
+        <div class="pd-10">
+            <a href="{% url 'crear-usuario' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Registrar Usuario</a>
+        </div>
+
+        <nav class="nav br-nav-mailbox flex-column">
+            <a href="" class="nav-link active"><i class="icon ion-person-add"></i> Listar Usuario</a>
+            <!--<a href="" class="nav-link"><i class="icon ion-ios-trash-outline"></i> Deleted Files</a>-->
+        </nav>
+
+        <!--<h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">My Folder</h6>-->
+
+        <nav class="nav br-nav-mailbox flex-column">
+         <!--   <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> Camera Uploads</a>-->
+         <!--   <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> My Collections</a>-->
+         <!--   <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> E-Book</a>-->
+        </nav>
+    </div>
 <!--Titulo-->
- <div class="br-pageheader pd-y-15 pd-l-20">
+ <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
       <span class="breadcrumb-item active">listar Usuarios</span>
     </nav>
   </div>
-  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Lista de Usuarios</h4>
-    <p class="mg-b-0"></p>
-  </div>
+  
 
-  <div class="br-section-wrapper">
-<!--Tabla-->
-<h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
-
-          
-  <div class="row row-sm d-flex justify-content-center"style="overflow-x:scroll;" >
-  <!--Upload Archivos-->
-      
-
-
-   
-<table class="table table-responsive table-striped mg-b-0 table-bordered table-teal">       
+  <div class="br-section-wrapper">    
+    <div class="pd-x-20 pd-sm-x-30 mg-b-10">
+      <h4 class="tx-gray-800 mg-b-5">Lista de Usuarios</h4>
+      <p class="mg-b-0">{{proyecto}}</p>
+    </div>      
+    <div class="row row-sm d-flex justify-content-center"style="overflow-x:scroll;overflow-y:scroll;height:600px;" >
+      <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
-     
           <thead>
             <tr>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Usuario</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Correo</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">ROL</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Editar </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Modificar </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Eliminar  </th>
             </tr>
           </thead>
           <tbody>
             <!--Loop Listar Documento-->
-            {% for documento in documentos %}
+            {% for usuario in usuarios %}
             <tr>            
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="" class="btn btn-teal center"> Modificar </a></th>
+              {% if usuario.first_name %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
+              {% endif %}              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
+              {% if usuario.perfil.rol_usuario %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
+              {% endif %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'editar-usuario' usuario.pk %}" class="btn btn-teal center"> Modificar </a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'eliminar-usuario' usuario.pk %}" class="btn btn-danger center"> Eliminar </a></th>
             </tr>           
             
             {% empty %}
@@ -113,7 +133,7 @@
     </div>
 {% endif %}
 </div>
-
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 
