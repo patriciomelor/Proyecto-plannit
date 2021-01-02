@@ -5,6 +5,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 from bandeja_es.models import Version
+from panel_carga.models import Documento
 
 # Create your views here.
 
@@ -54,8 +55,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     ###################################################
 
-    # def get_report_issued_substation(self):
-    #     return 
+    def get_report_issued_substation(self):
+        especialidad = Documento.objects.filter(Especialidad).str() #especialidad mecanica
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
