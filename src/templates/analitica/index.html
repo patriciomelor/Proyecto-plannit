@@ -8,7 +8,7 @@
     </nav>
   </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Panel de Analita</h4>
+    <h4 class="tx-gray-800 mg-b-5">Panel de Analita {{wea_fea}} </h4>
   </div>
   <div class="row row-sm mg-t-20">
           <div class="col-md-6">
@@ -154,7 +154,6 @@
       }
     });
   });
-
     //ESTATUS DOCUMENTO APROVADO VS TOTALES POR SUBESTACION (MUESTRA HASTA EL FINAL)
     var ctx = document.getElementById('myChart3').getContext('2d');
     var myChart3 = new Chart(ctx, {
