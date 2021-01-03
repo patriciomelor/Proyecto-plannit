@@ -8,10 +8,11 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, BorradorDocumento, PaqueteDocumento
-from .forms import PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador
+from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
+
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -470,7 +471,7 @@ def create_preview(request, borrador_pk):
             'form-TOTAL_FORMS': '1',
             'form-INITIAL_FORMS': '0',
             'form-MAX_NUM_FORMS': '',
-        }
+        } 
             PreviewVersionFormset = formset_factory(VersionDocPreview, extra=1)
             form_paraquete = PaquetePreviewForm()
             formset_version = PreviewVersionFormset(data)
@@ -480,3 +481,10 @@ def create_preview(request, borrador_pk):
     context['borr_pk'] = borrador_pk
     return render(request, 'bandeja_es/create-paquete2.html', context)
     
+def documentos_ajax(request):
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        terms = request.GET.get('term')
+        documentos = Documento.objects.filter(proyecto=request.session.get('proyecto'), Codigo_Documento__icontains=terms)
+        response_content = list(documentos.values()) 
+    return JsonResponse(response_content,safe=False)
+
