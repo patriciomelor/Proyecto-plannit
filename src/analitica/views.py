@@ -56,7 +56,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     ###################################################
 
-    def wea_fea(self):
+    def get_report_states_Especialidades(self):
         especialidad_list = tuple()
         cantidad_por_especialidad = []
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
@@ -83,5 +83,5 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['get_report_states_VcC'] = self.get_report_states_VcC()
         context['get_report_states_ANu'] = self.get_report_states_ANu()
         context['get_report_states_total'] = self.get_report_states_total()
-        context['wea_fea'] = self.wea_fea()
+        context['get_report_states_Especialidades'] = self.get_report_states_Especialidades()
         return context
