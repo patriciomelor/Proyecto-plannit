@@ -78,6 +78,7 @@ class PaquetePreviewForm(forms.ModelForm):
         }
 class VersionDocPreview(forms.ModelForm):
     prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
+    prev_documento_fk = forms.CharField(label="Documentos",widget=forms.Select(attrs={'class':'select2','datalist':'datos'}))
     class Meta:
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
@@ -92,6 +93,11 @@ class VersionDocPreview(forms.ModelForm):
             'prev_revision' : "Elegir Opción"
         }
 
+# class cualquierwea(VersionDocPreview):        
+#     def __init__(self, *args, **kwargs):
+#         super().__init__(*args,**kwargs)
+#         proyect = kwargs.pop('proyecto')
+#         self.fields['prev.documento_fk'].queryset=Documento.objects.filter(proyecto=proyect)
     
       
 PreviewVersionSet = formset_factory(VersionDocPreview)

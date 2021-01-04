@@ -54,16 +54,8 @@
         {% for form in formset %}
         <div class="row form-row spacer">
                 <div class="form-group col-12">
-                              <label class="col-md-2 mg-5">
-                                <label>Nombre Documento</label>
-                                <select placeholder="Seleccionar.." class="form-control select2">
-                                
-                                
-                                {% for doc in form.prev_documento_fk %}
-                                   <option> {{doc}}</option>
-                                {% endfor %}
-                                </select>
-                            </label>      
+                            <label for="" class="col-md-2 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>    
+                                   
                             <label for="" class="col-md-2 mg-5"> {{form.prev_revision|as_crispy_field}}</label>             
                             <label for="" class="col-md-3 mg-5"> {{form.prev_estado_cliente|as_crispy_field}}</label>               
                             <label for="" class="col-md-2 mg-5"> {{form.prev_estado_contratista|as_crispy_field}}</label><br>                                 
@@ -221,11 +213,21 @@ $(document).on('click', '.remove-form-row', function(e){
 <script>
 $(document).ready(function() {
     $('.select2').select2({
-        theme: "bootstrap4",
-     languaje: 'es',
-     allowClear: true,
-     placeholder: 'Ingrese un Documento',
-    });
+    theme: "bootstrap4",
+    language: "es",
+    placeholder: 'seleccione un Documento',
+    ajax: {
+        url: '{% url 'datos-baes' %}',
+        dataType: 'json',
+          processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.title};
+                        })
+                    };
+                }
+            }
+       });
 });
 </script>
 
