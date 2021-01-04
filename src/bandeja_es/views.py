@@ -408,13 +408,15 @@ def create_preview(request, borrador_pk):
         
         form_paraquete = PaquetePreviewForm(request.POST or None)
         if form_paraquete.is_valid() and formset_version.is_valid():
-            
+
             for form in formset_version:
-                nombre_documento = str(form.cleaned_data['prev_documento_fk'])
+                doc_pk = int(form.cleaned_data['prev_documento_fk'])
+                doc = Documento.objects.get(pk=doc_pk)
+                nombre_documento = str(doc)
                 nombre_archivo = str(form.cleaned_data['prev_archivo']).rstrip(".xlsx")
                 if not verificar_nombre_archivo(nombre_documento, nombre_archivo):
                     valido = False
-            print(valido)
+
             if valido == True:
                 package_pk = 0
                 obj = form_paraquete.save(commit=False)
@@ -423,9 +425,12 @@ def create_preview(request, borrador_pk):
                 package_pk = obj.pk
                 context2['paquete_pk'] = package_pk
                 for form in formset_version:
+                    doc_pk = int(form.cleaned_data['prev_documento_fk'])
+                    doc = Documento.objects.get(pk=doc_pk)
                     package = PrevPaquete.objects.get(pk=package_pk)
                     context2['paquete'] = package
                     version = form.save(commit=False)
+                    version.prev_documento_fk = doc
                     version.prev_owner = request.user
                     version.save()
                     version_pk = version.pk
@@ -484,7 +489,9 @@ def create_preview(request, borrador_pk):
 def documentos_ajax(request):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         terms = request.GET.get('term')
-        documentos = Documento.objects.filter(proyecto=request.session.get('proyecto'), Codigo_Documento__icontains=terms)
+        documentos = Documento.objects.filter(proyecto=request.session.get('proyecto'), Codigo_documento__icontains=terms)
         response_content = list(documentos.values()) 
-    return JsonResponse(response_content,safe=False)
+        print(response_content)
+    # return JsonResponse(response_content,safe=False)
+    return JsonResponse(response_content, safe=False)
 
