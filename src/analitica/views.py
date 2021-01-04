@@ -56,8 +56,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     ###################################################
 
-    def get_report_states_Especialidades(self):
+    def get_report_states_Cantidad(self):
         especialidad_list = tuple()
+        diccionario = {}
         cantidad_por_especialidad = []
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
@@ -71,8 +72,33 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             for doc in documentos:
                 if lista == doc.Especialidad:
                     cont2 = cont2 + 1
-            cantidad_por_especialidad.append(cont2)
-        return cantidad_por_especialidad
+            cantidad_por_especialidad.append(cont2)   
+
+        #for especialidad, numero in zip(especialidad_list, cantidad_por_especialidad):            recorrer dos listas en el mismo tiempo
+        #    diccionario.update({str(especialidad) : numero})  
+
+        return cantidad_por_especialidad      
+
+    def get_report_states_Especialidades(self):
+        especialidad_list = tuple()
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+
+        for special in documentos:
+            especialidad_actual = special.Especialidad
+            if not especialidad_actual in especialidad_list:
+                especialidad_list = especialidad_list + (str(especialidad_actual),)
+
+        return especialidad_list
+
+        ###################################################
+        #                                                 #
+        #                                                 #
+        #   TERCER GRÁFICO DE STATUS POR ESPECIALIDAD     #
+        #                                                 #
+        #                                                 #
+        ###################################################
+
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -83,5 +109,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['get_report_states_VcC'] = self.get_report_states_VcC()
         context['get_report_states_ANu'] = self.get_report_states_ANu()
         context['get_report_states_total'] = self.get_report_states_total()
+        context['get_report_states_Cantidad'] = self.get_report_states_Cantidad()
         context['get_report_states_Especialidades'] = self.get_report_states_Especialidades()
         return context
