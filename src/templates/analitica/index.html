@@ -8,7 +8,7 @@
     </nav>
   </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Panel de Analita {{wea_fea}} </h4>
+    <h4 class="tx-gray-800 mg-b-5">Panel de Analita</h4>
   </div>
   <div class="row row-sm mg-t-20">
           <div class="col-md-6">
@@ -47,7 +47,7 @@
                 <div class="card shadow-base overflow-hidden chart">
                     <div class="card-header">
                       <div class="card-title">
-                        Estatus Documento Aprovado <strong>VS</strong> Totales por SubEstacion
+                        Estatus Documento Aprobado <strong>VS</strong> Totales por SubEstacion
                       </div>
                       <div class="card-body">
                         <canvas id="myChart3" width="500" height="400"></canvas>
@@ -79,10 +79,11 @@
     var myChart5 = new Chart(ctx, {
       type: 'pie',
       data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: [ ],
           datasets: [{
               label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
+              data: [{% for cant in get_report_states_Cantidad.items %} {{cant}}, {% endfor %}],
+              {% comment %} {% for cant in get_report_states_Cantidad.items %} {{cant}}, {% endfor %} {% endcomment %}
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
