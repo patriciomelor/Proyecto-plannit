@@ -222,7 +222,7 @@ $(document).ready(function() {
           processResults: function (data) {
                     return {
                         results: $.map(data, function (item) {
-                            return {id: item.id, text: item.title};
+                            return {id: item.id, text: item.Codigo_documento};
                         })
                     };
                 }

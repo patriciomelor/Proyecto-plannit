@@ -78,10 +78,10 @@ class PaquetePreviewForm(forms.ModelForm):
         }
 class VersionDocPreview(forms.ModelForm):
     prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
-    prev_documento_fk = forms.CharField(label="Documentos",widget=forms.Select(attrs={'class':'select2','datalist':'datos'}))
+    prev_documento_fk = forms.CharField(label="Documentos",widget=forms.Select(attrs={'class':'select2'}))
     class Meta:
         model = PrevVersion
-        fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
+        fields = ['prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
         labels = {
             'prev_documento_fk': 'Código Documento',
             'prev_estado_cliente': 'Estado Cliente',
