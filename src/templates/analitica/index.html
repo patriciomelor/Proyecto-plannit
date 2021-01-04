@@ -79,10 +79,10 @@
     var myChart5 = new Chart(ctx, {
       type: 'pie',
       data: {
-          labels: [ '{{get_report_states_Especialidades}}' ],
+          labels: [ '{% for especial in get_report_states_Especialidades %} {{especial}}', '{% endfor %}' ],
           datasets: [{
               label: '# of Votes',
-              data: [{% for cant in get_report_states_Cantidad.items %} {{cant}}, {% endfor %}],
+              data: [ {% for cant in get_report_states_Cantidad %} {{cant}}, {% endfor %} ],
               {% comment %} {% for cant in get_report_states_Cantidad.items %} {{cant}}, {% endfor %} {% endcomment %}
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
