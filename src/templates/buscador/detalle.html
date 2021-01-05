@@ -12,7 +12,7 @@
   </div><!-- br-pageheader -->
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Detalle del paquete.</h4>
+    <h4 class="tx-gray-800 mg-b-5">Historial de documento</h4>
   </div>
 
 
@@ -37,34 +37,59 @@
               </div>
               <div class="row no-gutters">
                 <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                  Fecha Emisión B:
+                  Fecha:
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
-                  {{documento.fecha_Emision_B}}
+                  {{documento.fecha_Emision_B|date:'d-m-y'}}
                 </div><!-- col-8 -->
-              </div>                                  
+              </div>             
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                  Hora:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                  {{documento.fecha_Emision_B|date:'H:i'}}
+                </div><!-- col-8 -->
+              </div>                                          
             </div>
               <table class="table table-striped mg-b-0 table-bordered table-primary">
                 <thead class="thead-colored thead-primary">
                   <tr class="tx-10">
                     <th class="pd-y-5"style="text-align: center;">Creador</th>                     
                     <th class="pd-y-5"style="text-align: center;">Revisión</th>
+                    <th class="pd-y-5"style="text-align: center;">Paquete</th>
+                      
                     <th class="pd-y-5"style="text-align: center;">Estado Cliente</th>     
                     <th class="pd-y-5"style="text-align: center;">Estado Contratista</th>     
-                    <th class="pd-y-5"style="text-align: center;">Fecha<br>Creacion</th>                                    
+                    <th class="pd-y-5"style="text-align: center;"colspan="2">Fecha<br>Creacion</th>     
+
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
                     <th class="pd-y-5"style="text-align: center;">Comentario</th>
                   </tr>
+                  <tr>
+                  <th colspan="5">
+                  </th>
+                  <th class="pd-y-5"style="text-align: center;">
+                  fecha
+                  </th>
+                  <th class="pd-y-5"style="text-align: center;">
+                  hora
+                  </th>
+                  <th colspan="2">
+                  </th>
+                  </tr>
                 </thead>
-               
+                
                 <tbody>
                 {% for version in versiones %}
                   <tr>                    
                     <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.owner.first_name}}<br>{{version.owner.last_name}}  </td>       
                     <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.get_revision_display}} </td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> <!--aqui va paquete-->> </td>
                     <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.get_estado_cliente_display}} </td>
                     <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.get_estado_contratista_display}} </td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.fecha}} </td>                    
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.fecha|date:'d-M-y'}} </td>                    
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.fecha|date:'H:i'}} </td>                    
                     <td class="tx-12"style="text-align: center;font-weight:800;"> <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-3x"></i></a></td>
                     <td class="tx-12"style="text-align: center;font-weight:800;"> <a href="{{version.comentario.url}}"><i class="icon ion-document-text fa-3x"></i></a> </td>
                   </tr>    

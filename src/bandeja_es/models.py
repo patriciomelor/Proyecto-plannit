@@ -22,7 +22,7 @@ class Version(models.Model):
     valido = models.BooleanField(verbose_name="Válido", default=1) #1=VALIDO  0=ANULADO
 
     def __str__(self):
-        return str(self.documento_fk.Especialidad + self.revision)
+        return str(self.owner.first_name) + str(self.revision)
 
 
 class Paquete(models.Model):
