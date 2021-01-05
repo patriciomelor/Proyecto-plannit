@@ -23,13 +23,13 @@
   <div class="row row-sm d-flex justify-content-center"style="overflow-x:scroll;" >
   <!--Upload Archivos-->
         <div class="col-12 bd rounded mg-t-10">
-          <ul class="col-lg-12 nav nav-pills  justify-content-center" role="tablist">            
-          <form  method="POST" enctype="multipart/form-data">
+          <ul class="col-lg-12 nav nav-pills " role="tablist">            
+          <form class="col-lg-6" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
-               <input class="nav-item col- 1  mg-t-7" style="width: auto;" type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a>
+               <li class="nav-item"style="width: auto;float:left;"><input class="nav-item col- 1  mg-t-7" style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a></li>
 
-              <li class="nav-item"style="width: auto;"><a class="nav-link"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></a></li>
+              <li class="nav-item"style="float:left;"><a class="nav-link"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></a></li>
 
             </form>
             <li class="nav-item "style="width: auto;"><a class="nav-link" href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
@@ -59,15 +59,15 @@
         <div class="col-3" style="margin-top: 10px;">      
           {{filter.form.Numero_documento_interno|as_crispy_field}}
         </div>  
-        <div class="col-2" style="margin-top: 10px;">      
+        <div class="col-3" style="margin-top: 10px;">      
           {{filter.form.fecha_Emision_B|as_crispy_field}}
         </div> 
-        <div class="col-2" style="margin-top: 10px;">      
+        <div class="col-3" style="margin-top: 10px;">      
           {{filter.form.fecha_Emision_0|as_crispy_field}}
         </div>    
-        <div class="col-2" style="margin-top: 35px;">      
+        <div class="col-2" style="margin-bottom: 35px;">      
           
-          <input class="btn btn-info btn-oblong" type="submit" value="Filtrar">
+          <input class="btn btn-info btn-oblong" type="submit" value="Buscar">
         </div>       
       </form>
 

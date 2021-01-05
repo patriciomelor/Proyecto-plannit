@@ -29,17 +29,27 @@
 <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
       <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
+       
         <div class="col-4" style="margin-top: 10px;">      
           {{filter.form.Especialidad|as_crispy_field}}
-        </div>       
-        <div class="col-3" style="margin-top: 10px;">      
-          {{filter.form.Codigo_documento|as_crispy_field}}
+        </div>      
+        <div class="col-4" style="margin-top: 10px;">      
+          {{filter.form.Descripcion|as_crispy_field}}
         </div>  
-        <div class="col-2" style="margin-top: 10px;">      
+        <div class="col-4" style="margin-top: 10px;">      
+          {{filter.form.Codigo_documento|as_crispy_field}}
+        </div>
+        <div class="col-4" style="margin-top: 10px;">      
+          {{filter.form.Tipo_Documento|as_crispy_field}}
+        </div>    
+        <div class="col-4" style="margin-top: 10px;">      
+          {{filter.form.Numero_documento_interno|as_crispy_field}}
+        </div> 
+        <div class="col-4" style="margin-top: 10px;">      
           {{filter.form.fecha_Emision_B|as_crispy_field}}
         </div> 
-        <div class="col-2" style="margin-top: 35px;">                
-          <input class="btn btn-info btn-oblong" type="submit" value="BUSCAR">
+        <div class="col-3" style="margin-bottom:20px;">                
+          <input class="btn btn-info btn btn-oblong" type="submit" value="BUSCAR">
         </div>       
       </form>
 
@@ -112,108 +122,36 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 
-<script>
-        $(function(){
-        'use strict'
 
-        // Toggles
-        $('.toggle').toggles({
-          on: true,
-          height: 26
-        });
-
-        // Input Masks
-        $('#dateMask').mask('99/99/9999');
-        $('#phoneMask').mask('(999) 999-9999');
-        $('#ssnMask').mask('999-99-9999');
-
-        // Datepicker
-        $('.fc-datepicker').datepicker({
-          showOtherMonths: true,
-          selectOtherMonths: true
-        });
-
-        $('#datepickerNoOfMonths').datepicker({
-          showOtherMonths: true,
-          selectOtherMonths: true,
-          numberOfMonths: 2
-        });
-
-        // Time Picker
-        $('#tpBasic').timepicker();
-        $('#tp2').timepicker({'scrollDefault': 'now'});
-        $('#tp3').timepicker();
-
-        $('#setTimeButton').on('click', function (){
-          $('#tp3').timepicker('setTime', new Date());
-        });
-
-        // Color picker
-        $('#colorpicker').spectrum({
-          color: '#17A2B8'
-        });
-
-        $('#showAlpha').spectrum({
-          color: 'rgba(23,162,184,0.5)',
-          showAlpha: true
-        });
-
-        $('#showPaletteOnly').spectrum({
-            showPaletteOnly: true,
-            showPalette:true,
-            color: '#DC3545',
-            palette: [
-                ['#1D2939', '#fff', '#0866C6','#23BF08', '#F49917'],
-                ['#DC3545', '#17A2B8', '#6610F2', '#fa1e81', '#72e7a6']
-            ]
-        });
-
-
-        // Rangeslider
-        if($().ionRangeSlider) {
-          $('#rangeslider1').ionRangeSlider();
-
-          $('#rangeslider2').ionRangeSlider({
-              min: 100,
-              max: 1000,
-              from: 550
-          });
-
-          $('#rangeslider3').ionRangeSlider({
-              type: 'double',
-              grid: true,
-              min: 0,
-              max: 1000,
-              from: 200,
-              to: 800,
-              prefix: '$'
-          });
-
-          $('#rangeslider4').ionRangeSlider({
-              type: 'double',
-              grid: true,
-              min: -1000,
-              max: 1000,
-              from: -500,
-              to: 500,
-              step: 250
-          });
-        }
-
-      });
-</script>
-<script>
-  $('#datepickerNoOfMonths').datepicker({
-    showOtherMonths: true,
-    selectOtherMonths: true,
-    numberOfMonths: 1
-  });
-</script>
 <script>
   $("#fileInput").change(function(){
     $("button").prop("disabled", this.files.length == 0);
 });
 </script>
+<script>
+   $('.datepicker').datetimepicker.dates['en'] = {
+                    days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+                    daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"],
+                    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+                    months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                    monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    today: "Hoy"
+                };
 
+
+  $('.datepicker').datetimepicker({
+              uiLibrary: 'bootstrap4',
+                                defaultDate: "+1w",
+                                showOn: 'button',
+                                numberOfMonths: 1,
+                                format: 'dd-mm-yyyy hh:00',
+                                language: 'es',
+                                daysShort: ["Sunx", "Monx", "Tuex", "Wedx", "Thux", "Frix", "Satx", "Sunx"],
+                                weekStart: 1,
+                                minView: "day",
+                                minuteStep: 61,
+                                autoclose: true
+                              });
+</script>
 {% endblock content %}
     
