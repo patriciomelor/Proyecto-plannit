@@ -7,6 +7,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
 
+
 from .filters import DocFilter
 from panel_carga.models import Documento
 from bandeja_es.models import Version
@@ -17,18 +18,11 @@ class BuscadorIndex(ProyectoMixin, ListView):
     model = Documento
     context_object_name = 'documentos'
     
-    
-    def get_queryset(self):
-        qs =  Documento.objects.filter(proyecto=self.proyecto)
-        for doc in qs:
-            try:
-                version = Version.objects.filter(documento_fk=doc)
-            except Version.DoesNotExist:
-                qs.remove(doc)
 
-        lista_documentos_filtrados = DocFilter(self.request.GET, queryset=qs)
-        print(qs)
-        return  lista_documentos_filtrados.qs.order_by('Numero_documento_interno')
+    def get_queryset(self):
+        # qs = self.documentos_con_versiones()
+        lista_documentos_filtrados = DocFilter(self.request.GET, queryset= documentos_con_versiones(self.request))
+        return lista_documentos_filtrados.qs.order_by('Numero_documento_interno')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -46,3 +40,16 @@ class VersionesList(ProyectoMixin, DetailView):
         versiones = Version.objects.filter(documento_fk=doc)
         context['versiones'] = versiones
         return context
+
+def documentos_con_versiones(request):
+    eliminados_list = []
+    qs =  Documento.objects.filter(proyecto=request.session.get('proyecto'))
+    for doc in qs:
+        version = Version.objects.filter(documento_fk=doc).exists()
+        if not version:
+            eliminados_list.append(doc.pk)
+
+    queryset_final = Documento.objects.exclude(pk__in=eliminados_list).order_by('Especialidad')
+
+    return queryset_final
+    
