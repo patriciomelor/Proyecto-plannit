@@ -35,8 +35,8 @@ class Documento(models.Model):
     Numero_documento_interno = models.CharField(verbose_name="Numero documento Interno", max_length=50, blank=True)
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    fecha_Emision_B = models.DateTimeField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
-    fecha_Emision_0 = models.DateTimeField(verbose_name="Fecha inicio emisión", blank=True, default=None) 
+    fecha_Emision_B = models.DateTimeField(verbose_name="Fecha inicio emisión B", blank=True, default=None) 
+    fecha_Emision_0 = models.DateTimeField(verbose_name="Fecha inicio emisión 0", blank=True, default=None) 
     
 
 

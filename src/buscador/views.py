@@ -10,7 +10,7 @@ from django.contrib import messages
 
 from .filters import DocFilter
 from panel_carga.models import Documento
-from bandeja_es.models import Version
+from bandeja_es.models import Version, Paquete
 # Create your views here.
 
 class BuscadorIndex(ProyectoMixin, ListView):
@@ -21,7 +21,7 @@ class BuscadorIndex(ProyectoMixin, ListView):
 
     def get_queryset(self):
         # qs = self.documentos_con_versiones()
-        lista_documentos_filtrados = DocFilter(self.request.GET, queryset= documentos_con_versiones(self.request))
+        lista_documentos_filtrados = DocFilter(self.request.GET)#, queryset= documentos_con_versiones(self.request))
         return lista_documentos_filtrados.qs.order_by('Numero_documento_interno')
     
     def get_context_data(self, **kwargs):
@@ -38,7 +38,9 @@ class VersionesList(ProyectoMixin, DetailView):
         context = super().get_context_data(**kwargs)
         doc = Documento.objects.get(pk=self.kwargs['pk'])
         versiones = Version.objects.filter(documento_fk=doc)
+        paquete = Paquete.objects.filter(version__in=versiones)
         context['versiones'] = versiones
+        context['paquete'] = paquete
         return context
 
 def documentos_con_versiones(request):

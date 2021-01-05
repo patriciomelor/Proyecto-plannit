@@ -6,6 +6,8 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 from bandeja_es.models import Version
 
 class DocFilter(django_filters.FilterSet):
+    first_date = django_filters.DateFilter(field_name='Desde', label='Fecha Desde:')
+    last_date = django_filters.DateFilter(field_name='Hasta', label='Fecha Hasta:')
     class Meta:
         model = Documento
         fields = ['Codigo_documento', 'fecha_Emision_B', 'Especialidad']
