@@ -6,8 +6,22 @@ from crispy_forms.layout import Layout, Submit, Row, Column
 
 
 class DocFilter(django_filters.FilterSet): 
-    fecha_Emision_B = forms.DateField(widget=forms.TextInput(attrs={'type': 'date','class':'select2'}), input_formats=['%Y-%m-%d'])
-    fecha_Emision_0 = forms.DateField(widget=forms.TextInput(attrs={'type': 'date','class':'select2'}), input_formats=['%Y-%m-%d'])
+    fecha_Emision_B = django_filters.DateFilter(
+        lookup_expr='icontains',
+        widget=forms.DateInput(attrs={
+            'id': 'datepicker',
+            'type': 'text',
+            'class' : 'datepicker'
+
+        }), input_formats=['%Y-%m-%d'])
+    fecha_Emision_0 = django_filters.DateFilter(
+        lookup_expr='icontains',
+        widget=forms.DateInput(attrs={
+            'id': 'datepicker',
+            'type': 'text',
+            'class' : 'datepicker'
+
+        }), input_formats=['%Y-%m-%d'])
     
     Especialidad = forms.ChoiceField(widget=forms.Select(attrs={'class':'select2'}))
 
