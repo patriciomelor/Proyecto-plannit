@@ -38,9 +38,15 @@ class VersionesList(ProyectoMixin, DetailView):
         context = super().get_context_data(**kwargs)
         doc = Documento.objects.get(pk=self.kwargs['pk'])
         versiones = Version.objects.filter(documento_fk=doc)
-        paquete = Paquete.objects.filter(version__in=versiones)
-        context['versiones'] = versiones
-        context['paquete'] = paquete
+        paquetes = Paquete.objects.filter(version__in=versiones)
+        lista_actual = []
+        lista_final = []
+        for version, paquete in zip(versiones, paquetes):
+            lista_actual = [version, paquete]
+            lista_final.append(lista_actual)
+        print(lista_final)
+        context['lista_final'] = lista_final
+        # context['paquete'] = paquete
         return context
 
 def documentos_con_versiones(request):

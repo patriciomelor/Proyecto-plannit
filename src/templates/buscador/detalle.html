@@ -81,15 +81,15 @@
                 </thead>
                 
                 <tbody>
-                {% for version in versiones %}
+                {% for version in lista_final %}
                   <tr>                    
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.owner.first_name}}<br>{{version.owner.last_name}}  </td>       
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.get_revision_display}} </td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> <!--aqui va paquete-->> </td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.get_estado_cliente_display}} </td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.get_estado_contratista_display}} </td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.fecha|date:'d-M-y'}} </td>                    
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.fecha|date:'H:i'}} </td>                    
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.owner.first_name}}<br>{{version.owner.last_name}}  </td>       
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.get_revision_display}} </td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> <a href="{% url 'paquete-detalle' version.1.pk %}" > {{version.1}} </a> </td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.get_estado_cliente_display}} </td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.get_estado_contratista_display}} </td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.fecha|date:'d-M-y'}} </td>                    
+                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.fecha|date:'H:i'}} </td>                    
                     <td class="tx-12"style="text-align: center;font-weight:800;"> <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-3x"></i></a></td>
                     <td class="tx-12"style="text-align: center;font-weight:800;"> <a href="{{version.comentario.url}}"><i class="icon ion-document-text fa-3x"></i></a> </td>
                   </tr>    

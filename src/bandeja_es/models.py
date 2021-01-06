@@ -36,7 +36,7 @@ class Paquete(models.Model):
     status = models.BooleanField(verbose_name="Status", default=0, blank=True)
 
     def __str__(self):
-        return self.fecha_creacion
+        return self.asunto
     
     def toJSON(self):
         item = model_to_dict(self)
