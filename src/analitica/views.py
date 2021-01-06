@@ -6,6 +6,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from bandeja_es.models import Version
 from panel_carga.models import Documento
+from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE
 
 # Create your views here.
 
@@ -19,6 +20,27 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     #                                                 #
     ###################################################
+    
+    def reporte_general(self):
+        lista_final = []
+        lista_actual = []
+        doc = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        for estado in ESTADOS_CLIENTE[1:]:
+            version_aprobadocCs = Version.objects.filter(estado_cliente=int(estado[0]), documento_fk__in=doc).count()
+            lista_actual = [version_aprobadocCs, estado[1]]
+            print(lista_actual)
+            lista_final.append(lista_actual)
+        print(lista_final)
+        return lista_final
+        #Aprobado con comentarios
+        # version_rechazados = Version.objects.filter(estado_cliente = 2).count() #Rechazado
+        # version_eliminados = Version.objects.filter(estado_cliente = 3).count() #Eliminado
+        # version_aprobados = Version.objects.filter(estado_cliente = 4).count() #Aprobado
+        # version_validoConss = Version.objects.filter(estado_cliente = 5).count() #Valido para construcción
+        # version_aprobadoNums = Version.objects.filter(estado_cliente = 6).count() #Aprobado en número
+
+
+
     def get_report_states_AcC(self):
         version_aprobadocCs = Version.objects.filter(estado_cliente = 1).count() #Aprobado con comentarios
         return version_aprobadocCs
@@ -74,6 +96,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     cont2 = cont2 + 1
             cantidad_por_especialidad.append(cont2)   
 
+        # for especial in especialidad_list:
+        #     doc = Documento.objects.filter(proyecto=self.request.session.get('proyecto'), Especialidad=especial)
+        #     versiones = Versio.objects.filter(documento_fk__in=doc).count()
+        #     print(versiones)
         #for especialidad, numero in zip(especialidad_list, cantidad_por_especialidad):            recorrer dos listas en el mismo tiempo
         #    diccionario.update({str(especialidad) : numero})  
 
@@ -111,4 +137,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['get_report_states_total'] = self.get_report_states_total()
         context['get_report_states_Cantidad'] = self.get_report_states_Cantidad()
         context['get_report_states_Especialidades'] = self.get_report_states_Especialidades()
+        context['lista_final'] = self.reporte_general()
+
         return context

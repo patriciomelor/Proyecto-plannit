@@ -5,7 +5,7 @@ ESTADOS_CLIENTE = (
     (3, "Eliminado"),
     (4, "Aprobado"),
     (5, "Valido para construcción"),
-    (6, "Aprobado (en numeracion)"),
+    (6, "Mantener Revisión"),
 )
 
 ESTADO_CONTRATISTA =  (
@@ -27,10 +27,10 @@ TYPES_REVISION = (
     (2,"Revision C"),
     (3,"Revision D"),
     (4,"Revision E"),
-    (26,"Revision 0"),
-    (27,"Revision 1"),
-    (28,"Revision 2"),
-    (29,"Revision 3"),
-    (30,"Revision 4"),
-    (31,"Revision 5"),
+    (5,"Revision 0"),
+    (6,"Revision 1"),
+    (7,"Revision 2"),
+    (8,"Revision 3"),
+    (9,"Revision 4"),
+    (10,"Revision 5"),
 )

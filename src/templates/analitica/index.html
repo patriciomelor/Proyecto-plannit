@@ -8,7 +8,7 @@
     </nav>
   </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Panel de Analita</h4>
+    <h4 class="tx-gray-800 mg-b-5">Panel de Analita {% for value in lista_final %} {{value.1}} {% endfor %} </h4>
   </div>
   <div class="row row-sm mg-t-20">
           <div class="col-md-6">
@@ -119,10 +119,10 @@
     var myChart2 = new Chart(ctx, {
       type: 'horizontalBar',
       data: {
-          labels: ['Documentos Totales','Aprobado con comentarios', 'Rechazado', 'Eliminado', 'Aprobado', 'Válido para construcción', 'Aprobado (en numeración)'],
+          labels: ['{% for value in lista_final %}{{value.1}}', '{% endfor %}'],
           datasets: [{
               label: '#Documentos Totales',  
-              data: [{{get_report_states_total}},{{get_report_states_AcC}},{{get_report_states_Rec}},{{get_report_states_Eli}},{{get_report_states_Apr}},{{get_report_states_VcC}},{{get_report_states_ANu}}],
+              data: [{% for value in lista_final %} {{value.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(209, 104, 210, 0.2)',
                   'rgba(255, 99, 132, 0.2)',

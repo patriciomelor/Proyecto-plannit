@@ -21,7 +21,7 @@ class BuscadorIndex(ProyectoMixin, ListView):
 
     def get_queryset(self):
         # qs = self.documentos_con_versiones()
-        lista_documentos_filtrados = DocFilter(self.request.GET)#, queryset= documentos_con_versiones(self.request))
+        lista_documentos_filtrados = DocFilter(self.request.GET, queryset= documentos_con_versiones(self.request))
         return lista_documentos_filtrados.qs.order_by('Numero_documento_interno')
     
     def get_context_data(self, **kwargs):

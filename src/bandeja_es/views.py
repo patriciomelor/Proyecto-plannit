@@ -12,7 +12,7 @@ from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, Creat
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
-
+from panel_carga.choices import TYPES_REVISION
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -480,8 +480,6 @@ def create_preview(request, borrador_pk):
             PreviewVersionFormset = formset_factory(VersionDocPreview, extra=1)
             form_paraquete = PaquetePreviewForm()
             formset_version = PreviewVersionFormset(data)
-            context['formset'] = formset_version
-            context['form_paraquete'] = form_paraquete
     
     context['borr_pk'] = borrador_pk
     return render(request, 'bandeja_es/create-paquete2.html', context)
