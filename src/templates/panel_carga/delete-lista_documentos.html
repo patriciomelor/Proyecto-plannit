@@ -54,8 +54,8 @@
                 <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </td>
                 <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}}</td>                  
                 <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}} </td>
-                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B}} </td>
-                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0}}</td>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B|date:'d-M-y'}} </td>
+                <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0|date:'d-M-y'}}</td>
               </tr>           
               
               {% empty %}

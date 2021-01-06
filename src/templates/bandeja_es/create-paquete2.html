@@ -159,7 +159,7 @@ function cloneMore(selector, prefix) {
     newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
         var name = $(this).attr('name')
         if(name) {
-            name = name.replace('-' + (total-1) + '-', '-' + total + '-');
+            name = name.replace('-' + (total+1) + '-', '-' + total + '-');
             var id = 'id_' + name;
             $(this).attr({'name': name, 'id': id}).val('').removeAttr('checked');
         }
