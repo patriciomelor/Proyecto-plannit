@@ -8,7 +8,7 @@
     </nav>
   </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Panel de Analita {% for value in lista_final %} {{value.1}} {% endfor %} </h4>
+    <h4 class="tx-gray-800 mg-b-5">Panel de Analita</h4>
   </div>
   <div class="row row-sm mg-t-20">
           <div class="col-md-6">
@@ -79,11 +79,10 @@
     var myChart5 = new Chart(ctx, {
       type: 'pie',
       data: {
-          labels: [ '{% for especial in get_report_states_Especialidades %} {{especial}}', '{% endfor %}' ],
+          labels: [ '{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}' ],
           datasets: [{
               label: '# of Votes',
-              data: [ {% for cant in get_report_states_Cantidad %} {{cant}}, {% endfor %} ],
-              {% comment %} {% for cant in get_report_states_Cantidad.items %} {{cant}}, {% endfor %} {% endcomment %}
+              data: [ {% for emisiones in lista_emisiones %} {{emisiones.0}}, {% endfor %} ],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -119,7 +118,7 @@
     var myChart2 = new Chart(ctx, {
       type: 'horizontalBar',
       data: {
-          labels: ['{% for value in lista_final %}{{value.1}}', '{% endfor %}'],
+          labels: ['{% for value in lista_final %} {{value.1}}',  '{% endfor %}'],
           datasets: [{
               label: '#Documentos Totales',  
               data: [{% for value in lista_final %} {{value.0}}, {% endfor %}],
