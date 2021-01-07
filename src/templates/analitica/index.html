@@ -120,7 +120,7 @@
       data: {
           labels: ['{% for value in lista_final %} {{value.1}}',  '{% endfor %}'],
           datasets: [{
-              label: '#Documentos Totales',  
+              label: '# of Votes',  
               data: [{% for value in lista_final %} {{value.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(209, 104, 210, 0.2)',
@@ -159,11 +159,11 @@
     var myChart3 = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: ['{% for emisiones in lista_total_documentos %} {{emisiones.1}}',  '{% endfor %}'],
           datasets: [
             {
               label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
+              data: [{% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',

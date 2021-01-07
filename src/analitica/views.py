@@ -58,7 +58,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = []
 
         especialidad_list = tuple()
-        especialidad_final = []
         cantidad_por_especialidad = []
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
@@ -66,18 +65,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             especialidad_actual = special.Especialidad
             if not especialidad_actual in especialidad_list:
                 especialidad_list = especialidad_list + (str(especialidad_actual),)
-                especialidad_final.append(especialidad_list)
 
-        for lista in especialidad_final:
+        for lista in especialidad_list:
             cont2 = 0
             for doc in documentos:
                 if lista == doc.Especialidad:
                     cont2 = cont2 + 1
-                    
-            cantidad_por_especialidad.append(cont2)
-            
-            lista_actual.append(cantidad_por_especialidad, lista)
-            lista_final.append(lista_actual) 
+            lista_actual = [cont2, lista]
+            lista_final.append(lista_actual)     
 
         # for especial in especialidad_list:
         #     doc = Documento.objects.filter(proyecto=self.request.session.get('proyecto'), Especialidad=especial)
@@ -88,17 +83,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         return lista_final      
 
-    def reporte_especialidadades(self):
-        especialidad_list = tuple()
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-
-        for special in documentos:
-            especialidad_actual = special.Especialidad
-            if not especialidad_actual in especialidad_list:
-                especialidad_list = especialidad_list + (str(especialidad_actual),)
-
-        return especialidad_list
-
         ###################################################
         #                                                 #
         #                                                 #
@@ -107,21 +91,34 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #                                                 #
         ###################################################
 
-        def reporte_aprobados(self):
-            lista_final2 = []
-            lista_inicial2 = []
+    def reporte_total_documentos(self):
+        lista_actual = []
+        lista_final = []
 
-            doc = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        especialidad_list = tuple()
+        cantidad_por_especialidad = []
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
-            for estado in ESTADOS_CLIENTE[1:]:
+        for special in documentos:
+                especialidad_actual = special.Especialidad
+                if not especialidad_actual in especialidad_list:
+                    especialidad_list = especialidad_list + (str(especialidad_actual),)
 
-                version_especialidad_aprobado = Version.objects.filter(estado_cliente = int(0), documento_fk__int=doc).count()
-                lista_actual = [version_especialidad_aprobado, ]
+        for lista in especialidad_list:
+                cont2 = 0
+                for doc in documentos:
+                    if lista == doc.Especialidad:
+                        cont2 = cont2 + 1
+                lista_actual = [cont2, lista]
+                lista_final.append(lista_actual)
+
+        return lista_final
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['lista_emisiones'] = self.reporte_emisiones()
-        context['lista_especialidades'] = self.reporte_especialidadades()
+
         context['lista_final'] = self.reporte_general()
+        context['lista_emisiones'] = self.reporte_emisiones()
+        context['lista_total_documentos'] = self.reporte_total_documentos()
 
         return context
