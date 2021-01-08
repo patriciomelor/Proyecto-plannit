@@ -7,6 +7,7 @@ from panel_carga.views import ProyectoMixin
 from bandeja_es.models import Version
 from panel_carga.models import Documento
 from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE
+from datetime import datetime
 
 # Create your views here.
 
@@ -60,6 +61,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         especialidad_list = tuple()
         cantidad_por_especialidad = []
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        #versiones = Versiones.objects.filter(documento_fk__in=doc, estado_cliente=5)
 
         for special in documentos:
             especialidad_actual = special.Especialidad
