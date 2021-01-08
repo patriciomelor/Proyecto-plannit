@@ -13,6 +13,7 @@ from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, Borr
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
 from panel_carga.choices import TYPES_REVISION
+import pathlib
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -28,7 +29,6 @@ class InBoxView(ProyectoMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pkg = Paquete.objects.filter(destinatario=self.request.user)
         context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
         return context
     
@@ -45,7 +45,6 @@ class EnviadosView(ProyectoMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        pkg = Paquete.objects.filter(owner=self.request.user)
         context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
         return context
    
@@ -382,10 +381,18 @@ def create_paquete(request, paquete_pk, versiones_pk):
 #     return JsonResponse(data, safe=False)
 
 def verificar_nombre_archivo(nombre_documento, nombre_archivo):
-    if nombre_documento == nombre_archivo:
-        return True
+    try:
+        index = nombre_archivo.index('.')
+    except ValueError:
+        index = len(nombre_archivo)
+
+    cleaned_name = nombre_archivo[:index]
+    extencion = nombre_archivo[index:]
+
+    if nombre_documento == cleaned_name:
+        return True, extencion
     else:
-        return False
+        return False, extencion
 
 def create_preview(request, borrador_pk):
     context = {}
@@ -394,16 +401,18 @@ def create_preview(request, borrador_pk):
     version_list_pk = []
     valido = True
     if request.method == 'POST':
+        ############### Busca Cargar datos del borrador para incertarlo en los formularios  ###############
         try:
             pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
             versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
         except ValueError:
             versiones = False
-
+        ############### Carga de datos al initial formset comparatico de GET y POST  ###############
+        
         PreviewVersionFormset = formset_factory(VersionDocPreview)
-        if versiones != False:
+        if versiones != False: #Si existen versiones, cargalas.
             formset_version = PreviewVersionFormset(request.POST or None, request.FILES, initial=[{'prev_documento_fk': x.version.documento_fk, 'prev_revision': x.version.revision, 'prev_estado_cliente': x.version.estado_cliente, 'prev_estado_contratista': x.version.estado_contratista, 'prev_archivo': x.version.archivo, 'prev_comentario': x.version.comentario} for x in versiones])
-        else:
+        else: #Si no, solo va con request.
             formset_version = PreviewVersionFormset(request.POST or None, request.FILES)
         
         form_paraquete = PaquetePreviewForm(request.POST or None)
@@ -413,7 +422,7 @@ def create_preview(request, borrador_pk):
                 doc_pk = int(form.cleaned_data['prev_documento_fk'])
                 doc = Documento.objects.get(pk=doc_pk)
                 nombre_documento = str(doc)
-                nombre_archivo = str(form.cleaned_data['prev_archivo']).rstrip(".xlsx")
+                nombre_archivo = str(form.cleaned_data['prev_archivo'])
                 if not verificar_nombre_archivo(nombre_documento, nombre_archivo):
                     valido = False
 
