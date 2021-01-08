@@ -41,7 +41,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             lista_final.append(lista_actual)
             total = total + version_aprobadocCs
 
-        print(lista_final)
+        #print(lista_final)
 
         return lista_final
 
@@ -61,7 +61,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         especialidad_list = tuple()
         cantidad_por_especialidad = []
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        #versiones = Versiones.objects.filter(documento_fk__in=doc, estado_cliente=5)
+        versiones = Version.objects.filter(documento_fk__in=documentos, estado_cliente=5)
 
         for special in documentos:
             especialidad_actual = special.Especialidad
@@ -82,6 +82,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #     print(versiones)
         #for especialidad, numero in zip(especialidad_list, cantidad_por_especialidad):            recorrer dos listas en el mismo tiempo
         #    diccionario.update({str(especialidad) : numero})  
+
+        print(versiones)
 
         return lista_final      
 
