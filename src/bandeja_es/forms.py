@@ -1,6 +1,7 @@
 from django import forms
 from django.forms import BaseFormSet
 from django.forms import (formset_factory, modelformset_factory)
+from django.urls import (reverse_lazy, reverse)
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from panel_carga.models import Documento
@@ -27,6 +28,11 @@ class Documento_Select2(ModelSelect2Widget):
     search_fields=[
         'prev_documento_fk__icontains',
     ]
+    model = Documento
+    
+    def __init__(self, *args, **kwargs):
+        kwargs['data_url'] = reverse_lazy('datos-baes')
+        return super(Documento_Select2, self).__init__(*args, **kwargs)
 
 class BaseArticleFormSet(BaseFormSet):
     def add_fields(self, form, index):
@@ -86,7 +92,7 @@ class PaquetePreviewForm(forms.ModelForm):
         }
 class VersionDocPreview(forms.ModelForm):
     prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
-    prev_documento_fk = forms.CharField(label="Documentos",widget=Documento_Select2)
+    prev_documento_fk = forms.CharField(label="Documentos",widget=Documento_Select2(attrs={'class': 'select2', 'id': 'formset'}))
     class Meta:
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']

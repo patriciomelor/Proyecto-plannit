@@ -20,6 +20,7 @@ urlpatterns = [
     path('borradores/', views.BorradorList.as_view(), name= 'Borradores'),
     path('papelera/', views.PapeleraView.as_view(), name= 'bandeja-papelera'),
     path('paquete/preview/<borrador_pk>/', login_required(views.create_preview), name='paquete-preview'),
+    path('paquete/preview2/<borrador_pk>/', login_required(views.create_preview2), name='paquete-preview2'),
     path('paquete/crear/<paquete_pk>/<versiones_pk>', login_required(views.create_paquete), name='paquete-crear'),
     path('paquete/detalle/<pk>/', views.PaqueteDetail.as_view(), name='paquete-detalle'),
     path('paquete/editar/<pk>/', views.PaqueteUpdate.as_view(), name='paquete-editar'),

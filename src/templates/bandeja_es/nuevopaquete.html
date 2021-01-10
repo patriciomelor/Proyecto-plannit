@@ -1,6 +1,6 @@
 {% extends "index-blank.html" %}
 
-{% load staticfiles %}
+{% load static %}
 {% block css %}{{ form.media.css }}{% endblock css %}
 
 {% block mailing %}
@@ -46,11 +46,15 @@
 
             <form method="post" action=".">
                 {% csrf_token %}
+
+                <div>
+                    {{form_paquete.as_p}}
+                </div>
                 {{ form.management_form }}
 
                 <div id="formset">
-                    {% for f in form %}
-                        {{ f }}
+                    {% for f in formset %}
+                        {{ f.as_p }}
                     {% endfor %}
                 </div>
                 <button type="submit">submit</button>
@@ -59,20 +63,22 @@
         </div>
     </div>
 </div>
-    <script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-    <script src="{% static 'jquery.formset.js' %}"></script>
+<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="{% static 'jquery.formset.js' %}"></script> 
+<script>
+    (function () {
+        // init dynamic formset
+        $('#formset').formset({
+            formTemplate: $('#formset-template').clone(),
+            // initialize newly created heavy fields on the added callback
+            added: function (row) {
+                row.find('.django-select2').djangoSelect2();
+            }
+        });
+    }());
+</script>
+
     {{ form.media.js }}
-    <script>
-        (function () {
-            // init dynamic formset
-            $('#formset').formset({
-                formTemplate: $('#formset-template').clone(),
-                // initialize newly created heavy fields on the added callback
-                added: function (row) {
-                    row.find('.django-select2').djangoSelect2();
-                }
-            });
-        }());
-    </script>
+
 
 {% endblock content %}
