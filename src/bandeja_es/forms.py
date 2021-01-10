@@ -13,12 +13,20 @@ from panel_carga.views import ProyectoMixin
 from panel_carga.choices import TYPES_REVISION
 from panel_carga.models import Documento
 
+from django_select2.forms import ModelSelect2Widget
+
+
 
 
 # class DocumentoListForm(forms.Form):
 #     documento = forms.MultipleChoiceField(required=False, label="Escoja los documentos a enviar: ")
 #     file_field = forms.FileField(widget=forms.ClearableFileInput(attrs={'multiple': True}), label="Adjunte archivo al los documentos: ")
 #     # documento = forms.MultipleChoiceField(widget=forms.CheckboxSelectMultiple, required=False, label="Escoja los documentos a enviar: ")
+
+class Documento_Select2(ModelSelect2Widget):
+    search_fields=[
+        'prev_documento_fk__icontains',
+    ]
 
 class BaseArticleFormSet(BaseFormSet):
     def add_fields(self, form, index):
@@ -78,7 +86,7 @@ class PaquetePreviewForm(forms.ModelForm):
         }
 class VersionDocPreview(forms.ModelForm):
     prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
-    prev_documento_fk = forms.CharField(label="Documentos",widget=forms.Select(attrs={'class':'select2'}))
+    prev_documento_fk = forms.CharField(label="Documentos",widget=Documento_Select2)
     class Meta:
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
