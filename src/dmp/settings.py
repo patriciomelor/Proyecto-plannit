@@ -103,6 +103,8 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = 'dmp.urls'
 
+############ Select2 Configs ###############
+
 CACHES = {
     "default": {
         "BACKEND": "django_redis.cache.RedisCache",
@@ -122,6 +124,8 @@ CACHES = {
 
 # Set the cache backend to select2
 SELECT2_CACHE_BACKEND = 'select2'
+
+CACHE_PREFIX= 'select2_'
 
 
 TEMPLATES = [
