@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     # 'mptt',
     # 'multiupload',
     'django_filters',
+    'django_select2',
     
     'dashboard',
     'tools',
