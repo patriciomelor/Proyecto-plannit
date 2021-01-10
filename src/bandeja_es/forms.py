@@ -92,6 +92,19 @@ class VersionDocPreview(forms.ModelForm):
         placeholders = {
             'prev_revision' : "Elegir Opción"
         }
+    
+    def clean(self):
+        data = self.cleaned_data
+        doc_pk = int(form.data['prev_documento_fk'])
+        doc = Documento.objects.get(pk=doc_pk)
+        nombre_documento = str(doc)
+        nombre_archivo = str(form.data['prev_archivo'])
+        
+        if not verificar_nombre_archivo(nombre_documento, nombre_archivo):
+            self.add_error('prev_archivo', 'No coinciden los nombres')
+        
+        return data
+   
 
 # class cualquierwea(VersionDocPreview):        
 #     def __init__(self, *args, **kwargs):
@@ -101,3 +114,17 @@ class VersionDocPreview(forms.ModelForm):
     
       
 PreviewVersionSet = formset_factory(VersionDocPreview)
+
+def verificar_nombre_archivo(nombre_documento, nombre_archivo):
+    try:
+        index = nombre_archivo.index('.')
+    except ValueError:
+        index = len(nombre_archivo)
+
+    cleaned_name = nombre_archivo[:index]
+    extencion = nombre_archivo[index:]
+
+    if nombre_documento == cleaned_name:
+        return True
+    else:
+        return False
