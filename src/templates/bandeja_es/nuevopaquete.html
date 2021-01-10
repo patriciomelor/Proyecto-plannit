@@ -1,5 +1,5 @@
 {% extends "index-blank.html" %}
-
+{% load crispy_forms_tags %}
 {% load static %}
 {% block css %}{{ form.media.css }}{% endblock css %}
 
@@ -41,20 +41,20 @@
         <div class="card bd-0 shadow-base">  
 
              <div id="formset-template" style="display: none;">
-                 {{ form.empty_form }}
+                 {{ form.empty_form|crispy }}
             </div>
 
             <form method="post" action=".">
                 {% csrf_token %}
 
                 <div>
-                    {{form_paquete.as_p}}
+                    {{form_paquete|crispy}}
                 </div>
-                {{ form.management_form }}
+                {{ form.management_form|crispy }}
 
                 <div id="formset">
                     {% for f in formset %}
-                        {{ f.as_p }}
+                        {{ f|crispy }}
                     {% endfor %}
                 </div>
                 <button type="submit">submit</button>
@@ -72,7 +72,22 @@
             formTemplate: $('#formset-template').clone(),
             // initialize newly created heavy fields on the added callback
             added: function (row) {
-                row.find('.django-select2').djangoSelect2();
+                row.find('.django-select2').djangoSelect2({
+                    theme: "bootstrap3",
+                    language: "es",
+                    placeholder: 'seleccione un Documento',
+                    ajax: {
+                        url: '{% url 'datos-baes' %}',
+                        dataType: 'json',
+                        processResults: function (data) {
+                                    return {
+                                        results: $.map(data, function (item) {
+                                            return {id: item.id, text: item.Codigo_documento};
+                                        })
+                                    };
+                                }
+                            }
+                });
             }
         });
     }());
