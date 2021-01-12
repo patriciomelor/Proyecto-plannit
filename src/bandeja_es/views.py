@@ -536,7 +536,6 @@ class CreatePaquete2(ProyectoMixin, SessionWizardView):
         ####### Version Form  #####
         version_form = form_list[2]
 
-      
 
     def get_template_names(self):
         return [TEMPLATES[self.steps.current]]
