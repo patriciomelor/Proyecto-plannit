@@ -1,5 +1,5 @@
 import os.path
-
+from bootstrap_modal_forms.generic import BSModalCreateView
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -12,7 +12,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, BorradorDocumento, PaqueteDocumento
-from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador
+from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, VersionModalPreview
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
@@ -498,7 +498,7 @@ def create_preview(request, borrador_pk):
             context['formset'] = formset_version
             context['form_paraquete'] = form_paraquete
     context['borr_pk'] = borrador_pk
-    return render(request, 'bandeja_es/create-paquete2.html', context)
+    return render(request, 'bandeja_es/create-paquete3.html', context)
     
 def documentos_ajax(request):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
@@ -524,3 +524,8 @@ class CreatePaquete2(ProyectoMixin, SessionWizardView):
         return render(self.request, self.template_name, {
             'form_data': [form.cleaned_data for form in form_list],
         })
+    
+class ModalPrevVersion(ProyectoMixin, BSModalCreateView):
+    template_name = 'bandeja_es/crear-pkg-modal.html'
+    form_class = VersionModalPreview
+    success_message = 'Success: Book was created.'

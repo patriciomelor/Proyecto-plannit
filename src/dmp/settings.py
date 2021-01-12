@@ -53,6 +53,9 @@ INSTALLED_APPS = [
     'django_filters',
     'django_select2',
     'formtools',
+    'bootstrap_modal_forms',
+
+
     
     'dashboard',
     'tools',

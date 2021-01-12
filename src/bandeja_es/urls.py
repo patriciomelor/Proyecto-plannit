@@ -28,5 +28,9 @@ urlpatterns = [
     path('borrador/crear/<borrador_pk>/', login_required(views.create_borrador), name='borrador-crear'),
     # path('paquete/cargar/<int:pk>/', login_required(views.cargar_documentos), name='cargar-documentos' )
     path('datos/', login_required(views.documentos_ajax), name='datos-baes'),
-    path('datos2/', views.DocumentosSelect2.as_view(), name='datos-baes2')
+    path('datos2/', views.DocumentosSelect2.as_view(), name='datos-baes2'),
+# Modals URL's
+    path('modalcrear/', views.ModalPrevVersion.as_view(), name='modal-create'),
+
+
 ]
