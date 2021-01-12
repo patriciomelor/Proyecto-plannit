@@ -318,7 +318,6 @@ def create_borrador(request, borrador_pk):
 
                 return JsonResponse({'msg': 'Success'})
 
-
 class BorradorDelete(ProyectoMixin, DeleteView):
     model = BorradorPaquete
     success_url = reverse_lazy('Bandejaeys')
@@ -518,27 +517,27 @@ class DocumentosSelect2(AutoResponseView):
 TEMPLATES = {
 
 }
-class CreatePaquete2(ProyectoMixin, SessionWizardView):
-    form_list = [('paquete', PaquetePreviewForm), ('version', VersionDocPreview)]
-    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'versiones'))
-    template_name = 'bandeja_es/nuevopaquete.html'
+# class CreatePaquete2(ProyectoMixin, SessionWizardView):
+#     form_list = [('paquete', PaquetePreviewForm), ('version', VersionDocPreview)]
+#     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'versiones'))
+#     template_name = 'bandeja_es/nuevopaquete.html'
 
-    def done(self, form_list, **kwargs):
-        ####### Paquete Form #####
-        package_pk = 0
-        form_paquete = form_list[0]
-        obj = form_paquete.save(commit=False)
-        obj.prev_propietario = request.user
-        obj.save()
-        package_pk = obj.pk
-        context2['paquete_pk'] = package_pk
+#     def done(self, form_list, **kwargs):
+#         ####### Paquete Form #####
+#         package_pk = 0
+#         form_paquete = form_list[0]
+#         obj = form_paquete.save(commit=False)
+#         obj.prev_propietario = request.user
+#         obj.save()
+#         package_pk = obj.pk
+#         context2['paquete_pk'] = package_pk
 
-        ####### Version Form  #####
-        version_form = form_list[2]
+#         ####### Version Form  #####
+#         version_form = form_list[2]
 
 
-    def get_template_names(self):
-        return [TEMPLATES[self.steps.current]]
+#     def get_template_names(self):
+#         return [TEMPLATES[self.steps.current]]
 
 class BotonesForms(ProyectoMixin, TemplateView):
     template_name = 'bandeja_es/nuevopaquete.html'
