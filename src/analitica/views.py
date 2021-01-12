@@ -65,19 +65,29 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         id_ver = []
         fecha_list = []
-        aprc_cont = 0
-        rec_cont = 0
-        eli_cont = 0
-        apr_cont = 0
-        apr_cont = 0
-        apr_cont = 0
+        # aprc_cont = 0
+        # rec_cont = 0
+        # eli_cont = 0
+        # apr_cont = 0
+        # apr_cont = 0
+        # apr_cont = 0
 
         for doc in documentos:
+            especialidad_actual = doc.Especialidad
+            if not especialidad_actual in especialidad_list:
+                especialidad_list = especialidad_list + (str(especialidad_actual),)
             for estado in ESTADOS_CLIENTE[1:]:
                 versiones = Version.objects.filter(estado_cliente=int(estado[0]), documento_fk=doc).last()
-                lista_actual = [versiones, estado[1]]
-                lista_final.append(lista_actual)
-            
+                lista_actual = [versiones, estado[1], especialidad_actual] 
+                lista_final.append(lista_actual) # lista final = [ [versiones, estado[1], especialidad_actual] , [versiones, estado[1], especialidad_actual] , ... , [versiones, estado[1], especialidad_actual] ]
+        
+        for lista in lista_final: # lista = [versiones, estado[1], especialidad_actual] --> lasta[2] = especialidad_actual
+            for special in documentos:
+                especialidad_actual = special.Especialidad
+                if not especialidad_actual in especialidad_list:
+                    especialidad_list = especialidad_list + (str(especialidad_actual),)
+            if lista[2] ==
+
             # versiones = Version.objects.filter(documento_fk=doc).last()
             # especialidad_actual = doc.Especialidad
             # if versiones.estado_cliente == 1:
@@ -109,20 +119,17 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #             #aqui encontramos la fecha 12/12/12
 
 
-        for special in documentos:
-            especialidad_actual = special.Especialidad
-            if not especialidad_actual in especialidad_list:
-                especialidad_list = especialidad_list + (str(especialidad_actual),)
 
 
 
-        for lista in especialidad_list:
-            cont2 = 0
-            for doc in documentos:
-                if lista == doc.Especialidad:
-                    cont2 = cont2 + 1
-            lista_actual = [cont2, lista]
-            lista_final.append(lista_actual)     
+
+        # for lista in especialidad_list:
+        #     cont2 = 0
+        #     for doc in documentos:
+        #         if lista == doc.Especialidad:
+        #             cont2 = cont2 + 1
+        #     lista_actual = [cont2, lista]
+        #     lista_final.append(lista_actual)     
 
         # for especial in especialidad_list:
         #     doc = Documento.objects.filter(proyecto=self.request.session.get('proyecto'), Especialidad=especial)
