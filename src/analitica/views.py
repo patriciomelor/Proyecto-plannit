@@ -37,7 +37,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             version_aprobadocCs = Version.objects.filter(estado_cliente=int(estado[0]), documento_fk__in=doc).count()
             lista_actual = [version_aprobadocCs, estado[1]]
-            print(lista_actual)
             lista_final.append(lista_actual)
             total = total + version_aprobadocCs
 
@@ -61,32 +60,51 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         especialidad_list = tuple()
         cantidad_por_especialidad = []
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        versiones = Version.objects.filter(documento_fk__in=documentos, estado_cliente=5)
+        #versiones = Version.objects.filter(documento_fk__in=documentos, estado_cliente=5)
 
-        id_ver = []
-        fecha_list = []
-        # aprc_cont = 0
-        # rec_cont = 0
-        # eli_cont = 0
-        # apr_cont = 0
-        # apr_cont = 0
-        # apr_cont = 0
-
+        #versiones actuales de los documentos
         for doc in documentos:
-            especialidad_actual = doc.Especialidad
-            if not especialidad_actual in especialidad_list:
-                especialidad_list = especialidad_list + (str(especialidad_actual),)
-            for estado in ESTADOS_CLIENTE[1:]:
-                versiones = Version.objects.filter(estado_cliente=int(estado[0]), documento_fk=doc).last()
-                lista_actual = [versiones, estado[1], especialidad_actual] 
-                lista_final.append(lista_actual) # lista final = [ [versiones, estado[1], especialidad_actual] , [versiones, estado[1], especialidad_actual] , ... , [versiones, estado[1], especialidad_actual] ]
-        
+            versiones = Version.objects.filter(documento_fk=doc).last()
+            lista_actual = [versiones, doc.Especialidad] 
+
+            # if versiones.estado_cliente.isEmpty():
+            #     lista_actual = ['vacio',doc.Especialidad]
+            
+            # else:
+            #     lista_actual = [verisones.estado_cliente, doc.Especialidad]
+
+            print(lista_actual)
+
+            lista_final.append(lista_actual) # lista final = [ [versiones, estado[1], especialidad_actual] , [versiones, estado[1], especialidad_actual] , ... , [versiones, estado[1], especialidad_actual] ]
+
         for lista in lista_final: # lista = [versiones, estado[1], especialidad_actual] --> lasta[2] = especialidad_actual
             for special in documentos:
                 especialidad_actual = special.Especialidad
                 if not especialidad_actual in especialidad_list:
                     especialidad_list = especialidad_list + (str(especialidad_actual),)
-            if lista[2] ==
+
+        #lista final de versiones aprobadas
+        aprobados_final = []
+        aprobados_inicial = []
+                
+
+        for especialidad in especialidad_list:
+            cont = 0
+            for lista in lista_final:
+                if lista[1] == especialidad and ( lista[0].estado_cliente == 1 or lista[1].estado_cliente == 4 or lista[1].estado_cliente == 5 ) :
+                    cont = cont + 1
+                
+            aprobados_inicial = [cont, especialidad]
+            aprobados_final.append(aprobados_inicial)
+
+
+
+        
+        # for lista in lista_final: # lista = [versiones, estado[1], especialidad_actual] --> lasta[2] = especialidad_actual
+        #     for special in documentos:
+        #         especialidad_actual = special.Especialidad
+        #         if not especialidad_actual in especialidad_list:
+        #             especialidad_list = especialidad_list + (str(especialidad_actual),)
 
             # versiones = Version.objects.filter(documento_fk=doc).last()
             # especialidad_actual = doc.Especialidad
@@ -138,9 +156,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #for especialidad, numero in zip(especialidad_list, cantidad_por_especialidad):            recorrer dos listas en el mismo tiempo
         #    diccionario.update({str(especialidad) : numero})  
 
-        print(versiones)
-
-        return lista_final      
+        return aprobados_final      
 
         ###################################################
         #                                                 #
