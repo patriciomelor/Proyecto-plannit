@@ -65,12 +65,36 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         id_ver = []
         fecha_list = []
+        aprc_cont = 0
+        rec_cont = 0
+        eli_cont = 0
+        apr_cont = 0
+        apr_cont = 0
         apr_cont = 0
 
         for doc in documentos:
-            versiones = Version.objects.filter(documento_fk=doc).last()
-            if versiones.estado_cliente == 1:
-                apr_cont = apr_cont + 1
+            for estado in ESTADOS_CLIENTE[1:]:
+                versiones = Version.objects.filter(estado_cliente=int(estado[0]), documento_fk=doc).last()
+                lista_actual = [versiones, estado[1]]
+                lista_final.append(lista_actual)
+            
+            # versiones = Version.objects.filter(documento_fk=doc).last()
+            # especialidad_actual = doc.Especialidad
+            # if versiones.estado_cliente == 1:
+            #     aprc_cont = apr_cont + 1
+            # else:
+            #     if versiones.estado_cliente == 2:
+            #     rec_cont = rec_cont + 1
+            #     else:
+            #         if versiones.estado_cliente == 3:
+            #             eli_cont = eli_cont + 1
+            #         else:
+            #             if versiones.estado_cliente == 4:
+            #                 apr_cont = apr_cont + 1
+            #             else:
+            #                 if versiones.estado_cliente == 5:
+            #                     apr_cont = apr_cont + 1
+
             # # if versiones.fecha > versiones.fechasiguiente: esto hay que hacer conceptualmente 
             # #     version definitiva 
 
@@ -90,7 +114,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if not especialidad_actual in especialidad_list:
                 especialidad_list = especialidad_list + (str(especialidad_actual),)
 
-        
+
 
         for lista in especialidad_list:
             cont2 = 0
