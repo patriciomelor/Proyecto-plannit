@@ -1,9 +1,13 @@
+import os.path
+
+from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.forms import formset_factory
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.base import TemplateView, RedirectView, View
+from django.core.files.storage import FileSystemStorage
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
@@ -14,6 +18,8 @@ from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
 from panel_carga.choices import TYPES_REVISION
 import pathlib
+from formtools.wizard.views import SessionWizardView
+from django_select2.views import AutoResponseView
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -503,107 +509,18 @@ def documentos_ajax(request):
     # return JsonResponse(response_content,safe=False)
     return JsonResponse(response_content, safe=False)
 
-def create_preview2(request, borrador_pk):
-    context = {}
-    context2 = {}
-    version_list = []
-    version_list_pk = []
-    valido = True
-    if request.method == 'POST':
-        ############### Busca Cargar datos del borrador para incertarlo en los formularios  ###############
-        try:
-            pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-            versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
-        except ValueError:
-            versiones = False
-        ############### Carga de datos al initial formset comparatico de GET y POST  ###############
-        PreviewVersionFormset = formset_factory(VersionDocPreview)
-        if versiones != False: #Si existen versiones, cargalas.
-            formset_version = PreviewVersionFormset(request.POST or None, request.FILES, initial=[{'prev_documento_fk': x.version.documento_fk, 'prev_revision': x.version.revision, 'prev_estado_cliente': x.version.estado_cliente, 'prev_estado_contratista': x.version.estado_contratista, 'prev_archivo': x.version.archivo, 'prev_comentario': x.version.comentario} for x in versiones])
-        else: #Si no, solo va con request.
-            formset_version = PreviewVersionFormset(request.POST or None, request.FILES)
-        form_paraquete = PaquetePreviewForm(request.POST or None)
-        ######################################################################################################
+class DocumentosSelect2(AutoResponseView):
 
+    def get_queryset(self):
+        qs = super().get_queryset()
+        return qs.filter(proyecto=request.session.get('proyecto'))
 
-        if form_paraquete.is_valid() and formset_version.is_valid():
+class CreatePaquete2(ProyectoMixin, SessionWizardView):
+    form_list = [PaquetePreviewForm, PreviewVersionSet]
+    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'versiones'))
+    template_name = 'bandeja_es/nuevopaquete.html'
 
-        ########################### Validación de NO repetición de documentos ################################
-        ########################### y restricción de REVISIÓN para estados no aprobados ######################
-            nombre_actual = ''
-            listado_nombres = []
-            for form in formset_version:
-                doc_pk = form.cleaned_data['prev_documento_fk']
-                nombre_actual = doc_pk
-                if nombre_actual in listado_nombres:
-                    not valido
-                else:
-                    listado_nombres.append(nombre_actual)
-        ######################################################################################################         
-
-            if valido == True:
-                package_pk = 0
-                obj = form_paraquete.save(commit=False)
-                obj.prev_propietario = request.user
-                obj.save()
-                package_pk = obj.pk
-                context2['paquete_pk'] = package_pk
-                for form in formset_version:
-                    doc_pk = int(form.cleaned_data['prev_documento_fk'])
-                    doc = Documento.objects.get(pk=doc_pk)
-                    package = PrevPaquete.objects.get(pk=package_pk)
-                    context2['paquete'] = package
-                    version = form.save(commit=False)
-                    version.prev_documento_fk = doc
-                    version.prev_owner = request.user
-                    version.save()
-                    version_pk = version.pk
-                    version_qs = PrevVersion.objects.get(pk=version_pk)
-                    package.prev_documento.add(version_qs)
-                    version_list.append(version)
-                    version_list_pk.append(version_pk)
-                context2['versiones'] = version_list
-                context2['versiones_pk'] = version_list_pk
-                context2['invalido'] = 0
-                messages.add_message(request, messages.INFO, message='Previsualizacion')
-            
-                return render(request, 'bandeja_es/create-paquete.html', context2)
-            else:
-                messages.add_message(request, messages.ERROR, message='El nombre de un archivo no coincide con el documento. Porfavor revise sus formularios e intentelo de nuevo.')
-                context2['invalido'] = 1
-
-                return render(request, 'bandeja_es/create-paquete.html', context2)
-    
-    else:
-        try:
-            pkg_borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-            versiones = BorradorDocumento.objects.filter(borrador=pkg_borrador)
-            print(pkg_borrador)
-            print(versiones)
-            print(len(versiones))
-            form_paraquete = PaquetePreviewForm(initial={
-                'descripcion': pkg_borrador.descripcion,
-                'prev_receptor': pkg_borrador.destinatario,
-                'prev_asunto': pkg_borrador.asunto,
-            })
-            if len(versiones) == 0:
-                PreviewVersionFormset = formset_factory(VersionDocPreview, extra=1)
-            else:
-                PreviewVersionFormset = formset_factory(VersionDocPreview, extra=len(versiones)-1)
-            formset_version = PreviewVersionFormset(initial=[{'prev_documento_fk': x.version.documento_fk, 'prev_revision': x.version.revision, 'prev_estado_cliente': x.version.estado_cliente, 'prev_estado_contratista': x.version.estado_contratista, 'prev_archivo': x.version.archivo, 'prev_comentario': x.version.comentario} for x in versiones])
-            context['formset'] = formset_version
-            context['form_paraquete'] = form_paraquete
-
-        except:
-            data = {
-            'form-TOTAL_FORMS': '1',
-            'form-INITIAL_FORMS': '0',
-            'form-MAX_NUM_FORMS': '',
-        } 
-            PreviewVersionFormset = formset_factory(VersionDocPreview, extra=1)
-            form_paraquete = PaquetePreviewForm()
-            formset_version = PreviewVersionFormset(data)
-            context['formset'] = formset_version
-            context['form_paquete'] = form_paraquete
-    context['borr_pk'] = borrador_pk
-    return render(request, 'bandeja_es/nuevopaquete.html', context)
+    def done(self, form_list, **kwargs):
+        return render(self.request, self.template_name, {
+            'form_data': [form.cleaned_data for form in form_list],
+        })
