@@ -32,6 +32,7 @@ urlpatterns = [
 # Modals URL's
     path('modalcrear_version/', views.ModalPrevVersion.as_view(), name='modal-create-version'),
     path('modalcrear_paquete/', views.ModalPrevPaquete.as_view(), name='modal-create-paquete'),
+    pzth('baes_modal/', views.BotonesForms.as_view(), name='botones-modal'),
 
 
 ]
