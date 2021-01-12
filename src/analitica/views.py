@@ -63,10 +63,34 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         versiones = Version.objects.filter(documento_fk__in=documentos, estado_cliente=5)
 
+        id_ver = []
+        fecha_list = []
+        apr_cont = 0
+
+        for doc in documentos:
+            versiones = Version.objects.filter(documento_fk=doc).last()
+            if versiones.estado_cliente == 1:
+                apr_cont = apr_cont + 1
+            # # if versiones.fecha > versiones.fechasiguiente: esto hay que hacer conceptualmente 
+            # #     version definitiva 
+
+            # fecha_list = [versiones.fecha] # fecha_list = [[10/03/2020, 18/12/2019,....., 18/12/2019],[...],....,[...]]
+            # #id_ver = [versiones.id] fecha_list = [[3, 5,....., 546],[...],....,[...]]
+            # for actu in fecha_list[0]:
+            #     if len(fecha_ultima_ver) == 0:
+            #         fecha_ultima_ver = actu # fecha de version   10/03/2020
+            #         #id_ultimo = versiones.id # id de version  3
+            #     else:
+            #         if actu == fecha_ultima_ver
+            #             #aqui encontramos la fecha 12/12/12
+
+
         for special in documentos:
             especialidad_actual = special.Especialidad
             if not especialidad_actual in especialidad_list:
                 especialidad_list = especialidad_list + (str(especialidad_actual),)
+
+        
 
         for lista in especialidad_list:
             cont2 = 0
