@@ -43,9 +43,9 @@
     <div class="br-pagebody pd-x-20 pd-sm-x-30">
         <div class="card bd-0 shadow-base">  
             <div class="br-section-wrapper">
-                <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
-                <form action="" method="post">{% csrf_token %}
-                <table>
+                <h4 class="tx-gray-800 mg-b-5">Paso {{ wizard.steps.step1 }} de {{ wizard.steps.count }}</h4>
+                <form class="form-group mg-t-20"action="" method="post">{% csrf_token %}
+                <table >
                 {{ wizard.management_form|crispy }}
                 {% if wizard.form.forms %}
                     {{ wizard.form.management_form|crispy }}
@@ -57,10 +57,10 @@
                 {% endif %}
                 </table>
                 {% if wizard.steps.prev %}
-                <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">Primer paso</button>
-                <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Paso Anterior</button>
+                <button name="wizard_goto_step"class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">Primer paso</button>
+                <button name="wizard_goto_step"class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">Paso Anterior</button>
                 {% endif %}
-                <input type="submit" value="Enviar"/>
+                <input type="submit"class="btn btn-teal" value="Enviar"/>
                 </form>
             </div>
         </div>
