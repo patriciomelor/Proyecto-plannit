@@ -81,12 +81,12 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 lista_actual = [versiones, estado[1], especialidad_actual] 
                 lista_final.append(lista_actual) # lista final = [ [versiones, estado[1], especialidad_actual] , [versiones, estado[1], especialidad_actual] , ... , [versiones, estado[1], especialidad_actual] ]
         
-        for lista in lista_final: # lista = [versiones, estado[1], especialidad_actual] --> lasta[2] = especialidad_actual
-            for special in documentos:
-                especialidad_actual = special.Especialidad
-                if not especialidad_actual in especialidad_list:
-                    especialidad_list = especialidad_list + (str(especialidad_actual),)
-            if lista[2] ==
+        # for lista in lista_final: # lista = [versiones, estado[1], especialidad_actual] --> lasta[2] = especialidad_actual
+        #     for special in documentos:
+        #         especialidad_actual = special.Especialidad
+        #         if not especialidad_actual in especialidad_list:
+        #             especialidad_list = especialidad_list + (str(especialidad_actual),)
+        #     if lista[2] ==
 
             # versiones = Version.objects.filter(documento_fk=doc).last()
             # especialidad_actual = doc.Especialidad

@@ -30,7 +30,8 @@ urlpatterns = [
     path('datos/', login_required(views.documentos_ajax), name='datos-baes'),
     path('datos2/', views.DocumentosSelect2.as_view(), name='datos-baes2'),
 # Modals URL's
-    path('modalcrear/', views.ModalPrevVersion.as_view(), name='modal-create'),
+    path('modalcrear_version/', views.ModalPrevVersion.as_view(), name='modal-create-version'),
+    path('modalcrear_paquete/', views.ModalPrevPaquete.as_view(), name='modal-create-paquete'),
 
 
 ]

@@ -43,61 +43,6 @@
     <div class="br-pagebody pd-x-20 pd-sm-x-30">
         <div class="card bd-0 shadow-base">  
             <div class="br-section-wrapper">
-<<<<<<< HEAD
-                <div id="wizard6" class="mg-t-80 wizard wizard-style-2 clearfix" role="application">
-                    <div class="steps clearfix">
-                        <ul role="tablist">
-                            <li role="tab" class="first done" aria-disabled="false" aria-selected="false">
-                                <a id="wizard6-t-0" href="#wizard6-h-0" aria-controls="wizard6-p-0">
-                                    <span class="number">1</span> 
-                                    <span class="title">Personal Information</span>
-                                </a>
-                            </li>
-                            <li role="tab" class="done" aria-disabled="false" aria-selected="false">
-                                <a id="wizard6-t-1" href="#wizard6-h-1" aria-controls="wizard6-p-1">
-                                    <span class="number">2</span> 
-                                    <span class="title">Billing Information</span>
-                                </a>
-                            </li>
-                            <li role="tab" class="last current done" aria-disabled="false" aria-selected="true">
-                                <a id="wizard6-t-2" href="#wizard6-h-2" aria-controls="wizard6-p-2">
-                                    <span class="current-info audible">current step: </span>
-                                    <span class="number">3</span> 
-                                    <span class="title">Payment Details</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content clearfix">
-                    <h3 id="wizard6-h-0" tabindex="-1" class="title">Personal Information</h3>
-                    <section id="wizard6-p-0" role="tabpanel" aria-labelledby="wizard6-h-0" class="body" aria-hidden="true" style="display: none;">
-                      <p>Try the keyboard navigation by clicking arrow left or right!</p>
-                    </section>
-                    <h3 id="wizard6-h-1" tabindex="-1" class="title">Billing Information</h3>
-                    <section id="wizard6-p-1" role="tabpanel" aria-labelledby="wizard6-h-1" class="body" aria-hidden="true" style="display: none;">
-                      <p>Wonderful transition effects.</p>
-                    </section>
-                    <h3 id="wizard6-h-2" tabindex="-1" class="title current">Payment Details</h3>
-                    <section id="wizard6-p-2" role="tabpanel" aria-labelledby="wizard6-h-2" class="body current" aria-hidden="false" style="display: block;">
-                      <p>The next and previous buttons help you to navigate through your content.</p>
-                    </section>
-                  </div>
-                  <div class="actions clearfix">
-                      <ul role="menu" aria-label="Pagination">
-                          <li class="" aria-disabled="false">
-                              <a href="#previous" role="menuitem">Previous</a>
-                            </li>
-                            <li aria-hidden="true" aria-disabled="true" class="disabled" style="display: none;">
-                                <a href="#next" role="menuitem">Next</a>
-                            </li>
-                            <li aria-hidden="false" style="display: block;">
-                                <a href="#finish" role="menuitem">Finish</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-               
-=======
 
                 
                 <form class="form-group mg-t-20"action="" method="post">{% csrf_token %}
@@ -119,7 +64,6 @@
                 {% endif %}
                 <input type="submit"class="btn btn-teal" value="Siguiente"/>
                 </form>
->>>>>>> 89be982495ba3bd11415cab85a62bdf15a6d12df
             </div>
         </div>
     </div>
@@ -166,21 +110,6 @@
 <script src="{% static 'jquery.steps/jquery.steps.js' %}"></script>    
 <script src="{% static 'parsleyjs/parsley.js' %}"></script>  
 <script>
-<<<<<<< HEAD
-    $(document).ready(function(){
-      'use strict';
-
-       
-      $('#wizard6').steps({
-        headerTag: 'h3',
-        bodyTag: 'section',
-        autoFocus: true,
-        titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
-        cssClass: 'wizard wizard-style-2'
-      });
-
-      
-=======
     $(document).ready(function() {
         $('.select2').select2({
         language: "es",
@@ -199,10 +128,7 @@
         });
     });
 </script>
->>>>>>> 89be982495ba3bd11415cab85a62bdf15a6d12df
 
-    });
-  </script>
 
 
 {% endblock content %}

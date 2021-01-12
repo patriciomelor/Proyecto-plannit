@@ -12,7 +12,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, BorradorDocumento, PaqueteDocumento
-from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, VersionModalPreview
+from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, VersionModalPreview, PaqueteModalPreview
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
@@ -515,17 +515,42 @@ class DocumentosSelect2(AutoResponseView):
         qs = super().get_queryset()
         return qs.filter(proyecto=request.session.get('proyecto'))
 
+TEMPLATES = {
+
+}
 class CreatePaquete2(ProyectoMixin, SessionWizardView):
-    form_list = [PaquetePreviewForm, PreviewVersionSet]
+    form_list = [('paquete', PaquetePreviewForm), ('version', VersionDocPreview)]
     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'versiones'))
     template_name = 'bandeja_es/nuevopaquete.html'
 
     def done(self, form_list, **kwargs):
-        return render(self.request, self.template_name, {
-            'form_data': [form.cleaned_data for form in form_list],
+        ####### Paquete Form #####
+        package_pk = 0
+        form_paquete = form_list[0]
+        obj = form_paquete.save(commit=False)
+        obj.prev_propietario = request.user
+        obj.save()
+        package_pk = obj.pk
+        context2['paquete_pk'] = package_pk
+
+        ####### Version Form  #####
+        version_form = form_list[2]
+
         })
+
+    def get_template_names(self):
+        return [TEMPLATES[self.steps.current]]
+
+class BotonesForms(ProyectoMixin, TemplateView):
+    template_name = 'bandeja_es/nuevopaquete.html'
     
+
 class ModalPrevVersion(ProyectoMixin, BSModalCreateView):
-    template_name = 'bandeja_es/crear-pkg-modal.html'
+    template_name = 'bandeja_es/crear-version-modal.html'
     form_class = VersionModalPreview
-    success_message = 'Success: Book was created.'
+    success_message = 'Success: Version fue agregada.'
+
+class ModalPrevPaquete(ProyectoMixin, BSModalCreateView):
+    template_name = 'bandeja_es/crear-pkg-modal.html'
+    form_class = PaqueteModalPreview
+    success_message = 'Success: Paquete fue creado.'

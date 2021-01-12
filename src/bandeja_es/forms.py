@@ -73,6 +73,15 @@ BorradorVersionFormset = formset_factory(VersionDocBorrador)
 #formularios para crear la PREVIEW del paquete y versiones, con el debido FORMSET
 # ***********************************
 
+class PaqueteModalPreview(BSModalModelForm):
+    descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
+    class Meta:
+        model = PrevPaquete
+        fields = ['prev_receptor', 'prev_asunto']
+        labels = {
+            'prev_receptor': 'Destinatario'
+        }
+    
 class PaquetePreviewForm(forms.ModelForm):
     descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
     class Meta:
