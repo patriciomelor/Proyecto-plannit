@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     # 'multiupload',
     'django_filters',
     'django_select2',
+    'formtools',
     
     'dashboard',
     'tools',

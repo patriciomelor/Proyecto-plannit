@@ -153,7 +153,7 @@ function updateElementIndex(el, prefix, ndx) {
     if (el.name) el.name = el.name.replace(id_regex, replacement);
 }
 function cloneMore(selector, prefix) {
-    var newElement = $(selector).clone(true);
+    var newElement = $(selector).clone(false);
     var total = $('#id_' + prefix + '-TOTAL_FORMS').val();
     newElement.find(':input:not([type=button]):not([type=submit]):not([type=reset])').each(function() {
         var name = $(this).attr('name')
@@ -211,7 +211,7 @@ $(document).on('click', '.remove-form-row', function(e){
 
 <script>
 $(document).ready(function() {
-    $('.select2').select2({
+    $('#paquete').select2({
     theme: "bootstrap4",
     language: "es",
     placeholder: 'seleccione un Documento',
