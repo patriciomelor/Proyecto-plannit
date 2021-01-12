@@ -1,7 +1,10 @@
 {% extends "index-blank.html" %}
 {% load crispy_forms_tags %}
 {% load static %}
-{% block css %}{{ form.media.css }}{% endblock css %}
+{% block css %}
+<link href="{% static 'highlightjs/github.css' %}" rel="stylesheet">
+<link href="{% static 'jquery.steps/jquery.steps.css' %}" rel="stylesheet" />
+{% endblock css %}
 
 {% block mailing %}
 
@@ -39,61 +42,84 @@
     </div>
     <div class="br-pagebody pd-x-20 pd-sm-x-30">
         <div class="card bd-0 shadow-base">  
-
-             <div id="formset-template" style="display: none;">
-                 {{ form.empty_form|crispy }}
+            <div class="br-section-wrapper">
+                <div id="wizard6" class="mg-t-80 wizard wizard-style-2 clearfix" role="application">
+                    <div class="steps clearfix">
+                        <ul role="tablist">
+                            <li role="tab" class="first done" aria-disabled="false" aria-selected="false">
+                                <a id="wizard6-t-0" href="#wizard6-h-0" aria-controls="wizard6-p-0">
+                                    <span class="number">1</span> 
+                                    <span class="title">Personal Information</span>
+                                </a>
+                            </li>
+                            <li role="tab" class="done" aria-disabled="false" aria-selected="false">
+                                <a id="wizard6-t-1" href="#wizard6-h-1" aria-controls="wizard6-p-1">
+                                    <span class="number">2</span> 
+                                    <span class="title">Billing Information</span>
+                                </a>
+                            </li>
+                            <li role="tab" class="last current done" aria-disabled="false" aria-selected="true">
+                                <a id="wizard6-t-2" href="#wizard6-h-2" aria-controls="wizard6-p-2">
+                                    <span class="current-info audible">current step: </span>
+                                    <span class="number">3</span> 
+                                    <span class="title">Payment Details</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="content clearfix">
+                    <h3 id="wizard6-h-0" tabindex="-1" class="title">Personal Information</h3>
+                    <section id="wizard6-p-0" role="tabpanel" aria-labelledby="wizard6-h-0" class="body" aria-hidden="true" style="display: none;">
+                      <p>Try the keyboard navigation by clicking arrow left or right!</p>
+                    </section>
+                    <h3 id="wizard6-h-1" tabindex="-1" class="title">Billing Information</h3>
+                    <section id="wizard6-p-1" role="tabpanel" aria-labelledby="wizard6-h-1" class="body" aria-hidden="true" style="display: none;">
+                      <p>Wonderful transition effects.</p>
+                    </section>
+                    <h3 id="wizard6-h-2" tabindex="-1" class="title current">Payment Details</h3>
+                    <section id="wizard6-p-2" role="tabpanel" aria-labelledby="wizard6-h-2" class="body current" aria-hidden="false" style="display: block;">
+                      <p>The next and previous buttons help you to navigate through your content.</p>
+                    </section>
+                  </div>
+                  <div class="actions clearfix">
+                      <ul role="menu" aria-label="Pagination">
+                          <li class="" aria-disabled="false">
+                              <a href="#previous" role="menuitem">Previous</a>
+                            </li>
+                            <li aria-hidden="true" aria-disabled="true" class="disabled" style="display: none;">
+                                <a href="#next" role="menuitem">Next</a>
+                            </li>
+                            <li aria-hidden="false" style="display: block;">
+                                <a href="#finish" role="menuitem">Finish</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+               
             </div>
-
-            <form method="post" action=".">
-                {% csrf_token %}
-
-                <div>
-                    {{form_paquete|crispy}}
-                </div>
-                {{ form.management_form|crispy }}
-
-                <div id="formset">
-                    {% for f in formset %}
-                        {{ f|crispy }}
-                    {% endfor %}
-                </div>
-                <button type="submit">submit</button>
-            </form>
-
         </div>
     </div>
 </div>
-<script src="//code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="{% static 'jquery.formset.js' %}"></script> 
+  
+<script src="{% static 'jquery.steps/jquery.steps.js' %}"></script>    
+<script src="{% static 'parsleyjs/parsley.js' %}"></script>  
 <script>
-    (function () {
-        // init dynamic formset
-        $('#formset').formset({
-            formTemplate: $('#formset-template').clone(),
-            // initialize newly created heavy fields on the added callback
-            added: function (row) {
-                row.find('.django-select2').djangoSelect2({
-                    theme: "bootstrap3",
-                    language: "es",
-                    placeholder: 'seleccione un Documento',
-                    ajax: {
-                        url: '{% url 'datos-baes' %}',
-                        dataType: 'json',
-                        processResults: function (data) {
-                                    return {
-                                        results: $.map(data, function (item) {
-                                            return {id: item.id, text: item.Codigo_documento};
-                                        })
-                                    };
-                                }
-                            }
-                });
-            }
-        });
-    }());
-</script>
+    $(document).ready(function(){
+      'use strict';
 
-    {{ form.media.js }}
+       
+      $('#wizard6').steps({
+        headerTag: 'h3',
+        bodyTag: 'section',
+        autoFocus: true,
+        titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+        cssClass: 'wizard wizard-style-2'
+      });
+
+      
+
+    });
+  </script>
 
 
 {% endblock content %}

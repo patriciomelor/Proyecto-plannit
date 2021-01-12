@@ -11,7 +11,7 @@
     <meta name="author" content="STOD CHILE for DM">
 
     <title>DMP</title>
-
+   
     <!-- vendor css -->
     <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet"> 
     <link href="{% static 'Ionicons/css/ionicons.css' %}" rel="stylesheet">
@@ -28,9 +28,11 @@
     <link href="{% static 'select2/css/select2-boostrap4.min.css' %}" rel="stylesheet" />
     <link href="{% static 'select2/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
     
-    {% block css %} {% endblock css %}
+    <link href="{% static 'highlightjs/github.css' %}" rel="stylesheet">
+    <link href="{% static 'jquery.steps/jquery.steps.css' %}" rel="stylesheet" />
+    {% block css %}
 
-
+    {% endblock css %}
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
@@ -149,10 +151,11 @@
     <script src="{% static 'd3/d3.js' %}"></script>
     <script src="{% static 'jt.timepicker/jquery.timepicker.js' %}"></script>
     <script src="{% static 'highlightjs/highlight.pack.js' %}"></script>    
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    <script scr="{% static 'jquery-ui/jquery-ui.min.js' %}"></script>
+    <script src="{% static 'jquery.steps/jquery.steps.js' %}"></script>    
+    <script src="{% static 'parsleyjs/parsley.js' %}"></script>    
 
-    <script src="{% static 'select2/js/select2.min.js' %}"></script>
+    
+    
     <!-- 
     <script src="{% static 'select2/js/select2.js' %}"></script>
     <script src="{% static 'select2/js/select2.full.js' %}"></script>
