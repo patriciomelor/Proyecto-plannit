@@ -20,17 +20,19 @@ urlpatterns = [
     path('borradores/', views.BorradorList.as_view(), name= 'Borradores'),
     path('papelera/', views.PapeleraView.as_view(), name= 'bandeja-papelera'),
     path('paquete/preview/<borrador_pk>/', login_required(views.create_preview), name='paquete-preview'),
-    path('paquete/preview2/<borrador_pk>/', views.CreatePaquete2.as_view(), name='paquete-preview2'),
+    path('paquete/prev/', views.PrevPaquete.as_view(), name='crear-paquete'),
+    path('versiones/prev/<int:paquete_pk>/', login_required(views.version_prev), name='crear-version'),
+    # path('paquete/preview2/<borrador_pk>/', views.CreatePaquete2.as_view(), name='paquete-preview2'),
     path('paquete/crear/<paquete_pk>/<versiones_pk>', login_required(views.create_paquete), name='paquete-crear'),
     path('paquete/detalle/<pk>/', views.PaqueteDetail.as_view(), name='paquete-detalle'),
     path('paquete/editar/<pk>/', views.PaqueteUpdate.as_view(), name='paquete-editar'),
     path('paquete/eliminar/<pk>/', views.PaqueteDelete.as_view(), name='paquete-eliminar'),
     path('borrador/crear/<borrador_pk>/', login_required(views.create_borrador), name='borrador-crear'),
     # path('paquete/cargar/<int:pk>/', login_required(views.cargar_documentos), name='cargar-documentos' )
-    path('datos/', login_required(views.documentos_ajax), name='datos-baes'),
-    path('datos2/', views.DocumentosSelect2.as_view(), name='datos-baes2'),
-# Modals URL's
-    path('modalcrear/', views.ModalPrevVersion.as_view(), name='modal-create'),
+#     path('datos/', login_required(views.documentos_ajax), name='datos-baes'),
+#     path('datos2/', views.DocumentosSelect2.as_view(), name='datos-baes2'),
+# # Modals URL's
+#     path('modalcrear/', views.ModalPrevVersion.as_view(), name='modal-create'),
 
 
 ]
