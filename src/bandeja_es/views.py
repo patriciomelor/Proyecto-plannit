@@ -12,7 +12,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, BorradorDocumento, PaqueteDocumento
-from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, VersionModalPreview, PaqueteModalPreview
+from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, VersionModalPreview
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
@@ -318,6 +318,7 @@ def create_borrador(request, borrador_pk):
 
                 return JsonResponse({'msg': 'Success'})
 
+
 class BorradorDelete(ProyectoMixin, DeleteView):
     model = BorradorPaquete
     success_url = reverse_lazy('Bandejaeys')
@@ -514,64 +515,17 @@ class DocumentosSelect2(AutoResponseView):
         qs = super().get_queryset()
         return qs.filter(proyecto=request.session.get('proyecto'))
 
-TEMPLATES = {
-
-}
-# class CreatePaquete2(ProyectoMixin, SessionWizardView):
-#     form_list = [('paquete', PaquetePreviewForm), ('version', VersionDocPreview)]
-#     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'versiones'))
-#     template_name = 'bandeja_es/nuevopaquete.html'
-
-#     def done(self, form_list, **kwargs):
-#         ####### Paquete Form #####
-#         package_pk = 0
-#         form_paquete = form_list[0]
-#         obj = form_paquete.save(commit=False)
-#         obj.prev_propietario = request.user
-#         obj.save()
-#         package_pk = obj.pk
-#         context2['paquete_pk'] = package_pk
-
-#         ####### Version Form  #####
-#         version_form = form_list[2]
-
-
-#     def get_template_names(self):
-#         return [TEMPLATES[self.steps.current]]
-
-class PrevPaquete(ProyectoMixin, FormView):
+class CreatePaquete2(ProyectoMixin, SessionWizardView):
+    form_list = [PaquetePreviewForm, PreviewVersionSet]
+    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'versiones'))
     template_name = 'bandeja_es/nuevopaquete.html'
-    form_class = PaquetePreviewForm
-    success_url = reverse_lazy('crear-version')
 
-    def form_valid(self, form, **kwargs):
-        super().form_valid(form)
-        obj = form.save(commit=False)
-        obj.prev_propietario = request.user
-        obj.save()
-        package_pk = obj.pk
-        return reverse('crear-version', paquete= package_pk)
-
-class PrevVersion(ProyectoMixin, ListView):
-    template_name = 'bandeja_es/tabla-versiones-form.html'
-    model = Version
-    context_object_name = 'versiones'
-
-# def version_prev(request):
-#     context = {}
-#     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-#         if request.method == 'POST':
-#             form = VersionDocPreview(request.POST or None, request.FILES or None)
-#             if form.is_valid():
-
-
-
-# class ModalPrevVersion(ProyectoMixin, BSModalCreateView):
-#     template_name = 'bandeja_es/crear-version-modal.html'
-#     form_class = VersionModalPreview
-#     success_message = 'Success: Version fue agregada.'
-
-# class ModalPrevPaquete(ProyectoMixin, BSModalCreateView):
-#     template_name = 'bandeja_es/crear-pkg-modal.html'
-#     form_class = PaqueteModalPreview
-#     success_message = 'Success: Paquete fue creado.'
+    def done(self, form_list, **kwargs):
+        return render(self.request, self.template_name, {
+            'form_data': [form.cleaned_data for form in form_list],
+        })
+    
+class ModalPrevVersion(ProyectoMixin, BSModalCreateView):
+    template_name = 'bandeja_es/crear-pkg-modal.html'
+    form_class = VersionModalPreview
+    success_message = 'Success: Book was created.'

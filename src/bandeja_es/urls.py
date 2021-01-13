@@ -20,9 +20,7 @@ urlpatterns = [
     path('borradores/', views.BorradorList.as_view(), name= 'Borradores'),
     path('papelera/', views.PapeleraView.as_view(), name= 'bandeja-papelera'),
     path('paquete/preview/<borrador_pk>/', login_required(views.create_preview), name='paquete-preview'),
-    path('paquete/prev/', views.PrevPaquete.as_view(), name='crear-paquete'),
-    path('versiones/prev/<int:paquete>/', views.PrevVersion.as_view(), name='crear-version'),
-    # path('paquete/preview2/<borrador_pk>/', views.CreatePaquete2.as_view(), name='paquete-preview2'),
+    path('paquete/preview2/<borrador_pk>/', views.CreatePaquete2.as_view(), name='paquete-preview2'),
     path('paquete/crear/<paquete_pk>/<versiones_pk>', login_required(views.create_paquete), name='paquete-crear'),
     path('paquete/detalle/<pk>/', views.PaqueteDetail.as_view(), name='paquete-detalle'),
     path('paquete/editar/<pk>/', views.PaqueteUpdate.as_view(), name='paquete-editar'),
@@ -32,10 +30,7 @@ urlpatterns = [
     path('datos/', login_required(views.documentos_ajax), name='datos-baes'),
     path('datos2/', views.DocumentosSelect2.as_view(), name='datos-baes2'),
 # Modals URL's
-    
-    # path('modalcrear_version/', views.ModalPrevVersion.as_view(), name='modal-create-version'),
-    # path('modalcrear_paquete/', views.ModalPrevPaquete.as_view(), name='modal-create-paquete'),
-    # path('baes_modal/', views.BotonesForms.as_view(), name='paquete-preview'),
+    path('modalcrear/', views.ModalPrevVersion.as_view(), name='modal-create'),
 
 
 ]
