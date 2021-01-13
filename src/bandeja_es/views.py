@@ -12,7 +12,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, BorradorDocumento, PaqueteDocumento
-from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, VersionModalPreview, PaqueteModalPreview
+from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, VersionModalPreview
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
@@ -555,6 +555,9 @@ class PrevPaquete(ProyectoMixin, FormView):
 
 def version_prev(request, paquete_pk):
     context = {}
+    if request.method == 'POST':
+
+        return redirect('paquete-crear', paquete_pk=paquete_pk, versiones_pk= versiones)
     if request.method == 'GET':
         form = VersionDocPreview()
         context['form'] = form

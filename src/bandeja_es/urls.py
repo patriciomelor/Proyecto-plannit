@@ -29,13 +29,10 @@ urlpatterns = [
     path('paquete/eliminar/<pk>/', views.PaqueteDelete.as_view(), name='paquete-eliminar'),
     path('borrador/crear/<borrador_pk>/', login_required(views.create_borrador), name='borrador-crear'),
     # path('paquete/cargar/<int:pk>/', login_required(views.cargar_documentos), name='cargar-documentos' )
-    path('datos/', login_required(views.documentos_ajax), name='datos-baes'),
-    path('datos2/', views.DocumentosSelect2.as_view(), name='datos-baes2'),
-# Modals URL's
-    
-    # path('modalcrear_version/', views.ModalPrevVersion.as_view(), name='modal-create-version'),
-    # path('modalcrear_paquete/', views.ModalPrevPaquete.as_view(), name='modal-create-paquete'),
-    # path('baes_modal/', views.BotonesForms.as_view(), name='paquete-preview'),
+#     path('datos/', login_required(views.documentos_ajax), name='datos-baes'),
+#     path('datos2/', views.DocumentosSelect2.as_view(), name='datos-baes2'),
+# # Modals URL's
+#     path('modalcrear/', views.ModalPrevVersion.as_view(), name='modal-create'),
 
 
 ]
