@@ -92,7 +92,7 @@ input.invalid {
     <div class="br-pagebody pd-x-20 pd-sm-x-30">
         <div class="card bd-0 shadow-base">  
             <div class="br-section-wrapper">
-<<<<<<< HEAD
+
 
                 <form class="form-group mg-t-20" id="form_paquete" action="" method="post">{% csrf_token %}
 
@@ -157,7 +157,6 @@ input.invalid {
                 <div class="modal-header">
                   <h5 class="modal-title" id="exampleModalLongTitle">Datos Destinatarios</h5>
 =======
-<<<<<<< HEAD
                 <div id="wizard6" class="mg-t-80 wizard wizard-style-2 clearfix" role="application">
                     <div class="steps clearfix">
                         <ul role="tablist">
@@ -211,29 +210,6 @@ input.invalid {
                     </div>
                 </div>
                
-=======
-
-                
-                <form class="form-group mg-t-20"action="" method="post">{% csrf_token %}
-                <table >
-                {% comment %} {{ wizard.management_form|crispy }}
-                {% if wizard.form.forms %}
-                    {{ wizard.form.management_form|crispy }}
-                    {% for form in wizard.form.forms %}
-                        {{ form|crispy }}
-                    {% endfor %}
-                {% else %}
-                    {{ wizard.form|crispy }}
-                {% endif %} {% endcomment %}
-                <a href="" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-toggle="modal" data-target="#modaldemo2">Ir a Formulario</a>
-                </table>
-                {% if wizard.steps.prev %}
-                <button name="wizard_goto_step"class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">Primer Paso</button>
-                <button name="wizard_goto_step"class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">Paso Anterior</button>
-                {% endif %}
-                <input type="submit"class="btn btn-teal" value="Siguiente"/>
-                </form>
->>>>>>> 89be982495ba3bd11415cab85a62bdf15a6d12df
             </div>
         </div>
     </div>
@@ -267,27 +243,14 @@ input.invalid {
                   <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-dismiss="modal">Close</button>
                 </div> {% endcomment %}
               </div>
-<<<<<<< HEAD
             </div>
           </div> {% endcomment %}
 
-=======
-            </div><!-- modal-dialog -->
-          </div><!-- modal -->
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
-          <script type="text/javascript">
-           $(function(){
-            $("#myModal").modal();
-           });
-          </script>
->>>>>>> 81aa233f2d6c88cc3018b40bda947ce2ada27a2b
 </div>
   
 <script src="{% static 'jquery.steps/jquery.steps.js' %}"></script>    
 <script src="{% static 'parsleyjs/parsley.js' %}"></script>  
 <script>
-<<<<<<< HEAD
     $(document).ready(function(){
       'use strict';
 
@@ -301,31 +264,10 @@ input.invalid {
       });
 
       
-=======
-    $(document).ready(function() {
-        $('.select2').select2({
-        language: "es",
-        placeholder: 'seleccione un Documento',
-        ajax: {
-            url: "{% url 'datos-baes' %}",
-            dataType: 'json',
-            processResults: function (data) {
-                        return {
-                            results: $.map(data, function (item) {
-                                return {id: item.id, text: item.Codigo_documento};
-                            })
-                        };
-                    }
-                }
-        });
-    });
-</script>
->>>>>>> 89be982495ba3bd11415cab85a62bdf15a6d12df
 
     });
   </script>
 
-<<<<<<< HEAD
 <script language="JavaScript" type="text/javascript">
   $("#borrador").click(function submitHandler(e){
       e.preventDefault();
@@ -373,8 +315,6 @@ function showTab(n) {
   // ... and run a function that displays the correct step indicator:
   fixStepIndicator(n)
 }
-=======
->>>>>>> 81aa233f2d6c88cc3018b40bda947ce2ada27a2b
 
 function nextPrev(n) {
   // This function will figure out which tab to display
