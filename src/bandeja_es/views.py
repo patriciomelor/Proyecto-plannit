@@ -11,7 +11,7 @@ from django.core.files.storage import FileSystemStorage
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
-from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, BorradorDocumento, PaqueteDocumento
+from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, BorradorDocumento, PaqueteDocumento
 from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, VersionModalPreview, PaqueteModalPreview
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
@@ -550,21 +550,48 @@ class PrevPaquete(ProyectoMixin, FormView):
         obj.prev_propietario = request.user
         obj.save()
         package_pk = obj.pk
-        return reverse('crear-version', paquete= package_pk)
-
-class PrevVersion(ProyectoMixin, ListView):
-    template_name = 'bandeja_es/tabla-versiones-form.html'
-    model = Version
-    context_object_name = 'versiones'
-
-# def version_prev(request):
-#     context = {}
-#     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-#         if request.method == 'POST':
-#             form = VersionDocPreview(request.POST or None, request.FILES or None)
-#             if form.is_valid():
+        return redirect('crear-version', paquete= package_pk)
 
 
+def version_prev(request, paquete_pk):
+    context = {}
+    if request.method == 'GET':
+        form = VersionDocPreview()
+        context['form'] = form
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        if request.method == 'POST':
+            form = VersionDocPreview(request.POST or None, request.FILES or None)
+            if form.is_valid():
+                doc_pk = int(form.cleaned_data['prev_documento_fk'])
+                doc = Documento.objects.get(pk=doc_pk)
+                package = PrevPaquete.objects.get(pk=paquete_pk)
+                context['paquete'] = package
+                version = form.save(commit=False)
+                version.prev_documento_fk = doc
+                version.prev_owner = request.user
+                version.save()
+                version_pk = version.pk
+                version_qs = PrevVersion.objects.get(pk=version_pk)
+                package.prev_documento.add(version_qs)
+                version_list.append(version)
+
+                return JsonResponse({'msg': 'Success'})
+            else:
+                return JsonResponse({'msg': 'Invalid'})
+        #### GET request ####        
+        else:
+            lista_versiones_pk = []
+            package = PrevPaquete.objects.get(pk=paquete_pk)
+            pkg_versiones = PrevPaqueteDocumento.objects.get(prev_paquete__in=package)
+            for version in pkg_versiones:
+                pk = version.prev_version.pk
+                lista_versiones_pk.append(pk)
+            versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
+            response_content = list(versiones.values())
+            return JsonResponse(response_content, safe=False)
+                
+    
+    return render(request, 'bandeja_es/tabla-versiones-form.html', context)
 
 # class ModalPrevVersion(ProyectoMixin, BSModalCreateView):
 #     template_name = 'bandeja_es/crear-version-modal.html'
