@@ -539,16 +539,37 @@ TEMPLATES = {
 #     def get_template_names(self):
 #         return [TEMPLATES[self.steps.current]]
 
-class BotonesForms(ProyectoMixin, TemplateView):
-    template_name = 'bandeja_es/nuevopaquete.html'
+# class PrevPaquete(ProyectoMixin, TemplateView):
+#     template_name = 'bandeja_es/nuevopaquete.html'
+
+def forms_views(request):
+    context = {}
+    if request.method == 'GET':
+        form_paquete = PaquetePreviewForm()
+        form_version = VersionDocPreview()
+        context['form_paquete'] = form_paquete
+        context['form_version'] = form_version
     
+    return render(request, 'bandeja_es/nuevopaquete.html', context)
 
-class ModalPrevVersion(ProyectoMixin, BSModalCreateView):
-    template_name = 'bandeja_es/crear-version-modal.html'
-    form_class = VersionModalPreview
-    success_message = 'Success: Version fue agregada.'
+# def paquete_prev(request):
+#     context = {}
+#     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+#         if request.method == 'POST':
+#             package_pk = 0
+#             form_paquete = form_list[0]
+#             obj = form_paquete.save(commit=False)
+#             obj.prev_propietario = request.user
+#             obj.save()
+#             package_pk = obj.pk
 
-class ModalPrevPaquete(ProyectoMixin, BSModalCreateView):
-    template_name = 'bandeja_es/crear-pkg-modal.html'
-    form_class = PaqueteModalPreview
-    success_message = 'Success: Paquete fue creado.'
+
+# class ModalPrevVersion(ProyectoMixin, BSModalCreateView):
+#     template_name = 'bandeja_es/crear-version-modal.html'
+#     form_class = VersionModalPreview
+#     success_message = 'Success: Version fue agregada.'
+
+# class ModalPrevPaquete(ProyectoMixin, BSModalCreateView):
+#     template_name = 'bandeja_es/crear-pkg-modal.html'
+#     form_class = PaqueteModalPreview
+#     success_message = 'Success: Paquete fue creado.'
