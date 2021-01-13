@@ -2,3 +2,4 @@
 *.pyc
 .vscode/settings.json
 .vscode/settings.json
+src/analitica/__pycache__/__init__.cpython-38.pyc
