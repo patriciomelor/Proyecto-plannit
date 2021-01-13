@@ -63,10 +63,19 @@
                   </button>
                 </div>
                 <div class="modal-body pd-20">
-                  {{form_version|crispy}}
-                <div class="modal-footer justify-content-center">
-                  <button type="button" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"> Crear </button>
-                  <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-dismiss="modal">Cerrar</button>
+                    {% for field in form_version %}
+                    <div class="form-group{% if field.errors %} invalid{% endif %}">
+                        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                        {{ field }}
+                        {% for error in field.errors %}
+                        <p class="help-block">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="submit-btn btn btn-primary">Create</button>
                 </div>
               </div>
             </div><!-- modal-dialog -->
