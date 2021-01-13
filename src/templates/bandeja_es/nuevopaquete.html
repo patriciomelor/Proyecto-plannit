@@ -77,8 +77,23 @@
                   </button>
                 </div>
                 <div class="modal-body">
+<<<<<<< HEAD
                   
 
+=======
+                  {% for field in form %}
+                    <div class="form-group{% if field.errors %} invalid{% endif %}">                       
+                        {{ field|as_crispy_field }}
+                        {% for error in field.errors %}
+                        <p class="help-block">{{ error }}</p>
+                        {% endfor %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-primary">Cargar</button>
+>>>>>>> 78f76440dda936dc7f6b6a2272371948f8636dae
                 </div>
                 
               </div>
