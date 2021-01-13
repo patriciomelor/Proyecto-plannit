@@ -27,6 +27,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = []
         lista_actual = []
 
+        total = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
         lista_final.append(lista_actual)
@@ -39,7 +40,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         estados_documento = []
         estados_final = []
 
-        total = 0
+        #total = 0
 
         for estado in ESTADOS_CLIENTE[1:]:
             cont = 0
@@ -61,15 +62,15 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 except AttributeError:
                     pass
 
-            total = total + cont
+            #total = total + cont
         
-        if cont == 0:
-            total = 0
-            estados_documentos = [total, 'Documentos Totaless']
+        # if cont == 0:
+        #     total = 0
+        #     estados_documentos = [total, 'Documentos Totaless']
 
-        if cont != 0:
-            estados_documentos = [total, 'Documentos Totaless']
-            
+        # if cont != 0:
+        #     estados_documentos = [total, 'Documentos Totaless']
+        estados_documentos = [total, 'Documentos Totaless']
         estados_final.append(estados_documentos)
 
         # for estado in ESTADOS_CLIENTE[1:]:
@@ -142,7 +143,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #                                                 #
         ###################################################
 
-    def reporte_total_documentos(self):
+    def reporte_aprobadosConstruccion_documentos(self):
         lista_actual = []
         lista_final = []
 
@@ -150,26 +151,96 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         cantidad_por_especialidad = []
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
+        for doc in documentos:
+            versiones = Version.objects.filter(documento_fk=doc).last()
+            lista_actual = [versiones, doc] 
+            lista_final.append(lista_actual)
+
         for special in documentos:
                 especialidad_actual = special.Especialidad
                 if not especialidad_actual in especialidad_list:
                     especialidad_list = especialidad_list + (str(especialidad_actual),)
 
-        for lista in especialidad_list:
-                cont2 = 0
-                for doc in documentos:
-                    if lista == doc.Especialidad:
-                        cont2 = cont2 + 1
-                lista_actual = [cont2, lista]
-                lista_final.append(lista_actual)
+        aprobados_final = []
+        aprobados_inicial = []
+        
+        for especialidad in especialidad_list:
+            cont = 0 
+            
+            for lista in lista_final: 
 
-        return lista_final
+                try:
+                    mi_especialidad = lista[1].Especialidad
+                    mi_estado_cliente = lista[0].estado_cliente
+
+                    if mi_especialidad == especialidad and mi_estado_cliente == 5 :
+                        cont = cont + 1
+
+                except AttributeError:
+                    pass
+
+            aprobados_inicial = [cont, especialidad]
+            aprobados_final.append(aprobados_inicial)
+
+        
+        # for lista in especialidad_list:
+        #         cont2 = 0
+        #         for doc in documentos:
+        #             if lista == doc.Especialidad:
+        #                 cont2 = cont2 + 1
+        #         lista_actual = [cont2, lista]
+        #         lista_final.append(lista_actual)
+
+        return aprobados_final
+
+    def reporte_total_documentos(self):
+        
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        especialidad_list = tuple()
+
+        for special in documentos:
+            especialidad_actual = special.Especialidad
+            if not especialidad_actual in especialidad_list:
+                especialidad_list = especialidad_list + (str(especialidad_actual),)
+
+        aprobados_final = []
+        aprobados_inicial = []
+
+        for especialidad in especialidad_list:
+            cont = 0
+            
+            for doc in documentos: 
+                
+                try:
+
+                    mi_especialidad = doc.Especialidad
+
+                    if mi_especialidad == especialidad:
+                        cont = cont + 1
+
+                except AttributeError:
+                    pass
+
+            aprobados_inicial = [cont, especialidad]
+            aprobados_final.append(aprobados_inicial)   
+
+        return aprobados_final
+
+        ###################################################
+        #                                                 #
+        #                                                 #
+        #   CUARTO GRÁFICO DE CURVA S                     #
+        #                                                 #
+        #                                                 #
+        ###################################################
+
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         context['lista_final'] = self.reporte_general()
         context['lista_emisiones'] = self.reporte_emisiones()
+        context['lista_aprobadosConstruccion_documentos'] = self.reporte_aprobadosConstruccion_documentos()
         context['lista_total_documentos'] = self.reporte_total_documentos()
 
         return context
