@@ -539,18 +539,22 @@ TEMPLATES = {
 #     def get_template_names(self):
 #         return [TEMPLATES[self.steps.current]]
 
-# class PrevPaquete(ProyectoMixin, TemplateView):
-#     template_name = 'bandeja_es/nuevopaquete.html'
+class PrevPaquete(ProyectoMixin, FormView):
+    template_name = 'bandeja_es/nuevopaquete.html'
+    form_class = PaquetePreviewForm
+    success_url = reverse_lazy('crear-version')
 
-def forms_views(request):
-    context = {}
-    if request.method == 'GET':
-        form_paquete = PaquetePreviewForm()
-        form_version = VersionDocPreview()
-        context['form_paquete'] = form_paquete
-        context['form_version'] = form_version
-    
-    return render(request, 'bandeja_es/nuevopaquete.html', context)
+    def form_valid(self, form, **kwargs):
+        obj = form_paraquete.save(commit=False)
+        obj.prev_propietario = request.user
+        obj.save()
+        package_pk = obj.pk
+        return super().form_valid(form)
+
+class PrevVersion(ProyectoMixin, ListView):
+    template_name = 'bandeja_es/tabla-versiones-form.html'
+    model = Version
+    context_object_name = 'versiones'
 
 # def paquete_prev(request):
 #     context = {}
