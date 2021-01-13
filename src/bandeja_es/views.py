@@ -545,27 +545,25 @@ class PrevPaquete(ProyectoMixin, FormView):
     success_url = reverse_lazy('crear-version')
 
     def form_valid(self, form, **kwargs):
-        obj = form_paraquete.save(commit=False)
+        super().form_valid(form)
+        obj = form.save(commit=False)
         obj.prev_propietario = request.user
         obj.save()
         package_pk = obj.pk
-        return super().form_valid(form)
+        return reverse('crear-version', paquete= package_pk)
 
 class PrevVersion(ProyectoMixin, ListView):
     template_name = 'bandeja_es/tabla-versiones-form.html'
     model = Version
     context_object_name = 'versiones'
 
-# def paquete_prev(request):
+# def version_prev(request):
 #     context = {}
 #     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
 #         if request.method == 'POST':
-#             package_pk = 0
-#             form_paquete = form_list[0]
-#             obj = form_paquete.save(commit=False)
-#             obj.prev_propietario = request.user
-#             obj.save()
-#             package_pk = obj.pk
+#             form = VersionDocPreview(request.POST or None, request.FILES or None)
+#             if form.is_valid():
+
 
 
 # class ModalPrevVersion(ProyectoMixin, BSModalCreateView):

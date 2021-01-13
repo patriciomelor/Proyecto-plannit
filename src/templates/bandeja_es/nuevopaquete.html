@@ -67,7 +67,7 @@
                   </button>
                 </div>
                 <div class="modal-body">
-                  {% for field in form_version %}
+                  {% for field in form %}
                     <div class="form-group{% if field.errors %} invalid{% endif %}">                       
                         {{ field|as_crispy_field }}
                         {% for error in field.errors %}
@@ -77,8 +77,8 @@
                     {% endfor %}
                 </div>
                 <div class="modal-footer">
-                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                  <button type="button" class="btn btn-primary">Save changes</button>
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="button" class="btn btn-primary">Cargar</button>
                 </div>
               </div>
             </div>
