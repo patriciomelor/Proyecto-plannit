@@ -47,9 +47,6 @@
                 <form class="form-group mg-t-20" id="form_paquete" action="" method="post">{% csrf_token %}
 
                   <!-- Button trigger modal -->
-                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModalCenter">
-                      Launch  modal
-                    </button>
                     {% for field in form %}
                     <div class="form-group{% if field.errors %} invalid{% endif %}">                       
                         {{ field|as_crispy_field }}
@@ -77,10 +74,6 @@
                   </button>
                 </div>
                 <div class="modal-body">
-<<<<<<< HEAD
-                  
-
-=======
                   {% for field in form %}
                     <div class="form-group{% if field.errors %} invalid{% endif %}">                       
                         {{ field|as_crispy_field }}
@@ -93,7 +86,6 @@
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                   <button type="button" class="btn btn-primary">Cargar</button>
->>>>>>> 78f76440dda936dc7f6b6a2272371948f8636dae
                 </div>
                 
               </div>
