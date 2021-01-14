@@ -38,7 +38,7 @@
             </thead>
             <tbody>
                 <tr>
-                <td v-for="fila in filas">[[ fila.edad ]]</td>
+                <td v-for="fila in filas">[[ fila.info ]]</td>
                 <td v-for="fila in filas">[[ fila.signo ]]</td>
                 </tr>
             </tbody>
@@ -64,17 +64,19 @@
 {% block js %}
 <script>
     url = "{% url 'vue-version' paquete %}"
-
+    $(document).click(function(){
+        
+    })
     var tablaVersiones = new Vue({
         el: "#tablaVersiones",
         delimiters: ['[[', ']]'],
         data: {
             filas: []
         },
-        mounted() {
+        {% comment %} mounted() {
             axios
                 .get(url).then(response => {this.filas = response.data,console.log(url),console.log(response.data)})
-            }
+            } {% endcomment %}
         });
 </script>
 {% endblock js %}
