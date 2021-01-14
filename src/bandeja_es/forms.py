@@ -95,21 +95,6 @@ class VersionDocPreview(forms.ModelForm):
             'prev_comentario' : 'Archivo de Comentario',
         }
     
-
-class VersionModalPreview(BSModalModelForm):
-    prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
-    prev_documento_fk = forms.CharField(label="Documentos",widget=forms.Select(attrs={'class': 'select2'}))
-    class Meta:
-        model = PrevVersion
-        fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
-        labels = {
-            'prev_documento_fk': 'Código Documento',
-            'prev_estado_cliente': 'Estado Cliente',
-            'prev_estado_contratista': 'Estado Contratista',
-            'prev_archivo' : 'Archivo',
-            'prev_comentario' : 'Archivo de Comentario',
-        }
-
     def clean(self):
         data = self.cleaned_data
         doc_pk = int(form.data['prev_documento_fk'])
@@ -121,7 +106,7 @@ class VersionModalPreview(BSModalModelForm):
             self.add_error('prev_archivo', 'No coinciden los nombres')
         
         return data
-   
+
 
 # class cualquierwea(VersionDocPreview):        
 #     def __init__(self, *args, **kwargs):
