@@ -150,101 +150,10 @@ input.invalid {
             </div>
         </div>
     </div>
-    <!-- Modal -->
-          {% comment %} <div class="modal fade" id="exampleModalCenter" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLongTitle">Datos Destinatarios</h5>
-=======
-                <div id="wizard6" class="mg-t-80 wizard wizard-style-2 clearfix" role="application">
-                    <div class="steps clearfix">
-                        <ul role="tablist">
-                            <li role="tab" class="first done" aria-disabled="false" aria-selected="false">
-                                <a id="wizard6-t-0" href="#wizard6-h-0" aria-controls="wizard6-p-0">
-                                    <span class="number">1</span> 
-                                    <span class="title">Personal Information</span>
-                                </a>
-                            </li>
-                            <li role="tab" class="done" aria-disabled="false" aria-selected="false">
-                                <a id="wizard6-t-1" href="#wizard6-h-1" aria-controls="wizard6-p-1">
-                                    <span class="number">2</span> 
-                                    <span class="title">Billing Information</span>
-                                </a>
-                            </li>
-                            <li role="tab" class="last current done" aria-disabled="false" aria-selected="true">
-                                <a id="wizard6-t-2" href="#wizard6-h-2" aria-controls="wizard6-p-2">
-                                    <span class="current-info audible">current step: </span>
-                                    <span class="number">3</span> 
-                                    <span class="title">Payment Details</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </div>
-                    <div class="content clearfix">
-                    <h3 id="wizard6-h-0" tabindex="-1" class="title">Personal Information</h3>
-                    <section id="wizard6-p-0" role="tabpanel" aria-labelledby="wizard6-h-0" class="body" aria-hidden="true" style="display: none;">
-                      <p>Try the keyboard navigation by clicking arrow left or right!</p>
-                    </section>
-                    <h3 id="wizard6-h-1" tabindex="-1" class="title">Billing Information</h3>
-                    <section id="wizard6-p-1" role="tabpanel" aria-labelledby="wizard6-h-1" class="body" aria-hidden="true" style="display: none;">
-                      <p>Wonderful transition effects.</p>
-                    </section>
-                    <h3 id="wizard6-h-2" tabindex="-1" class="title current">Payment Details</h3>
-                    <section id="wizard6-p-2" role="tabpanel" aria-labelledby="wizard6-h-2" class="body current" aria-hidden="false" style="display: block;">
-                      <p>The next and previous buttons help you to navigate through your content.</p>
-                    </section>
-                  </div>
-                  <div class="actions clearfix">
-                      <ul role="menu" aria-label="Pagination">
-                          <li class="" aria-disabled="false">
-                              <a href="#previous" role="menuitem">Previous</a>
-                            </li>
-                            <li aria-hidden="true" aria-disabled="true" class="disabled" style="display: none;">
-                                <a href="#next" role="menuitem">Next</a>
-                            </li>
-                            <li aria-hidden="false" style="display: block;">
-                                <a href="#finish" role="menuitem">Finish</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-               
-            </div>
-        </div>
-    </div>
-     <div id="modaldemo2" class="modal fade col-md-12">
-            <div class="modal-dialog modal-xlg col-md-8" role="document">
-              <div class="modal-content bd-0 tx-14">
-                <div class="modal-header pd-x-20">
-                  <h6 class="tx-14 mg-b-0 tx-uppercase tx-inverse tx-bold">Notice</h6>
->>>>>>> 81aa233f2d6c88cc3018b40bda947ce2ada27a2b
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body pd-20">
-                <h4 class="tx-gray-800 mg-b-5">Paso {{ wizard.steps.step1 }} de {{ wizard.steps.count }}</h4>
-                 {% if wizard.form.forms %}
-                    {{ wizard.form.management_form|crispy }}
-                    {% for form in wizard.form.forms %}
-                        {{ form|crispy }}
-                    {% endfor %}
-                {% else %}
-                    {{ wizard.form|crispy }}
-                {% endif %}
-                {% if wizard.steps.prev %}
-                <button name="wizard_goto_step"class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">Primer Paso</button>
-                <button name="wizard_goto_step"class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">Paso Anterior</button>
-                {% endif %}
-                </div>
-                {% comment %} <div class="modal-footer justify-content-center">
-                  <button type="button" class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium">Save changes</button>
-                  <button type="button" class="btn btn-secondary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" data-dismiss="modal">Close</button>
-                </div> {% endcomment %}
+    
               </div>
             </div>
-          </div> {% endcomment %}
+          </div> 
 
 </div>
   

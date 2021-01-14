@@ -16,3 +16,5 @@ src/analitica/__pycache__/__init__.cpython-38.pyc
 src/analitica/__pycache__/urls.cpython-38.pyc
 src/analitica/__pycache__/views.cpython-38.pyc
 src/bandeja_es/__pycache__/__init__.cpython-38.pyc
+src/bandeja_es/__pycache__/urls.cpython-38.pyc
+src/bandeja_es/__pycache__/views.cpython-38.pyc
