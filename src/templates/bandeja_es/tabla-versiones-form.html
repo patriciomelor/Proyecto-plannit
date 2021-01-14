@@ -5,40 +5,99 @@
 {% block content %}
 
 <div class="br-contentpanel">
+<div class="br-subleft">
+      <div class="pd-10">
+        <a  href="{% url 'paquete-preview' borrador_pk=None %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
+      </div>
+    
+    
 
-    <div id="tablaVersiones">
-        <table>
+      <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
+
+      <nav class="nav br-nav-mailbox flex-column">
+        <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon fa fa-reply"></i> Recibidos</a>
+        <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
+        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
+      </nav>
+</div>
+<div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">CREAR PAQUETE</h4>
+</div>
+<div class="br-pagebody pd-x-20 pd-sm-x-30">
+    <div class="card bd-0 shadow-base">  
+        <div class="row form-row spacer">
+         <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
+        {% comment %} {% for field in form %}
+          <div class="form-group{% if field.errors %} invalid{% endif %}">
+            <label for="{{ field.id_for_label }}"></label>
+            {{ field|as_crispy_field }}
+            {% for error in field.errors %}
+              <p class="help-block">{{ error }}</p>
+            {% endfor %}
+          </div>
+        {% endfor %} {% endcomment %}
+          <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_documento_fk|as_crispy_field}}</div>
+          <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_revision|as_crispy_field}}</div>           
+          <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_estado_cliente|as_crispy_field}}</div>                 
+          <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_estado_contratista|as_crispy_field}}</div>  <br>                                 
+          <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_archivo|as_crispy_field}}</div>               
+          <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_comentario|as_crispy_field}}</div>  
+         <div class="col-3" style="margin-top:20px;float:right;  ">
+         <input class="btn btn-info btn btn-oblong" type="submit" onClick="window.location.reload();" value="Agregar">
+         </div>
+          </form> 
+
+           </div>             
+      </div>
+         <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">
             <thead>
                 <tr>
-                    <th v-for="fila in filas"> [[ fila ]] </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;" v-for="fila in filas"> [[ fila ]] </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;" v-for="fila in filas"> [[ fila ]] </th>
+
                 </tr>
             </thead>
-            <tbody>
-                <tr>
-                <td v-for="fila in filas">[[ fila.info ]]</td>
-                <td v-for="fila in filas">[[ fila.signo ]]</td>
-                </tr>
-            </tbody>
-        </table>
+    <div id="tablaVersiones">
+              <tbody>
+                  <tr>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" v-for="fila in filas">[[ fila.info ]]</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" v-for="fila in filas">[[ fila.signo ]]</th>
+                  </tr>
+              </tbody>
+              </div>
+          </table>
     </div>
-    
-  <div class="modal-body">
-    {% for field in form %}
-      <div class="form-group{% if field.errors %} invalid{% endif %}">
-        <label for="{{ field.id_for_label }}"></label>
-        {{ field|as_crispy_field }}
-        {% for error in field.errors %}
-          <p class="help-block">{{ error }}</p>
-        {% endfor %}
-      </div>
-    {% endfor %}
+     
   </div>
+  
+</div>
   <!--FIN PANEL PRINCIPAL-->
+   
+    
 </div>
  
-{% endblock content %}
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
-{% block js %}
+<script>
+$(document).ready(function() {
+    $('.select2').select2({
+    language: "es",
+    placeholder: 'seleccione un Documento',
+    ajax: {
+        url: "{% url 'datos-baes'%}",
+        dataType: 'json',
+          processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.Codigo_documento};
+                        })
+                    };
+                }
+            }
+       });
+});
+</script>   
 <script>
     url = "{% url 'vue-version' paquete %}"
 
@@ -54,4 +113,4 @@
             } {% endcomment %}
         });
 </script>
-{% endblock js %}
+{% endblock content %}
