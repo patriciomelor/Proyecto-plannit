@@ -1,3 +1,4 @@
+{% extends 'index-blank.html' %}
 
 {% load crispy_forms_tags %}
 
@@ -5,7 +6,6 @@
 
 <div class="br-contentpanel">
 
-<<<<<<< HEAD
     <div id="tablaVersiones">
         <table>
             <thead>
@@ -21,8 +21,6 @@
             </tbody>
         </table>
     </div>
-=======
->>>>>>> 25d296473245a4379a5c030df6157396ca60fcbd
     
   <div class="modal-body">
     {% for field in form %}
@@ -40,12 +38,10 @@
  
 {% endblock content %}
 
-{% comment %} {% block js %}
+{% block js %}
 <script>
     url = "{% url 'vue-version' paquete %}"
-    $(document).click(function(){
-        
-    })
+
     var tablaVersiones = new Vue({
         el: "#tablaVersiones",
         delimiters: ['[[', ']]'],
@@ -58,4 +54,4 @@
             } {% endcomment %}
         });
 </script>
-{% endblock js %} {% endcomment %}
+{% endblock js %}
