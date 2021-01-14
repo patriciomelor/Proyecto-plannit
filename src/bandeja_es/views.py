@@ -512,15 +512,13 @@ def documentos_ajax(request):
 class PrevPaqueteView(ProyectoMixin, FormView):
     template_name = 'bandeja_es/nuevopaquete.html'
     form_class = PaquetePreviewForm
-    success_url = reverse_lazy('crear-version')
 
     def form_valid(self, form, **kwargs):
-        super().form_valid(form)
         obj = form.save(commit=False)
-        obj.prev_propietario = request.user
+        obj.prev_propietario = self.request.user
         obj.save()
         package_pk = obj.pk
-        return redirect('crear-version', paquete= package_pk)
+        return redirect('vue-version', paquete_pk= package_pk)
 
 
 def version_prev(request, paquete_pk):
