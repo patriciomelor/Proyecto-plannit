@@ -513,7 +513,6 @@ class PrevPaqueteView(ProyectoMixin, FormView):
     template_name = 'bandeja_es/nuevopaquete.html'
     form_class = PaquetePreviewForm
 
-
     def form_valid(self, form, **kwargs):
         obj = form.save(commit=False)
         obj.prev_propietario = self.request.user
