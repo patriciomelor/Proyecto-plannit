@@ -280,7 +280,7 @@
     var myChart4 = new Chart(ctx, {
       type: 'line',
       data: {
-          labels: ['Red', 'Blue', 'Yellow', 'Green', 'Purple', 'Orange'],
+          labels: ['{% for emisiones in lista_curva_s %} {{emisiones.1}}',  '{% endfor %}'],
           datasets: [
             {
               label: '# of Votes',

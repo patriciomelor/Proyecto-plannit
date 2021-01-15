@@ -40,8 +40,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         estados_documento = []
         estados_final = []
 
-        #total = 0
-
         for estado in ESTADOS_CLIENTE[1:]:
             cont = 0
 
@@ -62,23 +60,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 except AttributeError:
                     pass
 
-            #total = total + cont
-        
-        # if cont == 0:
-        #     total = 0
-        #     estados_documentos = [total, 'Documentos Totaless']
-
-        # if cont != 0:
-        #     estados_documentos = [total, 'Documentos Totaless']
         estados_documentos = [total, 'Documentos Totaless']
         estados_final.append(estados_documentos)
-
-        # for estado in ESTADOS_CLIENTE[1:]:
-
-        #     version_aprobadocCs = Version.objects.filter(estado_cliente=int(estado[0]), documento_fk__in=doc).count()
-        #     lista_actual = [version_aprobadocCs, estado[1]]
-        #     lista_final.append(lista_actual)
-        #     total = total + version_aprobadocCs
 
         return estados_final
 
@@ -182,15 +165,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             aprobados_inicial = [cont, especialidad]
             aprobados_final.append(aprobados_inicial)
 
-        
-        # for lista in especialidad_list:
-        #         cont2 = 0
-        #         for doc in documentos:
-        #             if lista == doc.Especialidad:
-        #                 cont2 = cont2 + 1
-        #         lista_actual = [cont2, lista]
-        #         lista_final.append(lista_actual)
-
         return aprobados_final
 
     def reporte_total_documentos(self):
@@ -234,6 +208,59 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #                                                 #
         ###################################################
 
+    def reporte_curva_s_fechas(self):
+        
+        lista_actual = []
+        lista_final = []
+
+        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        valor_ganado = (valor_ganado / 100)
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+
+        for doc in documentos:
+
+            fecha_emision_b = doc.fecha_Emision_B
+            fecha_emision_0 = doc.fecha_Emision_0
+
+            lista_acual = [fecha_emision_b, fecha_emision_0]
+            lista_final.append(lista_acual)
+        
+        # fecha_final_b = 
+        # fecha_final_0 = 
+
+        cont = 1
+
+        for lista in documentos:
+
+            if cont == 1:
+                fecha_final_b = lista.fecha_Emision_B
+                fecha_final_0 = lista.fecha_Emision_0
+                cont = 0
+
+            else:
+                fecha_actual_b = lista.fecha_Emision_B
+                fecha_actual_0 = lista.fecha_Emision_0
+
+                if abs((lista.fecha_Emision_B - fecha_final_b).days) <= 0:
+
+                    fecha_final_b = lista.fecha_Emision_B
+
+                if abs((lista.fecha_Emision_0 - fecha_final_0).days) >= 0:
+
+                    fecha_final_0 = lista.fecha_Emision_0
+
+        print(fecha_final_b)
+        print(fecha_final_0)
+
+        return lista_final
+
+        ###################################################
+        #                                                 #
+        #                                                 #
+        #   METODO PARA EXPLAYAR INFO                     #
+        #                                                 #
+        #                                                 #
+        ###################################################
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -242,5 +269,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['lista_emisiones'] = self.reporte_emisiones()
         context['lista_aprobadosConstruccion_documentos'] = self.reporte_aprobadosConstruccion_documentos()
         context['lista_total_documentos'] = self.reporte_total_documentos()
+        context['lista_curva_s'] = self.reporte_curva_s_fechas()
 
         return context
