@@ -95,17 +95,7 @@ class VersionDocPreview(forms.ModelForm):
             'prev_comentario' : 'Archivo de Comentario',
         }
     
-    def clean(self):
-        data = self.cleaned_data
-        doc_pk = int(form.data['prev_documento_fk'])
-        doc = Documento.objects.get(pk=doc_pk)
-        nombre_documento = str(doc)
-        nombre_archivo = str(form.data['prev_archivo'])
-        
-        if not verificar_nombre_archivo(nombre_documento, nombre_archivo):
-            self.add_error('prev_archivo', 'No coinciden los nombres')
-        
-        return data
+   
 
 
 # class cualquierwea(VersionDocPreview):        
