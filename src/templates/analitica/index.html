@@ -179,7 +179,7 @@
     var myChart3 = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: ['{% for emisiones in lista_aprobadosConstruccion_documentos %} {{emisiones.1}}',  '{% endfor %}'],
+          labels: ['{% for emisiones in lista_total_documentos %} {{emisiones.1}}',  '{% endfor %}'],
           datasets: [
             {
               label: '# of Votes',
@@ -223,7 +223,7 @@
               borderWidth: 1
           }, {
             label: '# of Pieces',
-              data: [{% for emisiones in lista_aprobadosConstruccion_documentos %} {{emisiones.0}}, {% endfor %}],
+              data: [9, 11, 8, 14, 3, 1],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',

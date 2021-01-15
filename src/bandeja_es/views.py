@@ -12,7 +12,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, BorradorDocumento, PaqueteDocumento
-from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, VersionModalPreview
+from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
@@ -508,100 +508,69 @@ def documentos_ajax(request):
     # return JsonResponse(response_content,safe=False)
     return JsonResponse(response_content, safe=False)
 
-class DocumentosSelect2(AutoResponseView):
 
-    def get_queryset(self):
-        qs = super().get_queryset()
-        return qs.filter(proyecto=request.session.get('proyecto'))
-
-TEMPLATES = {
-
-}
-# class CreatePaquete2(ProyectoMixin, SessionWizardView):
-#     form_list = [('paquete', PaquetePreviewForm), ('version', VersionDocPreview)]
-#     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'versiones'))
-#     template_name = 'bandeja_es/nuevopaquete.html'
-
-#     def done(self, form_list, **kwargs):
-#         ####### Paquete Form #####
-#         package_pk = 0
-#         form_paquete = form_list[0]
-#         obj = form_paquete.save(commit=False)
-#         obj.prev_propietario = request.user
-#         obj.save()
-#         package_pk = obj.pk
-#         context2['paquete_pk'] = package_pk
-
-#         ####### Version Form  #####
-#         version_form = form_list[2]
-
-
-#     def get_template_names(self):
-#         return [TEMPLATES[self.steps.current]]
-
-class PrevPaquete(ProyectoMixin, FormView):
+class PrevPaqueteView(ProyectoMixin, FormView):
     template_name = 'bandeja_es/nuevopaquete.html'
     form_class = PaquetePreviewForm
-    success_url = reverse_lazy('crear-version')
 
     def form_valid(self, form, **kwargs):
-        super().form_valid(form)
         obj = form.save(commit=False)
-        obj.prev_propietario = request.user
+        obj.prev_propietario = self.request.user
         obj.save()
         package_pk = obj.pk
-        return redirect('crear-version', paquete= package_pk)
+        return redirect('crear-version', paquete_pk=package_pk)
 
 
 def version_prev(request, paquete_pk):
     context = {}
-    if request.method == 'POST':
 
-        return redirect('paquete-crear', paquete_pk=paquete_pk, versiones_pk= versiones)
     if request.method == 'GET':
         form = VersionDocPreview()
         context['form'] = form
-    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-        if request.method == 'POST':
-            form = VersionDocPreview(request.POST or None, request.FILES or None)
-            if form.is_valid():
-                doc_pk = int(form.cleaned_data['prev_documento_fk'])
-                doc = Documento.objects.get(pk=doc_pk)
-                package = PrevPaquete.objects.get(pk=paquete_pk)
-                context['paquete'] = package
-                version = form.save(commit=False)
-                version.prev_documento_fk = doc
-                version.prev_owner = request.user
-                version.save()
-                version_pk = version.pk
-                version_qs = PrevVersion.objects.get(pk=version_pk)
-                package.prev_documento.add(version_qs)
-                version_list.append(version)
+        context['paquete'] = paquete_pk
+        lista_versiones_pk = []
+        package = PrevPaquete.objects.get(pk=paquete_pk)
+        pkg_versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=package)
+        for version in pkg_versiones:
+            pk = version.prev_version.pk
+            lista_versiones_pk.append(pk)
+        versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
+        response_content = list(versiones.values())
 
-                return JsonResponse({'msg': 'Success'})
-            else:
-                return JsonResponse({'msg': 'Invalid'})
-        #### GET request ####        
-        else:
-            lista_versiones_pk = []
+        return render(request, 'bandeja_es/tabla-versiones-form.html', context)
+    #### AJAX Request ####
+
+def vue_version(request, paquete_pk):
+    if request.method == 'POST':
+        form = VersionDocPreview(request.POST or None, request.FILES or None)
+        if form.is_valid():
+            doc_pk = int(form.cleaned_data['prev_documento_fk'])
+            doc = Documento.objects.get(pk=doc_pk)
             package = PrevPaquete.objects.get(pk=paquete_pk)
-            pkg_versiones = PrevPaqueteDocumento.objects.get(prev_paquete__in=package)
-            for version in pkg_versiones:
-                pk = version.prev_version.pk
-                lista_versiones_pk.append(pk)
-            versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
-            response_content = list(versiones.values())
-            return JsonResponse(response_content, safe=False)
-                
+            context['paquete'] = package
+            version = form.save(commit=False)
+            version.prev_documento_fk = doc
+            version.prev_owner = request.user
+            version.save()
+            version_pk = version.pk
+            version_qs = PrevVersion.objects.get(pk=version_pk)
+            package.prev_documento.add(version_qs)
+            version_list.append(version)
+
+            return JsonResponse({'msg': 'Success'})
+        else:
+            return JsonResponse({'msg': 'Invalid'})
+#### GET request ####        
+    else:
+        lista_versiones_pk = []
+        package = PrevPaquete.objects.get(pk=paquete_pk)
+        pkg_versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=package)
+        for version in pkg_versiones:
+            pk = version.prev_version.pk
+            lista_versiones_pk.append(pk)
+        versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
+        response_content = list(versiones.values())
+        
+    return JsonResponse(response_content, safe=False)
+        
     
-    return render(request, 'bandeja_es/tabla-versiones-form.html', context)
-
-# class ModalPrevVersion(ProyectoMixin, BSModalCreateView):
-#     template_name = 'bandeja_es/crear-version-modal.html'
-#     form_class = VersionModalPreview
-#     success_message = 'Success: Version fue agregada.'
-
-# class ModalPrevPaquete(ProyectoMixin, BSModalCreateView):
-#     template_name = 'bandeja_es/crear-pkg-modal.html'
-#     form_class = PaqueteModalPreview
-#     success_message = 'Success: Paquete fue creado.'
