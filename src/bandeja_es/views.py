@@ -536,32 +536,32 @@ def version_prev(request, paquete_pk):
             lista_versiones_pk.append(pk)
         versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
         response_content = list(versiones.values())
-
-        return render(request, 'bandeja_es/tabla-versiones-form.html', context)
+    return render(request, 'bandeja_es/tabla-versiones-form.html', context)
     #### AJAX Request ####
 
 def vue_version(request, paquete_pk):
-    if request.method == 'POST':
-        form = VersionDocPreview(request.POST or None, request.FILES or None)
-        if form.is_valid():
-            doc_pk = int(form.cleaned_data['prev_documento_fk'])
-            doc = Documento.objects.get(pk=doc_pk)
-            package = PrevPaquete.objects.get(pk=paquete_pk)
-            context['paquete'] = package
-            version = form.save(commit=False)
-            version.prev_documento_fk = doc
-            version.prev_owner = request.user
-            version.save()
-            version_pk = version.pk
-            version_qs = PrevVersion.objects.get(pk=version_pk)
-            package.prev_documento.add(version_qs)
-            version_list.append(version)
+    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
+        if request.method == 'POST':
+            form = VersionDocPreview(request.POST or None, request.FILES or None)
+            if form.is_valid():
+                doc_pk = int(form.cleaned_data['prev_documento_fk'])
+                doc = Documento.objects.get(pk=doc_pk)
+                package = PrevPaquete.objects.get(pk=paquete_pk)
+                context['paquete'] = package
+                version = form.save(commit=False)
+                version.prev_documento_fk = doc
+                version.prev_owner = request.user
+                version.save()
+                version_pk = version.pk
+                version_qs = PrevVersion.objects.get(pk=version_pk)
+                package.prev_documento.add(version_qs)
+                version_list.append(version)
 
-            return JsonResponse({'msg': 'Success'})
-        else:
-            return JsonResponse({'msg': 'Invalid'})
+                return JsonResponse({'msg': 'Success'})
+            else:
+                return JsonResponse({'msg': 'Invalid'})
 #### GET request ####        
-    else:
+    if request.method == 'GET':
         lista_versiones_pk = []
         package = PrevPaquete.objects.get(pk=paquete_pk)
         pkg_versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=package)

@@ -22,6 +22,7 @@
         </table>
     </div>
     
+<form method="POST" id="form" enctype="multipart/form-data">{% csrf_token %}
   <div class="modal-body">
     {% for field in form %}
       <div class="form-group{% if field.errors %} invalid{% endif %}">
@@ -34,11 +35,63 @@
     {% endfor %}
   </div>
   <!--FIN PANEL PRINCIPAL-->
-</div>
+    </div>
+</form>
  
 {% endblock content %}
 
 {% block js %}
+
+<script language="JavaScript" type="text/javascript">
+    $("#cargar").click(function submitVersionHandler(e){
+        e.preventDefault();
+        const form = document.getElementById('form')
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'vue-version' paquete %}",
+            data: $("#form").serialize(),
+            dataType: 'json',
+            success: successHandler
+        })
+        function successHandler(data){
+                if (data.msg === 'Success'){
+                    alert('Formulario guardado en correctamente.')
+                }
+                if (data.msg === 'Invalid'){
+                    alert('Ha ocurrido un error al crear el formulario de version.\nRevise la información ingresada e intente nuevamente.')
+                }
+            }
+    }
+)   
+
+</script>
+
+<script language="JavaScript" type="text/javascript">
+    $("#borrador").click(function submitBorradorHandler(e){
+        e.preventDefault();
+        const form = document.getElementById('form')
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'borrador-crear' borrador_pk=borr_pk %}",
+            data: $("#form").serialize(),
+            dataType: 'json',
+            success: successHandler
+        })
+        function successHandler(data){
+                if (data.msg === 'Success'){
+                    window.location.href = "{% url 'Borradores' %}";
+                    alert('Formulario guardado en Borrador.')
+                }
+                if (data.msg === 'Update'){
+                    window.location.href = "{% url 'Borradores' %}";
+                    alert('Se ha actualizado la información del paquete. Formulario guardado en Borrador')
+                }
+            }
+    }
+)   
+
+</script>
+
 <script>
     url = "{% url 'vue-version' paquete %}"
 
