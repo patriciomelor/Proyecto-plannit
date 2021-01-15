@@ -10,8 +10,6 @@
         <a  href="{% url 'paquete-preview' borrador_pk=None %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
       </div>
     
-    
-
       <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
 
       <nav class="nav br-nav-mailbox flex-column">
@@ -34,7 +32,7 @@
             <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_archivo|as_crispy_field}}</div>               
             <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_comentario|as_crispy_field}}</div>  
             <div class="col-3" style="margin-top:20px;float:right;  ">
-            <input class="btn btn-info btn btn-oblong" type="submit" value="Agregar">
+            <button class="btn btn-info btn btn-oblong" onclick="submitVersionHandler()" value="Agregar">Agregar</button>
          </div>
         </form> 
 
@@ -116,7 +114,7 @@ $(document).ready(function() {
 
 </script>
 
-<script language="JavaScript" type="text/javascript">
+{% comment %} <script language="JavaScript" type="text/javascript">
     $("#borrador").click(function submitBorradorHandler(e){
         e.preventDefault();
         const form = document.getElementById('form')
@@ -138,9 +136,8 @@ $(document).ready(function() {
                 }
             }
     }
-)   
-
-</script>
+)
+</script> {% endcomment %}
 
 <script>
     url = "{% url 'vue-version' paquete %}"
@@ -157,4 +154,7 @@ $(document).ready(function() {
             } {% endcomment %}
         });
 </script>
+
+{% endblock js %}
+
 {% endblock content %}
