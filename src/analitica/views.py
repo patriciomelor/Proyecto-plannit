@@ -40,13 +40,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         estados_documento = []
         estados_final = []
 
-        for estado in TYPES_REVISION[1:]:
+        for estado in ESTADOS_CLIENTE[1:]:
             cont = 0
 
             for lista in lista_final:
 
                 try:
-                    estado_documento = lista[0].revision
+                    estado_documento = lista[0].estado_cliente
                     
                     if estado_documento == estado[0] :
                         cont = cont + 1
@@ -76,17 +76,35 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     def reporte_emisiones(self):
         
         lista_actual = []
+        cantidad_por_especialidad = []
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        documentos_contador = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+
+        #versiones actuales de los documentos
         lista_final = []
 
         especialidad_list = tuple()
-        cantidad_por_especialidad = []
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-
-        #versiones actuales de los documentos
         for doc in documentos:
+            cont = 0
             versiones = Version.objects.filter(documento_fk=doc).last()
-            lista_actual = [versiones, doc] 
-            lista_final.append(lista_actual) 
+
+            for revision in ESTADOS_CLIENTE[1:]:
+                
+                try:
+
+                    if revision[0] == versiones.revision:
+                        cont = 1
+
+                except AttributeError:
+
+                    pass
+
+            if cont == 0:
+
+                lista_actual = [versiones, doc] 
+                print(lista_actual)
+                print('Primera lista')
+                lista_final.append(lista_actual)
 
         for lista in lista_final: 
             for special in documentos:
@@ -97,7 +115,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #lista final de versiones aprobadas
         aprobados_final = []
         aprobados_inicial = []
-        
+
         for especialidad in especialidad_list:
             cont = 0 
             
@@ -105,25 +123,19 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 try:
                     mi_especialidad = lista[1].Especialidad
-                    mi_revision = lista[0].revision
+                    #mi_estado_cliente = lista[0].estado_cliente
 
-                    print(mi_revision)
-                    print("hola")
-
-                    if mi_especialidad == especialidad and mi_revision != '':
-                        conta = 0
-                        for estado in TYPES_REVISION[1:]:
-                            if mi_revision == estado[0] and mi_revision != '':
-                                conta = conta + 1
-                        if conta == 0:
-                            cont = cont + 1
-                        else:
-                            pass
+                    if mi_especialidad == especialidad:
+                        cont = cont + 1
 
                 except AttributeError:
                     pass
 
             aprobados_inicial = [cont, especialidad]
+
+            print(aprobados_inicial)
+            print('Segunda lista')
+
             aprobados_final.append(aprobados_inicial) 
 
         return aprobados_final      
@@ -164,9 +176,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 try:
                     mi_especialidad = lista[1].Especialidad
-                    mi_estado_cliente = lista[0].revision
+                    mi_estado_cliente = lista[0].estado_cliente
 
-                    if mi_especialidad == especialidad and mi_estado_cliente >= 1 :
+                    if mi_especialidad == especialidad and mi_estado_cliente == 5 :
                         cont = cont + 1
 
                 except AttributeError:
