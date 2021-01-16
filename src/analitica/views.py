@@ -6,7 +6,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from bandeja_es.models import Version
 from panel_carga.models import Documento
-from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE
+from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION
 from datetime import datetime
 
 # Create your views here.
@@ -30,7 +30,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         total = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
-        lista_final.append(lista_actual)
+        #lista_final.append(lista_actual)
 
         for doc in documentos:
             versiones = Version.objects.filter(documento_fk=doc).last()
@@ -76,17 +76,35 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     def reporte_emisiones(self):
         
         lista_actual = []
+        cantidad_por_especialidad = []
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        documentos_contador = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+
+        #versiones actuales de los documentos
         lista_final = []
 
         especialidad_list = tuple()
-        cantidad_por_especialidad = []
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-
-        #versiones actuales de los documentos
         for doc in documentos:
+            cont = 0
             versiones = Version.objects.filter(documento_fk=doc).last()
-            lista_actual = [versiones, doc] 
-            lista_final.append(lista_actual) 
+
+            for revision in ESTADOS_CLIENTE[1:]:
+                
+                try:
+
+                    if revision[0] == versiones.revision:
+                        cont = 1
+
+                except AttributeError:
+
+                    pass
+
+            if cont == 0:
+
+                lista_actual = [versiones, doc] 
+                print(lista_actual)
+                print('Primera lista')
+                lista_final.append(lista_actual)
 
         for lista in lista_final: 
             for special in documentos:
@@ -97,7 +115,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #lista final de versiones aprobadas
         aprobados_final = []
         aprobados_inicial = []
-        
+
         for especialidad in especialidad_list:
             cont = 0 
             
@@ -105,15 +123,19 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 try:
                     mi_especialidad = lista[1].Especialidad
-                    mi_estado_cliente = lista[0].estado_cliente
+                    #mi_estado_cliente = lista[0].estado_cliente
 
-                    if mi_especialidad == especialidad and ( mi_estado_cliente == 1 or mi_estado_cliente == 4 or mi_estado_cliente == 5 ) :
+                    if mi_especialidad == especialidad:
                         cont = cont + 1
 
                 except AttributeError:
                     pass
 
             aprobados_inicial = [cont, especialidad]
+
+            print(aprobados_inicial)
+            print('Segunda lista')
+
             aprobados_final.append(aprobados_inicial) 
 
         return aprobados_final      
