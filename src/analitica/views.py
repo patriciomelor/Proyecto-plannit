@@ -164,9 +164,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 try:
                     mi_especialidad = lista[1].Especialidad
-                    mi_estado_cliente = lista[0].estado_cliente
+                    mi_estado_cliente = lista[0].revision
 
-                    if mi_especialidad == especialidad and mi_estado_cliente == 5 :
+                    if mi_especialidad == especialidad and mi_estado_cliente >= 1 :
                         cont = cont + 1
 
                 except AttributeError:
