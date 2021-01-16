@@ -24,7 +24,7 @@
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">  
         <div class="row form-row spacer">
-         <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="POST" id="form" enctype="multipart/form-data">
+         <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="POST" id="form" enctype="multipart/form-data">{% csrf_token %}
             <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_documento_fk|as_crispy_field}}</div>
             <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_revision|as_crispy_field}}</div>           
             <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_estado_cliente|as_crispy_field}}</div>                 
@@ -32,29 +32,30 @@
             <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_archivo|as_crispy_field}}</div>               
             <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_comentario|as_crispy_field}}</div>  
             <div class="col-3" style="margin-top:20px;float:right;  ">
-            <button class="btn btn-info btn btn-oblong" onclick="submitVersionHandler()" value="Agregar">Agregar</button>
+            <a href="javascript:location.reload()"><button id="cargar" class="btn btn-info btn btn-oblong" onclick="submitVersionHandler()" value="Agregar">Agregar</button></a>
          </div>
         </form> 
 
            </div>             
       </div>
+    <div id="tablaVersiones">
          <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">
             <thead>
                 <tr>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;" v-for="fila in filas"> [[ fila ]] </th>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;" v-for="fila in filas"> [[ fila ]] </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Documento </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Revisión </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Cliente </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Contratista </th>
 
                 </tr>
             </thead>
-    <div id="tablaVersiones">
               <tbody>
-                  <tr>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" v-for="fila in filas">[[ fila.info ]]</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" v-for="fila in filas">[[ fila.signo ]]</th>
+                  <tr v-for="fila in filas">
+                  <td style="text-align: center;border: 2px;border-color: grey; color: black;" >[[ fila ]]</td>
                   </tr>
               </tbody>
-              </div>
           </table>
+        </div>
     </div>
      
   </div>
@@ -91,12 +92,13 @@ $(document).ready(function() {
 
 
 <script language="JavaScript" type="text/javascript">
-    $("#cargar").click(function submitVersionHandler(e){
+    $("#cargar").removeAttr('onsubmit').click(function submitVersionHandler(e){
         e.preventDefault();
+        e.stopImmediatePropagation();
         const form = document.getElementById('form')
         $.ajax({
             type: 'POST',
-            url: "{% url 'vue-version' paquete %}",
+            url: "{% url 'vue-version' paquete_pk=paquete %}",
             data: $("#form").serialize(),
             dataType: 'json',
             success: successHandler
@@ -148,10 +150,10 @@ $(document).ready(function() {
         data: {
             filas: []
         },
-        {% comment %} mounted() {
+        mounted() {
             axios
                 .get(url).then(response => {this.filas = response.data,console.log(url),console.log(response.data)})
-            } {% endcomment %}
+            }
         });
 </script>
 

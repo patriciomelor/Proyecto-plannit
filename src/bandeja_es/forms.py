@@ -3,6 +3,7 @@ from django.forms import BaseFormSet
 from django.forms import (formset_factory, modelformset_factory)
 from django.urls import (reverse_lazy, reverse)
 from crispy_forms.helper import FormHelper
+from django.core.exceptions import ValidationError
 from crispy_forms.layout import Submit
 from panel_carga.models import Documento
 from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
@@ -83,7 +84,6 @@ class PaquetePreviewForm(forms.ModelForm):
         }
 class VersionDocPreview(forms.ModelForm):
     prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
-    prev_documento_fk = forms.CharField(label="Documentos",widget=forms.Select(attrs={'class': 'select2'}))
     class Meta:
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
@@ -94,9 +94,19 @@ class VersionDocPreview(forms.ModelForm):
             'prev_archivo' : 'Archivo',
             'prev_comentario' : 'Archivo de Comentario',
         }
+        widgets ={
+            'prev_documento_fk': forms.Select(attrs={'class': 'select2'})
+        }
     
-   
-
+    def clean(self):
+        cleaned_data = super().clean()
+        doc = cleaned_data.get('prev_documento_fk')
+        nombre_documento = doc.Codigo_documento
+        nombre_archivo = str(cleaned_data.get('prev_archivo'))
+        
+        if not verificar_nombre_archivo(nombre_documento, nombre_archivo):
+            self.add_error('prev_archivo', 'No coinciden los nombres')
+            raise ValidationError('No coinciden los nombres')
 
 # class cualquierwea(VersionDocPreview):        
 #     def __init__(self, *args, **kwargs):
