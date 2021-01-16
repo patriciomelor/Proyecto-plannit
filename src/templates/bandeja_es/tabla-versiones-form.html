@@ -10,8 +10,6 @@
         <a  href="{% url 'paquete-preview' borrador_pk=None %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
       </div>
     
-    
-
       <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
 
       <nav class="nav br-nav-mailbox flex-column">
@@ -26,26 +24,18 @@
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">  
         <div class="row form-row spacer">
-         <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
-        {% comment %} {% for field in form %}
-          <div class="form-group{% if field.errors %} invalid{% endif %}">
-            <label for="{{ field.id_for_label }}"></label>
-            {{ field|as_crispy_field }}
-            {% for error in field.errors %}
-              <p class="help-block">{{ error }}</p>
-            {% endfor %}
-          </div>
-        {% endfor %} {% endcomment %}
-          <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_documento_fk|as_crispy_field}}</div>
-          <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_revision|as_crispy_field}}</div>           
-          <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_estado_cliente|as_crispy_field}}</div>                 
-          <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_estado_contratista|as_crispy_field}}</div>  <br>                                 
-          <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_archivo|as_crispy_field}}</div>               
-          <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_comentario|as_crispy_field}}</div>  
-         <div class="col-3" style="margin-top:20px;float:right;  ">
-         <input class="btn btn-info btn btn-oblong" type="submit" value="Agregar">
+         <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="POST"onsubmit="setTimeout('document.forms[0].reset()', 2000)" id="form" enctype="multipart/form-data">{% csrf_token %}
+            <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_documento_fk|as_crispy_field}}</div>
+            <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_revision|as_crispy_field}}</div>           
+            <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_estado_cliente|as_crispy_field}}</div>                 
+            <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_estado_contratista|as_crispy_field}}</div>  <br>                                 
+            <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_archivo|as_crispy_field}}</div>               
+            <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_comentario|as_crispy_field}}</div>  
+            <div class="col-3" style="margin-top:20px;float:right;  ">
+            <a class="btn btn-info btn btn-oblong" id="cargar"href="javascript:location.reload()" value="Agregar">Agregar</a>
+
          </div>
-          </form> 
+        </form> 
 
            </div>             
       </div>
@@ -72,12 +62,13 @@
   
 </div>
   <!--FIN PANEL PRINCIPAL-->
-   
     
 </div>
  
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+{% block js %}
 
 <script>
 $(document).ready(function() {
@@ -97,7 +88,32 @@ $(document).ready(function() {
             }
        });
 });
-</script>   
+</script>
+
+
+<script language="JavaScript" type="text/javascript">
+    $("#cargar").click(function submitVersionHandler(e){
+        e.preventDefault();
+        const form = document.getElementById('form')
+        $.ajax({
+            type: 'POST',
+            url: "{% url 'vue-version' paquete %}",
+            data: $("#form").serialize(),
+            dataType: 'json',
+            success: successHandler
+        })
+        function successHandler(data){
+                if (data.msg === 'Success'){
+                    alert('Formulario guardado en correctamente.')
+                }
+                if (data.msg === 'Invalid'){
+                    alert('Ha ocurrido un error al crear el formulario de version.\nRevise la información ingresada e intente nuevamente.')
+                }
+            }
+    }
+)   
+
+</script>
 <script>
     url = "{% url 'vue-version' paquete %}"
 
@@ -113,4 +129,7 @@ $(document).ready(function() {
             } {% endcomment %}
         });
 </script>
+
+{% endblock js %}
+
 {% endblock content %}
