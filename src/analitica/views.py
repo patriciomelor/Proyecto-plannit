@@ -7,7 +7,7 @@ from panel_carga.views import ProyectoMixin
 from bandeja_es.models import Version
 from panel_carga.models import Documento
 from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION
-from datetime import datetime
+from datetime import datetime, timedelta
 
 # Create your views here.
 
@@ -102,8 +102,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if cont == 0:
 
                 lista_actual = [versiones, doc] 
-                print(lista_actual)
-                print('Primera lista')
                 lista_final.append(lista_actual)
 
         for lista in lista_final: 
@@ -132,10 +130,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     pass
 
             aprobados_inicial = [cont, especialidad]
-
-            print(aprobados_inicial)
-            print('Segunda lista')
-
             aprobados_final.append(aprobados_inicial) 
 
         return aprobados_final      
@@ -147,47 +141,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #                                                 #
         #                                                 #
         ###################################################
-
-    # def reporte_aprobadosConstruccion_documentos(self):
-    #     lista_actual = []
-    #     lista_final = []
-
-    #     especialidad_list = tuple()
-    #     cantidad_por_especialidad = []
-    #     documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-
-    #     for doc in documentos:
-    #         versiones = Version.objects.filter(documento_fk=doc).last()
-    #         lista_actual = [versiones, doc] 
-    #         lista_final.append(lista_actual)
-
-    #     for special in documentos:
-    #             especialidad_actual = special.Especialidad
-    #             if not especialidad_actual in especialidad_list:
-    #                 especialidad_list = especialidad_list + (str(especialidad_actual),)
-
-    #     aprobados_final = []
-    #     aprobados_inicial = []
-        
-    #     for especialidad in especialidad_list:
-    #         cont = 0 
-            
-    #         for lista in lista_final: 
-
-    #             try:
-    #                 mi_especialidad = lista[1].Especialidad
-    #                 mi_estado_cliente = lista[0].estado_cliente
-
-    #                 if mi_especialidad == especialidad and mi_estado_cliente == 5 :
-    #                     cont = cont + 1
-
-    #             except AttributeError:
-    #                 pass
-
-    #         aprobados_inicial = [cont, especialidad]
-    #         aprobados_final.append(aprobados_inicial)
-
-    #     return aprobados_final
 
     def reporte_total_documentos(self):
         
@@ -218,8 +171,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if cont == 1:
 
                 lista_actual = [versiones, doc] 
-                print(lista_actual)
-                print('Primera lista')
                 lista_final.append(lista_actual)
 
         for lista in lista_final: 
@@ -248,10 +199,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     pass
 
             aprobados_inicial = [cont, especialidad]
-
-            print(aprobados_inicial)
-            print('Segunda lista')
-
             aprobados_final.append(aprobados_inicial) 
 
         return aprobados_final
@@ -305,8 +252,17 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                     fecha_final_0 = lista.fecha_Emision_0
 
-        print(fecha_final_b)
-        print(fecha_final_0)
+        fechas_controles = []
+        fechas_controles.append(fecha_final_b)
+        fecha_actual = fecha_final_b
+        
+        while fecha_actual < fecha_final_0:
+            
+            fecha_actual = fecha_actual + timedelta(days=7)
+            fechas_controles.append(fecha_actual)
+
+        
+        print(len(fechas_controles))
 
         return lista_final
 
@@ -323,7 +279,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         context['lista_final'] = self.reporte_general()
         context['lista_emisiones'] = self.reporte_emisiones()
-        #context['lista_aprobadosConstruccion_documentos'] = self.reporte_aprobadosConstruccion_documentos()
         context['lista_total_documentos'] = self.reporte_total_documentos()
         context['lista_curva_s'] = self.reporte_curva_s_fechas()
 
