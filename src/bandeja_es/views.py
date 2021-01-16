@@ -1,25 +1,35 @@
+import pathlib
 import os.path
-from bootstrap_modal_forms.generic import BSModalCreateView
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
+from django.contrib import messages
 from django.forms import formset_factory
+from django.core.exceptions import ValidationError
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.base import TemplateView, RedirectView, View
 from django.core.files.storage import FileSystemStorage
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
+from bootstrap_modal_forms.generic import BSModalCreateView
+from formtools.wizard.views import SessionWizardView
+from django_select2.views import AutoResponseView
+from rest_framework import status
+from rest_framework.parsers import MultiPartParser, FormParser
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+
+
 from panel_carga.views import ProyectoMixin
-from django.contrib import messages
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, BorradorDocumento, PaqueteDocumento
 from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
 from panel_carga.choices import TYPES_REVISION
-import pathlib
-from formtools.wizard.views import SessionWizardView
-from django_select2.views import AutoResponseView
+from .serializers import PrevVersionSerializer
+
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -504,11 +514,8 @@ def documentos_ajax(request):
         terms = request.GET.get('term')
         documentos = Documento.objects.filter(proyecto=request.session.get('proyecto'), Codigo_documento__icontains=terms)
         response_content = list(documentos.values()) 
-        print(response_content)
     # return JsonResponse(response_content,safe=False)
     return JsonResponse(response_content, safe=False)
-
-
 class PrevPaqueteView(ProyectoMixin, FormView):
     template_name = 'bandeja_es/nuevopaquete.html'
     form_class = PaquetePreviewForm
@@ -519,7 +526,6 @@ class PrevPaqueteView(ProyectoMixin, FormView):
         obj.save()
         package_pk = obj.pk
         return redirect('crear-version', paquete_pk=package_pk)
-
 
 def version_prev(request, paquete_pk):
     context = {}
@@ -543,24 +549,25 @@ def vue_version(request, paquete_pk):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         if request.method == 'POST':
             form = VersionDocPreview(request.POST or None, request.FILES or None)
-            if form.is_valid():
-                doc_pk = int(form.cleaned_data['prev_documento_fk'])
-                doc = Documento.objects.get(pk=doc_pk)
-                package = PrevPaquete.objects.get(pk=paquete_pk)
-                context['paquete'] = package
-                version = form.save(commit=False)
-                version.prev_documento_fk = doc
-                version.prev_owner = request.user
-                version.save()
-                version_pk = version.pk
-                version_qs = PrevVersion.objects.get(pk=version_pk)
-                package.prev_documento.add(version_qs)
-                version_list.append(version)
+            try:
+                if form.is_valid():
+                    documento = form.cleaned_data['prev_documento_fk']
+                    package = PrevPaquete.objects.get(pk=paquete_pk)
+                    version = form.save(commit=False)
+                    version.prev_documento_fk = documento
+                    version.prev_owner = request.user
+                    version.save()
+                    version_pk = version.pk
+                    version_qs = PrevVersion.objects.get(pk=version_pk)
+                    package.prev_documento.add(version_qs)
 
-                return JsonResponse({'msg': 'Success'})
-            else:
+                    return JsonResponse({'msg': 'Success'})
+                else:
+                    return JsonResponse({'msg': 'Invalid'})
+
+            except ValidationError:
                 return JsonResponse({'msg': 'Invalid'})
-#### GET request ####        
+    #### GET request ####        
     if request.method == 'GET':
         lista_versiones_pk = []
         package = PrevPaquete.objects.get(pk=paquete_pk)
@@ -573,4 +580,12 @@ def vue_version(request, paquete_pk):
         
     return JsonResponse(response_content, safe=False)
         
-    
+# class PrevVersionView(ProyectoMixin, APIView):
+#     parser_classes = [MultiPartParser, FormParser]
+#     permission_classes = [IsAuthenticated]
+
+#     def post(self, request, format=None):
+#         serializer = PrevVersionSerializer(instance=None, data=request.data)
+#         if serializer.is_valid():
+#             obj= serializer.save(commit=False)
+#             obj.prev_

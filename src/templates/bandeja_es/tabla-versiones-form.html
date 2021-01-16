@@ -39,23 +39,24 @@
 
            </div>             
       </div>
+    <div id="tablaVersiones">
          <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">
             <thead>
                 <tr>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;" v-for="fila in filas"> [[ fila ]] </th>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;" v-for="fila in filas"> [[ fila ]] </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Documento </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Revisión </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Cliente </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Contratista </th>
 
                 </tr>
             </thead>
-    <div id="tablaVersiones">
               <tbody>
-                  <tr>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" v-for="fila in filas">[[ fila.info ]]</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" v-for="fila in filas">[[ fila.signo ]]</th>
+                  <tr v-for="fila in filas">
+                  <td style="text-align: center;border: 2px;border-color: grey; color: black;" >[[ fila ]]</td>
                   </tr>
               </tbody>
-              </div>
           </table>
+        </div>
     </div>
      
   </div>
@@ -92,12 +93,13 @@ $(document).ready(function() {
 
 
 <script language="JavaScript" type="text/javascript">
-    $("#cargar").click(function submitVersionHandler(e){
+    $("#cargar").removeAttr('onsubmit').click(function submitVersionHandler(e){
         e.preventDefault();
+        e.stopImmediatePropagation();
         const form = document.getElementById('form')
         $.ajax({
             type: 'POST',
-            url: "{% url 'vue-version' paquete %}",
+            url: "{% url 'vue-version' paquete_pk=paquete %}",
             data: $("#form").serialize(),
             dataType: 'json',
             success: successHandler
@@ -123,13 +125,85 @@ $(document).ready(function() {
         data: {
             filas: []
         },
-        {% comment %} mounted() {
+        mounted() {
             axios
                 .get(url).then(response => {this.filas = response.data,console.log(url),console.log(response.data)})
-            } {% endcomment %}
+            }
         });
 </script>
+<script>
+const alertBox = document.getElementById('alert-box')
+const form = document.getElementById('p-form')
 
+const prev_documento_fk = document.getElementById('id_prev_documento_fk')
+const prev_revision = document.getElementById('id_prev_revision')
+const prev_estado_cliente = document.getElementById('id_prev_estado_cliente')
+const prev_estado_contratista = document.getElementById('id_prev_estado_contratista')
+const prev_archivo = document.getElementById('id_prev_archivo')
+const prev_comentario = document.getElementById('id_prev_comentario')
+
+const csrf = document.getElementsByName('csrfmiddlewaretoken')
+console.log(csrf)
+
+const url = ""
+
+
+
+prev_archivo.addEventListener('change', ()=>{
+    const prev_archivo_data = prev_archivo.files[0]
+    const url = URL.createObjectURL(prev_archivo)
+    console.log(url)
+    
+})
+prev_comentario.addEventListener('change', ()=>{
+    const prev_comentario_data = prev_comentario.files[0]
+    const url = URL.createObjectURL(prev_comentario)
+    console.log(url)
+    
+})
+
+form.addEventListener('onClick', e=>{
+    e.preventDefault()
+
+    const fd = new FormData()
+    fd.append('csrfmiddlewaretoken', csrf[0].value)
+    fd.append('prev_documento_fk', prev_documento_fk.value)
+    fd.append('prev_revision', prev_revision.value)
+    fd.append('prev_estado_cliente', prev_estado_cliente.value)
+    fd.append('prev_estado_contratista', prev_estado_contratista.value)
+    fd.append('prev_archivo', prev_archivo.files[0])
+    fd.append('prev_comentario', prev_comentario.files[0])
+
+    $.ajax({
+        type: 'POST',
+        url: "{% url 'vue-version' paquete %}",
+        enctype: 'multipart/form-data',
+        data: fd,
+        success: function(response){
+            console.log(response)
+            const sText = `successfully saved ${response.name}`
+            setTimeout(()=>{
+                alertBox.innerHTML = ""
+                prev_documento_fk.value = ""
+                prev_revision.value = ""
+                prev_estado_cliente.value = ""
+                prev_estado_contratista.value = ""
+                prev_archivo.value = ""
+                prev_comentario.value = ""
+            }, 3000)
+        },
+        error: function(error){
+            console.log(error)
+            handleAlerts('danger', 'ups..something went wrong')
+        },
+        cache: false,
+        contentType: false,
+        processData: false,
+    })
+})
+
+console.log(form)
+</script>
 {% endblock js %}
 
 {% endblock content %}
