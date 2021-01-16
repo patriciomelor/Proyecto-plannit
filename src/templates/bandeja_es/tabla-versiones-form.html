@@ -24,7 +24,7 @@
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">  
         <div class="row form-row spacer">
-         <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="POST" id="form" enctype="multipart/form-data">
+         <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="POST"onsubmit="setTimeout('document.forms[0].reset()', 2000)" id="form" enctype="multipart/form-data">{% csrf_token %}
             <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_documento_fk|as_crispy_field}}</div>
             <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_revision|as_crispy_field}}</div>           
             <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_estado_cliente|as_crispy_field}}</div>                 
@@ -32,7 +32,8 @@
             <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_archivo|as_crispy_field}}</div>               
             <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_comentario|as_crispy_field}}</div>  
             <div class="col-3" style="margin-top:20px;float:right;  ">
-            <button class="btn btn-info btn btn-oblong" onclick="submitVersionHandler()" value="Agregar">Agregar</button>
+            <a class="btn btn-info btn btn-oblong" id="cargar"href="javascript:location.reload()" value="Agregar">Agregar</a>
+
          </div>
         </form> 
 
@@ -113,32 +114,6 @@ $(document).ready(function() {
 )   
 
 </script>
-
-{% comment %} <script language="JavaScript" type="text/javascript">
-    $("#borrador").click(function submitBorradorHandler(e){
-        e.preventDefault();
-        const form = document.getElementById('form')
-        $.ajax({
-            type: 'POST',
-            url: "{% url 'borrador-crear' borrador_pk=borr_pk %}",
-            data: $("#form").serialize(),
-            dataType: 'json',
-            success: successHandler
-        })
-        function successHandler(data){
-                if (data.msg === 'Success'){
-                    window.location.href = "{% url 'Borradores' %}";
-                    alert('Formulario guardado en Borrador.')
-                }
-                if (data.msg === 'Update'){
-                    window.location.href = "{% url 'Borradores' %}";
-                    alert('Se ha actualizado la información del paquete. Formulario guardado en Borrador')
-                }
-            }
-    }
-)
-</script> {% endcomment %}
-
 <script>
     url = "{% url 'vue-version' paquete %}"
 
