@@ -6,7 +6,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from bandeja_es.models import Version
 from panel_carga.models import Documento
-from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE
+from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION
 from datetime import datetime
 
 # Create your views here.
@@ -30,7 +30,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         total = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
-        lista_final.append(lista_actual)
+        #lista_final.append(lista_actual)
 
         for doc in documentos:
             versiones = Version.objects.filter(documento_fk=doc).last()
@@ -40,13 +40,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         estados_documento = []
         estados_final = []
 
-        for estado in ESTADOS_CLIENTE[1:]:
+        for estado in TYPES_REVISION[1:]:
             cont = 0
 
             for lista in lista_final:
 
                 try:
-                    estado_documento = lista[0].estado_cliente
+                    estado_documento = lista[0].revision
                     
                     if estado_documento == estado[0] :
                         cont = cont + 1
@@ -105,10 +105,20 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 try:
                     mi_especialidad = lista[1].Especialidad
-                    mi_estado_cliente = lista[0].estado_cliente
+                    mi_revision = lista[0].revision
 
-                    if mi_especialidad == especialidad and ( mi_estado_cliente == 1 or mi_estado_cliente == 4 or mi_estado_cliente == 5 ) :
-                        cont = cont + 1
+                    print(mi_revision)
+                    print("hola")
+
+                    if mi_especialidad == especialidad and mi_revision != '':
+                        conta = 0
+                        for estado in TYPES_REVISION[1:]:
+                            if mi_revision == estado[0] and mi_revision != '':
+                                conta = conta + 1
+                        if conta == 0:
+                            cont = cont + 1
+                        else:
+                            pass
 
                 except AttributeError:
                     pass
@@ -154,9 +164,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 try:
                     mi_especialidad = lista[1].Especialidad
-                    mi_estado_cliente = lista[0].estado_cliente
+                    mi_estado_cliente = lista[0].revision
 
-                    if mi_especialidad == especialidad and mi_estado_cliente == 5 :
+                    if mi_especialidad == especialidad and mi_estado_cliente >= 1 :
                         cont = cont + 1
 
                 except AttributeError:
