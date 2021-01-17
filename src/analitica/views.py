@@ -8,6 +8,7 @@ from bandeja_es.models import Version
 from panel_carga.models import Documento
 from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION
 from datetime import datetime, timedelta
+from django.utils import timezone
 
 # Create your views here.
 
@@ -261,65 +262,65 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         avance_esperado = []
         lista_final_esperado = []
 
-        # for controles in fechas_controles:
-
-        #     # contador_emisiones_0 = 0
-        #     # contador_emisiones_b = 0
-
-        #     calculo_avanceEsperado = 0
-
-        #     for doc in documentos:
-                   
-        #         fecha_emision_b = doc.fecha_Emision_B
-        #         fecha_emision_0 = doc.fecha_Emision_0
-
-
-        #         if fecha_emision_b <= controles and fecha_emision_0 > controles:
-        #             calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
-        #             #contador_emisiones_b = contador_emisiones_b + 1
-                    
-        #         if fecha_emision_0 <= controles and fecha_emision_b < controles:
-        #             calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
-        #             #contador_emisiones_0 = contador_emisiones_0 + 1
-
-        #     # calculo_b = valor_ganado * contador_emisiones_b * 0.7
-        #     # calculo_0 = valor_ganado * contador_emisiones_0 * 1
-
-        #     avance_esperado = [calculo_avanceEsperado]
-        #     #print(avance_esperado)
-        #     lista_final_esperado.append(avance_esperado)
-        
-        # #print(len(lista_final_esperado))
-
+        #Avance Esperado
 
         for controles in fechas_controles:
-
             calculo_avanceEsperado = 0
 
             for doc in documentos:
-                try:   
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-                    revision_documento = doc.revision
+                   
+                fecha_emision_b = doc.fecha_Emision_B
+                fecha_emision_0 = doc.fecha_Emision_0
 
-                    for revision in TYPES_REVISION[1:]:
 
-                        if revision_documento == revision[0]:
-
-                            if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                                calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
-                        
-                            if fecha_emision_0 <= controles and fecha_emision_b < controles:
-                                calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
-                
-                except AttributeError:
-                    pass
+                if fecha_emision_b < controles and fecha_emision_0 >= controles:
+                    calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
+                    
+                if fecha_emision_0 < controles and fecha_emision_b < controles:
+                    calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 
             avance_esperado = [calculo_avanceEsperado]
-            print(avance_esperado)
+            #print(controles)
+            #print(avance_esperado)
             lista_final_esperado.append(avance_esperado)
         
-        print(len(lista_final_esperado))
+        #print(len(lista_final_esperado))
+
+        #Avance Real
+        avance_real = []
+        lista_final_real = []
+        semana_actual = timezone.now()
+
+        for controles in fechas_controles:
+
+            if semana_actual > controles:
+                calculo_avanceReal = 0
+
+                for doc in documentos:
+                    try:   
+                        fecha_emision_b = doc.fecha_Emision_B
+                        fecha_emision_0 = doc.fecha_Emision_0
+                        versiones = Version.objects.filter(documento_fk=doc).last()
+                        revision_documento = versiones.revision
+
+                        for revision in TYPES_REVISION[1:]:
+
+                            if revision_documento == revision[0]:
+
+                                if fecha_emision_b < controles and fecha_emision_0 >= controles and revision[0] <= 4:
+                                    calculo_avanceReal = valor_ganado * 0.7 + calculo_avanceReal
+                                
+                                if fecha_emision_0 < controles and fecha_emision_b < controles and revision[0] > 4:
+                                    calculo_avanceReal = valor_ganado * 1 + calculo_avanceReal
+                    
+                    except AttributeError:
+                        pass
+
+                avance_real = [calculo_avanceEsperado]
+                #print(avance_real)
+                lista_final_real.append(avance_real)
+        
+        #print(len(lista_final_real))
 
             
         return avance_esperado
