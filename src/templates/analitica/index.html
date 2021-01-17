@@ -183,11 +183,11 @@
     var myChart3 = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: ['{% for emisiones in lista_total_documentos %} {{emisiones.1}}',  '{% endfor %}'],
+          labels: ['{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}'],
           datasets: [
             {
               label: '# of Votes',
-              data: [{% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %}],
+              data: [{% for emisiones in lista_emisiones %} {{emisiones.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -226,8 +226,8 @@
               ],
               borderWidth: 1
           }, {
-            label: '# of Pieces',
-              data: [9, 11, 8, 14, 3, 1],
+            label: '# of Pieces', 
+              data: [ {% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %} ],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -284,13 +284,11 @@
     var myChart4 = new Chart(ctx, {
       
       data: {
-          labels: ['{% for emisiones in lista_curva_s %} {{emisiones.1}}',  '{% endfor %}'],
-          type: 'line''line''bar',
-
+          labels: ['{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}'],
           datasets: [
             {
-              label: '#Curava 1',
-              data: [12, 19, 3, 5, 2, 3],
+              label: '# of Votes',
+              data: [9, 11, 8, 14, 3, 1],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -330,8 +328,8 @@
               borderWidth: 1,
               fill: false
           }, {
-            label: '# Curva 2',
-              data: [9, 11, 8, 14, 3, 1],
+            label: '# of Pieces',
+              data: [{% for emisiones in lista_curva_s %} {{emisiones.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',

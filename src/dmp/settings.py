@@ -54,6 +54,8 @@ INSTALLED_APPS = [
     'django_select2',
     'formtools',
     'bootstrap_modal_forms',
+    'rest_framework',
+    'rest_framework.authtoken',
 
 
     
@@ -94,6 +96,15 @@ AUTHENTICATION_BACKENDS = [
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
 
+APPEND_SLASH = False
+
+# REST Framework
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework.authentication.TokenAuthentication',
+    ]
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',

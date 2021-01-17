@@ -6,6 +6,7 @@ diff-match-patch==20200713
 Django==3.1.1
 django-allauth==0.42.0
 django-appconf==1.0.4
+django-bootstrap-modal-forms==2.0.1
 django-crispy-forms==1.9.2
 django-filer==2.0.2
 django-filter==2.4.0
@@ -18,6 +19,7 @@ django-multiupload==0.5.2
 django-polymorphic==3.0.0
 django-redis==4.12.1
 django-select2==7.4.2
+djangorestframework==3.12.2
 easy-thumbnails==2.7
 et-xmlfile==1.0.1
 gunicorn==20.0.4
