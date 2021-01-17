@@ -11,7 +11,7 @@
     <h4 class="tx-gray-800 mg-b-5">Panel de Analita</h4>
   </div>
   <div class="row row-sm mg-t-20">
-          <div class="col-md-6">
+          <div class="col-md-12">
               <div class="widget-2">
                   <div class="card shadow-base overflow-hidden chart">
                       <div class="card-header">
@@ -25,7 +25,9 @@
                     </div>
                   </div>
               </div>
-          <div class="col-md-6">
+  </div>
+  <div class="row row-sm mg-t-20">
+          <div class="col-md-12">
                 <div class="widget-2">
                     <div class="card shadow-base overflow-hidden chart">
                         <div class="card-header">
@@ -42,7 +44,7 @@
               </div>
    </div>
   <div class="row row-sm mg-t-20">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="widget-2">
                 <div class="card shadow-base overflow-hidden chart">
                     <div class="card-header">
@@ -56,7 +58,9 @@
                   </div>
                 </div>
             </div>
-        <div class="col-md-6">
+  </div>
+  <div class="row row-sm mg-t-20">
+        <div class="col-md-12">
               <div class="widget-2">
                   <div class="card shadow-base overflow-hidden chart">
                       <div class="card-header">
@@ -77,7 +81,7 @@
     //DOCUMENTOS POR EMITIR POR SUBESTACION
     var ctx = document.getElementById('myChart5').getContext('2d');
     var myChart5 = new Chart(ctx, {
-      type: 'pie',
+      type: 'doughnut',
       data: {
           labels: [ '{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}' ],
           datasets: [{
@@ -278,12 +282,14 @@
     //Curva S
     var ctx = document.getElementById('myChart4').getContext('2d');
     var myChart4 = new Chart(ctx, {
-      type: 'line',
+      
       data: {
           labels: ['{% for emisiones in lista_curva_s %} {{emisiones.1}}',  '{% endfor %}'],
+          type: 'line''line''bar',
+
           datasets: [
             {
-              label: '# of Votes',
+              label: '#Curava 1',
               data: [12, 19, 3, 5, 2, 3],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
@@ -324,7 +330,7 @@
               borderWidth: 1,
               fill: false
           }, {
-            label: '# of Pieces',
+            label: '# Curva 2',
               data: [9, 11, 8, 14, 3, 1],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
@@ -365,7 +371,7 @@
               borderWidth: 1,
               fill: false
           }, {
-            label: '# of Cosas',
+            label: '#bar',
               data: [9, 11, 8, 14, 3, 1],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
