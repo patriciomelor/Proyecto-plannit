@@ -212,6 +212,118 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #                                                 #
         ###################################################
 
+    def reporte_curva_s_avances(self):
+        
+        lista_actual = []
+        lista_final = []
+
+        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        valor_ganado = (100 / valor_ganado)
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+
+        for doc in documentos:
+
+            fecha_emision_b = doc.fecha_Emision_B
+            fecha_emision_0 = doc.fecha_Emision_0
+
+            lista_acual = [fecha_emision_b, fecha_emision_0]
+            lista_final.append(lista_acual)
+
+        cont = 1
+
+        for lista in documentos:
+
+            if cont == 1:
+                fecha_final_b = lista.fecha_Emision_B
+                fecha_final_0 = lista.fecha_Emision_0
+                cont = 0
+
+            else:
+                fecha_actual_b = lista.fecha_Emision_B
+                fecha_actual_0 = lista.fecha_Emision_0
+
+                if abs((lista.fecha_Emision_B - fecha_final_b).days) <= 0:
+
+                    fecha_final_b = lista.fecha_Emision_B
+
+                if abs((lista.fecha_Emision_0 - fecha_final_0).days) >= 0:
+
+                    fecha_final_0 = lista.fecha_Emision_0
+
+        fechas_controles = []
+        fechas_controles.append(fecha_final_b)
+        fecha_actual = fecha_final_b
+        
+        while fecha_actual < fecha_final_0:
+            
+            fecha_actual = fecha_actual + timedelta(days=7)
+            fechas_controles.append(fecha_actual)
+
+        #Avance Esperado
+        avance_esperado = []
+        lista_final_esperado = []
+
+        for controles in fechas_controles:
+            calculo_avanceEsperado = 0
+
+            for doc in documentos:
+                   
+                fecha_emision_b = doc.fecha_Emision_B
+                fecha_emision_0 = doc.fecha_Emision_0
+
+
+                if fecha_emision_b < controles and fecha_emision_0 >= controles:
+                    calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
+                    
+                if fecha_emision_0 < controles and fecha_emision_b < controles:
+                    calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
+
+            avance_esperado = [format(calculo_avanceEsperado, '.2f')]
+            print(controles)
+            #print(avance_esperado)
+            lista_final_esperado.append(avance_esperado)
+        
+        print(len(lista_final_esperado))
+
+        #Avance Real
+        avance_real = []
+        lista_final_real = []
+        semana_actual = timezone.now()
+
+        for controles in fechas_controles:
+
+            if semana_actual > controles:
+                calculo_avanceReal = 0
+
+                for doc in documentos:
+                    try:   
+                        fecha_emision_b = doc.fecha_Emision_B
+                        fecha_emision_0 = doc.fecha_Emision_0
+                        versiones = Version.objects.filter(documento_fk=doc).last()
+                        revision_documento = versiones.revision
+
+                        for revision in TYPES_REVISION[1:]:
+
+                            if revision_documento == revision[0]:
+
+                                if fecha_emision_b < controles and fecha_emision_0 >= controles and revision[0] <= 4:
+                                    calculo_avanceReal = valor_ganado * 0.7 + calculo_avanceReal
+                                
+                                if fecha_emision_0 < controles and fecha_emision_b < controles and revision[0] > 4:
+                                    calculo_avanceReal = valor_ganado * 1 + calculo_avanceReal
+                    
+                    except AttributeError:
+                        pass
+                
+                avance_real = [calculo_avanceReal]
+                #print(avance_real)
+                lista_final_real.append(avance_real)
+        
+        #print(len(lista_final_real))
+
+            
+        return lista_final_esperado
+
     def reporte_curva_s_fechas(self):
         
         lista_actual = []
@@ -259,71 +371,12 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fecha_actual = fecha_actual + timedelta(days=7)
             fechas_controles.append(fecha_actual)
 
-        avance_esperado = []
-        lista_final_esperado = []
-
-        #Avance Esperado
-
-        for controles in fechas_controles:
-            calculo_avanceEsperado = 0
-
-            for doc in documentos:
-                   
-                fecha_emision_b = doc.fecha_Emision_B
-                fecha_emision_0 = doc.fecha_Emision_0
-
-
-                if fecha_emision_b < controles and fecha_emision_0 >= controles:
-                    calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
-                    
-                if fecha_emision_0 < controles and fecha_emision_b < controles:
-                    calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
-
-            avance_esperado = [calculo_avanceEsperado]
-            #print(controles)
-            #print(avance_esperado)
-            lista_final_esperado.append(avance_esperado)
-        
-        #print(len(lista_final_esperado))
-
-        #Avance Real
-        avance_real = []
-        lista_final_real = []
         semana_actual = timezone.now()
 
-        for controles in fechas_controles:
 
-            if semana_actual > controles:
-                calculo_avanceReal = 0
 
-                for doc in documentos:
-                    try:   
-                        fecha_emision_b = doc.fecha_Emision_B
-                        fecha_emision_0 = doc.fecha_Emision_0
-                        versiones = Version.objects.filter(documento_fk=doc).last()
-                        revision_documento = versiones.revision
+        return fechas_controles
 
-                        for revision in TYPES_REVISION[1:]:
-
-                            if revision_documento == revision[0]:
-
-                                if fecha_emision_b < controles and fecha_emision_0 >= controles and revision[0] <= 4:
-                                    calculo_avanceReal = valor_ganado * 0.7 + calculo_avanceReal
-                                
-                                if fecha_emision_0 < controles and fecha_emision_b < controles and revision[0] > 4:
-                                    calculo_avanceReal = valor_ganado * 1 + calculo_avanceReal
-                    
-                    except AttributeError:
-                        pass
-
-                avance_real = [calculo_avanceEsperado]
-                #print(avance_real)
-                lista_final_real.append(avance_real)
-        
-        #print(len(lista_final_real))
-
-            
-        return avance_esperado
 
         ###################################################
         #                                                 #
@@ -339,6 +392,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['lista_final'] = self.reporte_general()
         context['lista_emisiones'] = self.reporte_emisiones()
         context['lista_total_documentos'] = self.reporte_total_documentos()
-        context['lista_curva_s'] = self.reporte_curva_s_fechas()
+        context['lista_curva_s_avance'] = self.reporte_curva_s_avances()
+        context['lista_curva_s_fechas'] = self.reporte_curva_s_fechas()
 
         return context
