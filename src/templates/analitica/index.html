@@ -277,7 +277,7 @@
           datasets: [
             {
               label: '# of Votes',
-              data: [9, 11, 8, 14, 3, 1],
+              data: [{% for emisiones in lista_curva_s_avance_esperado %} {{emisiones.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -318,7 +318,7 @@
               fill: false
           }, {
             label: '# of Pieces',
-              data: [{% for emisiones in lista_curva_s_avance %} {{emisiones.0}}, {% endfor %}],
+              data: [{% for emisiones in lista_curva_s_avance_real %} {{emisiones.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -359,7 +359,7 @@
               fill: false
           }, {
             label: '# of Cosas',
-              data: [9, 11, 8, 14, 3, 1],
+              data: [{% for emisiones in lista_curva_s_avance_real %} {{emisiones.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
