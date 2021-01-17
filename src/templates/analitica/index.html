@@ -280,11 +280,11 @@
     var myChart4 = new Chart(ctx, {
       type: 'line',
       data: {
-          labels: ['{% for emisiones in lista_curva_s %} {{emisiones.1}}',  '{% endfor %}'],
+          labels: ['{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}'],
           datasets: [
             {
               label: '# of Votes',
-              data: [12, 19, 3, 5, 2, 3],
+              data: [9, 11, 8, 14, 3, 1],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -325,7 +325,7 @@
               fill: false
           }, {
             label: '# of Pieces',
-              data: [9, 11, 8, 14, 3, 1],
+              data: [{% for emisiones in lista_curva_s %} {{emisiones.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',

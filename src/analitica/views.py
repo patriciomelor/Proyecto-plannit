@@ -217,7 +217,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = []
 
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
-        valor_ganado = (valor_ganado / 100)
+        valor_ganado = (100 / valor_ganado)
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
         for doc in documentos:
@@ -227,9 +227,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             lista_acual = [fecha_emision_b, fecha_emision_0]
             lista_final.append(lista_acual)
-        
-        # fecha_final_b = 
-        # fecha_final_0 = 
 
         cont = 1
 
@@ -261,10 +258,32 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fecha_actual = fecha_actual + timedelta(days=7)
             fechas_controles.append(fecha_actual)
 
-        
-        print(len(fechas_controles))
+        avance_esperado = []
+        lista_final_esperado = []
 
-        return lista_final
+        for controles in fechas_controles:
+
+            contador_emisiones_0 = 0
+            contador_emisiones_b = 0
+            for doc in documentos:
+                
+                fecha_emision_b = doc.fecha_Emision_B
+                fecha_emision_0 = doc.fecha_Emision_0
+
+                if fecha_emision_b <= controles:
+                    contador_emisiones_b = contador_emisiones_b + 1
+                    
+                if fecha_emision_0 <= controles:
+                    contador_emisiones_0 = contador_emisiones_0 + 1
+
+            calculo_b = valor_ganado * contador_emisiones_b * 0.7
+            calculo_0 = valor_ganado * contador_emisiones_0 * 1
+
+            avance_esperado = [calculo_b, calculo_0]
+            print(avance_esperado)
+            lista_final_esperado.append(avance_esperado)
+            
+        return avance_esperado
 
         ###################################################
         #                                                 #
