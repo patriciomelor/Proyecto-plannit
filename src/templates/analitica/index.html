@@ -271,10 +271,10 @@
       }
   });
 
-    //Curva S
-    var ctx = document.getElementById('myChart4').getContext('2d');
+   //Curva S
+   var ctx = document.getElementById('myChart4').getContext('2d');
     var myChart4 = new Chart(ctx, {
-      
+      type: 'line',
       data: {
           labels: ['{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}'],
           datasets: [
@@ -361,7 +361,7 @@
               borderWidth: 1,
               fill: false
           }, {
-            label: '#bar',
+            label: '# of Cosas',
               data: [9, 11, 8, 14, 3, 1],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
@@ -404,16 +404,6 @@
           }
         ]
       },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
-          }
-      }
-  });
 </script>
 
 {% endblock content %}
