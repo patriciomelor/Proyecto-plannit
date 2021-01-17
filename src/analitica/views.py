@@ -261,27 +261,66 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         avance_esperado = []
         lista_final_esperado = []
 
+        # for controles in fechas_controles:
+
+        #     # contador_emisiones_0 = 0
+        #     # contador_emisiones_b = 0
+
+        #     calculo_avanceEsperado = 0
+
+        #     for doc in documentos:
+                   
+        #         fecha_emision_b = doc.fecha_Emision_B
+        #         fecha_emision_0 = doc.fecha_Emision_0
+
+
+        #         if fecha_emision_b <= controles and fecha_emision_0 > controles:
+        #             calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
+        #             #contador_emisiones_b = contador_emisiones_b + 1
+                    
+        #         if fecha_emision_0 <= controles and fecha_emision_b < controles:
+        #             calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
+        #             #contador_emisiones_0 = contador_emisiones_0 + 1
+
+        #     # calculo_b = valor_ganado * contador_emisiones_b * 0.7
+        #     # calculo_0 = valor_ganado * contador_emisiones_0 * 1
+
+        #     avance_esperado = [calculo_avanceEsperado]
+        #     #print(avance_esperado)
+        #     lista_final_esperado.append(avance_esperado)
+        
+        # #print(len(lista_final_esperado))
+
+
         for controles in fechas_controles:
 
-            contador_emisiones_0 = 0
-            contador_emisiones_b = 0
+            calculo_avanceEsperado = 0
+
             for doc in documentos:
+                try:   
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+                    revision_documento = doc.revision
+
+                    for revision in TYPES_REVISION[1:]:
+
+                        if revision_documento == revision[0]:
+
+                            if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                                calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
+                        
+                            if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                                calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
                 
-                fecha_emision_b = doc.fecha_Emision_B
-                fecha_emision_0 = doc.fecha_Emision_0
+                except AttributeError:
+                    pass
 
-                if fecha_emision_b <= controles:
-                    contador_emisiones_b = contador_emisiones_b + 1
-                    
-                if fecha_emision_0 <= controles:
-                    contador_emisiones_0 = contador_emisiones_0 + 1
-
-            calculo_b = valor_ganado * contador_emisiones_b * 0.7
-            calculo_0 = valor_ganado * contador_emisiones_0 * 1
-
-            avance_esperado = [calculo_b, calculo_0]
+            avance_esperado = [calculo_avanceEsperado]
             print(avance_esperado)
             lista_final_esperado.append(avance_esperado)
+        
+        print(len(lista_final_esperado))
+
             
         return avance_esperado
 
