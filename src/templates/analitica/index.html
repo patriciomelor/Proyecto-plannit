@@ -11,13 +11,12 @@
     <h4 class="tx-gray-800 mg-b-5">Panel de Analita</h4>
   </div>
   <div class="row row-sm mg-t-20">
-          <div class="col-md-6">
+          <div class="col-md-12">
               <div class="widget-2">
                   <div class="card shadow-base overflow-hidden chart">
+                    <h4 class="tx-gray-800 mg-b-5">Estados de los Documentos</h4>                        
+
                       <div class="card-header">
-                        <div class="card-title">
-                            Estados de los Documentos
-                        </div>
                         <div class="card-body">
                             <canvas id="myChart2" width="500" height="400"></canvas>
                         </div>
@@ -25,13 +24,14 @@
                     </div>
                   </div>
               </div>
-          <div class="col-md-6">
+  </div>
+  <div class="row row-sm mg-t-20">
+          <div class="col-md-12">
                 <div class="widget-2">
                     <div class="card shadow-base overflow-hidden chart">
+                      <h4 class="tx-gray-800 mg-b-5"> Documentos por emitir por SubEstacion</h4>                        
+                    
                         <div class="card-header">
-                          <div class="card-title">
-                              Documentos por emitir por SubEstacion
-                          </div> 
                           <div class="card-body">
                             <canvas id="myChart5" width="500" height="400"></canvas>
 
@@ -42,13 +42,12 @@
               </div>
    </div>
   <div class="row row-sm mg-t-20">
-        <div class="col-md-6">
+        <div class="col-md-12">
             <div class="widget-2">
                 <div class="card shadow-base overflow-hidden chart">
+                  <h4 class="tx-gray-800 mg-b-5">Estatus Documento Aprobado <strong>VS</strong> Totales por SubEstacion</h4>                        
                     <div class="card-header">
-                      <div class="card-title">
-                        Estatus Documento Aprobado <strong>VS</strong> Totales por SubEstacion
-                      </div>
+                
                       <div class="card-body">
                         <canvas id="myChart3" width="500" height="400"></canvas>
                       </div>
@@ -56,13 +55,15 @@
                   </div>
                 </div>
             </div>
-        <div class="col-md-6">
+  </div>
+  <div class="row row-sm mg-t-20">
+        <div class="col-md-12">
               <div class="widget-2">
                   <div class="card shadow-base overflow-hidden chart">
+                  <h4 class="tx-gray-800 mg-b-5">curva de avance Fisico Ingenieria</h4>                        
+                    
                       <div class="card-header">
-                        <div class="card-title">
-                            curva de avance Fisico Ingenieria
-                        </div> 
+                        
                         <div class="card-body">
                             <canvas id="myChart4" width="500" height="400"></canvas>
                         </div>
@@ -77,7 +78,7 @@
     //DOCUMENTOS POR EMITIR POR SUBESTACION
     var ctx = document.getElementById('myChart5').getContext('2d');
     var myChart5 = new Chart(ctx, {
-      type: 'pie',
+      type: 'doughnut',
       data: {
           labels: [ '{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}' ],
           datasets: [{
@@ -121,16 +122,8 @@
               ],
               borderWidth: 1
           }]
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
-          }
       }
+   
     });
 
     //STADOS DE LOS DOCUMENTOS
@@ -275,8 +268,8 @@
       }
   });
 
-    //Curva S
-    var ctx = document.getElementById('myChart4').getContext('2d');
+   //Curva S
+   var ctx = document.getElementById('myChart4').getContext('2d');
     var myChart4 = new Chart(ctx, {
       type: 'line',
       data: {
@@ -407,17 +400,8 @@
               fill: false
           }
         ]
-      },
-      options: {
-          scales: {
-              yAxes: [{
-                  ticks: {
-                      beginAtZero: true
-                  }
-              }]
-          }
       }
-  });
+    }); 
 </script>
 
 {% endblock content %}
