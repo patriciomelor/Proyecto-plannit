@@ -277,7 +277,7 @@
           datasets: [
             {
               label: 'Avance esperado',
-              data: [{% for emisiones in lista_curva_s_avance_esperado %} {{emisiones.0}}, {% endfor %}],
+              data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(255, 99, 132, 0.2)',
@@ -2357,7 +2357,7 @@
               fill: false
           }, {
             label: 'Avance Real a la fecha',
-              data: [{% for emisiones in lista_curva_s_avance_real %} {{emisiones.0}}, {% endfor %}],
+              data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(54, 162, 235, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -4438,7 +4438,7 @@
               fill: false
           }, {
             label: 'Avance Real a la fecha (BARRAS)',
-              data: [{% for emisiones in lista_curva_s_avance_real %} {{emisiones.0}}, {% endfor %}],
+              data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(54, 162, 235, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
