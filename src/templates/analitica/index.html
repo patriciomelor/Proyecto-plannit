@@ -273,7 +273,7 @@
     var myChart4 = new Chart(ctx, {
       type: 'line',
       data: {
-          labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones}}',  '{% endfor %}'],
+          labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"yy-M-d"}}',  '{% endfor %}'],
           datasets: [
             {
               label: 'Avance esperado',
