@@ -549,6 +549,10 @@ def vue_version(request, paquete_pk):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         if request.method == 'POST':
             form = VersionDocPreview(request.POST or None, request.FILES or None)
+            a = form['prev_documento_fk'].value()
+            b = form['prev_archivo'].value()
+            print(a)
+            print(b)
             try:
                 if form.is_valid():
                     documento = form.cleaned_data['prev_documento_fk']

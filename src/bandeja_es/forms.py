@@ -100,9 +100,12 @@ class VersionDocPreview(forms.ModelForm):
     
     def clean(self):
         cleaned_data = super().clean()
-        doc = cleaned_data.get('prev_documento_fk')
-        nombre_documento = doc.Codigo_documento
-        nombre_archivo = str(cleaned_data.get('prev_archivo'))
+        try:
+            doc = cleaned_data.get('prev_documento_fk')
+            nombre_documento = doc.Codigo_documento
+            nombre_archivo = str(cleaned_data.get('prev_archivo'))
+        except AttributeError:
+            raise ValidationError('Inconsistencia de Datos en el formulario')
         
         if not verificar_nombre_archivo(nombre_documento, nombre_archivo):
             self.add_error('prev_archivo', 'No coinciden los nombres')
