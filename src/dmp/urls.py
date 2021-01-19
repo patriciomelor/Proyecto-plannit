@@ -28,6 +28,7 @@ urlpatterns = [
     path('analitica/', include('analitica.urls')),
     path('configuracion/', include('configuracion.urls')),
     path('buscador/', include('buscador.urls')),
+    path('upload/', include('django_file_form.urls')),
 ]
 
 if settings.DEBUG:

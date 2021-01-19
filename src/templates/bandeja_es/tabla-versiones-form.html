@@ -1,5 +1,7 @@
 {% extends 'index-blank.html' %}
 
+{% load static %}
+
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -32,7 +34,7 @@
             <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_archivo|as_crispy_field}}</div>               
             <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_comentario|as_crispy_field}}</div>  
             <div class="col-3" style="margin-top:20px;float:right;  ">
-            <a class="btn btn-info btn btn-oblong" id="cargar" href="javascript:location.reload()" onclick="sendVersion()" value="Agregar">Agregar</a>
+            <a class="btn btn-info btn btn-oblong" id="cargar" href="javascript:location.reload()" onclick="sendVersion(e)" value="Agregar">Agregar</a>
 
          </div>
         </form> 
@@ -116,7 +118,7 @@ $(document).ready(function() {
 )   
 
 </script>
-<script>
+{% comment %} <script>
     url = "{% url 'vue-version' paquete %}"
 
     var tablaVersiones = new Vue({
@@ -130,8 +132,9 @@ $(document).ready(function() {
                 .get(url).then(response => {this.filas = response.data,console.log(url),console.log(response.data)})
             }
         });
-</script>
-<script>
+</script> {% endcomment %}
+
+<!-- <script>
 const alertBox = document.getElementById('alert-box')
 const form = document.getElementById('form')
 
@@ -149,12 +152,12 @@ prev_archivo.addEventListener('change', ()=>{
     const prev_archivo_data = prev_archivo.files[0]
     const url = URL.createObjectURL(prev_archivo)
     console.log(url)
-})
+});
 prev_comentario.addEventListener('change', ()=>{
     const prev_comentario_data = prev_comentario.files[0]
     const url = URL.createObjectURL(prev_comentario)
     console.log(url)
-})
+});
 
 sendVersion(e) => {
     e.preventDefault()
@@ -164,14 +167,18 @@ sendVersion(e) => {
     fd.append('prev_revision', prev_revision.value)
     fd.append('prev_estado_cliente', prev_estado_cliente.value)
     fd.append('prev_estado_contratista', prev_estado_contratista.value)
-    fd.append('prev_archivo', $('#id_prev_archivo')[0].files[0])
+    fd.append('prev_archivo', $('#id_prev_archivo')[0].value)
     fd.append('prev_comentario', prev_comentario[0].files[0])
 
     $.ajax({
         type: 'POST',
         url: "{% url 'vue-version' paquete %}",
         enctype: 'multipart/form-data',
+        cache: false,
+        contentType: false,
+        processData: false,
         data: fd,
+        dataType: 'json',
         success: function(response){
             console.log(response)
             const sText = 'successfully saved ${response.name}'
@@ -189,13 +196,40 @@ sendVersion(e) => {
             console.log(error)
             handleAlerts('danger', 'ups..something went wrong')
         },
-        cache: false,
-        contentType: false,
-        processData: false,
+
     })
 })
 
+sendVersion2(e) => {
+    e.preventDefault()
+    
+}
 console.log(form)
+</script> -->
+
+<!-- <script>
+    var form = document.getElementById('form')
+
+    sendVersion(e); {
+        fetch(
+            "{% url 'vue-version' paquete %}",
+            {
+                method: 'POST',
+                body: form, 
+                headers: {
+                    "X-CSRFToken": getCookie('csrftoken'),
+                }
+            }
+            
+        )
+    }
+</script> -->
+
+<script src="{% static 'file_form/file_form.js' %}"></script>
+<script>
+   initUploadFields(
+      document.getElementById("id_prev_archivo")
+   );
 </script>
 {% endblock js %}
 

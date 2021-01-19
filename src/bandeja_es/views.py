@@ -548,28 +548,22 @@ def version_prev(request, paquete_pk):
 def vue_version(request, paquete_pk):
     if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
         if request.method == 'POST':
-            form = VersionDocPreview(request.POST or None, request.FILES or None)
-            a = form['prev_documento_fk'].value()
-            b = form['prev_archivo'].value()
+            form = VersionDocPreview( request.FILES or None, request.POST or None)
+            a = form['prev_archivo']
             print(a)
-            print(b)
-            try:
-                if form.is_valid():
-                    documento = form.cleaned_data['prev_documento_fk']
-                    package = PrevPaquete.objects.get(pk=paquete_pk)
-                    version = form.save(commit=False)
-                    version.prev_documento_fk = documento
-                    version.prev_owner = request.user
-                    version.save()
-                    version_pk = version.pk
-                    version_qs = PrevVersion.objects.get(pk=version_pk)
-                    package.prev_documento.add(version_qs)
-
-                    return JsonResponse({'msg': 'Success'})
-                else:
-                    return JsonResponse({'msg': 'Invalid'})
-
-            except ValidationError:
+            if form.is_valid():
+                documento = form.cleaned_data['prev_documento_fk']
+                package = PrevPaquete.objects.get(pk=paquete_pk)
+                version = form.save(commit=False)
+                version.prev_documento_fk = documento
+                version.prev_owner = request.user
+                version.save()
+                version_pk = version.pk
+                version_qs = PrevVersion.objects.get(pk=version_pk)
+                package.prev_documento.add(version_qs)
+                form.delete_temporary_files()
+                return JsonResponse({'msg': 'Success'})
+            else:
                 return JsonResponse({'msg': 'Invalid'})
     #### GET request ####        
     if request.method == 'GET':
@@ -584,12 +578,57 @@ def vue_version(request, paquete_pk):
         
     return JsonResponse(response_content, safe=False)
         
-# class PrevVersionView(ProyectoMixin, APIView):
-#     parser_classes = [MultiPartParser, FormParser]
-#     permission_classes = [IsAuthenticated]
+class PrevVersionView(ProyectoMixin, APIView):
+    parser_classes = [MultiPartParser, FormParser]
+    permission_classes = [IsAuthenticated]
 
-#     def post(self, request, format=None):
-#         serializer = PrevVersionSerializer(instance=None, data=request.data)
-#         if serializer.is_valid():
-#             obj= serializer.save(commit=False)
-#             obj.prev_
+    def post(self, request, format=None):
+        serializer = PrevVersionSerializer(instance=None, data=request.data)
+        if serializer.is_valid():
+            documento = serializer.cleaned_data['prev_documento_fk']
+            package = PrevPaquete.objects.get(pk=paquete_pk)
+            version = form.save(commit=False)
+            version.prev_documento_fk = documento
+            version.prev_owner = request.user
+            version.save()
+            version_pk = version.pk
+            version_qs = PrevVersion.objects.get(pk=version_pk)
+            package.prev_documento.add(version_qs)
+
+            return JsonResponse({'msg': 'Success'})
+        else:
+            return JsonResponse({'msg': 'Invalid'})
+
+FORMS = [
+    ('paquete', PaquetePreviewForm),
+    ('version', VersionDocPreview)
+]
+TEMPLATES = [
+    ('paquete', 'bandeja_es/nuevopaquete.html'),
+    ('version', 'bandeja_es/tabla-versiones-form.html')
+]
+
+class PrevVersionWizard(ProyectoMixin, SessionWizardView):
+    file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'versiones'))
+    form_list = FORMS
+
+    def get_template_names(self, form_list, **kwargs):
+        return [TEMPLATES[self.steps.current]]
+
+    def done(self, form_list, **kwargs):
+        form1 = form_list[0]
+        obj = form1.save(commit=False)
+        obj.prev_propietario = self.request.user
+        obj.save()
+        package_pk = obj.pk
+        documento = serializer.cleaned_data['prev_documento_fk']
+        package = PrevPaquete.objects.get(pk=paquete_pk)
+        form2 = form_list[1]
+        version = form2.save(commit=False)
+        version.prev_documento_fk = documento
+        version.prev_owner = request.user
+        version.save()
+        version_pk = version.pk
+        version_qs = PrevVersion.objects.get(pk=version_pk)
+        package.prev_documento.add(version_qs)
+        return redirect()
