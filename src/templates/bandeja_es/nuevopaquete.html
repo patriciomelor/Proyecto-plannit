@@ -11,7 +11,7 @@
 
 <div class="br-subleft">
       <div class="pd-10">
-        <a  href="{% url 'paquete-preview' borrador_pk=None %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
+        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
       </div>
     
     
@@ -203,21 +203,5 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }
 </script>
-{% block js %}
-<script>
-    url = "{% url 'vue-version' paquete_pk=88 %}"
 
-    var tablaVersiones = new Vue({
-        el: "#tablaVersiones",
-        delimiters: ['[[', ']]'],
-        data: {
-            filas: []
-        },
-        mounted() {
-            axios
-                .get(url).then(response => {this.filas = response.data,console.log(url),console.log(response.data)})
-            }
-        });
-</script>
-{% endblock js %}
 {% endblock content %}

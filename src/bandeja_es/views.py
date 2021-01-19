@@ -603,16 +603,16 @@ FORMS = [
     ('paquete', PaquetePreviewForm),
     ('version', VersionDocPreview)
 ]
-TEMPLATES = [
-    ('paquete', 'bandeja_es/nuevopaquete.html'),
-    ('version', 'bandeja_es/tabla-versiones-form.html')
-]
+TEMPLATES = {
+    'paquete': 'bandeja_es/nuevopaquete.html',
+    'version': 'bandeja_es/tabla-versiones-form.html'
+}
 
 class PrevVersionWizard(ProyectoMixin, SessionWizardView):
     file_storage = FileSystemStorage(location=os.path.join(settings.MEDIA_ROOT, 'versiones'))
     form_list = FORMS
 
-    def get_template_names(self, form_list, **kwargs):
+    def get_template_names(self):
         return [TEMPLATES[self.steps.current]]
 
     def done(self, form_list, **kwargs):
