@@ -102,18 +102,18 @@ class VersionDocPreview(FileFormMixin, forms.ModelForm):
             'prev_documento_fk': forms.Select(attrs={'class': 'select2'})
         }
     
-    def clean(self):
-        cleaned_data = super().clean()
-        try:
-            doc = cleaned_data.get('prev_documento_fk')
-            nombre_documento = doc.Codigo_documento
-            nombre_archivo = str(cleaned_data.get('prev_archivo'))
-        except AttributeError:
-            raise ValidationError('Inconsistencia de Datos en el formulario')
+    # def clean(self):
+    #     cleaned_data = super().clean()
+    #     try:
+    #         doc = cleaned_data.get('prev_documento_fk')
+    #         nombre_documento = doc.Codigo_documento
+    #         nombre_archivo = str(cleaned_data.get('prev_archivo'))
+    #     except AttributeError:
+    #         raise ValidationError('Inconsistencia de Datos en el formulario')
         
-        if not verificar_nombre_archivo(nombre_documento, nombre_archivo):
-            self.add_error('prev_archivo', 'No coinciden los nombres')
-            raise ValidationError('No coinciden los nombres')
+    #     if not verificar_nombre_archivo(nombre_documento, nombre_archivo):
+    #         self.add_error('prev_archivo', 'No coinciden los nombres')
+    #         raise ValidationError('No coinciden los nombres')
 
 # class cualquierwea(VersionDocPreview):        
 #     def __init__(self, *args, **kwargs):
