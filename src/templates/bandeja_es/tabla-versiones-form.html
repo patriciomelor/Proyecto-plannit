@@ -9,7 +9,7 @@
 <div class="br-contentpanel">
 <div class="br-subleft">
       <div class="pd-10">
-        <a  href="{% url 'paquete-preview' borrador_pk=None %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
+        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
       </div>
     
       <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
@@ -25,21 +25,28 @@
 </div>
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">  
-        <div class="row form-row spacer">
-         <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="POST" autocomplete="off" id="form" enctype="multipart/form-data">{% csrf_token %}
-            <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_documento_fk|as_crispy_field}}</div>
-            <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_revision|as_crispy_field}}</div>           
-            <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_estado_cliente|as_crispy_field}}</div>                 
-            <div class="col-3" style="margin-top: 10px;float:left;"> {{form.prev_estado_contratista|as_crispy_field}}</div>  <br>                                 
-            <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_archivo|as_crispy_field}}</div>               
-            <div class="col-4" style="margin-top: 10px;float:left;"> {{form.prev_comentario|as_crispy_field}}</div>  
-            <div class="col-3" style="margin-top:20px;float:right;  ">
-            <a class="btn btn-info btn btn-oblong" id="cargar" href="javascript:location.reload()" onclick="sendVersion(e)" value="Agregar">Agregar</a>
+            <form class="form-group mg-t-20" id="form_paquete" action="" method="post">{% csrf_token %}
+                        <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
+                    
+                        <table>
+                        {{ wizard.management_form }}
+                        {% if wizard.form.forms %}
+                            {{ wizard.form.management_form|crispy }}
+                            {% for form in wizard.form.forms %}
+                                {{ form|crispy }}
+                            {% endfor %}
+                        {% else %}
+                            {{ wizard.form|crispy }}
+                        {% endif %}
+                        </table>
+                        {% if wizard.steps.prev %}
+                        <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">Paso 1</button>
+                        <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Paso siguiente</button>
+                        {% endif %}
+                        <input type="submit" value="submit">
+                        
+                    </form>
 
-         </div>
-        </form> 
-
-           </div>             
       </div>
     <div id="tablaVersiones">
          <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">
@@ -101,7 +108,7 @@ $(document).ready(function() {
         const form = document.getElementById('form')
         $.ajax({
             type: 'POST',
-            url: "{% url 'vue-version' paquete_pk=paquete %}",
+            url: ".",
             data: $("#form").serialize(),
             dataType: 'json',
             success: successHandler
@@ -118,113 +125,6 @@ $(document).ready(function() {
 )   
 
 </script>
-{% comment %} <script>
-    url = "{% url 'vue-version' paquete %}"
-
-    var tablaVersiones = new Vue({
-        el: "#tablaVersiones",
-        delimiters: ['[[', ']]'],
-        data: {
-            filas: []
-        },
-        mounted() {
-            axios
-                .get(url).then(response => {this.filas = response.data,console.log(url),console.log(response.data)})
-            }
-        });
-</script> {% endcomment %}
-
-<!-- <script>
-const alertBox = document.getElementById('alert-box')
-const form = document.getElementById('form')
-
-const prev_documento_fk = document.getElementById('id_prev_documento_fk')
-const prev_revision = document.getElementById('id_prev_revision')
-const prev_estado_cliente = document.getElementById('id_prev_estado_cliente')
-const prev_estado_contratista = document.getElementById('id_prev_estado_contratista')
-const prev_archivo = document.getElementById('id_prev_archivo')
-const prev_comentario = document.getElementById('id_prev_comentario')
-
-const csrf = document.getElementsByName('csrfmiddlewaretoken')
-console.log(csrf)
-
-prev_archivo.addEventListener('change', ()=>{
-    const prev_archivo_data = prev_archivo.files[0]
-    const url = URL.createObjectURL(prev_archivo)
-    console.log(url)
-});
-prev_comentario.addEventListener('change', ()=>{
-    const prev_comentario_data = prev_comentario.files[0]
-    const url = URL.createObjectURL(prev_comentario)
-    console.log(url)
-});
-
-sendVersion(e) => {
-    e.preventDefault()
-    const fd = new FormData($('#form').get(0))
-    fd.append('csrfmiddlewaretoken', csrf[0].value)
-    fd.append('prev_documento_fk', prev_documento_fk.value)
-    fd.append('prev_revision', prev_revision.value)
-    fd.append('prev_estado_cliente', prev_estado_cliente.value)
-    fd.append('prev_estado_contratista', prev_estado_contratista.value)
-    fd.append('prev_archivo', $('#id_prev_archivo')[0].value)
-    fd.append('prev_comentario', prev_comentario[0].files[0])
-
-    $.ajax({
-        type: 'POST',
-        url: "{% url 'vue-version' paquete %}",
-        enctype: 'multipart/form-data',
-        cache: false,
-        contentType: false,
-        processData: false,
-        data: fd,
-        dataType: 'json',
-        success: function(response){
-            console.log(response)
-            const sText = 'successfully saved ${response.name}'
-            setTimeout(()=>{
-                alertBox.innerHTML = ""
-                prev_documento_fk.value = ""
-                prev_revision.value = ""
-                prev_estado_cliente.value = ""
-                prev_estado_contratista.value = ""
-                prev_archivo.value = ""
-                prev_comentario.value = ""
-            }, 3000)
-        },
-        error: function(error){
-            console.log(error)
-            handleAlerts('danger', 'ups..something went wrong')
-        },
-
-    })
-})
-
-sendVersion2(e) => {
-    e.preventDefault()
-    
-}
-console.log(form)
-</script> -->
-
-<!-- <script>
-    var form = document.getElementById('form')
-
-    sendVersion(e); {
-        fetch(
-            "{% url 'vue-version' paquete %}",
-            {
-                method: 'POST',
-                body: form, 
-                headers: {
-                    "X-CSRFToken": getCookie('csrftoken'),
-                }
-            }
-            
-        )
-    }
-</script> -->
-
 <script src="{% static 'file_form/file_form.js' %}"></script>
 <script>
    initUploadFields(
