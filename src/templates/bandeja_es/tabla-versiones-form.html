@@ -106,7 +106,7 @@
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
-{% block js %}
+
 
 <script>
 $(document).ready(function() {
@@ -159,6 +159,22 @@ $(document).ready(function() {
       document.getElementById("id_prev_archivo")
    );
 </script>
-{% endblock js %}
+<script>
+    $(document).ready(function(){
+      'use strict';
+
+       
+      $('#wizard6').steps({
+        headerTag: 'h3',
+        bodyTag: 'section',
+        autoFocus: true,
+        titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+        cssClass: 'wizard wizard-style-2'
+      });
+
+      
+
+    });
+  </script>
 
 {% endblock content %}
