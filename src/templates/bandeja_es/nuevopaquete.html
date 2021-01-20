@@ -45,26 +45,51 @@
         <div class="card bd-0 shadow-base">  
             <div class="br-section-wrapper">
               <form class="form-group mg-t-20" id="form_paquete" action="" method="post">{% csrf_token %}
-                <p>Step {{ wizard.steps.step1 }} of {{ wizard.steps.count }}</p>
-               
-                <table>
-                {{ wizard.management_form }}
-                {% if wizard.form.forms %}
-                    {{ wizard.form.management_form|crispy }}
-                    {% for form in wizard.form.forms %}
-                        {{ form|crispy }}
-                    {% endfor %}
-                {% else %}
-                    {{ wizard.form|crispy }}
-                {% endif %}
-                </table>
-                {% if wizard.steps.prev %}
-                <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.first }}">Paso 1</button>
-                <button name="wizard_goto_step" type="submit" value="{{ wizard.steps.prev }}">Paso siguiente</button>
-                {% endif %}
-                <input type="submit" value="submit">
-                
-              </form>
+             
+                <div id="wizard2" role="application" class="wizard clearfix">
+                    <div class="steps clearfix">
+                    <ul role="tablist">
+                        <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                            <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
+                                <span class="current-info audible">Paso: </span>
+                                <span class="number">{{ wizard.steps.step1 }}</span> 
+                            </a>
+                        </li>
+                        <li role="tab" class="disabled" aria-disabled="true">
+                                <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
+                                    <span class="number">{{ wizard.steps.count }}</span> 
+                                </a>
+                            </li>                  
+                        </ul>            
+                    </div>
+                <div class="content clearfix">
+                    <h3 id="wizard2-h-0" tabindex="-1" class="title current">Personal Information</h3>
+                    <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
+                      <div class="form-group wd-xs-300">
+                        {{ wizard.management_form }}
+                        {% if wizard.form.forms %}
+                            {{ wizard.form.management_form|crispy }}
+                            {% for form in wizard.form.forms %}
+                            <label class="form-control-label">{{ form|crispy }}</label>
+                            {% endfor %}
+                        {% else %}
+                            {{ wizard.form|crispy }}
+                        {% endif %} 
+                        
+                    </div><!-- form-group -->   
+                     
+                    </section>
+                    {% if wizard.steps.prev %}  
+                      <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">First</button>
+                      <button name="wizard_goto_step" class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">PRev</button>
+                      {% endif %}
+                      <input type="submit"class="btn btn-teal" value="submit"/>
+                  </div>
+                              
+
+                 
+        </div>
+             </form>
             </div>
           </div>
         </div>  
@@ -190,5 +215,18 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }
 </script>
+<script>
+  $(document).ready(function(){
+    'use strict';
 
+ 
+    $('#wizard2').steps({
+      headerTag: 'h3',
+      bodyTag: 'section',
+      autoFocus: true,
+      titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>'    });
+
+
+  });
+</script>
 {% endblock content %}
