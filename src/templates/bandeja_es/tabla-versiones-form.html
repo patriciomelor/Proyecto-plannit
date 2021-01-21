@@ -27,7 +27,7 @@
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
 
-        <form class="form-group mg-t-20" id="form_paquete" action="" method="post">{% csrf_token %}
+        <form class="form-group mg-t-20" id="form_paquete" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
              
             <div id="wizard2" role="application" class="wizard clearfix">
                 <div class="steps clearfix">
@@ -68,6 +68,7 @@
                   <button name="wizard_goto_step" class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">PRev</button>
                   {% endif %}
                   <input type="submit"class="btn btn-teal" value="submit"/>
+                  <input id="cargar" type="submit" class="btn btn-teal" value="Cargar"/>
               </div>
                           
 
