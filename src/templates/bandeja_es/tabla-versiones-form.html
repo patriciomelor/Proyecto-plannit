@@ -27,18 +27,22 @@
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
 
+<<<<<<< HEAD
         <form class="form-group mg-t-20" id="form_paquete" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
+=======
+        <form class="form-group mg-t-20" id="form_paquete" action=""enctype="multipart/form-data" method="post">{% csrf_token %}
+>>>>>>> 0527eeac105581d28caa7d7690c989b8e5c1ca74
              
             <div id="wizard2" role="application" class="wizard clearfix">
                 <div class="steps clearfix">
                 <ul role="tablist">
-                    <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                    <li role="tab"  class="disabled" aria-disabled="false" aria-selected="true">
                         <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
                             <span class="current-info audible">Paso: </span>
-                            <span class="number">{{ wizard.steps.count }}</span> 
+                            <span class="number">1</span> 
                         </a>
                     </li>
-                    <li role="tab" class="disabled" aria-disabled="true">
+                    <li role="tab"class="first current" aria-disabled="true">
                             <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
                                 <span class="number">{{ wizard.steps.count }}</span> 
                             </a>
