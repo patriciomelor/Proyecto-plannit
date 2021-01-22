@@ -9,6 +9,7 @@ urlpatterns = [
     path('borradores/', views.BorradorList.as_view(), name= 'Borradores'),
     path('papelera/', views.PapeleraView.as_view(), name= 'bandeja-papelera'),
     path('tramital/preview/', views.PrevVersionWizard.as_view(), name='paquete-preview'),
+    path('version/nuevo/', views.PrevVersionView.as_view(), name='nueva-version'),
     path('versiones/vue/<int:paquete_pk>/', login_required(views.vue_version), name='vue-version'),
     path('paquete/crear/<paquete_pk>/<versiones_pk>', login_required(views.create_paquete), name='paquete-crear'),
     path('paquete/detalle/<pk>/', views.PaqueteDetail.as_view(), name='paquete-detalle'),
