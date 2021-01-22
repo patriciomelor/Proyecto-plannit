@@ -27,113 +27,39 @@
                                 </li>                  
                             </ul>            
                         </div>
-                    <div class="content clearfix">
-                        <h3 id="wizard2-h-0" tabindex="-1" class="title current">Personal Information</h3>
-                        <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
-                        <div class="form-group wd-xs-300">
-                            {{ wizard.management_form }}
-                            {% if wizard.form.forms %}
-                                {{ wizard.form.management_form|crispy }}
-                                {% for form in wizard.form.forms %}
-                                <label class="form-control-label">{{ form|crispy }}</label>
-                                {% endfor %}
-                            {% else %}
-                                {{ wizard.form|crispy }}
-                            {% endif %} 
+                        <div class="content clearfix">
+                            <h3 id="wizard2-h-0" tabindex="-1" class="title current">Personal Information</h3>
+                            <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
+                            <div class="form-group wd-xs-300">
+                                {{ wizard.management_form }}
+                                {% if wizard.form.forms %}
+                                    {{ wizard.form.management_form|crispy }}
+                                    {% for form in wizard.form.forms %}
+                                    <label class="form-control-label">{{ form|crispy }}</label>
+                                    {% endfor %}
+                                {% else %}
+                                    {{ wizard.form|crispy }}
+                                {% endif %} 
+                                
+                            </div><!-- form-group -->   
+                            </section>
                             
-                        </div><!-- form-group -->   
-                        </section>
-                        
-                        {% if wizard.steps.prev %}  
-                        <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">First</button>
-                        <button name="wizard_goto_step" class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">PRev</button>
-                        {% endif %}
-                        <input type="submit"class="btn btn-teal" value="submit"/>
-                    </div>
+                            {% if wizard.steps.prev %}  
+                            <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">First</button>
+                            <button name="wizard_goto_step" class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">PRev</button>
+                            {% endif %}
+                            <input type="submit"class="btn btn-teal" value="submit"/>
+                        </div>
                 </div>
-                <button type="submit" class="btn btn-warning" onclick="cerrar()"><span class="glyphicon glyphicon-send"></span>Subir</button>
             </form>
         </div>
     </div>     
 
-        <form class="form-group mg-t-20" id="form_paquete" action="" enctype="multipart/form-data" method="post">{% csrf_token %}
-        <form class="form-group mg-t-20" id="form_paquete" action=""enctype="multipart/form-data" method="post">{% csrf_token %}
-             
-            <div id="wizard2" role="application" class="wizard clearfix">
-                <div class="steps clearfix">
-                <ul role="tablist">
-                    <li role="tab"  class="disabled" aria-disabled="false" aria-selected="true">
-                        <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
-                            <span class="current-info audible">Paso: </span>
-                            <span class="number">1</span> 
-                        </a>
-                    </li>
-                    <li role="tab"class="first current" aria-disabled="true">
-                            <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
-                                <span class="number">{{ wizard.steps.count }}</span> 
-                            </a>
-                        </li>                  
-                    </ul>            
-                </div>
-            <div class="content clearfix">
-                <h3 id="wizard2-h-0" tabindex="-1" class="title current">Personal Information</h3>
-                <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
-                  <div class="form-group wd-xs-300">
-                    {{ wizard.management_form }}
-                    {% if wizard.form.forms %}
-                        {{ wizard.form.management_form|crispy }}
-                        {% for form in wizard.form.forms %}
-                        <label class="form-control-label">{{ form|crispy }}</label>
-                        {% endfor %}
-                    {% else %}
-                        {{ wizard.form|crispy }}
-                    {% endif %} 
-                    
-                </div><!-- form-group -->   
-                 
-                </section>
-                
-                {% if wizard.steps.prev %}  
-                  <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">First</button>
-                  <button name="wizard_goto_step" class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">PRev</button>
-                  {% endif %}
-                  <input type="submit"class="btn btn-teal" value="submit"/>
-                  <input id="cargar" type="submit" class="btn btn-teal" value="Cargar"/>
-              </div>
-                          
-
-             
-    </div>
-         </form>
-
-      </div>
-    <div id="tablaVersiones">
-         <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">
-            <thead>
-                <tr>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Documento </th>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Revisión </th>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Cliente </th>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Contratista </th>
-
-                </tr>
-            </thead>
-              <tbody>
-                  <tr v-for="fila in filas">
-                  <td style="text-align: center;border: 2px;border-color: grey; color: black;" >[[ fila ]]</td>
-                  </tr>
-              </tbody>
-          </table>
-    </div>
-    </div>
-     
+</div>
+  
   </div>
   
-</div>
-  <!--FIN PANEL PRINCIPAL-->
-    
-</div>
- 
+
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="{% static 'file_form/file_form.js' %}"></script>
@@ -157,35 +83,8 @@ $(document).ready(function() {
        });
 });
 </script>
-<script language="JavaScript" type="text/javascript">
-    $("#cargar").removeAttr('onsubmit').click(function submitVersionHandler(e){
-        e.preventDefault();
-        e.stopImmediatePropagation();
-        const form = document.getElementById('form')
-        $.ajax({
-            type: 'POST',
-            url: ".",
-            data: $("#form").serialize(),
-            dataType: 'json',
-            success: successHandler
-        })
-        function successHandler(data){
-                if (data.msg === 'Success'){
-                    alert('Formulario guardado en correctamente.')
-                }
-                if (data.msg === 'Invalid'){
-                    alert('Ha ocurrido un error al crear el formulario de version.\nRevise la información ingresada e intente nuevamente.')
-                }
-            }
-    }
-)   
 
-</script>
-<script>
-   initUploadFields(
-      document.getElementById("id_prev_archivo")
-   );
-</script>
+
 <script>
     $(document).ready(function(){
       'use strict';

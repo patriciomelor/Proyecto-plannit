@@ -11,7 +11,8 @@
               <label for="" class="col-md-2 mg-5"> {{form.prev_estado_contratista|as_crispy_field}}</label><br>                                 
               <label for="" class="col-md-4 mg-5"> {{form.prev_archivo|as_crispy_field}}</label>             
               <label for="" class="col-md-4 mg-5"> {{form.prev_comentario|as_crispy_field}}</label>  
-                        
+                              <button type="submit" class="btn btn-warning" onclick="cerrar()"><span class="glyphicon glyphicon-send"></span>Subir</button>
+        
         </div>
     </div>
 </div>
@@ -33,5 +34,15 @@ $(document).ready(function() {
             }
        });
 });
+</script>
+<script>
+    function cerrar() { 
+        $("body").html('<div alignt="center"><h1>Enviado Exitosamente!!!</h1></div>'); //Marca nuevo contenido con un mensaje que se envio exitosamente
+
+        setTimeout(function(){
+            window.close();
+        },3000); //Dejara un tiempo de 3 seg para que el usuario vea que se envio el formulario correctamente
+
+    }
 </script>
 {% endblock content %}
