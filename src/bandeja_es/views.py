@@ -23,7 +23,7 @@ from rest_framework.views import APIView
 
 from panel_carga.views import ProyectoMixin
 from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, BorradorDocumento, PaqueteDocumento
-from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador
+from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, PrevVersionForm
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
@@ -516,16 +516,6 @@ def documentos_ajax(request):
         response_content = list(documentos.values()) 
     # return JsonResponse(response_content,safe=False)
     return JsonResponse(response_content, safe=False)
-class PrevPaqueteView(ProyectoMixin, FormView):
-    template_name = 'bandeja_es/nuevopaquete.html'
-    form_class = PaquetePreviewForm
-
-    def form_valid(self, form, **kwargs):
-        obj = form.save(commit=False)
-        obj.prev_propietario = self.request.user
-        obj.save()
-        package_pk = obj.pk
-        return redirect('crear-version', paquete_pk=package_pk)
 
 def version_prev(request, paquete_pk):
     context = {}
@@ -546,26 +536,8 @@ def version_prev(request, paquete_pk):
     #### AJAX Request ####
 
 def vue_version(request, paquete_pk):
-    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-        if request.method == 'POST':
-            form = VersionDocPreview(request.FILES or None, request.POST or None)
-            a = request.FILES.get('prev_archivo')
-            print(a)
-            if form.is_valid():
-                documento = form.cleaned_data['prev_documento_fk']
-                package = PrevPaquete.objects.get(pk=paquete_pk)
-                version = form.save(commit=False)
-                version.prev_documento_fk = documento
-                version.prev_owner = request.user
-                version.save()
-                version_pk = version.pk
-                version_qs = PrevVersion.objects.get(pk=version_pk)
-                package.prev_documento.add(version_qs)
-                form.delete_temporary_files()
-                return JsonResponse({'msg': 'Success'})
-            else:
-                return JsonResponse({'msg': 'Invalid'})
-    #### GET request ####        
+    #### GET request para   ####        
+    ####  Obtener las versiones ####        
     if request.method == 'GET':
         lista_versiones_pk = []
         package = PrevPaquete.objects.get(pk=paquete_pk)
@@ -577,7 +549,7 @@ def vue_version(request, paquete_pk):
         response_content = list(versiones.values())
         
     return JsonResponse(response_content, safe=False)
-        
+
 class PrevVersionView(ProyectoMixin, APIView):
     parser_classes = [MultiPartParser, FormParser]
     permission_classes = [IsAuthenticated]
@@ -616,19 +588,37 @@ class PrevVersionWizard(ProyectoMixin, SessionWizardView):
         return [TEMPLATES[self.steps.current]]
 
     def done(self, form_list, **kwargs):
+        context = {}
+        versiones_pk = []
         form1 = form_list[0]
         obj = form1.save(commit=False)
         obj.prev_propietario = self.request.user
         obj.save()
         package_pk = obj.pk
         documento = serializer.cleaned_data['prev_documento_fk']
-        package = PrevPaquete.objects.get(pk=paquete_pk)
-        form2 = form_list[1]
-        version = form2.save(commit=False)
-        version.prev_documento_fk = documento
-        version.prev_owner = request.user
-        version.save()
-        version_pk = version.pk
-        version_qs = PrevVersion.objects.get(pk=version_pk)
-        package.prev_documento.add(version_qs)
-        return redirect()
+        prev_package = PrevPaquete.objects.get(pk=paquete_pk)
+        context['prev_package'] = prev_package
+        versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=prev_package)
+        for version in versiones:
+            versiones_pk.append(version.pk)
+        context['prev_versiones'] = versiones_pk
+        # version = form2.save(commit=False)
+        # version.prev_documento_fk = documento
+        # version.prev_owner = request.user
+        # version.save()
+        # version_pk = version.pk
+        # version_qs = PrevVersion.objects.get(pk=version_pk)
+        # package.prev_documento.add(version_qs)
+        return render(self.request, 'bandeja_es/create-paquete.html', context)
+    
+class PrevVersionView(ProyectoMixin, FormView):
+    model = PrevVersion
+    template_name = 'bandeja_es/popup-archivo.html'
+    form_class = PrevVersionForm
+
+    def form_valid(self, form, **kwargs):
+        super().form_valid(form)
+        return JsonResponse({'status': 1}, safe=False)
+
+    def form_invalid(self, form, **kwargs):
+        return JsonResponse({'status': 0}, safe=False)

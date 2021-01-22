@@ -101,7 +101,22 @@ class VersionDocPreview(FileFormMixin, forms.ModelForm):
         widgets ={
             'prev_documento_fk': forms.Select(attrs={'class': 'select2'})
         }
-    
+
+class PrevVersionForm(forms.ModelForm):
+    class Meta:
+        model = PrevVersion
+        fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
+        labels = {
+            'prev_documento_fk': 'Código Documento',
+            'prev_estado_cliente': 'Estado Cliente',
+            'prev_estado_contratista': 'Estado Contratista',
+            'prev_archivo' : 'Archivo',
+            'prev_comentario' : 'Archivo de Comentario',
+        }
+        widgets ={
+            'prev_documento_fk': forms.Select(attrs={'class': 'select2'})
+        }
+
     # def clean(self):
     #     cleaned_data = super().clean()
     #     try:
