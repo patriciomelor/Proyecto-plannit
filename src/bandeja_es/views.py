@@ -617,8 +617,8 @@ class PrevVersionView(ProyectoMixin, FormView):
     form_class = PrevVersionForm
 
     def form_valid(self, form, **kwargs):
-        version = form2.save(commit=False)
-        version.prev_owner = request.user
+        version = form.save(commit=False)
+        version.prev_owner = self.request.user
         version.save()
         # version_pk = version.pk
         # version_qs = PrevVersion.objects.get(pk=version_pk)
