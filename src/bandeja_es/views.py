@@ -617,7 +617,12 @@ class PrevVersionView(ProyectoMixin, FormView):
     form_class = PrevVersionForm
 
     def form_valid(self, form, **kwargs):
-        super().form_valid(form)
+        version = form2.save(commit=False)
+        version.prev_owner = request.user
+        version.save()
+        # version_pk = version.pk
+        # version_qs = PrevVersion.objects.get(pk=version_pk)
+        # package.prev_documento.add(version_qs)
         return JsonResponse({'status': 1}, safe=False)
 
     def form_invalid(self, form, **kwargs):
