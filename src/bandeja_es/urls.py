@@ -2,17 +2,6 @@ from django.urls import path, include, register_converter, converters
 from django.contrib.auth.decorators import login_required
 from . import views
 
-class ListURLpks:
-    regex = '[0-9]+'
-
-    def to_python(self, value):
-        return list(value)
-
-    def to_url(self, value):
-        val = list(value)
-        return val
-
-register_converter(ListURLpks, 'list')
 
 urlpatterns = [
     path('recibidos/', views.InBoxView.as_view(), name= 'Bandejaeys'),
@@ -20,20 +9,13 @@ urlpatterns = [
     path('borradores/', views.BorradorList.as_view(), name= 'Borradores'),
     path('papelera/', views.PapeleraView.as_view(), name= 'bandeja-papelera'),
     path('tramital/preview/', views.PrevVersionWizard.as_view(), name='paquete-preview'),
-    # path('paquete/prev/', views.PrevPaqueteView.as_view(), name='crear-paquete'),
-    # path('versiones/prev/<int:paquete_pk>/', login_required(views.version_prev), name='crear-version'),
     path('versiones/vue/<int:paquete_pk>/', login_required(views.vue_version), name='vue-version'),
-    # path('paquete/preview2/<borrador_pk>/', views.CreatePaquete2.as_view(), name='paquete-preview2'),
     path('paquete/crear/<paquete_pk>/<versiones_pk>', login_required(views.create_paquete), name='paquete-crear'),
     path('paquete/detalle/<pk>/', views.PaqueteDetail.as_view(), name='paquete-detalle'),
     path('paquete/editar/<pk>/', views.PaqueteUpdate.as_view(), name='paquete-editar'),
     path('paquete/eliminar/<pk>/', views.PaqueteDelete.as_view(), name='paquete-eliminar'),
     path('borrador/crear/<borrador_pk>/', login_required(views.create_borrador), name='borrador-crear'),
-    # path('paquete/cargar/<int:pk>/', login_required(views.cargar_documentos), name='cargar-documentos' )
-     path('datos/', login_required(views.documentos_ajax), name='datos-baes'),
-#     path('datos2/', views.DocumentosSelect2.as_view(), name='datos-baes2'),
-# # Modals URL's
-#     path('modalcrear/', views.ModalPrevVersion.as_view(), name='modal-create'),
+    path('datos/', login_required(views.documentos_ajax), name='datos-baes'),
 
 
 ]
