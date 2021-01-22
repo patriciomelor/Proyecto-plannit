@@ -10,8 +10,7 @@
 <div class="br-subleft">
       <div class="pd-10">
         <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
-      </div>
-    
+      </div>    
       <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
 
       <nav class="nav br-nav-mailbox flex-column">
@@ -26,89 +25,58 @@
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
-
-        <form class="form-group mg-t-20" id="form_paquete" action=""enctype="multipart/form-data" method="post">{% csrf_token %}
-             
-            <div id="wizard2" role="application" class="wizard clearfix">
-                <div class="steps clearfix">
-                <ul role="tablist">
-                    <li role="tab"  class="disabled" aria-disabled="false" aria-selected="true">
-                        <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
-                            <span class="current-info audible">Paso: </span>
-                            <span class="number">1</span> 
-                        </a>
-                    </li>
-                    <li role="tab"class="first current" aria-disabled="true">
-                            <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
-                                <span class="number">{{ wizard.steps.count }}</span> 
-                            </a>
-                        </li>                  
-                    </ul>            
+            <form class="form-group mg-t-20" id="form_paquete" action=""enctype="multipart/form-data" method="post">{% csrf_token %}
+                <div id="wizard2" role="application" class="wizard clearfix">
+                        <div class="steps clearfix">
+                            <ul role="tablist">
+                            <li role="tab"  class="disabled" aria-disabled="false" aria-selected="true">
+                                <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
+                                    <span class="current-info audible">Paso: </span>
+                                    <span class="number">1</span> 
+                                </a>
+                            </li>
+                            <li role="tab"class="first current" aria-disabled="true">
+                                    <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
+                                        <span class="number">{{ wizard.steps.count }}</span> 
+                                    </a>
+                                </li>                  
+                            </ul>            
+                        </div>
+                    <div class="content clearfix">
+                        <h3 id="wizard2-h-0" tabindex="-1" class="title current">Personal Information</h3>
+                        <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
+                        <div class="form-group wd-xs-300">
+                            {{ wizard.management_form }}
+                            {% if wizard.form.forms %}
+                                {{ wizard.form.management_form|crispy }}
+                                {% for form in wizard.form.forms %}
+                                <label class="form-control-label">{{ form|crispy }}</label>
+                                {% endfor %}
+                            {% else %}
+                                {{ wizard.form|crispy }}
+                            {% endif %} 
+                            
+                        </div><!-- form-group -->   
+                        </section>
+                        
+                        {% if wizard.steps.prev %}  
+                        <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">First</button>
+                        <button name="wizard_goto_step" class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">PRev</button>
+                        {% endif %}
+                        <input type="submit"class="btn btn-teal" value="submit"/>
+                    </div>
                 </div>
-            <div class="content clearfix">
-                <h3 id="wizard2-h-0" tabindex="-1" class="title current">Personal Information</h3>
-                <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
-                  <div class="form-group wd-xs-300">
-                    {{ wizard.management_form }}
-                    {% if wizard.form.forms %}
-                        {{ wizard.form.management_form|crispy }}
-                        {% for form in wizard.form.forms %}
-                        <label class="form-control-label">{{ form|crispy }}</label>
-                        {% endfor %}
-                    {% else %}
-                        {{ wizard.form|crispy }}
-                    {% endif %} 
-                    
-                </div><!-- form-group -->   
-                 
-                </section>
-                
-                {% if wizard.steps.prev %}  
-                  <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">First</button>
-                  <button name="wizard_goto_step" class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">PRev</button>
-                  {% endif %}
-                  <input type="submit"class="btn btn-teal" value="submit"/>
-              </div>
-                          
-
-             
-    </div>
-         </form>
-
-      </div>
-    <div id="tablaVersiones">
-         <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">
-            <thead>
-                <tr>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Documento </th>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Revisión </th>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Cliente </th>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Contratista </th>
-
-                </tr>
-            </thead>
-              <tbody>
-                  <tr v-for="fila in filas">
-                  <td style="text-align: center;border: 2px;border-color: grey; color: black;" >[[ fila ]]</td>
-                  </tr>
-              </tbody>
-          </table>
-    </div>
-    </div>
-     
-  </div>
-  
-</div>
-  <!--FIN PANEL PRINCIPAL-->
-    
+                <button type="submit" class="btn btn-warning" onclick="cerrar()"><span class="glyphicon glyphicon-send"></span>Subir</button>
+            </form>
+        </div>
+    </div>     
 </div>
  
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="{% static 'file_form/file_form.js' %}"></script>
 
-
-
-<script>
+<script language="JavaScript" type="text/javascript">
 $(document).ready(function() {
     $('.select2').select2({
     language: "es",
@@ -127,8 +95,6 @@ $(document).ready(function() {
        });
 });
 </script>
-
-
 <script language="JavaScript" type="text/javascript">
     $("#cargar").removeAttr('onsubmit').click(function submitVersionHandler(e){
         e.preventDefault();
@@ -153,7 +119,6 @@ $(document).ready(function() {
 )   
 
 </script>
-<script src="{% static 'file_form/file_form.js' %}"></script>
 <script>
    initUploadFields(
       document.getElementById("id_prev_archivo")
@@ -175,6 +140,15 @@ $(document).ready(function() {
       
 
     });
-  </script>
+</script>
+<script>
+    function cerrar() { 
+        $("body").html('<div alignt="center"><h1>Enviado Exitosamente!!!</h1></div>'); //Marca nuevo contenido con un mensaje que se envio exitosamente
 
+        setTimeout(function(){
+            window.close();
+        },3000); //Dejara un tiempo de 3 seg para que el usuario vea que se envio el formulario correctamente
+
+    }
+</script>
 {% endblock content %}
