@@ -27,12 +27,17 @@
 {% block content %}
 <form method="post" action="">
   {% csrf_token %}
+ 
 <div class="br-contentpanel">
 
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
-         <form class="form-group mg-t-20" id="form_paquete" action=""enctype="multipart/form-data" method="post">{% csrf_token %}
+        
+
+         <form class="form-group mg-t-20" id="form_paquete" >{% csrf_token %}
+                                         {{ wizard.management_form }}
+
                 <div id="wizard2" role="application" class="wizard clearfix">
                         <div class="steps clearfix">
                             <ul role="tablist">
@@ -46,14 +51,17 @@
                                     <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
                                         <span class="number">{{ wizard.steps.count }}</span> 
                                     </a>
-                                </li>                  
+                                </li> 
+                                <li>
+                                  <a  onclick="JavaScript:window.open('{% url 'nueva-version' %}','subir datos','toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,resizable=yes,width=980,height=400px,top=0,left=0');"><button class="btn btn-warning">Agregar Documento</button></a>
+                                </li>              
                             </ul>            
                         </div>
                           <div class="content clearfix">
                             <h3 id="wizard2-h-0" tabindex="-1" class="title current">Personal Information</h3>
                             <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
-                            <div class="form-group wd-xs-300">
-                              <a href="JavaScript:window.open('.','subir datos','toolbar=0,location=0,directories=0,status=0,menubar=0,scrollbars=0,resizable=0,width=screen.width,height=screen.height,top=0,left=0');"><button class="btn btn-warning">Agregar Documento</button></a>
+                            <h3 class="title current">Documentos adjuntados</h3>
+
                               <div id="tablaVersiones">
                                   <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">
                                       <thead>
@@ -75,9 +83,10 @@
                                         </tbody>
                                     </table>
                               </div>
-                              <input type="submit"class="btn btn-teal" value="submit"/>
-                        </div>
+                              <input type="submit"class="btn btn-teal mg-t-30" value="submit"/>
+
                 </div>
+                
             </form>
         </div>
     </div>     
