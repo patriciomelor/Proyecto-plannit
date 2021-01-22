@@ -1,8 +1,10 @@
 {% load static %}
 
 {% load crispy_forms_tags %}
+
 {% block content %}
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
+    <form method="POST" enctype="multipart/form-data" id="verion_form" class="form-group mg-t-20">{% csrf_token %}
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
               <label for="" class="col-md-2 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>    
@@ -11,10 +13,11 @@
               <label for="" class="col-md-2 mg-5"> {{form.prev_estado_contratista|as_crispy_field}}</label><br>                                 
               <label for="" class="col-md-4 mg-5"> {{form.prev_archivo|as_crispy_field}}</label>             
               <label for="" class="col-md-4 mg-5"> {{form.prev_comentario|as_crispy_field}}</label>  
-                              <button type="submit" class="btn btn-warning" onclick="cerrar()"><span class="glyphicon glyphicon-send"></span>Subir</button>
+            <button type="submit" class="btn btn-warning" onclick="cerrar()"><span class="glyphicon glyphicon-send"></span>Subir</button>
         
         </div>
     </div>
+    </form>
 </div>
 <script language="JavaScript" type="text/javascript">
 $(document).ready(function() {
@@ -35,7 +38,7 @@ $(document).ready(function() {
        });
 });
 </script>
-<script>
+{% comment %} <script>
     function cerrar() { 
         $("body").html('<div alignt="center"><h1>Enviado Exitosamente!!!</h1></div>'); //Marca nuevo contenido con un mensaje que se envio exitosamente
 
@@ -44,5 +47,5 @@ $(document).ready(function() {
         },3000); //Dejara un tiempo de 3 seg para que el usuario vea que se envio el formulario correctamente
 
     }
-</script>
+</script> {% endcomment %}
 {% endblock content %}
