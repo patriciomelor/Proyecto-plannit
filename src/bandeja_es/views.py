@@ -434,11 +434,19 @@ class PrevPaqueteView(ProyectoMixin, FormView):
         paquete_pk = paquete.pk
         return redirect('nueva-version', paquete_pk=paquete_pk)
 
-class TablaPopupView(ProyectoMixin, FormView):
+class TablaPopupView(ProyectoMixin, ListView):
+    model = PrevVersion
     template_name = 'bandeja_es/tabla-versiones-form.html'
+    context_object_name = 'versiones'
 
     def get_context_data(self, **kwargs):
+        versiones = []
         context = super().get_context_data(**kwargs)
+        paquete = PrevPaquete.objects.get( pk=self.kwargs['paquete_pk'] )
+        vertions = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete)
+        for version in vertions:
+            versiones.append(version.prev_version)
+        context['versiones'] = versiones
         context["paquete_pk"] = self.kwargs['paquete_pk']
         return context
     
