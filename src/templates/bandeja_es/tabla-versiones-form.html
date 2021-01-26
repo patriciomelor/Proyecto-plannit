@@ -35,7 +35,7 @@
         <div class="br-section-wrapper">
         
 
-         <form class="form-group mg-t-20" id="form_paquete" >{% csrf_token %}
+         <form class="form-group mg-t-20" id="form_paquete" >
 
                 <div id="wizard2" role="application" class="wizard clearfix">
                         <div class="steps clearfix">
@@ -96,4 +96,25 @@
   
   </div>
 </form>
+
+<script language='javascript'>
+var t;
+function doLoad() {
+t = setTimeout("window.close()",1000);
+}
+
+</script>
+<script type="text/javascript">
+function refreshAndClose() {
+    window.opener.location.reload(true);
+    window.close();
+}
+</script>
+<script>
+    window.onunload = refreshParent;
+    function refreshParent() {
+      window.opener.location.reload();
+    }
+</script>
+
 {% endblock content %}
