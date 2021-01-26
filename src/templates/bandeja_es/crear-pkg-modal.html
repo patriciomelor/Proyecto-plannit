@@ -11,35 +11,13 @@
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
             <form class="form-group mg-t-20" id="form_paquete" action=""enctype="multipart/form-data" method="post">{% csrf_token %}
-                <div id="wizard2" role="application" class="wizard clearfix">
-                        <div class="steps clearfix">
-                            <ul role="tablist">
-                            <li role="tab"  class="disabled" aria-disabled="false" aria-selected="true">
-                                <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
-                                    <span class="current-info audible">Paso: </span>
-                                    <span class="number">1</span> 
-                                </a>
-                            </li>
-                            <li role="tab"class="first current" aria-disabled="true">
-                                    <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
-                                        <span class="number">{{ wizard.steps.count }}</span> 
-                                    </a>
-                                </li>                  
-                            </ul>            
-                        </div>
                         <div class="content clearfix">
                             <h3 id="wizard2-h-0" tabindex="-1" class="title current">Personal Information</h3>
                             <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
                             <div class="form-group wd-xs-300">
-                                {{ wizard.management_form }}
-                                {% if wizard.form.forms %}
-                                    {{ wizard.form.management_form|crispy }}
-                                    {% for form in wizard.form.forms %}
+
                                     <label class="form-control-label">{{ form|crispy }}</label>
-                                    {% endfor %}
-                                {% else %}
-                                    {{ wizard.form|crispy }}
-                                {% endif %} 
+    
                                 
                             </div><!-- form-group -->   
                             </section>
@@ -50,7 +28,6 @@
                             {% endif %}
                             <input type="submit"class="btn btn-teal" value="submit"/>
                         </div>
-                </div>
             </form>
         </div>
     </div>     
