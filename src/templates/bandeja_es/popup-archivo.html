@@ -48,14 +48,15 @@ $(document).ready(function() {
        });
 });
 </script>
-{% comment %} <script>
+ <script>
     function cerrar() { 
         $("body").html('<div alignt="center"><h1>Enviado Exitosamente!!!</h1></div>'); //Marca nuevo contenido con un mensaje que se envio exitosamente
 
         setTimeout(function(){
             window.close();
         },3000); //Dejara un tiempo de 3 seg para que el usuario vea que se envio el formulario correctamente
-
+        opener.location.reload(true);
+     self.close();
     }
-</script> {% endcomment %}
+</script> 
 {% endblock content %}
