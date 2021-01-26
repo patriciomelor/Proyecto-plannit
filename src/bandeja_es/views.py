@@ -437,7 +437,6 @@ class PrevPaqueteView(ProyectoMixin, FormView):
 class TablaPopupView(ProyectoMixin, ListView):
     model = PrevVersion
     template_name = 'bandeja_es/tabla-versiones-form.html'
-    context_object_name = 'versiones'
 
     def get_context_data(self, **kwargs):
         versiones = []
