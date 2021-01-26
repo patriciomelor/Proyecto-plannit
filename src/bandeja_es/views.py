@@ -433,35 +433,28 @@ class PrevPaqueteView(ProyectoMixin, FormView):
         paquete.save()
         paquete_pk = paquete.pk
         return redirect('nueva-version', paquete_pk=paquete_pk)
-class PrevVersionView(ProyectoMixin, APIView):
-    parser_classes = [MultiPartParser, FormParser]
-    permission_classes = [IsAuthenticated]
 
-    def post(self, request, format=None):
-        serializer = PrevVersionSerializer(instance=None, data=request.data)
-        if serializer.is_valid():
-            documento = serializer.cleaned_data['prev_documento_fk']
-            package = PrevPaquete.objects.get(pk=paquete_pk)
-            version = form.save(commit=False)
-            version.prev_documento_fk = documento
-            version.prev_owner = request.user
-            version.save()
-            version_pk = version.pk
-            version_qs = PrevVersion.objects.get(pk=version_pk)
-            package.prev_documento.add(version_qs)
+class TablaPopupView(ProyectoMixin, FormView):
+    template_name = 'bandeja_es/tabla-versiones-form.html'
 
-            return JsonResponse({'msg': 'Success'})
-        else:
-            return JsonResponse({'msg': 'Invalid'})
-
-FORMS = [
-    ('paquete', PaquetePreviewForm),
-    ('version', VersionDocPreview)
-]
-TEMPLATES = {
-    'paquete': 'bandeja_es/nuevopaquete.html',
-    'version': 'bandeja_es/tabla-versiones-form.html'
-}
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["paquete_pk"] = self.kwargs['paquete_pk']
+        return context
+    
+    def post(self, request, *args, **kwargs):
+        context={}
+        versiones = []
+        versiones_pk = []
+        paquete = PrevPaquete.objects.get( pk=self.kwargs['paquete_pk'] )
+        context['paquete_pk'] = paquete
+        versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete)
+        for version in versiones:
+            versiones.append(version.prev_version)
+        for v in versiones:
+            versiones_pk.append(v.pk)
+        context['versiones_pk'] = versiones_pk
+        return render(request, 'bandeja_es/create-paquete.html', context)
 
 class PrevVersionView(ProyectoMixin, FormView):
     model = PrevVersion
