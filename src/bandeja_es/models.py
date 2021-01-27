@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-from panel_carga.choices import ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION
+from panel_carga.choices import (ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION)
 from django.conf import settings
 from panel_carga.models import Documento
 from django.forms import model_to_dict
@@ -103,7 +103,7 @@ class PrevVersion(models.Model):
     prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
     prev_documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     prev_archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
-    prev_revision = models.IntegerField(verbose_name="Revisión",choices=TYPES_REVISION)
+    prev_revision = models.IntegerField(choices=TYPES_REVISION, verbose_name="Revisión")
     prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True, null=True)
     prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True, null=True)
     prev_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
