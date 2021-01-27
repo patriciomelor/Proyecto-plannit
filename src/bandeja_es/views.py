@@ -75,6 +75,7 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         versiones = PaqueteDocumento.objects.filter(paquete=paquete)
         context['versiones'] = versiones
         return context
+        
 class PaqueteUpdate(ProyectoMixin, UpdateView):
     model = Paquete
     template_name = 'bandeja_es/paquete-update.html'

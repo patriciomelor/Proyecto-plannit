@@ -84,7 +84,7 @@
                                         </tbody>
                                     </table>
                               </div>
-                              <input type="submit"class="btn btn-teal mg-t-30" value="submit"/>
+                              <input type="submit"class="btn btn-teal mg-t-30" value="Enviar"/>
 
                 </div>
                 
@@ -115,6 +115,19 @@ function refreshAndClose() {
     function refreshParent() {
       window.opener.location.reload();
     }
+</script>
+<script language='javascript'>
+var t;
+function doLoad() {
+t = setTimeout("window.close()",1000);
+}
+
+</script>
+<script type="text/javascript">
+function refreshAndClose() {
+    window.opener.location.reload(true);
+    window.close();
+}
 </script>
 
 {% endblock content %}
