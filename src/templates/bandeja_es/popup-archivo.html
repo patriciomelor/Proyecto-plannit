@@ -49,25 +49,22 @@ $(document).ready(function() {
 });
 </script> 
 
+<script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous">
+</script>
 <script>
 function detectStatus(){
-    $.ajax({
-        type: 'POST',
-        dataType: 'json',
-        url: "{% url 'popup-version' paquete_pk %}"
-        data: status,
-        success: successHandler
-    })
-
-    function successHandler(data){
-        if (data.status === 1 ){
-            alert('Formulario Enviado y guardado!')
-        } else {
-            alert('No paso nada :(')
+    $.getJSON("{% url 'popup-version' paquete_pk %}",
+        function(data){
+            console.log("{% url 'popup-version' paquete_pk %}")
+            if (data.status === 1){
+                alert('YESSS, YESSSSSS')
+            }
         }
-    }
+    )
 }
-
 </script>
 
 

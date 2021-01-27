@@ -473,7 +473,6 @@ class PrevVersionView(ProyectoMixin, FormView):
         context["paquete_pk"] = paquete
         return context
     
-
     def form_valid(self, form, **kwargs):
         version = form.save(commit=False)
         version.prev_owner = self.request.user
