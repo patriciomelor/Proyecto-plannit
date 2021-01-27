@@ -423,7 +423,6 @@ def vue_version(request, paquete_pk):
         response_content = list(versiones.values())
         
     return JsonResponse(response_content, safe=False)
-
 class PrevPaqueteView(ProyectoMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm
@@ -434,7 +433,6 @@ class PrevPaqueteView(ProyectoMixin, FormView):
         paquete.save()
         paquete_pk = paquete.pk
         return redirect('nueva-version', paquete_pk=paquete_pk)
-
 class TablaPopupView(ProyectoMixin, ListView):
     model = PrevVersion
     template_name = 'bandeja_es/tabla-versiones-form.html'
