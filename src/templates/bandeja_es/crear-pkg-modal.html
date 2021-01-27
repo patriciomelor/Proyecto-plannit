@@ -4,54 +4,70 @@
 
 {% load crispy_forms_tags %}
 
+{% block mailing %}
+
+<div class="br-subleft">
+      <div class="pd-10">
+        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
+      </div>
+    
+    
+
+      <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
+
+      <nav class="nav br-nav-mailbox flex-column">
+        <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon fa fa-reply"></i> Recibidos</a>
+        <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
+        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
+      </nav>
+</div>
+
+
+{% endblock mailing %}
+
 {% block content %}
 
 <div class="br-contentpanel">
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
-            <form class="form-group mg-t-20" id="form_paquete" action=""enctype="multipart/form-data" method="post">{% csrf_token %}
+          <form class="form-group mg-t-20" id="form_paquete" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+             
                 <div id="wizard2" role="application" class="wizard clearfix">
-                        <div class="steps clearfix">
-                            <ul role="tablist">
-                            <li role="tab"  class="disabled" aria-disabled="false" aria-selected="true">
-                                <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
-                                    <span class="current-info audible">Paso: </span>
-                                    <span class="number">1</span> 
+                    <div class="steps clearfix">
+                    <ul role="tablist">
+                        <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                            <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
+                                <span class="current-info audible">Paso: </span>
+                                <span class="number">1</span> 
+                            </a>
+                        </li>
+                        <li role="tab" class="disabled" aria-disabled="true">
+                                <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
+                                    <span class="number">2</span> 
                                 </a>
-                            </li>
-                            <li role="tab"class="first current" aria-disabled="true">
-                                    <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
-                                        <span class="number">{{ wizard.steps.count }}</span> 
-                                    </a>
-                                </li>                  
-                            </ul>            
-                        </div>
-                        <div class="content clearfix">
-                            <h3 id="wizard2-h-0" tabindex="-1" class="title current">Personal Information</h3>
-                            <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
-                            <div class="form-group wd-xs-300">
-                                {{ wizard.management_form }}
-                                {% if wizard.form.forms %}
-                                    {{ wizard.form.management_form|crispy }}
-                                    {% for form in wizard.form.forms %}
-                                    <label class="form-control-label">{{ form|crispy }}</label>
-                                    {% endfor %}
-                                {% else %}
-                                    {{ wizard.form|crispy }}
-                                {% endif %} 
-                                
-                            </div><!-- form-group -->   
-                            </section>
-                            
-                            {% if wizard.steps.prev %}  
-                            <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">First</button>
-                            <button name="wizard_goto_step" class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">PRev</button>
-                            {% endif %}
-                            <input type="submit"class="btn btn-teal" value="submit"/>
-                        </div>
-                </div>
-            </form>
+                            </li>                  
+                        </ul>            
+                    </div>
+                <div class="content clearfix">
+                    <h3 id="wizard2-h-0" tabindex="-1" class="title current">Destinatario</h3>
+                    <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
+                      <div class="form-group ">
+                        
+                            <label class="form-control-label">{{ form|crispy }}</label>
+                          
+                        
+                    </div><!-- form-group -->   
+                      <input type="submit"class="btn btn-teal" value="Siguiente"/>
+                     
+                    </section>
+                   
+                  </div>
+                              
+
+                 
+        </div>
+             </form>
         </div>
     </div>     
 
