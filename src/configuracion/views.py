@@ -5,6 +5,9 @@ from django.views.generic import FormView, CreateView, DeleteView, UpdateView, L
 from panel_carga.views import ProyectoMixin
 from django.contrib.auth.models import User
 
+from panel_carga.models import *
+from bandeja_es.models import *
+
 from .models import Perfil
 from .forms import CrearUsuario, EditUsuario
 

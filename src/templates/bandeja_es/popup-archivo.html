@@ -7,18 +7,19 @@
 {% block content %}
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <form method="POST" enctype="multipart/form-data" id="verion_form" class="form-group mg-t-20">{% csrf_token %}
-    <div class="card bd-0 shadow-base">
+|    <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
-              <label for="" class="col-md-3 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>    
+            {{ form | crispy}}
+              {% comment %} <label for="" class="col-md-3 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>    
               <label for="" class="col-md-2 mg-5"> {{form.prev_revision|as_crispy_field}}</label>             
               <label for="" class="col-md-3 mg-5"> {{form.prev_estado_cliente|as_crispy_field}}</label>               
               <label for="" class="col-md-2 mg-5"> {{form.prev_estado_contratista|as_crispy_field}}</label><br>                                 
               <label for="" class="col-md-4 mg-5"> {{form.prev_archivo|as_crispy_field}}</label>             
               <label for="" class="col-md-4 mg-5"></label>             
               <label for="" class="col-md-4 mg-5"> {{form.prev_comentario|as_crispy_field}}</label>  
-            
+             {% endcomment %}
         </div>
-        <button type="submit" id="btn"class="btn btn-warning" onclick="cerrar()"><span class="glyphicon glyphicon-send"></span>Subir</button>
+        <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-send"></span>Subir</button>
         
     </div>
     </form>
@@ -47,34 +48,26 @@ $(document).ready(function() {
             }
        });
 });
-</script>
- <script>
-    function cerrar() { 
-  
-       opener.location.reload(true);
-     self.close(); //Dejara un tiempo de 3 seg para que el usuario vea que se envio el formulario correctamente
-       
-    }
 </script> 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#btn').click(function () {
-            window.opener.location.reload(true);
-            window.close();
-        });
-    });
-</script>
-<script language='javascript'>
-var t;
-function doLoad() {
-t = setTimeout("window.close()",1000);
-}
 
+<script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous">
 </script>
-<script type="text/javascript">
-function refreshAndClose() {
-    window.opener.location.reload(true);
-    window.close();
+<script>
+function detectStatus(){
+    $.getJSON("{% url 'popup-version' paquete_pk %}",
+        function(data){
+            console.log("{% url 'popup-version' paquete_pk %}")
+            if (data.status == 1){
+                alert('YESSS, YESSSSSS')
+            }
+        }
+    )
 }
 </script>
+
+
+
 {% endblock content %}

@@ -423,7 +423,6 @@ def vue_version(request, paquete_pk):
         response_content = list(versiones.values())
         
     return JsonResponse(response_content, safe=False)
-
 class PrevPaqueteView(ProyectoMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm
@@ -434,7 +433,6 @@ class PrevPaqueteView(ProyectoMixin, FormView):
         paquete.save()
         paquete_pk = paquete.pk
         return redirect('nueva-version', paquete_pk=paquete_pk)
-
 class TablaPopupView(ProyectoMixin, ListView):
     model = PrevVersion
     template_name = 'bandeja_es/tabla-versiones-form.html'
@@ -456,8 +454,8 @@ class TablaPopupView(ProyectoMixin, ListView):
         versiones_pk = []
         paquete = PrevPaquete.objects.get( pk=self.kwargs['paquete_pk'] )
         context['paquete_pk'] = paquete
-        versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete)
-        for version in versiones:
+        vertions = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete)
+        for version in vertions:
             versiones.append(version.prev_version)
         for v in versiones:
             versiones_pk.append(v.pk)
@@ -468,16 +466,17 @@ class PrevVersionView(ProyectoMixin, FormView):
     model = PrevVersion
     template_name = 'bandeja_es/popup-archivo.html'
     form_class = PrevVersionForm
-
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        paquete = PrevPaquete.objects.get(pk= self.kwargs['paquete_pk'])
+        context["paquete_pk"] = paquete
+        return context
+    
     def form_valid(self, form, **kwargs):
         version = form.save(commit=False)
         version.prev_owner = self.request.user
         version.save()
-        version_pk = version.pk
-        version_qs = PrevVersion.objects.get(pk=version_pk)
         paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
-        paquete.prev_documento.add(version_qs)
-        return JsonResponse({'status': 1}, safe=False)
-
-    def form_invalid(self, form, **kwargs):
-        return JsonResponse({'status': 0}, safe=False)
+        paquete.prev_documento.add(version)
+        return HttpResponse('<script type="text/javascript">window.close()</script>')
