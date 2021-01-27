@@ -7,16 +7,17 @@
 {% block content %}
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <form method="POST" enctype="multipart/form-data" id="verion_form" class="form-group mg-t-20">{% csrf_token %}
-    <div class="card bd-0 shadow-base">
+|    <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
-              <label for="" class="col-md-3 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>    
+            {{ form | crispy}}
+              {% comment %} <label for="" class="col-md-3 mg-5"> {{form.prev_documento_fk|as_crispy_field}}</label>    
               <label for="" class="col-md-2 mg-5"> {{form.prev_revision|as_crispy_field}}</label>             
               <label for="" class="col-md-3 mg-5"> {{form.prev_estado_cliente|as_crispy_field}}</label>               
               <label for="" class="col-md-2 mg-5"> {{form.prev_estado_contratista|as_crispy_field}}</label><br>                                 
               <label for="" class="col-md-4 mg-5"> {{form.prev_archivo|as_crispy_field}}</label>             
               <label for="" class="col-md-4 mg-5"></label>             
               <label for="" class="col-md-4 mg-5"> {{form.prev_comentario|as_crispy_field}}</label>  
-            
+             {% endcomment %}
         </div>
         <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-send"></span>Subir</button>
         
