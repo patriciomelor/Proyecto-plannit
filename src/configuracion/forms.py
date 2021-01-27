@@ -8,13 +8,8 @@ from panel_carga.models import Documento
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 from .models import Perfil
+from .roles import *
 
-ROLES = (
-    ('','-----'),
-    (1, 'Administrador'),
-    (2, 'Revisor'),
-    (3, 'Vizualizador'),
-)
 
 class CrearUsuario(UserCreationForm):
     rol_usuario = forms.ChoiceField(choices=ROLES)
