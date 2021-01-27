@@ -454,8 +454,8 @@ class TablaPopupView(ProyectoMixin, ListView):
         versiones_pk = []
         paquete = PrevPaquete.objects.get( pk=self.kwargs['paquete_pk'] )
         context['paquete_pk'] = paquete
-        versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete)
-        for version in versiones:
+        vertions = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete)
+        for version in vertions:
             versiones.append(version.prev_version)
         for v in versiones:
             versiones_pk.append(v.pk)
@@ -466,6 +466,13 @@ class PrevVersionView(ProyectoMixin, FormView):
     model = PrevVersion
     template_name = 'bandeja_es/popup-archivo.html'
     form_class = PrevVersionForm
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        paquete = PrevPaquete.objects.get(pk= self.kwargs['paquete_pk'])
+        context["paquete_pk"] = paquete
+        return context
+    
 
     def form_valid(self, form, **kwargs):
         version = form.save(commit=False)

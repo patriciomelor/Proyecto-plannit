@@ -49,6 +49,27 @@ $(document).ready(function() {
 });
 </script> 
 
+<script>
+function detectStatus(){
+    $.ajax({
+        type: 'POST',
+        dataType: 'json',
+        url: "{% url 'popup-version' paquete_pk %}"
+        data: status,
+        success: successHandler
+    })
+
+    function successHandler(data){
+        if (data.status === 1 ){
+            alert('Formulario Enviado y guardado!')
+        } else {
+            alert('No paso nada :(')
+        }
+    }
+}
+
+</script>
+
 
 
 {% endblock content %}
