@@ -59,6 +59,3 @@ class UsuarioDetail(ProyectoMixin, DetailView):
     model = User
     template_name = 'configuracion/detail-user.html'
     context_object_name = "usuario"
-
-    
-
