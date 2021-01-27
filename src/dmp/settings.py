@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'bootstrap_modal_forms',
     'rest_framework',
     'rest_framework.authtoken',
+    'django_file_form',
 
 
     

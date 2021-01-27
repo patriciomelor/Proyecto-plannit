@@ -1,28 +1,131 @@
-<form method="post" action="">
-  {% csrf_token %}
+{% extends 'index-blank.html' %}
 
- <div class="modal-header">
-    <h5 class="modal-title">Create new Book</h5>
-    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-      <span aria-hidden="true">&times;</span>
-    </button>
-  </div>
+{% load static %}
 
-  <div class="modal-body">
-    {% for field in form %}
-      <div class="form-group{% if field.errors %} invalid{% endif %}">
-        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {{ field }}
-        {% for error in field.errors %}
-          <p class="help-block">{{ error }}</p>
-        {% endfor %}
+{% load crispy_forms_tags %}
+
+{% block mailing %}
+
+<div class="br-subleft">
+      <div class="pd-10">
+        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
       </div>
-    {% endfor %}
-  </div>
+    
+    
 
-  <div class="modal-footer">
-    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-    <button type="button" class="submit-btn btn btn-primary">Create</button>
-  </div>
+      <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
 
-</form>
+      <nav class="nav br-nav-mailbox flex-column">
+        <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon fa fa-reply"></i> Recibidos</a>
+        <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
+        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
+      </nav>
+</div>
+
+
+{% endblock mailing %}
+
+{% block content %}
+
+<div class="br-contentpanel">
+<div class="br-pagebody pd-x-20 pd-sm-x-30">
+    <div class="card bd-0 shadow-base">
+        <div class="br-section-wrapper">
+          <form class="form-group mg-t-20" id="form_paquete" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+             
+                <div id="wizard2" role="application" class="wizard clearfix">
+                    <div class="steps clearfix">
+                    <ul role="tablist">
+                        <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                            <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
+                                <span class="current-info audible">Paso: </span>
+                                <span class="number">1</span> 
+                            </a>
+                        </li>
+                        <li role="tab" class="disabled" aria-disabled="true">
+                                <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
+                                    <span class="number">2</span> 
+                                </a>
+                            </li>                  
+                        </ul>            
+                    </div>
+                <div class="content clearfix">
+                    <h3 id="wizard2-h-0" tabindex="-1" class="title current">Destinatario</h3>
+                    <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
+                      <div class="form-group ">
+                        
+                            <label class="form-control-label">{{ form|crispy }}</label>
+                          
+                        
+                    </div><!-- form-group -->   
+                      <input type="submit"class="btn btn-teal" value="Siguiente"/>
+                     
+                    </section>
+                   
+                  </div>
+                              
+
+                 
+        </div>
+             </form>
+        </div>
+    </div>     
+
+</div>
+  
+  </div>
+  
+
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="{% static 'file_form/file_form.js' %}"></script>
+
+<script language="JavaScript" type="text/javascript">
+$(document).ready(function() {
+    $('.select2').select2({
+    language: "es",
+    placeholder: 'seleccione un Documento',
+    ajax: {
+        url: "{% url 'datos-baes'%}",
+        dataType: 'json',
+          processResults: function (data) {
+                    return {
+                        results: $.map(data, function (item) {
+                            return {id: item.id, text: item.Codigo_documento};
+                        })
+                    };
+                }
+            }
+       });
+});
+</script>
+
+
+<script>
+    $(document).ready(function(){
+      'use strict';
+
+       
+      $('#wizard6').steps({
+        headerTag: 'h3',
+        bodyTag: 'section',
+        autoFocus: true,
+        titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>',
+        cssClass: 'wizard wizard-style-2'
+      });
+
+      
+
+    });
+</script>
+<script>
+    function cerrar() { 
+        $("body").html('<div alignt="center"><h1>Enviado Exitosamente!!!</h1></div>'); //Marca nuevo contenido con un mensaje que se envio exitosamente
+
+        setTimeout(function(){
+            window.close();
+        },3000); //Dejara un tiempo de 3 seg para que el usuario vea que se envio el formulario correctamente
+
+    }
+</script>
+{% endblock content %}

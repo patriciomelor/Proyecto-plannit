@@ -11,7 +11,7 @@
 
 <div class="br-subleft">
       <div class="pd-10">
-        <a  href="{% url 'paquete-preview' borrador_pk=None %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
+        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
       </div>
     
     
@@ -44,44 +44,56 @@
     <div class="br-pagebody pd-x-20 pd-sm-x-30">
         <div class="card bd-0 shadow-base">  
             <div class="br-section-wrapper">
-
-
-                <form class="form-group mg-t-20" id="form_paquete" action="" method="post">{% csrf_token %}
-
-                  <form id="regForm" action="">
-
-                      <h1>Crear Transmital</h1>
-
-                      <!-- One "tab" for each step in the form: -->
-                      <div class="tab">
-                        <p>  
-                        {% for field in form %}
-                          <div class="form-group{% if field.errors %} invalid{% endif %}">                       
-                            {{ field|as_crispy_field }}
-                            {% for error in field.errors %}
+              <form class="form-group mg-t-20" id="form_paquete" enctype="multipart/form-data" action="" method="post">{% csrf_token %}
+             
+                <div id="wizard2" role="application" class="wizard clearfix">
+                    <div class="steps clearfix">
+                    <ul role="tablist">
+                        <li role="tab" class="first current" aria-disabled="false" aria-selected="true">
+                            <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
+                                <span class="current-info audible">Paso: </span>
+                                <span class="number">{{ wizard.steps.step1 }}</span> 
+                            </a>
+                        </li>
+                        <li role="tab" class="disabled" aria-disabled="true">
+                                <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
+                                    <span class="number">{{ wizard.steps.count }}</span> 
+                                </a>
+                            </li>                  
+                        </ul>            
+                    </div>
+                <div class="content clearfix">
+                    <h3 id="wizard2-h-0" tabindex="-1" class="title current">Personal Information</h3>
+                    <section id="wizard2-p-0" role="tabpanel" aria-labelledby="wizard2-h-0" class="body current" aria-hidden="false">
+                      <div class="form-group wd-xs-300">
+                        {{ wizard.management_form }}
+                        {% if wizard.form.forms %}
+                            {{ wizard.form.management_form|crispy }}
+                            {% for form in wizard.form.forms %}
+                            <label class="form-control-label">{{ form|crispy }}</label>
                             {% endfor %}
-                          </div>
-                        {% endfor %}
-                           
-                        </p>
-                      </div>
+                        {% else %}
+                            {{ wizard.form|crispy }}
+                        {% endif %} 
+                        
+                    </div><!-- form-group -->   
+                     
+                    </section>
+                    {% if wizard.steps.prev %}  
+                      <button name="wizard_goto_step" class="btn btn-primary" type="submit" value="{{ wizard.steps.first }}">First</button>
+                      <button name="wizard_goto_step" class="btn btn-warning" type="submit" value="{{ wizard.steps.prev }}">PRev</button>
+                      {% endif %}
+                      <input type="submit"class="btn btn-teal" value="submit"/>
+                  </div>
+                              
 
-                      <div style="overflow:auto;">
-                        <div style="float:right;">
-                          <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium"  type="submit"> Envíar </button>
-                          
-                        </div>
-                      </div>
-
-                      </form>
-            </div>
+                 
         </div>
-    </div>
-    
-              </div>
+             </form>
             </div>
-          </div> 
-
+          </div>
+        </div>  
+ <!--fin page-body-->  
 </div>
   
 <script src="{% static 'jquery.steps/jquery.steps.js' %}"></script>    
@@ -203,21 +215,18 @@ function fixStepIndicator(n) {
   x[n].className += " active";
 }
 </script>
-{% block js %}
 <script>
-    url = "{% url 'vue-version' paquete_pk=88 %}"
+  $(document).ready(function(){
+    'use strict';
 
-    var tablaVersiones = new Vue({
-        el: "#tablaVersiones",
-        delimiters: ['[[', ']]'],
-        data: {
-            filas: []
-        },
-        mounted() {
-            axios
-                .get(url).then(response => {this.filas = response.data,console.log(url),console.log(response.data)})
-            }
-        });
+ 
+    $('#wizard2').steps({
+      headerTag: 'h3',
+      bodyTag: 'section',
+      autoFocus: true,
+      titleTemplate: '<span class="number">#index#</span> <span class="title">#title#</span>'    });
+
+
+  });
 </script>
-{% endblock js %}
 {% endblock content %}
