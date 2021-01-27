@@ -1,12 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import User
-
-ROLES = (
-    ('','-----'),
-    (1, 'Administrador'),
-    (2, 'Revisor'),
-    (3, 'Vizualizador'),
-)
+from .roles import *
 
 class Perfil(models.Model):
     usuario = models.OneToOneField(User, verbose_name="Usuario", on_delete=models.CASCADE)
