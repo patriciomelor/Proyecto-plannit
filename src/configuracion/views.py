@@ -55,7 +55,10 @@ class UsuarioDelete(ProyectoMixin, DeleteView):
         self.get_queryset().delete()
         return self.success_url
     
-# class UsuarioDetail(ProyectoMixin, DetailView):
-#     model = User
-#     # template_name = 
-#     context_object_name = 'usuario'
+class UsuarioDetail(ProyectoMixin, DetailView):
+    model = User
+    template_name = 'configuracion/detail-user.html'
+    context_object_name = "usuario"
+
+    
+
