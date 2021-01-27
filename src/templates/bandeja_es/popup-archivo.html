@@ -18,7 +18,7 @@
               <label for="" class="col-md-4 mg-5"> {{form.prev_comentario|as_crispy_field}}</label>  
             
         </div>
-        <button type="submit" id="btn"class="btn btn-warning" onclick="cerrar()"><span class="glyphicon glyphicon-send"></span>Subir</button>
+        <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-send"></span>Subir</button>
         
     </div>
     </form>
@@ -47,34 +47,8 @@ $(document).ready(function() {
             }
        });
 });
-</script>
- <script>
-    function cerrar() { 
-  
-       opener.location.reload(true);
-     self.close(); //Dejara un tiempo de 3 seg para que el usuario vea que se envio el formulario correctamente
-       
-    }
 </script> 
-<script type="text/javascript">
-    $(document).ready(function () {
-        $('#btn').click(function () {
-            window.opener.location.reload(true);
-            window.close();
-        });
-    });
-</script>
-<script language='javascript'>
-var t;
-function doLoad() {
-t = setTimeout("window.close()",1000);
-}
 
-</script>
-<script type="text/javascript">
-function refreshAndClose() {
-    window.opener.location.reload(true);
-    window.close();
-}
-</script>
+
+
 {% endblock content %}

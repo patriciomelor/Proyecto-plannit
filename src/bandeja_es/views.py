@@ -423,7 +423,6 @@ def vue_version(request, paquete_pk):
         response_content = list(versiones.values())
         
     return JsonResponse(response_content, safe=False)
-
 class PrevPaqueteView(ProyectoMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm
@@ -434,7 +433,6 @@ class PrevPaqueteView(ProyectoMixin, FormView):
         paquete.save()
         paquete_pk = paquete.pk
         return redirect('nueva-version', paquete_pk=paquete_pk)
-
 class TablaPopupView(ProyectoMixin, ListView):
     model = PrevVersion
     template_name = 'bandeja_es/tabla-versiones-form.html'
@@ -473,10 +471,8 @@ class PrevVersionView(ProyectoMixin, FormView):
         version = form.save(commit=False)
         version.prev_owner = self.request.user
         version.save()
-        version_pk = version.pk
-        version_qs = PrevVersion.objects.get(pk=version_pk)
         paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
-        paquete.prev_documento.add(version_qs)
+        paquete.prev_documento.add(version)
         return JsonResponse({'status': 1}, safe=False)
 
     def form_invalid(self, form, **kwargs):
