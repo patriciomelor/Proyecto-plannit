@@ -479,7 +479,4 @@ class PrevVersionView(ProyectoMixin, FormView):
         version.save()
         paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
         paquete.prev_documento.add(version)
-        return JsonResponse({'status': 1}, safe=False)
-
-    def form_invalid(self, form, **kwargs):
-        return JsonResponse({'status': 0}, safe=False)
+        return HttpResponse('<script type="text/javascript">window.close()</script>')
