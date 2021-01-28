@@ -22,9 +22,9 @@ from rest_framework.views import APIView
 
 
 from panel_carga.views import ProyectoMixin
-from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, BorradorDocumento, PaqueteDocumento
-from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, PrevVersionForm
-from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
+from .models import Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, PaqueteDocumento
+from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaquetePreviewForm, PrevVersionForm
+from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
 from panel_carga.choices import TYPES_REVISION
