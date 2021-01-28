@@ -12,7 +12,7 @@ from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 from django.contrib.auth.models import User
 from bootstrap_modal_forms.forms import BSModalModelForm
 
-from .models import Paquete, Version, BorradorPaquete, BorradorVersion, PrevPaquete, PrevVersion
+from .models import Paquete, Version, PrevPaquete, PrevVersion
 from panel_carga.views import ProyectoMixin
 
 from panel_carga.choices import TYPES_REVISION
@@ -56,21 +56,7 @@ class VersionDocForm(forms.ModelForm):
 VersionFormset = formset_factory(VersionDocForm, extra=1)
 
 
-# ***********************************
-#   formularios para crear el BORRADOR del paquete y versiones, con el debido FORMSET
-# ***********************************
 
-class PaqueteBorradorForm(forms.ModelForm):
-    class Meta:
-        model = BorradorPaquete
-        fields = ['descripcion', 'destinatario', 'asunto']
-
-class VersionDocBorrador(forms.ModelForm):
-    class Meta:
-        model = BorradorVersion
-        fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista']
-
-BorradorVersionFormset = formset_factory(VersionDocBorrador)
 
 # ***********************************
 #formularios para crear la PREVIEW del paquete y versiones, con el debido FORMSET

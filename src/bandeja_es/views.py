@@ -22,9 +22,9 @@ from rest_framework.views import APIView
 
 
 from panel_carga.views import ProyectoMixin
-from .models import Version, Paquete, BorradorVersion, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, BorradorDocumento, PaqueteDocumento
-from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaqueteBorradorForm, BorradorVersionFormset, PaquetePreviewForm, VersionDocBorrador, PrevVersionForm
-from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter, BorradorDocumentoFilter
+from .models import Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, PaqueteDocumento
+from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaquetePreviewForm, PrevVersionForm
+from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento
 from panel_carga.choices import TYPES_REVISION
@@ -75,7 +75,7 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         versiones = PaqueteDocumento.objects.filter(paquete=paquete)
         context['versiones'] = versiones
         return context
-        
+
 class PaqueteUpdate(ProyectoMixin, UpdateView):
     model = Paquete
     template_name = 'bandeja_es/paquete-update.html'
@@ -441,9 +441,10 @@ class TablaPopupView(ProyectoMixin, ListView):
         versiones = []
         context = super().get_context_data(**kwargs)
         paquete = PrevPaquete.objects.get( pk=self.kwargs['paquete_pk'] )
-        vertions = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete)
+        vertions = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete).order_by('-prev_fecha_creacion')
         for version in vertions:
             versiones.append(version.prev_version)
+        print(versiones)
         context['versiones'] = versiones
         context["paquete_pk"] = self.kwargs['paquete_pk']
         return context
@@ -453,15 +454,15 @@ class TablaPopupView(ProyectoMixin, ListView):
         versiones = []
         versiones_pk = []
         paquete = PrevPaquete.objects.get( pk=self.kwargs['paquete_pk'] )
-        context['paquete_pk'] = paquete
+        context['paquete'] = paquete
         vertions = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete)
         for version in vertions:
             versiones.append(version.prev_version)
         for v in versiones:
             versiones_pk.append(v.pk)
+        context['versiones'] = versiones
         context['versiones_pk'] = versiones_pk
         return render(request, 'bandeja_es/create-paquete.html', context)
-
 class PrevVersionView(ProyectoMixin, FormView):
     model = PrevVersion
     template_name = 'bandeja_es/popup-archivo.html'
@@ -479,4 +480,4 @@ class PrevVersionView(ProyectoMixin, FormView):
         version.save()
         paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
         paquete.prev_documento.add(version)
-        return HttpResponse('<script type="text/javascript">window.close()</script>')
+        return HttpResponse('<script type="text/javascript"> window.opener.location.reload(); window.close(); </script>')
