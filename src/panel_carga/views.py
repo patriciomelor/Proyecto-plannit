@@ -1,8 +1,9 @@
 import os.path
 import datetime
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.models import User, Group
 from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from django.views.generic.base import TemplateView, RedirectView, View
@@ -44,10 +45,16 @@ class ProyectoMixin(SuccessMessageMixin, ProyectoSeleccionadoMixin):
     model = Proyecto
 
 class ListaProyecto(ProyectoMixin, ListView):
-    queryset = Proyecto.objects.all()
     template_name = 'panel_carga/list-proyecto.html'
     context_object_name = 'proyectos'
 
+    def get_queryset(self):
+        proyectos = Proyecto.objects.all()
+        if proyectos: 
+            return proyectos
+        else:
+            return HttpResponseRedirect(reverse_lazy('proyecto-crear'))
+        
 class CreateProyecto(CreateView):
     form_class = ProyectoForm
     template_name = 'panel_carga/create-proyecto.html'
@@ -55,7 +62,10 @@ class CreateProyecto(CreateView):
 
     def form_valid(self, form):
         form.instance.encargado = self.request.user
-        return super().form_valid(form)
+        response = super().form_valid(form)
+        nombre = form.instance.codigo
+        grupo = Group.objects.create(name=nombre)
+        return response
 
 class DetailProyecto(ProyectoMixin, DetailView):
     template_name = 'panel_carga/detail-proyecto.html'
