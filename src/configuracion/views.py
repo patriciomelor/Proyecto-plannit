@@ -23,7 +23,7 @@ class UsuarioView(ProyectoMixin, CreateView):
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
         perfil = Perfil.objects.get_or_create(usuario= user)
-        perfil.rol_usuario= form.cleaned_data['rol_usuario']
+        perfil.rol_usuario= form.instance.rol_usuario
         perfil.save()
         return response
     
@@ -66,4 +66,3 @@ class UsuarioDetail(ProyectoMixin, DetailView):
 class EditProyect(ProyectoMixin, UpdateView):
     model = Proyecto
     template_name = 'configuracion/edit-proyecto.html'
-    
