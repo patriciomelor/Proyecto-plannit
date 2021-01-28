@@ -13,6 +13,7 @@ class Proyecto(models.Model):
     fecha_termino = models.DateTimeField(verbose_name="Fecha de Termino", blank=True)
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
     encargado = models.ForeignKey(User, on_delete=models.CASCADE)
+    codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
     #dias para revision
 
     def __str__(self):
