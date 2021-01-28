@@ -3,7 +3,7 @@ from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic import FormView, CreateView, DeleteView, UpdateView, ListView, DetailView
 from panel_carga.views import ProyectoMixin
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 from panel_carga.models import *
 from bandeja_es.models import *
@@ -25,6 +25,8 @@ class UsuarioView(ProyectoMixin, CreateView):
         perfil = Perfil.objects.get_or_create(usuario= user)
         perfil.rol_usuario= form.instance.rol_usuario
         perfil.save()
+        group = Group.objects.get(name= proyecto.codigo)
+        user.groups.add(group)
         return response
     
 class UsuarioLista(ProyectoMixin, ListView):

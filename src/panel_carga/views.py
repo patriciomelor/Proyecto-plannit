@@ -36,7 +36,13 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
     model = Proyecto
     success_url = reverse_lazy("index")
 
-
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        grupos = Group.objects.filter(user= self.request.user)
+        proyectos = Proyecto.objects.filter(codigo__in=grupos)
+        kwargs['proyectos'] = proyectos
+        return kwargs
+        
     def form_valid(self, form):
         self.request.session['proyecto'] = form.cleaned_data['proyectos'].id
         return super().form_valid(form)
@@ -49,7 +55,8 @@ class ListaProyecto(ProyectoMixin, ListView):
     context_object_name = 'proyectos'
 
     def get_queryset(self):
-        proyectos = Proyecto.objects.all()
+        grupos = Group.objects.filter(user= self.request.user)
+        proyectos = Proyecto.objects.filter(codigo__in=grupos)
         if proyectos: 
             return proyectos
         else:
