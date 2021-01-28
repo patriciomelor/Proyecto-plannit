@@ -10,3 +10,4 @@ class Perfil(models.Model):
 
     def __str__(self):
         return '{}+''+{}'.format(self.usuario.first_name, self.usuario.last_name)
+        
