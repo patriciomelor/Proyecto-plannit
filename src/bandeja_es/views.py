@@ -11,9 +11,7 @@ from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.base import TemplateView, RedirectView, View
 from django.core.files.storage import FileSystemStorage
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
-from bootstrap_modal_forms.generic import BSModalCreateView
 from formtools.wizard.views import SessionWizardView
-from django_select2.views import AutoResponseView
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated

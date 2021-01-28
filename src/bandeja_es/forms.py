@@ -4,13 +4,10 @@ from django.forms import (formset_factory, modelformset_factory)
 from django.urls import (reverse_lazy, reverse)
 from crispy_forms.helper import FormHelper
 from django.core.exceptions import ValidationError
-from django_file_form.forms import FileFormMixin, UploadedFileField
 
 from crispy_forms.layout import Submit
 from panel_carga.models import Documento
-from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 from django.contrib.auth.models import User
-from bootstrap_modal_forms.forms import BSModalModelForm
 
 from .models import Paquete, Version, PrevPaquete, PrevVersion
 from panel_carga.views import ProyectoMixin
@@ -70,10 +67,8 @@ class PaquetePreviewForm(forms.ModelForm):
         labels = {
             'prev_receptor': 'Destinatario'
         }
-class VersionDocPreview(FileFormMixin, forms.ModelForm):
+class VersionDocPreview(forms.ModelForm):
     prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
-    prev_archivo = UploadedFileField()
-    prev_comentario = UploadedFileField()
     class Meta:
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
