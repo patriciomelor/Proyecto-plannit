@@ -12,10 +12,10 @@ class UploadFileForm(forms.Form):
 class ProyectoSelectForm(forms.Form):
     proyectos = forms.ModelChoiceField(queryset=Proyecto.objects.none())
     
-    def __init__(self, *args, **kwargs):
-        qs = kwargs.pop('proyectos')
-        super(ProyectoSelectForm, self).__init__(*args, **kwargs)
-        self.fields['proyectos'].queryset = qs
+    # def __init__(self, *args, **kwargs):
+    #     qs = kwargs.pop('proyectos')
+    #     super(ProyectoSelectForm, self).__init__(*args, **kwargs)
+    #     self.fields['proyectos'].queryset = qs
 
 class ProyectoForm(forms.ModelForm):
     nombre = forms.CharField( max_length=50, required=True)
