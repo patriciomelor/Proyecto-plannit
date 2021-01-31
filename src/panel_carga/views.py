@@ -36,11 +36,17 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
     model = Proyecto
     success_url = reverse_lazy("index")
 
+    # def get(self, request, *args, **kwargs):
+        
+
     # def get_form_kwargs(self):
+    #     proyect_list = []
     #     kwargs = super().get_form_kwargs()
-    #     grupos = Group.objects.filter(user= self.request.user)
-    #     proyectos = Proyecto.objects.filter(codigo__in=grupos)
-    #     kwargs['proyectos'] = proyectos
+    #     grupos = self.request.user.groups.all()
+    #     for grupo in grupos:
+    #         proyecto = Proyecto.objects.get(codigo=grupo.name)
+    #         proyect_list.append(proyecto)
+    #     kwargs['proyectos'] = proyect_list
     #     return kwargs
         
     def form_valid(self, form):
