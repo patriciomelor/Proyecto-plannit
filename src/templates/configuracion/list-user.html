@@ -11,8 +11,8 @@
         </div>
 
         <nav class="nav br-nav-mailbox flex-column">
-            <a href="" class="nav-link active"><i class="icon ion-person-add"></i> Listar Usuario</a>
-            <!--<a href="" class="nav-link"><i class="icon ion-ios-trash-outline"></i> Deleted Files</a>-->
+            <a href="" class="nav-link active"><i class="icon ion-person-add"></i> Configurar Usuarios</a>
+            <a href="" class="nav-link"><i class="icon ion-ios-gear-outline"></i> Configurar Proyectos</a>
         </nav>
 
         <!--<h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">My Folder</h6>-->
@@ -68,31 +68,7 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'eliminar-usuario' usuario.pk %}" class="btn btn-danger center"> Eliminar </a></th>
             </tr>           
             
-            {% empty %}
-            {% comment %} <div class="modal fade in" id="myModal" role="dialog" style="display: block; padding-right: 16px;">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content tx-size-sm">
-                  <div class="modal-body tx-center pd-y-20 pd-x-20">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                    <h4 class="tx-danger  tx-semibold mg-b-20">Error: No hay Información Ingresada!</h4>
-                    <p class="mg-b-20 mg-x-20">Recuerde Que puede importar desde <strong>Excel</strong> o Insertar Manualmente por formulario.</p>
-                    <h6 class="tx-info tx-semibold mg-b-20">Descargar plantilla de informacion <a href="{% url 'panel-export' %}">Aqui</a></h6>
-                    <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
-                      Continue</button>
-                    </div><!-- modal-body -->
-                  </div><!-- modal-content -->
-                </div><!-- modal-dialog -->
-          </div>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
-          <script type="text/javascript">
-           $(function(){
-            $("#myModal").modal();
-           });
-          </script> {% endcomment %}
+          
       {% endfor %}
             <!--Fin Loop-->
           </tbody>
