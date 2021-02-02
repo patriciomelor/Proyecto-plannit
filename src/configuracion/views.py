@@ -19,15 +19,27 @@ class UsuarioView(ProyectoMixin, CreateView):
     success_message = 'Usuario Creado.'
     success_url = reverse_lazy('crear-usuario')
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        nombre = self.proyecto.codigo
+        grupo = Group.objects.get(name=nombre)
+        print(grupo)
+        context["grupo"] = grupo
+        return context
+    
+
     def form_valid(self, form):
         response = super().form_valid(form)
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
-        perfil = Perfil.objects.get_or_create(usuario= user)
-        perfil.rol_usuario= form.instance.rol_usuario
-        perfil.save()
-        group = Group.objects.get(name= self.proyecto.codigo)
-        user.groups.add(group)
+        print(user)
+        perfil = Perfil.objects.get_or_create(
+            usuario= user,
+            rol_usuario= form.cleaned_data['rol_usuario']
+            )
+        nombre = self.proyecto.codigo
+        grupo = Group.objects.get(name=nombre)
+        user.groups.add(grupo)
         return response
     
 class UsuarioLista(ProyectoMixin, ListView):
