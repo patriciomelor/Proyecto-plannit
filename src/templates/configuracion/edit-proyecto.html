@@ -1,0 +1,53 @@
+{% extends 'index-config.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="br-contentpanel">
+    <div class="br-subleft">
+        <div class="pd-10">
+            <a href="{% url 'crear-usuario' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Registrar Usuario</a>
+        </div>
+        <nav class="nav br-nav-mailbox flex-column">
+            <a href="" class="nav-link"><i class="icon ion-ios-plus-outline"></i> Agregar Proyecto</a>
+            <a href="" class="nav-link active"><i class="icon ion-ios-gear-outline"></i> Configurar Proyectos</a>
+        </nav>
+        <nav class="nav br-nav-mailbox flex-column">
+        </nav>
+    </div>
+    <div class="br-pageheader pd-y-15 pd-md-l-20">
+      <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item"> {{proyecto}}</a>
+        <a class="breadcrumb-item"> {{proyecto.codigo}}</a>
+        <a class="breadcrumb-item" href="">Configuracion</a>      
+        <span class="breadcrumb-item active">Editar Proyecto </span>
+      </nav>
+    </div><!-- br-pageheader -->
+     {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+    <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+        <h4 class="tx-gray-800 mg-b-5">Registrar Usuario</h4>
+      </div>
+      <div class="br-pagebody pd-x-20 pd-sm-x-30">
+        <div class="card bd-0 shadow-base">
+            <form class="form-control"style="float: left;"method="POST"> {% csrf_token %}
+                <label for="" class="col-6 col-md-12 mg-20">
+                {{form|crispy}}
+                </label>
+                <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit"> Envíar </button>                
+                <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" onClick="javascript:history.go(-1);" type="submit"> volver</button>
+
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock content %}
+
