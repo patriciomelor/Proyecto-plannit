@@ -79,7 +79,7 @@ class ProyectoList(ProyectoMixin, ListView):
 
 class ProyectoDetail(ProyectoMixin, DetailView):
     model = Proyecto
-    template_name='configuracion/detail-proyecto'       
+    template_name='configuracion/detail-proyecto.html'       
     context_object_name = 'proyecto'
 
 class ProyectoEdit(ProyectoMixin, UpdateView):
