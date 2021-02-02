@@ -291,7 +291,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = []
 
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
-        valor_ganado = (100 / valor_ganado)
+        if valor_ganado !=0:
+            valor_ganado = (100 / valor_ganado)
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
         for doc in documentos:
@@ -488,7 +489,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = []
 
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
-        valor_ganado = (100 / valor_ganado)
+        
+        if valor_ganado != 0:
+            valor_ganado = (100 / valor_ganado)
+
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
         for doc in documentos:

@@ -1,0 +1,66 @@
+{% extends 'index-config.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="br-contentpanel">
+    <div class="br-subleft">
+
+        <div class="pd-10">
+            <a href="{% url 'crear-usuario' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Registrar Usuario</a>
+        </div>
+
+        <nav class="nav br-nav-mailbox flex-column">
+            <a href="" class="nav-link"><i class="icon ion-ios-plus-outline"></i> Agregar Proyecto</a>
+            <a href="" class="nav-link active"><i class="icon ion-ios-gear-outline"></i> Configurar Proyectos</a>
+        </nav>
+
+
+        <nav class="nav br-nav-mailbox flex-column">
+        </nav>
+    </div>
+    
+    <div class="br-pageheader pd-y-15 pd-md-l-20">
+      <nav class="breadcrumb pd-0 mg-0 tx-12">
+        <a class="breadcrumb-item"> {{proyecto}}</a>
+        <a class="breadcrumb-item"> {{proyecto.codigo}}</a>
+        <a class="breadcrumb-item" href="">Configuracion</a>      
+        <span class="breadcrumb-item active">Eliminar Proyecto </span>
+      </nav>
+    </div><!-- br-pageheader -->
+
+    <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+        <h4 class="tx-gray-800 mg-b-5">Eliminar Proyecto Usuario</h4>
+      </div>
+      <div class="br-pagebody pd-x-20 pd-sm-x-30">
+        <div class="card bd-0 shadow-base">
+            <form class="form-control"style="float: left;"method="POST"> {% csrf_token %}
+            <div id="modaldemo5" class="modal fade show" style="display: block;">
+              <div class="modal-dialog" role="document">
+                <div class="modal-content tx-size-sm">
+                  <div class="modal-body tx-center pd-y-20 pd-x-20">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">×</span>
+                    </button>
+                    <i class="icon ion-alert-circled alert-icon tx-52 tx-warning mg-r-20"></i>
+                    <h4 class="tx-warning tx-semibold mg-b-20">Advertencia: Esta apunto de eliminar un proyecto.!</h4>
+                    <p class="mg-b-20 mg-x-20">Si elimina el proyecto no habra forma de recuperarlo. este se eliminara <strong>Permanentemente.</strong></p>
+                    <button type="submit" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
+                      Eliminar</button>
+                    </div><!-- modal-body -->
+                </div><!-- modal-dialog -->
+              </div>
+
+                </label>
+                <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit"> Envíar </button>                
+                <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" onClick="javascript:history.go(-1);" type="submit"> volver</button>
+
+            </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+{% endblock content %}
+
+
