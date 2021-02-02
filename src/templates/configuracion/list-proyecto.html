@@ -44,20 +44,24 @@
           <thead>
             <tr>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Correo</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">ROL</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Modificar </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Eliminar  </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Encargado</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">codigo </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Fecha Inicio</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Fecha Termino</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"colspan="2">accion  </th>
             </tr>
           </thead>
           <tbody>
           {% for proyecto in proyectos %}
             <tr>            
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >  </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre de Proyecto registrado</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >  </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >  </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.nombre}}  </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.encargado}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.descripcion}}  </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.codigo}}</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.fecha_inicio|date:'d-M-y'}}</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.fecha_termino|date:'d-M-y'}}</th>
+
               <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="" class="btn btn-teal center"> Modificar </a></th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="" class="btn btn-danger center"> Eliminar </a></th>
             </tr>
