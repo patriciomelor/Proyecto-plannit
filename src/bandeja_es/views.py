@@ -110,11 +110,12 @@ def create_borrador(request, paquete_pk):
             prev_paquete= prev_paquete
         )
         borrador.save()
-        # integrar mensaje de success
+        messages.add_message(request, messages.INFO, 'Borrador Creado.')
+        return HttpResponseRedirect(reverse_lazy('Borradores'))
+
     except IntegrityError:
-        pass 
-        # integrar mensaje de error
-    return HttpResponseRedirect(reverse_lazy('Borradores'))
+        messages.add_message(request, messages.ERROR, 'El Borrador ya existe actualmente.')
+        return redirect('nueva-version', paquete_pk=paquete_pk)
 
 class BorradorDelete(ProyectoMixin, DeleteView):
     model = BorradorPaquete

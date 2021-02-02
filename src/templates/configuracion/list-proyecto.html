@@ -11,7 +11,7 @@
         </div>
 
         <nav class="nav br-nav-mailbox flex-column">
-            <a href="" class="nav-link"><i class="icon ion-ios-plus-outline"></i> Agregar Proyecto</a>
+            <a href="{% url 'crear-proyecto' %}" class="nav-link"><i class="icon ion-ios-plus-outline"></i> Agregar Proyecto</a>
             <a href="" class="nav-link active"><i class="icon ion-ios-gear-outline"></i> Configurar Proyectos</a>
         </nav>
 
@@ -51,6 +51,7 @@
             </tr>
           </thead>
           <tbody>
+          {% for proyecto in proyectos %}
             <tr>            
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" >  </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre de Proyecto registrado</th>
@@ -59,10 +60,8 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="" class="btn btn-teal center"> Modificar </a></th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="" class="btn btn-danger center"> Eliminar </a></th>
-            </tr>           
-            
-          
-      {% endfor %}
+            </tr>
+        {% endfor %}
             <!--Fin Loop-->
           </tbody>
         </table>
@@ -97,10 +96,12 @@
               <i class="fa fa-angle-double-right"></i>
             </a>
           </li>          
-    {% endif %}
+      {% endif %}
         </ul>
       </nav>
     </div>
 {% endif %}
 </div>
 </div>
+
+{% endblock content %}

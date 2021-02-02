@@ -97,24 +97,36 @@ class UsuarioDetail(ProyectoMixin, DetailView):
     context_object_name = "usuario"
 
 class ProyectoList(ProyectoMixin, ListView):
-    model = Proyecto
     context_object_name = 'proyectos'
-    template_name='configuracion/list-proyecto.html'
+    template_name = 'configuracion/list-proyecto.html'
+    queryset = Proyecto.objects.all().order_by('-fecha_inicio')
 
 class ProyectoDetail(ProyectoMixin, DetailView):
-    model = Proyecto
     template_name='configuracion/detail-proyecto.html'       
     context_object_name = 'proyecto'
 
 class ProyectoEdit(ProyectoMixin, UpdateView):
-    model = Proyecto
     template_name = 'configuracion/edit-proyecto.html'
     form_class = ProyectoForm
     success_url = reverse_lazy('lista-proyecto')
     success_message = 'Información del Proyecto Actualizada'
 
 class ProyectoDelete(ProyectoMixin, DeleteView):
-    model = Proyecto
     template_name = 'configuracion/delete-proyecto.html'
     success_message = 'Proyecto Eliminado'
     success_url = reverse_lazy('lista-proyecto')
+
+class ProyectoCreate(ProyectoMixin, CreateView):
+    template_name = 'configuracion/create-proyecto.html'
+    success_message = 'Proyecto Creado correctamente'
+    success_url = reverse_lazy('lista-proyecto')
+    form_class = ProyectoForm
+
+    def form_valid(self, form):
+        form.instance.encargado = self.request.user
+        response = super().form_valid(form)
+        nombre = form.instance.codigo
+        grupo = Group.objects.create(name=nombre)
+        return response
+
+        
