@@ -59,8 +59,8 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.fecha_inicio|date:'d-M-y'}}</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.fecha_termino|date:'d-M-y'}}</th>
 
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="" class="btn btn-teal center"> Modificar </a></th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="" class="btn btn-danger center"> Eliminar </a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'editar-proyecto' proyecto.pk %}" class="btn btn-teal center"> Modificar </a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'delete-proyecto' proyecto.pk %}" class="btn btn-danger center"> Eliminar </a></th>
             </tr>
         {% endfor %}
             <!--Fin Loop-->
