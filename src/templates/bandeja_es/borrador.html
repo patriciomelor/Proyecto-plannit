@@ -6,7 +6,7 @@
 {% block mailing %}
 <div class="br-subleft">
       <div class="pd-10">
-        <a  href="{% url 'paquete-preview' borrador_pk=None %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
+        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
       </div>
     
       <nav class="nav br-nav-mailbox flex-column">
@@ -43,6 +43,14 @@
     <h4 class="tx-gray-800 mg-b-5">Bandeja de Borradores.</h4>
   </div>
  
+{% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+            {% endfor %}
+        </ul>
+{% endif %}
+
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
       <table class="table mg-b-0 table-contact">
