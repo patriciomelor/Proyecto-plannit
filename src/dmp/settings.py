@@ -150,6 +150,7 @@ DATABASES = {
         'HOST': '134.209.78.27',
         'PORT': 5432,
         'SSLMODE': 'require',
+        'DISABLE_SERVER_SIDE_CURSORS': True,
     }
 }
 

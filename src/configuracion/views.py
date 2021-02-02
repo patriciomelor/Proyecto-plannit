@@ -65,7 +65,6 @@ class UsuarioLista(ProyectoMixin, ListView):
         context["codigo_proyecto"] = self.proyecto.codigo
         return context
     
-
 class UsuarioEdit(ProyectoMixin, UpdateView):
     model = User
     template_name = 'configuracion/edit-user.html'
