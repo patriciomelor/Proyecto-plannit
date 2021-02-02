@@ -3,7 +3,9 @@ from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic import FormView, CreateView, DeleteView, UpdateView, ListView, DetailView
 from panel_carga.views import ProyectoMixin
-from django.contrib.auth.models import User, Group
+from django.contrib.auth.models import User, Group, Permission
+from .roles import ROLES
+from django.contrib.contenttypes.models import ContentType
 
 from panel_carga.models import *
 from panel_carga.forms import ProyectoForm
@@ -32,14 +34,25 @@ class UsuarioView(ProyectoMixin, CreateView):
         response = super().form_valid(form)
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
-        print(user)
+        rol = form.cleaned_data['rol_usuario']
+
         perfil = Perfil.objects.get_or_create(
             usuario= user,
-            rol_usuario= form.cleaned_data['rol_usuario']
+            rol_usuario= rol
             )
         nombre = self.proyecto.codigo
         grupo = Group.objects.get(name=nombre)
         user.groups.add(grupo)
+
+        # if rol==3:
+
+        #     content_type = ContentType.objects.get_for_model(bandeja_es)
+        #     permission = Permission.objects.get(
+        #         codename='view_bandeja_es',
+        #         content_type = content_type
+        #     )
+        #     user.user_permissions.add(permission)
+
         return response
     
 class UsuarioLista(ProyectoMixin, ListView):
