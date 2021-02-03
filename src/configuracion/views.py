@@ -44,14 +44,15 @@ class UsuarioView(ProyectoMixin, CreateView):
         grupo = Group.objects.get(name=nombre)
         user.groups.add(grupo)
 
-        # if rol==3:
+        print(rol)
+        if rol==3:
 
-        #     content_type = ContentType.objects.get_for_model(bandeja_es)
-        #     permission = Permission.objects.get(
-        #         codename='view_bandeja_es',
-        #         content_type = content_type
-        #     )
-        #     user.user_permissions.add(permission)
+            content_type = ContentType.objects.get_for_model(Documento)
+            permission = Permission.objects.get(
+                codename= 'view_documento',
+                content_type = content_type
+            )
+            user.user_permissions.add(permission)
 
         return response
     
