@@ -86,7 +86,7 @@ class VersionDocPreview(forms.ModelForm):
 class PrevVersionForm(forms.ModelForm):
     class Meta:
         model = PrevVersion
-        fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
+        fields = ['prev_documento_fk', 'prev_revision' ,'prev_estado_cliente', 'prev_estado_contratista', 'prev_archivo','prev_comentario']
         labels = {
             'prev_documento_fk': 'Código Documento',
             'prev_estado_cliente': 'Estado Cliente',
@@ -95,7 +95,14 @@ class PrevVersionForm(forms.ModelForm):
             'prev_comentario' : 'Archivo de Comentario',
         }
         widgets ={
-            'prev_documento_fk': forms.Select(attrs={'class': 'select2'})
+            'prev_documento_fk': forms.Select(attrs={'class': 'select2 form-control col-md-4'}),
+            'prev_revision' : forms.Select(attrs={'class' : 'form-control col-md-4 '}),
+            'prev_estado_contratista': forms.Select(attrs={'class' : 'form-control col-md-4' }),
+            'prev_estado_cliente' : forms.Select(attrs={'class' : 'form-control col-md-4 '}),
+            'prev_archivo' : forms.FileInput(attrs={'class' : 'col-md-4 '}),
+            'prev_comentario' : forms.FileInput(attrs={'class' : 'col-md-4 '}),
+
+
         }
 
     def clean(self):
