@@ -17,7 +17,7 @@ from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.views import APIView
-
+from django.db import IntegrityError
 
 from panel_carga.views import ProyectoMixin
 from .models import Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, PaqueteDocumento
@@ -102,224 +102,20 @@ class BorradorList(ProyectoMixin, ListView):
         context['borrador_paquete'] = borrador_paquete
         return context
 
-def create_borrador(request, borrador_pk):
-    if request.META.get('HTTP_X_REQUESTED_WITH') == 'XMLHttpRequest':
-        if request.method == 'POST':
-            borrador_paraquete = PaquetePreviewForm(request.POST or None)
-            borrador_version_set = PreviewVersionSet(request.POST or None, request.FILES or None)
-            borrador_fk = 0
-            versiones_pk = []
-            asunto_b =  borrador_paraquete['prev_asunto'].value()
-            destinatario_b = borrador_paraquete['prev_receptor'].value()
-            descripcion_b = borrador_paraquete['descripcion'].value()
+def create_borrador(request, paquete_pk):
+    prev_paquete = PrevPaquete.objects.get(pk=paquete_pk)
+    try:
+        borrador = BorradorPaquete(
+            owner= request.user,
+            prev_paquete= prev_paquete
+        )
+        borrador.save()
+        messages.add_message(request, messages.INFO, 'Borrador Creado.')
+        return HttpResponseRedirect(reverse_lazy('Borradores'))
 
-            #################################################################
-            #        Si existe borrador, lo actualiza                       #
-            print(borrador_pk)
-            count = 0
-            try:
-                    #   Borrador para el Form #
-                    #    del Paquete que contendrá las versiones #
-                borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-                borrador_versiones = borrador.version.all()
-                borrador_versiones.delete() #   eliminar los registros previos 
-                
-                if destinatario_b:
-                    destinatario_b = int(destinatario_b)
-                    desti = User.objects.get(pk=destinatario_b)
-                    borrador.asunto = asunto_b
-                    borrador.descripcion = descripcion_b
-                    borrador.destinatario = desti
-                else:
-                    borrador = BorradorPaquete.objects.get(pk=borrador_pk)
-                    borrador.asunto = asunto_b
-                    borrador.descripcion = descripcion_b
-
-                borrador.save()
-
-                for form in borrador_version_set:
-                    documento_b = form['prev_documento_fk'].value()
-                    revision_b = form['prev_revision'].value() 
-                    archivo_b = form['prev_archivo'].value()
-                    comentario_b = form['prev_comentario'].value()
-                    cliente_estado_b = form['prev_estado_cliente'].value()
-                    contratista_estado_b = form['prev_estado_contratista'].value()
-                #############################################################
-                                                                            #
-                    if not cliente_estado_b:                                #
-                        cliente_estado_b = 0                                #
-                                                                            #   Si no existe/vacío
-                    if not contratista_estado_b:                            #   se vuelve 0.                                              #
-                        contratista_estado_b = 0                            #
-                                                                            #
-                    if not revision_b:                                      #   
-                        revision_b = 0                                      #   
-                                                                            #                                                     #
-                #############################################################
-                    if  documento_b:                                        #    if que comprueba un valor no vacío para //documento_b// #
-                        document = Documento.objects.get(pk=documento_b)
-                        version = BorradorVersion(
-                                owner= request.user,
-                                documento_fk= document,
-                                revision= revision_b,
-                                archivo= archivo_b,
-                                comentario= comentario_b,
-                                estado_cliente= cliente_estado_b,
-                                estado_contratista= contratista_estado_b,
-                            )
-                        version.save()
-                        borrador.version.add(version)
-
-                    else:
-                        documento_b = 0  
-                        version = BorradorVersion(
-                            owner= request.user,
-                            revision= revision_b,
-                            archivo= archivo_b,
-                            comentario= comentario_b,
-                            estado_cliente= cliente_estado_b,
-                            estado_contratista= contratista_estado_b,
-                        )
-                        version.save()
-                        borrador.version.add(version)
-
-
-                
-                    return JsonResponse({'msg': 'Update'})
-            
-            #################################################################
-            #                 Si no existe borrador, lo crea                #
-            except ValueError:
-                if destinatario_b:
-                    destinatario_b = int(destinatario_b)
-                    desti = User.objects.get(pk=destinatario_b)
-                    borrador = BorradorPaquete(
-                        asunto= asunto_b,
-                        descripcion= descripcion_b,
-                        destinatario= desti,
-                        owner= request.user
-                    )
-                else:
-                    borrador = BorradorPaquete(
-                        asunto= asunto_b,
-                        descripcion= descripcion_b,
-                        owner= request.user
-                    )
-                borrador.save()
-                #   Borrador para           #
-                #   el Formset de Versiones #
-                borrador_fk = borrador.pk
-                paquete_borrador = BorradorPaquete.objects.get(pk=borrador_fk)
-                for form in borrador_version_set:
-                    documento_b = form['prev_documento_fk'].value()
-                    revision_b = form['prev_revision'].value() 
-                    archivo_b = form['prev_archivo'].value()
-                    comentario_b = form['prev_comentario'].value()
-                    cliente_estado_b = form['prev_estado_cliente'].value()
-                    contratista_estado_b = form['prev_estado_contratista'].value()
-                #############################################################
-                                                                            #
-                    if not cliente_estado_b:                                #
-                        cliente_estado_b = 0                                #
-                                                                            #   Si no existe/vacío
-                    if not contratista_estado_b:                            #   se vuelve 0.                                              #
-                        contratista_estado_b = 0                            #
-                                                                            #
-                    if not revision_b:                                      #   
-                        revision_b = 0                                      #   
-                                                                            #                                                     #
-                #############################################################
-                    if  documento_b:                                        #    if que comprueba un valor no vacío para //documento_b// #
-                        document = Documento.objects.get(pk=documento_b)
-                        version = BorradorVersion(
-                                owner= request.user,
-                                documento_fk= document,
-                                revision= revision_b,
-                                archivo= archivo_b,
-                                comentario= comentario_b,
-                                estado_cliente= cliente_estado_b,
-                                estado_contratista= contratista_estado_b,
-                            )
-                    else:
-                        documento_b = 0  
-                        version = BorradorVersion(
-                            owner= request.user,
-                            revision= revision_b,
-                            archivo= archivo_b,
-                            comentario= comentario_b,
-                            estado_cliente= cliente_estado_b,
-                            estado_contratista= contratista_estado_b,
-                        )
-                    version.save()
-                    paquete_borrador.version.add(version)
-
-                return JsonResponse({'msg': 'Success'})
-
-            except BorradorPaquete.DoesNotExist:
-                if destinatario_b:
-                    destinatario_b = int(destinatario_b)
-                    desti = User.objects.get(pk=destinatario_b)
-                    borrador = BorradorPaquete(
-                        asunto= asunto_b,
-                        descripcion= descripcion_b,
-                        destinatario= desti,
-                        owner= request.user
-                    )
-                else:
-                    borrador = BorradorPaquete(
-                        asunto= asunto_b,
-                        descripcion= descripcion_b,
-                        owner= request.user
-                    )
-                borrador.save()
-                #   Borrador para           #
-                #   el Formset de Versiones #
-                borrador_fk = borrador.pk
-                paquete_borrador = BorradorPaquete.objects.get(pk=borrador_fk)
-                for form in borrador_version_set:
-                    documento_b = form['prev_documento_fk'].value()
-                    revision_b = form['prev_revision'].value() 
-                    archivo_b = form['prev_archivo'].value()
-                    comentario_b = form['prev_comentario'].value()
-                    cliente_estado_b = form['prev_estado_cliente'].value()
-                    contratista_estado_b = form['prev_estado_contratista'].value()
-                #############################################################
-                                                                            #
-                    if not cliente_estado_b:                                #
-                        cliente_estado_b = 0                                #
-                                                                            #   Si no existe/vacío
-                    if not contratista_estado_b:                            #   se vuelve 0.                                              #
-                        contratista_estado_b = 0                            #
-                                                                            #
-                    if not revision_b:                                      #   
-                        revision_b = 0                                      #   
-                                                                            #                                                     #
-                #############################################################
-                    if  documento_b:                                        #    if que comprueba un valor no vacío para //documento_b// #
-                        document = Documento.objects.get(pk=documento_b)
-                        version = BorradorVersion(
-                                owner= request.user,
-                                documento_fk= document,
-                                revision= revision_b,
-                                archivo= archivo_b,
-                                comentario= comentario_b,
-                                estado_cliente= cliente_estado_b,
-                                estado_contratista= contratista_estado_b,
-                            )
-                    else:
-                        documento_b = 0  
-                        version = BorradorVersion(
-                            owner= request.user,
-                            revision= revision_b,
-                            archivo= archivo_b,
-                            comentario= comentario_b,
-                            estado_cliente= cliente_estado_b,
-                            estado_contratista= contratista_estado_b,
-                        )
-                    version.save()
-                    paquete_borrador.version.add(version)
-
-                return JsonResponse({'msg': 'Success'})
+    except IntegrityError:
+        messages.add_message(request, messages.ERROR, 'El Borrador ya existe actualmente.')
+        return redirect('nueva-version', paquete_pk=paquete_pk)
 
 class BorradorDelete(ProyectoMixin, DeleteView):
     model = BorradorPaquete
@@ -421,6 +217,7 @@ def vue_version(request, paquete_pk):
         response_content = list(versiones.values())
         
     return JsonResponse(response_content, safe=False)
+
 class PrevPaqueteView(ProyectoMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm
@@ -431,6 +228,7 @@ class PrevPaqueteView(ProyectoMixin, FormView):
         paquete.save()
         paquete_pk = paquete.pk
         return redirect('nueva-version', paquete_pk=paquete_pk)
+
 class TablaPopupView(ProyectoMixin, ListView):
     model = PrevVersion
     template_name = 'bandeja_es/tabla-versiones-form.html'
@@ -461,6 +259,7 @@ class TablaPopupView(ProyectoMixin, ListView):
         context['versiones'] = versiones
         context['versiones_pk'] = versiones_pk
         return render(request, 'bandeja_es/create-paquete.html', context)
+
 class PrevVersionView(ProyectoMixin, FormView):
     model = PrevVersion
     template_name = 'bandeja_es/popup-archivo.html'

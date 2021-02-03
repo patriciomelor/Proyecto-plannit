@@ -3,42 +3,33 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="br-contentpanel">
-    <div class="br-subleft">
-
-        <div class="pd-10">
-            <a href="{% url 'crear-usuario' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Registrar Usuario</a>
-        </div>
-
-        <nav class="nav br-nav-mailbox flex-column">
-            <a href="" class="nav-link active"><i class="icon ion-person-add"></i> Configurar Usuarios</a>
-            <a href="" class="nav-link"><i class="icon ion-ios-gear-outline"></i> Configurar Proyectos</a>
-        </nav>
-
-        <!--<h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">My Folder</h6>-->
-
-        <nav class="nav br-nav-mailbox flex-column">
-         <!--   <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> Camera Uploads</a>-->
-         <!--   <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> My Collections</a>-->
-         <!--   <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> E-Book</a>-->
-        </nav>
-    </div>
+   
 <!--Titulo-->
- <div class="br-pageheader pd-y-15 pd-md-l-20">
+ 
+
+  <div class="br-mainpanel">
+  <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
       <span class="breadcrumb-item active">listar Usuarios</span>
     </nav>
   </div>
-  
-
-  <div class="br-section-wrapper">    
+    <div class="br-pagebody mg-t-5 pd-x-30">
+    <div class="pd-10 bd bg-gray-900  rounded mg-t-10">
+        <ul class="nav nav-pills flex-column flex-md-row justify-content-center" role="tablist">
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-usuario' %}" role="tab">Agregar Usuario</a></li>
+          <li class="nav-item"><a class="nav-link active" style="color:#fff;" href="{% url 'listar-usuarios' %}" role="tab">Listar Usuarios</a></li>
+        </ul>
+    </div><!-- pd-10 -->
+    <div class="br-section-wrapper">    
     <div class="pd-x-20 pd-sm-x-30 mg-b-10">
       <h4 class="tx-gray-800 mg-b-5">Lista de Usuarios</h4>
       <p class="mg-b-0">{{proyecto}}</p> 
       <p class="mg-b-0">{{codigo_proyecto}}</p> 
-    </div>      
-    <div class="row row-sm d-flex justify-content-center"style="overflow-x:scroll;overflow-y:scroll;height:600px;" >
+    </div>    
+    <div class="row row-sm d-flex justify-content-center" >
       <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
           <thead>
@@ -109,7 +100,8 @@
       </nav>
     </div>
 {% endif %}
-</div>
+  </div>
+  </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 

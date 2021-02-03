@@ -24,9 +24,8 @@
 </div>
 
 {% endblock mailing %}
+
 {% block content %}
-<form method="post" action="">
-  {% csrf_token %}
  
 <div class="br-contentpanel">
 
@@ -34,8 +33,15 @@
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
         
+      {% if messages %}
+              <ul class="messages">
+                  {% for message in messages %}
+                  <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                  {% endfor %}
+              </ul>
+      {% endif %}
 
-         <form class="form-group mg-t-20" id="form_paquete" >
+         <form method="post" class="form-group mg-t-20" id="form_paquete" >{% csrf_token %}
 
                 <div id="wizard2" role="application" class="wizard clearfix">
                         <div class="steps clearfix">
@@ -84,7 +90,8 @@
                                         </tbody>
                                     </table>
                               </div>
-                              <input type="submit"class="btn btn-teal mg-t-30" value="Enviar"/>
+                              <input type="submit" class="btn btn-teal mg-t-30" value="Enviar"/>
+                              <a href="{% url 'borrador-crear' paquete_pk %}"><button type="button" class="btn btn-warning mg-t-30"> Guardar en Borrador</button></a>
 
                 </div>
                 
@@ -95,7 +102,6 @@
 </div>
   
   </div>
-</form>
 
 <script language='javascript'>
 var t;
