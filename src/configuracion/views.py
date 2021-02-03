@@ -1,10 +1,11 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic import FormView, CreateView, DeleteView, UpdateView, ListView, DetailView
 from panel_carga.views import ProyectoMixin
 from django.contrib.auth.models import User, Group, Permission
 from .roles import ROLES
+from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 
 from panel_carga.models import *
@@ -87,10 +88,6 @@ class UsuarioDelete(ProyectoMixin, DeleteView):
     success_url = reverse_lazy('listar-usuarios')
     context_object_name = 'usuario'
     
-    def post(self, request, *args, **kwargs):
-        self.get_queryset().delete()
-        return self.success_url
-    
 class UsuarioDetail(ProyectoMixin, DetailView):
     model = User
     template_name = 'configuracion/detail-user.html'
@@ -115,6 +112,15 @@ class ProyectoDelete(ProyectoMixin, DeleteView):
     template_name = 'configuracion/delete-proyecto.html'
     success_message = 'Proyecto Eliminado'
     success_url = reverse_lazy('lista-proyecto')
+
+    def delete(self, request, *args, **kwargs):
+        objeto = self.get_object()
+        if objeto == proyecto:
+            messages.add_message(request, messages.ERROR, 'No se puede eliminar el proyecto seleccionado.')
+            return redirect('lista-proyecto')
+        else:
+            return super(ProyectoDelete, self).delete(request, *args, **kwargs)
+
 
 class ProyectoCreate(ProyectoMixin, CreateView):
     template_name = 'configuracion/create-proyecto.html'
