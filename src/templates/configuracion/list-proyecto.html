@@ -3,106 +3,101 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="br-contentpanel">
-    <div class="br-subleft">
-
-        <div class="pd-10">
-            <a href="{% url 'crear-usuario' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Registrar Usuario</a>
-        </div>
-
-        <nav class="nav br-nav-mailbox flex-column">
-            <a href="{% url 'crear-proyecto' %}" class="nav-link "><i class="icon ion-ios-plus-outline"></i> Agregar Proyecto</a>
-            <a href="{% url 'lista-proyecto' %}" class="nav-link active"><i class="icon ion-ios-gear-outline"></i> Configurar Proyectos</a>
-        </nav>
-
-        <!--<h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">My Folder</h6>-->
-
-        <nav class="nav br-nav-mailbox flex-column">
-        </nav>
-    </div>
 <!--Titulo-->
- <div class="br-pageheader pd-y-15 pd-md-l-20">
+  <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
       <span class="breadcrumb-item active">Lista de Proyecto</span>
     </nav>
   </div>
-  
+  <div class="br-mainpanel">
+    <div class="br-pagebody mg-t-5 pd-x-30">
 
-  <div class="br-section-wrapper">    
-    <div class="pd-x-20 pd-sm-x-30 mg-b-10">
-      <h4 class="tx-gray-800 mg-b-5">Lista de Proyecto</h4>
-      <p class="mg-b-0">{{proyecto}}</p> 
-      <p class="mg-b-0">{{codigo_proyecto}}</p> 
-    </div>      
-    <div class="row row-sm d-flex justify-content-center"style="overflow-x:scroll;overflow-y:scroll;height:600px;" >
-      <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
-  <!--Table-->
-          <thead>
-            <tr>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Encargado</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">codigo </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Fecha Inicio</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Fecha Termino</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;"colspan="2">accion  </th>
-            </tr>
-          </thead>
-          <tbody>
-          {% for proyecto in proyectos %}
-            <tr>            
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.nombre}}  </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.encargado}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.descripcion}}  </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.codigo}}</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.fecha_inicio|date:'d-M-y'}}</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.fecha_termino|date:'d-M-y'}}</th>
-
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'editar-proyecto' proyecto.pk %}" class="btn btn-teal center"> Modificar </a></th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'delete-proyecto' proyecto.pk %}" class="btn btn-danger center"> Eliminar </a></th>
-            </tr>
-        {% endfor %}
-            <!--Fin Loop-->
-          </tbody>
-        </table>
-        
-
-
-      
-    </div>
-{% if is_paginated %}
-    <div class="ht-80 d-flex align-items-center justify-content-center">
-      <nav aria-label="Page navigation">      
-        <ul class="pagination pagination-basic mg-b-0">
-        {% if page_obj.has_previous %}
-          <li class="page-item"><a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
-          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR"><i class="fa fa-angle-left"></i></a></li>
-          
-          {% if page_obj.has_previous %}
-            <li class="page-item active"><a class="page-link active" href="page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-          {% endif %}
-          <li class="page-item"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
-          <li class="page-item disabled"><span class="page-link">...</span></li>
-          <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>          
-       {% endif %}
-       {% if page_obj.has_next %}   
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-              <i class="fa fa-angle-right"></i>
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-              <i class="fa fa-angle-double-right"></i>
-            </a>
-          </li>          
-      {% endif %}
+      <div class="pd-10 bd bg-gray-900  rounded mg-t-10">
+        <ul class="nav nav-pills flex-column flex-md-row justify-content-center" role="tablist">
+          <li class="nav-item"><a class="nav-link active" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-usuario' %}" role="tab">Agregar Usuario</a></li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'listar-usuarios' %}" role="tab">Listar Usuarios</a></li>
         </ul>
-      </nav>
-    </div>
-{% endif %}
-</div>
+      </div><!-- pd-10 -->
+
+      <div class="br-section-wrapper">    
+        <div class="pd-x-20 pd-sm-x-30 mg-b-10">
+          <h4 class="tx-gray-800 mg-b-5">Lista de Proyecto</h4>
+          <p class="mg-b-0">{{proyecto}}</p> 
+          <p class="mg-b-0">{{codigo_proyecto}}</p> 
+        </div> 
+
+        <div class="row row-sm d-flex justify-content-center">
+          <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
+      <!--Table-->
+              <thead>
+                <tr>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Encargado</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">codigo </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Fecha Inicio</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Fecha Termino</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;"colspan="2">accion  </th>
+                </tr>
+              </thead>
+              <tbody>
+              {% for proyecto in proyectos %}
+                <tr>            
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.nombre}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.encargado}} </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.descripcion}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.codigo}}</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.fecha_inicio|date:'d-M-y'}}</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.fecha_termino|date:'d-M-y'}}</th>
+
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'editar-proyecto' proyecto.pk %}" class="btn btn-teal center"> Modificar </a></th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'delete-proyecto' proyecto.pk %}" class="btn btn-danger center"> Eliminar </a></th>
+                </tr>
+            {% endfor %}
+                <!--Fin Loop-->
+              </tbody>
+            </table>
+            
+
+
+          
+        </div>
+  {% if is_paginated %}
+        <div class="ht-80 d-flex align-items-center justify-content-center">
+          <nav aria-label="Page navigation">      
+            <ul class="pagination pagination-basic mg-b-0">
+            {% if page_obj.has_previous %}
+              <li class="page-item"><a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR"><i class="fa fa-angle-left"></i></a></li>
+              
+              {% if page_obj.has_previous %}
+                <li class="page-item active"><a class="page-link active" href="page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+              {% endif %}
+              <li class="page-item"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+              <li class="page-item disabled"><span class="page-link">...</span></li>
+              <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>          
+          {% endif %}
+          {% if page_obj.has_next %}   
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                  <i class="fa fa-angle-right"></i>
+                </a>
+              </li>
+              <li class="page-item">
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                  <i class="fa fa-angle-double-right"></i>
+                </a>
+              </li>          
+          {% endif %}
+            </ul>
+          </nav>
+        </div>
+  {% endif %}
+      </div>  
+  </div>
 </div>
 
 {% endblock content %}
