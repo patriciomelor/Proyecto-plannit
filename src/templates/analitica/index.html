@@ -15,20 +15,20 @@
     <div class="col-md-12">
           <div class="widget-2">
               <div class="card shadow-base overflow-hidden chart">
-              <h4 class="tx-gray-800 mg-b-5">Curva de avance Fisico Ingenieria</h4>                        
+                                  
                 
                   <div class="card-header">
-                    
-                    <div class="card-body">
-                        <canvas id="myChart4" width="500" height="400"></canvas>
-                    </div>
+                    <h4 class="tx-gray-800 mg-b-5">Curva de avance Fisico Ingenieria</h4>                       
                   </div>
+                  <div class="card-body"height="900px" >
+                    <canvas id="myChart4" width="500" height="100%"></canvas>
+                </div>
                 </div>
               </div>
         </div>
 </div>  
   <div class="row row-sm mg-t-20">
-              <div class="col-md-4">
+              <div class="col-md-6">
               <div class="widget-2">
                   <div class="card shadow-base overflow-hidden chart">
                     <h4 class="tx-gray-800 mg-b-5">Estados de los Documentos</h4>                        
@@ -41,7 +41,7 @@
                     </div>
                   </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="widget-2">
                     <div class="card shadow-base overflow-hidden chart">
                       <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos por emitir por SubEstacion</h4>                        
@@ -55,21 +55,25 @@
                       </div>
                     </div>
               </div>
-              <div class="col-md-4">
-                <div class="widget-2">
-                    <div class="card shadow-base overflow-hidden chart">
-                      <h4 class="tx-gray-800 mg-b-5">Estatus Documento Aprobado <strong>VS</strong> Totales por SubEstacion</h4>                        
-                        <div class="card-header">
-                    
-                          <div class="card-body">
-                            <canvas id="myChart3" width="500" height="400"></canvas>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                </div>
+              
   </div>
-         
+  <div class="row row-sm mg-t-20">
+    
+    <div class="col-md-8">
+      <div class="widget-2">
+          <div class="card shadow-base overflow-hidden chart">
+              <div class="card-header">
+            <h4 class="tx-gray-800 mg-b-5">Estatus Documento Aprobado <strong>VS</strong> Totales por SubEstacion</h4>                        
+
+                
+              </div>
+              <div class="card-body">
+                <canvas id="myChart3" width="500" height="400"></canvas>
+              </div>
+            </div>
+          </div>
+      </div>
+</div>
           
 <script>
   $(document).ready(function(){
