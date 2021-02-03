@@ -79,6 +79,7 @@ class PaqueteUpdate(ProyectoMixin, UpdateView):
     template_name = 'bandeja_es/paquete-update.html'
     form_class = CreatePaqueteForm
     success_url = reverse_lazy('paquete-detalle')
+
 class PaqueteDelete(ProyectoMixin, DeleteView):
     model = Paquete
     template_name = 'bandeja_es/paquete-delete.html'
@@ -101,6 +102,7 @@ class BorradorList(ProyectoMixin, ListView):
         borrador_paquete = BorradorPaquete.objects.all().filter(owner=self.request.user).order_by('-fecha_creacion')
         context['borrador_paquete'] = borrador_paquete
         return context
+
 
 def create_borrador(request, paquete_pk):
     prev_paquete = PrevPaquete.objects.get(pk=paquete_pk)

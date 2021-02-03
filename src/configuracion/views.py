@@ -93,6 +93,15 @@ class UsuarioDetail(ProyectoMixin, DetailView):
     template_name = 'configuracion/detail-user.html'
     context_object_name = "usuario"
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        grupos = user.groups.all()
+        print(grupos)
+        context["grupos"] = grupos
+        return context
+    
+
 class ProyectoList(ProyectoMixin, ListView):
     context_object_name = 'proyectos'
     template_name = 'configuracion/list-proyecto.html'
