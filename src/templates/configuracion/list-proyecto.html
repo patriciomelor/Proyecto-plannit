@@ -53,10 +53,10 @@
           <tbody>
           {% for proyecto in proyectos %}
             <tr>            
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >  </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre de Proyecto registrado</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >  </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" >  </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{proyecto.nombre}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{proyecto.codigo}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{proyecto.encargado}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{proyecto.descripcion}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="" class="btn btn-teal center"> Modificar </a></th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="" class="btn btn-danger center"> Eliminar </a></th>
