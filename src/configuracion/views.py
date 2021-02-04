@@ -59,6 +59,9 @@ class UsuarioView(ProyectoMixin, CreateView):
                 )
 
                 permission_list_administrador.append(permission)
+            
+            for per in permission_list_administrador:
+                user.user_permissions.add(per)
 
         Permisos = ['add_documento', 'change_documento']
         permission_list_revisor = []
@@ -75,6 +78,9 @@ class UsuarioView(ProyectoMixin, CreateView):
 
                 permission_list_revisor.append(permission)
 
+            for per in permission_list_revisor:
+                user.user_permissions.add(per)
+
         Permisos = ['add_documento', 'change_documento']
         permission_list_visualizador = []
 
@@ -90,8 +96,8 @@ class UsuarioView(ProyectoMixin, CreateView):
 
                 permission_list_visualizador.append(permission)
         
-        for per in permission_list:
-            user.user_permissions.add(per)
+            for per in permission_list_visualizador:
+                user.user_permissions.add(per)
 
         return response
     
