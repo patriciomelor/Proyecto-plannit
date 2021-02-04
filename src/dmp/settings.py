@@ -85,7 +85,6 @@ ACCOUNT_SIGNUP_FORM_CLAS = 'dashboard.forms.CrearUsuario'
 ACCOUNT_ADAPTER = 'configuracion.adapters.AccountAdapter'
 
 
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 LOGIN_URL = reverse_lazy("account_login")
 
@@ -133,6 +132,16 @@ TEMPLATES = [
     },
 ]
 
+# EMAIL SETTINGS
+
+EMAIL_HOST = 'mail.stod.cl'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'dmp@stod.cl'
+EMAIL_HOST_PASSWORD = 'dmp.2020'
+EMAIL_USE_TLS = True
+DEFAULT_FROM_EMAIL = 'dmp@stod.cl'
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 
 WSGI_APPLICATION = 'dmp.wsgi.application'
