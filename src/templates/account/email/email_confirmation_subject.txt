@@ -1,5 +1,5 @@
 {% load i18n %}
 {% autoescape off %}
-{% blocktrans %}Confirma tu participación en {{ site_domain }}
+{% blocktrans %} - Confirma tu Correo! - {{ site_domain }}
  {% endblocktrans %}
 {% endautoescape %}
