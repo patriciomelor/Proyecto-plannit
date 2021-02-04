@@ -72,7 +72,7 @@ INSTALLED_APPS = [
 
 # AUTH_USER_MODEL = 'dashboard.Usuario'
 
-SITE_ID = 2
+SITE_ID = 3
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
