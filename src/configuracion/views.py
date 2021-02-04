@@ -45,6 +45,7 @@ class UsuarioView(ProyectoMixin, CreateView):
         grupo = Group.objects.get(name=nombre)
         user.groups.add(grupo)
 
+        #Otorgar permisos para administrador
         Permisos = ['add_documento', 'change_documento']
         permission_list_administrador = []
 
@@ -63,6 +64,7 @@ class UsuarioView(ProyectoMixin, CreateView):
             for per in permission_list_administrador:
                 user.user_permissions.add(per)
 
+        #Otorgar permisos para revisor
         Permisos = ['add_documento', 'change_documento']
         permission_list_revisor = []
 
@@ -81,14 +83,92 @@ class UsuarioView(ProyectoMixin, CreateView):
             for per in permission_list_revisor:
                 user.user_permissions.add(per)
 
-        Permisos = ['add_documento', 'change_documento']
+        #Otorgar permisos para visualizador
+        Permisos = ['add_paquete', 'change_paquete']
         permission_list_visualizador = []
 
         if rol=='3':
 
             for permisos in Permisos:
 
+                content_type = ContentType.objects.get_for_model(Paquete)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_visualizador.append(permission)
+        
+            for per in permission_list_visualizador:
+                user.user_permissions.add(per)
+
+        return response
+
+class UsuarioEdit(ProyectoMixin, UpdateView):
+    model = User
+    template_name = 'configuracion/edit-user.html'
+    success_url = reverse_lazy('listar-usuarios')
+    form_class = EditUsuario
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user_pk = form.instance.pk
+        user = User.objects.get(pk=user_pk)
+        rol = form.cleaned_data['rol_usuario']
+
+        perfil = Perfil.objects.get_or_create(
+            usuario=user,
+            rol_usuario= rol,
+            cliente= form.cleaned_data['cliente']
+        )
+
+        #Otorgar permisos para administrador
+        Permisos = ['add_documento', 'change_documento']
+        permission_list_administrador = []
+
+        if rol=='1':
+
+            for permisos in Permisos:
+
                 content_type = ContentType.objects.get_for_model(Documento)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_administrador.append(permission)
+            
+            for per in permission_list_administrador:
+                user.user_permissions.add(per)
+
+        #Otorgar permisos para revisor
+        Permisos = ['add_documento', 'change_documento']
+        permission_list_revisor = []
+
+        if rol=='2':
+
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Documento)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_revisor.append(permission)
+
+            for per in permission_list_revisor:
+                user.user_permissions.add(per)
+
+        #Otorgar permisos para visualizador
+        Permisos = ['add_paquete', 'change_paquete']
+        permission_list_visualizador = []
+
+        if rol=='3':
+
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Paquete)
                 permission = Permission.objects.get(
                     codename= permisos, 
                     content_type = content_type, 
@@ -110,24 +190,6 @@ class UsuarioLista(ProyectoMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["codigo_proyecto"] = self.proyecto.codigo
         return context
-    
-class UsuarioEdit(ProyectoMixin, UpdateView):
-    model = User
-    template_name = 'configuracion/edit-user.html'
-    success_url = reverse_lazy('listar-usuarios')
-    form_class = EditUsuario
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        user_pk = form.instance.pk
-        user = User.objects.get(pk=user_pk)
-        perfil = Perfil.objects.get_or_create(
-            usuario=user,
-            rol_usuario= form.cleaned_data['rol_usuario'],
-            cliente= form.cleaned_data['cliente']
-        )
-
-        return response
 
 class UsuarioDelete(ProyectoMixin, DeleteView):
     model = User
