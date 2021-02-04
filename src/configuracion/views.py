@@ -45,14 +45,53 @@ class UsuarioView(ProyectoMixin, CreateView):
         grupo = Group.objects.get(name=nombre)
         user.groups.add(grupo)
 
-        print(rol)
-        if rol==3:
-            content_type = ContentType.objects.get_for_model(Documento)
-            permission = Permission.objects.get(
-                codename= 'view_documento',
-                content_type = content_type,
-            )
-            user.user_permissions.add(permission)
+        Permisos = ['add_documento', 'change_documento']
+        permission_list_administrador = []
+
+        if rol=='1':
+
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Documento)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_administrador.append(permission)
+
+        Permisos = ['add_documento', 'change_documento']
+        permission_list_revisor = []
+
+        if rol=='2':
+
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Documento)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_revisor.append(permission)
+
+        Permisos = ['add_documento', 'change_documento']
+        permission_list_visualizador = []
+
+        if rol=='3':
+
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Documento)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_visualizador.append(permission)
+        
+        for per in permission_list:
+            user.user_permissions.add(per)
 
         return response
     
@@ -81,6 +120,7 @@ class UsuarioEdit(ProyectoMixin, UpdateView):
             rol_usuario= form.cleaned_data['rol_usuario'],
             cliente= form.cleaned_data['cliente']
         )
+
         return response
 
 class UsuarioDelete(ProyectoMixin, DeleteView):
