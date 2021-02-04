@@ -36,10 +36,12 @@ class UsuarioView(ProyectoMixin, CreateView):
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
         rol = form.cleaned_data['rol_usuario']
+        client = form.cleaned_data['cliente']
 
         perfil = Perfil.objects.get_or_create(
             usuario= user,
-            rol_usuario= rol
+            rol_usuario= rol,
+            cliente= client
             )
         nombre = self.proyecto.codigo
         grupo = Group.objects.get(name=nombre)
@@ -79,7 +81,8 @@ class UsuarioEdit(ProyectoMixin, UpdateView):
         user = User.objects.get(pk=user_pk)
         perfil = Perfil.objects.get_or_create(
             usuario=user,
-            rol_usuario= form.cleaned_data['rol_usuario']
+            rol_usuario= form.cleaned_data['rol_usuario'],
+            cliente= form.cleaned_data['cliente']
         )
         return response
 
