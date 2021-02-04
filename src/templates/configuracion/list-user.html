@@ -49,7 +49,8 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
               {% else %}
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
-              {% endif %}              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
+              {% endif %} 
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
               {% if usuario.perfil.rol_usuario %}
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
               {% else %}

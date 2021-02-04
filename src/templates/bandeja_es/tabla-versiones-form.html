@@ -32,15 +32,6 @@
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
-        
-      {% if messages %}
-              <ul class="messages">
-                  {% for message in messages %}
-                  <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
-                  {% endfor %}
-              </ul>
-      {% endif %}
-
          <form method="post" class="form-group mg-t-20" id="form_paquete" >{% csrf_token %}
 
                 <div id="wizard2" role="application" class="wizard clearfix">
@@ -58,7 +49,7 @@
                                     </a>
                                 </li> 
                                 <li>
-                                  <a class="btn btn-warning" type="button" onclick="JavaScript:window.open('{% url 'popup-version' paquete_pk %}','subir datos','toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,resizable=yes,width=980,height=400px,top=0,left=0');">Agregar Version</a>
+                                  <a class="btn btn-warning" type="button" onclick="JavaScript:window.open('{% url 'popup-version' paquete_pk %}','subir datos','toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,resizable=yes,width=450,height=620,top=100,left=600');">Agregar Archivo</a>
                                 </li>              
                             </ul>            
                         </div>
@@ -90,8 +81,8 @@
                                         </tbody>
                                     </table>
                               </div>
-                              <input type="submit" class="btn btn-teal mg-t-30" value="Enviar"/>
-                              <a href="{% url 'borrador-crear' paquete_pk %}"><button type="button" class="btn btn-warning mg-t-30"> Guardar en Borrador</button></a>
+                              <input type="submit" class="btn btn-teal mg-t-30 mg-b-30 float-left" value="Enviar"/>
+                              <a href="{% url 'borrador-crear' paquete_pk %}"><button type="button" class="btn btn-primary mg-t-30 mg-l-20 mg-b-30 float-left"> Guardar en Borrador</button></a>
 
                 </div>
                 

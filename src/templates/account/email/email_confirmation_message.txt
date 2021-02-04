@@ -1,9 +1,12 @@
-{% load account %}{% user_display user as user_display %}{% load i18n %}{% autoescape off %}{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Hello from {{ site_name }}!
+{% load account %}
+{% user_display user as user_display %}
+{% load i18n %}{% autoescape off %}
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}!BIENVENIDO A {{ site_name }}!
 
-You're receiving this e-mail because user {{ user_display }} has given your e-mail address to register an account on {{ site_domain }}.
+Estás recibiendo este correo electrónico porque el usuario{{ user_display }} ha proporcionado su dirección de correo electrónico para registrar una cuenta en {{ site_domain }}.
 
-To confirm this is correct, go to {{ activate_url }}
+Para confirmar que esto es correcto, Haz click aqui -> {{ activate_url }}
 {% endblocktrans %}
-{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Thank you from {{ site_name }}!
+{% blocktrans with site_name=current_site.name site_domain=current_site.domain %}Gracias de parte de {{ site_name }}!
 {{ site_domain }}{% endblocktrans %}
 {% endautoescape %}

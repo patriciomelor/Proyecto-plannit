@@ -39,7 +39,7 @@ class UsuarioView(ProyectoMixin, CreateView):
 
         perfil = Perfil.objects.get_or_create(
             usuario= user,
-            rol_usuario= rol
+            rol_usuario= rol,
             )
         nombre = self.proyecto.codigo
         grupo = Group.objects.get(name=nombre)
@@ -78,7 +78,8 @@ class UsuarioEdit(ProyectoMixin, UpdateView):
         user = User.objects.get(pk=user_pk)
         perfil = Perfil.objects.get_or_create(
             usuario=user,
-            rol_usuario= form.cleaned_data['rol_usuario']
+            rol_usuario= form.cleaned_data['rol_usuario'],
+            cliente= form.cleaned_data['cliente']
         )
         return response
 
@@ -92,6 +93,15 @@ class UsuarioDetail(ProyectoMixin, DetailView):
     model = User
     template_name = 'configuracion/detail-user.html'
     context_object_name = "usuario"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user = self.get_object()
+        grupos = user.groups.all()
+        print(grupos)
+        context["grupos"] = grupos
+        return context
+    
 
 class ProyectoList(ProyectoMixin, ListView):
     context_object_name = 'proyectos'
