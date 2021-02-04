@@ -32,8 +32,11 @@
             <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
               <h4 class="tx-gray-800 mg-b-5">Eliminar Proyecto Usuario</h4>
             </div>
+            <div class="br-pagebody pd-x-20 pd-sm-x-30">
+              <div class="card bd-0 shadow-base">
+              <form method="POST"> {% csrf_token %}
+
             <div id="modaldemo5" class="modal fade show" style="display: block;">
-              <form class="form-control"style="float: left;"method="POST"> {% csrf_token %}
                 <div class="modal-dialog" role="document">
                   <div class="modal-content tx-size-sm">
                     <div class="modal-body tx-center pd-y-20 pd-x-20">
@@ -48,7 +51,10 @@
                       </div><!-- modal-body -->
                   </div><!-- modal-dialog -->
                 </div>
-              </form>            
+            </div>
+          </form>            
+
+              </div>
             </div>
 </div>
 {% endblock content %}
