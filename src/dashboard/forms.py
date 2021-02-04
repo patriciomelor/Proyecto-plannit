@@ -8,6 +8,7 @@ from panel_carga.models import Documento
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
 from .models import Perfil
+from configuracion.models import Perfil
 
 class CrearUsuario(UserCreationForm):
     administrador = forms.BooleanField( label="Administrador", required=False)
