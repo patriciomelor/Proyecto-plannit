@@ -49,7 +49,7 @@ class UsuarioView(ProyectoMixin, CreateView):
         if rol==3:
             content_type = ContentType.objects.get_for_model(Documento)
             permission = Permission.objects.get(
-                codename= 'view_panel_carga',
+                codename= 'view_documento',
                 content_type = content_type,
             )
             user.user_permissions.add(permission)
