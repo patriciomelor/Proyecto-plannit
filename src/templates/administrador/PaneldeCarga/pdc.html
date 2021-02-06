@@ -20,7 +20,7 @@
 <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
 
           
-  <div class="row row-sm d-flex justify-content-center"style="overflow-x:scroll;" >
+  <div class="row row-sm d-flex justify-content-center" >
   <!--Upload Archivos-->
         <div class="col-12 bd rounded mg-t-10">
           <ul class="col-lg-12 nav nav-pills " role="tablist">            
@@ -38,10 +38,8 @@
             
           </ul>
         </div>
-
-
-   
-<table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
+      <div class="row row-sm d-flex"style="overflow-x:scroll;">
+        <table border="1" style="width:auto; height:20px;white-space: nowrap; overflow-x:scroll;"  class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
       <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
         <div class="col-4" style="margin-top: 30px;">      
@@ -73,13 +71,13 @@
 
           <thead>
             <tr>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Codigo Documento <br>Contractual</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Numero Documento <br> Interno</th>              
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">Fecha Programada de Emision</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;">Especialidad</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;">Descripcion Documentos</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;">Codigo Documento Contractual</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;">Numero Documento Interno</th>              
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;">Tipo de Documento.</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;" colspan="2">Fecha Programada de Emision</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;" colspan="2">
                 <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"> Eliminar Registros </button></a></th>
             </tr>
           </thead>
@@ -91,21 +89,21 @@
               <th></th>
               <th></th>
               <th></th>
-              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Inicio Emision en Rev B</th>              
-              <th style="text-align: center;border: 5px;border-color: black; color: grey;">Emision en Rev 0</th>
-              <th style="text-align: center;border: 5px;border-color: black; color: black;"colspan="2">Modificar</th>
+              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;">Inicio Emision en Rev B</th>              
+              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;">Emision en Rev 0</th>
+              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;"colspan="2">Modificar</th>
             </tr>
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
             <tr>            
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}}  </th>                  
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="2"><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-teal center"> Modificar </a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.Especialidad}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.Descripcion}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.Codigo_documento}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.Tipo_Documento}}  </th>                  
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.Numero_documento_interno}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" colspan="2"><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-teal center"> Modificar </a></th>
             </tr>           
             
             {% empty %}
@@ -136,12 +134,9 @@
       {% endfor %}
             <!--Fin Loop-->
           </tbody>
-        </table>
-        
-
-
-      
-    </div>
+        </table>  
+      </div>   
+</div>
 {% if is_paginated %}
     <div class="ht-80 d-flex align-items-center justify-content-center">
       <nav aria-label="Page navigation">      
