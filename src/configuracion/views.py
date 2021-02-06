@@ -8,15 +8,20 @@ from .roles import ROLES
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
 
+from django.contrib.auth.mixins import PermissionRequiredMixin
+
 from panel_carga.models import *
 from panel_carga.forms import ProyectoForm
 from bandeja_es.models import *
+
+from analitica import *
+
 
 from .models import Perfil
 from .forms import CrearUsuario, EditUsuario
 
 # Create your views here.
-class UsuarioView(ProyectoMixin, CreateView):
+class UsuarioView(ProyectoMixin, PermissionRequiredMixin, CreateView):
     template_name = "configuracion/create-user.html"
     form_class = CrearUsuario
     success_message = 'Usuario Creado.'
@@ -47,8 +52,13 @@ class UsuarioView(ProyectoMixin, CreateView):
         user.groups.add(grupo)
 
         #Otorgar permisos para administrador
+
+        #permission_required = ('polls.view_choice', 'polls.change_choice')
         Permisos = ['add_documento', 'change_documento']
         permission_list_administrador = []
+
+        permission_required_revisor = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento', 'analitica.view','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete')
+        permission_required_visualizador = ('analitica.view', 'buscador.view') #Status no se ha definido completamente no?
 
         if rol=='1':
 
