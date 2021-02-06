@@ -56,8 +56,10 @@ class UsuarioView(ProyectoMixin, PermissionRequiredMixin, CreateView):
         #permission_required = ('polls.view_choice', 'polls.change_choice')
         Permisos = ['add_documento', 'change_documento']
         permission_list_administrador = []
-
-        permission_required_revisor = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento', 'analitica.view','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete')
+        
+        #a los permisos de administrador y revisor, les falta el status y buscador, netamente para probar con distintos paneles al mismo tiempo
+        permission_required_administrador = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento','panel_carga.delete_documento', 'analitica.view_all','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete', 'bandeja_es.delete_paquete', 'configuracion.view_user','configuracion.edit_user', 'configuracion.add_user','configuracion.delete_user')
+        permission_required_revisor = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento','panel_carga.delete_documento', 'analitica.view_all','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete','bandeja_es.delete_paquete')
         permission_required_visualizador = ('analitica.view', 'buscador.view') #Status no se ha definido completamente no?
 
         if rol=='1':
