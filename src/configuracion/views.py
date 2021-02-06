@@ -40,6 +40,7 @@ class UsuarioView(ProyectoMixin, CreateView):
         perfil = Perfil.objects.get_or_create(
             usuario= user,
             rol_usuario= rol,
+            cliente= form.cleaned_data['cliente']
             )
         nombre = self.proyecto.codigo
         grupo = Group.objects.get(name=nombre)
