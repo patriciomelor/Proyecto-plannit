@@ -22,7 +22,7 @@ class DocFilter(django_filters.FilterSet):
             'class' : 'datepicker2'
 
         }), input_formats=['%Y-%m-%d'])
-    Especialidad = django_filters.CharFilter(widget=forms.TextInput(attrs={'name':'#ordenName','id':'ordenName','autocomplete':'on'}))
+    Especialidad = django_filters.CharFilter(widget=forms.TextInput(attrs={'class':'select2','name':'#ordenName','id':'ordenName','autocomplete':'on'}))
     Descripcion = django_filters.CharFilter(widget=forms.TextInput(attrs={'name':'#ordenName2','id':'ordenName2','autocomplete':'on'}))
     Codigo_documento = django_filters.CharFilter(widget=forms.TextInput(attrs={'name':'#ordenName3','id':'ordenName3','autocomplete':'on'}))
     Tipo_Documento = django_filters.CharFilter(label='Codigo Documento Interno',widget=forms.TextInput(attrs={'name':'#ordenName4','id':'ordenName4','autocomplete':'on'}))
