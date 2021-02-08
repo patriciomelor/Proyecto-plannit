@@ -14,11 +14,14 @@ from panel_carga.models import *
 from panel_carga.forms import ProyectoForm
 from bandeja_es.models import *
 
+from analitica import *
+
+
 from .models import Perfil
 from .forms import CrearUsuario, EditUsuario
 
 # Create your views here.
-class UsuarioView(ProyectoMixin, CreateView):
+class UsuarioView(ProyectoMixin, PermissionRequiredMixin, CreateView):
     template_name = "configuracion/create-user.html"
     form_class = CrearUsuario
     success_message = 'Usuario Creado.'
@@ -46,11 +49,11 @@ class UsuarioView(ProyectoMixin, CreateView):
         context['email'] = email
         perfil = Perfil.objects.get_or_create(
             usuario= user,
-            rol_usuario= rol
+            rol_usuario= rol,
+            cliente= form.cleaned_data['cliente']
             )
         nombre = self.proyecto.codigo
         grupo = Group.objects.get(name=nombre)
-
         msg_plano = render_to_string('configuracion/nuervo-user-email.txt', context=context)
         msg_html = render_to_string('configuracion/nuervo-user-email.html', context=context)
         subject = 'Usuario y contraseña 
@@ -59,17 +62,146 @@ class UsuarioView(ProyectoMixin, CreateView):
             message=msg_plano,
             html_message=msg_html
         )
+        #Otorgar permisos para administrador
+
+        #permission_required = ('polls.view_choice', 'polls.change_choice')
+        Permisos = ['add_documento', 'change_documento']
+        permission_list_administrador = []
         
+        #a los permisos de administrador y revisor, les falta el status y buscador, netamente para probar con distintos paneles al mismo tiempo
+        permission_required_administrador = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento','panel_carga.delete_documento', 'analitica.view_all','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete', 'bandeja_es.delete_paquete', 'configuracion.view_user','configuracion.edit_user', 'configuracion.add_user','configuracion.delete_user')
+        permission_required_revisor = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento','panel_carga.delete_documento', 'analitica.view_all','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete','bandeja_es.delete_paquete')
+        permission_required_visualizador = ('analitica.view', 'buscador.view') #Status no se ha definido completamente no?
 
-        # print(rol)
-        # if rol==3:
+        if rol=='1':
 
-        #     content_type = ContentType.objects.get_for_model(Documento)
-        #     permission = Permission.objects.get(
-        #         codename= 'view_documento',
-        #         content_type = content_type
-        #     )
-        #     user.user_permissions.add(permission)
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Documento)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_administrador.append(permission)
+            
+            for per in permission_list_administrador:
+                user.user_permissions.add(per)
+
+        #Otorgar permisos para revisor
+        Permisos = ['add_documento', 'change_documento']
+        permission_list_revisor = []
+
+        if rol=='2':
+
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Documento)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_revisor.append(permission)
+
+            for per in permission_list_revisor:
+                user.user_permissions.add(per)
+
+        #Otorgar permisos para visualizador
+        Permisos = ['add_paquete', 'change_paquete']
+        permission_list_visualizador = []
+
+        if rol=='3':
+
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Paquete)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_visualizador.append(permission)
+        
+            for per in permission_list_visualizador:
+                user.user_permissions.add(per)
+
+        return response
+
+class UsuarioEdit(ProyectoMixin, UpdateView):
+    model = User
+    template_name = 'configuracion/edit-user.html'
+    success_url = reverse_lazy('listar-usuarios')
+    form_class = EditUsuario
+
+    def form_valid(self, form):
+        response = super().form_valid(form)
+        user_pk = form.instance.pk
+        user = User.objects.get(pk=user_pk)
+        rol = form.cleaned_data['rol_usuario']
+
+        perfil = Perfil.objects.get_or_create(
+            usuario=user,
+            rol_usuario= rol,
+            cliente= form.cleaned_data['cliente']
+        )
+
+        #Otorgar permisos para administrador
+        Permisos = ['add_documento', 'change_documento']
+        permission_list_administrador = []
+
+        if rol=='1':
+
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Documento)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_administrador.append(permission)
+            
+            for per in permission_list_administrador:
+                user.user_permissions.add(per)
+
+        #Otorgar permisos para revisor
+        Permisos = ['add_documento', 'change_documento']
+        permission_list_revisor = []
+
+        if rol=='2':
+
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Documento)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_revisor.append(permission)
+
+            for per in permission_list_revisor:
+                user.user_permissions.add(per)
+
+        #Otorgar permisos para visualizador
+        Permisos = ['add_paquete', 'change_paquete']
+        permission_list_visualizador = []
+
+        if rol=='3':
+
+            for permisos in Permisos:
+
+                content_type = ContentType.objects.get_for_model(Paquete)
+                permission = Permission.objects.get(
+                    codename= permisos, 
+                    content_type = content_type, 
+                )
+
+                permission_list_visualizador.append(permission)
+        
+            for per in permission_list_visualizador:
+                user.user_permissions.add(per)
 
         return response
     
@@ -82,22 +214,6 @@ class UsuarioLista(ProyectoMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["codigo_proyecto"] = self.proyecto.codigo
         return context
-    
-class UsuarioEdit(ProyectoMixin, UpdateView):
-    model = User
-    template_name = 'configuracion/edit-user.html'
-    success_url = reverse_lazy('listar-usuarios')
-    form_class = EditUsuario
-
-    def form_valid(self, form):
-        response = super().form_valid(form)
-        user_pk = form.instance.pk
-        user = User.objects.get(pk=user_pk)
-        perfil = Perfil.objects.get_or_create(
-            usuario=user,
-            rol_usuario= form.cleaned_data['rol_usuario']
-        )
-        return response
 
 class UsuarioDelete(ProyectoMixin, DeleteView):
     model = User
