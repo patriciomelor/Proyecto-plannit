@@ -16,12 +16,7 @@ class DocFilter(django_filters.FilterSet):
         }), input_formats=['%Y-%m-%d'])
 
     fecha_Emision_B = django_filters.DateFilter(
-        lookup_expr='icontains',
-        widget=forms.DateInput(attrs={
-            'id': 'datepicker',
-            'type': 'text',
-            'class' : 'datepicker' },
-        input_formats=['%Y-%m-%d'])
+        lookup_expr='icontains'
     )
     Especialidad = django_filters.CharFilter(lookup_expr='icontains', widget=forms.TextInput(attrs={'name':'#ordenName','id':'ordenName','autocomplete':'on'}))
     Descripcion = django_filters.CharFilter(lookup_expr='icontains', widget=forms.TextInput(attrs={'name':'#ordenName2','id':'ordenName2','autocomplete':'on'}))

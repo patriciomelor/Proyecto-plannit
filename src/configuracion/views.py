@@ -21,7 +21,7 @@ from .models import Perfil
 from .forms import CrearUsuario, EditUsuario
 
 # Create your views here.
-class UsuarioView(ProyectoMixin, PermissionRequiredMixin, CreateView):
+class UsuarioView(ProyectoMixin, CreateView):
     template_name = "configuracion/create-user.html"
     form_class = CrearUsuario
     success_message = 'Usuario Creado.'
@@ -56,7 +56,7 @@ class UsuarioView(ProyectoMixin, PermissionRequiredMixin, CreateView):
         grupo = Group.objects.get(name=nombre)
         msg_plano = render_to_string('configuracion/nuervo-user-email.txt', context=context)
         msg_html = render_to_string('configuracion/nuervo-user-email.html', context=context)
-        subject = 'Usuario y contraseña 
+        subject = 'Usuario y contraseña' 
         send_mail(
             subject=subject,
             message=msg_plano,
