@@ -16,15 +16,12 @@ class PaqueteFilter(django_filters.FilterSet):
         })
     )
     owner = django_filters.ModelChoiceFilter(
-        widget=forms.TextInput(
-            attrs={
-                'name':'#ordenName', 
-                'id':'ordenName',
-                }
-            ), 
-        label='Autor',
+        lookup_expr='icontains',
+        widget=forms.TextInput(attrs={'name':'#ordenName', 'id':'ordenName'}), 
+        label='Autor:',
         ),
     id = django_filters.NumberFilter(
+        lookup_expr='icontains',
         widget=forms.TextInput(
             attrs={
                 'name':'#ordenName2',

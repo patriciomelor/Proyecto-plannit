@@ -22,11 +22,11 @@ class DocFilter(django_filters.FilterSet):
             'class' : 'datepicker2'
 
         }), input_formats=['%Y-%m-%d'])
-    Especialidad = django_filters.CharFilter(widget=forms.TextInput(attrs={'class':'select2','name':'#ordenName','id':'ordenName','autocomplete':'on'}))
-    Descripcion = django_filters.CharFilter(widget=forms.TextInput(attrs={'name':'#ordenName2','id':'ordenName2','autocomplete':'on'}))
-    Codigo_documento = django_filters.CharFilter(widget=forms.TextInput(attrs={'name':'#ordenName3','id':'ordenName3','autocomplete':'on'}))
-    Tipo_Documento = django_filters.CharFilter(label='Codigo Documento Interno',widget=forms.TextInput(attrs={'name':'#ordenName4','id':'ordenName4','autocomplete':'on'}))
-    Numero_documento_interno = django_filters.CharFilter(label='Tipo Documento',widget=forms.TextInput(attrs={'name':'#ordenName5','id':'ordenName5','autocomplete':'on'}))
+    Especialidad = django_filters.CharFilter(lookup_expr='icontains', widget=forms.TextInput(attrs={'name':'#ordenName','id':'ordenName','autocomplete':'on'}))
+    Descripcion = django_filters.CharFilter(lookup_expr='icontains' ,widget=forms.TextInput(attrs={'name':'#ordenName2','id':'ordenName2','autocomplete':'on'}))
+    Codigo_documento = django_filters.CharFilter(lookup_expr='icontains', widget=forms.TextInput(attrs={'name':'#ordenName3','id':'ordenName3','autocomplete':'on'}))
+    Tipo_Documento = django_filters.CharFilter(lookup_expr='icontains', label='Codigo Documento Interno',widget=forms.TextInput(attrs={'name':'#ordenName4','id':'ordenName4','autocomplete':'on'}))
+    Numero_documento_interno = django_filters.CharFilter(lookup_expr='icontains',label='Tipo Documento',widget=forms.TextInput(attrs={'name':'#ordenName5','id':'ordenName5','autocomplete':'on'}))
     class Meta:
         model=Documento
         fields = ['Especialidad', 'Descripcion', 'Codigo_documento','Tipo_Documento','Numero_documento_interno','fecha_Emision_B','fecha_Emision_0']
