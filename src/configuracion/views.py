@@ -7,7 +7,9 @@ from django.contrib.auth.models import User, Group, Permission
 from .roles import ROLES
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
-
+from django.conf import settings 
+from django.template.loader import render_to_string
+from django.core.mail import send_mail 
 from panel_carga.models import *
 from panel_carga.forms import ProyectoForm
 from bandeja_es.models import *
@@ -32,28 +34,42 @@ class UsuarioView(ProyectoMixin, CreateView):
     
 
     def form_valid(self, form):
+        context = {}
         response = super().form_valid(form)
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
         rol = form.cleaned_data['rol_usuario']
-
+        user.groups.add(grupo)
+        passwrd1 =  form.cleaned_data['password']
+        email = form.cleaned_data['email']
+        context['password'] = passwrd1
+        context['email'] = email
         perfil = Perfil.objects.get_or_create(
             usuario= user,
             rol_usuario= rol
             )
         nombre = self.proyecto.codigo
         grupo = Group.objects.get(name=nombre)
-        user.groups.add(grupo)
 
-        print(rol)
-        if rol==3:
+        msg_plano = render_to_string('configuracion/nuervo-user-email.txt', context=context)
+        msg_html = render_to_string('configuracion/nuervo-user-email.html', context=context)
+        subject = 'Usuario y contraseña 
+        send_mail(
+            subject=subject,
+            message=msg_plano,
+            html_message=msg_html
+        )
+        
 
-            content_type = ContentType.objects.get_for_model(Documento)
-            permission = Permission.objects.get(
-                codename= 'view_documento',
-                content_type = content_type
-            )
-            user.user_permissions.add(permission)
+        # print(rol)
+        # if rol==3:
+
+        #     content_type = ContentType.objects.get_for_model(Documento)
+        #     permission = Permission.objects.get(
+        #         codename= 'view_documento',
+        #         content_type = content_type
+        #     )
+        #     user.user_permissions.add(permission)
 
         return response
     
