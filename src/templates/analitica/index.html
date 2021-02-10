@@ -21,7 +21,7 @@
                     <h4 class="tx-gray-800 mg-b-5">Curva de avance Fisico Ingenieria</h4>                       
                   </div>
                   <div class="card-body" height="1280px">
-                    <canvas id="myChart4" width="auto" height="50%"></canvas>
+                    <canvas id='myChart4' width="auto" height="50%"></canvas>
                 </div>
                 </div>
               </div>
@@ -130,7 +130,7 @@
    
     });
 
-    //STADOS DE LOS DOCUMENTOS
+    //ESTADOS DE LOS DOCUMENTOS
     var ctx = document.getElementById('myChart2').getContext('2d');
     var myChart2 = new Chart(ctx, {
       type: 'horizontalBar',
@@ -164,23 +164,23 @@
           scales: {
               yAxes: [{
                   ticks: {
-                      beginAtZero: true
+                      beginAtZero: false
                   }
               }]
           }
       }
     });
   });
-    //ESTATUS DOCUMENTO APROVADO VS TOTALES POR SUBESTACION (MUESTRA HASTA EL FINAL)
+    //ESTATUS DOCUMENTOS TOTALES VS EMITIDOS POR SUBESTACION (MUESTRA HASTA EL FINAL)
     var ctx = document.getElementById('myChart3').getContext('2d');
     var myChart3 = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: ['{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}'],
+          labels: ['{% for emisiones in lista_total_documentos %} {{emisiones.1}}',  '{% endfor %}'],
           datasets: [
             {
               label: 'Documentos pendientes',
-              data: [{% for emisiones in lista_emisiones %} {{emisiones.0}}, {% endfor %}],
+              data: [{% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -220,7 +220,7 @@
               borderWidth: 1
           }, {
             label: 'Documentos Emitidos', 
-              data: [ {% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %} ],
+              data: [ {% for emisiones in lista_total_documentos_emitidos %} {{emisiones.0}}, {% endfor %} ],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -273,50 +273,44 @@
   });
 
    //Curva S
-   var ctx = document.getElementById('myChart4').getContext('2d');
-    var myChart4 = new Chart(ctx, {
+  var ctx = document.getElementById('myChart4').getContext('2d');
+  var myChart4 = new Chart(ctx,{
+    labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"d-m-y"}}',  '{% endfor %}'],
+    datasets: [{
       type: 'line',
-      data: {
-          labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"d-m-y"}}',  '{% endfor %}'],
-          datasets: [
-            {
-              label: 'Avance esperado',
-              data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}],
-              backgroundColor: [
-                  {% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 0.2)', {% endfor %}
-              ],
-              borderColor: [
-                  {% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 1)', {% endfor %}
-              ],
-              borderWidth: 1,
-              fill: false
-          }, {
-            label: 'Avance Real a la fecha',
-              data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
-              backgroundColor: [
-                  {% for esperado in lista_curva_s_avance_esperado %} 'rgba(54, 162, 235, 0.2)', {% endfor %}
-              ],
-              borderColor: [
-                  {% for esperado in lista_curva_s_avance_esperado %} 'rgba(54, 162, 235, 1)', {% endfor %}
-              ],
-
-              borderWidth: 1,
-              fill: false
-          }, {
-            label: 'Avance Real a la fecha (BARRAS)',
-              data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.0}}, {% endfor %}],
-              backgroundColor: [
-                  {% for esperado in lista_curva_s_avance_esperado %} 'rgba(54, 162, 235, 0.2)', {% endfor %}
-              ],
-              borderColor: [
-                  {% for esperado in lista_curva_s_avance_esperado %} 'rgba(54, 162, 235, 1)', {% endfor %}
-              ],
-              borderWidth: 1,
-              fill: false
-          }
-        ]
+      label: 'Avance esperado',
+      backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 0.2)', {% endfor %}],
+      borderColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 1)', {% endfor %}],
+      borderWidth: 1,
+      fill: false,
+      data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
+    },
+    { type: 'line',
+      label: 'Avance Real a la fecha',
+      backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.2)', {% endfor %}],
+      borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}],
+      borderWidth: 1,
+      fill: false,
+      data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}]
+    },
+    { type: 'bar',
+      label: 'Avance Real a la fecha (BARRAS)',
+      backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.4)', {% endfor %}],
+      borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}],
+      borderWidth: 1,
+      fill: false,
+      data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.0}}, {% endfor %}]
+    }],
+    options: {
+      responsive: true,
+      tooltips: {
+        mode: 'index',
+        intersect: true
       }
-    }); 
+    }
+  });
+
+  
 </script>
 
 {% endblock content %}
