@@ -7,9 +7,9 @@ from django.contrib.auth.models import User, Group, Permission, PermissionsMixin
 from .roles import ROLES
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
-
-from django.contrib.auth.mixins import PermissionRequiredMixin
-
+from django.conf import settings 
+from django.template.loader import render_to_string
+from django.core.mail import send_mail 
 from panel_carga.models import *
 from panel_carga.forms import ProyectoForm
 from bandeja_es.models import *
@@ -21,7 +21,7 @@ from .models import Perfil
 from .forms import CrearUsuario, EditUsuario
 
 # Create your views here.
-class UsuarioView(ProyectoMixin, PermissionRequiredMixin, CreateView):
+class UsuarioView(ProyectoMixin, CreateView):
     template_name = "configuracion/create-user.html"
     form_class = CrearUsuario
     success_message = 'Usuario Creado.'
@@ -37,11 +37,16 @@ class UsuarioView(ProyectoMixin, PermissionRequiredMixin, CreateView):
     
 
     def form_valid(self, form):
+        context = {}
         response = super().form_valid(form)
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
         rol = form.cleaned_data['rol_usuario']
-
+        user.groups.add(grupo)
+        passwrd1 =  form.cleaned_data['password']
+        email = form.cleaned_data['email']
+        context['password'] = passwrd1
+        context['email'] = email
         perfil = Perfil.objects.get_or_create(
             usuario= user,
             rol_usuario= rol,
@@ -49,8 +54,14 @@ class UsuarioView(ProyectoMixin, PermissionRequiredMixin, CreateView):
             )
         nombre = self.proyecto.codigo
         grupo = Group.objects.get(name=nombre)
-        user.groups.add(grupo)
-
+        msg_plano = render_to_string('configuracion/nuervo-user-email.txt', context=context)
+        msg_html = render_to_string('configuracion/nuervo-user-email.html', context=context)
+        subject = 'Usuario y contraseña' 
+        send_mail(
+            subject=subject,
+            message=msg_plano,
+            html_message=msg_html
+        )
         #Otorgar permisos para administrador
 
         #permission_required = ('polls.view_choice', 'polls.change_choice')

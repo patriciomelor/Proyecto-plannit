@@ -22,9 +22,9 @@
           
   <div class="row row-sm d-flex justify-content-center" >
   <!--Upload Archivos-->
-        <div class="col-12 bd rounded mg-t-10">
+        <div class="col-12 rounded mg-t-10">
           <ul class="col-lg-12 nav nav-pills " role="tablist">            
-          <form class="col-lg-6" method="POST" enctype="multipart/form-data">
+          <form class="col-lg-5" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
 
                <li class="nav-item"style="width: auto;float:left;"><input class="nav-item col- 1  mg-t-7" style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a></li>
@@ -32,78 +32,79 @@
               <li class="nav-item"style="float:left;"><a class="nav-link"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></a></li>
 
             </form>
-            <li class="nav-item "style="width: auto;"><a class="nav-link" href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
-            <li class="nav-item "style="width: auto;"><a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-success"> Descargar Excel </button></a></li>            
-            <li class="nav-item "style="width: auto;"><a class="nav-link" href="{% url 'panel-export' %}"><button class="btn btn-warning"> Descargar Plantilla </button></a></li>
+            <li class="nav-item "style="width: auto;"><a class="nav-link" style="padding-right: 0px;padding-left: 5px;"href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
+            <li class="nav-item "style="width: auto;"><a class="nav-link" style="padding-right: 0px;padding-left: 5px;"href="{% url 'panel-export' %}"><button class="btn btn-success"> Descargar Excel </button></a></li>            
+            <li class="nav-item "style="width: auto;"><a class="nav-link" style="padding-right: 0px;padding-left: 5px;"href="{% url 'panel-export' %}"><button class="btn btn-warning"> Descargar Plantilla </button></a></li>
             
           </ul>
         </div>
+     
       <div class="row row-sm d-flex"style="overflow-x:scroll;">
         <table border="1" style="width:auto; height:20px;white-space: nowrap; overflow-x:scroll;"  class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
-      <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
-        <div class="col-4" style="margin-top: 30px;">      
-          {{filter.form.Especialidad|as_crispy_field}}
-        </div>
-        <div class="col-4" style="margin-top: 30px;">      
-          {{filter.form.Descripcion|as_crispy_field}}
-        </div>
-        <div class="col-4" style="margin-top: 30px;">      
-          {{filter.form.Codigo_documento|as_crispy_field}}
-        </div>     
-        <div class="col-3" style="margin-top: 10px;">      
-          {{filter.form.Tipo_Documento|as_crispy_field}}
-        </div>    
-        <div class="col-3" style="margin-top: 10px;">      
-          {{filter.form.Numero_documento_interno|as_crispy_field}}
-        </div>  
-        <div class="col-3" style="margin-top: 10px;">      
-          {{filter.form.fecha_Emision_B|as_crispy_field}}
-        </div> 
-        <div class="col-3" style="margin-top: 10px;">      
-          {{filter.form.fecha_Emision_0|as_crispy_field}}
-        </div>    
-        <div class="col-2" style="margin-bottom: 35px;">      
-          
-          <input class="btn btn-info btn-oblong" type="submit" value="Buscar">
-        </div>       
-      </form>
+  <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.Especialidad|as_crispy_field}}
+    </div>
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.Descripcion|as_crispy_field}}
+    </div>
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.Codigo_documento|as_crispy_field}}
+    </div>     
+    <div class="form-control bg-gray-200 col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.Tipo_Documento|as_crispy_field}}
+    </div>    
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.Numero_documento_interno|as_crispy_field}}
+    </div>  
+    <div class="form-control bg-gray-200 col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.fecha_Emision_B|as_crispy_field}}
+    </div> 
+    <div class="form-control bg-gray-200 col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.fecha_Emision_0|as_crispy_field}}
+    </div> 
+    <div class="col-1" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      <button class="btn btn-info" style="vertical-align: middle;margin-top: 20px;" type="submit">Buscar</button>
 
+    </div> 
+  </form>
           <thead>
             <tr>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;">Especialidad</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;">Descripcion Documentos</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;">Codigo Documento Contractual</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;">Numero Documento Interno</th>              
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;">Tipo de Documento.</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;" colspan="2">Fecha Programada de Emision</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;vertical-align: middle;" colspan="2">
-                <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"> Eliminar Registros </button></a></th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Especialidad</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Descripcion Documentos</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento <br> Contractual</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Numero Documento <br> Interno</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo de <br> Documento.</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada <br> de Emision</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
+                <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;" id="delete_btn" type="submit"> Eliminar Registros </button></a></th>
             </tr>
           </thead>
           <tbody>
-          
             <tr>
               <th></th>
               <th></th>
               <th></th>
               <th></th>
               <th></th>
-              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;">Inicio Emision en Rev B</th>              
-              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;">Emision en Rev 0</th>
-              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;"colspan="2">Modificar</th>
+              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Inicio Emision en Rev B</th>              
+              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emision en Rev 0</th>
+              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"colspan="2">Modificar</th>
             </tr>
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
             <tr>            
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.Especialidad}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.Descripcion}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.Codigo_documento}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.Tipo_Documento}}  </th>                  
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.Numero_documento_interno}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;" colspan="2"><a href="{% url 'documento-actualizar' documento.pk %}" class="btn btn-teal center"> Modificar </a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Especialidad}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Descripcion}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Codigo_documento}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Tipo_Documento}}  </th>                  
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Numero_documento_interno}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" colspan="2">
+                <a href="{% url 'documento-actualizar' documento.pk %}" > <i class="fa fa-pencil"></i> </a>
+              </th>
             </tr>           
             
             {% empty %}
