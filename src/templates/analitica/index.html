@@ -21,7 +21,9 @@
                     <h4 class="tx-gray-800 mg-b-5">Curva de avance Fisico Ingenieria</h4>                       
                   </div>
                   <div class="card-body" height="1280px">
-                    <canvas id='myChart4' width="auto" height="50%"></canvas>
+                  	<div style="width: 75%">
+                      <canvas id="canvas"></canvas>
+                    </div>
                 </div>
                 </div>
               </div>
@@ -37,7 +39,9 @@
                         
                       </div>
                       <div class="card-body">
-                        <canvas id="myChart2" width="100%" height="100%"></canvas>
+                        <div style="width: 75%">
+                        <canvas id="myChart2"></canvas>
+                        </div>
                     </div>
                     </div>
                   </div>
@@ -51,8 +55,9 @@
                           
                         </div>
                         <div class="card-body">
-                          <canvas id="myChart5" width="100%" height="100%"></canvas>
-
+                          <div style="width: 75%">
+                          <canvas id="myChart5"></canvas>
+                          </div>
                         </div>
                       </div>
                     </div>
@@ -70,19 +75,22 @@
                 
               </div>
               <div class="card-body">
-                <canvas id="myChart3" width="100%" height="100%"></canvas>
+                <div style="width: 75%">
+                <canvas id="myChart3" ></canvas>
+                </div>
               </div>
             </div>
           </div>
       </div>
 </div>
-          
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>          
 <script>
   $(document).ready(function(){
     //DOCUMENTOS POR EMITIR POR SUBESTACION
     var ctx = document.getElementById('myChart5').getContext('2d');
     var myChart5 = new Chart(ctx, {
       type: 'doughnut',
+      fill: false,
       data: {
           labels: [ '{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}' ],
           datasets: [{
@@ -126,6 +134,11 @@
               ],
               borderWidth: 1
           }]
+      },
+      options:{
+        scaleLabel: {
+                    display: true,
+                  },
       }
    
     });
@@ -139,6 +152,7 @@
           datasets: [{
               label: 'Totales de documento por revisión',  
               data: [{% for value in lista_final %} {{value.0}}, {% endfor %}],
+              fill: false,
               backgroundColor: [
                   'rgba(209, 104, 210, 0.2)',
                   'rgba(255, 99, 132, 0.2)',
@@ -165,7 +179,21 @@
               yAxes: [{
                   ticks: {
                       beginAtZero: false
-                  }
+                  },
+                  scaleLabel: {
+                    display: true,
+                  },
+                    gridLines: {
+                    zeroLineColor: "black",
+                    zeroLineWidth: 2
+                  },
+                  ticks: {
+                    min: 0,
+                    stepSize: 1
+                  },
+                  scaleLabel: {
+                    display: true,
+                  },
               }]
           }
       }
@@ -262,56 +290,86 @@
           ]
       },
       options: {
+         
           scales: {
+
               yAxes: [{
                   ticks: {
                       beginAtZero: true
+                  },
+                  scaleLabel: {
+                    display: true,
                   }
+                              
               }]
           }
       }
   });
 
-   //Curva S
-  var ctx = document.getElementById('myChart4').getContext('2d');
-  var myChart4 = new Chart(ctx,{
-    labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"d-m-y"}}',  '{% endfor %}'],
-    datasets: [{
-      type: 'line',
-      label: 'Avance esperado',
-      backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 0.2)', {% endfor %}],
-      borderColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 1)', {% endfor %}],
-      borderWidth: 1,
-      fill: false,
-      data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
-    },
-    { type: 'line',
-      label: 'Avance Real a la fecha',
-      backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.2)', {% endfor %}],
-      borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}],
-      borderWidth: 1,
-      fill: false,
-      data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}]
-    },
-    { type: 'bar',
-      label: 'Avance Real a la fecha (BARRAS)',
-      backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.4)', {% endfor %}],
-      borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}],
-      borderWidth: 1,
-      fill: false,
-      data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.0}}, {% endfor %}]
-    }],
-    options: {
-      responsive: true,
-      tooltips: {
-        mode: 'index',
-        intersect: true
-      }
-    }
-  });
+   
 
-  
 </script>
+<script>
+//Curva S
 
+		var chartData = {
+			labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"d-m-y"}}',  '{% endfor %}'],
+			datasets: [
+      {
+        type: 'line',
+        label: 'Avance esperado',
+        backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 0.2)', {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 1)', {% endfor %}],
+        borderWidth: 1,
+				fill: true,
+				data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
+			}, 
+      {
+				type: 'line',
+        label: 'Avance Real a la fecha',
+        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.2)', {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}],
+        borderWidth: 1,
+				fill: true,
+        data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
+       
+			}, 
+      {
+				type: 'bar',
+        label: 'Avance Real a la fecha (BARRAS)',
+        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(88, 214, 141 , 0.4)', {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(88, 214, 141 , 1)', {% endfor %}],
+				fill: true,
+        borderWidth: 1,
+        data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.0}}, {% endfor %}],
+			}]
+      
+		};
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myMixedChart = new Chart(ctx, {
+				type: 'bar',
+				data: chartData,
+				options: {
+					responsive: true,
+					plugins: {
+						title: {
+							display: true,
+							text: 'Chart.js Combo Bar Line Chart'
+						},
+						tooltip: {
+							mode: 'index',
+							intersect: true
+            },
+            ticks: {
+              beginAtZero: true,
+              min: 0,
+              stepSize: 1
+            },
+					}
+				}
+			});
+		};
+	</script>
 {% endblock content %}
       
