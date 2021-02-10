@@ -115,6 +115,9 @@
                     <th class="pd-y-5"style="text-align: center;">Revisión</th>
                     <th class="pd-y-5"style="text-align: center;">Status</th>                                    
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
+                    <form method="POST">{% csrf_token %}
+                      <th class="pd-y-5"style="text-align: center;"><input type="submit" class="btn btn-warning" value="Descargar todo"></th>
+                    </form>
                   </tr>
                 </thead>
                
