@@ -130,7 +130,7 @@
    
     });
 
-    //STADOS DE LOS DOCUMENTOS
+    //ESTADOS DE LOS DOCUMENTOS
     var ctx = document.getElementById('myChart2').getContext('2d');
     var myChart2 = new Chart(ctx, {
       type: 'horizontalBar',
@@ -164,23 +164,23 @@
           scales: {
               yAxes: [{
                   ticks: {
-                      beginAtZero: true
+                      beginAtZero: false
                   }
               }]
           }
       }
     });
   });
-    //ESTATUS DOCUMENTO APROVADO VS TOTALES POR SUBESTACION (MUESTRA HASTA EL FINAL)
+    //ESTATUS DOCUMENTOS TOTALES VS EMITIDOS POR SUBESTACION (MUESTRA HASTA EL FINAL)
     var ctx = document.getElementById('myChart3').getContext('2d');
     var myChart3 = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: ['{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}'],
+          labels: ['{% for emisiones in lista_total_documentos %} {{emisiones.1}}',  '{% endfor %}'],
           datasets: [
             {
               label: 'Documentos pendientes',
-              data: [{% for emisiones in lista_emisiones %} {{emisiones.0}}, {% endfor %}],
+              data: [{% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -220,7 +220,7 @@
               borderWidth: 1
           }, {
             label: 'Documentos Emitidos', 
-              data: [ {% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %} ],
+              data: [ {% for emisiones in lista_total_documentos_emitidos %} {{emisiones.0}}, {% endfor %} ],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -294,10 +294,10 @@
             label: 'Avance Real a la fecha',
               data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
               backgroundColor: [
-                  {% for esperado in lista_curva_s_avance_esperado %} 'rgba(54, 162, 235, 0.2)', {% endfor %}
+                  {% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.2)', {% endfor %}
               ],
               borderColor: [
-                  {% for esperado in lista_curva_s_avance_esperado %} 'rgba(54, 162, 235, 1)', {% endfor %}
+                  {% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}
               ],
 
               borderWidth: 1,
@@ -306,10 +306,10 @@
             label: 'Avance Real a la fecha (BARRAS)',
               data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.0}}, {% endfor %}],
               backgroundColor: [
-                  {% for esperado in lista_curva_s_avance_esperado %} 'rgba(54, 162, 235, 0.2)', {% endfor %}
+                  {% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.2)', {% endfor %}
               ],
               borderColor: [
-                  {% for esperado in lista_curva_s_avance_esperado %} 'rgba(54, 162, 235, 1)', {% endfor %}
+                  {% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}
               ],
               borderWidth: 1,
               fill: false

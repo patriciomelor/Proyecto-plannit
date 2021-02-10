@@ -28,7 +28,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = []
         lista_actual = []
 
-        total = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
         #lista_final.append(lista_actual)
@@ -60,11 +59,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 except AttributeError:
                     pass
             
-            estados_documentos = [cont, estado[1]]
-            estados_final.append(estados_documentos)
-
-        estados_documentos = [total, 'Documentos Totales']
-        estados_final.append(estados_documentos)
+            if cont != 0:
+                estados_documentos = [cont, estado[1]]
+                estados_final.append(estados_documentos)
 
         return estados_final
 
@@ -146,7 +143,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #                                                 #
         ###################################################
 
-    def reporte_total_documentos(self):
+    def reporte_total_documentos_emitidos(self):
         
         lista_actual = []
         lista_final = []
@@ -208,6 +205,42 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         return aprobados_final
 
+    def reporte_total_documentos(self):
+
+        lista_actual = []
+        lista_final = []
+
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+
+        especialidad_list = tuple()
+
+        #Obtener lista de todas las especialidades 
+        for special in documentos:
+            especialidad_actual = special.Especialidad
+            if not especialidad_actual in especialidad_list:
+                especialidad_list = especialidad_list + (str(especialidad_actual),)
+
+        for especialidad in especialidad_list:
+            cont = 0 
+            
+            for lista in documentos: 
+
+                try:
+                    mi_especialidad = lista.Especialidad
+
+                    if mi_especialidad == especialidad:
+                        cont = cont + 1
+
+                except AttributeError:
+                    pass
+
+            lista_actual = [cont, especialidad]
+            lista_final.append(lista_actual)
+
+            print(lista_final)
+        
+        return lista_final
+
         ###################################################
         #                                                 #
         #                                                 #
@@ -226,6 +259,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         if valor_ganado !=0:
 
             valor_ganado = (100 / valor_ganado)
+            print(valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
             #Almacenar todas las fechas por ducomentos en una lista
@@ -285,10 +319,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     fecha_emision_0 = doc.fecha_Emision_0
 
                     #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                    if fecha_emision_b < controles and fecha_emision_0 >= controles:
+                    if fecha_emision_b <= controles and fecha_emision_0 > controles:
                         calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
                         
-                    if fecha_emision_0 < controles and fecha_emision_b < controles:
+                    if fecha_emision_0 <= controles and fecha_emision_b < controles:
                         calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 
                 #Se almacena el avance esperado hasta la fecha de control
@@ -311,6 +345,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         if valor_ganado !=0:
 
             valor_ganado = (100 / valor_ganado)
+            print(valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
             # #Se almacenan todas la fechas por documentos, fecha de Emisión B y 0
@@ -363,9 +398,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             semana_actual = timezone.now()
 
             for controles in fechas_controles:
+                calculo_avanceReal = 0
 
                 if semana_actual > controles:
-                    calculo_avanceReal = 0
 
                     for doc in documentos:
                         try:   
@@ -380,11 +415,24 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 if revision_documento == revision[0]:
 
                                     #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                                    if fecha_emision_b < controles and fecha_emision_0 >= controles and revision[0] <= 4:
-                                        calculo_avanceReal = valor_ganado * 0.7 + calculo_avanceReal
+                                    if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                                        print('entrando primera iteración')
+
+                                        if revision[0] <= 4 and revision_documento == revision[0]:
+                                            print('entrando primeraaaaaa iteración') 
+
+                                            calculo_avanceReal = valor_ganado * 0.7 + calculo_avanceReal
+                                            print('calculando')
+                                            print(calculo_avanceReal)
                                     
-                                    if fecha_emision_0 < controles and fecha_emision_b < controles and revision[0] > 4:
-                                        calculo_avanceReal = valor_ganado * 1 + calculo_avanceReal
+                                    if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                                        print('entrando segunda iteración') 
+
+                                        if revision[0] > 4 and revision_documento == revision[0]:
+                                            print('entrando segundaaaaaaaaaa iteración') 
+                                            calculo_avanceReal = valor_ganado * 1 + calculo_avanceReal
+                                            print('calculando')
+                                            print(calculo_avanceReal)
                         
                         except AttributeError:
                             pass
@@ -392,6 +440,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     #Se almacena el avance esperado hasta la fecha de control
                     avance_real = [calculo_avanceReal]
                     lista_final_real.append(avance_real)
+            print(lista_final_real)
 
         else: 
                 
@@ -571,7 +620,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 fecha_actual = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
 
-            semana_actual = timezone.now()
+            #semana_actual = timezone.now()
 
         else:
                 
@@ -595,6 +644,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         context['lista_final'] = self.reporte_general()
         context['lista_emisiones'] = self.reporte_emisiones()
+        context['lista_total_documentos_emitidos'] = self.reporte_total_documentos_emitidos()
         context['lista_total_documentos'] = self.reporte_total_documentos()
         context['lista_curva_s_avance_real'] = self.reporte_curva_s_avance_real()
         context['lista_curva_s_avance_esperado'] = self.reporte_curva_s_avance_esperado()
