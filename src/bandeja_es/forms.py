@@ -119,9 +119,9 @@ class PrevVersionForm(forms.ModelForm):
         ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
         ultima_revision = Version.objects.filter(documento_fk=doc).last()
         if revision < ultima_revision.revision:
-            raise ValidationError('No se puede elegir una revision anteriora la última emitida.')
-        elif revision < ultima_prev_revision.revision:
-            raise ValidationError('No se puede elegir una revision anteriora la última emitida.')
+            raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
+        elif revision < ultima_prev_revision.prev_revision:
+            raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
         
         if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
             self.add_error('prev_archivo', 'No coinciden los nombres')
