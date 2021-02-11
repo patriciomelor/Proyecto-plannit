@@ -115,6 +115,12 @@
                     <th class="pd-y-5"style="text-align: center;">Revisión</th>
                     <th class="pd-y-5"style="text-align: center;">Status</th>                                    
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
+                    <form method="POST">{% csrf_token %}
+                      <th class="pd-y-5"style="text-align: center;">                       
+                          <input type="submit" class="btn btn-outline-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" value="Descargar todo"></input>                         
+                        
+                      </th>
+                    </form>
                   </tr>
                 </thead>
                

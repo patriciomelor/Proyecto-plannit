@@ -111,10 +111,19 @@ class PrevVersionForm(forms.ModelForm):
             doc = cleaned_data.get('prev_documento_fk')
             nombre_documento = doc.Codigo_documento
             nombre_archivo = str(cleaned_data.get('prev_archivo'))
+            revision = cleaned_data.get('prev_revision')
+            revision_final = (dict(TYPES_REVISION).get(revision))
         except AttributeError:
             raise ValidationError('Inconsistencia de Datos en el formulario')
         
-        if not verificar_nombre_archivo(nombre_documento, nombre_archivo):
+        ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
+        ultima_revision = Version.objects.filter(documento_fk=doc).last()
+        if revision < ultima_revision.revision:
+            raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
+        elif revision < ultima_prev_revision.prev_revision:
+            raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
+        
+        if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
             self.add_error('prev_archivo', 'No coinciden los nombres')
             raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
 
@@ -127,7 +136,7 @@ class PrevVersionForm(forms.ModelForm):
       
 PreviewVersionSet = formset_factory(VersionDocPreview)
 
-def verificar_nombre_archivo(nombre_documento, nombre_archivo):
+def verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
     try:
         index = nombre_archivo.index('.')
     except ValueError:
@@ -136,7 +145,9 @@ def verificar_nombre_archivo(nombre_documento, nombre_archivo):
     cleaned_name = nombre_archivo[:index]
     extencion = nombre_archivo[index:]
 
-    if nombre_documento == cleaned_name:
+    nombre_final = nombre_documento + '-' + revision_final
+    print(nombre_final)
+    if cleaned_name == nombre_final:
         return True
     else:
         return False
