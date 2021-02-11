@@ -20,7 +20,7 @@
 <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
 
           
-  <div class="row row-sm d-flex justify-content-center"style="overflow-x:scroll;" >
+  <div class="row row-sm d-flex"style="overflow-x:scroll;" >
   <!--Upload Archivos-->
       
 
@@ -29,50 +29,54 @@
 <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
       <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
-       
-        <div class="col-4" style="margin-top: 10px;">      
-          {{filter.form.Especialidad|as_crispy_field}}
-        </div>      
-        <div class="col-4" style="margin-top: 10px;">      
-          {{filter.form.Descripcion|as_crispy_field}}
-        </div>  
-        <div class="col-4" style="margin-top: 10px;">      
-          {{filter.form.Codigo_documento|as_crispy_field}}
-        </div>
-        <div class="col-4" style="margin-top: 10px;">      
-          {{filter.form.Tipo_Documento|as_crispy_field}}
-        </div>    
-        <div class="col-4" style="margin-top: 10px;">      
-          {{filter.form.Numero_documento_interno|as_crispy_field}}
-        </div> 
-        <div class="col-4" style="margin-top: 10px;">      
-          {{filter.form.fecha_Emision_B|as_crispy_field}}
-        </div> 
-        <div class="col-3" style="margin-bottom:20px;">                
-          <input class="btn btn-info btn btn-oblong" type="submit" value="BUSCAR">
-        </div>       
+      <div class="form-control bg-gray-200 col-1 " style="margin-top: 30px;text-align:center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.Especialidad|as_crispy_field}}
+    </div>
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align:center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.Descripcion|as_crispy_field}}
+    </div>
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align:center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.Codigo_documento|as_crispy_field}}
+    </div>     <br>
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align:center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.Tipo_Documento|as_crispy_field}}
+    </div>    
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align:center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.Numero_documento_interno|as_crispy_field}}
+    </div>  
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align:center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.fecha_Emision_B|as_crispy_field}}
+    </div> 
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align:center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      {{filter.form.fecha_Emision_0|as_crispy_field}}
+    </div> 
+    <div class="col-1" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      <button class="btn btn-info" style="vertical-align: middle;margin-top: 20px;" type="submit">Buscar</button>
+
+    </div> 
       </form>
 
           <thead>
             <tr>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Especialidad</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Codigo Documento <br>Contractual</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Numero Documento <br> Interno</th>              
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;" colspan="2">
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
+
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Especialidad</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Descripcion Documentos</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento Contractual</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Numero Documento Interno</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo Doc.</th>
             </tr>
           </thead>
           <tbody>
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
             <tr>            
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Especialidad}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Descripcion}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Codigo_documento}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Tipo_Documento}}  </th>                  
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{documento.Numero_documento_interno}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="2"><a href="{% url 'buscador-detalle' documento.pk %}" class="btn btn-teal center">Ver Detalle</a></th>
+            
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Especialidad}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Descripcion}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Codigo_documento}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Tipo_Documento}}  </th>                  
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Numero_documento_interno}} </th>
             </tr>           
             
             {% empty %}
