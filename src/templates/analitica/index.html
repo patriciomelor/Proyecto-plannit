@@ -162,9 +162,11 @@
       },
       options: {
           scales: {
-              yAxes: [{
+              xAxes: [{
                   ticks: {
-                      beginAtZero: false
+                      min: 0,
+                      max: {{tamano_grafico_uno}},                     
+                      stepSize: {{espacios_grafico_uno}}
                   }
               }]
           }
@@ -265,7 +267,9 @@
           scales: {
               yAxes: [{
                   ticks: {
-                      beginAtZero: true
+                      min: 0,
+                      max: {{tamano_grafico_tres}},
+                      stepSize: {{espacios_grafico_tres}}
                   }
               }]
           }
