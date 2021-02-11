@@ -52,16 +52,16 @@
     <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
       {{filter.form.Codigo_documento|as_crispy_field}}
     </div>     
-    <div class="form-control bg-gray-200 col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
       {{filter.form.Tipo_Documento|as_crispy_field}}
     </div>    
     <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
       {{filter.form.Numero_documento_interno|as_crispy_field}}
     </div>  
-    <div class="form-control bg-gray-200 col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
       {{filter.form.fecha_Emision_B|as_crispy_field}}
     </div> 
-    <div class="form-control bg-gray-200 col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
       {{filter.form.fecha_Emision_0|as_crispy_field}}
     </div> 
     <div class="col-1" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
@@ -71,14 +71,15 @@
   </form>
           <thead>
             <tr>
+               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
+                <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;" id="delete_btn" type="submit"><i class="icon ion-trash-b"></i> Eliminar Registros </button></a></th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Especialidad</th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Descripcion Documentos</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento <br> Contractual</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Numero Documento <br> Interno</th>              
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo de <br> Documento.</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada <br> de Emision</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
-                <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;" id="delete_btn" type="submit"> Eliminar Registros </button></a></th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento Contractual</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Numero Documento Interno</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo de Documento.</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada de Emision</th>
+
             </tr>
           </thead>
           <tbody>
@@ -88,13 +89,16 @@
               <th></th>
               <th></th>
               <th></th>
+              <th colspan="2"></th>
               <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Inicio Emision en Rev B</th>              
               <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emision en Rev 0</th>
-              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"colspan="2">Modificar</th>
             </tr>
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
-            <tr>            
+            <tr>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" colspan="2">
+                <a href="{% url 'documento-actualizar' documento.pk %}" > <i class="fa fa-pencil"></i> </a>
+              </th>            
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Especialidad}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Descripcion}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Codigo_documento}} </th>
@@ -102,9 +106,7 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Numero_documento_interno}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" colspan="2">
-                <a href="{% url 'documento-actualizar' documento.pk %}" > <i class="fa fa-pencil"></i> </a>
-              </th>
+              
             </tr>           
             
             {% empty %}
