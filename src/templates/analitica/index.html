@@ -176,24 +176,12 @@
       },
       options: {
           scales: {
-              yAxes: [{
+              xAxes: [{
                   ticks: {
-                      beginAtZero: false
-                  },
-                  scaleLabel: {
-                    display: true,
-                  },
-                    gridLines: {
-                    zeroLineColor: "black",
-                    zeroLineWidth: 2
-                  },
-                  ticks: {
-                    min: 0,
-                    stepSize: 1
-                  },
-                  scaleLabel: {
-                    display: true,
-                  },
+                      min: 0,
+                      max: {{tamano_grafico_uno}},                     
+                      stepSize: {{espacios_grafico_uno}}
+                  }
               }]
           }
       }
@@ -290,17 +278,13 @@
           ]
       },
       options: {
-         
           scales: {
-
               yAxes: [{
                   ticks: {
-                      beginAtZero: true
-                  },
-                  scaleLabel: {
-                    display: true,
+                      min: 0,
+                      max: {{tamano_grafico_tres}},
+                      stepSize: {{espacios_grafico_tres}}
                   }
-                              
               }]
           }
       }
