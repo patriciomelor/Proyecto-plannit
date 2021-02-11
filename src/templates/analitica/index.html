@@ -302,6 +302,7 @@
       {
         type: 'line',
         label: 'Avance esperado',
+        lineTension: 0,
         backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 0.2)', {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 1)', {% endfor %}],
         borderWidth: 1,
@@ -309,7 +310,8 @@
 				data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
 			}, 
       {
-				type: 'line',
+        type: 'line',
+        lineTension: 0,
         label: 'Avance Real a la fecha',
         backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.2)', {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}],
@@ -319,7 +321,8 @@
        
 			}, 
       {
-				type: 'bar',
+        type: 'bar',
+        lineTension: 0,
         label: 'Avance Real a la fecha (BARRAS)',
         backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(88, 214, 141 , 0.4)', {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(88, 214, 141 , 1)', {% endfor %}],
@@ -350,6 +353,7 @@
               min: 0,
               stepSize: 1
             },
+            bezierCurve : false,
 					}
 				}
 			});
