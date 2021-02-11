@@ -376,9 +376,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             semana_actual = timezone.now()
 
             for controles in fechas_controles:
+                calculo_avanceReal_0 = 0
+                calculo_avanceReal_b = 0
                 calculo_avanceReal = 0
 
-                if semana_actual > controles:
+                if semana_actual >= controles:
 
                     for doc in documentos:
                         try:   
@@ -393,24 +395,32 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 if revision_documento == revision[0]:
 
                                     #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                                    if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                                    if fecha_emision_b <= controles:
                                         #print('entrando primera iteración')
 
                                         if revision[0] <= 4 and revision_documento == revision[0]:
                                             #print('entrando primeraaaaaa iteración') 
 
-                                            calculo_avanceReal = valor_ganado * 0.7 + calculo_avanceReal
+                                            calculo_avanceReal_0 = valor_ganado * 0.7 + calculo_avanceReal_0
                                             #print('calculando')
                                             #print(calculo_avanceReal)
                                     
-                                    if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                                    if fecha_emision_0 <= controles:
                                         #print('entrando segunda iteración') 
 
                                         if revision[0] > 4 and revision_documento == revision[0]:
                                             #print('entrando segundaaaaaaaaaa iteración') 
-                                            calculo_avanceReal = valor_ganado * 1 + calculo_avanceReal
+                                            calculo_avanceReal_b = valor_ganado * 1 + calculo_avanceReal_b
                                             #print('calculando')
                                             #print(calculo_avanceReal)
+
+                            if calculo_avanceReal_0 > calculo_avanceReal_b:
+
+                                calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_0
+
+                            if calculo_avanceReal_0 < calculo_avanceReal_b:
+
+                                calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_b
                         
                         except AttributeError:
                             pass
@@ -505,6 +515,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         maximo = 0
         cont = 0
 
+        #Se obtiene el valor máximo del gráfico
         for lista in lista_grafico_uno:
             if cont == 0:
                 maximo = lista[0]
@@ -513,7 +524,19 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             else:
                 if maximo < lista[0]:
                     maximo = lista[0]
+        
+        # #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
+        # division_exacta = 0
 
+        # if maximo > 20:  
+            
+        #     division_exacta = maximo % 10
+
+        #     while division_exacta != 0:
+        #         maximo = maximo + 1
+        #         division_exacta = maximo % 10
+
+        #Se busca la potencia de 10 que cubra al numero maximo, en caso de ser superior a 1 unidad
         resto = 9999999
         dividendo = 1
         cont = 0
@@ -527,15 +550,18 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 dividendo = dividendo * 10
                 resto = maximo / dividendo
 
-        if dividendo != 1:
-            espacios = dividendo/5
-            lista_inicial = [dividendo,espacios]
+        # #Si el dividendo es distinto a 1, se secciona en 5 eslabones 
+        # if dividendo != 1:
+        #     espacios = dividendo/5
+        #     lista_inicial = [dividendo,espacios]
 
-        else:
-            lista_inicial = [dividendo, maximo]
+        # #Si el dividendo es igual a 1, se establece como eslabones unitarios
+        # else:
+        #     lista_inicial = [dividendo, maximo]
 
-        lista_final.append(lista_inicial)
+        # lista_final.append(lista_inicial)
 
+        #en caso de elegir la opcion de ajustar a numero divisible por 10, retornar maximo
         return dividendo
 
     def espacios_eje_x_grafico_uno(self):
@@ -544,9 +570,18 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         dividendo = self.valor_eje_x_grafico_uno()
         espacios = 0
 
+        # #Se secciona el eje en 10 partes iguales
+        # if dividendo > 20:
+        #     espacios = espacios / 10
+
+        # else:
+        #     espacio = 1
+
+        #Si el dividendo es distinto a uno, se secciona 5 eslabones iguales
         if dividendo != 1:
                 espacios = dividendo/5
 
+        #Si el dividendo es igual a uno, se secciona en eslabones unitarios
         else:
             espacios = 1
 
@@ -606,8 +641,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         else:
             espacios = 1
-
-        print("espacios: ", espacios)
 
         return int(espacios)
             
