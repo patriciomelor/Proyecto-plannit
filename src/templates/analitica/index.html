@@ -328,7 +328,6 @@
       {
         type: 'line',
         label: 'Avance esperado',
-        lineTension: 0.2,
         backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 0.2)', {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 1)', {% endfor %}],
         borderWidth: 1,
@@ -336,8 +335,7 @@
 				data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
 			}, 
       {
-        type: 'line',
-        lineTension: 0.2,
+				type: 'line',
         label: 'Avance Real a la fecha',
         backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.2)', {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}],
