@@ -5,7 +5,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 from bandeja_es.models import Version
-from panel_carga.models import Documento
+from panel_carga.models import Documento, Proyecto
 from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION
 from datetime import datetime, timedelta
 from django.utils import timezone
@@ -253,50 +253,35 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = []
 
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        avance_esperado = []
+        lista_final_esperado = []
 
         if valor_ganado !=0:
 
             valor_ganado = (100 / valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
-            #Obtener la primera fecha de Emision en B y la última fecha en Emisión 0
-            cont = 1
-            fecha_final_b = 0
-            fecha_final_0 = 0
+            fecha_inicio = self.proyecto.fecha_inicio
+            fecha_termino = self.proyecto.fecha_termino
+            fecha_posterior = self.proyecto.fecha_inicio
 
-            for lista in documentos:
-
-                if cont == 1:
-                    fecha_final_b = lista.fecha_Emision_B
-                    fecha_final_0 = lista.fecha_Emision_0
-                    cont = 0
-
-                else:
-                    fecha_actual_b = lista.fecha_Emision_B
-                    fecha_actual_0 = lista.fecha_Emision_0
-
-                    if abs((lista.fecha_Emision_B - fecha_final_b).days) <= 0:
-
-                        fecha_final_b = lista.fecha_Emision_B
-
-                    if abs((lista.fecha_Emision_0 - fecha_final_0).days) >= 0:
-
-                        fecha_final_0 = lista.fecha_Emision_0
-
-            #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
+            #Se alamacena fecha de inicio del proyecto en la Lista de Controles
             fechas_controles = []
-            fechas_controles.append(fecha_final_b)
-            fecha_actual = fecha_final_b
+            fechas_controles.append(fecha_inicio)
+            fecha_actual = fecha_inicio
             
             #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
-            while fecha_actual < fecha_final_0:
+            while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
                 
                 fecha_actual = fecha_actual + timedelta(days=7)
+                fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
             
+            fechas_controles.append(fecha_termino)
+                        
             #Calculo del avance esperado por fecha de control
-            avance_esperado = []
-            lista_final_esperado = []
+            fecha_emision_b = 0
+            fecha_emision_0 = 0
 
             for controles in fechas_controles:
                 calculo_avanceEsperado = 0
@@ -319,7 +304,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         else:
 
-            avance_esperado = [valor_ganado]
+            avance_esperado = [int(valor_ganado)]
             lista_final_esperado.append(avance_esperado)
 
         return lista_final_esperado
@@ -334,112 +319,102 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             valor_ganado = (100 / valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+            documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
-            #Obtener la primera fecha de Emision en B y la última fecha en Emisión 0
-            cont = 1
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
-
-            for lista in documentos:
-
-                if cont == 1:
-                    fecha_final_b = lista.fecha_Emision_B
-                    fecha_final_0 = lista.fecha_Emision_0
-                    cont = 0
-
-                else:
-                    fecha_actual_b = lista.fecha_Emision_B
-                    fecha_actual_0 = lista.fecha_Emision_0
-
-                    if abs((lista.fecha_Emision_B - fecha_final_b).days) <= 0:
-
-                        fecha_final_b = lista.fecha_Emision_B
-
-                    if abs((lista.fecha_Emision_0 - fecha_final_0).days) >= 0:
-
-                        fecha_final_0 = lista.fecha_Emision_0
+            fecha_inicio = self.proyecto.fecha_inicio
+            fecha_termino = self.proyecto.fecha_termino
+            fecha_posterior = self.proyecto.fecha_inicio
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
             fechas_controles = []
-            fechas_controles.append(fecha_final_b)
-            fecha_actual = fecha_final_b
+            fechas_controles.append(fecha_inicio)
+            fecha_actual = fecha_inicio
             
             #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
-            while fecha_actual < fecha_final_0:
+            while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
                 
                 fecha_actual = fecha_actual + timedelta(days=7)
+                fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
             
+            fechas_controles.append(fecha_termino)
+            
             #Calculo del avance real por fecha de control
-            avance_real = []
+            lista_inicial_real = []
             lista_final_real = []
+            avance_inicial = []
+            avance_final = []
+
             semana_actual = timezone.now()
 
             for controles in fechas_controles:
-                calculo_avanceReal_0 = 0
-                calculo_avanceReal_b = 0
-                calculo_avanceReal = 0
 
                 if semana_actual >= controles:
 
-                    for doc in documentos:
-                        try:   
-                            fecha_emision_b = doc.fecha_Emision_B
-                            fecha_emision_0 = doc.fecha_Emision_0
-                            versiones = Version.objects.filter(documento_fk=doc).last()
+                    calculo_avanceReal = 0
+                    calculo_avanceReal_0 = 0
+                    calculo_avanceReal_b = 0
+                                        
+                    for doc in documentos:   
+
+                        #Calculo de emision en b por documento
+                        fecha_emision_b = doc.fecha_Emision_B
+                        fecha_emision_0 = doc.fecha_Emision_0
+                        versiones = Version.objects.filter(documento_fk=doc).last()
+
+                        if versiones:
+
                             revision_documento = versiones.revision
 
                             for revision in TYPES_REVISION[1:]:
-                                
-                                #Se verífica que el documento posea una revisión en Emisión B o en Emisión 0
-                                if revision_documento == revision[0]:
-
-                                    #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                                    if fecha_emision_b <= controles:
-                                        #print('entrando primera iteración')
-
-                                        if revision[0] <= 4 and revision_documento == revision[0]:
-                                            #print('entrando primeraaaaaa iteración') 
-
-                                            calculo_avanceReal_0 = valor_ganado * 0.7 + calculo_avanceReal_0
-                                            #print('calculando')
-                                            #print(calculo_avanceReal)
                                     
-                                    if fecha_emision_0 <= controles:
-                                        #print('entrando segunda iteración') 
+                                #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
+                                if controles >= fecha_emision_b:
+                                        
+                                    #Se verífica que el documento posea una revisión en Emisión B
+                                    if revision_documento == revision[0] and revision[0] < 5:
+                                            
+                                        calculo_avanceReal_b = valor_ganado * 0.7
 
-                                        if revision[0] > 4 and revision_documento == revision[0]:
-                                            #print('entrando segundaaaaaaaaaa iteración') 
-                                            calculo_avanceReal_b = valor_ganado * 1 + calculo_avanceReal_b
-                                            #print('calculando')
-                                            #print(calculo_avanceReal)
+                                #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
+                                if controles >= fecha_emision_0:
+                                        
+                                    #Se verífica que el documento posea una revisión en Emisión 0
+                                    if revision_documento == revision[0] and revision[0] > 4:
+                                            
+                                        calculo_avanceReal_0 = valor_ganado * 1 
 
-                            if calculo_avanceReal_0 > calculo_avanceReal_b:
-
-                                calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_0
-
-                            if calculo_avanceReal_0 < calculo_avanceReal_b:
-
+                            if calculo_avanceReal_b > calculo_avanceReal_0:
+                                    
                                 calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_b
-                        
-                        except AttributeError:
+                                    
+
+                                lista_inicial_real = [calculo_avanceReal]
+                                lista_final_real.append(lista_inicial_real)
+
+                            if calculo_avanceReal_b < calculo_avanceReal_0:
+                                    
+                                calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_0
+                                    
+                            lista_inicial_real = [calculo_avanceReal]
+                            lista_final_real.append(lista_inicial_real)
+
+                        if not versiones:
+
                             pass
 
-                    #Se almacena el avance esperado hasta la fecha de control
-                    avance_real = [calculo_avanceReal]
-                    lista_final_real.append(avance_real)
-            #print(lista_final_real)
+                    avance_inicial = [int(calculo_avanceReal)]
+                    avance_final.append(avance_inicial)                    
 
-        else: 
+        if valor_ganado == 0:
                 
-               avance_real = []
-               lista_final_real = []
+               avance_inicial = []
+               avance_final = []
 
-               avance_real = [valor_ganado]
-               lista_final_real.append(avance_real)
+               avance_inicial = [valor_ganado]
+               avance_final.append(avance_inicial)
 
-            
-        return lista_final_real
+        return avance_final
 
     def reporte_curva_s_fechas(self):
         
@@ -448,46 +423,24 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         
         if valor_ganado != 0:
-        
-            valor_ganado = (100 / valor_ganado)
-            documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-            
-            #Obtener la primera fecha de Emision en B y la última fecha en Emisión 0
-            cont = 1
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
 
-            for lista in documentos:
-
-                if cont == 1:
-                    fecha_final_b = lista.fecha_Emision_B
-                    fecha_final_0 = lista.fecha_Emision_0
-                    cont = 0
-
-                else:
-                    fecha_actual_b = lista.fecha_Emision_B
-                    fecha_actual_0 = lista.fecha_Emision_0
-
-                    if abs((lista.fecha_Emision_B - fecha_final_b).days) <= 0:
-
-                        fecha_final_b = lista.fecha_Emision_B
-
-                    if abs((lista.fecha_Emision_0 - fecha_final_0).days) >= 0:
-
-                        fecha_final_0 = lista.fecha_Emision_0
+            fecha_inicio = self.proyecto.fecha_inicio
+            fecha_termino = self.proyecto.fecha_termino
+            fecha_posterior = self.proyecto.fecha_inicio
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
             fechas_controles = []
-            fechas_controles.append(fecha_final_b)
-            fecha_actual = fecha_final_b
+            fechas_controles.append(fecha_inicio)
+            fecha_actual = fecha_inicio
             
             #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
-            while fecha_actual < fecha_final_0:
+            while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
                 
                 fecha_actual = fecha_actual + timedelta(days=7)
+                fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
-
-            #semana_actual = timezone.now()
+            
+            fechas_controles.append(fecha_termino)
 
         else:
                 
@@ -511,7 +464,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_grafico_uno = self.reporte_general()
         lista_inicial = []
         lista_final = []
-        espacios = 0
         maximo = 0
         cont = 0
 
@@ -525,44 +477,18 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 if maximo < lista[0]:
                     maximo = lista[0]
         
-        # #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
-        # division_exacta = 0
+        #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
+        division_exacta = 0
 
-        # if maximo > 20:  
+        if maximo > 20:  
             
-        #     division_exacta = maximo % 10
+            division_exacta = maximo % 10
 
-        #     while division_exacta != 0:
-        #         maximo = maximo + 1
-        #         division_exacta = maximo % 10
+            while division_exacta != 0:
+                maximo = maximo + 1
+                division_exacta = maximo % 10
 
-        #Se busca la potencia de 10 que cubra al numero maximo, en caso de ser superior a 1 unidad
-        resto = 9999999
-        dividendo = 1
-        cont = 0
-
-        while resto > 1:
-            if cont == 0:
-                resto = maximo / dividendo
-                cont = 1
-            
-            else:
-                dividendo = dividendo * 10
-                resto = maximo / dividendo
-
-        # #Si el dividendo es distinto a 1, se secciona en 5 eslabones 
-        # if dividendo != 1:
-        #     espacios = dividendo/5
-        #     lista_inicial = [dividendo,espacios]
-
-        # #Si el dividendo es igual a 1, se establece como eslabones unitarios
-        # else:
-        #     lista_inicial = [dividendo, maximo]
-
-        # lista_final.append(lista_inicial)
-
-        #en caso de elegir la opcion de ajustar a numero divisible por 10, retornar maximo
-        return dividendo
+        return maximo
 
     def espacios_eje_x_grafico_uno(self):
 
@@ -570,18 +496,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         dividendo = self.valor_eje_x_grafico_uno()
         espacios = 0
 
-        # #Se secciona el eje en 10 partes iguales
-        # if dividendo > 20:
-        #     espacios = espacios / 10
+        #Se secciona el eje en 10 partes iguales
+        if dividendo > 20:
+            espacios = espacios / 10
 
-        # else:
-        #     espacio = 1
-
-        #Si el dividendo es distinto a uno, se secciona 5 eslabones iguales
-        if dividendo != 1:
-                espacios = dividendo/5
-
-        #Si el dividendo es igual a uno, se secciona en eslabones unitarios
         else:
             espacios = 1
 
@@ -590,14 +508,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     def valor_eje_x_grafico_tres(self):
 
         #Llamado para un método definido anteriormente
-        lista_grafico_tres = self.reporte_total_documentos()
+        lista_grafico_uno = self.reporte_total_documentos()
         lista_inicial = []
         lista_final = []
-        espacios = 0
         maximo = 0
         cont = 0
 
-        for lista in lista_grafico_tres:
+        #Se obtiene el valor máximo del gráfico
+        for lista in lista_grafico_uno:
             if cont == 0:
                 maximo = lista[0]
                 cont = 1
@@ -605,30 +523,19 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             else:
                 if maximo < lista[0]:
                     maximo = lista[0]
+        
+        #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
+        division_exacta = 0
 
-        resto = 9999999
-        dividendo = 1
-        cont = 0
-
-        while resto > 1:
-            if cont == 0:
-                resto = maximo / dividendo
-                cont = 1
+        if maximo > 20:  
             
-            else:
-                dividendo = dividendo * 10
-                resto = maximo / dividendo
+            division_exacta = maximo % 10
 
-        if dividendo != 1:
-            espacios = dividendo/5
-            lista_inicial = [dividendo,espacios]
+            while division_exacta != 0:
+                maximo = maximo + 1
+                division_exacta = maximo % 10
 
-        else:
-            lista_inicial = [dividendo, maximo]
-
-        lista_final.append(lista_inicial)
-
-        return dividendo
+        return maximo
 
     def espacios_eje_x_grafico_tres(self):
 
@@ -636,15 +543,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         dividendo = self.valor_eje_x_grafico_tres()
         espacios = 0
 
-        if dividendo != 1:
-                espacios = dividendo/5
+        #Se secciona el eje en 10 partes iguales
+        if dividendo > 20:
+            espacios = espacios / 10
 
         else:
             espacios = 1
 
         return int(espacios)
-            
-
 
         ###################################################
         #                                                 #
@@ -658,7 +564,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['lista_final'] = self.reporte_general()
-        context['lista_final_largo'] = len(self.reporte_general())
+        context['lista_final_largo'] = len(self.reporte_total_documentos())
         context['lista_emisiones'] = self.reporte_emisiones()
         context['lista_total_documentos_emitidos'] = self.reporte_total_documentos_emitidos()
         context['lista_total_documentos'] = self.reporte_total_documentos()

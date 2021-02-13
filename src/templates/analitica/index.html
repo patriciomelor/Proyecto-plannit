@@ -210,7 +210,7 @@
           labels: ['{% for emisiones in lista_total_documentos %} {{emisiones.1}}',  '{% endfor %}'],
           datasets: [
             {
-              label: 'Documentos pendientes',
+              label: 'Documentos totales',
               data: [{% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
