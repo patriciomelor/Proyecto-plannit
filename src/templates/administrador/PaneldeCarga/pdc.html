@@ -10,14 +10,14 @@
       <span class="breadcrumb-item active">Panel De Carga</span>
     </nav>
   </div>
-  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+  <div class="pd-t-10">
     <h4 class="tx-gray-800 mg-b-5">Panel de carga de entregables.</h4>
     <p class="mg-b-0"></p>
   </div>
 
   <div class="br-section-wrapper">
 <!--Tabla-->
-<h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
+<h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
 
           
   <div class="row row-sm d-flex justify-content-center" >
@@ -39,14 +39,14 @@
           </ul>
         </div>
      
-      <div class="row row-sm d-flex"style="overflow-x:scroll;">
+      <div class="row row-sm d-flex">
         <table border="1" style="width:auto; height:20px;white-space: nowrap; overflow-x:scroll;"  class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
-  <form class="form-group col-lg-12 mg-t-20" style="margin-top: 30px;" method="GET">
-    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+  <form class="form-group col-lg-12 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
+    <div class="form-control bg-gray-200 col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
       {{filter.form.Especialidad|as_crispy_field}}
     </div>
-    <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+    <div class="form-control bg-gray-200 col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
       {{filter.form.Descripcion|as_crispy_field}}
     </div>
     <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
@@ -64,21 +64,21 @@
     <div class="form-control bg-gray-200 col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
       {{filter.form.fecha_Emision_0|as_crispy_field}}
     </div> 
-    <div class="col-1" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-      <button class="btn btn-info" style="vertical-align: middle;margin-top: 20px;" type="submit">Buscar</button>
+    <div class="col-md-9" style="text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+      <button class="btn btn-oblong btn-teal mg-t-10 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
 
     </div> 
   </form>
           <thead>
             <tr>
-               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
-                <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;" id="delete_btn" type="submit"><i class="icon ion-trash-b"></i></button></a></th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Especialidad</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Descripcion Documentos</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento Contractual</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Numero Documento Interno</th>              
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo de Documento.</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada de Emision</th>
+               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
+                <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"><i class="icon ion-trash-b"></i></button></a></th>
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Especialidad</th>
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Descripcion Documentos</th>
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento Contractual</th>
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Numero Documento Interno</th>              
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo de Documento.</th>
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada de Emision</th>
 
             </tr>
           </thead>
@@ -141,7 +141,7 @@
       </div>   
 </div>
 {% if is_paginated %}
-    <div class="ht-80 d-flex align-items-center justify-content-center">
+    <div class="col-md-9 col-9 ht-80 d-flex align-items-center justify-content-center">
       <nav aria-label="Page navigation">      
         <ul class="pagination pagination-basic mg-b-0">
         {% if page_obj.has_previous %}
@@ -149,13 +149,14 @@
           <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR"><i class="fa fa-angle-left"></i></a></li>
           
           {% if page_obj.has_previous %}
-            <li class="page-item active"><a class="page-link " href="page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+            <li class="page-item"><a class="page-link " href="page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
           {% endif %}
-          <li class="page-item"><a class="page-link active" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+          <li class="page-item active"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
           <li class="page-item disabled"><span class="page-link">...</span></li>
           <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>          
        {% endif %}
        {% if page_obj.has_next %}   
+       
           <li class="page-item">
             <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
               <i class="fa fa-angle-right"></i>
