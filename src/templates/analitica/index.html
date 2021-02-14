@@ -329,7 +329,7 @@
         backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 0.2)', {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 1)', {% endfor %}],
         borderWidth: 1,
-				fill: true,
+				fill: false,
 				data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
 			}, 
       {
@@ -338,7 +338,7 @@
         backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.2)', {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}],
         borderWidth: 1,
-				fill: true,
+				fill: false,
         data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
        
 			}, 
@@ -347,7 +347,7 @@
         label: 'Avance Real a la fecha (BARRAS)',
         backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(88, 214, 141 , 0.4)', {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(88, 214, 141 , 1)', {% endfor %}],
-				fill: true,
+				fill: false,
         borderWidth: 1,
         data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.0}}, {% endfor %}],
 			}]
