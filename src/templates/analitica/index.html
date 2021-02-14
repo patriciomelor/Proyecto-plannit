@@ -4,11 +4,11 @@
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
-      <span class="breadcrumb-item active">Analitica</span>
+      <span class="breadcrumb-item active">Analítica</span>
     </nav>
   </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Panel de Analita</h4>
+    <h4 class="tx-gray-800 mg-b-5">Panel de Analítica</h4>
   </div>
   
   <div class="row row-sm mg-t-20">
@@ -18,7 +18,7 @@
                                   
                 
                   <div class="card-header">
-                    <h4 class="tx-gray-800 mg-b-5">Curva de avance Fisico Ingenieria</h4>                       
+                    <h4 class="tx-gray-800 mg-b-5">Curva de Avance Físico Ingenieria</h4>                       
                   </div>
                   <div class="card-body" height="1280px">
                   	<div style="width: 75%">
@@ -35,7 +35,7 @@
                   <div class="card shadow-base overflow-hidden chart">
 
                       <div class="card-header">
-                    <h4 class="tx-gray-800 mg-b-5">Estados de los Documentos</h4>                        
+                    <h4 class="tx-gray-800 mg-b-5">Estados de Documentos</h4>                        
                         
                       </div>
                       <div class="card-body">
@@ -51,7 +51,7 @@
                     <div class="card shadow-base overflow-hidden chart">
                     
                         <div class="card-header">
-                           <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos por emitir por SubEstacion</h4>                        
+                           <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos a Emitir por Especialidad</h4>                        
                           
                         </div>
                         <div class="card-body">
@@ -70,7 +70,7 @@
       <div class="widget-2">
           <div class="card shadow-base overflow-hidden chart">
               <div class="card-header">
-            <h4 class="tx-gray-800 mg-b-5">Estatus Documento Aprobado <strong>VS</strong> Totales por SubEstacion</h4>                        
+            <h4 class="tx-gray-800 mg-b-5">Documentos Totales por Especialidad<strong>VS</strong> Documentos Emitidos</h4>                        
 
                 
               </div>
@@ -92,10 +92,22 @@
       type: 'doughnut',
       fill: false,
       data: {
-          labels: [ '{% for emisiones in lista_emisiones %} {{emisiones.1}}',  '{% endfor %}' ],
+          labels: [ '{% for emisiones in lista_emisiones %} {% if forloop.counter != lista_emisiones_largo %} {{emisiones.1}}', '{% endif %} {% if forloop.counter == lista_emisiones_largo %} {{emisiones.1}} {% endif %} {% endfor %}' ],
           datasets: [{
               label: 'Documentos pendientes por especialidad',
-              data: [ {% for emisiones in lista_emisiones %} {{emisiones.0}}, {% endfor %} ],
+              data: [ {% for emisiones in lista_emisiones %} 
+              {% if forloop.counter != lista_emisiones %}
+              
+              {{emisiones.0}},
+              
+              {% endif %} 
+              {% if forloop.counter == lista_emisiones %}
+              
+              {{emisiones.0}}
+
+              {% endif %}
+              
+              {% endfor %} ],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -151,10 +163,23 @@
     var myChart2 = new Chart(ctx, {
       type: 'horizontalBar',
       data: {
-          labels: ['{% for value in lista_final %} {{value.1}}',  '{% endfor %}'],
+          labels: ['{% for value in lista_final %} {% if forloop.counter != lista_final_largo %} {{value.1}}', ' {% endif %} {% if forloop.counter == lista_final_largo %} {{value.1}} {% endif %} {% endfor %}'],
           datasets: [{
               label: 'Totales de documento por revisión',  
-              data: [{% for value in lista_final %} {{value.0}}, {% endfor %}],
+              data: [{% for value in lista_final %} 
+              {% if forloop.counter != lista_final_largo %} 
+
+              {{value.0}},
+
+              {% endif %} 
+
+              {% if forloop.counter == lista_final_largo %}
+              
+              {{value.0}}
+              
+              {% endif %}
+              
+              {% endfor %}],
               fill: false,
               backgroundColor: [
                   'rgba(209, 104, 210, 0.2)',
@@ -184,8 +209,6 @@
                       min:0,
                       max: {{tamano_grafico_uno}},
                       stepSize: {{espacios_grafico_uno}}
-                      
-
 
                   },
                   scaleLabel: {
@@ -212,11 +235,24 @@
     var myChart3 = new Chart(ctx, {
       type: 'bar',
       data: {
-          labels: ['{% for emisiones in lista_total_documentos %} {{emisiones.1}}',  '{% endfor %}'],
+          labels: ['{% for emisiones in lista_total_documentos %} {% if forloop.counter != lista_total_documentos_largo %} {{emisiones.1}}', ' {% endif %} {% if forloop.counter == lista_total_documentos_largo %} {{emisiones.1}} {% endif %} {% endfor %}'],
           datasets: [
             {
-              label: 'Documentos totales',
-              data: [{% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %}], 
+              label: 'Documentos Totales',
+              data: [{% for emisiones in lista_total_documentos %}
+              {% if forloop.counter != lista_total_documentos_largo %} 
+
+              {{emisiones.0}},
+
+              {% endif %} 
+
+              {% if forloop.counter == lista_total_documentos_largo %}
+              
+              {{emisiones.0}}
+              
+              {% endif %}
+              
+              {% endfor %}], 
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -256,7 +292,20 @@
               borderWidth: 1
           }, {
             label: 'Documentos Emitidos', 
-              data: [ {% for emisiones in lista_total_documentos_emitidos %} {{emisiones.0}}, {% endfor %} ],
+              data: [ {% for emisiones in lista_total_documentos_emitidos %}
+              {% if forloop.counter != lista_total_documentos_emitidos_largo %} 
+
+              {{emisiones.0}},
+
+              {% endif %} 
+
+              {% if forloop.counter == lista_total_documentos_emitidos_largo %}
+              
+              {{emisiones.0}}
+              
+              {% endif %}
+              
+              {% endfor %}],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
@@ -323,42 +372,43 @@
 //Curva S
 
 		var chartData = {
-			labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"d-m-y"}}',  '{% endfor %}'],
+			labels: ['{% for emisiones in lista_curva_s_fechas %} {% if forloop.counter != lista_curva_s_fechas_largo %} {{emisiones|date:"d-m-y"}}', '{% endif %} {% if forloop.counter == lista_curva_s_fechas_largo %} {{emisiones|date:"d-m-y"}} {% endif %} {% endfor %}'],
 			datasets: [
       {
         type: 'line',
-        label: 'Avance esperado',
-        backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 0.2)', {% endfor %}],
-        borderColor: [{% for esperado in lista_curva_s_avance_esperado %} 'rgba(255, 99, 132, 1)', {% endfor %}],
+        label: 'Avance Esperado',
+        backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)' {% endif %} {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 1)' {% endif %} {% endfor %}],
         borderWidth: 1,
 				fill: true,
-				data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
+				data: [{% for esperado in lista_curva_s_avance_esperado %}
+        {% if forloop.counter != lista_curva_s_avance_esperado_largo %} {{esperado.0}}, {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} {{esperado.0}} {% endif %} {% endfor %}]
 			}, 
       {
 				type: 'line',
         label: 'Avance Real a la fecha',
-        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 0.2)', {% endfor %}],
-        borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(54, 162, 235, 1)', {% endfor %}],
+        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 0.2)' {% endif %} {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 1)' {% endif %} {% endfor %}],
         borderWidth: 1,
 				fill: true,
-        data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
+        data: [{% for real_linea in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {{real_linea.0}}, {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {{real_linea.0}} {% endif %} {% endfor %}],
        
 			}, 
       {
 				type: 'bar',
         label: 'Avance Real a la fecha (BARRAS)',
-        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(88, 214, 141 , 0.4)', {% endfor %}],
-        borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(88, 214, 141 , 1)', {% endfor %}],
+        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(88, 214, 141 , 0.4)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(88, 214, 141 , 0.4)' {% endif %} {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(88, 214, 141 , 0.4)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(88, 214, 141 , 0.4)' {% endif %} {% endfor %}],
 				fill: true,
         borderWidth: 1,
-        data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.0}}, {% endfor %}],
+        data: [{% for real_linea in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {{real_linea.0}}, {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {{real_linea.0}} {% endif %} {% endfor %}],
 			}]
       
 		};
 		window.onload = function() {
 			var ctx = document.getElementById('canvas').getContext('2d');
 			window.myMixedChart = new Chart(ctx, {
-				type: 'bar',
+				type: 'line',
 				data: chartData,
 				options: {
 					responsive: true,
