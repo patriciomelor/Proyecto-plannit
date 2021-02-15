@@ -6,7 +6,10 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
-
+import os.path
+import zipfile
+from io import BytesIO
+from django.conf import settings
 
 from .filters import DocFilter
 from panel_carga.models import Documento
@@ -48,6 +51,25 @@ class VersionesList(ProyectoMixin, DetailView):
         context['lista_final'] = lista_final
         # context['paquete'] = paquete
         return context
+    
+    def post(self, request, *args, **kwargs):
+        listado_versiones_url = []
+        doc = Documento.objects.get(pk=self.kwargs['pk'])
+        versiones = Version.objects.filter(documento_fk=doc)
+        for version in versiones:
+            static = version.archivo.path
+            listado_versiones_url.append(static)
+        zip_subdir = "Documentos"
+        zip_filename = "%s.zip" % zip_subdir
+        s = BytesIO()
+        zf = zipfile.ZipFile(s, "w")
+        for fpath in listado_versiones_url:
+            fdir, fname = os.path.split(fpath)
+            zip_path = os.path.join(zip_subdir, fname)
+            zf.write(fpath, zip_path)
+        zf.close()
+        response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+        response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
 
 def documentos_con_versiones(request):
     eliminados_list = []
