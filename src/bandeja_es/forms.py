@@ -107,6 +107,7 @@ class PrevVersionForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+        #Verifica que el formulario venga con los datos minimos
         try:
             doc = cleaned_data.get('prev_documento_fk')
             nombre_documento = doc.Codigo_documento
@@ -115,21 +116,46 @@ class PrevVersionForm(forms.ModelForm):
             revision_final = (dict(TYPES_REVISION).get(revision))
         except AttributeError:
             raise ValidationError('Inconsistencia de Datos en el formulario')
+
+        #Verificca que no se pueda emitir una revision en número antes de que en letra
+        try:
+            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc)
+            ultima_revision = Version.objects.filter(documento_fk=doc)
+            if not ultima_revision.exists() and revision >= 5:
+                raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+            elif not ultima_prev_revision.exists() and revision >= 5:
+                raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+        except (AttributeError, PrevVersion.DoesNotExist, Version.DoesNotExist):
+            if revision >= 5:
+                raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+            
+        #     if not ultima_revision.revision <= 4 and revision >= 5:
+        #         raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+        #     elif not ultima_prev_revision.prev_revision <= 4 and revision >= 5:
+        #         raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+        # except (AttributeError, PrevVersion.DoesNotExist, Version.DoesNotExist):
+        #     if revision >= 5:
+        #         raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+
+        #Verifica que no se pueda enviar una version igual 
+        # o anterior a la última emitida
         try:
             ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
             ultima_revision = Version.objects.filter(documento_fk=doc).last()
-            if revision < ultima_revision.revision:
+            if revision <= ultima_revision.revision:
                 raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
-            elif revision < ultima_prev_revision.prev_revision:
+            elif revision <= ultima_prev_revision.prev_revision:
                 raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
-            
-            if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
-                self.add_error('prev_archivo', 'No coinciden los nombres')
-                raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-
         except AttributeError:
-             pass
-            
+            pass
+        
+        #Verifica que el nombre del archivo coincida con
+        #el nombre del documento + la version escogida.
+        if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
+            self.add_error('prev_archivo', 'No coinciden los nombres')
+            raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
+    
+        
 # class cualquierwea(VersionDocPreview):        
 #     def __init__(self, *args, **kwargs):
 #         super().__init__(*args,**kwargs)
