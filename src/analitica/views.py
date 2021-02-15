@@ -130,8 +130,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 except AttributeError:
                     pass
 
-            aprobados_inicial = [cont, especialidad]
-            aprobados_final.append(aprobados_inicial) 
+            if cont != 0:
+                aprobados_inicial = [cont, especialidad]
+                aprobados_final.append(aprobados_inicial) 
 
         return aprobados_final      
 
@@ -157,7 +158,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             cont = 0
             versiones = Version.objects.filter(documento_fk=doc).last()
 
-            for revision in TYPES_REVISION[1:]:
+            for revision in TYPES_REVISION[5:]:
                 
                 try:
 
