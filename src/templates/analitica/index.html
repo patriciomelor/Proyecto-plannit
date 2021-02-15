@@ -393,15 +393,6 @@
 				fill: true,
         data: [{% for real_linea in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {{real_linea.0}}, {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {{real_linea.0}} {% endif %} {% endfor %}],
        
-			}, 
-      {
-				type: 'bar',
-        label: 'Avance Real a la fecha (BARRAS)',
-        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(88, 214, 141 , 0.4)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(88, 214, 141 , 0.4)' {% endif %} {% endfor %}],
-        borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(88, 214, 141 , 0.4)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(88, 214, 141 , 0.4)' {% endif %} {% endfor %}],
-				fill: true,
-        borderWidth: 1,
-        data: [{% for real_linea in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {{real_linea.0}}, {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {{real_linea.0}} {% endif %} {% endfor %}],
 			}]
       
 		};
