@@ -143,8 +143,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #                                                 #
         ###################################################
 
-
-
     def reporte_total_documentos_emitidos(self):
         
         lista_actual = []
@@ -566,13 +564,19 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['lista_final'] = self.reporte_general()
-        context['lista_final_largo'] = len(self.reporte_general()) - 1
+        context['lista_final_largo'] = len(self.reporte_general()) 
         context['lista_emisiones'] = self.reporte_emisiones()
+        context['lista_emisiones_largo'] = len(self.reporte_emisiones()) 
         context['lista_total_documentos_emitidos'] = self.reporte_total_documentos_emitidos()
+        context['lista_total_documentos_emitidos_largo'] = len(self.reporte_total_documentos_emitidos()) 
         context['lista_total_documentos'] = self.reporte_total_documentos()
+        context['lista_total_documentos_largo'] = len(self.reporte_total_documentos()) 
         context['lista_curva_s_avance_real'] = self.reporte_curva_s_avance_real()
+        context['lista_curva_s_avance_real_largo'] = len(self.reporte_curva_s_avance_real()) 
         context['lista_curva_s_avance_esperado'] = self.reporte_curva_s_avance_esperado()
+        context['lista_curva_s_avance_esperado_largo'] = len(self.reporte_curva_s_avance_esperado()) 
         context['lista_curva_s_fechas'] = self.reporte_curva_s_fechas()
+        context['lista_curva_s_fechas_largo'] = len(self.reporte_curva_s_fechas()) 
         context['tamano_grafico_uno'] = self.valor_eje_x_grafico_uno()
         context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
         context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
