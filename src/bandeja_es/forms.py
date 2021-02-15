@@ -104,7 +104,7 @@ class PrevVersionForm(forms.ModelForm):
         }
     
     def __init__(self, **kwargs):
-        paquete = kwargs.pop('paquete_pk')
+        self.paquete = kwargs.pop('paquete_pk')
         super(PrevVersionForm, self).__init__(**kwargs)
 
     def clean(self):
@@ -123,7 +123,8 @@ class PrevVersionForm(forms.ModelForm):
         #para el documento selecionado
         try:
             ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc)
-            prev_paquete_doc = PrevPaqueteDocumento.objects.get(prev_version=ultima_prev_revision, prev_paquete= self.paquete)
+            prev_paquete_doc = PrevPaqueteDocumento.objects.filter(prev_version__in=ultima_prev_revision, prev_paquete=self.paquete)
+            print(prev_paquete_doc)
             if prev_paquete_doc.exists():
                 raise ValidationError('Ya creaste una version para este documento')
         except (AttributeError, PrevPaqueteDocumento.DoesNotExist):
