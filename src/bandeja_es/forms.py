@@ -115,7 +115,7 @@ class PrevVersionForm(forms.ModelForm):
             revision_final = (dict(TYPES_REVISION).get(revision))
         except AttributeError:
             raise ValidationError('Inconsistencia de Datos en el formulario')
-        
+        #Falta ponerle revision en número
         ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
         ultima_revision = Version.objects.filter(documento_fk=doc).last()
         if revision < ultima_revision.revision:
