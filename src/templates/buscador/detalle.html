@@ -20,34 +20,34 @@
             <div class="card shadow-base bd-0">
                 <div class="form-layout form-layout-7 ">               
               <div class="row no-gutters">
-              <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+              <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 13px;">
                 Código Documento:
               </div><!-- col-4 -->
-              <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+              <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 13px;">
                 {{documento.Codigo_documento}}
               </div><!-- col-8 -->
               </div> 
               <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 13px;">
                   Creador:
                 </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 13px;">
                 {{documento.owner}}
                 </div><!-- col-8 -->
               </div>
               <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 13px;">
                   Fecha:
                 </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 13px;">
                   {{documento.fecha_Emision_B|date:'d-m-y'}}
                 </div><!-- col-8 -->
               </div>             
               <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 13px;">
                   Hora:
                 </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 13px;">
                   {{documento.fecha_Emision_B|date:'H:i'}}
                 </div><!-- col-8 -->
               </div>                                          
@@ -55,43 +55,47 @@
               <table class="table table-striped mg-b-0 table-bordered table-primary">
                 <thead class="thead-colored thead-primary">
                   <tr class="tx-10">
-                    <th class="pd-y-5"style="text-align: center;">Creador</th>                     
-                    <th class="pd-y-5"style="text-align: center;">Revisión</th>
-                    <th class="pd-y-5"style="text-align: center;">Paquete</th>
+                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Creador</th>                     
+                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Revisión</th>
+                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Paquete</th>
                       
-                    <th class="pd-y-5"style="text-align: center;">Estado Cliente</th>     
-                    <th class="pd-y-5"style="text-align: center;">Estado Contratista</th>     
-                    <th class="pd-y-5"style="text-align: center;"colspan="2">Fecha<br>Creacion</th>     
+                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Estado Cliente</th>     
+                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Estado Contratista</th>     
+                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="2">Fecha<br>Creacion</th>     
 
-                    <th class="pd-y-5"style="text-align: center;">Archivo</th>
-                    <th class="pd-y-5"style="text-align: center;">Comentario</th>
+                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Archivo</th>
+                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Comentario</th>
                   </tr>
                   <tr>
-                  <th colspan="5">
+                  <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="5">
                   </th>
-                  <th class="pd-y-5"style="text-align: center;">
+                  <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
                   fecha
                   </th>
-                  <th class="pd-y-5"style="text-align: center;">
+                  <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
                   hora
                   </th>
-                  <th colspan="2">
-                  </th>
+                  <form method="POST">{% csrf_token %}
+                  <th style="text-align: center;border: 2px #fff solid; vertical-align: middle;padding: 5px; font-size: 10px;">
+                    <button type="submit" class="btn btn-warning" style="text-align: center;padding:2px;"><i class="fa fa-download"></i></button>
+                  </th >
+                  </form>
+                  <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"></th>
                   </tr>
                 </thead>
                 
                 <tbody>
                 {% for version in lista_final %}
                   <tr>                    
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.owner.first_name}}<br>{{version.owner.last_name}}  </td>       
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.get_revision_display}} </td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> <a href="{% url 'paquete-detalle' version.1.pk %}" > {{version.1}} </a> </td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.get_estado_cliente_display}} </td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.get_estado_contratista_display}} </td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.fecha|date:'d-M-y'}} </td>                    
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> {{version.0.fecha|date:'H:i'}} </td>                    
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-3x"></i></a></td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;"> <a href="{{version.comentario.url}}"><i class="icon ion-document-text fa-3x"></i></a> </td>
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.owner.first_name}}<br>{{version.owner.last_name}}  </td>       
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_revision_display}} </td>
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{% url 'paquete-detalle' version.1.pk %}" > {{version.1}} </a> </td>
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_estado_cliente_display}} </td>
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_estado_contratista_display}} </td>
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'d-M-y'}} </td>                    
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'H:i'}} </td>                    
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{{version.comentario.url}}"><i class="icon ion-document-text fa-1x"></i></a> </td>
                   </tr>    
                 {% empty %}
                       <h4> El Documento {{documento}}, no tiene Versiones. </h4>

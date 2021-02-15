@@ -115,18 +115,21 @@ class PrevVersionForm(forms.ModelForm):
             revision_final = (dict(TYPES_REVISION).get(revision))
         except AttributeError:
             raise ValidationError('Inconsistencia de Datos en el formulario')
-        #Falta ponerle revision en número
-        ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
-        ultima_revision = Version.objects.filter(documento_fk=doc).last()
-        if revision < ultima_revision.revision:
-            raise ValidationError('No se puede elegir una revision anteriora la última emitida.')
-        elif revision < ultima_prev_revision.revision:
-            raise ValidationError('No se puede elegir una revision anteriora la última emitida.')
-        
-        if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
-            self.add_error('prev_archivo', 'No coinciden los nombres')
-            raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
+        try:
+            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
+            ultima_revision = Version.objects.filter(documento_fk=doc).last()
+            if revision < ultima_revision.revision:
+                raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
+            elif revision < ultima_prev_revision.prev_revision:
+                raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
+            
+            if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
+                self.add_error('prev_archivo', 'No coinciden los nombres')
+                raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
 
+        except AttributeError:
+             pass
+            
 # class cualquierwea(VersionDocPreview):        
 #     def __init__(self, *args, **kwargs):
 #         super().__init__(*args,**kwargs)

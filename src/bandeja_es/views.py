@@ -1,7 +1,7 @@
 import pathlib
 import os.path
 import zipfile
-from io import StringIO
+from io import BytesIO
 from django.conf import settings
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
@@ -90,19 +90,19 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         versiones = PaqueteDocumento.objects.filter(paquete=paquete)
         for version in versiones:
             act_version = version.version
-            # static = '/static'+act_version.archivo.url
-            static = act_version.archivo.url
+            static = act_version.archivo.path
+            #static = act_version.archivo.url
             listado_versiones_url.append(static)
-        zip_subdir = "versiones"
+        zip_subdir = "Documentos"
         zip_filename = "%s.zip" % zip_subdir
-        s = StringIO()
+        s = BytesIO()
         zf = zipfile.ZipFile(s, "w")
         for fpath in listado_versiones_url:
             fdir, fname = os.path.split(fpath)
             zip_path = os.path.join(zip_subdir, fname)
             zf.write(fpath, zip_path)
         zf.close()
-        response = HttpResponse(s.getvalue(), mimetype="application/x-zip-compressed")
+        response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
 
         return response

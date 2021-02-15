@@ -116,7 +116,10 @@
                     <th class="pd-y-5"style="text-align: center;">Status</th>                                    
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
                     <form method="POST">{% csrf_token %}
-                      <th class="pd-y-5"style="text-align: center;"><input type="submit" class="btn btn-warning" value="Descargar todo"></th>
+                      <th class="pd-y-5"style="text-align: center;">                       
+                          <input type="submit" class="btn btn-outline-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" value="Descargar todo"></input>                         
+                        
+                      </th>
                     </form>
                   </tr>
                 </thead>
@@ -126,7 +129,7 @@
                   <tr>                    
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.version.documento_fk.Especialidad}} </td>       
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.version.documento_fk.Descripcion}}</td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.version.documento_fk.Numero_documento_interno}}</td>
+                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.version.documento_fk.Tipo_Documento}}</td>
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.version.get_revision_display}}</td>
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.version.get_estado_cliente_display}}</td>                    
