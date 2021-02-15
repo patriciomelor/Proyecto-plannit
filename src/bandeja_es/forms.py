@@ -104,8 +104,8 @@ class PrevVersionForm(forms.ModelForm):
         }
     
     def __init__(self, **kwargs):
-        self.paquete = kwargs.pop('paquete')
-        super(PrevVersionForm, self).__init__(**kwargs)  
+        paquete = kwargs.pop('paquete_pk')
+        super(PrevVersionForm, self).__init__(**kwargs)
 
     def clean(self):
         cleaned_data = super().clean()
