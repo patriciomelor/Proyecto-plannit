@@ -9,7 +9,7 @@ from crispy_forms.layout import Submit
 from panel_carga.models import Documento
 from django.contrib.auth.models import User
 
-from .models import Paquete, Version, PrevPaquete, PrevVersion
+from .models import Paquete, Version, PrevPaquete, PrevVersion, PrevPaqueteDocumento
 from panel_carga.views import ProyectoMixin
 
 from panel_carga.choices import TYPES_REVISION
@@ -101,9 +101,11 @@ class PrevVersionForm(forms.ModelForm):
             'prev_estado_cliente' : forms.Select(attrs={'class' : 'form-control col-md-4 '}),
             'prev_archivo' : forms.FileInput(attrs={'class' : 'col-md-4 '}),
             'prev_comentario' : forms.FileInput(attrs={'class' : 'col-md-4 '}),
-
-
         }
+    
+    def __init__(self, **kwargs):
+        self.paquete = kwargs.pop('paquete')
+        super(PrevVersionForm, self).__init__(**kwargs)  
 
     def clean(self):
         cleaned_data = super().clean()
@@ -117,6 +119,17 @@ class PrevVersionForm(forms.ModelForm):
         except AttributeError:
             raise ValidationError('Inconsistencia de Datos en el formulario')
 
+        #Varifica si existe una version creada en el paquete
+        #para el documento selecionado
+        try:
+            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc)
+            prev_paquete_doc = PrevPaqueteDocumento.objects.get(prev_version=ultima_prev_revision, prev_paquete= self.paquete)
+            if prev_paquete_doc.exists():
+                raise ValidationError('Ya creaste una version para este documento')
+        except (AttributeError, PrevPaqueteDocumento.DoesNotExist):
+            pass
+
+
         #Verificca que no se pueda emitir una revision en número antes de que en letra
         try:
             ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc)
@@ -128,14 +141,6 @@ class PrevVersionForm(forms.ModelForm):
         except (AttributeError, PrevVersion.DoesNotExist, Version.DoesNotExist):
             if revision >= 5:
                 raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
-            
-        #     if not ultima_revision.revision <= 4 and revision >= 5:
-        #         raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
-        #     elif not ultima_prev_revision.prev_revision <= 4 and revision >= 5:
-        #         raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
-        # except (AttributeError, PrevVersion.DoesNotExist, Version.DoesNotExist):
-        #     if revision >= 5:
-        #         raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
 
         #Verifica que no se pueda enviar una version igual 
         # o anterior a la última emitida
