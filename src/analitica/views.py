@@ -28,40 +28,79 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = []
         lista_actual = []
 
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-
-        #lista_final.append(lista_actual)
-
-        #Obtener lista de las últimas versiones de cada documento
-        for doc in documentos:
-            versiones = Version.objects.filter(documento_fk=doc).last()
-            lista_actual = [versiones, doc] 
-            lista_final.append(lista_actual)
-
-        #Obtener lista de cantidad de documentos por tipo de versión
         estados_documento = []
         estados_final = []
 
-        for estado in TYPES_REVISION[1:]:
-            cont = 0
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
-            for lista in lista_final:
+        if documentos_totales != 0:
+        
+            #Obtener lista de las últimas versiones de cada documento
+            for doc in documentos: 
+                versiones = Version.objects.filter(documento_fk=doc).last()
 
-                try:
-                    estado_documento = lista[0].revision
+                if versiones:
+
+                    lista_actual = [versiones, doc] 
+                    lista_final.append(lista_actual)
+
+                if not versiones:
                     
-                    if estado_documento == estado[0] :
+                    pass
+
+            #Obtener lista de cantidad de documentos por tipo de versión
+            estado_documento = 0
+
+            for estado in TYPES_REVISION[1:]:
+                cont = 0
+
+                for lista in lista_final:
+
+                    estado_documento = lista[0].revision
+                        
+                    if estado_documento == estado[0]:
                         cont = cont + 1
                 
-                except IndexError:
-                    pass
+                if cont != 0:
+                    estados_documentos = [cont, estado[1]]
+                    estados_final.append(estados_documentos)
 
-                except AttributeError:
-                    pass
+        if documentos_totales == 0:
+
+            estados_documento = [0, 'Sin registros']
+            estados_final.append(estados_documento)
+
+        # #Obtener lista de las últimas versiones de cada documento
+        # for doc in documentos:
+        #     versiones = Version.objects.filter(documento_fk=doc).last()
+        #     lista_actual = [versiones, doc] 
+        #     lista_final.append(lista_actual)
+
+        # #Obtener lista de cantidad de documentos por tipo de versión
+        # estados_documento = []
+        # estados_final = []
+
+        # for estado in TYPES_REVISION[1:]:
+        #     cont = 0
+
+        #     for lista in lista_final:
+
+        #         try:
+        #             estado_documento = lista[0].revision
+                    
+        #             if estado_documento == estado[0] :
+        #                 cont = cont + 1
+                
+        #         except IndexError:
+        #             pass
+
+        #         except AttributeError:
+        #             pass
             
-            if cont != 0:
-                estados_documentos = [cont, estado[1]]
-                estados_final.append(estados_documentos)
+        #     if cont != 0:
+        #         estados_documentos = [cont, estado[1]]
+        #         estados_final.append(estados_documentos)
 
         return estados_final
 
@@ -79,59 +118,121 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = []
 
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
         especialidad_list = tuple()
 
-        #Obtener versiones que no poseen un estado de revisión
-        for doc in documentos:
-            cont = 0
-            versiones = Version.objects.filter(documento_fk=doc).last()
+        if documentos_totales != 0:
+        
+            #Obtener versiones que no poseen un estado de revisión
+            for doc in documentos:
+                versiones = Version.objects.filter(documento_fk=doc).last()
 
-            for revision in TYPES_REVISION[1:]:
-                
-                try:
+                if versiones:
+
+                    cont = 0
+
+                    for revision in TYPES_REVISION[1:]:
+
+                        #Comparar que la versión no posea ningón estado de revisión
+                        if revision[0] == versiones.revision:
+                            cont = 1
                     
-                    #Comparar que la versión no posea ningón estado de revisión
-                    if revision[0] == versiones.revision:
-                        cont = 1
+                    #Almacena la versión que no posee estado de revisión
+                    if cont == 0:
 
-                except AttributeError:
+                        lista_actual = [versiones, doc] 
+                        lista_final.append(lista_actual)
 
-                    pass
-            
-            #Almacena la versión que no posee estado de revisión
-            if cont == 0:
+                if not versiones:
+                    
+                    lista_actual = [versiones, doc] 
+                    lista_final.append(lista_actual)
 
-                lista_actual = [versiones, doc] 
-                lista_final.append(lista_actual)
-
-        #Obtener lista de todas las especialidades
-        for lista in lista_final: 
-            for special in documentos:
-                especialidad_actual = special.Especialidad
-                if not especialidad_actual in especialidad_list:
-                    especialidad_list = especialidad_list + (str(especialidad_actual),)
-
-        #Obtener lista final de cantidad de versiones/documentos por especialidad pendientes
-        aprobados_final = []
-        aprobados_inicial = []
-
-        for especialidad in especialidad_list:
-            cont = 0 
-            
+            #Obtener lista de todas las especialidades
             for lista in lista_final: 
+                for special in documentos:
+                    especialidad_actual = special.Especialidad
+                    if not especialidad_actual in especialidad_list:
+                        especialidad_list = especialidad_list + (str(especialidad_actual),)
 
-                try:
+            #Obtener lista final de cantidad de versiones/documentos por especialidad pendientes
+            aprobados_final = []
+            aprobados_inicial = []
+
+            for especialidad in especialidad_list:
+                cont = 0 
+                
+                for lista in lista_final: 
+
                     mi_especialidad = lista[1].Especialidad
 
                     if mi_especialidad == especialidad:
                         cont = cont + 1
+                
+                if cont != 0:
 
-                except AttributeError:
-                    pass
+                    aprobados_inicial = [cont, especialidad]
+                    aprobados_final.append(aprobados_inicial)
 
-            aprobados_inicial = [cont, especialidad]
-            aprobados_final.append(aprobados_inicial) 
+        if documentos_totales == 0:
+
+            aprobados_inicial = [0, 'Sin registros']
+            aprobados_final.append(aprobados_inicial)
+
+
+        # #Obtener versiones que no poseen un estado de revisión
+        # for doc in documentos:
+        #     cont = 0
+        #     versiones = Version.objects.filter(documento_fk=doc).last()
+
+        #     for revision in TYPES_REVISION[1:]:
+                
+        #         try:
+                    
+        #             #Comparar que la versión no posea ningón estado de revisión
+        #             if revision[0] == versiones.revision:
+        #                 cont = 1
+
+        #         except AttributeError:
+
+        #             pass
+            
+        #     #Almacena la versión que no posee estado de revisión
+        #     if cont == 0:
+
+        #         lista_actual = [versiones, doc] 
+        #         lista_final.append(lista_actual)
+
+        # #Obtener lista de todas las especialidades
+        # for lista in lista_final: 
+        #     for special in documentos:
+        #         especialidad_actual = special.Especialidad
+        #         if not especialidad_actual in especialidad_list:
+        #             especialidad_list = especialidad_list + (str(especialidad_actual),)
+
+        # #Obtener lista final de cantidad de versiones/documentos por especialidad pendientes
+        # aprobados_final = []
+        # aprobados_inicial = []
+
+        # for especialidad in especialidad_list:
+        #     cont = 0 
+            
+        #     for lista in lista_final: 
+
+        #         try:
+        #             mi_especialidad = lista[1].Especialidad
+
+        #             if mi_especialidad == especialidad:
+        #                 cont = cont + 1
+
+        #         except AttributeError:
+        #             pass
+            
+        #     if cont != 0:
+
+        #         aprobados_inicial = [cont, especialidad]
+        #         aprobados_final.append(aprobados_inicial) 
 
         return aprobados_final      
 
@@ -148,60 +249,112 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_actual = []
         lista_final = []
 
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-
-        especialidad_list = tuple()
-
-        #Obtener lista de versiones que poseen un estado de revisión
-        for doc in documentos:
-            cont = 0
-            versiones = Version.objects.filter(documento_fk=doc).last()
-
-            for revision in TYPES_REVISION[1:]:
-                
-                try:
-
-                    #Comparar versiones que si poseen un estado de revisión
-                    if revision[0] == versiones.revision:
-                        cont = 1
-
-                except AttributeError:
-
-                    pass
-            
-            #Almacena las versiones que poseen un estado de revisión
-            if cont == 1:
-
-                lista_actual = [versiones, doc] 
-                lista_final.append(lista_actual)
-
-        #Obtener lista de todas las especialidades
-        for lista in lista_final: 
-            for special in documentos:
-                especialidad_actual = special.Especialidad
-                if not especialidad_actual in especialidad_list:
-                    especialidad_list = especialidad_list + (str(especialidad_actual),)
-
-        #Obtener lista final de cantidad de versiones/documentos por especialidad emitidos
         aprobados_final = []
         aprobados_inicial = []
 
-        for especialidad in especialidad_list:
-            cont = 0 
-            
-            for lista in lista_final: 
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
-                try:
+        especialidad_list = tuple()
+
+        if documentos_totales != 0:
+
+            #Obtener lista de versiones que poseen un estado de revisión
+            for doc in documentos:
+                versiones = Version.objects.filter(documento_fk=doc).last()
+
+                if versiones:
+
+                    cont = 0
+                    
+                    for revision in TYPES_REVISION[5:]:
+                        
+                        #Comparar versiones que si poseen un estado de revisión
+                        if revision[0] == versiones.revision:
+                            cont = 1
+                    
+                    #Almacena las versiones que poseen un estado de revisión
+                    if cont == 1:
+
+                        lista_actual = [versiones, doc] 
+                        lista_final.append(lista_actual)
+
+            #Obtener lista de todas las especialidades
+            for lista in lista_final: 
+                for special in documentos:
+                    especialidad_actual = special.Especialidad
+                    if not especialidad_actual in especialidad_list:
+                        especialidad_list = especialidad_list + (str(especialidad_actual),)
+
+            #Obtener lista final de cantidad de versiones/documentos por especialidad emitidos
+            for especialidad in especialidad_list:
+                cont = 0 
+                
+                for lista in lista_final: 
+
                     mi_especialidad = lista[1].Especialidad
 
                     if mi_especialidad == especialidad:
                         cont = cont + 1
 
-                except AttributeError:
-                    pass
+                aprobados_inicial = [cont, especialidad]
+                aprobados_final.append(aprobados_inicial) 
 
-            aprobados_inicial = [cont, especialidad]
-            aprobados_final.append(aprobados_inicial) 
+        if documentos_totales == 0:
+
+            aprobados_inicial = [0, 'Sin registros']
+            aprobados_final.append(aprobados_inicial)
+
+        # #Obtener lista de versiones que poseen un estado de revisión
+        # for doc in documentos:
+        #     cont = 0
+        #     versiones = Version.objects.filter(documento_fk=doc).last()
+
+        #     for revision in TYPES_REVISION[1:]:
+                
+        #         try:
+
+        #             #Comparar versiones que si poseen un estado de revisión
+        #             if revision[0] == versiones.revision:
+        #                 cont = 1
+
+        #         except AttributeError:
+
+        #             pass
+            
+        #     #Almacena las versiones que poseen un estado de revisión
+        #     if cont == 1:
+
+        #         lista_actual = [versiones, doc] 
+        #         lista_final.append(lista_actual)
+
+        # #Obtener lista de todas las especialidades
+        # for lista in lista_final: 
+        #     for special in documentos:
+        #         especialidad_actual = special.Especialidad
+        #         if not especialidad_actual in especialidad_list:
+        #             especialidad_list = especialidad_list + (str(especialidad_actual),)
+
+        # #Obtener lista final de cantidad de versiones/documentos por especialidad emitidos
+        # aprobados_final = []
+        # aprobados_inicial = []
+
+        # for especialidad in especialidad_list:
+        #     cont = 0 
+            
+        #     for lista in lista_final: 
+
+        #         try:
+        #             mi_especialidad = lista[1].Especialidad
+
+        #             if mi_especialidad == especialidad:
+        #                 cont = cont + 1
+
+        #         except AttributeError:
+        #             pass
+
+        #     aprobados_inicial = [cont, especialidad]
+        #     aprobados_final.append(aprobados_inicial) 
 
         return aprobados_final
 
@@ -211,31 +364,59 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = []
 
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
         especialidad_list = tuple()
 
-        #Obtener lista de todas las especialidades 
-        for special in documentos:
-            especialidad_actual = special.Especialidad
-            if not especialidad_actual in especialidad_list:
-                especialidad_list = especialidad_list + (str(especialidad_actual),)
+        if documentos_totales != 0:
 
-        for especialidad in especialidad_list:
-            cont = 0 
+            #Obtener lista de todas las especialidades 
+            for special in documentos:
+                especialidad_actual = special.Especialidad
+                if not especialidad_actual in especialidad_list:
+                    especialidad_list = especialidad_list + (str(especialidad_actual),)
             
-            for lista in documentos: 
+            #Obtener documentos totales por especialidad
+            for especialidad in especialidad_list:
+                cont = 0 
+                
+                for lista in documentos: 
 
-                try:
                     mi_especialidad = lista.Especialidad
 
                     if mi_especialidad == especialidad:
                         cont = cont + 1
 
-                except AttributeError:
-                    pass
+                lista_actual = [cont, especialidad]
+                lista_final.append(lista_actual)
 
-            lista_actual = [cont, especialidad]
+        if documentos_totales == 0:
+
+            lista_actual = [0, 'Sin registros']
             lista_final.append(lista_actual)
+
+        # #Obtener lista de todas las especialidades 
+        # for special in documentos:
+        #     especialidad_actual = special.Especialidad
+        #     if not especialidad_actual in especialidad_list:
+        #         especialidad_list = especialidad_list + (str(especialidad_actual),)
+
+        # for especialidad in especialidad_list:
+        #     cont = 0 
+            
+        #     for lista in documentos: 
+
+        #         try:
+        #             mi_especialidad = lista.Especialidad
+
+        #             if mi_especialidad == especialidad:
+        #                 cont = cont + 1
+
+        #         except AttributeError:
+        #             pass
+
+        #     lista_actual = [cont, especialidad]
+        #     lista_final.append(lista_actual)
         
         return lista_final
 
@@ -488,12 +669,16 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 maximo = maximo + 1
                 division_exacta = maximo % 10
 
+        maximo = maximo + 1
+
+        print('Primer grafico:', maximo)
+
         return maximo
 
     def espacios_eje_x_grafico_uno(self):
 
         #Llamado para un método definido anteriormente
-        dividendo = self.valor_eje_x_grafico_uno()
+        dividendo = self.valor_eje_x_grafico_uno() - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -535,12 +720,16 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 maximo = maximo + 1
                 division_exacta = maximo % 10
 
+        maximo = maximo + 1
+
+        print('Segundo grafico:', maximo)
+
         return maximo
 
     def espacios_eje_x_grafico_tres(self):
 
         #Llamado para un método definido anteriormente
-        dividendo = self.valor_eje_x_grafico_tres()
+        dividendo = self.valor_eje_x_grafico_tres() - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
