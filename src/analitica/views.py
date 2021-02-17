@@ -442,9 +442,54 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             valor_ganado = (100 / valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
+            #Obtener la ultima fecha de emisión en B y en 0
+            fecha_emision_b = 0
+            fecha_emision_0 = 0
+            ultima_fecha_b = 0
+            ultima_fecha_0 = 0
+            ultima_de_dos = 0
+            cont = 0
+
+            for doc in documentos:
+
+                if cont == 0:
+                    
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+                    ultima_fecha_b = fecha_emision_b
+                    ultima_fecha_0 = fecha_emision_0
+                    cont = 1
+                
+                if cont != 0:
+                    
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+
+                    if fecha_emision_b > ultima_fecha_b:
+
+                        ultima_fecha_b = fecha_emision_b
+
+                    if fecha_emision_0 > ultima_fecha_0:
+                    
+                        ultima_fecha_0 = fecha_emision_0
+
+            #Verificar cuál de las dos fechas, emisión B y 0, es la última
+            if ultima_fecha_b >= ultima_fecha_0:
+
+                ultima_de_dos = ultima_fecha_b
+
+            if ultima_fecha_b < ultima_fecha_0:
+
+                ultima_de_dos = ultima_fecha_0
+
+            #Obtener fechas de inicio y termino de proyecto
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
             fecha_posterior = self.proyecto.fecha_inicio
+
+            if ultima_de_dos > fecha_termino:
+
+                fecha_termino = ultima_de_dos
 
             #Se alamacena fecha de inicio del proyecto en la Lista de Controles
             fechas_controles = []
@@ -502,16 +547,61 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
             documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
+            #Obtener la ultima fecha de emisión en B y en 0
+            fecha_emision_b = 0
+            fecha_emision_0 = 0
+            ultima_fecha_b = 0
+            ultima_fecha_0 = 0
+            ultima_de_dos = 0
+            cont = 0
+
+            for doc in documentos:
+
+                if cont == 0:
+                    
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+                    ultima_fecha_b = fecha_emision_b
+                    ultima_fecha_0 = fecha_emision_0
+                    cont = 1
+                
+                if cont != 0:
+                    
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+
+                    if fecha_emision_b > ultima_fecha_b:
+
+                        ultima_fecha_b = fecha_emision_b
+
+                    if fecha_emision_0 > ultima_fecha_0:
+                    
+                        ultima_fecha_0 = fecha_emision_0
+
+            #Verificar cuál de las dos fechas, emisión B y 0, es la última
+            if ultima_fecha_b >= ultima_fecha_0:
+
+                ultima_de_dos = ultima_fecha_b
+
+            if ultima_fecha_b < ultima_fecha_0:
+
+                ultima_de_dos = ultima_fecha_0
+
+            #Obtener fechas de inicio y termino de proyecto
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
             fecha_posterior = self.proyecto.fecha_inicio
+
+            if ultima_de_dos > fecha_termino:
+
+                fecha_termino = ultima_de_dos
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
             fechas_controles = []
             fechas_controles.append(fecha_inicio)
             fecha_actual = fecha_inicio
             
-            #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
+            #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
             while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
                 
                 fecha_actual = fecha_actual + timedelta(days=7)
@@ -602,12 +692,59 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_actual = []
         lista_final = []
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))        
         
         if valor_ganado != 0:
 
+            #Obtener la ultima fecha de emisión en B y en 0
+            fecha_emision_b = 0
+            fecha_emision_0 = 0
+            ultima_fecha_b = 0
+            ultima_fecha_0 = 0
+            ultima_de_dos = 0
+            cont = 0
+
+            for doc in documentos:
+
+                if cont == 0:
+                    
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+                    ultima_fecha_b = fecha_emision_b
+                    ultima_fecha_0 = fecha_emision_0
+                    cont = 1
+                
+                if cont != 0:
+                    
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+
+                    if fecha_emision_b > ultima_fecha_b:
+
+                        ultima_fecha_b = fecha_emision_b
+
+                    if fecha_emision_0 > ultima_fecha_0:
+                    
+                        ultima_fecha_0 = fecha_emision_0
+
+            #Verificar cuál de las dos fechas, emisión B y 0, es la última
+            if ultima_fecha_b >= ultima_fecha_0:
+
+                ultima_de_dos = ultima_fecha_b
+
+            if ultima_fecha_b < ultima_fecha_0:
+
+                ultima_de_dos = ultima_fecha_0
+
+            #Obtener fechas de inicio y termino de proyecto
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
             fecha_posterior = self.proyecto.fecha_inicio
+
+            if ultima_de_dos > fecha_termino:
+
+                fecha_termino = ultima_de_dos
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
             fechas_controles = []
@@ -671,8 +808,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         maximo = maximo + 1
 
-        print('Primer grafico:', maximo)
-
         return maximo
 
     def espacios_eje_x_grafico_uno(self):
@@ -721,8 +856,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 division_exacta = maximo % 10
 
         maximo = maximo + 1
-
-        print('Segundo grafico:', maximo)
 
         return maximo
 
