@@ -598,7 +598,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
             fechas_controles = []
+            avance_fechas_controles = []
             fechas_controles.append(fecha_inicio)
+            avance_fechas_controles.append(0)
             fecha_actual = fecha_inicio
             
             #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
@@ -607,75 +609,136 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 fecha_actual = fecha_actual + timedelta(days=7)
                 fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
-            
+                avance_fechas_controles.append(0)
+
             fechas_controles.append(fecha_termino)
+            avance_fechas_controles.append(0)
+
+            print("lista para avances por fecha de control: ", avance_fechas_controles)
             
             #Calculo del avance real por fecha de control
-            lista_inicial_real = []
-            lista_final_real = []
             avance_inicial = []
             avance_final = []
+            fecha_version = 0
 
             semana_actual = timezone.now()
 
-            for controles in fechas_controles:
+            for doc in documentos:
 
-                if semana_actual >= controles:
+                fecha_emision_0 = doc.fecha_Emision_0
+                fecha_emision_b = doc.fecha_Emision_B
+                versiones = Version.objects.filter(documento_fk=doc).last()
+                
+                if versiones:
+                    
+                    fecha_version = versiones.fecha
+                    revision_documento = versiones.revision
+                    cont = 0
+                    valor_documento = 0
 
-                    calculo_avanceReal = 0
-                    calculo_avanceReal_0 = 0
-                    calculo_avanceReal_b = 0
+                    for controles in fechas_controles:
+
+                        if semana_actual >= controles and valor_documento == 0:
+
+                            calculo_real_0 = 0
+                            calculo_real_b = 0
+                            avance_documento = 0
+
+                            for revision in TYPES_REVISION[1:4]:
+
+                                if revision[0] == revision_documento and fecha_version <= controles:
+
+                                    calculo_real_b = valor_ganado * 0.7
+
+                            for revision in TYPES_REVISION[5:]:
+
+                                if revision[0] == revision_documento and fecha_version <= controles:
+
+                                    calculo_real_0 = valor_ganado * 1
+                        
+                            if calculo_real_b > calculo_real_0:
+
+                                avance_documento = calculo_real_b
+
+                            if calculo_real_b < calculo_real_0:
+                            
+                                avance_documento = calculo_real_0
+
+                            if avance_documento != 0:
+
+                                print("Estado anterior: ", avance_fechas_controles[cont])
+                                avance_fechas_controles[cont] = int(avance_fechas_controles[cont] + avance_documento)
+                                print("Estado posterior: ", avance_fechas_controles[cont])
+                                valor_documento = 1
+                            
+                        cont = cont + 1
+
+                if not versiones:
+
+                    pass
+
+            print("lista para avances por fecha de control: ", avance_fechas_controles)
+
+            calculo_avance_final = 0
+
+            for avance in avance_fechas_controles:
+
+                calculo_avance_final = calculo_avance_final + avance
+                avance_inicial = [calculo_avance_final]
+                avance_final.append(avance_inicial)                
+
+            # for controles in fechas_controles:
+
+            #     if semana_actual >= controles:
+
+            #         calculo_avanceReal = 0
+            #         calculo_avanceReal_0 = 0
+            #         calculo_avanceReal_b = 0
                                         
-                    for doc in documentos:   
+            #         for doc in documentos:   
 
-                        #Calculo de emision en b por documento
-                        fecha_emision_b = doc.fecha_Emision_B
-                        fecha_emision_0 = doc.fecha_Emision_0
-                        versiones = Version.objects.filter(documento_fk=doc).last()
+            #             #Calculo de emision en b por documento
+            #             fecha_emision_b = doc.fecha_Emision_B
+            #             fecha_emision_0 = doc.fecha_Emision_0
+            #             versiones = Version.objects.filter(documento_fk=doc).last()
+            #             fecha_verion = versiones.fecha
 
-                        if versiones:
+            #             if versiones:
 
-                            revision_documento = versiones.revision
+            #                 revision_documento = versiones.revision
 
-                            for revision in TYPES_REVISION[1:]:
+            #                 for revision in TYPES_REVISION[1:]:
                                     
-                                #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
-                                if controles >= fecha_emision_b:
+            #                     #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
+            #                     if controles >= fecha_emision_b:
                                         
-                                    #Se verífica que el documento posea una revisión en Emisión B
-                                    if revision_documento == revision[0] and revision[0] < 5:
+            #                         #Se verífica que el documento posea una revisión en Emisión B
+            #                         if revision_documento == revision[0] and revision[0] < 5:
                                             
-                                        calculo_avanceReal_b = valor_ganado * 0.7
+            #                             calculo_avanceReal_b = valor_ganado * 0.7
 
-                                #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
-                                if controles >= fecha_emision_0:
+            #                     #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
+            #                     if controles >= fecha_emision_0:
                                         
-                                    #Se verífica que el documento posea una revisión en Emisión 0
-                                    if revision_documento == revision[0] and revision[0] > 4:
+            #                         #Se verífica que el documento posea una revisión en Emisión 0
+            #                         if revision_documento == revision[0] and revision[0] > 4:
                                             
-                                        calculo_avanceReal_0 = valor_ganado * 1 
+            #                             calculo_avanceReal_0 = valor_ganado * 1
 
-                            if calculo_avanceReal_b > calculo_avanceReal_0:
+            #                 if calculo_avanceReal_b > calculo_avanceReal_0:
                                     
-                                calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_b
+            #                     calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_b
+
+            #                 if calculo_avanceReal_b < calculo_avanceReal_0:
                                     
+            #                     calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_0
 
-                                lista_inicial_real = [calculo_avanceReal]
-                                lista_final_real.append(lista_inicial_real)
+            #             if not versiones:
 
-                            if calculo_avanceReal_b < calculo_avanceReal_0:
-                                    
-                                calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_0
-                                    
-                            lista_inicial_real = [calculo_avanceReal]
-                            lista_final_real.append(lista_inicial_real)
+            #                 pass
 
-                        if not versiones:
-
-                            pass
-
-                    avance_inicial = [int(calculo_avanceReal)]
-                    avance_final.append(avance_inicial)                    
+            #         avance_inicial = [int(calculo_avanceReal)]
+            #         avance_final.append(avance_inicial)                    
 
         if valor_ganado == 0:
                 
