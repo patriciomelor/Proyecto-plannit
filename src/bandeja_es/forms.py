@@ -60,12 +60,14 @@ VersionFormset = formset_factory(VersionDocForm, extra=1)
 # ***********************************
 
 class PaquetePreviewForm(forms.ModelForm):
-    descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
     class Meta:
         model = PrevPaquete
-        fields = ['prev_receptor', 'prev_asunto']
+        fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion']
         labels = {
             'prev_receptor': 'Destinatario'
+        }
+        widgets = {
+            'prev_descripcion': forms.Textarea
         }
 class VersionDocPreview(forms.ModelForm):
     prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
