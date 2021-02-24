@@ -71,37 +71,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             estados_documento = [0, 'Sin registros']
             estados_final.append(estados_documento)
 
-        # #Obtener lista de las últimas versiones de cada documento
-        # for doc in documentos:
-        #     versiones = Version.objects.filter(documento_fk=doc).last()
-        #     lista_actual = [versiones, doc] 
-        #     lista_final.append(lista_actual)
-
-        # #Obtener lista de cantidad de documentos por tipo de versión
-        # estados_documento = []
-        # estados_final = []
-
-        # for estado in TYPES_REVISION[1:]:
-        #     cont = 0
-
-        #     for lista in lista_final:
-
-        #         try:
-        #             estado_documento = lista[0].revision
-                    
-        #             if estado_documento == estado[0] :
-        #                 cont = cont + 1
-                
-        #         except IndexError:
-        #             pass
-
-        #         except AttributeError:
-        #             pass
-            
-        #     if cont != 0:
-        #         estados_documentos = [cont, estado[1]]
-        #         estados_final.append(estados_documentos)
-
         return estados_final
 
     ###################################################
@@ -116,6 +85,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         
         lista_actual = []
         lista_final = []
+
+        aprobados_final = []
+        aprobados_inicial = []
 
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
@@ -157,9 +129,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                         especialidad_list = especialidad_list + (str(especialidad_actual),)
 
             #Obtener lista final de cantidad de versiones/documentos por especialidad pendientes
-            aprobados_final = []
-            aprobados_inicial = []
-
             for especialidad in especialidad_list:
                 cont = 0 
                 
@@ -176,63 +145,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     aprobados_final.append(aprobados_inicial)
 
         if documentos_totales == 0:
-
+            
             aprobados_inicial = [0, 'Sin registros']
             aprobados_final.append(aprobados_inicial)
-
-
-        # #Obtener versiones que no poseen un estado de revisión
-        # for doc in documentos:
-        #     cont = 0
-        #     versiones = Version.objects.filter(documento_fk=doc).last()
-
-        #     for revision in TYPES_REVISION[1:]:
-                
-        #         try:
-                    
-        #             #Comparar que la versión no posea ningón estado de revisión
-        #             if revision[0] == versiones.revision:
-        #                 cont = 1
-
-        #         except AttributeError:
-
-        #             pass
-            
-        #     #Almacena la versión que no posee estado de revisión
-        #     if cont == 0:
-
-        #         lista_actual = [versiones, doc] 
-        #         lista_final.append(lista_actual)
-
-        # #Obtener lista de todas las especialidades
-        # for lista in lista_final: 
-        #     for special in documentos:
-        #         especialidad_actual = special.Especialidad
-        #         if not especialidad_actual in especialidad_list:
-        #             especialidad_list = especialidad_list + (str(especialidad_actual),)
-
-        # #Obtener lista final de cantidad de versiones/documentos por especialidad pendientes
-        # aprobados_final = []
-        # aprobados_inicial = []
-
-        # for especialidad in especialidad_list:
-        #     cont = 0 
-            
-        #     for lista in lista_final: 
-
-        #         try:
-        #             mi_especialidad = lista[1].Especialidad
-
-        #             if mi_especialidad == especialidad:
-        #                 cont = cont + 1
-
-        #         except AttributeError:
-        #             pass
-            
-        #     if cont != 0:
-
-        #         aprobados_inicial = [cont, especialidad]
-        #         aprobados_final.append(aprobados_inicial) 
 
         return aprobados_final      
 
@@ -305,57 +220,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             aprobados_inicial = [0, 'Sin registros']
             aprobados_final.append(aprobados_inicial)
 
-        # #Obtener lista de versiones que poseen un estado de revisión
-        # for doc in documentos:
-        #     cont = 0
-        #     versiones = Version.objects.filter(documento_fk=doc).last()
-
-        #     for revision in TYPES_REVISION[1:]:
-                
-        #         try:
-
-        #             #Comparar versiones que si poseen un estado de revisión
-        #             if revision[0] == versiones.revision:
-        #                 cont = 1
-
-        #         except AttributeError:
-
-        #             pass
-            
-        #     #Almacena las versiones que poseen un estado de revisión
-        #     if cont == 1:
-
-        #         lista_actual = [versiones, doc] 
-        #         lista_final.append(lista_actual)
-
-        # #Obtener lista de todas las especialidades
-        # for lista in lista_final: 
-        #     for special in documentos:
-        #         especialidad_actual = special.Especialidad
-        #         if not especialidad_actual in especialidad_list:
-        #             especialidad_list = especialidad_list + (str(especialidad_actual),)
-
-        # #Obtener lista final de cantidad de versiones/documentos por especialidad emitidos
-        # aprobados_final = []
-        # aprobados_inicial = []
-
-        # for especialidad in especialidad_list:
-        #     cont = 0 
-            
-        #     for lista in lista_final: 
-
-        #         try:
-        #             mi_especialidad = lista[1].Especialidad
-
-        #             if mi_especialidad == especialidad:
-        #                 cont = cont + 1
-
-        #         except AttributeError:
-        #             pass
-
-        #     aprobados_inicial = [cont, especialidad]
-        #     aprobados_final.append(aprobados_inicial) 
-
         return aprobados_final
 
     def reporte_total_documentos(self):
@@ -394,29 +258,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             lista_actual = [0, 'Sin registros']
             lista_final.append(lista_actual)
-
-        # #Obtener lista de todas las especialidades 
-        # for special in documentos:
-        #     especialidad_actual = special.Especialidad
-        #     if not especialidad_actual in especialidad_list:
-        #         especialidad_list = especialidad_list + (str(especialidad_actual),)
-
-        # for especialidad in especialidad_list:
-        #     cont = 0 
-            
-        #     for lista in documentos: 
-
-        #         try:
-        #             mi_especialidad = lista.Especialidad
-
-        #             if mi_especialidad == especialidad:
-        #                 cont = cont + 1
-
-        #         except AttributeError:
-        #             pass
-
-        #     lista_actual = [cont, especialidad]
-        #     lista_final.append(lista_actual)
         
         return lista_final
 
@@ -609,26 +450,30 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 fecha_actual = fecha_actual + timedelta(days=7)
                 fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
+
+                #Se rellena el arreglo que aumentará el avance real por documento
                 avance_fechas_controles.append(0)
 
             fechas_controles.append(fecha_termino)
             avance_fechas_controles.append(0)
-
-            print("lista para avances por fecha de control: ", avance_fechas_controles)
             
             #Calculo del avance real por fecha de control
             avance_inicial = []
             avance_final = []
+            #documentos_atrasados = []
             fecha_version = 0
+            fecha_documento = 0
 
             semana_actual = timezone.now()
 
+            #Se almacenan los dato del documento
             for doc in documentos:
 
                 fecha_emision_0 = doc.fecha_Emision_0
                 fecha_emision_b = doc.fecha_Emision_B
                 versiones = Version.objects.filter(documento_fk=doc).last()
                 
+                #Si exite una version
                 if versiones:
                     
                     fecha_version = versiones.fecha
@@ -636,110 +481,91 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     cont = 0
                     valor_documento = 0
 
+                    #Se calcula el avance real en la fecha de control que corresponda
                     for controles in fechas_controles:
 
+                        #Se realiza la comparación hasta que la fecha de control contenga el día actual
                         if semana_actual >= controles and valor_documento == 0:
 
                             calculo_real_0 = 0
                             calculo_real_b = 0
                             avance_documento = 0
 
+                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                             for revision in TYPES_REVISION[1:4]:
 
                                 if revision[0] == revision_documento and fecha_version <= controles:
 
                                     calculo_real_b = valor_ganado * 0.7
 
+                                if cont == (len(fechas_controles) - 1):
+
+                                    if revision[0] == revision_documento and fecha_version > controles:
+                                        
+                                        calculo_real_b = valor_ganado * 0.7
+
+                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                             for revision in TYPES_REVISION[5:]:
 
                                 if revision[0] == revision_documento and fecha_version <= controles:
 
                                     calculo_real_0 = valor_ganado * 1
-                        
+
+                                if cont == (len(fechas_controles) - 1):
+
+                                    if revision[0] == revision_documento and fecha_version > controles:
+                                        
+                                        calculo_real_0 = valor_ganado * 1
+
+                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b > calculo_real_0:
 
                                 avance_documento = calculo_real_b
+                                fecha_documento = fecha_emision_b
 
+                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b < calculo_real_0:
                             
                                 avance_documento = calculo_real_0
+                                fecha_documento = fecha_emision_0
 
+                            #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                            #if avance_documento != 0 and fecha_documento > fecha_version:
                             if avance_documento != 0:
 
-                                print("Estado anterior: ", avance_fechas_controles[cont])
                                 avance_fechas_controles[cont] = int(avance_fechas_controles[cont] + avance_documento)
-                                print("Estado posterior: ", avance_fechas_controles[cont])
                                 valor_documento = 1
-                            
-                        cont = cont + 1
 
+                            # #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida posteriormente a la emision estipulada
+                            # if avance_documento != 0 and fecha_documento <= fecha_version:
+
+                            #     avance_fechas_controles[cont] = int(avance_fechas_controles[cont] + avance_documento)
+                            #     documentos_atrasados.append(doc.Especialidad)
+                            #     valor_documento = 1
+                            
+                            #Aumenta el contador para almacenar en la fecha de control correspondiente  
+                            #print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento)
+                            cont = cont + 1
+                
+                #Si no hay versiones, pasa al siguiente documento
                 if not versiones:
 
                     pass
 
-            print("lista para avances por fecha de control: ", avance_fechas_controles)
-
             calculo_avance_final = 0
 
+            #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
+            contador_final = 0
+
             for avance in avance_fechas_controles:
+                
+                if contador_final < cont:
+                    calculo_avance_final = calculo_avance_final + avance
+                    avance_inicial = [calculo_avance_final]
+                    avance_final.append(avance_inicial)
+                    contador_final = contador_final + 1                                   
 
-                calculo_avance_final = calculo_avance_final + avance
-                avance_inicial = [calculo_avance_final]
-                avance_final.append(avance_inicial)                
-
-            # for controles in fechas_controles:
-
-            #     if semana_actual >= controles:
-
-            #         calculo_avanceReal = 0
-            #         calculo_avanceReal_0 = 0
-            #         calculo_avanceReal_b = 0
-                                        
-            #         for doc in documentos:   
-
-            #             #Calculo de emision en b por documento
-            #             fecha_emision_b = doc.fecha_Emision_B
-            #             fecha_emision_0 = doc.fecha_Emision_0
-            #             versiones = Version.objects.filter(documento_fk=doc).last()
-            #             fecha_verion = versiones.fecha
-
-            #             if versiones:
-
-            #                 revision_documento = versiones.revision
-
-            #                 for revision in TYPES_REVISION[1:]:
-                                    
-            #                     #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
-            #                     if controles >= fecha_emision_b:
-                                        
-            #                         #Se verífica que el documento posea una revisión en Emisión B
-            #                         if revision_documento == revision[0] and revision[0] < 5:
-                                            
-            #                             calculo_avanceReal_b = valor_ganado * 0.7
-
-            #                     #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
-            #                     if controles >= fecha_emision_0:
-                                        
-            #                         #Se verífica que el documento posea una revisión en Emisión 0
-            #                         if revision_documento == revision[0] and revision[0] > 4:
-                                            
-            #                             calculo_avanceReal_0 = valor_ganado * 1
-
-            #                 if calculo_avanceReal_b > calculo_avanceReal_0:
-                                    
-            #                     calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_b
-
-            #                 if calculo_avanceReal_b < calculo_avanceReal_0:
-                                    
-            #                     calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_0
-
-            #             if not versiones:
-
-            #                 pass
-
-            #         avance_inicial = [int(calculo_avanceReal)]
-            #         avance_final.append(avance_inicial)                    
-
+        #Si no existen documentos, se almacenan valores vacios en el arreglo final
         if valor_ganado == 0:
                 
                avance_inicial = []
@@ -936,6 +762,65 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             espacios = 1
 
         return int(espacios)
+
+        ###################################################
+        #                                                 #
+        #                                                 #
+        #   OBTENER DOCUMENTOS ATRASADOS                  #
+        #                                                 #
+        #                                                 #
+        ###################################################
+
+    def documentos_atrasados(self):
+
+        lista_atrasados = []
+        fecha_version = 0
+        fecha_emision_b = 0
+        fecha_emision_0 = 0
+        revision_documento = 0
+
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+
+        if documentos_totales != 0:
+
+            for doc in documentos:
+
+                fecha_emision_b = doc.fecha_Emision_B
+                fecha_emision_0 = doc.fecha_Emision_0
+                versiones = Version.objects.filter(documento_fk=doc).last()
+
+                if versiones:
+
+                    fecha_version = versiones.fecha
+                    revision_documento = versiones.revision
+
+                    for revision in TYPES_REVISION[1:4]:
+
+                        if revision_documento == revision[0]:
+
+                            if fecha_emision_b > fecha_version:
+
+                                lista_final.append(doc)
+
+                    for revision in TYPES_REVISION[5:]:
+
+                        if revision_documento == revision[0]:
+
+                            if fecha_emision_0 > fecha_version:
+
+                                lista_atrasados.append(doc.Codigo_documento)
+
+                if not versiones:
+
+                    pass
+
+        if documentos_totales == 0:
+
+            lista_atrasados.append(0)
+
+        print(lista_atrasados)
+        return lista_atrasados                  
 
         ###################################################
         #                                                 #
