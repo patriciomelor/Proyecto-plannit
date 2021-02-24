@@ -138,17 +138,22 @@ class BorradorList(ProyectoMixin, ListView):
 
 def create_borrador(request, paquete_pk):
     prev_paquete = PrevPaquete.objects.get(pk=paquete_pk)
-    try:
-        borrador = BorradorPaquete(
-            owner= request.user,
-            prev_paquete= prev_paquete
-        )
-        borrador.save()
-        messages.add_message(request, messages.INFO, 'Borrador Creado.')
-        return HttpResponseRedirect(reverse_lazy('Borradores'))
+    prev_versiones = prev_paquete.prev_documento.all()
+    if prev_versiones:
+        try:
+            borrador = BorradorPaquete(
+                owner= request.user,
+                prev_paquete= prev_paquete
+            )
+            borrador.save()
+            messages.add_message(request, messages.INFO, 'Borrador Creado.')
+            return HttpResponseRedirect(reverse_lazy('Borradores'))
 
-    except IntegrityError:
-        messages.add_message(request, messages.ERROR, 'El Borrador ya existe actualmente.')
+        except IntegrityError:
+            messages.add_message(request, messages.ERROR, 'El Borrador ya existe actualmente.')
+            return redirect('nueva-version', paquete_pk=paquete_pk)
+    else:
+        messages.add_message(request, messages.ERROR, 'Nada que guardar en Borrador')
         return redirect('nueva-version', paquete_pk=paquete_pk)
 
 class BorradorDelete(ProyectoMixin, DeleteView):
@@ -179,6 +184,8 @@ def create_paquete(request, paquete_pk, versiones_pk):
             owner = paquete_prev.prev_propietario,
         )
         paquete.save()
+        paquete_prev.delete()
+
         for v in versiones_pk_list:
             vertion = PrevVersion.objects.get(pk=v)
             vertion_f = Version(
@@ -192,6 +199,7 @@ def create_paquete(request, paquete_pk, versiones_pk):
             )
             vertion_f.save()
             paquete.version.add(vertion_f)
+            vertion_f.delete()
 
 
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
@@ -286,14 +294,17 @@ class TablaPopupView(ProyectoMixin, ListView):
         paquete = PrevPaquete.objects.get( pk=self.kwargs['paquete_pk'] )
         context['paquete'] = paquete
         vertions = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete)
-        for version in vertions:
-            versiones.append(version.prev_version)
-        for v in versiones:
-            versiones_pk.append(v.pk)
-        context['versiones'] = versiones
-        context['versiones_pk'] = versiones_pk
-        return render(request, 'bandeja_es/create-paquete.html', context)
-
+        if vertions:
+            for version in vertions:
+                versiones.append(version.prev_version)
+            for v in versiones:
+                versiones_pk.append(v.pk)
+            context['versiones'] = versiones
+            context['versiones_pk'] = versiones_pk
+            return render(request, 'bandeja_es/create-paquete.html', context)
+        else:
+            messages.add_message(request, messages.ERROR, message='No se puede obtener la vista previa de un tramital sin revisiones.')
+            return redirect('nueva-version', paquete_pk=paquete.pk)
 class PrevVersionView(ProyectoMixin, FormView):
     model = PrevVersion
     template_name = 'bandeja_es/popup-archivo.html'
@@ -318,3 +329,37 @@ class PrevVersionView(ProyectoMixin, FormView):
         paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
         paquete.prev_documento.add(version)
         return HttpResponse('<script type="text/javascript"> window.opener.location.reload(); window.close(); </script>')
+class UpdatePrevVersion(ProyectoMixin, UpdateView):
+    model = PrevVersion
+    template_name = 'bandeja_es/popup-archivo.html'
+    form_class = PrevVersionForm
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        paquete = PrevPaquete.objects.get(pk= self.kwargs['paquete_pk'])
+        kwargs["paquete_pk"] = paquete
+        return kwargs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        paquete = PrevPaquete.objects.get(pk= self.kwargs['paquete_pk'])
+        context["paquete_pk"] = paquete
+        return context
+    
+    def form_valid(self, form, **kwargs):
+        version = form.save(commit=False)
+        version.prev_owner = self.request.user
+        version.save()
+        paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
+        paquete.prev_documento.add(version)
+        return HttpResponse('<script type="text/javascript"> window.opener.location.reload(); window.close(); </script>')
+
+
+def delete_prev_version(request, id_version, paquete_pk):
+    if request.method == 'GET':
+        prev_version = PrevVersion.objects.get(pk=id_version)
+        print(prev_version)
+        prev_version.delete()
+        print(prev_version.pk)
+        messages.add_message(request, messages.INFO, message='Revisión eliminada')
+    return redirect('nueva-version', paquete_pk=paquete_pk)

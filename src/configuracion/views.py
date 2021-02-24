@@ -42,9 +42,12 @@ class UsuarioView(ProyectoMixin, CreateView):
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
         rol = form.cleaned_data['rol_usuario']
+        grupo = Group.objects.get(name= self.proyecto.codigo)
         user.groups.add(grupo)
-        passwrd1 =  form.cleaned_data['password']
+        passwrd1 =  form.cleaned_data['password2']
         email = form.cleaned_data['email']
+        print("contraseña: ", passwrd1)
+        print("email: ", email)
         context['password'] = passwrd1
         context['email'] = email
         perfil = Perfil.objects.get_or_create(
