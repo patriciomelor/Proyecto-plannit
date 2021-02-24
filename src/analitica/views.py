@@ -151,13 +151,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         return aprobados_final      
 
-        ###################################################
-        #                                                 #
-        #                                                 #
-        #   TERCER GRÁFICO DE STATUS POR ESPECIALIDAD     #
-        #                                                 #
-        #                                                 #
-        ###################################################
+
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #   TERCER GRÁFICO DE STATUS POR ESPECIALIDAD     #
+    #                                                 #
+    #                                                 #
+    ###################################################
 
     def reporte_total_documentos_emitidos(self):
         
@@ -261,13 +262,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         
         return lista_final
 
-        ###################################################
-        #                                                 #
-        #                                                 #
-        #   CUARTO GRÁFICO DE CURVA S                     #
-        #                                                 #
-        #                                                 #
-        ###################################################
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #   CUARTO GRÁFICO DE CURVA S                     #
+    #                                                 #
+    #                                                 #
+    ###################################################
     
     def reporte_curva_s_avance_esperado(self):
                 
@@ -657,13 +658,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         return fechas_controles
 
-        ###################################################
-        #                                                 #
-        #                                                 #
-        #   OBTENER VALORES DE LOS EJES                   #
-        #                                                 #
-        #                                                 #
-        ###################################################
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #   OBTENER VALORES DE LOS EJES                   #
+    #                                                 #
+    #                                                 #
+    ###################################################
 
     def valor_eje_x_grafico_uno(self):
 
@@ -763,13 +764,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         return int(espacios)
 
-        ###################################################
-        #                                                 #
-        #                                                 #
-        #   OBTENER DOCUMENTOS ATRASADOS                  #
-        #                                                 #
-        #                                                 #
-        ###################################################
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #   OBTENER DOCUMENTOS ATRASADOS                  #
+    #                                                 #
+    #                                                 #
+    ###################################################
 
     def documentos_atrasados(self):
 
@@ -822,13 +823,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         print(lista_atrasados)
         return lista_atrasados                  
 
-        ###################################################
-        #                                                 #
-        #                                                 #
-        #   METODO PARA EXPLAYAR INFO                     #
-        #                                                 #
-        #                                                 #
-        ###################################################
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #            METODO PARA EXPLAYAR INFO            #
+    #                                                 #
+    #                                                 #
+    ###################################################
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
