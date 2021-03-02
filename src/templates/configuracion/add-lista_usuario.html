@@ -24,9 +24,7 @@
     
          <thead>
             <tr>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"><label class="ckbox">
-                <input type="checkbox" disabled checked="">
-              </label></th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"><label class="ckbox"></th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Usuario </th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Email </th>
             </tr>
@@ -37,7 +35,7 @@
               {% csrf_token %}
               {% for user in users %}
               <tr id="{{user.pk}}" >
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"  ><input type="checkbox" name="document_id[]" value="{{user.pk}}" id="delete_document"></th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"  ><input type="checkbox" name="user_id[]" value="{{user.pk}}" id="delete_document"></th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{user.username}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{user.email}} </th>                  
               </tr>

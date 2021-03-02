@@ -240,7 +240,8 @@ class UsuarioDetail(ProyectoMixin, DetailView):
 class UsuarioAdd(ProyectoMixin, ListView):
     model = User
     template_name = 'configuracion/add-lista_usuario.html'
-
+    context_object_name = 'users'
+    
     def post(self, request, *args, **kwargs):
         usuario_ids = self.request.POST.getlist('id[]')
         for usuario in usuario_ids:
