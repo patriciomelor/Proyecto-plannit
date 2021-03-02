@@ -10,7 +10,7 @@
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Panel de Analítica</h4>
   </div>
-  
+  <!--Curva S-->
   <div class="row row-sm mg-t-20">
     <div class="col-md-12">
           <div class="widget-2">
@@ -26,9 +26,11 @@
                 </div>
               </div>
         </div>
-      </div>  
+  </div>
+  <!--Graficos Juntos-->  
   <div class="row row-sm mg-t-20">
-              <div class="col-md-6">
+    <!--Listado Enviados-->
+    <div class="col-md-6">
               <div class="widget-2">
                   <div class="card shadow-base overflow-hidden chart">
 
@@ -43,8 +45,9 @@
                     </div>
                     </div>
                   </div>
-              </div>
-              <div class="col-md-6">
+    </div>
+    <!--Lista Pendiente Pie-->
+    <div class="col-md-6">
                 <div class="widget-2">
                     <div class="card shadow-base overflow-hidden chart">
                     
@@ -59,9 +62,9 @@
                         </div>
                       </div>
                     </div>
-              </div>
-              
+    </div>              
   </div>
+  <!--4to Grafico-->
   <div class="row row-sm mg-t-20">
     
     <div class="col-md-12">
@@ -80,7 +83,7 @@
             </div>
           </div>
       </div>
-</div>
+  </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>          
 <script>
@@ -88,7 +91,7 @@
     //DOCUMENTOS POR EMITIR POR SUBESTACION
     var ctx = document.getElementById('myChart5').getContext('2d');
     var myChart5 = new Chart(ctx, {
-      type: 'polarArea',
+      type: 'doughnut',
       fill: false,
       data: {
           labels: [ '{% for emisiones in lista_emisiones %} {% if forloop.counter != lista_emisiones_largo %} {{emisiones.1}}', '{% endif %} {% if forloop.counter == lista_emisiones_largo %} {{emisiones.1}} {% endif %} {% endfor %}' ],
@@ -165,20 +168,22 @@
           labels: ['{% for value in lista_final %} {% if forloop.counter != lista_final_largo %} {{value.1}}', ' {% endif %} {% if forloop.counter == lista_final_largo %} {{value.1}} {% endif %} {% endfor %}'],
           datasets: [{
               label: 'Totales de documento por revisión',  
-              data: [{% for value in lista_final %} 
-              {% if forloop.counter != lista_final_largo %} 
+              data: [
+                {% for value in lista_final %} 
+                  {% if forloop.counter != lista_final_largo %} 
 
-              {{value.0}},
+                    {{value.0}},
 
-              {% endif %} 
+                  {% endif %} 
 
-              {% if forloop.counter == lista_final_largo %}
-              
-              {{value.0}}
-              
-              {% endif %}
-              
-              {% endfor %}],
+                  {% if forloop.counter == lista_final_largo %}
+                  
+                    {{value.0}}
+                  
+                  {% endif %}
+                  
+                {% endfor %}
+              ],
               fill: false,
               backgroundColor: [
                   'rgba(209, 104, 210, 0.2)',
@@ -238,20 +243,21 @@
           datasets: [
             {
               label: 'Documentos Totales',
-              data: [{% for emisiones in lista_total_documentos %}
-              {% if forloop.counter != lista_total_documentos_largo %} 
+              data: [
+                {% for emisiones in lista_total_documentos %}
+                 {% if forloop.counter != lista_total_documentos_largo %} 
 
-              {{emisiones.0}},
+                  {{emisiones.0}},
 
-              {% endif %} 
+                 {% endif %} 
 
-              {% if forloop.counter == lista_total_documentos_largo %}
+                  {% if forloop.counter == lista_total_documentos_largo %}
               
-              {{emisiones.0}}
+                    {{emisiones.0}}
               
-              {% endif %}
+                  {% endif %}
               
-              {% endfor %}], 
+                {% endfor %}], 
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
