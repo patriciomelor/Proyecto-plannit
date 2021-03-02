@@ -35,7 +35,6 @@ class UsuarioView(ProyectoMixin, CreateView):
         context["grupo"] = grupo
         return context
     
-
     def form_valid(self, form):
         context = {}
         response = super().form_valid(form)
@@ -241,7 +240,16 @@ class UsuarioDetail(ProyectoMixin, DetailView):
 class UsuarioAdd(ProyectoMixin, ListView):
     model = User
     context_object_name = 'users'
-    template_name = 'configuracion/users-add.html'
+    template_name = 'configuracion/add-lista_usuario.html'
+
+    def post(self, request, *args, **kwargs):
+        usuario_ids = self.request.POST.getlist('id[]')
+        for usuario in usuario_ids:
+            user = User.objects.get(pk=usuario)
+            codigo = self.proyecto.codigo
+            grupo = Group.objects.get(name=codigo)
+            user.groups.add(grupo)
+        return render(request, self.template_name)
 
 class ProyectoList(ProyectoMixin, ListView):
     context_object_name = 'proyectos'

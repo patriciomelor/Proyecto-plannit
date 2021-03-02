@@ -36,7 +36,6 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
     model = Proyecto
     success_url = reverse_lazy("index")
 
-
     def get_form_kwargs(self):
         group_name_list = []
         kwargs = super().get_form_kwargs()
