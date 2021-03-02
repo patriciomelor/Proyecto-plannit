@@ -74,12 +74,6 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         context = super().get_context_data(**kwargs)
         paquete = Paquete.objects.get(pk=self.kwargs['pk'])
         versiones = paquete.version.all()
-        # for version in versiones:
-        #     act_version = version.version
-        #     static = '/static'+act_version.archivo.url
-        #     listado_versiones_url.append(static)
-        #     print(listado_versiones_url)
-
         context['versiones'] = versiones
         return context
     

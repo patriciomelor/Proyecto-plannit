@@ -240,7 +240,18 @@ class UsuarioDetail(ProyectoMixin, DetailView):
 class UsuarioAdd(ProyectoMixin, ListView):
     model = User
     template_name = 'configuracion/add-lista_usuario.html'
-    context_object_name = 'users'
+
+    def get_context_data(self, **kwargs):
+        user_list = []
+        codigo = self.proyecto.codigo
+        grupo = Group.objects.get(name=codigo)
+        context = super().get_context_data(**kwargs)
+        users = User.objects.all()
+        for user in users:
+            if not grupo in user.groups.all():
+                user_list.append(user)
+        context['users'] = user_list
+        return context
     
     def post(self, request, *args, **kwargs):
         usuario_ids = self.request.POST.getlist('id[]')
@@ -249,7 +260,7 @@ class UsuarioAdd(ProyectoMixin, ListView):
             codigo = self.proyecto.codigo
             grupo = Group.objects.get(name=codigo)
             user.groups.add(grupo)
-        return render(request, self.template_name)
+        return redirect('listar-usuarios')
 
 class ProyectoList(ProyectoMixin, ListView):
     context_object_name = 'proyectos'
