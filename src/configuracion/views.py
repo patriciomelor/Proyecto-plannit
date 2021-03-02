@@ -236,7 +236,12 @@ class UsuarioDetail(ProyectoMixin, DetailView):
         print(grupos)
         context["grupos"] = grupos
         return context
-    
+
+# Añade usuarios al proyecto actual seleccionado
+class UsuarioAdd(ProyectoMixin, ListView):
+    model = User
+    context_object_name = 'users'
+    template_name = 'configuracion/users-add.html'
 
 class ProyectoList(ProyectoMixin, ListView):
     context_object_name = 'proyectos'
@@ -263,7 +268,9 @@ class ProyectoDelete(ProyectoMixin, DeleteView):
         if objeto == proyecto:
             messages.add_message(request, messages.ERROR, 'No se puede eliminar el proyecto seleccionado.')
             return redirect('lista-proyecto')
-        else:
+        else:  
+            proyect_group= Group.objects.get(name=objeto.codigo)
+            proyect_group.delete()
             return super(ProyectoDelete, self).delete(request, *args, **kwargs)
 
 
