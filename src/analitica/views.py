@@ -820,7 +820,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             lista_atrasados.append(0)
 
-        print(lista_atrasados)
         return lista_atrasados                  
 
     ###################################################
@@ -852,5 +851,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
         context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
         context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
+        context['documentos_atrasados'] = self.documentos_atrasados()
 
         return context
