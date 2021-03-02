@@ -239,7 +239,6 @@ class UsuarioDetail(ProyectoMixin, DetailView):
 # Añade usuarios al proyecto actual seleccionado
 class UsuarioAdd(ProyectoMixin, ListView):
     model = User
-    context_object_name = 'users'
     template_name = 'configuracion/add-lista_usuario.html'
 
     def post(self, request, *args, **kwargs):
