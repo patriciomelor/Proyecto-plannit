@@ -1,0 +1,133 @@
+{% extends 'index-base.html' %}
+
+{% block navegacion %}
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item" >Configuraciones</a>      
+      <span class="breadcrumb-item active"> Agregar Usuarios</span>
+    </nav>
+</div>
+{% endblock navegacion %}
+
+
+{% block content %}
+
+
+<div class="br-pagebody pd-x-20 pd-sm-x-30">
+  <div class="card bd-0 shadow-base" >                 
+          <div class="row col-8 mg-t-10 mg-b-20">
+            <a ><button class="btn btn-danger"  id="delete_btn" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;" type="submit"> Agregar Seleccionados </button></a></th>
+            <a  href="" ><button class="btn btn-danger mg-l-10" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;" type="submit"> Agregar todos Usuarios </button></a></th>
+        </div>
+          <table border="1" style="width:auto; height:20px;white-space: nowrap;"  class="table table-striped mg-b-0 table-bordered table-primary"style="width:100%;">       
+    <!--Table-->  
+    
+         <thead>
+            <tr>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"><label class="ckbox">
+                <input type="checkbox" disabled checked="">
+              </label></th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Especialidad</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Descripcion Documentos</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento Contractual</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Numero Interno</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo Doc.</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada de Emision</th>
+              
+            </tr>
+          </thead>
+          <tbody>
+          
+            <tr>
+              <th colspan="6"></th>
+              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Inicio Emision en Rev B</th>              
+              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emision en Rev 0</th>
+            </tr>
+          
+          <tbody>   
+              <!--Loop Listar Documento-->
+              {% csrf_token %}
+              {% for documento in documentos %}
+              <tr id="{{documento.pk}}" >
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"  ><input type="checkbox" name="document_id[]" value="{{documento.pk}}" id="delete_document"></th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Especialidad}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Descripcion}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Codigo_documento}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Tipo_Documento}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Numero_documento_interno}}</th>                  
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.fecha_Emision_B|date:'d-M-y'}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.fecha_Emision_0|date:'d-M-y'}}</th>
+              </tr>           
+              
+              {% empty %}
+              <div class="modal fade in" id="myModal" role="dialog" style="display: block; padding-right: 16px;">
+                <div class="modal-dialog" role="document">
+                  <div class="modal-content tx-size-sm">
+                    <div class="modal-body tx-center pd-y-20 pd-x-20">
+                    
+                      <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                      <h4 class="tx-danger  tx-semibold mg-b-20">Error: No hay Información Ingresada!</h4>
+                      <p class="mg-b-20 mg-x-20">Recuerde Que puede importar desde <strong>Excel</strong> o Insertar Manualmente por formulario.</p>
+                      <h6 class="tx-info tx-semibold mg-b-20">Descargar plantilla de informacion <a href="{% url 'panel-export' %}">Aqui</a></h6>
+                      <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
+                        Continue</button>
+                        
+                      </div><!-- modal-body -->
+                    </div><!-- modal-content -->
+                  </div><!-- modal-dialog -->
+              </div>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+            <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+            <script type="text/javascript">
+             $(function(){
+              $("#myModal").modal();
+             });
+            </script>
+        {% endfor %}
+              <!--Fin Loop-->
+            </tbody>
+          </table>
+
+      </div>
+    </div>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#delete_btn').click(function(){
+      if(confirm("Estás seguro que desea eliminar los registros selecionados?")){
+        var id =[];
+        var csrf=$('input[name=csrfmiddlewaretoken]').val();
+        $(':checkbox:checked').each(function(i){
+          id[i]=$(this).val()
+        })
+        if(id.length==0){
+          alert("No has seleccionado ningun registro para eliminar.")
+        }else{
+          console.log(id)
+          $.ajax({
+            url: ".",
+            method: "POST",
+            data:{
+              id,
+              csrfmiddlewaretoken:csrf
+            },
+            success:function(response){
+              for(var i=0; i < id.length; i++){
+                $('tr#'+id[i]+'').css('background-color','#ccc');
+                $('tr#'+id[i]+'').fadeOut('slow');
+                location.reload();
+              }
+            }
+          })
+        }
+      }
+    })
+  })
+
+</script>
+{% endblock content %}
