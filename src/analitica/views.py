@@ -34,8 +34,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
-        print("Cantidad documentos: ", documentos_totales)
-
         if documentos_totales != 0:
         
             #Obtener lista de las últimas versiones de cada documento
@@ -44,7 +42,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 if versiones:
                     
-                    print("Version: ", versiones.revision)
                     lista_actual = [versiones, doc] 
                     lista_final.append(lista_actual)
 
@@ -542,6 +539,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                     avance_inicial = [int(calculo_avanceReal)]
                     avance_final.append(avance_inicial)                    
+                
+                #print("Fecha de control: ", controles, " Avance real: ", calculo_avanceReal)
 
             avance_inicial = []
             avance_final = []
