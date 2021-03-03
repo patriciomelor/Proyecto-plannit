@@ -244,6 +244,8 @@
           labels: ['{% for emisiones in lista_total_documentos %} {% if forloop.counter != lista_total_documentos_largo %} {{emisiones.1}}', ' {% endif %} {% if forloop.counter == lista_total_documentos_largo %} {{emisiones.1}} {% endif %} {% endfor %}'],
           datasets: [
             {
+              label: 'Documentos totales',
+              data: [{% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %}],
               label: 'Documentos Totales',
               data: [
                 {% for emisiones in lista_total_documentos %}
