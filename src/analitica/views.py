@@ -34,6 +34,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
+        print("Cantidad documentos: ", documentos_totales)
+
         if documentos_totales != 0:
         
             #Obtener lista de las últimas versiones de cada documento
@@ -41,7 +43,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 versiones = Version.objects.filter(documento_fk=doc).last()
 
                 if versiones:
-
+                    
+                    print("Version: ", versiones.revision)
                     lista_actual = [versiones, doc] 
                     lista_final.append(lista_actual)
 
@@ -284,6 +287,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             valor_ganado = (100 / valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
+            fecha_inicio = self.proyecto.fecha_inicio
+            fecha_termino = self.proyecto.fecha_termino
+            fecha_posterior = self.proyecto.fecha_inicio
+
             #Obtener la ultima fecha de emisión en B y en 0
             fecha_emision_b = 0
             fecha_emision_0 = 0
@@ -389,6 +396,15 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
             documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
+            fecha_inicio = self.proyecto.fecha_inicio
+            fecha_termino = self.proyecto.fecha_termino
+            fecha_posterior = self.proyecto.fecha_inicio
+
+            #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
+            fechas_controles = []
+            fechas_controles.append(fecha_inicio)
+            fecha_actual = fecha_inicio
+            
             #Obtener la ultima fecha de emisión en B y en 0
             fecha_emision_b = 0
             fecha_emision_0 = 0
@@ -458,7 +474,75 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles.append(fecha_termino)
             avance_fechas_controles.append(0)
             
+            fechas_controles.append(fecha_termino)
+            
             #Calculo del avance real por fecha de control
+            lista_inicial_real = []
+            lista_final_real = []
+            avance_inicial = []
+            avance_final = []
+
+            semana_actual = timezone.now()
+
+            for controles in fechas_controles:
+
+                if semana_actual >= controles:
+
+                    calculo_avanceReal = 0
+                    calculo_avanceReal_0 = 0
+                    calculo_avanceReal_b = 0
+                                        
+                    for doc in documentos:   
+
+                        #Calculo de emision en b por documento
+                        fecha_emision_b = doc.fecha_Emision_B
+                        fecha_emision_0 = doc.fecha_Emision_0
+                        versiones = Version.objects.filter(documento_fk=doc).last()
+
+                        if versiones:
+
+                            revision_documento = versiones.revision
+
+                            for revision in TYPES_REVISION[1:]:
+                                    
+                                #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
+                                if controles >= fecha_emision_b:
+                                        
+                                    #Se verífica que el documento posea una revisión en Emisión B
+                                    if revision_documento == revision[0] and revision[0] < 5:
+                                            
+                                        calculo_avanceReal_b = valor_ganado * 0.7
+
+                                #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
+                                if controles >= fecha_emision_0:
+                                        
+                                    #Se verífica que el documento posea una revisión en Emisión 0
+                                    if revision_documento == revision[0] and revision[0] > 4:
+                                            
+                                        calculo_avanceReal_0 = valor_ganado * 1 
+
+                            if calculo_avanceReal_b > calculo_avanceReal_0:
+                                    
+                                calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_b
+                                    
+
+                                lista_inicial_real = [calculo_avanceReal]
+                                lista_final_real.append(lista_inicial_real)
+
+                            if calculo_avanceReal_b < calculo_avanceReal_0:
+                                    
+                                calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_0
+                                    
+                            lista_inicial_real = [calculo_avanceReal]
+                            lista_final_real.append(lista_inicial_real)
+
+                        if not versiones:
+
+                            pass
+
+                    avance_inicial = [int(calculo_avanceReal)]
+                    avance_final.append(avance_inicial)                    
+
             avance_inicial = []
             avance_final = []
             #documentos_atrasados = []
@@ -587,6 +671,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         
         if valor_ganado != 0:
 
+            fecha_inicio = self.proyecto.fecha_inicio
+            fecha_termino = self.proyecto.fecha_termino
+            fecha_posterior = self.proyecto.fecha_inicio
+
             #Obtener la ultima fecha de emisión en B y en 0
             fecha_emision_b = 0
             fecha_emision_0 = 0
@@ -691,6 +779,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         if maximo > 20:  
             
             division_exacta = maximo % 10
+
+            while division_exacta != 0:
+                maximo = maximo + 1
+                division_exacta = maximo % 10
 
             while division_exacta != 0:
                 maximo = maximo + 1
@@ -834,6 +926,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['lista_final'] = self.reporte_general()
+        context['lista_final_largo'] = len(self.reporte_total_documentos())
         context['lista_final_largo'] = len(self.reporte_general()) 
         context['lista_emisiones'] = self.reporte_emisiones()
         context['lista_emisiones_largo'] = len(self.reporte_emisiones()) 
