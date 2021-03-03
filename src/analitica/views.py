@@ -34,6 +34,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
+        print("Cantidad documentos: ", documentos_totales)
+
         if documentos_totales != 0:
         
             #Obtener lista de las últimas versiones de cada documento
@@ -41,7 +43,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 versiones = Version.objects.filter(documento_fk=doc).last()
 
                 if versiones:
-
+                    
+                    print("Version: ", versiones.revision)
                     lista_actual = [versiones, doc] 
                     lista_final.append(lista_actual)
 
@@ -284,12 +287,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             valor_ganado = (100 / valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
 
-<<<<<<< HEAD
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
             fecha_posterior = self.proyecto.fecha_inicio
 
-=======
             #Obtener la ultima fecha de emisión en B y en 0
             fecha_emision_b = 0
             fecha_emision_0 = 0
@@ -339,7 +340,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 fecha_termino = ultima_de_dos
 
->>>>>>> 91f603974113f7aafbd22c37a44a4f2473b27f33
             #Se alamacena fecha de inicio del proyecto en la Lista de Controles
             fechas_controles = []
             fechas_controles.append(fecha_inicio)
@@ -396,7 +396,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
             documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
-<<<<<<< HEAD
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
             fecha_posterior = self.proyecto.fecha_inicio
@@ -406,8 +405,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles.append(fecha_inicio)
             fecha_actual = fecha_inicio
             
-            #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
-=======
             #Obtener la ultima fecha de emisión en B y en 0
             fecha_emision_b = 0
             fecha_emision_0 = 0
@@ -465,7 +462,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fecha_actual = fecha_inicio
             
             #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
->>>>>>> 91f603974113f7aafbd22c37a44a4f2473b27f33
             while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
                 
                 fecha_actual = fecha_actual + timedelta(days=7)
@@ -481,7 +477,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles.append(fecha_termino)
             
             #Calculo del avance real por fecha de control
-<<<<<<< HEAD
             lista_inicial_real = []
             lista_final_real = []
             avance_inicial = []
@@ -548,7 +543,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     avance_inicial = [int(calculo_avanceReal)]
                     avance_final.append(avance_inicial)                    
 
-=======
             avance_inicial = []
             avance_final = []
             #documentos_atrasados = []
@@ -657,7 +651,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     contador_final = contador_final + 1                                   
 
         #Si no existen documentos, se almacenan valores vacios en el arreglo final
->>>>>>> 91f603974113f7aafbd22c37a44a4f2473b27f33
         if valor_ganado == 0:
                 
                avance_inicial = []
@@ -677,12 +670,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))        
         
         if valor_ganado != 0:
-<<<<<<< HEAD
 
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
             fecha_posterior = self.proyecto.fecha_inicio
-=======
 
             #Obtener la ultima fecha de emisión en B y en 0
             fecha_emision_b = 0
@@ -732,7 +723,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if ultima_de_dos > fecha_termino:
 
                 fecha_termino = ultima_de_dos
->>>>>>> 91f603974113f7aafbd22c37a44a4f2473b27f33
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
             fechas_controles = []
@@ -789,19 +779,16 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         if maximo > 20:  
             
             division_exacta = maximo % 10
-<<<<<<< HEAD
 
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-=======
 
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
 
         maximo = maximo + 1
->>>>>>> 91f603974113f7aafbd22c37a44a4f2473b27f33
 
         return maximo
 
@@ -850,11 +837,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 maximo = maximo + 1
                 division_exacta = maximo % 10
 
-<<<<<<< HEAD
-=======
         maximo = maximo + 1
 
->>>>>>> 91f603974113f7aafbd22c37a44a4f2473b27f33
         return maximo
 
     def espacios_eje_x_grafico_tres(self):
@@ -871,8 +855,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             espacios = 1
 
         return int(espacios)
-<<<<<<< HEAD
-=======
 
     ###################################################
     #                                                 #
@@ -915,7 +897,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 lista_final.append(doc)
 
                     for revision in TYPES_REVISION[5:]:
->>>>>>> 91f603974113f7aafbd22c37a44a4f2473b27f33
 
                         if revision_documento == revision[0]:
 
@@ -945,11 +926,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
 
         context['lista_final'] = self.reporte_general()
-<<<<<<< HEAD
         context['lista_final_largo'] = len(self.reporte_total_documentos())
-=======
         context['lista_final_largo'] = len(self.reporte_general()) 
->>>>>>> 91f603974113f7aafbd22c37a44a4f2473b27f33
         context['lista_emisiones'] = self.reporte_emisiones()
         context['lista_emisiones_largo'] = len(self.reporte_emisiones()) 
         context['lista_total_documentos_emitidos'] = self.reporte_total_documentos_emitidos()

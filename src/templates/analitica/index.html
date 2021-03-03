@@ -244,10 +244,8 @@
           labels: ['{% for emisiones in lista_total_documentos %} {% if forloop.counter != lista_total_documentos_largo %} {{emisiones.1}}', ' {% endif %} {% if forloop.counter == lista_total_documentos_largo %} {{emisiones.1}} {% endif %} {% endfor %}'],
           datasets: [
             {
-<<<<<<< HEAD
               label: 'Documentos totales',
               data: [{% for emisiones in lista_total_documentos %} {{emisiones.0}}, {% endfor %}],
-=======
               label: 'Documentos Totales',
               data: [
                 {% for emisiones in lista_total_documentos %}
@@ -264,7 +262,6 @@
                   {% endif %}
               
                 {% endfor %}], 
->>>>>>> 91f603974113f7aafbd22c37a44a4f2473b27f33
               backgroundColor: [
                   'rgba(255, 99, 132, 0.2)',
                   'rgba(54, 162, 235, 0.2)',
