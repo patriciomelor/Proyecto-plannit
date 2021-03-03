@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 import os
 from pathlib import Path
 from django.urls import reverse_lazy
-
+from django.contrib.messages import constants as messages
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -218,3 +218,11 @@ STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 MEDIA_ROOT = os.path.join(BASE_DIR,'static/media')
 
 MEDIA_URL = '/media/'
+
+MESSAGE_TAGS = {
+    messages.DEBUG: 'alert alert-bordered alert-info',
+    messages.INFO: 'alert alert-bordered alert-info',
+    messages.SUCCESS: 'alert alert-bordered alert-success',
+    messages.WARNING: 'alert alert-bordered alert-warning',
+    messages.ERROR: 'alert alert-bordered alert-warning',
+}
