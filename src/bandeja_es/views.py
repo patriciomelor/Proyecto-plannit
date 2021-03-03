@@ -158,7 +158,7 @@ class BorradorDelete(ProyectoMixin, DeleteView):
 def create_paquete(request, paquete_pk, versiones_pk):
     context = {}
     if request.method == 'GET':
-
+    
     #########################################################
     #             Transformación de str                     #
     #                a Lista de Pk's                        #
@@ -169,7 +169,6 @@ def create_paquete(request, paquete_pk, versiones_pk):
     #                                                       #
     #                                                       #
     #########################################################
-
         paquete_prev = PrevPaquete.objects.get(pk=paquete_pk)
         paquete = Paquete(
             asunto = paquete_prev.prev_asunto,
@@ -193,8 +192,7 @@ def create_paquete(request, paquete_pk, versiones_pk):
             )
             vertion_f.save()
             paquete.version.add(vertion_f)
-            vertion_f.delete()
-
+            vertion.delete()
 
         return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
 
@@ -283,17 +281,14 @@ class TablaPopupView(ProyectoMixin, ListView):
     
     def post(self, request, *args, **kwargs):
         context={}
-        versiones = []
         versiones_pk = []
         paquete = PrevPaquete.objects.get( pk=self.kwargs['paquete_pk'] )
         context['paquete'] = paquete
-        vertions = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete)
+        vertions = paquete.prev_documento.all()
         if vertions:
-            for version in vertions:
-                versiones.append(version.prev_version)
-            for v in versiones:
-                versiones_pk.append(v.pk)
-            context['versiones'] = versiones
+            context['versiones'] = vertions
+            for vertion in vertions:
+                versiones_pk.append(vertion.pk)
             context['versiones_pk'] = versiones_pk
             return render(request, 'bandeja_es/create-paquete.html', context)
         else:
@@ -347,7 +342,6 @@ class UpdatePrevVersion(ProyectoMixin, UpdateView):
         paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
         paquete.prev_documento.add(version)
         return HttpResponse('<script type="text/javascript"> window.opener.location.reload(); window.close(); </script>')
-
 
 def delete_prev_version(request, id_version, paquete_pk):
     if request.method == 'GET':
