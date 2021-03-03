@@ -35,16 +35,18 @@ class UsuarioView(ProyectoMixin, CreateView):
         context["grupo"] = grupo
         return context
     
-
     def form_valid(self, form):
         context = {}
         response = super().form_valid(form)
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
         rol = form.cleaned_data['rol_usuario']
+        grupo = Group.objects.get(name= self.proyecto.codigo)
         user.groups.add(grupo)
-        passwrd1 =  form.cleaned_data['password']
+        passwrd1 =  form.cleaned_data['password2']
         email = form.cleaned_data['email']
+        print("contraseña: ", passwrd1)
+        print("email: ", email)
         context['password'] = passwrd1
         context['email'] = email
         perfil = Perfil.objects.get_or_create(
@@ -233,7 +235,32 @@ class UsuarioDetail(ProyectoMixin, DetailView):
         print(grupos)
         context["grupos"] = grupos
         return context
+
+# Añade usuarios al proyecto actual seleccionado
+class UsuarioAdd(ProyectoMixin, ListView):
+    model = User
+    template_name = 'configuracion/add-lista_usuario.html'
+
+    def get_context_data(self, **kwargs):
+        user_list = []
+        codigo = self.proyecto.codigo
+        grupo = Group.objects.get(name=codigo)
+        context = super().get_context_data(**kwargs)
+        users = User.objects.all()
+        for user in users:
+            if not grupo in user.groups.all():
+                user_list.append(user)
+        context['users'] = user_list
+        return context
     
+    def post(self, request, *args, **kwargs):
+        usuario_ids = self.request.POST.getlist('id[]')
+        for usuario in usuario_ids:
+            user = User.objects.get(pk=usuario)
+            codigo = self.proyecto.codigo
+            grupo = Group.objects.get(name=codigo)
+            user.groups.add(grupo)
+        return redirect('listar-usuarios')
 
 class ProyectoList(ProyectoMixin, ListView):
     context_object_name = 'proyectos'
@@ -260,7 +287,9 @@ class ProyectoDelete(ProyectoMixin, DeleteView):
         if objeto == proyecto:
             messages.add_message(request, messages.ERROR, 'No se puede eliminar el proyecto seleccionado.')
             return redirect('lista-proyecto')
-        else:
+        else:  
+            proyect_group= Group.objects.get(name=objeto.codigo)
+            proyect_group.delete()
             return super(ProyectoDelete, self).delete(request, *args, **kwargs)
 
 

@@ -49,8 +49,8 @@ class DocFilter(django_filters.FilterSet):
             )
         )
     Codigo_documento = django_filters.CharFilter(
-        lookup_expr='icontains',
         label='Codigo Documento', 
+        lookup_expr='icontains',
         widget=forms.TextInput(
             attrs={
                 'name':'#ordenName3',
@@ -62,6 +62,7 @@ class DocFilter(django_filters.FilterSet):
     Tipo_Documento = django_filters.CharFilter(
         lookup_expr='icontains',
         label='Tipo Documento', 
+
         widget=forms.TextInput(
             attrs={
                 'name':'#ordenName4',

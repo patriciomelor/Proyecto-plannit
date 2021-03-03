@@ -36,18 +36,19 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
     model = Proyecto
     success_url = reverse_lazy("index")
 
-    # def get(self, request, *args, **kwargs):
-        
-
-    # def get_form_kwargs(self):
-    #     proyect_list = []
-    #     kwargs = super().get_form_kwargs()
-    #     grupos = self.request.user.groups.all()
-    #     for grupo in grupos:
-    #         proyecto = Proyecto.objects.get(codigo=grupo.name)
-    #         proyect_list.append(proyecto)
-    #     kwargs['proyectos'] = proyect_list
-    #     return kwargs
+    def get_form_kwargs(self):
+        group_name_list = []
+        kwargs = super().get_form_kwargs()
+        grupos = self.request.user.groups.all()
+        for grupo in grupos:
+            group_name_list.append(grupo.name)
+        proyectos = Proyecto.objects.filter(codigo__in=group_name_list)
+        # for grupo in grupos:
+        #     nombre = grupo.name
+        #     proyecto = Proyecto.objects.get(codigo=nombre)
+        #     proyect_list.append(proyecto)
+        kwargs['proyectos'] = proyectos
+        return kwargs
         
     def form_valid(self, form):
         self.request.session['proyecto'] = form.cleaned_data['proyectos'].id
@@ -128,8 +129,8 @@ class ListDocumento(ProyectoMixin, ListView):
                     Especialidad= data[0],
                     Descripcion= data[1],
                     Codigo_documento= data[2],
-                    Numero_documento_interno= data[3], 
-                    Tipo_Documento= data[4],
+                    Tipo_Documento= data[3],
+                    Numero_documento_interno= data[4], 
                     fecha_Emision_B= data[5],
                     fecha_Emision_0= data[6],
                     proyecto= self.proyecto,

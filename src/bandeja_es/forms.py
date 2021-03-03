@@ -9,7 +9,7 @@ from crispy_forms.layout import Submit
 from panel_carga.models import Documento
 from django.contrib.auth.models import User
 
-from .models import Paquete, Version, PrevPaquete, PrevVersion
+from .models import Paquete, Version, PrevPaquete, PrevVersion, PrevPaqueteDocumento
 from panel_carga.views import ProyectoMixin
 
 from panel_carga.choices import TYPES_REVISION
@@ -60,12 +60,14 @@ VersionFormset = formset_factory(VersionDocForm, extra=1)
 # ***********************************
 
 class PaquetePreviewForm(forms.ModelForm):
-    descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
     class Meta:
         model = PrevPaquete
-        fields = ['prev_receptor', 'prev_asunto']
+        fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion']
         labels = {
             'prev_receptor': 'Destinatario'
+        }
+        widgets = {
+            'prev_descripcion': forms.Textarea
         }
 class VersionDocPreview(forms.ModelForm):
     prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
@@ -101,12 +103,15 @@ class PrevVersionForm(forms.ModelForm):
             'prev_estado_cliente' : forms.Select(attrs={'class' : 'form-control col-md-4 '}),
             'prev_archivo' : forms.FileInput(attrs={'class' : 'col-md-4 '}),
             'prev_comentario' : forms.FileInput(attrs={'class' : 'col-md-4 '}),
-
-
         }
+    
+    def __init__(self, **kwargs):
+        self.paquete = kwargs.pop('paquete_pk')
+        super(PrevVersionForm, self).__init__(**kwargs)
 
     def clean(self):
         cleaned_data = super().clean()
+        #Verifica que el formulario venga con los datos minimos
         try:
             doc = cleaned_data.get('prev_documento_fk')
             nombre_documento = doc.Codigo_documento
@@ -115,18 +120,50 @@ class PrevVersionForm(forms.ModelForm):
             revision_final = (dict(TYPES_REVISION).get(revision))
         except AttributeError:
             raise ValidationError('Inconsistencia de Datos en el formulario')
+
+        #Varifica si existe una version creada en el paquete
+        #para el documento selecionado
+        try:
+            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc)
+            prev_paquete_doc = PrevPaqueteDocumento.objects.filter(prev_version__in=ultima_prev_revision, prev_paquete=self.paquete)
+            print(prev_paquete_doc)
+            if prev_paquete_doc.exists():
+                raise ValidationError('Ya creaste una version para este documento')
+        except (AttributeError, PrevPaqueteDocumento.DoesNotExist):
+            pass
+
+
+        #Verificca que no se pueda emitir una revision en número antes de que en letra
+        try:
+            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc)
+            ultima_revision = Version.objects.filter(documento_fk=doc)
+            if not ultima_revision.exists() and revision >= 5:
+                raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+            elif not ultima_prev_revision.exists() and revision >= 5:
+                raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+        except (AttributeError, PrevVersion.DoesNotExist, Version.DoesNotExist):
+            if revision >= 5:
+                raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+
+        #Verifica que no se pueda enviar una version igual 
+        # o anterior a la última emitida
+        try:
+            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
+            ultima_revision = Version.objects.filter(documento_fk=doc).last()
+            if revision <= ultima_revision.revision:
+                raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
+            elif revision <= ultima_prev_revision.prev_revision:
+                raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
+        except AttributeError:
+            pass
         
-        ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
-        ultima_revision = Version.objects.filter(documento_fk=doc).last()
-        if revision < ultima_revision.revision:
-            raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
-        elif revision < ultima_prev_revision.prev_revision:
-            raise ValidationError('No se puede elegir una revision anteriora a la última emitida.')
-        
+        #Verifica que el nombre del archivo coincida con
+        #el nombre del documento + la version escogida.
         if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
             self.add_error('prev_archivo', 'No coinciden los nombres')
             raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-
+    
+        
 # class cualquierwea(VersionDocPreview):        
 #     def __init__(self, *args, **kwargs):
 #         super().__init__(*args,**kwargs)

@@ -56,11 +56,6 @@
       <table class="table mg-b-0 table-contact">
         <thead>
           <tr>
-            <th class="wd-5p">
-              <label class="ckbox mg-b-0">
-                <input type="checkbox"><span></span>
-              </label>
-            </th>
             <th class="tx-10-force tx-mont tx-medium">Transmital</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Destinatario</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th>
@@ -71,11 +66,6 @@
         <tbody>
         {% for borrador in borrador_paquete %}
           <tr>
-            <td class="valign-middle">
-              <label class="ckbox mg-b-0">
-                <input type="checkbox"><span></span>
-              </label>
-            </td>
             <td>
               <div class="d-flex align-items-center">
                 <div class="mg-l-15">
@@ -84,9 +74,9 @@
                 </div>
               </div>
             </td>
-            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.destinatario }} </td>
-            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.descripcion }} </td>
-            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.asunto }} </td>
+            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_receptor }} </td>
+            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_descripcion }} </td>
+            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_asunto }} </td>
             <td class="dropdown hidden-xs-down"><a class="btn btn-teal"href="{% url 'nueva-version' borrador.prev_paquete.pk %}" class="nav-link">Modificar</a></td>
           </tr>
                      
