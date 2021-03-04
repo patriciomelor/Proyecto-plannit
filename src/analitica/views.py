@@ -183,7 +183,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                     cont = 0
                     
-                    for revision in TYPES_REVISION[5:]:
+                    for revision in TYPES_REVISION[1:]:
                         
                         #Comparar versiones que si poseen un estado de revisión
                         if revision[0] == versiones.revision:
@@ -469,78 +469,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 avance_fechas_controles.append(0)
 
             fechas_controles.append(fecha_termino)
-            avance_fechas_controles.append(0)
-            
+            avance_fechas_controles.append(0)          
             fechas_controles.append(fecha_termino)
-            
-            #Calculo del avance real por fecha de control
-            lista_inicial_real = []
-            lista_final_real = []
-            avance_inicial = []
-            avance_final = []
-
-            semana_actual = timezone.now()
-
-            for controles in fechas_controles:
-
-                if semana_actual >= controles:
-
-                    calculo_avanceReal = 0
-                    calculo_avanceReal_0 = 0
-                    calculo_avanceReal_b = 0
-                                        
-                    for doc in documentos:   
-
-                        #Calculo de emision en b por documento
-                        fecha_emision_b = doc.fecha_Emision_B
-                        fecha_emision_0 = doc.fecha_Emision_0
-                        versiones = Version.objects.filter(documento_fk=doc).last()
-
-                        if versiones:
-
-                            revision_documento = versiones.revision
-
-                            for revision in TYPES_REVISION[1:]:
-                                    
-                                #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
-                                if controles >= fecha_emision_b:
-                                        
-                                    #Se verífica que el documento posea una revisión en Emisión B
-                                    if revision_documento == revision[0] and revision[0] < 5:
-                                            
-                                        calculo_avanceReal_b = valor_ganado * 0.7
-
-                                #Se verífica que la fecha de emisión en B del documento sea anterior a la fecha de control
-                                if controles >= fecha_emision_0:
-                                        
-                                    #Se verífica que el documento posea una revisión en Emisión 0
-                                    if revision_documento == revision[0] and revision[0] > 4:
-                                            
-                                        calculo_avanceReal_0 = valor_ganado * 1 
-
-                            if calculo_avanceReal_b > calculo_avanceReal_0:
-                                    
-                                calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_b
-                                    
-
-                                lista_inicial_real = [calculo_avanceReal]
-                                lista_final_real.append(lista_inicial_real)
-
-                            if calculo_avanceReal_b < calculo_avanceReal_0:
-                                    
-                                calculo_avanceReal = calculo_avanceReal + calculo_avanceReal_0
-                                    
-                            lista_inicial_real = [calculo_avanceReal]
-                            lista_final_real.append(lista_inicial_real)
-
-                        if not versiones:
-
-                            pass
-
-                    avance_inicial = [int(calculo_avanceReal)]
-                    avance_final.append(avance_inicial)                    
-                
-                #print("Fecha de control: ", controles, " Avance real: ", calculo_avanceReal)
 
             avance_inicial = []
             avance_final = []
@@ -628,7 +558,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                             #     valor_documento = 1
                             
                             #Aumenta el contador para almacenar en la fecha de control correspondiente  
-                            #print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento)
+                            print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento)
                             cont = cont + 1
                 
                 #Si no hay versiones, pasa al siguiente documento
