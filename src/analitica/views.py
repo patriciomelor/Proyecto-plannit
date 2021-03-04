@@ -564,10 +564,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                             #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
                             if avance_documento != 0:
 
-                                avance_fechas_controles[cont] = int(avance_fechas_controles[cont] + avance_documento)
+                                avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
                                 valor_documento = 1
-
-                            print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento)
+                                
+                            print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento, "Avance acumulado: ", avance_fechas_controles[cont])
                             cont = cont + 1
                 
                 #Si no hay versiones, pasa al siguiente documento
@@ -584,7 +584,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 
                 if contador_final < cont:
                     calculo_avance_final = calculo_avance_final + avance
-                    avance_inicial = [calculo_avance_final]
+                    avance_inicial = [format(calculo_avance_final, '.2f')]
                     avance_final.append(avance_inicial)
                     contador_final = contador_final + 1                                   
 
