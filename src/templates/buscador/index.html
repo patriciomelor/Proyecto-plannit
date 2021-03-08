@@ -20,15 +20,11 @@
 <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
 
           
-  <div class="row row-sm d-flex "style="overflow-x:scroll;" >
+  <div class="row row-sm d-flex " >
   <!--Upload Archivos-->
-      
-
-
-   
-<table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
+     <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
-          <form class="form-group col-lg-12 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
+          <form class="form-group col-lg-10 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
             <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
               {{filter.form.Especialidad|as_crispy_field}}
             </div>
@@ -38,19 +34,19 @@
             <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
               {{filter.form.Codigo_documento|as_crispy_field}}
             </div>     
-            <div class="col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
               {{filter.form.Tipo_Documento|as_crispy_field}}
             </div>    
             <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
               {{filter.form.Numero_documento_interno|as_crispy_field}}
             </div>  
-            <div class="col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+            <!-- <div class="col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
               {{filter.form.fecha_Emision_B|as_crispy_field}}
             </div> 
             <div class="col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
               {{filter.form.fecha_Emision_0|as_crispy_field}}
-            </div> 
-            <div class="col-md-12" style="text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
+            </div>  -->
+            <div class="col-md-10" style="text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
               <button class="btn btn-oblong btn-teal mg-t-10 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
 
             </div> 
@@ -79,15 +75,35 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Codigo_documento}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Tipo_Documento}}  </th>                  
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Numero_documento_interno}} </th>
-            </tr>           
-            
-            {% empty %}
+            </tr>  
+                    
+          </tbody>
+          
+          {% empty %}  
+          <tbody>
+            <tr>  
+              <th colspan="6" style="background-color: #fff;">       
+          <div class="alert alert-warning alert-bordered pd-y-20" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <div class="d-sm-flex align-items-center justify-content-start">
+            <i class="icon ion-alert-circled alert-icon tx-52 tx-warning mg-r-20"></i>
+            <div class="mg-t-20 mg-sm-t-0">
+              <h5 class="mg-b-2 tx-warning"><strong>AVISO!</strong> </h5>
+              <p class="mg-b-0 tx-gray">No hay archivos coincidentes con la busqueda</p>
+            </div>
+          </div><!-- d-flex -->
+        </div> 
+      </th> 
+      </tr>
+      </tbody> 
+    </table>
+  </div>            
          
       {% endfor %}
             <!--Fin Loop-->
-          </tbody>
-        </table>
-        
+         
 
 
       
