@@ -2,7 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from panel_carga.choices import (ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION)
 from django.conf import settings
-from panel_carga.models import Documento
+from panel_carga.models import Documento, Proyecto
 from django.forms import model_to_dict
 
 #################################################
@@ -34,6 +34,7 @@ class Paquete(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario")
     destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario")
     status = models.BooleanField(verbose_name="Status", default=0, blank=True)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="proyecto")
 
     def __str__(self):
         return self.asunto
@@ -88,6 +89,7 @@ class PrevPaquete(models.Model):
     prev_propietario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevpropietario")
     prev_receptor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevdestinatario")
     prev_status = models.BooleanField(verbose_name="Status", default=0, blank=True)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="prev_paquete", null=False)
 
     def __str__(self):
         return self.prev_asunto
