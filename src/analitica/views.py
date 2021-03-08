@@ -27,6 +27,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         lista_final = []
         lista_actual = []
+        
 
         estados_documento = []
         estados_final = []
