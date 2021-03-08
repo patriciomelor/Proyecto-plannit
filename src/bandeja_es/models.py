@@ -89,6 +89,7 @@ class PrevPaquete(models.Model):
     prev_propietario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevpropietario")
     prev_receptor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevdestinatario")
     prev_status = models.BooleanField(verbose_name="Status", default=0, blank=True)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="prev_paquete", null=False)
 
     def __str__(self):
         return self.prev_asunto
