@@ -39,7 +39,7 @@ class InBoxView(ProyectoMixin, ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        pkg =  Paquete.objects.filter(destinatario=self.request.user)
+        pkg =  Paquete.objects.filter(destinatario=self.request.user, proyecto= self.request.session.get('proyecto'))
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
@@ -55,7 +55,7 @@ class EnviadosView(ProyectoMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        pkg =  Paquete.objects.filter(owner=self.request.user)
+        pkg =  Paquete.objects.filter(owner=self.request.user, proyecto=self.request.session.get('proyecto'))
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
@@ -115,18 +115,17 @@ class PaqueteDelete(ProyectoMixin, DeleteView):
 class BorradorList(ProyectoMixin, ListView):
     template_name = 'bandeja_es/borrador.html'
     paginate_by = 15
+    context_object_name = 'borrador_paquete'
 
     def get_queryset(self):
-        qs =  BorradorPaquete.objects.filter(owner=self.request.user)
+        paquetes = PrevPaquete.objects.filter(prev_propietario=self.request.user, proyecto=self.proyecto).order_by('-prev_fecha_creacion')
+        qs =  BorradorPaquete.objects.filter(prev_paquete__in=paquetes).order_by('-fecha_creacion')
         lista_borradores_filtrados = BorradorFilter(self.request.GET, queryset=qs)
         return  lista_borradores_filtrados.qs.order_by('-fecha_creacion')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        draft = BorradorPaquete.objects.filter(owner=self.request.user)
         context["filter"] = BorradorFilter(self.request.GET, queryset=self.get_queryset())
-        borrador_paquete = BorradorPaquete.objects.all().filter(owner=self.request.user).order_by('-fecha_creacion')
-        context['borrador_paquete'] = borrador_paquete
         return context
 
 
@@ -175,6 +174,7 @@ def create_paquete(request, paquete_pk, versiones_pk):
             descripcion = paquete_prev.prev_descripcion,
             destinatario = paquete_prev.prev_receptor,
             owner = paquete_prev.prev_propietario,
+            proyecto= request.session.get('proyecto')
         )
         paquete.save()
         paquete_prev.delete()

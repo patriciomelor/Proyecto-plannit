@@ -120,7 +120,14 @@ class PrevVersionForm(forms.ModelForm):
             revision_final = (dict(TYPES_REVISION).get(revision))
         except AttributeError:
             raise ValidationError('Inconsistencia de Datos en el formulario')
-
+        
+        try:
+            ultima_revision = Version.objects.filter(documento_fk=doc).first()
+            if not ultima_revision.exists() and revision > 1:
+                raise ValidationError('Se debe emitir una revisión en B primero')
+        except AttributeError:
+            if revision > 1:
+                raise ValidationError('Se debe emitir una revisión en B primero')
         #Varifica si existe una version creada en el paquete
         #para el documento selecionado
         try:
