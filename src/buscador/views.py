@@ -72,14 +72,16 @@ class VersionesList(ProyectoMixin, DetailView):
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
 
 def documentos_con_versiones(request):
-    eliminados_list = []
+    añadidos_list = []
     qs =  Documento.objects.filter(proyecto=request.session.get('proyecto'))
     for doc in qs:
-        version = Version.objects.filter(documento_fk=doc).exists()
-        if not version:
-            eliminados_list.append(doc.pk)
-
-    queryset_final = Documento.objects.exclude(pk__in=eliminados_list).order_by('Especialidad')
-
+        try:
+            version = Version.objects.filter(documento_fk=doc).exists()
+            if version:
+                añadidos_list.append(doc.pk)
+        except Version.DoesNotExist:
+            pass
+    queryset_final = Documento.objects.filter(pk__in=añadidos_list)
+    print(queryset_final)
     return queryset_final
     
