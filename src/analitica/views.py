@@ -27,7 +27,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         lista_final = []
         lista_actual = []
-        
+
 
         estados_documento = []
         estados_final = []
@@ -353,6 +353,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if primera_fecha_b > primera_fecha_0:
 
                 primera_de_dos = primera_fecha_0
+            
+            #Agregar una semana antes a la primera de los documentos
+            fechas_controles = []
+            primera_de_dos = primera_de_dos - timedelta(days=7)
+            fechas_controles.append(primera_de_dos)
+            primera_de_dos = primera_de_dos + timedelta(days=7)
+            fechas_controles.append(primera_de_dos)
 
             #Obtener fechas de inicio y termino de proyecto
             fecha_inicio = self.proyecto.fecha_inicio
@@ -365,8 +372,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 fecha_termino = ultima_de_dos
 
             #Se alamacena fecha de inicio del proyecto en la Lista de Controles
-            fechas_controles = []
-            fechas_controles.append(primera_de_dos)
+            #fechas_controles = []
+            #fechas_controles.append(primera_de_dos)
             fecha_actual = primera_de_dos
             
             #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
@@ -503,6 +510,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 primera_de_dos = primera_fecha_0
 
+            #Agregar una semana antes a la primera de los documentos
+            fechas_controles = []
+            primera_de_dos = primera_de_dos - timedelta(days=7)
+            fechas_controles.append(primera_de_dos)
+            primera_de_dos = primera_de_dos + timedelta(days=7)
+            fechas_controles.append(primera_de_dos)
+
             #Obtener fechas de inicio y termino de proyecto
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
@@ -514,9 +528,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 fecha_termino = ultima_de_dos
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
-            fechas_controles = []
+            #fechas_controles = []
             avance_fechas_controles = []
-            fechas_controles.append(primera_de_dos)
+            #fechas_controles.append(primera_de_dos)
+            avance_fechas_controles.append(0)
             avance_fechas_controles.append(0)
             fecha_actual = primera_de_dos
             
@@ -729,6 +744,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if primera_fecha_b > primera_fecha_0:
 
                 primera_de_dos = primera_fecha_0
+            
+            #Agregar una semana antes a la primera de los documentos
+            fechas_controles = []
+            primera_de_dos = primera_de_dos - timedelta(days=7)
+            fechas_controles.append(primera_de_dos)
+            primera_de_dos = primera_de_dos + timedelta(days=7)
+            fechas_controles.append(primera_de_dos)
 
             #Obtener fechas de inicio y termino de proyecto
             fecha_inicio = self.proyecto.fecha_inicio
@@ -740,8 +762,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 fecha_termino = ultima_de_dos
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
-            fechas_controles = []
-            fechas_controles.append(primera_de_dos)
+            #fechas_controles = []
+            #fechas_controles.append(primera_de_dos)
             fecha_actual = primera_de_dos
             
             #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
