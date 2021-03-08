@@ -296,6 +296,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             ultima_de_dos = 0
             cont = 0
 
+            #Obtener la primera fecha por documento
+            primera_fecha_b = 0
+            primera_fecha_0 = 0
+            primera_de_dos = 0
+
             for doc in documentos:
 
                 if cont == 0:
@@ -304,6 +309,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     fecha_emision_0 = doc.fecha_Emision_0
                     ultima_fecha_b = fecha_emision_b
                     ultima_fecha_0 = fecha_emision_0
+
+                    primera_fecha_b = doc.fecha_Emision_B
+                    primera_fecha_0 = doc.fecha_Emision_0
+
                     cont = 1
                 
                 if cont != 0:
@@ -319,6 +328,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     
                         ultima_fecha_0 = fecha_emision_0
 
+                    if fecha_emision_b < primera_fecha_b:
+                    
+                        primera_fecha_b = fecha_emision_b
+
+                    if fecha_emision_0 < primera_fecha_0:
+                    
+                        primera_fecha_0 = fecha_emision_0
+
             #Verificar cuál de las dos fechas, emisión B y 0, es la última
             if ultima_fecha_b >= ultima_fecha_0:
 
@@ -327,6 +344,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if ultima_fecha_b < ultima_fecha_0:
 
                 ultima_de_dos = ultima_fecha_0
+
+            if primera_fecha_b < primera_fecha_0:
+
+                primera_de_dos = primera_fecha_b
+
+            if primera_fecha_b > primera_fecha_0:
+
+                primera_de_dos = primera_fecha_0
 
             #Obtener fechas de inicio y termino de proyecto
             fecha_inicio = self.proyecto.fecha_inicio
@@ -340,8 +365,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             #Se alamacena fecha de inicio del proyecto en la Lista de Controles
             fechas_controles = []
-            fechas_controles.append(fecha_inicio)
-            fecha_actual = fecha_inicio
+            fechas_controles.append(primera_de_dos)
+            fecha_actual = primera_de_dos
             
             #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
             while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
@@ -420,6 +445,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             ultima_de_dos = 0
             cont = 0
 
+            #Obtener la primera fecha por documento
+            primera_fecha_b = 0
+            primera_fecha_0 = 0
+            primera_de_dos = 0
+
             for doc in documentos:
 
                 if cont == 0:
@@ -428,6 +458,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     fecha_emision_0 = doc.fecha_Emision_0
                     ultima_fecha_b = fecha_emision_b
                     ultima_fecha_0 = fecha_emision_0
+
+                    primera_fecha_b = doc.fecha_Emision_B
+                    primera_fecha_0 = doc.fecha_Emision_0
+
                     cont = 1
                 
                 if cont != 0:
@@ -443,6 +477,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     
                         ultima_fecha_0 = fecha_emision_0
 
+                    if fecha_emision_b < primera_fecha_b:
+                    
+                        primera_fecha_b = fecha_emision_b
+
+                    if fecha_emision_0 < primera_fecha_0:
+                    
+                        primera_fecha_0 = fecha_emision_0
+
             #Verificar cuál de las dos fechas, emisión B y 0, es la última
             if ultima_fecha_b >= ultima_fecha_0:
 
@@ -451,6 +493,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if ultima_fecha_b < ultima_fecha_0:
 
                 ultima_de_dos = ultima_fecha_0
+
+            if primera_fecha_b < primera_fecha_0:
+
+                primera_de_dos = primera_fecha_b
+
+            if primera_fecha_b > primera_fecha_0:
+
+                primera_de_dos = primera_fecha_0
 
             #Obtener fechas de inicio y termino de proyecto
             fecha_inicio = self.proyecto.fecha_inicio
@@ -465,9 +515,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
             fechas_controles = []
             avance_fechas_controles = []
-            fechas_controles.append(fecha_inicio)
+            fechas_controles.append(primera_de_dos)
             avance_fechas_controles.append(0)
-            fecha_actual = fecha_inicio
+            fecha_actual = primera_de_dos
             
             #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
             while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
@@ -622,6 +672,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             ultima_de_dos = 0
             cont = 0
 
+            #Obtener la primera fecha por documento
+            primera_fecha_b = 0
+            primera_fecha_0 = 0
+            primera_de_dos = 0
+
             for doc in documentos:
 
                 if cont == 0:
@@ -630,6 +685,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     fecha_emision_0 = doc.fecha_Emision_0
                     ultima_fecha_b = fecha_emision_b
                     ultima_fecha_0 = fecha_emision_0
+
+                    primera_fecha_b = doc.fecha_Emision_B
+                    primera_fecha_0 = doc.fecha_Emision_0
+
                     cont = 1
                 
                 if cont != 0:
@@ -645,6 +704,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     
                         ultima_fecha_0 = fecha_emision_0
 
+                    if fecha_emision_b < primera_fecha_b:
+                    
+                        primera_fecha_b = fecha_emision_b
+
+                    if fecha_emision_0 < primera_fecha_0:
+                    
+                        primera_fecha_0 = fecha_emision_0
+
             #Verificar cuál de las dos fechas, emisión B y 0, es la última
             if ultima_fecha_b >= ultima_fecha_0:
 
@@ -653,6 +720,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if ultima_fecha_b < ultima_fecha_0:
 
                 ultima_de_dos = ultima_fecha_0
+
+            if primera_fecha_b < primera_fecha_0:
+
+                primera_de_dos = primera_fecha_b
+
+            if primera_fecha_b > primera_fecha_0:
+
+                primera_de_dos = primera_fecha_0
 
             #Obtener fechas de inicio y termino de proyecto
             fecha_inicio = self.proyecto.fecha_inicio
@@ -665,8 +740,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
             fechas_controles = []
-            fechas_controles.append(fecha_inicio)
-            fecha_actual = fecha_inicio
+            fechas_controles.append(primera_de_dos)
+            fecha_actual = primera_de_dos
             
             #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
             while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
