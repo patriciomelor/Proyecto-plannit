@@ -633,7 +633,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
                                 valor_documento = 1
                                 
-                            print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento, "Avance acumulado: ", avance_fechas_controles[cont])
+                            #print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento, "Avance acumulado: ", avance_fechas_controles[cont])
                             cont = cont + 1
                 
                 #Si no hay versiones, pasa al siguiente documento
