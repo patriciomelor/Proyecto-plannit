@@ -169,7 +169,7 @@
       data: {
           labels: ['{% for value in lista_final %} {% if forloop.counter != lista_final_largo %} {{value.1}}', ' {% endif %} {% if forloop.counter == lista_final_largo %} {{value.1}} {% endif %} {% endfor %}'],
           datasets: [{
-              label: 'Totales de documento por revisión',  
+              label: 'Totales de documento por revisión', 
               data: [
                 {% for value in lista_final %} 
                   {% if forloop.counter != lista_final_largo %} 
@@ -213,7 +213,7 @@
               xAxes: [{
                   ticks: {
                       min:0,
-                      max: {{tamano_grafico_uno}},
+                      max: {{tamano_grafico_uno}} + 1,
                       stepSize: {{espacios_grafico_uno}}
 
                   },
