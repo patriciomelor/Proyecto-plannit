@@ -421,6 +421,7 @@
 				type: 'line',
 				data: chartData,
 				options: {
+      
           barPercentage: 1,
 					responsive: true,
 					plugins: {
@@ -431,9 +432,26 @@
             ticks: {
               beginAtZero: true,
               min: 0,
-              stepSize: 1
+              stepSize: 1,
+                   callback: function(value){return value+ "%"}
+
             },
-					}
+            
+					},
+          scales: {
+          yAxes: [{
+          ticks: {
+          min: 0,
+          max: 100,
+          callback: function(value) {
+          return value + "%"
+          }
+          },
+          scaleLabel: {
+          display: true,
+          }
+          }]
+          }
 				}
 			});
 		};
