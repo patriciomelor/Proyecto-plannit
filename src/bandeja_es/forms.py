@@ -69,6 +69,18 @@ class PaquetePreviewForm(forms.ModelForm):
         widgets = {
             'prev_descripcion': forms.Textarea
         }
+        
+    def __init__(self, **kwargs):
+        self.usuario = kwargs.pop('usuario')
+        super(PaquetePreviewForm, self).__init__(**kwargs)
+
+    def clean(self):
+        cleaned_data = super().clean()
+        destinatario = cleaned_data.get('prev_receptor')
+        print(destinatario)
+        return destinatario
+
+
 class VersionDocPreview(forms.ModelForm):
     prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
     class Meta:

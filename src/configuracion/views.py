@@ -292,7 +292,6 @@ class ProyectoDelete(ProyectoMixin, DeleteView):
             proyect_group.delete()
             return super(ProyectoDelete, self).delete(request, *args, **kwargs)
 
-
 class ProyectoCreate(ProyectoMixin, CreateView):
     template_name = 'configuracion/create-proyecto.html'
     success_message = 'Proyecto Creado correctamente'

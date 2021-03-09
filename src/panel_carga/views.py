@@ -27,6 +27,10 @@ class DocumentResource(resources.ModelResource):
         exclude = ('id', 'emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
         import_id_fields = ('id')
 
+    def export(self, queryset=None, *args, **kwargs):
+        qs = Documento.objects.filter(proyecto=kwargs.pop('proyecto'))
+        return super(DocumentResource, self).export(qs, *args, **kwargs)
+
 # End Document Resources
 
 class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
@@ -149,7 +153,8 @@ class ListDocumento(ProyectoMixin, ListView):
 # funcion de exportación
 def export_document(request):
     context = {}
-    dataset = DocumentResource().export()
+    proyecto = request.session.get('proyecto')
+    dataset = DocumentResource().export(proyecto=proyecto)
     response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
     return response

@@ -256,9 +256,16 @@ class PrevPaqueteView(ProyectoMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        user = self.request.user
+        kwargs["usuario"] = user
+        return kwargs
+
     def form_valid(self, form, **kwargs):
         paquete = form.save(commit=False)
         paquete.prev_propietario = self.request.user
+        paquete.proyecto = self.proyecto
         paquete.save()
         paquete_pk = paquete.pk
         return redirect('nueva-version', paquete_pk=paquete_pk)
@@ -294,6 +301,7 @@ class TablaPopupView(ProyectoMixin, ListView):
         else:
             messages.add_message(request, messages.ERROR, message='No se puede obtener la vista previa de un tramital sin revisiones.')
             return redirect('nueva-version', paquete_pk=paquete.pk)
+
 class PrevVersionView(ProyectoMixin, FormView):
     model = PrevVersion
     template_name = 'bandeja_es/popup-archivo.html'
@@ -318,6 +326,7 @@ class PrevVersionView(ProyectoMixin, FormView):
         paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
         paquete.prev_documento.add(version)
         return HttpResponse('<script type="text/javascript"> window.opener.location.reload(); window.close(); </script>')
+
 class UpdatePrevVersion(ProyectoMixin, UpdateView):
     model = PrevVersion
     template_name = 'bandeja_es/popup-archivo.html'
