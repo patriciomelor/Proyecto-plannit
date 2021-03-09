@@ -26,7 +26,7 @@ from .models import Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete,
 from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaquetePreviewForm, PrevVersionForm
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter
 from panel_carga.filters import DocFilter
-from panel_carga.models import Documento
+from panel_carga.models import Documento, Proyecto
 from panel_carga.choices import TYPES_REVISION
 from .serializers import PrevVersionSerializer
 
