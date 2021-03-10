@@ -91,7 +91,7 @@
     //DOCUMENTOS POR EMITIR POR SUBESTACION
     var ctx = document.getElementById('myChart5').getContext('2d');
     var myChart5 = new Chart(ctx, {
-      type: 'doughnut',
+      type: 'pie',
       fill: false,
       data: {
           labels: [ '{% for emisiones in lista_emisiones %} {% if forloop.counter != lista_emisiones_largo %} {{emisiones.1}}', '{% endif %} {% if forloop.counter == lista_emisiones_largo %} {{emisiones.1}} {% endif %} {% endfor %}' ],
