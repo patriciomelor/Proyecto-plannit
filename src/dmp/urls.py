@@ -18,6 +18,7 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls import handler403, handler404, handler500, handler400
 from django.conf.urls.static import static
+from tools.default_handler import error_400_view, error_403_view, error_404_view, error_500_view
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -34,7 +35,7 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-# handler400=
-# handler403=
-# handler404=
-# handler500=
+handler400 = error_400_view
+handler403 = error_403_view
+handler404 = error_404_view
+handler500 = error_500_view
