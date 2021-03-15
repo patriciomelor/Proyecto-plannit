@@ -26,7 +26,7 @@ from .models import Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete,
 from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaquetePreviewForm, PrevVersionForm
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter
 from panel_carga.filters import DocFilter
-from panel_carga.models import Documento
+from panel_carga.models import Documento, Proyecto
 from panel_carga.choices import TYPES_REVISION
 from .serializers import PrevVersionSerializer
 
@@ -39,7 +39,7 @@ class InBoxView(ProyectoMixin, ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        pkg =  Paquete.objects.filter(destinatario=self.request.user, proyecto= self.request.session.get('proyecto'))
+        pkg =  Paquete.objects.filter(destinatario=self.request.user, proyecto= self.proyecto)
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
@@ -55,7 +55,7 @@ class EnviadosView(ProyectoMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        pkg =  Paquete.objects.filter(owner=self.request.user, proyecto=self.request.session.get('proyecto'))
+        pkg =  Paquete.objects.filter(owner=self.request.user, proyecto=self.proyecto)
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
@@ -169,12 +169,13 @@ def create_paquete(request, paquete_pk, versiones_pk):
     #                                                       #
     #########################################################
         paquete_prev = PrevPaquete.objects.get(pk=paquete_pk)
+        proyecto = Proyecto.objects.get(pk=request.session.get('proyecto'))
         paquete = Paquete(
             asunto = paquete_prev.prev_asunto,
             descripcion = paquete_prev.prev_descripcion,
             destinatario = paquete_prev.prev_receptor,
             owner = paquete_prev.prev_propietario,
-            proyecto= request.session.get('proyecto')
+            proyecto= proyecto
         )
         paquete.save()
         paquete_prev.delete()

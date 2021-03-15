@@ -16,8 +16,8 @@ class Version(models.Model):
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
     revision = models.IntegerField(verbose_name="Revisión", choices=TYPES_REVISION)
     #revision = models.CharField(verbose_name="Revisión", max_length=1, default="B")
-    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True) #Necesario para tomar los estados del primer grafico
-    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True)
+    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True, null=True) #Necesario para tomar los estados del primer grafico
+    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")
     valido = models.BooleanField(verbose_name="Válido", default=1) #1=VALIDO  0=ANULADO
 
