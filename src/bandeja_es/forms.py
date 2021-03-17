@@ -135,7 +135,7 @@ class PrevVersionForm(forms.ModelForm):
             raise ValidationError('Inconsistencia de Datos en el formulario')
         
         try:
-            ultima_revision = Version.objects.filter(documento_fk=doc).first()
+            ultima_revision = Version.objects.filter(documento_fk=doc, revision=1)
             if not ultima_revision.exists() and revision > 1:
                 raise ValidationError('Se debe emitir una revisión en B primero')
         except AttributeError:
