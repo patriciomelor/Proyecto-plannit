@@ -78,8 +78,8 @@
               </label>
             </th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Transmital</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th>
-            <!--<th class="tx-10-force tx-mont tx-medium hidden-xs-down">Esado</th>-->            
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Asunto</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripcion</th>           
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Autor</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Fecha creacion</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Detalle</th>
@@ -101,6 +101,7 @@
               </div>
             </td>            
             <td class="valign-middle hidden-xs-down"> {{ paquete.asunto }} </td>           
+            <td class="valign-middle hidden-xs-down"> {{ paquete.descripcion }} </td>           
             <td class="valign-middle hidden-xs-down"> {{ paquete.owner }}</td>
             <td><span class="tx-15"><strong>{{ paquete.fecha_creacion|date:'d-m-yy'}} -{{paquete.fecha_creacion|date:'H:i'}}</strong> </span></td>
             <td class="valign-middle hidden-xs-down">

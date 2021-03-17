@@ -380,11 +380,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
                 
                 if semana_actual > fecha_actual and semana_actual < fecha_posterior:
+
+                    if semana_actual.day != fecha_actual.day and semana_actual.month != fecha_actual.month and semana_actual.year != fecha_actual.year:
                     
-                    fechas_controles.append(semana_actual)
-                    fecha_actual = fecha_actual + timedelta(days=7)
-                    fecha_posterior = fecha_actual + timedelta(days=7)
-                    fechas_controles.append(fecha_actual)
+                        fechas_controles.append(semana_actual)
+                        fecha_actual = fecha_actual + timedelta(days=7)
+                        fecha_posterior = fecha_actual + timedelta(days=7)
+                        fechas_controles.append(fecha_actual)
 
                 else:
                                     
@@ -540,10 +542,12 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 
                 if semana_actual > fecha_actual and semana_actual < fecha_posterior:
                     
-                    fechas_controles.append(semana_actual)
-                    fecha_actual = fecha_actual + timedelta(days=7)
-                    fecha_posterior = fecha_actual + timedelta(days=7)
-                    fechas_controles.append(fecha_actual)
+                    if semana_actual.day != fecha_actual.day and semana_actual.month != fecha_actual.month and semana_actual.year != fecha_actual.year:
+                    
+                        fechas_controles.append(semana_actual)
+                        fecha_actual = fecha_actual + timedelta(days=7)
+                        fecha_posterior = fecha_actual + timedelta(days=7)
+                        fechas_controles.append(fecha_actual)
 
                 else:
                                     
@@ -771,10 +775,12 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 
                 if semana_actual > fecha_actual and semana_actual < fecha_posterior:
                     
-                    fechas_controles.append(semana_actual)
-                    fecha_actual = fecha_actual + timedelta(days=7)
-                    fecha_posterior = fecha_actual + timedelta(days=7)
-                    fechas_controles.append(fecha_actual)
+                    if semana_actual.day != fecha_actual.day and semana_actual.month != fecha_actual.month and semana_actual.year != fecha_actual.year:
+                    
+                        fechas_controles.append(semana_actual)
+                        fecha_actual = fecha_actual + timedelta(days=7)
+                        fecha_posterior = fecha_actual + timedelta(days=7)
+                        fechas_controles.append(fecha_actual)
 
                 else:
                                     
