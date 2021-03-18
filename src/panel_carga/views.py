@@ -17,6 +17,7 @@ from .models import Proyecto, Documento, Revision, Historial
 from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
 from .filters import DocFilter
 from tools.views import ProyectoSeleccionadoMixin
+from tools.objects import SuperUserViewMixin
 # Create your views here.
 
 # Document Resources
@@ -158,7 +159,7 @@ def export_document(request):
     response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
     return response
-class DeleteDocumento(ProyectoMixin, ListView):
+class DeleteDocumento(ProyectoMixin, SuperUserViewMixin, ListView):
     template_name = 'panel_carga/delete-lista_documentos.html'
     model = Documento
     success_url = reverse_lazy('PanelCarga')
@@ -175,7 +176,7 @@ class DeleteDocumento(ProyectoMixin, ListView):
         return render(request, self.template_name)
 
 
-class DeleteAllDocuments(ProyectoMixin, TemplateView):
+class DeleteAllDocuments(ProyectoMixin, SuperUserViewMixin, TemplateView):
     model = Documento
     template_name = 'panel_carga/delete-documento.html'
     
