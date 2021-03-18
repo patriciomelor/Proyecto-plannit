@@ -7,6 +7,7 @@ def error_400_view(request, exception):
 
 def error_403_view(request, exception):
     data = {}
+    data['mensaje'] = 'lo siento {} no puedes acceder aquí'.format(request.user)
     return render(request, 'tools/403.html', data)
 
 def error_404_view(request, exception):

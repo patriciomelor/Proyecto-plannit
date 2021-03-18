@@ -17,6 +17,7 @@ from .models import Proyecto, Documento, Revision, Historial
 from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
 from .filters import DocFilter
 from tools.views import ProyectoSeleccionadoMixin
+from tools.objects import SuperUserViewMixin
 # Create your views here.
 
 # Document Resources
@@ -105,7 +106,7 @@ class DetailDocumento(ProyectoMixin, DetailView):
     model = Documento
     template_name = 'panel_carga/detail-docuemnto.html'
 
-class ListDocumento(ProyectoMixin, ListView):
+class ListDocumento(ProyectoMixin, SuperUserViewMixin, ListView):
     model = Documento
     template_name = 'administrador/PaneldeCarga/pdc.html'
     context_object_name = "documentos"
