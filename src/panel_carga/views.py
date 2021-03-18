@@ -106,7 +106,7 @@ class DetailDocumento(ProyectoMixin, DetailView):
     model = Documento
     template_name = 'panel_carga/detail-docuemnto.html'
 
-class ListDocumento(ProyectoMixin, SuperUserViewMixin, ListView):
+class ListDocumento(ProyectoMixin, ListView):
     model = Documento
     template_name = 'administrador/PaneldeCarga/pdc.html'
     context_object_name = "documentos"
@@ -159,7 +159,7 @@ def export_document(request):
     response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
     return response
-class DeleteDocumento(ProyectoMixin, ListView):
+class DeleteDocumento(ProyectoMixin, SuperUserViewMixin, ListView):
     template_name = 'panel_carga/delete-lista_documentos.html'
     model = Documento
     success_url = reverse_lazy('PanelCarga')
@@ -176,7 +176,7 @@ class DeleteDocumento(ProyectoMixin, ListView):
         return render(request, self.template_name)
 
 
-class DeleteAllDocuments(ProyectoMixin, TemplateView):
+class DeleteAllDocuments(ProyectoMixin, SuperUserViewMixin, TemplateView):
     model = Documento
     template_name = 'panel_carga/delete-documento.html'
     
