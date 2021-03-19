@@ -305,4 +305,6 @@ class ProyectoCreate(ProyectoMixin, CreateView):
         grupo = Group.objects.create(name=nombre)
         return response
 
+
+
         
