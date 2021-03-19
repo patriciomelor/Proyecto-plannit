@@ -49,10 +49,9 @@ class UsuarioView(ProyectoMixin, CreateView):
         print("email: ", email)
         context['password'] = passwrd1
         context['email'] = email
-        perfil = Perfil.objects.get_or_create(
+        perfil = Perfil.objects.create(
             usuario= user,
-            rol_usuario= rol,
-            cliente= form.cleaned_data['cliente']
+            rol_usuario= rol
             )
         nombre = self.proyecto.codigo
         grupo = Group.objects.get(name=nombre)
@@ -144,66 +143,64 @@ class UsuarioEdit(ProyectoMixin, UpdateView):
 
         perfil = Perfil.objects.get_or_create(
             usuario=user,
-            rol_usuario= rol,
-            cliente= form.cleaned_data['cliente']
+            rol_usuario= rol
         )
+        # #Otorgar permisos para administrador
+        # Permisos = ['add_documento', 'change_documento']
+        # permission_list_administrador = []
 
-        #Otorgar permisos para administrador
-        Permisos = ['add_documento', 'change_documento']
-        permission_list_administrador = []
+        # if rol=='1':
 
-        if rol=='1':
+        #     for permisos in Permisos:
 
-            for permisos in Permisos:
+        #         content_type = ContentType.objects.get_for_model(Documento)
+        #         permission = Permission.objects.get(
+        #             codename= permisos, 
+        #             content_type = content_type, 
+        #         )
 
-                content_type = ContentType.objects.get_for_model(Documento)
-                permission = Permission.objects.get(
-                    codename= permisos, 
-                    content_type = content_type, 
-                )
-
-                permission_list_administrador.append(permission)
+        #         permission_list_administrador.append(permission)
             
-            for per in permission_list_administrador:
-                user.user_permissions.add(per)
+        #     for per in permission_list_administrador:
+        #         user.user_permissions.add(per)
 
-        #Otorgar permisos para revisor
-        Permisos = ['add_documento', 'change_documento']
-        permission_list_revisor = []
+        # #Otorgar permisos para revisor
+        # Permisos = ['add_documento', 'change_documento']
+        # permission_list_revisor = []
 
-        if rol=='2':
+        # if rol=='2':
 
-            for permisos in Permisos:
+        #     for permisos in Permisos:
 
-                content_type = ContentType.objects.get_for_model(Documento)
-                permission = Permission.objects.get(
-                    codename= permisos, 
-                    content_type = content_type, 
-                )
+        #         content_type = ContentType.objects.get_for_model(Documento)
+        #         permission = Permission.objects.get(
+        #             codename= permisos, 
+        #             content_type = content_type, 
+        #         )
 
-                permission_list_revisor.append(permission)
+        #         permission_list_revisor.append(permission)
 
-            for per in permission_list_revisor:
-                user.user_permissions.add(per)
+        #     for per in permission_list_revisor:
+        #         user.user_permissions.add(per)
 
-        #Otorgar permisos para visualizador
-        Permisos = ['add_paquete', 'change_paquete']
-        permission_list_visualizador = []
+        # #Otorgar permisos para visualizador
+        # Permisos = ['add_paquete', 'change_paquete']
+        # permission_list_visualizador = []
 
-        if rol=='3':
+        # if rol=='3':
 
-            for permisos in Permisos:
+        #     for permisos in Permisos:
 
-                content_type = ContentType.objects.get_for_model(Paquete)
-                permission = Permission.objects.get(
-                    codename= permisos, 
-                    content_type = content_type, 
-                )
+        #         content_type = ContentType.objects.get_for_model(Paquete)
+        #         permission = Permission.objects.get(
+        #             codename= permisos, 
+        #             content_type = content_type, 
+        #         )
 
-                permission_list_visualizador.append(permission)
+        #         permission_list_visualizador.append(permission)
         
-            for per in permission_list_visualizador:
-                user.user_permissions.add(per)
+        #     for per in permission_list_visualizador:
+        #         user.user_permissions.add(per)
 
         return response
     
