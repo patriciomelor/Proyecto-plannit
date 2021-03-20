@@ -155,15 +155,14 @@ class PrevVersionForm(forms.ModelForm):
 
         #Verificca que no se pueda emitir una revision en número antes de que en letra
         try:
-            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc)
             ultima_revision = Version.objects.filter(documento_fk=doc)
+            print(ultima_revision)
             if not ultima_revision.exists() and revision >= 5:
                 raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
-            elif not ultima_prev_revision.exists() and revision >= 5:
-                raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
-        except (AttributeError, PrevVersion.DoesNotExist, Version.DoesNotExist):
-            if revision >= 5:
-                raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+        except (AttributeError, Version.DoesNotExist):
+            # if revision >= 5:
+            #     raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+            pass
 
         #Verifica que no se pueda enviar una version igual 
         # o anterior a la última emitida

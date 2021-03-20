@@ -129,7 +129,16 @@
                     <th class="pd-y-5"style="text-align: center;">Tipo Documento</th>  
                     <th class="pd-y-5"style="text-align: center;">Codigo Documento</th>  
                     <th class="pd-y-5"style="text-align: center;">Revisión</th>
-                    <th class="pd-y-5"style="text-align: center;">Status</th>                                    
+                    {% if request.user.is_superuser  %}
+                    <th class="pd-y-5"style="text-align: center;">Estado Cliente</th>                    
+                    <th class="pd-y-5"style="text-align: center;">Estado Contratista</th>                    
+                    {% endif %}
+                    {% if request.user.perfil.rol_usuario == 2 %}
+                    <th class="pd-y-5"style="text-align: center;">Estado Cliente</th>                    
+                    {% endif %}
+                    {% if request.user.perfil.rol_usuario == 3 %}
+                    <th class="pd-y-5"style="text-align: center;">Estado Contratista</th>                    
+                    {% endif %}                                  
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
                     <form method="POST">{% csrf_token %}
                       <th class="pd-y-5"style="text-align: center;">                       
@@ -148,7 +157,18 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
+                    {% if request.user.is_superuser %}
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>                    
+                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                    
+                    
+                    {% else %}
+                    {% endif %}
+                    {% if request.user.perfil.rol_usuario == 2 %}
+                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>                    
+                    {% endif %}
+                    {% if request.user.perfil.rol_usuario == 3 %}
+                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                    
+                    {% endif %}
                     <td class="tx-12"style="text-align: center;font-weight:800;"><a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a></td>
                   </tr>    
                 {% empty %}
