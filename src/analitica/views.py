@@ -381,7 +381,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 
                 if semana_actual > fecha_actual and semana_actual < fecha_posterior:
                     
-                    if semana_actual.day != fecha_actual.day and semana_actual.year != fecha_actual.year and semana_actual.month != fecha_actual.month:
+                    if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
                     
                         fechas_controles.append(semana_actual)
                         fecha_actual = fecha_actual + timedelta(days=7)
@@ -542,7 +542,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 
                 if semana_actual > fecha_actual and semana_actual < fecha_posterior:
                     
-                    if semana_actual.day != fecha_actual.day and semana_actual.year != fecha_actual.year and semana_actual.month != fecha_actual.month:
+                    if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
                     
                         fechas_controles.append(semana_actual)
                         fecha_actual = fecha_actual + timedelta(days=7)
@@ -775,7 +775,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 
                 if semana_actual > fecha_actual and semana_actual < fecha_posterior:
                     
-                    if semana_actual.day != fecha_actual.day and semana_actual.year != fecha_actual.year and semana_actual.month != fecha_actual.month:
+                    if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
                     
                         fechas_controles.append(semana_actual)
                         fecha_actual = fecha_actual + timedelta(days=7)
