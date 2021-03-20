@@ -16,9 +16,10 @@ from bandeja_es.models import *
 
 from analitica import *
 
-
 from .models import Perfil
-from .forms import CrearUsuario, EditUsuario
+from .forms import CrearUsuario, EditUsuario, InvitationForm
+
+from invitations.utils import get_invitation_model
 
 # Create your views here.
 class UsuarioView(ProyectoMixin, CreateView):
@@ -304,6 +305,22 @@ class ProyectoCreate(ProyectoMixin, CreateView):
         nombre = form.instance.codigo
         grupo = Group.objects.create(name=nombre)
         return response
+
+class InvitationView(ProyectoMixin, FormView):
+    template_name = 'configuracion/invitation_form.html'
+    success_message = 'Invitación enviada correctamente'
+    success_url = reverse_lazy('listar-usuarios')
+    form_class = InvitationForm
+
+    def form_valid(self, form):
+        invitation = get_invitation_model()
+        response = super().form_valid(form)
+        nombre = form.cleaned_data['nombres']
+        correo = form.cleaned_data['correo']
+        invite = invitation.create(correo, inviter=self.request.user)
+        invite.send_invitation(self.request)
+        return response
+
 
 
 

@@ -54,7 +54,7 @@ INSTALLED_APPS = [
     'formtools',
     'rest_framework',
     'rest_framework.authtoken',
-
+    'invitations',
 
     
     'dashboard',
@@ -82,9 +82,11 @@ ACCOUNT_AUTHENTICATION_METHOD = "email"
 ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
 ACCOUNT_EMAIL_VERIFICATION = True
 ACCOUNT_SIGNUP_FORM_CLAS = 'dashboard.forms.CrearUsuario'
-ACCOUNT_ADAPTER = 'configuracion.adapters.AccountAdapter'
 
-
+#Invitation methods
+#ACCOUNT_ADAPTER = 'configuracion.adapters.AccountAdapter'
+ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
+INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
 
 LOGIN_URL = reverse_lazy("account_login")
 

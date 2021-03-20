@@ -4,6 +4,7 @@ from . import views
 urlpatterns = [
     #URL DE USUARIOS
     path('listado-user/', views.UsuarioLista.as_view(), name='listar-usuarios'),
+    path('invitation-user/', views.InvitationView.as_view(), name='invitar-usuarios'),
     path('nuevo-user/', views.UsuarioView.as_view(), name='crear-usuario'),
     path('editar-user/<pk>/', views.UsuarioEdit.as_view(), name='editar-usuario'),
     path('eliminar-user/<pk>/', views.UsuarioDelete.as_view(), name='eliminar-usuario'),
@@ -15,5 +16,7 @@ urlpatterns = [
     path('proyecto-delete/<pk>/', views.ProyectoDelete.as_view(), name='delete-proyecto'),
     path('proyecto-create/', views.ProyectoCreate.as_view(), name='crear-proyecto'),
     path('proyecto-add-user/', views.UsuarioAdd.as_view(), name='add-user-proyecto'),
+    
+    
 
 ]
