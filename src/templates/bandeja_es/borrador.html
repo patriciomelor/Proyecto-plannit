@@ -9,12 +9,12 @@
         <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
       </div>
     
-      <nav class="nav br-nav-mailbox flex-column">
+      <!-- <nav class="nav br-nav-mailbox flex-column">
         <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">Filtros</h6>
         <label class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-white-7">{{filter.form|crispy}}</label>
         <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
       
-      </nav>
+      </nav> -->
 
       <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
 
@@ -38,7 +38,17 @@
       <span class="breadcrumb-item active">Borradores</span>
     </nav>
   </div><!-- br-pageheader -->
-
+<!--Filtros-->
+<div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-50 pd-b-40 ">
+  <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Filtros</h4>
+  <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+    <li class="nav-item mg-10">{{filter.form|crispy}}</li>
+    <li class="nav-item mg-t-35">
+      <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
+      </li>
+  </ul>
+</div><!-- ht-65 -->
+<!--Fin Filtros-->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Bandeja de Borradores.</h4>
   </div>
@@ -52,7 +62,7 @@
           <tr>
             <th class="tx-10-force tx-mont tx-medium">Transmital</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Destinatario</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th>
+            <!-- <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th> -->
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Asunto</th>
             <th class="wd-5p hidden-xs-down"></th>
           </tr>
@@ -69,7 +79,7 @@
               </div>
             </td>
             <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_receptor }} </td>
-            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_descripcion }} </td>
+            <!-- <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_descripcion }} </td> -->
             <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_asunto }} </td>
             <td class="dropdown hidden-xs-down"><a class="btn btn-teal"href="{% url 'nueva-version' borrador.prev_paquete.pk %}" class="nav-link">Modificar</a></td>
           </tr>
