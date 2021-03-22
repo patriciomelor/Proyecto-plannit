@@ -379,20 +379,24 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
             while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
                 
-                if semana_actual > fecha_actual and semana_actual < fecha_posterior:
+                # if semana_actual > fecha_actual and semana_actual < fecha_posterior:
                     
-                    if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
+                #     if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
                     
-                        fechas_controles.append(semana_actual)
-                        fecha_actual = fecha_actual + timedelta(days=7)
-                        fecha_posterior = fecha_actual + timedelta(days=7)
-                        fechas_controles.append(fecha_actual)
+                #         fechas_controles.append(semana_actual)
+                #         fecha_actual = fecha_actual + timedelta(days=7)
+                #         fecha_posterior = fecha_actual + timedelta(days=7)
+                #         fechas_controles.append(fecha_actual)
 
-                else:
+                # else:
                                     
-                    fecha_actual = fecha_actual + timedelta(days=7)
-                    fecha_posterior = fecha_actual + timedelta(days=7)
-                    fechas_controles.append(fecha_actual)
+                #     fecha_actual = fecha_actual + timedelta(days=7)
+                #     fecha_posterior = fecha_actual + timedelta(days=7)
+                #     fechas_controles.append(fecha_actual)
+            
+                fecha_actual = fecha_actual + timedelta(days=7)
+                fecha_posterior = fecha_actual + timedelta(days=7)
+                fechas_controles.append(fecha_actual)
             
             fechas_controles.append(fecha_termino)
                         
@@ -540,20 +544,24 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
             while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
                 
-                if semana_actual > fecha_actual and semana_actual < fecha_posterior:
+                # if semana_actual > fecha_actual and semana_actual < fecha_posterior:
                     
-                    if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
+                #     if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
                     
-                        fechas_controles.append(semana_actual)
-                        fecha_actual = fecha_actual + timedelta(days=7)
-                        fecha_posterior = fecha_actual + timedelta(days=7)
-                        fechas_controles.append(fecha_actual)
+                #         fechas_controles.append(semana_actual)
+                #         fecha_actual = fecha_actual + timedelta(days=7)
+                #         fecha_posterior = fecha_actual + timedelta(days=7)
+                #         fechas_controles.append(fecha_actual)
 
-                else:
+                # else:
                                     
-                    fecha_actual = fecha_actual + timedelta(days=7)
-                    fecha_posterior = fecha_actual + timedelta(days=7)
-                    fechas_controles.append(fecha_actual)
+                #     fecha_actual = fecha_actual + timedelta(days=7)
+                #     fecha_posterior = fecha_actual + timedelta(days=7)
+                #     fechas_controles.append(fecha_actual)
+
+                fecha_actual = fecha_actual + timedelta(days=7)
+                fecha_posterior = fecha_actual + timedelta(days=7)
+                fechas_controles.append(fecha_actual)
 
                 #Se rellena el arreglo que aumentará el avance real por documento
                 avance_fechas_controles.append(0)
@@ -587,7 +595,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     for controles in fechas_controles:
 
                         #Se realiza la comparación hasta que la fecha de control contenga el día actual
-                        if semana_actual >= controles and valor_documento == 0:
+                        #if semana_actual >= controles and valor_documento == 0:
+                        if valor_documento == 0:
 
                             calculo_real_0 = 0
                             calculo_real_b = 0
@@ -637,8 +646,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
                                 valor_documento = 1
                                 
-                            #print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento, "Avance acumulado: ", avance_fechas_controles[cont])
-                            cont = cont + 1
+                            print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento, "Avance acumulado: ", avance_fechas_controles[cont])
+                            #cont = cont + 1
+                        cont = cont + 1
                 
                 #Si no hay versiones, pasa al siguiente documento
                 if not versiones:
@@ -773,20 +783,24 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
             while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
                 
-                if semana_actual > fecha_actual and semana_actual < fecha_posterior:
+                # if semana_actual > fecha_actual and semana_actual < fecha_posterior:
                     
-                    if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
+                #     if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
                     
-                        fechas_controles.append(semana_actual)
-                        fecha_actual = fecha_actual + timedelta(days=7)
-                        fecha_posterior = fecha_actual + timedelta(days=7)
-                        fechas_controles.append(fecha_actual)
+                #         fechas_controles.append(semana_actual)
+                #         fecha_actual = fecha_actual + timedelta(days=7)
+                #         fecha_posterior = fecha_actual + timedelta(days=7)
+                #         fechas_controles.append(fecha_actual)
 
-                else:
+                # else:
                                     
-                    fecha_actual = fecha_actual + timedelta(days=7)
-                    fecha_posterior = fecha_actual + timedelta(days=7)
-                    fechas_controles.append(fecha_actual)
+                #     fecha_actual = fecha_actual + timedelta(days=7)
+                #     fecha_posterior = fecha_actual + timedelta(days=7)
+                #     fechas_controles.append(fecha_actual)
+
+                fecha_actual = fecha_actual + timedelta(days=7)
+                fecha_posterior = fecha_actual + timedelta(days=7)
+                fechas_controles.append(fecha_actual)
             
             fechas_controles.append(fecha_termino)
 
