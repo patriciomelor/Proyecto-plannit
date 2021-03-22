@@ -41,6 +41,9 @@ class VersionesList(ProyectoMixin, DetailView):
         context = super().get_context_data(**kwargs)
         doc = Documento.objects.get(pk=self.kwargs['pk'])
         versiones = Version.objects.filter(documento_fk=doc)
+        first_v_date = versiones.first().fecha
+        last_v_date = versiones.last().fecha
+        delta_date = abs((last_v_date - first_v_date).days)
         paquetes = Paquete.objects.filter(version__in=versiones)
         lista_actual = []
         lista_final = []
@@ -49,6 +52,9 @@ class VersionesList(ProyectoMixin, DetailView):
             lista_final.append(lista_actual)
         print(lista_final)
         context['lista_final'] = lista_final
+        context['first_date'] = first_v_date
+        context['last_date'] = last_v_date
+        context['delta_date'] = delta_date
         # context['paquete'] = paquete
         return context
     
@@ -70,6 +76,7 @@ class VersionesList(ProyectoMixin, DetailView):
         zf.close()
         response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+        return response
 
 def documentos_con_versiones(request):
     añadidos_list = []
