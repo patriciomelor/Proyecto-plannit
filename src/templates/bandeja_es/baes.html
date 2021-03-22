@@ -9,14 +9,14 @@
         <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
       </div>
     
-      <nav class="nav br-nav-mailbox flex-column">
+      <!-- <nav class="nav br-nav-mailbox flex-column">
         <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">filtros</h6>
         <label class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-white-7">{{filter.form.id|as_crispy_field}}</label>
         <label class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-white-7">{{filter.form.owner|as_crispy_field}}</label>
         <label class="tx-uppercase tx-10 tx-mont tx-spacing-1 mg-b-0 pd-l-10 tx-white-7">{{filter.form.fecha_creacion|as_crispy_field}}</label>
         <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
       
-      </nav>
+      </nav> -->
 
       <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
 
@@ -32,6 +32,7 @@
 {% block content %}   
 
 <div class="br-contentpanel">
+  
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -39,7 +40,19 @@
       <span class="breadcrumb-item active">Bandeja Entradas </span>
     </nav>
   </div><!-- br-pageheader -->
-
+<!--Filtros-->
+<div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-50 pd-b-40 ">
+  <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Filtros</h4>
+  <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+    <li class="nav-item mg-10">{{filter.form.id|as_crispy_field}}</li>
+    <li class="nav-item mg-10">{{filter.form.owner|as_crispy_field}}</li>
+    <li class="nav-item mg-10">{{filter.form.fecha_creacion|as_crispy_field}}</li>
+    <li class="nav-item mg-t-35">
+      <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
+      </li>
+  </ul>
+</div><!-- ht-65 -->
+<!--Fin Filtros-->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Bandeja Entrada.</h4>
   </div>
@@ -49,7 +62,7 @@
       <table class="table mg-b-0 table-contact">
         <thead>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Transmital</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th>
+            <!-- <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th> -->
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Asunto</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Autor</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Fecha</th>
@@ -67,7 +80,7 @@
                 </div>
               </div>
             </td>            
-            <td class="valign-middle hidden-xs-down"> {{ paquete.descripcion }} </td>           
+            <!-- <td class="valign-middle hidden-xs-down"> {{ paquete.descripcion }} </td>            -->
             <td class="valign-middle hidden-xs-down"> {{ paquete.asunto }} </td>           
             <td class="valign-middle hidden-xs-down"> {{ paquete.owner }}</td>
             <td><span class="tx-15"><strong>{{ paquete.fecha_creacion|date:'d-m-yy'}} - {{paquete.fecha_creacion|date:'H:i'}}</strong> </span></td>
