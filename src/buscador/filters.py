@@ -10,9 +10,7 @@ class DocFilter(django_filters.FilterSet):
         label='Fecha Emision 0', 
         lookup_expr='icontains',
         widget=forms.DateInput(attrs={
-            'id': 'datepicker2',
-            'type': 'text',
-            'class' : 'datepicker2'
+            'type': 'date',
 
         }), input_formats=['%Y-%m-%d'])
 
@@ -20,9 +18,7 @@ class DocFilter(django_filters.FilterSet):
         lookup_expr='icontains',
         label='Fecha Emision B', 
         widget=forms.DateInput(attrs={
-            'id': 'datepicker2',
-            'type': 'text',
-            'class' : 'datepicker2'
+            'type': 'date'
 
         }), input_formats=['%Y-%m-%d']
     )
@@ -55,6 +51,7 @@ class DocFilter(django_filters.FilterSet):
             attrs={
                 'name':'#ordenName3',
                 'id':'ordenName3',
+                'class':'select2',
                 'autocomplete':'on'
                 }
             )
