@@ -16,6 +16,7 @@ class Proyecto(models.Model):
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
     #dias para revision
 
+
     def __str__(self):
         return self.nombre
 
