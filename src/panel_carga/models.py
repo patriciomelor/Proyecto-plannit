@@ -14,6 +14,7 @@ class Proyecto(models.Model):
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
     encargado = models.ForeignKey(User, on_delete=models.CASCADE)
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
+    participantes = models.ManyToManyField(User, related_name="Participantes")
     #dias para revision
 
     def __str__(self):
