@@ -31,6 +31,7 @@ urlpatterns = [
     path('analitica/', include('analitica.urls')),
     path('configuracion/', include('configuracion.urls')),
     path('buscador/', include('buscador.urls')),
+    path('status/', include('status.url'),)
 ]
 
 if settings.DEBUG:
