@@ -25,31 +25,23 @@
      <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
           <form class="form-group col-lg-10 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
-            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.Especialidad|as_crispy_field}}
-            </div>
-            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.Descripcion|as_crispy_field}}
-            </div>
-            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.Codigo_documento|as_crispy_field}}
-            </div>     
-            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.Tipo_Documento|as_crispy_field}}
-            </div>    
-            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.Numero_documento_interno|as_crispy_field}}
-            </div>  
-            <!-- <div class="col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.fecha_Emision_B|as_crispy_field}}
-            </div> 
-            <div class="col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.fecha_Emision_0|as_crispy_field}}
-            </div>  -->
-            <div class="col-md-10" style="text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              <button class="btn btn-oblong btn-teal mg-t-10 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
-
-            </div> 
+               <!--Filtros-->
+            <div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-130 pd-b-120 ">
+              <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Filtros</h4>
+              <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+                <li class="nav-item mg-10">{{filter.form.Especialidad|as_crispy_field}}</li>
+                <li class="nav-item mg-10">{{filter.form.Descripcion|as_crispy_field}}</li>
+                <li class="nav-item mg-10">{{filter.form.Codigo_documento|as_crispy_field}}</li>
+                <li class="nav-item mg-10">{{filter.form.Tipo_Documento|as_crispy_field}}</li><br>
+                <li class="nav-item mg-10">{{filter.form.Numero_documento_interno|as_crispy_field}}</li>
+                <li class="nav-item mg-10">{{filter.form.fecha_Emision_B|as_crispy_field}}</li>
+                <li class="nav-item mg-10">{{filter.form.fecha_Emision_0|as_crispy_field}}</li>
+                <li class="nav-item mg-t-35">
+                  <button class="btn btn-oblong btn-teal mg-t-8 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
+                </li>
+              </ul>
+            </div><!-- ht-65 -->
+            <!--Fin Filtros-->
           </form>
 
           <thead>
@@ -142,7 +134,9 @@
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="{% static 'file_form/file_form.js' %}"></script>
 
 
 <script>
