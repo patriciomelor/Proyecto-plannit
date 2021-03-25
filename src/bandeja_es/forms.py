@@ -44,7 +44,7 @@ class CreatePaqueteForm(forms.ModelForm):
 class VersionDocForm(forms.ModelForm):
     class Meta:
         model = Version
-        fields = ['documento_fk', 'revision', 'archivo', 'comentario', 'estado_cliente', 'estado_contratista']
+        fields = ['documento_fk', 'revision', 'archivo', 'estado_cliente', 'estado_contratista']
 
     # def __init__(self, *args, **kwargs):
     #     super().__init__(*args, **kwargs)
@@ -64,7 +64,7 @@ class PaquetePreviewForm(forms.ModelForm):
         model = PrevPaquete
         fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion']
         labels = {
-            'prev_receptor': 'Destinatario'
+            'prev_receptor': 'Destinatario',
         }
         widgets = {
             'prev_descripcion': forms.Textarea
@@ -82,32 +82,15 @@ class PaquetePreviewForm(forms.ModelForm):
         pass
 
 
-class VersionDocPreview(forms.ModelForm):
-    prev_revision = forms.ChoiceField(choices=TYPES_REVISION, label='Revisión')
-    class Meta:
-        model = PrevVersion
-        fields = ['prev_documento_fk', 'prev_revision', 'prev_archivo','prev_comentario' ,'prev_estado_cliente', 'prev_estado_contratista']
-        labels = {
-            'prev_documento_fk': 'Código Documento',
-            'prev_estado_cliente': 'Estado Cliente',
-            'prev_estado_contratista': 'Estado Contratista',
-            'prev_archivo' : 'Archivo',
-            'prev_comentario' : 'Archivo de Comentario',
-        }
-        widgets ={
-            'prev_documento_fk': forms.Select(attrs={'class': 'select2'})
-        }
-
 class PrevVersionForm(forms.ModelForm):
     class Meta:
         model = PrevVersion
-        fields = ['prev_documento_fk', 'prev_revision' ,'prev_estado_cliente', 'prev_estado_contratista', 'prev_archivo','prev_comentario']
+        fields = ['prev_documento_fk', 'prev_revision' ,'prev_estado_cliente', 'prev_estado_contratista', 'prev_archivo']
         labels = {
             'prev_documento_fk': 'Código Documento',
             'prev_estado_cliente': 'Estado Cliente',
             'prev_estado_contratista': 'Estado Contratista',
             'prev_archivo' : 'Archivo',
-            'prev_comentario' : 'Archivo de Comentario',
         }
         widgets ={
             'prev_documento_fk': forms.Select(attrs={'class': 'select2 form-control col-md-4'}),
@@ -115,7 +98,6 @@ class PrevVersionForm(forms.ModelForm):
             'prev_estado_contratista': forms.Select(attrs={'class' : 'form-control col-md-4' }),
             'prev_estado_cliente' : forms.Select(attrs={'class' : 'form-control col-md-4 '}),
             'prev_archivo' : forms.FileInput(attrs={'class' : 'col-md-4 '}),
-            'prev_comentario' : forms.FileInput(attrs={'class' : 'col-md-4 '}),
         }
     
     def __init__(self, **kwargs):
@@ -181,16 +163,7 @@ class PrevVersionForm(forms.ModelForm):
         if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
             self.add_error('prev_archivo', 'No coinciden los nombres')
             raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-    
-        
-# class cualquierwea(VersionDocPreview):        
-#     def __init__(self, *args, **kwargs):
-#         super().__init__(*args,**kwargs)
-#         proyect = kwargs.pop('proyecto')
-#         self.fields['prev.documento_fk'].queryset=Documento.objects.filter(proyecto=proyect)
-    
-      
-PreviewVersionSet = formset_factory(VersionDocPreview)
+          
 
 def verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
     try:

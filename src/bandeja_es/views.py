@@ -23,7 +23,7 @@ from django.db import IntegrityError
 
 from panel_carga.views import ProyectoMixin
 from .models import Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, PaqueteDocumento
-from .forms import VersionDocPreview,PreviewVersionSet, VersionDocPreview, CreatePaqueteForm, VersionFormset, PaquetePreviewForm, PrevVersionForm
+from .forms import CreatePaqueteForm, PaquetePreviewForm, PrevVersionForm
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter
 from panel_carga.filters import DocFilter
 from panel_carga.models import Documento, Proyecto

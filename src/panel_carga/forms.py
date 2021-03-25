@@ -18,14 +18,14 @@ class ProyectoSelectForm(forms.Form):
         self.fields['proyectos'].queryset = qs
 
 class ProyectoForm(forms.ModelForm):
-    nombre = forms.CharField( max_length=50, required=True)
-    fecha_inicio = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), input_formats=['%Y-%m-%d'])
-    fecha_termino = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}), input_formats=['%Y-%m-%d'])
-    descripcion = forms.CharField(widget=forms.Textarea, max_length=100, required=True)
     class Meta:
         model = Proyecto
-        exclude = ['encargado']
-
+        fields = '__all__'
+        widgets = {
+            'fecha_inicio':forms.TextInput(attrs={'type': 'date'}),
+            'fecha_termino':forms.TextInput(attrs={'type': 'date'}),
+            'descripcion':forms.Textarea,
+        }
 
 class DocumentoForm(forms.ModelForm):
 
