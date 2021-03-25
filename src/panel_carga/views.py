@@ -79,13 +79,6 @@ class CreateProyecto(CreateView):
     template_name = 'panel_carga/create-proyecto.html'
     success_url = reverse_lazy("index")
 
-    def form_valid(self, form):
-        form.instance.encargado = self.request.user
-        response = super().form_valid(form)
-        nombre = form.instance.codigo
-        grupo = Group.objects.create(name=nombre)
-        return response
-
 class DetailProyecto(ProyectoMixin, DetailView):
     template_name = 'panel_carga/detail-proyecto.html'
     context_object_name = "proyecto"

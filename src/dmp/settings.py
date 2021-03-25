@@ -155,7 +155,7 @@ WSGI_APPLICATION = 'dmp.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dmpdb4',
+        'NAME': 'dmpdb5',
         'USER': 'postgres',
         'PASSWORD': 'dmp.2020',
         'HOST': '134.209.78.27',

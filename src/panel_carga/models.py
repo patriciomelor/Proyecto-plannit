@@ -12,8 +12,13 @@ class Proyecto(models.Model):
     fecha_inicio = models.DateTimeField(verbose_name="Fecha de Inicio")
     fecha_termino = models.DateTimeField(verbose_name="Fecha de Termino", blank=True)
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
-    encargado = models.ForeignKey(User, on_delete=models.CASCADE)
+    encargado = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Encargado")
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
+    participantes = models.ManyToManyField(User, related_name="participantes")
+    umbral_documento_aprobado = models.IntegerField(verbose_name="Umbral para Documentos Aprobados")
+    umbral_documento_atrasado = models.IntegerField(verbose_name="Umbral para Documentos Atrasados")
+    umbral_revision_documento = models.IntegerField(verbose_name="Umbral para Revisiones Atrasadas")
+    umbral_desviacion_porcentual = models.FloatField(verbose_name="Umbral para Dviación Porcentual del Proyecto")
     #dias para revision
 
 
