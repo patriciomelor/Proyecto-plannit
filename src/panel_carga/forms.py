@@ -24,13 +24,13 @@ class ProyectoForm(forms.ModelForm):
         widgets = {
             'fecha_inicio':forms.TextInput(attrs={'type': 'date'}),
             'fecha_termino':forms.TextInput(attrs={'type': 'date'}),
-            'descripcion':forms.Textarea,
+            'descripcion':forms.Textarea(attrs={'row':'5','style':'height:100px;'}),
         }
 
 class DocumentoForm(forms.ModelForm):
 
     Especialidad = forms.CharField( max_length=50, required=True)
-    Descripcion = forms.CharField( max_length=150, required=True)
+    Descripcion = forms.CharField( max_length=150, required=True )
     Codigo_documento = forms.CharField( max_length=100, required=True)
     Numero_documento_interno = forms.CharField(max_length=30, required=False)
     archivo = forms.FileField(required=False)

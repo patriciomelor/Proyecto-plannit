@@ -513,21 +513,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             avance_semanal = 0
             avance_real_now = 0
             avance_proyeccion = 0
-            contador = 0
-
-            if calculo_avance_final != 100:
-                
-                avance_real_now = 100 - calculo_avance_final
-                avance_semanal = calculo_avance_final / float(cont)
-                avance_proyeccion = int(calculo_avance_final / avance_semanal)
-                
-                print('Avance semanal: ', avance_semanal, ' Avance proyeccion: ', avance_proyeccion, ' Avance faltante: ', avance_real_now)
-
-                while contador < avance_proyeccion:
-                    
-                    calculo_avance_final = calculo_avance_final + avance_semanal
-                    avance_inicial = [format(calculo_avance_final, '.2f')]
-                    avance_final.append(avance_inicial)            
+            contador = 0         
 
         #Si no existen documentos, se almacenan valores vacios en el arreglo final
         if valor_ganado == 0:
@@ -545,11 +531,26 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_actual = []
         lista_final = []
 
+        lista_avance_real = self.reporte_curva_s_avance_real()
+        calculo_avance_final = float(0)
+        cont = 0
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         avance_esperado = []
         lista_final_esperado = []
 
         if valor_ganado !=0:
+            
+            #Fechas para la proyección de avance real
+            for avance in lista_avance_real:
+
+                calculo_avance_final = calculo_avance_final + float(avance[0])
+                cont = cont + 1 
+
+            if calculo_avance_final != 100:
+
+                avance_real_now = 100 - calculo_avance_final
+                avance_semanal = calculo_avance_final / float(cont)
+                avance_proyeccion = int(calculo_avance_final / avance_semanal)
 
             valor_ganado = (100 / valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
@@ -668,7 +669,17 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 fechas_controles.append(fecha_actual)
             
             fechas_controles.append(fecha_termino)
-                        
+            
+            #Fechas extra para la proyección
+            contador_proyeccion = 0
+
+            while contador_proyeccion < avance_proyeccion:
+
+                fecha_termino = fecha_termino + timedelta(days=7)
+                fechas_controles.append(fecha_termino)
+                contador_proyeccion = contador_proyeccion + 1
+
+
             #Calculo del avance esperado por fecha de control
             fecha_emision_b = 0
             fecha_emision_0 = 0
@@ -704,10 +715,26 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_actual = []
         lista_final = []
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        lista_avance_real = self.reporte_curva_s_avance_real()
+        calculo_avance_final = float(0)
+        cont = 0
 
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))        
         
         if valor_ganado != 0:
+
+            #Fechas para la proyección de avance real
+            for avance in lista_avance_real:
+
+                calculo_avance_final = calculo_avance_final + float(avance[0])
+                cont = cont + 1
+
+
+            if calculo_avance_final != 100:
+
+                avance_real_now = 100 - calculo_avance_final
+                avance_semanal = calculo_avance_final / float(cont)
+                avance_proyeccion = int(calculo_avance_final / avance_semanal)
 
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
@@ -824,6 +851,15 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             
             fechas_controles.append(fecha_termino)
 
+            #Fechas extra para la proyección
+            contador_proyeccion = 0
+
+            while contador_proyeccion < avance_proyeccion:
+
+                fecha_termino = fecha_termino + timedelta(days=7)
+                fechas_controles.append(fecha_termino)
+                contador_proyeccion = contador_proyeccion + 1
+
         else:
                 
             fechas_controles = []
@@ -840,6 +876,43 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     ###################################################
 
+    def proyeccion(self):
+
+        avance_inicial = []
+        avance_final = []
+
+        lista_avance_real = self.reporte_curva_s_avance_real()
+        calculo_avance_final = float(0)
+        cont = 0
+        contador = 0
+
+        #Fechas para la proyección de avance real
+        for avance in lista_avance_real:
+
+            calculo_avance_final = calculo_avance_final + float(avance[0])
+            cont = cont + 1
+
+        if calculo_avance_final != 100:
+                
+                avance_real_now = 100 - calculo_avance_final
+                avance_semanal = calculo_avance_final / float(cont)
+                avance_proyeccion = int(calculo_avance_final / avance_semanal)
+                
+                print('Avance semanal: ', avance_semanal, ' Avance proyeccion: ', avance_proyeccion, ' Avance faltante: ', avance_real_now)
+
+                while contador < avance_proyeccion:
+                    
+                    calculo_avance_final = calculo_avance_final + avance_semanal
+                    avance_inicial = [format(calculo_avance_final, '.2f')]
+                    avance_final.append(avance_inicial)  
+                    contador = contador + 1 
+
+        print(avance_final)
+        
+        return avance_final
+
+
+    
     def valor_eje_x_grafico_uno(self):
 
         #Llamado para un método definido anteriormente
@@ -1031,5 +1104,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
         context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
         context['documentos_atrasados'] = self.documentos_atrasados()
+        context['proyeccion'] = self.proyeccion()
+        context['proyeccion_largo'] = len(self.proyeccion()) 
+
 
         return context
