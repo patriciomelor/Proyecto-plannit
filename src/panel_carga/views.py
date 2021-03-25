@@ -44,14 +44,7 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
     def get_form_kwargs(self):
         group_name_list = []
         kwargs = super().get_form_kwargs()
-        grupos = self.request.user.groups.all()
-        for grupo in grupos:
-            group_name_list.append(grupo.name)
-        proyectos = Proyecto.objects.filter(codigo__in=group_name_list)
-        # for grupo in grupos:
-        #     nombre = grupo.name
-        #     proyecto = Proyecto.objects.get(codigo=nombre)
-        #     proyect_list.append(proyecto)
+        proyectos = self.request.user.proyecto_set.all()
         kwargs['proyectos'] = proyectos
         return kwargs
         
