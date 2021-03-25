@@ -83,6 +83,11 @@ class DetailProyecto(ProyectoMixin, DetailView):
     template_name = 'panel_carga/detail-proyecto.html'
     context_object_name = "proyecto"
 
+class EditProyecto(ProyectoMixin, UpdateView):
+    model = Proyecto
+    form_class = ProyectoForm
+    template_name = 'panel_carga/edit-proyecto.html'
+
 class CreateDocumento(ProyectoMixin, CreateView):
     model = Documento
     form_class = DocumentoForm
