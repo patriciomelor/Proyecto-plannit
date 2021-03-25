@@ -390,8 +390,10 @@
       {
 				type: 'line',
         label: 'Avance Real a la fecha',
-        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 0.2)' {% endif %} {% endfor %}],
-        borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 1)' {% endif %} {% endfor %}],
+        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 0.2)', {% endif %} {% endfor %}
+        {% for esperado in proyeccion %} {% if forloop.counter != proyeccion_largo %} 'rgba(54, 162, 235, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 0.2)' {% endif %} {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 1)', {% endif %} {% endfor %}
+        {% for esperado in proyeccion %} {% if forloop.counter != proyeccion_largo %} 'rgba(54, 162, 235, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 1)' {% endif %} {% endfor %}],
         borderWidth: 1,
         lineTension:0.18,
 				fill: false,
