@@ -2,23 +2,37 @@
 <!--{% extends "account/login_base.html" %}-->
 {% load crispy_forms_tags %}
 
-
 {% block content %}
     <form class="form-group col-12 col-sm-12" method="post">{% csrf_token %}      
               <div class="mg-b-25 pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
                 <h4 class="tx-gray-800 mg-b-5">Formulario para crear Proyectos</h4>
-                <p class="mg-b-0"></p>
               </div>              
-            
-              {{form|crispy}}
-              <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar" >
-              <input class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="button" onClick="javascript:history.go(-1);" value="Volver">
-            
+              <!--Filtros-->
+<div class="ht-65 bd bg-gray-100 d-flex align-items-center justify-content-between pd-t-200 pd-b-200 ">
+  <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+    <li class="nav-item mg-5 col-2">{{form.nombre|as_crispy_field}}</li>
+    <li class="nav-item mg-5 col-2">{{form.fecha_inicio|as_crispy_field}}</li>
+    <li class="nav-item mg-5 col-2">{{form.fecha_termino|as_crispy_field}}</li>
+    <li class="nav-item mg-5 col-2">{{form.encargado|as_crispy_field}}</li>
+    <li class="nav-item mg-5 col-2">{{form.codigo|as_crispy_field}}</li>
 
-            
-        
-                            
-    </form>
+    <li class="nav-item mg-5 col-2">{{form.umbral_documento_aprobado|as_crispy_field}}</li>
+    <li class="nav-item mg-5 col-2">{{form.umbral_documento_atrasado|as_crispy_field}}</li>
+    <li class="nav-item mg-5 col-2">{{form.umbral_revision_documento|as_crispy_field}}</li>
+    <li class="nav-item mg-5 col-2">{{form.umbral_desviacion_porcentual|as_crispy_field}}</li>
+     
+    <li class="nav-item mg-5 col-2 mg-t-20">{{form.encargado|as_crispy_field}}</li>
+    <li class="nav-item mg-5 col-3">{{form.descripcion|as_crispy_field}}</li>
+    <li class="nav-item mg-5 col-3" >{{form.participantes|as_crispy_field}}</li>
+     
+    </ul>
+  
+</div><!-- ht-65 -->
+<!--Fin Filtros-->  
+              
+              <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-10" type="submit" value="Guardar" >
+              <input class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-10" type="button" onClick="javascript:history.go(-1);" value="Volver">
+      </form>
  <script>
   $(function () {
     $("#id_date").datepicker({
