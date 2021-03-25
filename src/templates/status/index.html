@@ -22,7 +22,7 @@
           
   <div class="row row-sm d-flex " >
   <!--Upload Archivos-->
-     <table class="table table-responsive table-striped mg-b-0 table-bordered table-teal">       
+     <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
           <form class="form-group col-lg-10 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
                {% comment %} <!--Filtros-->
@@ -39,23 +39,6 @@
           </form>
 
           <thead>
-          {% comment %} 
-          *Tipo documento**
-          *especialidad**
-          *descripcion**
-          *codigo**
-          *revision actual del documento **
-          *ultima fecha de emision**
-          *ultimo paquete de la revision**
-          *días de revisión de la última emisión (fecha actual - fecha de emision)**
-          *status del documento**
-          *fecha inicial**
-          *fecha final**
-          *porcentaje de avance (números = 100%, letras = 70%)**
-          *transmintal**
-          *Día de consulta menos ultima fecha de emisión
-          *fecha inicial, final y status. 
-          {% endcomment %}
 
             <tr>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Especialidad</th>
@@ -70,9 +53,7 @@
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Fecha Inicial</th>              
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Fecha Final</th>              
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">(%) de Avance</th>              
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Dia de Consulta</th>              
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Fecha Inicial</th>              
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Fecha Final</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Dia de Consulta</th>           
 
 
             </tr>
@@ -85,7 +66,7 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Descripcion}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Codigo_documento}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Tipo_Documento}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.revision}} </th>                  
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.get_revision_display}} </th>                  
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.fecha|date:"d-m-y"}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.2.0.asunto}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.5}} </th>
@@ -94,8 +75,6 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.fecha_Emision_0|date:"d-m-y"}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.4}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.3|date:"d-m-y"}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.Codigo_documento}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.Codigo_documento}} </th>
             </tr>  
                     
           </tbody>
