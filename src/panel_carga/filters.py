@@ -10,9 +10,8 @@ class DocFilter(django_filters.FilterSet):
         label='Fecha Emision 0', 
         lookup_expr='icontains',
         widget=forms.DateInput(attrs={
-            'id': 'datepicker2',
-            'type': 'text',
-            'class' : 'datepicker2'
+            'type': 'date',
+            'style':'float:left;'
 
         }), input_formats=['%Y-%m-%d'])
 
@@ -20,9 +19,7 @@ class DocFilter(django_filters.FilterSet):
         lookup_expr='icontains',
         label='Fecha Emision B', 
         widget=forms.DateInput(attrs={
-            'id': 'datepicker2',
-            'type': 'text',
-            'class' : 'datepicker2'
+            'type': 'date','class':'float-left;'
 
         }), input_formats=['%Y-%m-%d']
     )
@@ -33,7 +30,8 @@ class DocFilter(django_filters.FilterSet):
             attrs={
                 'name':'#ordenName',
                 'id':'ordenName',
-                'autocomplete':'on'
+                'autocomplete':'on',
+                'class':'float-left;'
                 }
             )
         )
@@ -44,7 +42,8 @@ class DocFilter(django_filters.FilterSet):
             attrs={
                 'name':'#ordenName2',
                 'id':'ordenName2',
-                'autocomplete':'on'
+                'autocomplete':'on',
+                'class':'float-left;'
                 }
             )
         )
@@ -55,7 +54,8 @@ class DocFilter(django_filters.FilterSet):
             attrs={
                 'name':'#ordenName3',
                 'id':'ordenName3',
-                'autocomplete':'on'
+                'autocomplete':'on',
+                'class':'float-left;'
                 }
             )
         )
@@ -67,7 +67,8 @@ class DocFilter(django_filters.FilterSet):
             attrs={
                 'name':'#ordenName4',
                 'id':'ordenName4',
-                'autocomplete':'on'
+                'autocomplete':'on',
+                'class':'float-left;'
                 }
             )
         )
@@ -78,7 +79,8 @@ class DocFilter(django_filters.FilterSet):
             attrs={
                 'name':'#ordenName5',
                 'id':'ordenName5',
-                'autocomplete':'on'
+                'autocomplete':'on',
+                'class':'float-left;'
                 }
             )
         )

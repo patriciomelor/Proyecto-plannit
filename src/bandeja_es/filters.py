@@ -9,26 +9,29 @@ class PaqueteFilter(django_filters.FilterSet):
         lookup_expr='icontains',
         label= 'Fecha de Creación:',
         widget=forms.DateInput(attrs={
-            'id': 'datepicker',
-            'type': 'text',
-            'class' : 'datepicker'
-
+            'type': 'date'
         })
     )
     owner = django_filters.ModelChoiceFilter(
         lookup_expr='icontains',
-        widget=forms.TextInput(attrs={'name':'#ordenName', 'id':'ordenName'}), 
-        label='Autor:',
+        label = 'Autor:',
+        widget=forms.TextInput(
+            attrs={
+                'name':'#ordenName', 
+                'id':'ordenName'
+                }
+            ), 
         ),
+
     id = django_filters.NumberFilter(
         lookup_expr='icontains',
+        label='Numero de Tramital:',
         widget=forms.TextInput(
             attrs={
                 'name':'#ordenName2',
                 'id':'ordenName2',
                 }
             ), 
-        label='Numero de Tramital:',
     )
     class Meta:
         model = Paquete
@@ -47,9 +50,7 @@ class BorradorFilter(django_filters.FilterSet):
     fecha_creacion = django_filters.DateFilter(
         lookup_expr='icontains',
         widget=forms.DateInput(attrs={
-            'id': 'datepicker',
-            'type': 'text',
-            'class' : 'datepicker'
+            'type': 'date',
 
         })
     )
