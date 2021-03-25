@@ -37,33 +37,17 @@
               </div>
               <div class="row no-gutters">
                 <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 13px;">
-                  Fecha:
-                </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 13px;">
-                  {{documento.fecha_Emision_B|date:'d-m-y'}}
-                </div><!-- col-8 -->
-              </div>             
-              <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 13px;">
-                  Hora:
-                </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 13px;">
-                  {{documento.fecha_Emision_B|date:'H:i'}}
-                </div><!-- col-8 -->
-              </div>
-              <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 13px;">
                   Fecha Primera Emisión:
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 13px;">
-                  {{first_date|date}}
+                  {{first_date|date:'d-m-y'}}
                 </div><!-- col-8 -->
               </div>               <div class="row no-gutters">
                 <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 13px;">
                   Fecha Última Emisión:
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 13px;">
-                  {{last_date|date}}
+                  {{last_date|date:'d-m-y'}}
                 </div><!-- col-8 -->
               </div>               <div class="row no-gutters">
                 <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 13px;">
@@ -111,10 +95,10 @@
                   <tr>                    
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.owner.first_name}}<br>{{version.owner.last_name}}  </td>       
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_revision_display}} </td>
-                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{% url 'paquete-detalle' version.1.pk %}" > {{version.1}} </a> </td>
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{% url 'paquete-detalle' version.1.pk %}" > {{paquete.id}} </a> </td>
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_estado_cliente_display}} </td>
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_estado_contratista_display}} </td>
-                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'d-M-y'}} </td>                    
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'d-m-y'}} </td>                    
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'H:i'}} </td>                    
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{{version.comentario.url}}"><i class="icon ion-document-text fa-1x"></i></a> </td>

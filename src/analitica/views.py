@@ -270,165 +270,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     #                                                 #
     ###################################################
-    
-    def reporte_curva_s_avance_esperado(self):
-                
-        lista_actual = []
-        lista_final = []
-
-        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
-        avance_esperado = []
-        lista_final_esperado = []
-
-        if valor_ganado !=0:
-
-            valor_ganado = (100 / valor_ganado)
-            documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-
-            fecha_inicio = self.proyecto.fecha_inicio
-            fecha_termino = self.proyecto.fecha_termino
-            fecha_posterior = self.proyecto.fecha_inicio
-
-            #Obtener la ultima fecha de emisión en B y en 0
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
-            ultima_fecha_b = 0
-            ultima_fecha_0 = 0
-            ultima_de_dos = 0
-            cont = 0
-
-            #Obtener la primera fecha por documento
-            primera_fecha_b = 0
-            primera_fecha_0 = 0
-            primera_de_dos = 0
-
-            for doc in documentos:
-
-                if cont == 0:
-                    
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-                    ultima_fecha_b = fecha_emision_b
-                    ultima_fecha_0 = fecha_emision_0
-
-                    primera_fecha_b = doc.fecha_Emision_B
-                    primera_fecha_0 = doc.fecha_Emision_0
-
-                    cont = 1
-                
-                if cont != 0:
-                    
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-
-                    if fecha_emision_b > ultima_fecha_b:
-
-                        ultima_fecha_b = fecha_emision_b
-
-                    if fecha_emision_0 > ultima_fecha_0:
-                    
-                        ultima_fecha_0 = fecha_emision_0
-
-                    if fecha_emision_b < primera_fecha_b:
-                    
-                        primera_fecha_b = fecha_emision_b
-
-                    if fecha_emision_0 < primera_fecha_0:
-                    
-                        primera_fecha_0 = fecha_emision_0
-
-            #Verificar cuál de las dos fechas, emisión B y 0, es la última
-            if ultima_fecha_b >= ultima_fecha_0:
-
-                ultima_de_dos = ultima_fecha_b
-
-            if ultima_fecha_b < ultima_fecha_0:
-
-                ultima_de_dos = ultima_fecha_0
-
-            if primera_fecha_b < primera_fecha_0:
-
-                primera_de_dos = primera_fecha_b
-
-            if primera_fecha_b > primera_fecha_0:
-
-                primera_de_dos = primera_fecha_0
-            
-            #Agregar una semana antes a la primera de los documentos
-            fechas_controles = []
-            primera_de_dos = primera_de_dos - timedelta(days=7)
-            fechas_controles.append(primera_de_dos)
-            primera_de_dos = primera_de_dos + timedelta(days=7)
-            fechas_controles.append(primera_de_dos)
-
-            #Obtener fechas de inicio y termino de proyecto
-            fecha_inicio = self.proyecto.fecha_inicio
-            fecha_termino = self.proyecto.fecha_termino
-            fecha_posterior = self.proyecto.fecha_inicio
-            semana_actual = timezone.now()
-
-            if ultima_de_dos > fecha_termino:
-
-                fecha_termino = ultima_de_dos
-
-            #Se alamacena fecha de inicio del proyecto en la Lista de Controles
-            #fechas_controles = []
-            #fechas_controles.append(primera_de_dos)
-            fecha_actual = primera_de_dos
-            
-            #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
-            while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
-                
-                # if semana_actual > fecha_actual and semana_actual < fecha_posterior:
-                    
-                #     if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
-                    
-                #         fechas_controles.append(semana_actual)
-                #         fecha_actual = fecha_actual + timedelta(days=7)
-                #         fecha_posterior = fecha_actual + timedelta(days=7)
-                #         fechas_controles.append(fecha_actual)
-
-                # else:
-                                    
-                #     fecha_actual = fecha_actual + timedelta(days=7)
-                #     fecha_posterior = fecha_actual + timedelta(days=7)
-                #     fechas_controles.append(fecha_actual)
-            
-                fecha_actual = fecha_actual + timedelta(days=7)
-                fecha_posterior = fecha_actual + timedelta(days=7)
-                fechas_controles.append(fecha_actual)
-            
-            fechas_controles.append(fecha_termino)
-                        
-            #Calculo del avance esperado por fecha de control
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
-
-            for controles in fechas_controles:
-                calculo_avanceEsperado = 0
-
-                for doc in documentos:
-                    
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-
-                    #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                    if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                        calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
-                        
-                    if fecha_emision_0 <= controles and fecha_emision_b < controles:
-                        calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
-
-                #Se almacena el avance esperado hasta la fecha de control
-                avance_esperado = [format(calculo_avanceEsperado, '.2f')]
-                lista_final_esperado.append(avance_esperado)
-
-        else:
-
-            avance_esperado = [int(valor_ganado)]
-            lista_final_esperado.append(avance_esperado)
-
-        return lista_final_esperado
 
     def reporte_curva_s_avance_real(self):
 
@@ -647,8 +488,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 valor_documento = 1
                                 
                             #print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento, "Avance acumulado: ", avance_fechas_controles[cont])
-                            #cont = cont + 1
-                        cont = cont + 1
+                            cont = cont + 1
+                        #cont = cont + 1
                 
                 #Si no hay versiones, pasa al siguiente documento
                 if not versiones:
@@ -666,7 +507,27 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     calculo_avance_final = calculo_avance_final + avance
                     avance_inicial = [format(calculo_avance_final, '.2f')]
                     avance_final.append(avance_inicial)
-                    contador_final = contador_final + 1                                   
+                    contador_final = contador_final + 1
+            
+            #Se calcula el avance semanal, para establecer la proyección de semanas por avanzar
+            avance_semanal = 0
+            avance_real_now = 0
+            avance_proyeccion = 0
+            contador = 0
+
+            if calculo_avance_final != 100:
+                
+                avance_real_now = 100 - calculo_avance_final
+                avance_semanal = calculo_avance_final / float(cont)
+                avance_proyeccion = int(calculo_avance_final / avance_semanal)
+                
+                print('Avance semanal: ', avance_semanal, ' Avance proyeccion: ', avance_proyeccion, ' Avance faltante: ', avance_real_now)
+
+                while contador < avance_proyeccion:
+                    
+                    calculo_avance_final = calculo_avance_final + avance_semanal
+                    avance_inicial = [format(calculo_avance_final, '.2f')]
+                    avance_final.append(avance_inicial)            
 
         #Si no existen documentos, se almacenan valores vacios en el arreglo final
         if valor_ganado == 0:
@@ -678,6 +539,165 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                avance_final.append(avance_inicial)
 
         return avance_final
+
+    def reporte_curva_s_avance_esperado(self):
+                
+        lista_actual = []
+        lista_final = []
+
+        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        avance_esperado = []
+        lista_final_esperado = []
+
+        if valor_ganado !=0:
+
+            valor_ganado = (100 / valor_ganado)
+            documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+
+            fecha_inicio = self.proyecto.fecha_inicio
+            fecha_termino = self.proyecto.fecha_termino
+            fecha_posterior = self.proyecto.fecha_inicio
+
+            #Obtener la ultima fecha de emisión en B y en 0
+            fecha_emision_b = 0
+            fecha_emision_0 = 0
+            ultima_fecha_b = 0
+            ultima_fecha_0 = 0
+            ultima_de_dos = 0
+            cont = 0
+
+            #Obtener la primera fecha por documento
+            primera_fecha_b = 0
+            primera_fecha_0 = 0
+            primera_de_dos = 0
+
+            for doc in documentos:
+
+                if cont == 0:
+                    
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+                    ultima_fecha_b = fecha_emision_b
+                    ultima_fecha_0 = fecha_emision_0
+
+                    primera_fecha_b = doc.fecha_Emision_B
+                    primera_fecha_0 = doc.fecha_Emision_0
+
+                    cont = 1
+                
+                if cont != 0:
+                    
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+
+                    if fecha_emision_b > ultima_fecha_b:
+
+                        ultima_fecha_b = fecha_emision_b
+
+                    if fecha_emision_0 > ultima_fecha_0:
+                    
+                        ultima_fecha_0 = fecha_emision_0
+
+                    if fecha_emision_b < primera_fecha_b:
+                    
+                        primera_fecha_b = fecha_emision_b
+
+                    if fecha_emision_0 < primera_fecha_0:
+                    
+                        primera_fecha_0 = fecha_emision_0
+
+            #Verificar cuál de las dos fechas, emisión B y 0, es la última
+            if ultima_fecha_b >= ultima_fecha_0:
+
+                ultima_de_dos = ultima_fecha_b
+
+            if ultima_fecha_b < ultima_fecha_0:
+
+                ultima_de_dos = ultima_fecha_0
+
+            if primera_fecha_b < primera_fecha_0:
+
+                primera_de_dos = primera_fecha_b
+
+            if primera_fecha_b > primera_fecha_0:
+
+                primera_de_dos = primera_fecha_0
+            
+            #Agregar una semana antes a la primera de los documentos
+            fechas_controles = []
+            primera_de_dos = primera_de_dos - timedelta(days=7)
+            fechas_controles.append(primera_de_dos)
+            primera_de_dos = primera_de_dos + timedelta(days=7)
+            fechas_controles.append(primera_de_dos)
+
+            #Obtener fechas de inicio y termino de proyecto
+            fecha_inicio = self.proyecto.fecha_inicio
+            fecha_termino = self.proyecto.fecha_termino
+            fecha_posterior = self.proyecto.fecha_inicio
+            semana_actual = timezone.now()
+
+            if ultima_de_dos > fecha_termino:
+
+                fecha_termino = ultima_de_dos
+
+            #Se alamacena fecha de inicio del proyecto en la Lista de Controles
+            #fechas_controles = []
+            #fechas_controles.append(primera_de_dos)
+            fecha_actual = primera_de_dos
+            
+            #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
+            while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
+                
+                # if semana_actual > fecha_actual and semana_actual < fecha_posterior:
+                    
+                #     if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
+                    
+                #         fechas_controles.append(semana_actual)
+                #         fecha_actual = fecha_actual + timedelta(days=7)
+                #         fecha_posterior = fecha_actual + timedelta(days=7)
+                #         fechas_controles.append(fecha_actual)
+
+                # else:
+                                    
+                #     fecha_actual = fecha_actual + timedelta(days=7)
+                #     fecha_posterior = fecha_actual + timedelta(days=7)
+                #     fechas_controles.append(fecha_actual)
+            
+                fecha_actual = fecha_actual + timedelta(days=7)
+                fecha_posterior = fecha_actual + timedelta(days=7)
+                fechas_controles.append(fecha_actual)
+            
+            fechas_controles.append(fecha_termino)
+                        
+            #Calculo del avance esperado por fecha de control
+            fecha_emision_b = 0
+            fecha_emision_0 = 0
+
+            for controles in fechas_controles:
+                calculo_avanceEsperado = 0
+
+                for doc in documentos:
+                    
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+
+                    #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
+                    if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                        calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
+                        
+                    if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                        calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
+
+                #Se almacena el avance esperado hasta la fecha de control
+                avance_esperado = [format(calculo_avanceEsperado, '.2f')]
+                lista_final_esperado.append(avance_esperado)
+
+        else:
+
+            avance_esperado = [int(valor_ganado)]
+            lista_final_esperado.append(avance_esperado)
+
+        return lista_final_esperado
 
     def reporte_curva_s_fechas(self):
         

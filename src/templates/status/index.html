@@ -1,0 +1,238 @@
+{% extends 'index-Status.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!--Titulo-->
+ <div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" > {{proyecto}} </a>
+      <span class="breadcrumb-item active">Status</span>
+    </nav>
+  </div>
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Panel de Status</h4>
+    <p class="mg-b-0"></p>
+  </div>
+
+  <div class="br-section-wrapper">
+<!--Tabla-->
+<h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
+
+          
+  <div class="row row-sm d-flex " >
+  <!--Upload Archivos-->
+     <table class="table table-responsive table-striped mg-b-0 table-bordered table-teal">       
+  <!--Table-->
+          <form class="form-group col-lg-10 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
+               {% comment %} <!--Filtros-->
+            <div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-130 pd-b-120 ">
+              <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Filtros</h4>
+              <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+                <li class="nav-item mg-10">{{filter.form|crispy}}</li>
+                <li class="nav-item mg-t-35">
+                  <button class="btn btn-oblong btn-teal mg-t-8 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
+                </li>
+              </ul>
+            </div><!-- ht-65 -->
+            <!--Fin Filtros--> {% endcomment %}
+          </form>
+
+          <thead>
+          {% comment %} 
+          *Tipo documento**
+          *especialidad**
+          *descripcion**
+          *codigo**
+          *revision actual del documento **
+          *ultima fecha de emision**
+          *ultimo paquete de la revision**
+          *días de revisión de la última emisión (fecha actual - fecha de emision)**
+          *status del documento**
+          *fecha inicial**
+          *fecha final**
+          *porcentaje de avance (números = 100%, letras = 70%)**
+          *transmintal**
+          *Día de consulta menos ultima fecha de emisión
+          *fecha inicial, final y status. 
+          {% endcomment %}
+
+            <tr>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Especialidad</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">descripcion</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo Doc.</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Revision Actual.</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Fecha Ultima Emision</th> 
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Ultimo Paquete</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Ciclo de revision</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Estado</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Fecha Inicial</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Fecha Final</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">(%) de Avance</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Dia de Consulta</th>           
+
+
+            </tr>
+          </thead>
+          <tbody>
+            <!--Loop Listar Documento-->
+            {% for documento in Listado %}
+            <tr>            
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Especialidad}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Descripcion}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Codigo_documento}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Tipo_Documento}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.get_revision_display}} </th>                  
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.fecha|date:"d-m-y"}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.2.0.asunto}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.5}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.get_estado_cliente_display}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.fecha_Emision_B|date:"d-m-y"}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.fecha_Emision_0|date:"d-m-y"}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.4}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.3|date:"d-m-y"}} </th>
+            </tr>  
+                    
+          </tbody>
+          
+          {% empty %}  
+          <tbody>
+            <tr>  
+              <th colspan="15" style="background-color: #fff;">       
+          <div class="alert alert-warning alert-bordered pd-y-20" role="alert">
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">×</span>
+          </button>
+          <div class="d-sm-flex align-items-center justify-content-start">
+            <i class="icon ion-alert-circled alert-icon tx-52 tx-warning mg-r-20"></i>
+            <div class="mg-t-20 mg-sm-t-0">
+              <h5 class="mg-b-2 tx-warning"><strong>AVISO!</strong> </h5>
+              <p class="mg-b-0 tx-gray">No hay archivos coincidentes con la busqueda</p>
+            </div>
+          </div><!-- d-flex -->
+        </div> 
+      </th> 
+      </tr>
+      </tbody> 
+    </table>
+  </div>            
+         
+      {% endfor %}
+            <!--Fin Loop-->
+         
+
+
+      
+    </div>
+{% if is_paginated %}
+    <div class="ht-80 d-flex align-items-center justify-content-center">
+      <nav aria-label="Page navigation">      
+        <ul class="pagination pagination-basic mg-b-0">
+        {% if page_obj.has_previous %}
+          <li class="page-item"><a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR"><i class="fa fa-angle-left"></i></a></li>
+          
+          {% if page_obj.has_previous %}
+            <li class="page-item active"><a class="page-link active" href="page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
+          {% endif %}
+          <li class="page-item"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+          <li class="page-item disabled"><span class="page-link">...</span></li>
+          <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>          
+       {% endif %}
+       {% if page_obj.has_next %}   
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+              <i class="fa fa-angle-right"></i>
+            </a>
+          </li>
+          <li class="page-item">
+            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+              <i class="fa fa-angle-double-right"></i>
+            </a>
+          </li>          
+    {% endif %}
+        </ul>
+      </nav>
+    </div>
+{% endif %}
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+
+<script>
+  $("#fileInput").change(function(){
+    $("button").prop("disabled", this.files.length == 0);
+});
+</script>
+<script>
+   $('.datepicker').datetimepicker.dates['es'] = {
+                    days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
+                    daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"],
+                    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
+                    months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
+                    monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    today: "Hoy"
+                };
+
+
+  $('.datepicker').datetimepicker({
+              uiLibrary: 'bootstrap4',
+              defaultDate: "+1w",
+              showOn: 'button',
+              numberOfMonths: 1,
+              format: 'dd-mm-yyyy hh:00',
+              language: 'es',
+              daysShort: ["Lun", "Mar", "Mie", "Juev", "Vie", "Sab","Dom"],
+              weekStart: 1,
+              minView: "day",
+              minuteStep: 61,
+              autoclose: true
+ });
+</script>
+<script>
+$('#ordenName').keyup(function() {
+  var datos = new String($('#ordenName').val());
+  datos = datos.toUpperCase(datos);
+  $('#lblOrden').html(datos);
+  $('#ordenName').val(datos);
+})
+</script>
+<script>
+$('#ordenName2').keyup(function() {
+  var datos = new String($('#ordenName2').val());
+  datos = datos.toUpperCase(datos);
+  $('#lblOrden').html(datos);
+  $('#ordenName2').val(datos);
+})
+</script>
+<script>
+$('#ordenName3').keyup(function() {
+  var datos = new String($('#ordenName3').val());
+  datos = datos.toUpperCase(datos);
+  $('#lblOrden').html(datos);
+  $('#ordenName3').val(datos);
+})
+</script>
+<script>
+$('#ordenName4').keyup(function() {
+  var datos = new String($('#ordenName4').val());
+  datos = datos.toUpperCase(datos);
+  $('#lblOrden').html(datos);
+  $('#ordenName4').val(datos);
+})
+</script>
+<script>
+$('#ordenName5').keyup(function() {
+  var datos = new String($('#ordenName5').val());
+  datos = datos.toUpperCase(datos);
+  $('#lblOrden').html(datos);
+  $('#ordenName5').val(datos);
+})
+</script>
+
+{% endblock content %}
+    
