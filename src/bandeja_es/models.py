@@ -38,7 +38,7 @@ class Paquete(models.Model):
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="proyecto")
 
     def __str__(self):
-        return self.asunto
+        return str(self.codigo)
     
     def toJSON(self):
         item = model_to_dict(self)
