@@ -62,9 +62,10 @@ VersionFormset = formset_factory(VersionDocForm, extra=1)
 class PaquetePreviewForm(forms.ModelForm):
     class Meta:
         model = PrevPaquete
-        fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion']
+        fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion', 'prev_comentario']
         labels = {
             'prev_receptor': 'Destinatario',
+            'prev_comentario': 'Archivo de Comentario'
         }
         widgets = {
             'prev_descripcion': forms.Textarea
