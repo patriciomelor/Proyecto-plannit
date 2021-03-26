@@ -553,7 +553,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 avance_real_now = 100 - calculo_avance_final
                 avance_semanal = calculo_avance_final / float(cont)
-                avance_proyeccion = int(calculo_avance_final / avance_semanal)
+                avance_proyeccion = int(avance_real_now / avance_semanal)
+
+            print('Contador: ', cont, 'Avance semanal: ', avance_semanal, ' Avance proyeccion: ', avance_proyeccion, ' Avance faltante: ', avance_real_now, ' Calculo_avance_final: ', calculo_avance_final)
 
             valor_ganado = (100 / valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
@@ -740,7 +742,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 avance_real_now = 100 - calculo_avance_final
                 avance_semanal = calculo_avance_final / float(cont)
-                avance_proyeccion = int(calculo_avance_final / avance_semanal)
+                avance_proyeccion = int(avance_real_now / avance_semanal)
+
+            print('Contador: ', cont, 'Avance semanal: ', avance_semanal, ' Avance proyeccion: ', avance_proyeccion, ' Avance faltante: ', avance_real_now, ' Calculo_avance_final: ', calculo_avance_final)
+
 
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
@@ -892,6 +897,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         cont = 0
         contador = 0
 
+        print(lista_avance_real)
+
         #Fechas para la proyección de avance real
         for avance in lista_avance_real:
 
@@ -908,9 +915,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 
                 if avance_semanal != 0:
                 
-                    avance_proyeccion = int(calculo_avance_final / avance_semanal)
-                    
-                    print('Avance semanal: ', avance_semanal, ' Avance proyeccion: ', avance_proyeccion, ' Avance faltante: ', avance_real_now)
+                    avance_proyeccion = int(avance_real_now / avance_semanal)
 
                     while contador < avance_proyeccion:
                         
