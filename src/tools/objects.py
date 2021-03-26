@@ -11,7 +11,7 @@ class SuperUserViewMixin(object):
 
 class StaffViewMixin(object):
     def dispatch(self, request, *args, **kwargs):
-        authorized = super(SuperUserViewMixin, self).dispatch(request, *args, **kwargs)
+        authorized = super(StaffViewMixin, self).dispatch(request, *args, **kwargs)
         if not request.user.is_staff:
             raise PermissionDenied
         else:
