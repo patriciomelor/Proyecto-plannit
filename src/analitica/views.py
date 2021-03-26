@@ -543,7 +543,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #Fechas para la proyección de avance real
             for avance in lista_avance_real:
 
-                calculo_avance_final = calculo_avance_final + float(avance[0])
+                if cont == (len(lista_avance_real) - 1):
+                
+                    calculo_avance_final = float(avance[0])
+
                 cont = cont + 1 
 
             if calculo_avance_final != 100:
@@ -726,7 +729,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #Fechas para la proyección de avance real
             for avance in lista_avance_real:
 
-                calculo_avance_final = calculo_avance_final + float(avance[0])
+                if cont == (len(lista_avance_real) - 1):
+                
+                    calculo_avance_final = float(avance[0])
+
                 cont = cont + 1
 
 
@@ -889,23 +895,33 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #Fechas para la proyección de avance real
         for avance in lista_avance_real:
 
-            calculo_avance_final = calculo_avance_final + float(avance[0])
+            if cont == (len(lista_avance_real) - 1):
+                
+                calculo_avance_final = float(avance[0])
+
             cont = cont + 1
 
         if calculo_avance_final != 100:
                 
                 avance_real_now = 100 - calculo_avance_final
                 avance_semanal = calculo_avance_final / float(cont)
-                avance_proyeccion = int(calculo_avance_final / avance_semanal)
                 
-                print('Avance semanal: ', avance_semanal, ' Avance proyeccion: ', avance_proyeccion, ' Avance faltante: ', avance_real_now)
-
-                while contador < avance_proyeccion:
+                if avance_semanal != 0:
+                
+                    avance_proyeccion = int(calculo_avance_final / avance_semanal)
                     
-                    calculo_avance_final = calculo_avance_final + avance_semanal
-                    avance_inicial = [format(calculo_avance_final, '.2f')]
-                    avance_final.append(avance_inicial)  
-                    contador = contador + 1 
+                    print('Avance semanal: ', avance_semanal, ' Avance proyeccion: ', avance_proyeccion, ' Avance faltante: ', avance_real_now)
+
+                    while contador < avance_proyeccion:
+                        
+                        calculo_avance_final = calculo_avance_final + avance_semanal
+                        avance_inicial = [format(calculo_avance_final, '.2f')]
+                        avance_final.append(avance_inicial)  
+                        contador = contador + 1 
+
+                else: 
+
+                    pass
 
         print(avance_final)
         
