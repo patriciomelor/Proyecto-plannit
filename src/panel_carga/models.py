@@ -79,22 +79,8 @@ class Historial(models.Model):
 
 
 class Revision(models.Model):
-
-    tipo = models.IntegerField(choices=TYPES_REVISION, verbose_name="Tipo Revision")
-    estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1)
-    estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1)
-    emitida_para = models.TextField(verbose_name="Emitida para")
-    fecha = models.DateTimeField(verbose_name="Fecha", editable=False)
-    fecha_estimada = models.DateTimeField(verbose_name="Fecha rev 0", editable=True, default='2021-01-01') #preguntar a davis por el calculo de los dias
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    documento = models.ForeignKey(Documento, on_delete=models.CASCADE, blank=True, default=5) #Hay que dar vuelta la relacion 
-
+    tipo = models.CharField(verbose_name="Letra o Número", max_length=1)
+    porcentaje = models.FloatField(verbose_name="Porcentaje de Avance")
+    
     def __str__(self):
         return self.tipo
-
-    def toJSON(self):
-        item = model_to_dict(self)
-        item['Codigo Documento'] = self.documento
-        item['Fecha'] = self.fecha
-        item['Emitida Para'] = self.emitida_para
-        return item

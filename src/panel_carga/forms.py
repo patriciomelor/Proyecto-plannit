@@ -43,12 +43,7 @@ class DocumentoForm(forms.ModelForm):
         exclude = ['tipo','owner','emision','proyecto', 'ultima_edicion']
 
 class RevisionForm(forms.ModelForm):
-    tipo = forms.IntegerField( required=True)
-    estado_cliente = forms.IntegerField(required=True)
-    estado_contratista = forms.IntegerField(required=True)
-    emitida_para = forms.CharField(widget=forms.Textarea, max_length=150, required=True)
-    fecha = forms.DateField(required=True)
     
     class Meta:
         model = Revision
-        fields = ['owner']
+        fields = '__all__'
