@@ -73,7 +73,7 @@
             <td>
               <div class="d-flex align-items-center">
                 <div class="mg-l-15">
-                  <div  class="tx-inverse"><a href="{% url 'nueva-version' borrador.prev_paquete.pk %}"> {{borrador.id}}</a> </div>
+                  <div  class="tx-inverse"><a href="{% url 'nueva-version' borrador.prev_paquete.pk %}"> {{paquete.codigo}}</a> </div>
                   <span class="tx-9">Guardado el {{ borrador.fecha_creacion|date }} </span>
                 </div>
               </div>
