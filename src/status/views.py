@@ -12,6 +12,8 @@ from panel_carga.choices import TYPES_REVISION
 from panel_carga.models import Documento
 from bandeja_es.models import Version, Paquete
 from .filters import DocFilter
+from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
+
 # Create your views here.
 
 class StatusIndex(ProyectoMixin, TemplateView):
