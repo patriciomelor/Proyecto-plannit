@@ -120,26 +120,28 @@ class ListDocumento(ProyectoMixin, ListView):
         new_documentos = request.FILES['importfile']
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
         for data in imported_data:
-            try:
-                documento = Documento(
-                    Especialidad= data[0],
-                    Descripcion= data[1],
-                    Codigo_documento= data[2],
-                    Tipo_Documento= data[3],
-                    Numero_documento_interno= data[4], 
-                    fecha_Emision_B= data[5],
-                    fecha_Emision_0= data[6],
-                    proyecto= self.proyecto,
-                    owner= request.user
-                )
+            # try:
+            fecha_b = data[5].strftime("%Y-%m-%d")
+            fecha_0 = data[6].strftime("%Y-%m-%d")
+            documento = Documento(
+                Especialidad= data[0],
+                Descripcion= data[1],
+                Codigo_documento= data[2],
+                Tipo_Documento= data[3],
+                Numero_documento_interno= data[4], 
+                fecha_Emision_B= fecha_b,
+                fecha_Emision_0= fecha_0,
+                proyecto= self.proyecto,
+                owner= request.user
+            )
 
-                documento.save()
-            except IntegrityError:
-                documentos_erroneos.append(data)
-            except ValueError:
-                documentos_erroneos.append(data)
-            except TypeError:
-                documentos_erroneos.append(data)
+            documento.save()
+            # except IntegrityError:
+            #     documentos_erroneos.append(data)
+            # except ValueError:
+            #     documentos_erroneos.append(data)
+            # except TypeError:
+            #     documentos_erroneos.append(data)
         return render(request, 'panel_carga/list-error.html', context={'errores': documentos_erroneos})
 
 # funcion de exportación
