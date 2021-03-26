@@ -1,12 +1,14 @@
 
-<!--{% extends "account/login_base.html" %}-->
+{% extends "account/login_base.html" %}
 
 {% block content %}
+ <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+       
 {% load crispy_forms_tags %}
 <form method="post">{% csrf_token %}
 
     {{ form|crispy }}
     <input class="btn btn-teal "type="submit" value="ELEGIR">
 </form>
-
+</div>
 {% endblock content %}

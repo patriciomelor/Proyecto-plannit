@@ -74,7 +74,7 @@
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;"> {{version.get_prev_estado_cliente_display}} </td>
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;"> {{version.get_prev_estado_contratista_display}} </td>
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a onclick="JavaScript:window.open('{% url 'popup-version-update' version.pk paquete_pk %}','subir datos','toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,resizable=yes,width=450,height=620,top=100,left=600');"><i class="fa fa-pencil"></i></a> </td>
-                                              <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="{% url 'delete-prev-version' version.pk paquete_pk %}" onclick="alert('Estás por eliminar esta versión')"><i class="icon ion-trash-a"></i></a></td>
+                                              <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="{% url 'delete-prev-version' version.pk paquete_pk %}" onclick="confirm('Estás por eliminar esta versión. Estás seguro ?')"><i class="icon ion-trash-a"></i></a></td>
 
                                             </tr>
                                         {% endfor %}
