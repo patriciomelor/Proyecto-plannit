@@ -26,7 +26,7 @@ class Version(models.Model):
 
 class Paquete(models.Model):
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
-    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
+    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     version = models.ManyToManyField(Version, through='PaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
     fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
@@ -82,7 +82,7 @@ class PrevVersion(models.Model):
 # PREVISUALIZACION DEL PAQUETE
 class PrevPaquete(models.Model):
     prev_documento = models.ManyToManyField(PrevVersion, through='PrevPaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
-    prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True)
+    prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     prev_fecha_creacion = models.DateTimeField(verbose_name="Fecha de creación", auto_now_add=True)
     prev_fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
     prev_asunto = models.CharField(verbose_name="Asunto", max_length=50)

@@ -47,7 +47,6 @@ class InBoxView(ProyectoMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
-        print(codigo_tramital)
         return context
     
 class EnviadosView(ProyectoMixin, ListView):
@@ -172,8 +171,8 @@ def create_paquete(request, paquete_pk, versiones_pk):
     #########################################################
         paquete_prev = PrevPaquete.objects.get(pk=paquete_pk)
         proyecto = Proyecto.objects.get(pk=request.session.get('proyecto'))
-        pkg = Paquete.objects.filter(proyecto=self.proyecto).count()
-        codigo_tramital = str(self.proyecto.codigo) + "-" + str((pkg + 1))
+        pkg = Paquete.objects.filter(proyecto=proyecto).count()
+        codigo_tramital = str(proyecto.codigo) + "-" + str((pkg + 1))
         paquete = Paquete(
             codigo = codigo_tramital,
             asunto = paquete_prev.prev_asunto,
@@ -192,7 +191,6 @@ def create_paquete(request, paquete_pk, versiones_pk):
                 owner= vertion.prev_owner,
                 documento_fk= vertion.prev_documento_fk,
                 archivo= vertion.prev_archivo,
-                comentario= vertion.prev_comentario,
                 revision= vertion.prev_revision,
                 estado_cliente= vertion.prev_estado_cliente,
                 estado_contratista= vertion.prev_estado_contratista,
