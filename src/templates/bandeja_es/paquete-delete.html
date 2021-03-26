@@ -26,7 +26,7 @@
                      <form method="POST">{% csrf_token %}
                     <p class="mg-b-20 mg-x-20">
                         <p class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10">Seguro que quieres eliminar este paquete  ?<br>
-                        <h4 class="tx-gray-800 mg-b-5">" N° {{ paquete.id }}"?</h4>
+                        <h4 class="tx-gray-800 mg-b-5">" N° {{paquete.codigo}}"?</h4>
                          </p>
                         <input type="submit" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" onclick="windows.close();" value="Confirmar">
                     </p>
