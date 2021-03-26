@@ -30,6 +30,7 @@ from panel_carga.filters import DocFilter
 from panel_carga.models import Documento, Proyecto
 from panel_carga.choices import TYPES_REVISION
 from .serializers import PrevVersionSerializer
+from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
 
 # Create your views here.
 

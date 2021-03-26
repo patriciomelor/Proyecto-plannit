@@ -14,12 +14,11 @@ from panel_carga.models import *
 from panel_carga.forms import ProyectoForm
 from bandeja_es.models import *
 
-from analitica import *
 
 from .models import Perfil
 from .forms import CrearUsuario, EditUsuario, InvitationForm
-
 from invitations.utils import get_invitation_model
+from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
 
 # Create your views here.
 class UsuarioView(ProyectoMixin, CreateView):

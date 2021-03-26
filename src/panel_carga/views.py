@@ -17,7 +17,8 @@ from .models import Proyecto, Documento, Revision, Historial
 from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
 from .filters import DocFilter
 from tools.views import ProyectoSeleccionadoMixin
-from tools.objects import SuperUserViewMixin
+from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
+
 # Create your views here.
 
 # Document Resources

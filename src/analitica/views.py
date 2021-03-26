@@ -9,11 +9,11 @@ from panel_carga.models import Documento, Proyecto
 from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION
 from datetime import datetime, timedelta
 from django.utils import timezone
-
+from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
 # Create your views here.
 
 
-class IndexAnalitica(ProyectoMixin, TemplateView):
+class IndexAnalitica(ProyectoMixin, StaffViewMixin, TemplateView):
     template_name =  'analitica/index.html'
     ###################################################
     #                                                 #
