@@ -1,6 +1,7 @@
 import pathlib
 import os.path
 import zipfile
+import datetime
 from io import BytesIO
 from django.conf import settings
 from django.shortcuts import render, redirect
@@ -46,6 +47,7 @@ class InBoxView(ProyectoMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
+        print(codigo_tramital)
         return context
     
 class EnviadosView(ProyectoMixin, ListView):
@@ -170,12 +172,16 @@ def create_paquete(request, paquete_pk, versiones_pk):
     #########################################################
         paquete_prev = PrevPaquete.objects.get(pk=paquete_pk)
         proyecto = Proyecto.objects.get(pk=request.session.get('proyecto'))
+        pkg = Paquete.objects.filter(proyecto=self.proyecto).count()
+        codigo_tramital = str(self.proyecto.codigo) + "-" + str((pkg + 1))
         paquete = Paquete(
+            codigo = codigo_tramital,
             asunto = paquete_prev.prev_asunto,
             descripcion = paquete_prev.prev_descripcion,
             destinatario = paquete_prev.prev_receptor,
             owner = paquete_prev.prev_propietario,
-            proyecto= proyecto
+            proyecto= proyecto,
+            comentario=paquete_prev.prev_comentario
         )
         paquete.save()
         paquete_prev.delete()
@@ -195,7 +201,7 @@ def create_paquete(request, paquete_pk, versiones_pk):
             paquete.version.add(vertion_f)
             vertion.delete()
 
-        return HttpResponseRedirect(reverse_lazy('Bandejaeys'))
+        return redirect('Bandejaeys')
 
 def verificar_nombre_archivo(nombre_documento, nombre_archivo):
     try:
@@ -333,8 +339,8 @@ class UpdatePrevVersion(ProyectoMixin, UpdateView):
     template_name = 'bandeja_es/popup-archivo.html'
     form_class = PrevVersionForm
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
+    def get_form_kwargs(self, **kwargs):
+        kwargs = super().get_form_kwargs(**kwargs)
         paquete = PrevPaquete.objects.get(pk= self.kwargs['paquete_pk'])
         kwargs["paquete_pk"] = paquete
         return kwargs
