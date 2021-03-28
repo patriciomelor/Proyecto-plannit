@@ -21,7 +21,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
     
     def get_queryset(self):
         listado_versiones_doc = DocFilter(self.request.GET, queryset=Documento.objects.filter(proyecto=self.proyecto))
-        return listado_versiones_doc.qs.order_by('-fecha_Emision_B')
+        return listado_versiones_doc.qs.order_by('Codigo_documento')
     
 
     def get_context_data(self, **kwargs):
@@ -35,23 +35,26 @@ class StatusIndex(ProyectoMixin, TemplateView):
         documentos = self.get_queryset()
         for doc in documentos:
             version = Version.objects.filter(documento_fk=doc).last()
+            version_first = Version.objects.filter(documento_fk=doc).first()
             if version:
                 paquete = version.paquete_set.all()
+                paquete_first = version_first.paquete_set.all()
                 version_documento = version.revision
-                transmital = semana_actual.day - version.fecha.day
+                transmital = paquete[0].fecha_creacion - paquete_first[0].fecha_creacion
                 for revision in TYPES_REVISION[1:4]:
                     if version_documento == revision[0]:
-                        lista_inicial = [doc, version, paquete, semana_actual, '70%', transmital]
+                        lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion]]
                         lista_final.append(lista_inicial)
 
                 for revision in TYPES_REVISION[5:]:
                     if version_documento == revision[0]:
-                        lista_inicial = [doc, version, paquete, semana_actual, '100%', transmital]
+                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital.days, paquete_first[0].fecha_creacion]]
                         lista_final.append(lista_inicial)
                 #print('documento: ', doc, ' version: ', version, ' paquete:', paquete, ' listado final: ', lista_final)                
             else: 
-                pass
-        
+                lista_inicial = [doc, []]
+                lista_final.append(lista_inicial)
+                
         context['Listado'] = lista_final
         context['filter'] = DocFilter(self.request.GET, queryset=documentos)
         return context
