@@ -9,11 +9,11 @@ from panel_carga.models import Documento, Proyecto
 from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION
 from datetime import datetime, timedelta
 from django.utils import timezone
-from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
+
 # Create your views here.
 
 
-class IndexAnalitica(ProyectoMixin, StaffViewMixin, TemplateView):
+class IndexAnalitica(ProyectoMixin, TemplateView):
     template_name =  'analitica/index.html'
     ###################################################
     #                                                 #
@@ -922,10 +922,32 @@ class IndexAnalitica(ProyectoMixin, StaffViewMixin, TemplateView):
 
                 while contador < avance_proyeccion:
                         
-                    calculo_avance_final = calculo_avance_final + avance_semanal
-                    avance_inicial = [format(calculo_avance_final, '.2f')]
-                    avance_final.append(avance_inicial)  
-                    contador = contador + 1 
+                    if contador == (avance_proyeccion - 1):
+
+                        calculo_avance_final = calculo_avance_final + avance_semanal
+
+                        if calculo_avance_final != float(100):
+                            
+                            diferencia = float(100) - calculo_avance_final
+                            calculo_avance_final = calculo_avance_final + diferencia
+
+                            avance_inicial = [format(calculo_avance_final, '.2f')]
+                            avance_final.append(avance_inicial)  
+                            contador = contador + 1 
+
+                        else: 
+
+                            avance_inicial = [format(calculo_avance_final, '.2f')]
+                            avance_final.append(avance_inicial)  
+                            contador = contador + 1 
+                    
+                    else:
+
+                            calculo_avance_final = calculo_avance_final + avance_semanal
+                            avance_inicial = [format(calculo_avance_final, '.2f')]
+                            avance_final.append(avance_inicial)  
+                            contador = contador + 1
+
 
             else: 
 
