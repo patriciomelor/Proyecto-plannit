@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, RedirectView
-from django.views.generic import FormView, CreateView, DeleteView, UpdateView, ListView, DetailView
+from django.views.generic import FormView, CreateView, DeleteView, UpdateView, ListView, DetailView, FormView
 from panel_carga.views import ProyectoMixin
 from django.contrib.auth.models import User, Group, Permission, PermissionsMixin
 from .roles import ROLES
@@ -21,113 +21,113 @@ from invitations.utils import get_invitation_model
 from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
 
 # Create your views here.
-class UsuarioView(ProyectoMixin, CreateView):
-    template_name = "configuracion/create-user.html"
-    form_class = CrearUsuario
-    success_message = 'Usuario Creado.'
-    success_url = reverse_lazy('crear-usuario')
+# class UsuarioView(ProyectoMixin, CreateView):
+#     template_name = "configuracion/create-user.html"
+#     form_class = CrearUsuario
+#     success_message = 'Usuario Creado.'
+#     success_url = reverse_lazy('crear-usuario')
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        nombre = self.proyecto.codigo
-        grupo = Group.objects.get(name=nombre)
-        print(grupo)
-        context["grupo"] = grupo
-        return context
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         nombre = self.proyecto.codigo
+#         grupo = Group.objects.get(name=nombre)
+#         print(grupo)
+#         context["grupo"] = grupo
+#         return context
     
-    def form_valid(self, form):
-        context = {}
-        response = super().form_valid(form)
-        user_pk = form.instance.pk
-        user = User.objects.get(pk=user_pk)
-        rol = form.cleaned_data['rol_usuario']
-        grupo = Group.objects.get(name= self.proyecto.codigo)
-        user.groups.add(grupo)
-        passwrd1 =  form.cleaned_data['password2']
-        email = form.cleaned_data['email']
-        print("contraseña: ", passwrd1)
-        print("email: ", email)
-        context['password'] = passwrd1
-        context['email'] = email
-        perfil = Perfil.objects.create(
-            usuario= user,
-            rol_usuario= rol
-            )
-        nombre = self.proyecto.codigo
-        grupo = Group.objects.get(name=nombre)
-        msg_plano = render_to_string('configuracion/nuervo-user-email.txt', context=context)
-        msg_html = render_to_string('configuracion/nuervo-user-email.html', context=context)
-        subject = 'Usuario y contraseña' 
-        send_mail(
-            subject=subject,
-            message=msg_plano,
-            html_message=msg_html
-        )
-        #Otorgar permisos para administrador
+#     def form_valid(self, form):
+#         context = {}
+#         response = super().form_valid(form)
+#         user_pk = form.instance.pk
+#         user = User.objects.get(pk=user_pk)
+#         rol = form.cleaned_data['rol_usuario']
+#         grupo = Group.objects.get(name= self.proyecto.codigo)
+#         user.groups.add(grupo)
+#         passwrd1 =  form.cleaned_data['password2']
+#         email = form.cleaned_data['email']
+#         print("contraseña: ", passwrd1)
+#         print("email: ", email)
+#         context['password'] = passwrd1
+#         context['email'] = email
+#         perfil = Perfil.objects.create(
+#             usuario= user,
+#             rol_usuario= rol
+#             )
+#         nombre = self.proyecto.codigo
+#         grupo = Group.objects.get(name=nombre)
+#         msg_plano = render_to_string('configuracion/nuervo-user-email.txt', context=context)
+#         msg_html = render_to_string('configuracion/nuervo-user-email.html', context=context)
+#         subject = 'Usuario y contraseña' 
+#         send_mail(
+#             subject=subject,
+#             message=msg_plano,
+#             html_message=msg_html
+#         )
+#         #Otorgar permisos para administrador
 
-        #permission_required = ('polls.view_choice', 'polls.change_choice')
-        Permisos = ['add_documento', 'change_documento']
-        permission_list_administrador = []
+#         #permission_required = ('polls.view_choice', 'polls.change_choice')
+#         Permisos = ['add_documento', 'change_documento']
+#         permission_list_administrador = []
         
-        #a los permisos de administrador y revisor, les falta el status y buscador, netamente para probar con distintos paneles al mismo tiempo
-        permission_required_administrador = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento','panel_carga.delete_documento', 'analitica.view_all','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete', 'bandeja_es.delete_paquete', 'configuracion.view_user','configuracion.edit_user', 'configuracion.add_user','configuracion.delete_user')
-        permission_required_revisor = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento','panel_carga.delete_documento', 'analitica.view_all','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete','bandeja_es.delete_paquete')
-        permission_required_visualizador = ('analitica.view', 'buscador.view') #Status no se ha definido completamente no?
+#         #a los permisos de administrador y revisor, les falta el status y buscador, netamente para probar con distintos paneles al mismo tiempo
+#         permission_required_administrador = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento','panel_carga.delete_documento', 'analitica.view_all','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete', 'bandeja_es.delete_paquete', 'configuracion.view_user','configuracion.edit_user', 'configuracion.add_user','configuracion.delete_user')
+#         permission_required_revisor = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento','panel_carga.delete_documento', 'analitica.view_all','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete','bandeja_es.delete_paquete')
+#         permission_required_visualizador = ('analitica.view', 'buscador.view') #Status no se ha definido completamente no?
 
-        if rol=='1':
+#         if rol=='1':
 
-            for permisos in Permisos:
+#             for permisos in Permisos:
 
-                content_type = ContentType.objects.get_for_model(Documento)
-                permission = Permission.objects.get(
-                    codename= permisos, 
-                    content_type = content_type, 
-                )
+#                 content_type = ContentType.objects.get_for_model(Documento)
+#                 permission = Permission.objects.get(
+#                     codename= permisos, 
+#                     content_type = content_type, 
+#                 )
 
-                permission_list_administrador.append(permission)
+#                 permission_list_administrador.append(permission)
             
-            for per in permission_list_administrador:
-                user.user_permissions.add(per)
+#             for per in permission_list_administrador:
+#                 user.user_permissions.add(per)
 
-        #Otorgar permisos para revisor
-        Permisos = ['add_documento', 'change_documento']
-        permission_list_revisor = []
+#         #Otorgar permisos para revisor
+#         Permisos = ['add_documento', 'change_documento']
+#         permission_list_revisor = []
 
-        if rol=='2':
+#         if rol=='2':
 
-            for permisos in Permisos:
+#             for permisos in Permisos:
 
-                content_type = ContentType.objects.get_for_model(Documento)
-                permission = Permission.objects.get(
-                    codename= permisos, 
-                    content_type = content_type, 
-                )
+#                 content_type = ContentType.objects.get_for_model(Documento)
+#                 permission = Permission.objects.get(
+#                     codename= permisos, 
+#                     content_type = content_type, 
+#                 )
 
-                permission_list_revisor.append(permission)
+#                 permission_list_revisor.append(permission)
 
-            for per in permission_list_revisor:
-                user.user_permissions.add(per)
+#             for per in permission_list_revisor:
+#                 user.user_permissions.add(per)
 
-        #Otorgar permisos para visualizador
-        Permisos = ['add_paquete', 'change_paquete']
-        permission_list_visualizador = []
+#         #Otorgar permisos para visualizador
+#         Permisos = ['add_paquete', 'change_paquete']
+#         permission_list_visualizador = []
 
-        if rol=='3':
+#         if rol=='3':
 
-            for permisos in Permisos:
+#             for permisos in Permisos:
 
-                content_type = ContentType.objects.get_for_model(Paquete)
-                permission = Permission.objects.get(
-                    codename= permisos, 
-                    content_type = content_type, 
-                )
+#                 content_type = ContentType.objects.get_for_model(Paquete)
+#                 permission = Permission.objects.get(
+#                     codename= permisos, 
+#                     content_type = content_type, 
+#                 )
 
-                permission_list_visualizador.append(permission)
+#                 permission_list_visualizador.append(permission)
         
-            for per in permission_list_visualizador:
-                user.user_permissions.add(per)
+#             for per in permission_list_visualizador:
+#                 user.user_permissions.add(per)
 
-        return response
+#         return response
 
 class UsuarioEdit(ProyectoMixin, UpdateView):
     model = User
@@ -140,68 +140,10 @@ class UsuarioEdit(ProyectoMixin, UpdateView):
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
         rol = form.cleaned_data['rol_usuario']
-
         perfil = Perfil.objects.get_or_create(
             usuario=user,
             rol_usuario= rol
         )
-        # #Otorgar permisos para administrador
-        # Permisos = ['add_documento', 'change_documento']
-        # permission_list_administrador = []
-
-        # if rol=='1':
-
-        #     for permisos in Permisos:
-
-        #         content_type = ContentType.objects.get_for_model(Documento)
-        #         permission = Permission.objects.get(
-        #             codename= permisos, 
-        #             content_type = content_type, 
-        #         )
-
-        #         permission_list_administrador.append(permission)
-            
-        #     for per in permission_list_administrador:
-        #         user.user_permissions.add(per)
-
-        # #Otorgar permisos para revisor
-        # Permisos = ['add_documento', 'change_documento']
-        # permission_list_revisor = []
-
-        # if rol=='2':
-
-        #     for permisos in Permisos:
-
-        #         content_type = ContentType.objects.get_for_model(Documento)
-        #         permission = Permission.objects.get(
-        #             codename= permisos, 
-        #             content_type = content_type, 
-        #         )
-
-        #         permission_list_revisor.append(permission)
-
-        #     for per in permission_list_revisor:
-        #         user.user_permissions.add(per)
-
-        # #Otorgar permisos para visualizador
-        # Permisos = ['add_paquete', 'change_paquete']
-        # permission_list_visualizador = []
-
-        # if rol=='3':
-
-        #     for permisos in Permisos:
-
-        #         content_type = ContentType.objects.get_for_model(Paquete)
-        #         permission = Permission.objects.get(
-        #             codename= permisos, 
-        #             content_type = content_type, 
-        #         )
-
-        #         permission_list_visualizador.append(permission)
-        
-        #     for per in permission_list_visualizador:
-        #         user.user_permissions.add(per)
-
         return response
     
 class UsuarioLista(ProyectoMixin, ListView):
@@ -237,16 +179,9 @@ class UsuarioDetail(ProyectoMixin, DetailView):
 class UsuarioAdd(ProyectoMixin, ListView):
     model = User
     template_name = 'configuracion/add-lista_usuario.html'
-
+    success_message = 'Usuarios añadidos correctamente'
     def get_context_data(self, **kwargs):
-        user_list = []
-        codigo = self.proyecto.codigo
-        grupo = Group.objects.get(name=codigo)
-        context = super().get_context_data(**kwargs)
-        users = User.objects.all()
-        for user in users:
-            if not grupo in user.groups.all():
-                user_list.append(user)
+        user_list = self.proyecto.participantes.all()
         context['users'] = user_list
         return context
     
@@ -254,9 +189,8 @@ class UsuarioAdd(ProyectoMixin, ListView):
         usuario_ids = self.request.POST.getlist('id[]')
         for usuario in usuario_ids:
             user = User.objects.get(pk=usuario)
-            codigo = self.proyecto.codigo
-            grupo = Group.objects.get(name=codigo)
-            user.groups.add(grupo)
+            proyecto_add = self.proyecto
+            proyecto_add.participantes.add(user)
         return redirect('listar-usuarios')
 
 class ProyectoList(ProyectoMixin, ListView):
@@ -315,9 +249,4 @@ class InvitationView(ProyectoMixin, FormView):
         correo = form.cleaned_data['correo']
         invite = invitation.create(correo, inviter=self.request.user)
         invite.send_invitation(self.request)
-        return response
-
-
-
-
-        
+        return response 

@@ -27,3 +27,6 @@ class EditUsuario(UserChangeForm):
 class InvitationForm(forms.Form):
     nombres = forms.CharField(max_length=30)
     correo = forms.CharField(max_length=30)
+
+class UserForms(forms.Form):
+    usuarios = forms.MultipleChoiceField(choices=User.objects.all())

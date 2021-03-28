@@ -681,13 +681,27 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             diferencia = len(fechas_controles) - contador
             avance_proyeccion = avance_proyeccion - diferencia
 
-            while contador_proyeccion < avance_proyeccion:
+            if avance_proyeccion <= 10:
+                while contador_proyeccion < avance_proyeccion:
 
-                fecha_termino = fecha_termino + timedelta(days=7)
-                fechas_controles.append(fecha_termino)
-                contador_proyeccion = contador_proyeccion + 1
-
-
+                    fecha_termino = fecha_termino + timedelta(days=7)
+                    fechas_controles.append(fecha_termino)
+                    contador_proyeccion = contador_proyeccion + 1
+            else:
+                if avance_proyeccion % 2 == 0:
+                    avance_proyeccion = avance_proyeccion / 2
+                    while contador_proyeccion < avance_proyeccion:
+                        fecha_termino = fecha_termino + timedelta(days=14)
+                        fechas_controles.append(fecha_termino)
+                        contador_proyeccion = contador_proyeccion + 1
+                else:
+                    avance_proyeccion = (avance_proyeccion - 1 ) / 2
+                    while contador_proyeccion < avance_proyeccion:
+                        fecha_termino = fecha_termino + timedelta(days=14)
+                        fechas_controles.append(fecha_termino)
+                        contador_proyeccion = contador_proyeccion + 1
+                    fecha_termino = fecha_termino + timedelta(days=7)
+                    fechas_controles.append(fecha_termino)
             #Calculo del avance esperado por fecha de control
             fecha_emision_b = 0
             fecha_emision_0 = 0
@@ -871,12 +885,27 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             diferencia = len(fechas_controles) - contador
             avance_proyeccion = avance_proyeccion - diferencia
 
-            while contador_proyeccion < avance_proyeccion:
+            if avance_proyeccion <= 10:
+                while contador_proyeccion < avance_proyeccion:
 
-                fecha_termino = fecha_termino + timedelta(days=7)
-                fechas_controles.append(fecha_termino)
-                contador_proyeccion = contador_proyeccion + 1
-
+                    fecha_termino = fecha_termino + timedelta(days=7)
+                    fechas_controles.append(fecha_termino)
+                    contador_proyeccion = contador_proyeccion + 1
+            else:
+                if avance_proyeccion % 2 == 0:
+                    avance_proyeccion = avance_proyeccion / 2
+                    while contador_proyeccion < avance_proyeccion:
+                        fecha_termino = fecha_termino + timedelta(days=14)
+                        fechas_controles.append(fecha_termino)
+                        contador_proyeccion = contador_proyeccion + 1
+                else:
+                    avance_proyeccion = (avance_proyeccion - 1 ) / 2
+                    while contador_proyeccion < avance_proyeccion:
+                        fecha_termino = fecha_termino + timedelta(days=14)
+                        fechas_controles.append(fecha_termino)
+                        contador_proyeccion = contador_proyeccion + 1
+                    fecha_termino = fecha_termino + timedelta(days=7)
+                    fechas_controles.append(fecha_termino)
         else:
                 
             fechas_controles = []
@@ -920,37 +949,89 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 
                 avance_proyeccion = int(avance_real_now / avance_semanal)
 
-                while contador < avance_proyeccion:
-                        
-                    if contador == (avance_proyeccion - 1):
-
-                        calculo_avance_final = calculo_avance_final + avance_semanal
-
-                        if calculo_avance_final != float(100):
+                if avance_proyeccion <= 10:
+                    while contador < avance_proyeccion:
                             
-                            diferencia = float(100) - calculo_avance_final
-                            calculo_avance_final = calculo_avance_final + diferencia
+                        if contador == (avance_proyeccion - 1):
 
-                            avance_inicial = [format(calculo_avance_final, '.2f')]
-                            avance_final.append(avance_inicial)  
-                            contador = contador + 1 
+                            calculo_avance_final = calculo_avance_final + avance_semanal
 
+                            if calculo_avance_final != float(100):
+                                
+                                diferencia = float(100) - calculo_avance_final
+                                calculo_avance_final = calculo_avance_final + diferencia
+
+                                avance_inicial = [format(calculo_avance_final, '.2f')]
+                                avance_final.append(avance_inicial)  
+                                contador = contador + 1 
+
+                            else: 
+                                avance_inicial = [format(calculo_avance_final, '.2f')]
+                                avance_final.append(avance_inicial)  
+                                contador = contador + 1 
+                        
                         else: 
-
-                            avance_inicial = [format(calculo_avance_final, '.2f')]
-                            avance_final.append(avance_inicial)  
-                            contador = contador + 1 
-                    
-                    else:
-
                             calculo_avance_final = calculo_avance_final + avance_semanal
                             avance_inicial = [format(calculo_avance_final, '.2f')]
                             avance_final.append(avance_inicial)  
                             contador = contador + 1
+                else:
+                    if avance_proyeccion % 2 == 0:
+                        avance_proyeccion = avance_proyeccion / 2
+                        avance_semanal = avance_semanal * 2
+                        while contador < avance_proyeccion:
+                            if contador == (avance_proyeccion - 1):
 
+                                calculo_avance_final = calculo_avance_final + avance_semanal
 
+                                if calculo_avance_final != float(100):
+                                    
+                                    diferencia = float(100) - calculo_avance_final
+                                    calculo_avance_final = calculo_avance_final + diferencia
+
+                                    avance_inicial = [format(calculo_avance_final, '.2f')]
+                                    avance_final.append(avance_inicial)  
+                                    contador = contador + 1 
+
+                                else: 
+
+                                    avance_inicial = [format(calculo_avance_final, '.2f')]
+                                    avance_final.append(avance_inicial)  
+                                    contador = contador + 1 
+                            
+                            else:
+                                calculo_avance_final = calculo_avance_final + avance_semanal
+                                avance_inicial = [format(calculo_avance_final, '.2f')]
+                                avance_final.append(avance_inicial)  
+                                contador = contador + 1
+                    else:
+                        avance_proyeccion = ((avance_proyeccion - 1) / 2) + 1
+                        avance_semanal = avance_semanal * 2
+                        while contador < avance_proyeccion:
+                            if contador == (avance_proyeccion - 1):
+
+                                calculo_avance_final = calculo_avance_final + (avance_semanal/2)
+
+                                if calculo_avance_final != float(100):
+                                    
+                                    diferencia = float(100) - calculo_avance_final
+                                    calculo_avance_final = calculo_avance_final + diferencia
+
+                                    avance_inicial = [format(calculo_avance_final, '.2f')]
+                                    avance_final.append(avance_inicial)  
+                                    contador = contador + 1 
+
+                                else: 
+                                    avance_inicial = [format(calculo_avance_final, '.2f')]
+                                    avance_final.append(avance_inicial)  
+                                    contador = contador + 1 
+                            
+                            else:
+                                calculo_avance_final = calculo_avance_final + avance_semanal
+                                avance_inicial = [format(calculo_avance_final, '.2f')]
+                                avance_final.append(avance_inicial)  
+                                contador = contador + 1
             else: 
-
                 pass
         
         return avance_final
