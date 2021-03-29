@@ -43,9 +43,8 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        proyectos = self.request.user.proyecto_set.all()
+        proyectos = self.request.user.participantes.all()
         kwargs['proyectos'] = proyectos
-        print(proyectos)
         return kwargs
         
     def form_valid(self, form):
