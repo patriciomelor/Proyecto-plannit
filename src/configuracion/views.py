@@ -20,114 +20,27 @@ from .forms import CrearUsuario, EditUsuario, InvitationForm
 from invitations.utils import get_invitation_model
 from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
 
-# Create your views here.
-# class UsuarioView(ProyectoMixin, CreateView):
-#     template_name = "configuracion/create-user.html"
-#     form_class = CrearUsuario
-#     success_message = 'Usuario Creado.'
-#     success_url = reverse_lazy('crear-usuario')
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         nombre = self.proyecto.codigo
-#         grupo = Group.objects.get(name=nombre)
-#         print(grupo)
-#         context["grupo"] = grupo
-#         return context
+class UsuarioView(ProyectoMixin, CreateView):
+    template_name = "configuracion/create-user.html"
+    form_class = CrearUsuario
+    success_message = 'Usuario Creado.'
+    success_url = reverse_lazy('crear-usuario')
     
-#     def form_valid(self, form):
-#         context = {}
-#         response = super().form_valid(form)
-#         user_pk = form.instance.pk
-#         user = User.objects.get(pk=user_pk)
-#         rol = form.cleaned_data['rol_usuario']
-#         grupo = Group.objects.get(name= self.proyecto.codigo)
-#         user.groups.add(grupo)
-#         passwrd1 =  form.cleaned_data['password2']
-#         email = form.cleaned_data['email']
-#         print("contraseña: ", passwrd1)
-#         print("email: ", email)
-#         context['password'] = passwrd1
-#         context['email'] = email
-#         perfil = Perfil.objects.create(
-#             usuario= user,
-#             rol_usuario= rol
-#             )
-#         nombre = self.proyecto.codigo
-#         grupo = Group.objects.get(name=nombre)
-#         msg_plano = render_to_string('configuracion/nuervo-user-email.txt', context=context)
-#         msg_html = render_to_string('configuracion/nuervo-user-email.html', context=context)
-#         subject = 'Usuario y contraseña' 
-#         send_mail(
-#             subject=subject,
-#             message=msg_plano,
-#             html_message=msg_html
-#         )
-#         #Otorgar permisos para administrador
-
-#         #permission_required = ('polls.view_choice', 'polls.change_choice')
-#         Permisos = ['add_documento', 'change_documento']
-#         permission_list_administrador = []
-        
-#         #a los permisos de administrador y revisor, les falta el status y buscador, netamente para probar con distintos paneles al mismo tiempo
-#         permission_required_administrador = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento','panel_carga.delete_documento', 'analitica.view_all','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete', 'bandeja_es.delete_paquete', 'configuracion.view_user','configuracion.edit_user', 'configuracion.add_user','configuracion.delete_user')
-#         permission_required_revisor = ('panel_carga.add_documento','panel_carga.change_documento','panel_carga.edit_documento','panel_carga.delete_documento', 'analitica.view_all','bandeja_es.edit_paquete','bandeja_es.view_paquete','bandeja_es.add_paquete','bandeja_es.delete_paquete')
-#         permission_required_visualizador = ('analitica.view', 'buscador.view') #Status no se ha definido completamente no?
-
-#         if rol=='1':
-
-#             for permisos in Permisos:
-
-#                 content_type = ContentType.objects.get_for_model(Documento)
-#                 permission = Permission.objects.get(
-#                     codename= permisos, 
-#                     content_type = content_type, 
-#                 )
-
-#                 permission_list_administrador.append(permission)
-            
-#             for per in permission_list_administrador:
-#                 user.user_permissions.add(per)
-
-#         #Otorgar permisos para revisor
-#         Permisos = ['add_documento', 'change_documento']
-#         permission_list_revisor = []
-
-#         if rol=='2':
-
-#             for permisos in Permisos:
-
-#                 content_type = ContentType.objects.get_for_model(Documento)
-#                 permission = Permission.objects.get(
-#                     codename= permisos, 
-#                     content_type = content_type, 
-#                 )
-
-#                 permission_list_revisor.append(permission)
-
-#             for per in permission_list_revisor:
-#                 user.user_permissions.add(per)
-
-#         #Otorgar permisos para visualizador
-#         Permisos = ['add_paquete', 'change_paquete']
-#         permission_list_visualizador = []
-
-#         if rol=='3':
-
-#             for permisos in Permisos:
-
-#                 content_type = ContentType.objects.get_for_model(Paquete)
-#                 permission = Permission.objects.get(
-#                     codename= permisos, 
-#                     content_type = content_type, 
-#                 )
-
-#                 permission_list_visualizador.append(permission)
-        
-#             for per in permission_list_visualizador:
-#                 user.user_permissions.add(per)
-
-#         return response
+    def form_valid(self, form):
+        context = {}
+        response = super().form_valid(form)
+        user_pk = form.instance.pk
+        user = User.objects.get(pk=user_pk)
+        rol = form.cleaned_data['rol_usuario']
+        company = form.cleaned_data['empresa']
+        perfil = Perfil(
+            usuario=form.instance,
+            rol_usuario=rol,
+            empresa=company,
+            client=True
+        )
+        perfil.save()
+        return response
 
 class UsuarioEdit(ProyectoMixin, UpdateView):
     model = User
@@ -137,12 +50,13 @@ class UsuarioEdit(ProyectoMixin, UpdateView):
 
     def form_valid(self, form):
         response = super().form_valid(form)
-        user_pk = form.instance.pk
-        user = User.objects.get(pk=user_pk)
         rol = form.cleaned_data['rol_usuario']
+        company = form.cleaned_data['empresa']
         perfil = Perfil.objects.get_or_create(
-            usuario=user,
-            rol_usuario= rol
+            usuario=form.instance,
+            rol_usuario= rol,
+            empresa=company,
+            client=True
         )
         return response
     
@@ -168,7 +82,6 @@ class UsuarioDetail(ProyectoMixin, DetailView):
     context_object_name = "usuario"
 
     def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
         user = self.get_object()
         grupos = user.groups.all()
         print(grupos)
@@ -180,8 +93,16 @@ class UsuarioAdd(ProyectoMixin, ListView):
     model = User
     template_name = 'configuracion/add-lista_usuario.html'
     success_message = 'Usuarios añadidos correctamente'
+
     def get_context_data(self, **kwargs):
-        user_list = self.proyecto.participantes.all()
+        context = super().get_context_data(**kwargs)
+        user_list = []
+        all_users = User.objects.all()
+        current_users = self.proyecto.participantes.all()
+        for user in all_users:
+            if not user in current_users:
+                user_list.append(user)
+
         context['users'] = user_list
         return context
     
@@ -219,8 +140,6 @@ class ProyectoDelete(ProyectoMixin, DeleteView):
             messages.add_message(request, messages.ERROR, 'No se puede eliminar el proyecto seleccionado.')
             return redirect('lista-proyecto')
         else:  
-            proyect_group= Group.objects.get(name=objeto.codigo)
-            proyect_group.delete()
             return super(ProyectoDelete, self).delete(request, *args, **kwargs)
 
 class ProyectoCreate(ProyectoMixin, CreateView):
@@ -228,13 +147,6 @@ class ProyectoCreate(ProyectoMixin, CreateView):
     success_message = 'Proyecto Creado correctamente'
     success_url = reverse_lazy('lista-proyecto')
     form_class = ProyectoForm
-
-    def form_valid(self, form):
-        form.instance.encargado = self.request.user
-        response = super().form_valid(form)
-        nombre = form.instance.codigo
-        grupo = Group.objects.create(name=nombre)
-        return response
 
 class InvitationView(ProyectoMixin, FormView):
     template_name = 'configuracion/invitation_form.html'

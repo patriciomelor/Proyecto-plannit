@@ -12,21 +12,23 @@ from .roles import *
 
 
 class CrearUsuario(UserCreationForm):
-    rol_usuario = forms.ChoiceField(choices=ROLES)
+    rol_usuario = forms.ChoiceField(choices=ROLES, required=True, label='Rol del Usuario')
+    empresa = forms.CharField(max_length=128, min_length=64, required=True, label='Nombre de la Empresa')
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']
 
 class EditUsuario(UserChangeForm):
-    rol_usuario = forms.ChoiceField(choices=ROLES)
+    rol_usuario = forms.ChoiceField(choices=ROLES, required=True, label='Rol del Usuario')
+    empresa = forms.CharField(max_length=128, min_length=64, required=True, label='Nombre de la Empresa')
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
         exclude = ['password1', 'password2']
-
+        labels = {
+            'empresa': 'Nombre de la Empresa:',
+            'rol_usuario': 'Rol del Usuario:'
+        }
 class InvitationForm(forms.Form):
     nombres = forms.CharField(max_length=30)
     correo = forms.CharField(max_length=30)
-
-class UserForms(forms.Form):
-    usuarios = forms.MultipleChoiceField(choices=User.objects.all())
