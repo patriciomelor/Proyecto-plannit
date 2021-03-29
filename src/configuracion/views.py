@@ -51,13 +51,12 @@ class UsuarioEdit(ProyectoMixin, UpdateView):
     def form_valid(self, form):
         response = super().form_valid(form)
         rol = form.cleaned_data['rol_usuario']
+        print(rol)
         company = form.cleaned_data['empresa']
-        perfil = Perfil.objects.get_or_create(
-            usuario=form.instance,
-            rol_usuario= rol,
-            empresa=company,
-            client=True
-        )
+        perfil = Perfil.objects.get(usuario=form.instance)
+        perfil.rol_usuario = rol
+        perfil.empresa = company
+        perfil.save()
         return response
     
 class UsuarioLista(ProyectoMixin, ListView):

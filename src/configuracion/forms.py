@@ -20,15 +20,13 @@ class CrearUsuario(UserCreationForm):
 
 class EditUsuario(UserChangeForm):
     rol_usuario = forms.ChoiceField(choices=ROLES, required=True, label='Rol del Usuario')
-    empresa = forms.CharField(max_length=128, min_length=64, required=True, label='Nombre de la Empresa')
+    empresa = forms.CharField(max_length=128, required=True, label='Nombre de la Empresa')
     class Meta:
         model = User
         fields = ['username', 'email', 'first_name', 'last_name']
         exclude = ['password1', 'password2']
-        labels = {
-            'empresa': 'Nombre de la Empresa:',
-            'rol_usuario': 'Rol del Usuario:'
-        }
+        
+        
 class InvitationForm(forms.Form):
     nombres = forms.CharField(max_length=30)
     correo = forms.CharField(max_length=30)
