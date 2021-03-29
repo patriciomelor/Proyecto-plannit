@@ -13,4 +13,4 @@ from import_export.admin import ImportExportModelAdmin
 #     resource_class = DocumentoResource
 
 # admin.site.register(Documento, DocAdmin)
-# admin.site.register(Proyecto)
+admin.site.register(Proyecto)
