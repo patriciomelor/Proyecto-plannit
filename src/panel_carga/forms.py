@@ -25,6 +25,7 @@ class ProyectoForm(forms.ModelForm):
             'fecha_inicio':forms.TextInput(attrs={'type': 'date'}),
             'fecha_termino':forms.TextInput(attrs={'type': 'date'}),
             'descripcion':forms.Textarea(attrs={'row':'5','style':'height:100px;'}),
+            # 'participantes': forms.CheckboxSelectMultiple
         }
 
 class DocumentoForm(forms.ModelForm):
