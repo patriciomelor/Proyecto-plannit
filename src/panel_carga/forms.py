@@ -10,7 +10,7 @@ class UploadFileForm(forms.Form):
     importfile = forms.FileField()
 
 class ProyectoSelectForm(forms.Form):
-    proyectos = forms.ModelChoiceField(queryset=Proyecto.objects.none())
+    proyectos = forms.ModelChoiceField(queryset=None)
     
     def __init__(self, *args, **kwargs):
         qs = kwargs.pop('proyectos')
