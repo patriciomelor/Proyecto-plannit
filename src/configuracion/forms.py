@@ -26,6 +26,7 @@ class EditUsuario(UserChangeForm):
         fields = ['username', 'email', 'first_name', 'last_name']
         exclude = ['password1', 'password2']
         
+        
 class InvitationForm(forms.Form):
     nombres = forms.CharField(max_length=30)
     correo = forms.CharField(max_length=30)
