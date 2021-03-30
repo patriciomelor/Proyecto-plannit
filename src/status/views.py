@@ -31,26 +31,31 @@ class StatusIndex(ProyectoMixin, TemplateView):
         semana_actual = timezone.now()
         version_documento = 0
         transmital = 0
+        dias_revision = 0
         context = super().get_context_data(**kwargs)
         documentos = self.get_queryset()
         for doc in documentos:
             version = Version.objects.filter(documento_fk=doc).last()
             version_first = Version.objects.filter(documento_fk=doc).first()
             if version:
+                dias_revision = semana_actual.day - version.fecha.day
                 paquete = version.paquete_set.all()
                 paquete_first = version_first.paquete_set.all()
                 version_documento = version.revision
                 transmital = paquete[0].fecha_creacion - paquete_first[0].fecha_creacion
                 for revision in TYPES_REVISION[1:4]:
                     if version_documento == revision[0]:
-                        lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion]]
+                        lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                         lista_final.append(lista_inicial)
 
                 for revision in TYPES_REVISION[5:]:
                     if version_documento == revision[0]:
-                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital.days, paquete_first[0].fecha_creacion]]
+                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                         lista_final.append(lista_inicial)
-                #print('documento: ', doc, ' version: ', version, ' paquete:', paquete, ' listado final: ', lista_final)                
+                #print('documento: ', doc, ' version: ', version, ' paquete:', paquete, ' listado final: ', lista_final) 
+
+
+
             else: 
                 lista_inicial = [doc, []]
                 lista_final.append(lista_inicial)

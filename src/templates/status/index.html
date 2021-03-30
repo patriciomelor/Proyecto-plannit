@@ -61,7 +61,7 @@
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Fecha Inicial</th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Fecha Final</th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">(%) de Avance</th>              
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Fecha Ultima Emisión</th>           
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Días de revisión</th>           
 
 
             </tr>
@@ -83,7 +83,7 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > Sin Fecha </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > Sin Fecha </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > Sin Avance </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > Sin Fecha </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > Días 0 </th>
               </tr>
               {% else %}
               <tr>            
@@ -99,7 +99,7 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.1.0.fecha_creacion|date:"d-m-y"}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.5|date:"d-m-y"}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.3}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.0.fecha|date:"d-m-y"}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.1.6}} </th>
               </tr>
               {% endif %} 
                     
