@@ -161,3 +161,57 @@ class InvitationView(ProyectoMixin, FormView):
         invite = invitation.create(correo, inviter=self.request.user)
         invite.send_invitation(self.request)
         return response 
+
+class UmbralesView(ProyectoMixin, TemplateView):
+
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #   PRIMER GRÁFICO DE ESTADOS DE LOS DOCUMENTOS   #
+    #                                                 #
+    #                                                 #
+    ###################################################
+
+    def get_cambio_revision(self):
+        lista_inicial = []
+        lista_final = []
+
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        
+
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #            METODO PARA EXPLAYAR INFO            #
+    #                                                 #
+    #                                                 #
+    ###################################################
+
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+
+    #     context['lista_final'] = self.reporte_general()
+    #     context['lista_final_largo'] = len(self.reporte_total_documentos())
+    #     context['lista_final_largo'] = len(self.reporte_general()) 
+    #     context['lista_emisiones'] = self.reporte_emisiones()
+    #     context['lista_emisiones_largo'] = len(self.reporte_emisiones()) 
+    #     context['lista_total_documentos_emitidos'] = self.reporte_total_documentos_emitidos()
+    #     context['lista_total_documentos_emitidos_largo'] = len(self.reporte_total_documentos_emitidos()) 
+    #     context['lista_total_documentos'] = self.reporte_total_documentos()
+    #     context['lista_total_documentos_largo'] = len(self.reporte_total_documentos()) 
+    #     context['lista_curva_s_avance_real'] = self.reporte_curva_s_avance_real()
+    #     context['lista_curva_s_avance_real_largo'] = len(self.reporte_curva_s_avance_real()) 
+    #     context['lista_curva_s_avance_esperado'] = self.reporte_curva_s_avance_esperado()
+    #     context['lista_curva_s_avance_esperado_largo'] = len(self.reporte_curva_s_avance_esperado()) 
+    #     context['lista_curva_s_fechas'] = self.reporte_curva_s_fechas()
+    #     context['lista_curva_s_fechas_largo'] = len(self.reporte_curva_s_fechas()) 
+    #     context['tamano_grafico_uno'] = self.valor_eje_x_grafico_uno()
+    #     context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
+    #     context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
+    #     context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
+    #     context['documentos_atrasados'] = self.documentos_atrasados()
+    #     context['proyeccion'] = self.proyeccion()
+    #     context['proyeccion_largo'] = len(self.proyeccion()) 
+
+
+    #     return context
