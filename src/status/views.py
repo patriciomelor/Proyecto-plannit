@@ -45,8 +45,14 @@ class StatusIndex(ProyectoMixin, TemplateView):
                 transmital = paquete[0].fecha_creacion - paquete_first[0].fecha_creacion
                 for revision in TYPES_REVISION[1:4]:
                     if version_documento == revision[0]:
-                        lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
-                        lista_final.append(lista_inicial)
+                        if dias_revision < 0:
+                            dias_revision = 0
+                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
+                            lista_final.append(lista_inicial)
+                        else:
+                            dias_revision = 0
+                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
+                            lista_final.append(lista_inicial)
 
                 for revision in TYPES_REVISION[5:]:
                     if version_documento == revision[0]:
