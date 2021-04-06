@@ -39,6 +39,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
             version_first = Version.objects.filter(documento_fk=doc).first()
             if version:
                 dias_revision = semana_actual.day - version.fecha.day
+                print(dias_revision, semana_actual.day, version.fecha.day)
                 paquete = version.paquete_set.all()
                 paquete_first = version_first.paquete_set.all()
                 version_documento = version.revision
