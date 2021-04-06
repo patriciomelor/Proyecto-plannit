@@ -7,7 +7,7 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
 from django.utils import timezone
-from panel_carga.choices import TYPES_REVISION
+from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE
 # from .filters import DocFilter
 from panel_carga.models import Documento
 from bandeja_es.models import Version, Paquete
@@ -38,12 +38,16 @@ class StatusIndex(ProyectoMixin, TemplateView):
             version = Version.objects.filter(documento_fk=doc).last()
             version_first = Version.objects.filter(documento_fk=doc).first()
             if version:
-                dias_revision = semana_actual.day - version.fecha.day
-                print(dias_revision, semana_actual.day, version.fecha.day)
                 paquete = version.paquete_set.all()
                 paquete_first = version_first.paquete_set.all()
+                if version.estado_cliente == 5:
+                    transmital = paquete[0].fecha_creacion - paquete_first[0].fecha_creacion
+                    dias_revision = 0
+                else:
+                    transmital = semana_actual - paquete_first[0].fecha_creacion
+                    dias_revision = semana_actual.day - version.fecha.day
+                
                 version_documento = version.revision
-                transmital = paquete[0].fecha_creacion - paquete_first[0].fecha_creacion
                 for revision in TYPES_REVISION[1:4]:
                     if version_documento == revision[0]:
                         if dias_revision < 0:
@@ -51,7 +55,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
                             lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
                         else:
-                            dias_revision = 0
+                            #dias_revision = 0
                             lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
 
