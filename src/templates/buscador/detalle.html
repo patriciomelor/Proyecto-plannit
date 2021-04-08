@@ -70,7 +70,6 @@
                     <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="2">Fecha<br>Creacion</th>     
 
                     <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Archivo</th>
-                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Comentario</th>
                   </tr>
                   <tr>
                   <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="5">
@@ -100,8 +99,8 @@
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_estado_contratista_display}} </td>
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'d-m-y'}} </td>                    
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'H:i'}} </td>                    
-                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
-                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{{version.comentario.url}}"><i class="icon ion-document-text fa-1x"></i></a> </td>
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{{version.0.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
+
                   </tr>    
                 {% empty %}
                       <h4> El Documento {{documento}}, no tiene Versiones. </h4>
