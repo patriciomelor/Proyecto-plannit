@@ -9,9 +9,9 @@
               <div class="pd-25 d-flex align-items-center">
                 <i class="ion ion-earth tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
-                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Today's Visits</p>
-                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">1,975,224</p>
-                  <span class="tx-11 tx-roboto tx-white-6">24% higher yesterday</span>
+                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Total de Documentos: {{Cantidad}}</p>
+                  <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">Documentos emitidos: {{Emitidos}}</p>
+                  <span class="tx-11 tx-roboto tx-white-6"> Porcentaje de avance: {{Porcentaje}} %</span>
                 </div>
               </div>
             </div>
@@ -21,7 +21,7 @@
               <div class="pd-25 d-flex align-items-center">
                 <i class="ion ion-bag tx-60 lh-0 tx-white op-7"></i>
                 <div class="mg-l-20">
-                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Today Sales</p>
+                  <p class="tx-10 tx-spacing-1 tx-mont tx-medium tx-uppercase tx-white-8 mg-b-10">Documentos atrasados: {{Atrasados}} </p>
                   <p class="tx-24 tx-white tx-lato tx-bold mg-b-2 lh-1">$329,291</p>
                   <span class="tx-11 tx-roboto tx-white-6">$390,212 before tax</span>
                 </div>
@@ -60,13 +60,32 @@
               <div class="pd-x-30 pd-t-30 pd-b-15">
                 <div class="d-flex align-items-center justify-content-between">
                   <div>
-                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Network Performance</h6>
-                    <p class="mg-b-0">Duis autem vel eum iriure dolor in hendrerit in vulputate...</p>
+                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Documentos pendientes</h6>
+                    {% for documentos in Listado_no_emitidos%}
+                      <br>
+                      <p class="mg-b-0">Especialidad: {{documentos.0.Especialidad}}</p>
+                      <br>
+                      {% for doc in documentos %}
+                      <p class="mg-b-0">Codigo: {{doc}} \ Descripcion: {{doc.Descripcion}} \ Tipo de Documento: {{doc.Tipo_Documento}}</p>
+                      {% endfor %}
+                    {% endfor %}
+                    <br>
+                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Documentos emitidos</h6>
+                    {% for documentos in Listado_final%}
+                      <br>
+                      <p class="mg-b-0">Especialidad: {{documentos.0.Especialidad}}</p>
+                      <p class="mg-b-0">Codigo: {{documentos.0}} \ Descripcion: {{documentos.0.Descripcion}} \ Tipo de Documento: {{documentos.0.Tipo_Documento}}
+                      <div class="progress ht-5 mg-b-10">
+                      <div class="progress-bar wd-70p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                      </div> 
+                      </p>
+                      <br>
+                    {% endfor %}
                   </div>
-                  <div class="tx-13">
+                  {% comment %} <div class="tx-13">
                     <p class="mg-b-0"><span class="square-8 rounded-circle bg-purple mg-r-10"></span> TCP Reset Packets</p>
                     <p class="mg-b-0"><span class="square-8 rounded-circle bg-pink mg-r-10"></span> TCP FIN Packets</p>
-                  </div>
+                  </div> {% endcomment %}
                 </div><!-- d-flex -->
               </div>
               <div class="pd-x-15 pd-b-15">
@@ -152,8 +171,8 @@
             <div class="card shadow-base card-body pd-25 bd-0 mg-t-20">
               <div class="row">
                 <div class="col-sm-6">
-                  <h6 class="card-title tx-uppercase tx-12">Statistics Summary</h6>
-                  <p class="display-4 tx-medium tx-inverse mg-b-5 tx-lato">25%</p>
+                  <h6 class="card-title tx-uppercase tx-12">Avance real</h6>
+                  <p class="display-4 tx-medium tx-inverse mg-b-5 tx-lato">75%</p>
                   <div class="progress mg-b-10">
                     <div class="progress-bar bg-primary progress-bar-xs wd-30p" role="progressbar" aria-valuenow="30" aria-valuemin="0" aria-valuemax="100"></div>
                   </div><!-- progress -->
@@ -172,43 +191,19 @@
 
 
             <div class="card bd-0 shadow-base pd-30">
-              <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Server Status</h6>
-              <p class="mg-b-25">Summary of the status of your server.</p>
+              <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1">Documentos emitidos vs Total de documentos</h6>
+              <p class="mg-b-25">Documentos por especialidad que se encuentran emitidos hasta el momento.</p>
+              {% for comparar in Comparacion %}
+                <label class="tx-12 tx-gray-600 mg-b-10"> {{comparar.0}} {{comparar.2}}/{{comparar.1}} </label>
+                <div class="progress ht-5 mg-b-10">
+                <div class="progress-bar wd-70p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+              {% endfor %}
 
-              <label class="tx-12 tx-gray-600 mg-b-10">CPU Usage (40.05 - 32 cpus)</label>
-              <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar wd-25p" role="progressbar" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-
-              <label class="tx-12 tx-gray-600 mg-b-10">Memory Usage (32.2%)</label>
-              <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-teal wd-60p" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-
-              <label class="tx-12 tx-gray-600 mg-b-10">Disk Usage (82.2%)</label>
-              <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-danger wd-70p" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-
-              <label class="tx-12 tx-gray-600 mg-b-10">Databases (63/100)</label>
-              <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-warning wd-50p" role="progressbar" aria-valuenow="50" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-
-              <label class="tx-12 tx-gray-600 mg-b-10">Domains (30/50)</label>
-              <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-info wd-45p" role="progressbar" aria-valuenow="45" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-
-              <label class="tx-12 tx-gray-600 mg-b-10">Email Account (13/50)</label>
-              <div class="progress ht-5 mg-b-10">
-                <div class="progress-bar bg-purple wd-65p" role="progressbar" aria-valuenow="65" aria-valuemin="0" aria-valuemax="100"></div>
-              </div>
-
-              <div class="mg-t-20 tx-13">
+              {% comment %} <div class="mg-t-20 tx-13">
                 <a href="" class="tx-gray-600 hover-info">Generate Report</a>
                 <a href="" class="tx-gray-600 hover-info bd-l mg-l-10 pd-l-10">Print Report</a>
-              </div>
+              </div> {% endcomment %}
             </div><!-- card -->
 
             <div class="card bg-transparent shadow-base bd-0 mg-t-20">
