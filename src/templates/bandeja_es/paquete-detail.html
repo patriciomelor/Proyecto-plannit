@@ -154,7 +154,11 @@
                     {% if request.user.perfil.rol_usuario == 3 %}
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                    
                     {% endif %}
-                    <td class="tx-12"style="text-align: center;font-weight:800;"><a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a></td>
+                    <form method="POST" class="form-control">
+                    <td class="tx-12"style="text-align: center;font-weight:800;">
+                      <input type="submit" value="Descargar" class="btn btn-success" >
+                      <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a></td>
+                  </form>
                   </tr>    
                 {% empty %}
                     <h4> El paquete no tiene documentos. </h4>
