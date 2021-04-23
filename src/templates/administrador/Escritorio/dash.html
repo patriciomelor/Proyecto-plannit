@@ -267,13 +267,21 @@
           </tr>
         </thead>
         <tbody>
-          <tr>
-            <td class="valign-middle tx-right">pmelor</td>
-            <td class="valign-middle">patriciomelor@gmail.com</td>
-            <td class="valign-middle tx-center">
-              Administrador
-            </td>
-          </tr>
+         {% for usuario in usuarios %}
+            <tr>            
+              {% if usuario.first_name %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
+              {% endif %} 
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
+              {% if usuario.perfil.rol_usuario %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
+              {% endif %}
+               </tr>         
+         {% endfor %}
         </tbody>
       </table>
     </div>
