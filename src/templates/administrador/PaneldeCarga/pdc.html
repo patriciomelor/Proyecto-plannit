@@ -10,7 +10,7 @@
       <span class="breadcrumb-item active">Panel De Carga</span>
     </nav>
   </div>
-  <div class="pd-t-10">
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Panel de carga de entregables.</h4>
     <p class="mg-b-0"></p>
   </div>
@@ -19,64 +19,52 @@
 <!--Tabla-->
 <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
 
-          
-  <div class="row row-sm d-flex justify-content-center" >
+<div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
+  <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+     <form class="col-6" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+          <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a></li>
+          <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
+     </form>
+          <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
+          <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"> Descargar Excel </button></a></li>            
+          <li class="nav-item mg-l-5"><a href="http://143.198.55.178/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning"> Descargar Plantilla </button></a></li>
+  </ul>
+</div><!-- ht-65 -->
   <!--Upload Archivos-->
-        
-            <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
-              <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-                 <form class="col-6" method="POST" enctype="multipart/form-data">
-                    {% csrf_token %}
-                      <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a></li>
-                      <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
-                 </form>
-                      <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
-                      <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"> Descargar Excel </button></a></li>            
-                      <li class="nav-item mg-l-5"><a href="http://143.198.55.178/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning"> Descargar Plantilla </button></a></li>
-              </ul>
-            </div><!-- ht-65 -->
-            <!--Fin Filtros-->
-      <div class="row row-sm d-flex">
+    <div class="row row-sm d-flex">
         <table  class="table table-responsive table-striped mg-b-0 table-bordered table-primary ">       
   <!--Table-->
-          <form class="form-group col-lg-12 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
-          <!--Filtros-->
-          <div id="accordion" class="accordion mg-b-20" role="tablist" aria-multiselectable="true">
-            <div class="card">
-              <div class="card-header" role="tab" id="headingOne">
-                <h6 class="mg-b-0">
-                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-                  aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800">
-                   FILTROS DE BUSQUEDA
-                  </a>
-                </h6>
-              </div><!-- card-header -->
+  <form class="form-group col-lg-10 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
+    <div id="accordion" class="accordion mg-b-20" role="tablist" aria-multiselectable="true">
+      <div class="card bg-teal">
+        <div class="card-header" role="tab" id="headingOne">
+          <h6 class="mg-b-0">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+            aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition" style="color: #fff;">
+              FILTROS DE BUSQUEDA <i class="icon ion-search"></i>
+            </a>
+          </h6>
+        </div><!-- card-header -->
 
-              <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-                <div class="card-block">
-                  <div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-130 pd-b-120 ">
-                    <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-                      <li class="nav-item mg-10">{{filter.form.Especialidad|as_crispy_field}}</li>
-                      <li class="nav-item mg-10">{{filter.form.Descripcion|as_crispy_field}}</li>
-                      <li class="nav-item mg-10">{{filter.form.Codigo_documento|as_crispy_field}}</li>
-                      <li class="nav-item mg-10">{{filter.form.Tipo_Documento|as_crispy_field}}</li><br>
-                      <li class="nav-item mg-10">{{filter.form.Numero_documento_interno|as_crispy_field}}</li>
-                      <li class="nav-item mg-10">{{filter.form.fecha_Emision_B|as_crispy_field}}</li>
-                      <li class="nav-item mg-10">{{filter.form.fecha_Emision_0|as_crispy_field}}</li>
-                      <li class="nav-item mg-t-35">
-                        <button class="btn btn-oblong btn-teal mg-t-8 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
-                      </li>
-                    </ul>
-                  </div><!-- ht-65 -->
-                </div>
-              </div>
-            </div><!-- card -->
-            <!-- ADD MORE CARD HERE -->
-          </div><!-- accordion -->
-           
-            <!--Fin Filtros-->
-           
-          </form>
+        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+          <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist" style="color: #fff;">
+          <!--Filtros-->
+              <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Especialidad|as_crispy_field}}</li>
+              <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Descripcion|as_crispy_field}}</li>
+              <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Codigo_documento|as_crispy_field}}</li>
+              <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Tipo_Documento|as_crispy_field}}</li><br>
+              <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Numero_documento_interno|as_crispy_field}}</li>
+              <li class="nav-item mg-t-35">
+                <button class="btn btn-oblong btn-warning justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
+              </li>
+          </ul>
+        </div>
+      </div><!-- card -->
+      <!-- ADD MORE CARD HERE -->
+    </div><!-- accordion -->
+        
+    </form>
           <thead class="mg-t-30">
             <tr>
                <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
@@ -149,7 +137,7 @@
           </tbody>
         </table>  
       </div>   
-</div>
+
 {% if is_paginated %}
     <div class="col-md-9 col-9 ht-80 d-flex align-items-center justify-content-center">
       <nav aria-label="Page navigation">      
