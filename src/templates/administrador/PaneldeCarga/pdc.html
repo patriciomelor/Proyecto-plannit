@@ -23,8 +23,7 @@
   <div class="row row-sm d-flex justify-content-center" >
   <!--Upload Archivos-->
         
-      <!--Filtros-->
-            <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 ">
+            <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
               <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
                  <form class="col-6" method="POST" enctype="multipart/form-data">
                     {% csrf_token %}
@@ -38,53 +37,47 @@
             </div><!-- ht-65 -->
             <!--Fin Filtros-->
       <div class="row row-sm d-flex">
-        <table  class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
+        <table  class="table table-responsive table-striped mg-b-0 table-bordered table-primary ">       
   <!--Table-->
           <form class="form-group col-lg-12 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
           <!--Filtros-->
-            <div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-130 pd-b-120 ">
-              <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Filtros</h4>
-              <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-                <li class="nav-item mg-10">{{filter.form.Especialidad|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.Descripcion|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.Codigo_documento|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.Tipo_Documento|as_crispy_field}}</li><br>
-                <li class="nav-item mg-10">{{filter.form.Numero_documento_interno|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.fecha_Emision_B|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.fecha_Emision_0|as_crispy_field}}</li>
-                <li class="nav-item mg-t-35">
-                  <button class="btn btn-oblong btn-teal mg-t-8 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
-                </li>
-              </ul>
-            </div><!-- ht-65 -->
-            <!--Fin Filtros-->
-            {% comment %} <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.Especialidad|as_crispy_field}}
-            </div>
-            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.Descripcion|as_crispy_field}}
-            </div>
-            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.Codigo_documento|as_crispy_field}}
-            </div>     
-            <div class="col-1 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.Tipo_Documento|as_crispy_field}}
-            </div>    
-            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.Numero_documento_interno|as_crispy_field}}
-            </div>  
-            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.fecha_Emision_B|as_crispy_field}}
-            </div> 
-            <div class="col-2 mg-l-5" style="margin-top: 30px;text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              {{filter.form.fecha_Emision_0|as_crispy_field}}
-            </div> 
-            <div class="col-md-12" style="text-align: center;vertical-align: middle;padding: 0px; font-size: 10px;">      
-              <button class="btn btn-oblong btn-teal mg-t-10 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
+          <div id="accordion" class="accordion mg-b-20" role="tablist" aria-multiselectable="true">
+            <div class="card">
+              <div class="card-header" role="tab" id="headingOne">
+                <h6 class="mg-b-0">
+                  <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                  aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800">
+                   FILTROS DE BUSQUEDA
+                  </a>
+                </h6>
+              </div><!-- card-header -->
 
-            </div>  {% endcomment %}
+              <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                <div class="card-block">
+                  <div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-130 pd-b-120 ">
+                    <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+                      <li class="nav-item mg-10">{{filter.form.Especialidad|as_crispy_field}}</li>
+                      <li class="nav-item mg-10">{{filter.form.Descripcion|as_crispy_field}}</li>
+                      <li class="nav-item mg-10">{{filter.form.Codigo_documento|as_crispy_field}}</li>
+                      <li class="nav-item mg-10">{{filter.form.Tipo_Documento|as_crispy_field}}</li><br>
+                      <li class="nav-item mg-10">{{filter.form.Numero_documento_interno|as_crispy_field}}</li>
+                      <li class="nav-item mg-10">{{filter.form.fecha_Emision_B|as_crispy_field}}</li>
+                      <li class="nav-item mg-10">{{filter.form.fecha_Emision_0|as_crispy_field}}</li>
+                      <li class="nav-item mg-t-35">
+                        <button class="btn btn-oblong btn-teal mg-t-8 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
+                      </li>
+                    </ul>
+                  </div><!-- ht-65 -->
+                </div>
+              </div>
+            </div><!-- card -->
+            <!-- ADD MORE CARD HERE -->
+          </div><!-- accordion -->
+           
+            <!--Fin Filtros-->
+           
           </form>
-          <thead>
+          <thead class="mg-t-30">
             <tr>
                <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
                 <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"><i class="icon ion-trash-b"></i></button></a>

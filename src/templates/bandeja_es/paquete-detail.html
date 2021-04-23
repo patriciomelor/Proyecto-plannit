@@ -97,12 +97,19 @@
                   {{paquete.fecha_creacion|date:"d-M-Y"}}
                 </div><!-- col-8 -->
               </div> 
+              
               <div class="row no-gutters">
                 <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                  Hora de creacion:
+                Archivo comentario:
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
-                  {{paquete.fecha_creacion|date:"H:i"}}
+                {% if paquete.comentario %}
+                  <button href="{{paquete.comentario.url}}"class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" type="button">Descargar</button>
+                {% else %}    
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                  NO HAY ARCHIVO DE COMENTARIO
+                </div>
+                {% endif %}
                 </div><!-- col-8 -->
               </div>                                      
             </div>
@@ -125,9 +132,10 @@
                     <th class="pd-y-5"style="text-align: center;">Estado Contratista</th>                    
                     {% endif %}                                  
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
-                    <form method="POST">{% csrf_token %}
+                   <form method="POST">{% csrf_token %}
+                      
                       <th class="pd-y-5"style="text-align: center;">                       
-                          <input type="submit" class="btn btn-outline-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" value="Descargar todo"></input>                         
+                          <input type="submit" class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" value="Descargar todo"></input>                         
                         
                       </th>
                     </form>
@@ -155,8 +163,7 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                    
                     {% endif %}
                     <form method="POST" class="form-control">
-                    <td class="tx-12"style="text-align: center;font-weight:800;">
-                      <input type="submit" value="Descargar" class="btn btn-success" >
+                    <td class="tx-12"style="text-align: center;font-weight:800;"colspan="2">
                       <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a></td>
                   </form>
                   </tr>    
