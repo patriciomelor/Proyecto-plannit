@@ -104,7 +104,7 @@
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                 {% if paquete.comentario %}
-                  <button href="{{paquete.comentario.url}}"class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" type="button">Descargar</button>
+                <a href="{{paquete.comentario.url}}">  <button class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10">Descargar</button></a>
                 {% else %}    
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                   NO HAY ARCHIVO DE COMENTARIO
