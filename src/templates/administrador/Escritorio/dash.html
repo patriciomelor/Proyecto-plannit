@@ -215,19 +215,27 @@
               <table class="table table-responsive mg-b-0 tx-12">
                 <thead>
                   <tr class="tx-10">
-                    <th class="wd-10p pd-y-5">Usuarios</th>
-                    <th class="pd-y-5">Correo</th>
-                    <th class="pd-y-5 tx-right">ROL</th>
+                    <th class="wd-10p pd-y-5" style="text-align:center;">Usuarios</th>
+                    <th class="pd-y-5" style="text-align:center;">Correo</th>
+                    <th class="pd-y-5" style="text-align:center;">ROL</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td class="valign-middle tx-right">pmelor</td>
-                    <td class="valign-middle">patriciomelor@gmail.com</td>
-                    <td class="valign-middle tx-center">
-                      Administrador
-                    </td>
-                  </tr>
+                 {% for usuario in usuarios %}
+            <tr>            
+              {% if usuario.first_name %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
+              {% endif %} 
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
+              {% if usuario.perfil.rol_usuario %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
+              {% endif %}
+               </tr>         
+         {% endfor %}
                 </tbody>
               </table>
             </div>
@@ -267,21 +275,7 @@
           </tr>
         </thead>
         <tbody>
-         {% for usuario in usuarios %}
-            <tr>            
-              {% if usuario.first_name %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
-              {% else %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
-              {% endif %} 
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
-              {% if usuario.perfil.rol_usuario %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
-              {% else %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
-              {% endif %}
-               </tr>         
-         {% endfor %}
+         
         </tbody>
       </table>
     </div>
