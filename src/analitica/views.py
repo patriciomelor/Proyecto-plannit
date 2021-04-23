@@ -18,6 +18,36 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     ###################################################
     #                                                 #
     #                                                 #
+    #   FUNCIONES GENERALES                           #
+    #                                                 #
+    #                                                 #
+    ###################################################
+    
+    def Obtener_documentos_versiones(self):
+
+        lista_final = []
+        lista_actual = []
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+
+        #Obtener lista de las últimas versiones de cada documento
+        if documentos_totales != 0:
+            for doc in documentos: 
+                versiones = Version.objects.filter(documento_fk=doc).last()
+                if versiones:         
+                    lista_actual = [versiones, doc]
+                    lista_final.append(lista_actual)
+                if not versiones:    
+                    pass
+        else:
+            lista_actual = [0,0] 
+            lista_final.append(lista_actual)
+            
+        return lista_final
+
+    ###################################################
+    #                                                 #
+    #                                                 #
     #   PRIMER GRÁFICO DE ESTADOS DE LOS DOCUMENTOS   #
     #                                                 #
     #                                                 #
@@ -25,50 +55,24 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     
     def reporte_general(self):
 
-        lista_final = []
-        lista_actual = []
-
-
+        lista_final = self.Obtener_documentos_versiones()
         estados_documento = []
         estados_final = []
-
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
+        #Obtener lista de cantidad de documentos por tipo de versión
         if documentos_totales != 0:
-        
-            #Obtener lista de las últimas versiones de cada documento
-            for doc in documentos: 
-                versiones = Version.objects.filter(documento_fk=doc).last()
-
-                if versiones:
-                    
-                    lista_actual = [versiones, doc] 
-                    lista_final.append(lista_actual)
-
-                if not versiones:
-                    
-                    pass
-
-            #Obtener lista de cantidad de documentos por tipo de versión
             estado_documento = 0
-
             for estado in TYPES_REVISION[1:]:
                 cont = 0
-
                 for lista in lista_final:
-
-                    estado_documento = lista[0].revision
-                        
+                    estado_documento = lista[0].revision 
                     if estado_documento == estado[0]:
                         cont = cont + 1
-                
                 if cont != 0:
                     estados_documentos = [cont, estado[1]]
                     estados_final.append(estados_documentos)
-
         if documentos_totales == 0:
-
             estados_documento = [0, 'Sin registros']
             estados_final.append(estados_documento)
 
@@ -92,33 +96,26 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
-
         especialidad_list = tuple()
 
         if documentos_totales != 0:
-        
+
             #Obtener versiones que no poseen un estado de revisión
             for doc in documentos:
                 versiones = Version.objects.filter(documento_fk=doc).last()
-
                 if versiones:
-
                     cont = 0
-
                     for revision in TYPES_REVISION[1:]:
 
-                        #Comparar que la versión no posea ningón estado de revisión
+                        #Comparar que la versión no posea ningún estado de revisión
                         if revision[0] == versiones.revision:
                             cont = 1
-                    
+
                     #Almacena la versión que no posee estado de revisión
                     if cont == 0:
-
                         lista_actual = [versiones, doc] 
                         lista_final.append(lista_actual)
-
                 if not versiones:
-                    
                     lista_actual = [versiones, doc] 
                     lista_final.append(lista_actual)
 
@@ -131,27 +128,20 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             #Obtener lista final de cantidad de versiones/documentos por especialidad pendientes
             for especialidad in especialidad_list:
-                cont = 0 
-                
+                cont = 0  
                 for lista in lista_final: 
-
                     mi_especialidad = lista[1].Especialidad
-
                     if mi_especialidad == especialidad:
                         cont = cont + 1
-                
                 if cont != 0:
-
                     aprobados_inicial = [cont, especialidad]
                     aprobados_final.append(aprobados_inicial)
 
         if documentos_totales == 0:
-            
             aprobados_inicial = [0, 'Sin registros']
             aprobados_final.append(aprobados_inicial)
 
         return aprobados_final      
-
 
     ###################################################
     #                                                 #
@@ -179,11 +169,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #Obtener lista de versiones que poseen un estado de revisión
             for doc in documentos:
                 versiones = Version.objects.filter(documento_fk=doc).last()
-
                 if versiones:
-
                     cont = 0
-                    
                     for revision in TYPES_REVISION[1:]:
                         
                         #Comparar versiones que si poseen un estado de revisión
@@ -192,7 +179,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     
                     #Almacena las versiones que poseen un estado de revisión
                     if cont == 1:
-
                         lista_actual = [versiones, doc] 
                         lista_final.append(lista_actual)
 
@@ -206,19 +192,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #Obtener lista final de cantidad de versiones/documentos por especialidad emitidos
             for especialidad in especialidad_list:
                 cont = 0 
-                
                 for lista in lista_final: 
-
                     mi_especialidad = lista[1].Especialidad
-
                     if mi_especialidad == especialidad:
                         cont = cont + 1
-
                 aprobados_inicial = [cont, especialidad]
                 aprobados_final.append(aprobados_inicial) 
 
         if documentos_totales == 0:
-
             aprobados_inicial = [0, 'Sin registros']
             aprobados_final.append(aprobados_inicial)
 
@@ -231,7 +212,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
-
         especialidad_list = tuple()
 
         if documentos_totales != 0:
@@ -245,19 +225,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #Obtener documentos totales por especialidad
             for especialidad in especialidad_list:
                 cont = 0 
-                
                 for lista in documentos: 
-
                     mi_especialidad = lista.Especialidad
-
                     if mi_especialidad == especialidad:
                         cont = cont + 1
-
                 lista_actual = [cont, especialidad]
                 lista_final.append(lista_actual)
 
         if documentos_totales == 0:
-
             lista_actual = [0, 'Sin registros']
             lista_final.append(lista_actual)
         
@@ -271,10 +246,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     ###################################################
 
-    def reporte_curva_s_avance_real(self):
+    def Obtener_fechas(self):
 
-        lista_actual = []
-        lista_final = []
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
         if valor_ganado !=0:
@@ -313,48 +286,30 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     fecha_emision_0 = doc.fecha_Emision_0
                     ultima_fecha_b = fecha_emision_b
                     ultima_fecha_0 = fecha_emision_0
-
                     primera_fecha_b = doc.fecha_Emision_B
                     primera_fecha_0 = doc.fecha_Emision_0
-
                     cont = 1
                 
-                if cont != 0:
-                    
+                if cont != 0:   
                     fecha_emision_b = doc.fecha_Emision_B
                     fecha_emision_0 = doc.fecha_Emision_0
-
                     if fecha_emision_b > ultima_fecha_b:
-
                         ultima_fecha_b = fecha_emision_b
-
-                    if fecha_emision_0 > ultima_fecha_0:
-                    
+                    if fecha_emision_0 > ultima_fecha_0:                 
                         ultima_fecha_0 = fecha_emision_0
-
-                    if fecha_emision_b < primera_fecha_b:
-                    
+                    if fecha_emision_b < primera_fecha_b:               
                         primera_fecha_b = fecha_emision_b
-
-                    if fecha_emision_0 < primera_fecha_0:
-                    
+                    if fecha_emision_0 < primera_fecha_0:            
                         primera_fecha_0 = fecha_emision_0
 
             #Verificar cuál de las dos fechas, emisión B y 0, es la última
             if ultima_fecha_b >= ultima_fecha_0:
-
                 ultima_de_dos = ultima_fecha_b
-
             if ultima_fecha_b < ultima_fecha_0:
-
                 ultima_de_dos = ultima_fecha_0
-
             if primera_fecha_b < primera_fecha_0:
-
                 primera_de_dos = primera_fecha_b
-
             if primera_fecha_b > primera_fecha_0:
-
                 primera_de_dos = primera_fecha_0
 
             #Agregar una semana antes a la primera de los documentos
@@ -365,68 +320,60 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles.append(primera_de_dos)
 
             #Obtener fechas de inicio y termino de proyecto
-            fecha_inicio = self.proyecto.fecha_inicio
-            fecha_termino = self.proyecto.fecha_termino
-            fecha_posterior = self.proyecto.fecha_inicio
             semana_actual = timezone.now()
 
             if ultima_de_dos > fecha_termino:
-
                 fecha_termino = ultima_de_dos
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
-            #fechas_controles = []
             avance_fechas_controles = []
-            #fechas_controles.append(primera_de_dos)
             avance_fechas_controles.append(0)
             avance_fechas_controles.append(0)
             fecha_actual = primera_de_dos
             
             #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
             while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
-                
-                # if semana_actual > fecha_actual and semana_actual < fecha_posterior:
-                    
-                #     if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
-                    
-                #         fechas_controles.append(semana_actual)
-                #         fecha_actual = fecha_actual + timedelta(days=7)
-                #         fecha_posterior = fecha_actual + timedelta(days=7)
-                #         fechas_controles.append(fecha_actual)
-
-                # else:
-                                    
-                #     fecha_actual = fecha_actual + timedelta(days=7)
-                #     fecha_posterior = fecha_actual + timedelta(days=7)
-                #     fechas_controles.append(fecha_actual)
-
                 fecha_actual = fecha_actual + timedelta(days=7)
                 fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
 
                 #Se rellena el arreglo que aumentará el avance real por documento
                 avance_fechas_controles.append(0)
-
+            
             fechas_controles.append(fecha_termino)
-            avance_fechas_controles.append(0)          
-            #fechas_controles.append(fecha_termino)
+            avance_fechas_controles.append(0)
+            elementos = []
+            elementos_final = []
+            elementos = [fechas_controles, avance_fechas_controles]
+            elementos_final.append(elementos)
+        
+        return elementos_final
 
+    def reporte_curva_s_avance_real(self):
+
+        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        lista_final = self.Obtener_fechas()
+
+        if valor_ganado !=0:
+
+            valor_ganado = (100 / valor_ganado)
+            documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+            documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()                      
             avance_inicial = []
             avance_final = []
-            #documentos_atrasados = []
             fecha_version = 0
             fecha_documento = 0
+            fechas_controles = lista_final[0][0]
+            avance_fechas_controles = lista_final[0][1]
 
             #Se almacenan los dato del documento
             for doc in documentos:
-
                 fecha_emision_0 = doc.fecha_Emision_0
                 fecha_emision_b = doc.fecha_Emision_B
                 versiones = Version.objects.filter(documento_fk=doc).last()
-                
+
                 #Si exite una version
                 if versiones:
-                    
                     fecha_version = versiones.fecha
                     revision_documento = versiones.revision
                     cont = 0
@@ -434,93 +381,62 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                     #Se calcula el avance real en la fecha de control que corresponda
                     for controles in fechas_controles:
-
-                        #Se realiza la comparación hasta que la fecha de control contenga el día actual
-                        #if semana_actual >= controles and valor_documento == 0:
                         if valor_documento == 0:
-
                             calculo_real_0 = 0
                             calculo_real_b = 0
                             avance_documento = 0
 
                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                             for revision in TYPES_REVISION[1:4]:
-
                                 if revision[0] == revision_documento and fecha_version <= controles:
-
                                     calculo_real_b = valor_ganado * 0.7
-
                                 if cont == (len(fechas_controles) - 1):
-
-                                    if revision[0] == revision_documento and fecha_version > controles:
-                                        
+                                    if revision[0] == revision_documento and fecha_version > controles:                              
                                         calculo_real_b = valor_ganado * 0.7
 
                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                             for revision in TYPES_REVISION[5:]:
-
                                 if revision[0] == revision_documento and fecha_version <= controles:
-
                                     calculo_real_0 = valor_ganado * 1
-
                                 if cont == (len(fechas_controles) - 1):
-
-                                    if revision[0] == revision_documento and fecha_version > controles:
-                                        
+                                    if revision[0] == revision_documento and fecha_version > controles:                                
                                         calculo_real_0 = valor_ganado * 1
 
                             #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b > calculo_real_0:
-
                                 avance_documento = calculo_real_b
                                 fecha_documento = fecha_emision_b
 
                             #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b < calculo_real_0:
-                            
                                 avance_documento = calculo_real_0
                                 fecha_documento = fecha_emision_0
 
                             #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
                             if avance_documento != 0:
-
                                 avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
-                                valor_documento = 1
-                                
-                            #print("Revision: ", versiones.revision, " Especialidad: ", doc.Especialidad, " Fecha control: ", cont, " Avance documento: ", avance_documento, "Avance acumulado: ", avance_fechas_controles[cont])
+                                valor_documento = 1                             
                             cont = cont + 1
-                        #cont = cont + 1
                 
                 #Si no hay versiones, pasa al siguiente documento
                 if not versiones:
-
                     pass
 
             calculo_avance_final = 0
 
             #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
             contador_final = 0
-
-            for avance in avance_fechas_controles:
-                
+            for avance in avance_fechas_controles: 
                 if contador_final < cont:
                     calculo_avance_final = calculo_avance_final + avance
                     avance_inicial = [format(calculo_avance_final, '.2f')]
                     avance_final.append(avance_inicial)
-                    contador_final = contador_final + 1
-            
-            #Se calcula el avance semanal, para establecer la proyección de semanas por avanzar
-            avance_semanal = 0
-            avance_real_now = 0
-            avance_proyeccion = 0
-            contador = 0         
+                    contador_final = contador_final + 1   
 
         #Si no existen documentos, se almacenan valores vacios en el arreglo final
         if valor_ganado == 0:
-                
                avance_inicial = []
                avance_final = []
-
                avance_inicial = [valor_ganado]
                avance_final.append(avance_inicial)
 
@@ -528,9 +444,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
     def reporte_curva_s_avance_esperado(self):
                 
-        lista_actual = []
-        lista_final = []
-
+        lista_final = self.Obtener_fechas()
         lista_avance_real = self.reporte_curva_s_avance_real()
         calculo_avance_final = float(0)
         contador = 0
@@ -542,148 +456,28 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             
             #Fechas para la proyección de avance real
             for avance in lista_avance_real:
-
                 if contador == (len(lista_avance_real) - 1):
-                
                     calculo_avance_final = float(avance[0])
-
                 contador = contador + 1 
-
             if calculo_avance_final != 100:
-
                 avance_real_now = 100 - calculo_avance_final
                 avance_semanal = calculo_avance_final / float(contador)
                 avance_proyeccion = int(avance_real_now / avance_semanal)
 
-            #print('Contador: ', cont, 'Avance semanal: ', avance_semanal, ' Avance proyeccion: ', avance_proyeccion, ' Avance faltante: ', avance_real_now, ' Calculo_avance_final: ', calculo_avance_final)
-
             valor_ganado = (100 / valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
             fecha_posterior = self.proyecto.fecha_inicio
-
-            #Obtener la ultima fecha de emisión en B y en 0
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
-            ultima_fecha_b = 0
-            ultima_fecha_0 = 0
-            ultima_de_dos = 0
-            cont = 0
-
-            #Obtener la primera fecha por documento
-            primera_fecha_b = 0
-            primera_fecha_0 = 0
-            primera_de_dos = 0
-
-            for doc in documentos:
-
-                if cont == 0:
-                    
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-                    ultima_fecha_b = fecha_emision_b
-                    ultima_fecha_0 = fecha_emision_0
-
-                    primera_fecha_b = doc.fecha_Emision_B
-                    primera_fecha_0 = doc.fecha_Emision_0
-
-                    cont = 1
-                
-                if cont != 0:
-                    
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-
-                    if fecha_emision_b > ultima_fecha_b:
-
-                        ultima_fecha_b = fecha_emision_b
-
-                    if fecha_emision_0 > ultima_fecha_0:
-                    
-                        ultima_fecha_0 = fecha_emision_0
-
-                    if fecha_emision_b < primera_fecha_b:
-                    
-                        primera_fecha_b = fecha_emision_b
-
-                    if fecha_emision_0 < primera_fecha_0:
-                    
-                        primera_fecha_0 = fecha_emision_0
-
-            #Verificar cuál de las dos fechas, emisión B y 0, es la última
-            if ultima_fecha_b >= ultima_fecha_0:
-
-                ultima_de_dos = ultima_fecha_b
-
-            if ultima_fecha_b < ultima_fecha_0:
-
-                ultima_de_dos = ultima_fecha_0
-
-            if primera_fecha_b < primera_fecha_0:
-
-                primera_de_dos = primera_fecha_b
-
-            if primera_fecha_b > primera_fecha_0:
-
-                primera_de_dos = primera_fecha_0
-            
-            #Agregar una semana antes a la primera de los documentos
-            fechas_controles = []
-            primera_de_dos = primera_de_dos - timedelta(days=7)
-            fechas_controles.append(primera_de_dos)
-            primera_de_dos = primera_de_dos + timedelta(days=7)
-            fechas_controles.append(primera_de_dos)
-
-            #Obtener fechas de inicio y termino de proyecto
-            fecha_inicio = self.proyecto.fecha_inicio
-            fecha_termino = self.proyecto.fecha_termino
-            fecha_posterior = self.proyecto.fecha_inicio
-            semana_actual = timezone.now()
-
-            if ultima_de_dos > fecha_termino:
-
-                fecha_termino = ultima_de_dos
-
-            #Se alamacena fecha de inicio del proyecto en la Lista de Controles
-            #fechas_controles = []
-            #fechas_controles.append(primera_de_dos)
-            fecha_actual = primera_de_dos
-            
-            #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
-            while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
-                
-                # if semana_actual > fecha_actual and semana_actual < fecha_posterior:
-                    
-                #     if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
-                    
-                #         fechas_controles.append(semana_actual)
-                #         fecha_actual = fecha_actual + timedelta(days=7)
-                #         fecha_posterior = fecha_actual + timedelta(days=7)
-                #         fechas_controles.append(fecha_actual)
-
-                # else:
-                                    
-                #     fecha_actual = fecha_actual + timedelta(days=7)
-                #     fecha_posterior = fecha_actual + timedelta(days=7)
-                #     fechas_controles.append(fecha_actual)
-            
-                fecha_actual = fecha_actual + timedelta(days=7)
-                fecha_posterior = fecha_actual + timedelta(days=7)
-                fechas_controles.append(fecha_actual)
-            
-            fechas_controles.append(fecha_termino)
+            fechas_controles = lista_final[0][0]
 
             #Fechas extra para la proyección
             contador_proyeccion = 0
-
             diferencia = len(fechas_controles) - contador
             avance_proyeccion = avance_proyeccion - diferencia
 
             if avance_proyeccion <= 10:
                 while contador_proyeccion < avance_proyeccion:
-
                     fecha_termino = fecha_termino + timedelta(days=7)
                     fechas_controles.append(fecha_termino)
                     contador_proyeccion = contador_proyeccion + 1
@@ -708,16 +502,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             for controles in fechas_controles:
                 calculo_avanceEsperado = 0
-
-                for doc in documentos:
-                    
+                for doc in documentos:                  
                     fecha_emision_b = doc.fecha_Emision_B
                     fecha_emision_0 = doc.fecha_Emision_0
 
                     #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
                     if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                        calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado
-                        
+                        calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
                     if fecha_emision_0 <= controles and fecha_emision_b < controles:
                         calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 
@@ -726,7 +517,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 lista_final_esperado.append(avance_esperado)
 
         else:
-
             avance_esperado = [int(valor_ganado)]
             lista_final_esperado.append(avance_esperado)
 
@@ -734,8 +524,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
     def reporte_curva_s_fechas(self):
         
-        lista_actual = []
-        lista_final = []
+        lista_final = self.Obtener_fechas()
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         lista_avance_real = self.reporte_curva_s_avance_real()
         calculo_avance_final = float(0)
@@ -747,150 +536,32 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             #Fechas para la proyección de avance real
             for avance in lista_avance_real:
-
-                if contador == (len(lista_avance_real) - 1):
-                
+                if contador == (len(lista_avance_real) - 1):          
                     calculo_avance_final = float(avance[0])
-
                 contador = contador + 1
 
-
             if calculo_avance_final != 100:
-
                 avance_real_now = 100 - calculo_avance_final
                 avance_semanal = calculo_avance_final / float(contador)
                 avance_proyeccion = int(avance_real_now / avance_semanal)
 
-            #print('Contador: ', cont, 'Avance semanal: ', avance_semanal, ' Avance proyeccion: ', avance_proyeccion, ' Avance faltante: ', avance_real_now, ' Calculo_avance_final: ', calculo_avance_final)
-
-
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
             fecha_posterior = self.proyecto.fecha_inicio
+            fechas_controles = lista_final[0][0]
             semana_actual = timezone.now()
-
-            #Obtener la ultima fecha de emisión en B y en 0
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
-            ultima_fecha_b = 0
-            ultima_fecha_0 = 0
-            ultima_de_dos = 0
-            cont = 0
-
-            #Obtener la primera fecha por documento
-            primera_fecha_b = 0
-            primera_fecha_0 = 0
-            primera_de_dos = 0
-
-            for doc in documentos:
-
-                if cont == 0:
-                    
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-                    ultima_fecha_b = fecha_emision_b
-                    ultima_fecha_0 = fecha_emision_0
-
-                    primera_fecha_b = doc.fecha_Emision_B
-                    primera_fecha_0 = doc.fecha_Emision_0
-
-                    cont = 1
-                
-                if cont != 0:
-                    
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-
-                    if fecha_emision_b > ultima_fecha_b:
-
-                        ultima_fecha_b = fecha_emision_b
-
-                    if fecha_emision_0 > ultima_fecha_0:
-                    
-                        ultima_fecha_0 = fecha_emision_0
-
-                    if fecha_emision_b < primera_fecha_b:
-                    
-                        primera_fecha_b = fecha_emision_b
-
-                    if fecha_emision_0 < primera_fecha_0:
-                    
-                        primera_fecha_0 = fecha_emision_0
-
-            #Verificar cuál de las dos fechas, emisión B y 0, es la última
-            if ultima_fecha_b >= ultima_fecha_0:
-
-                ultima_de_dos = ultima_fecha_b
-
-            if ultima_fecha_b < ultima_fecha_0:
-
-                ultima_de_dos = ultima_fecha_0
-
-            if primera_fecha_b < primera_fecha_0:
-
-                primera_de_dos = primera_fecha_b
-
-            if primera_fecha_b > primera_fecha_0:
-
-                primera_de_dos = primera_fecha_0
-            
-            #Agregar una semana antes a la primera de los documentos
-            fechas_controles = []
-            primera_de_dos = primera_de_dos - timedelta(days=7)
-            fechas_controles.append(primera_de_dos)
-            primera_de_dos = primera_de_dos + timedelta(days=7)
-            fechas_controles.append(primera_de_dos)
-
-            #Obtener fechas de inicio y termino de proyecto
-            fecha_inicio = self.proyecto.fecha_inicio
-            fecha_termino = self.proyecto.fecha_termino
-            fecha_posterior = self.proyecto.fecha_inicio
-
-            if ultima_de_dos > fecha_termino:
-
-                fecha_termino = ultima_de_dos
-
-            #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
-            #fechas_controles = []
-            #fechas_controles.append(primera_de_dos)
-            fecha_actual = primera_de_dos
-            
-            #Se almacenan semana a semana hasta curbrir la última fecha de Emisión en 0
-            while fecha_actual < fecha_termino and fecha_posterior < fecha_termino:
-                
-                # if semana_actual > fecha_actual and semana_actual < fecha_posterior:
-                    
-                #     if semana_actual.day != fecha_actual.day or semana_actual.year != fecha_actual.year or semana_actual.month != fecha_actual.month:
-                    
-                #         fechas_controles.append(semana_actual)
-                #         fecha_actual = fecha_actual + timedelta(days=7)
-                #         fecha_posterior = fecha_actual + timedelta(days=7)
-                #         fechas_controles.append(fecha_actual)
-
-                # else:
-                                    
-                #     fecha_actual = fecha_actual + timedelta(days=7)
-                #     fecha_posterior = fecha_actual + timedelta(days=7)
-                #     fechas_controles.append(fecha_actual)
-
-                fecha_actual = fecha_actual + timedelta(days=7)
-                fecha_posterior = fecha_actual + timedelta(days=7)
-                fechas_controles.append(fecha_actual)
-            
-            fechas_controles.append(fecha_termino)
 
             #Fechas extra para la proyección
             contador_proyeccion = 0
-
             diferencia = len(fechas_controles) - contador
             avance_proyeccion = avance_proyeccion - diferencia
 
             if avance_proyeccion <= 10:
                 while contador_proyeccion < avance_proyeccion:
-
                     fecha_termino = fecha_termino + timedelta(days=7)
                     fechas_controles.append(fecha_termino)
                     contador_proyeccion = contador_proyeccion + 1
+
             else:
                 if avance_proyeccion % 2 == 0:
                     avance_proyeccion = avance_proyeccion / 2
@@ -926,50 +597,36 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         avance_inicial = []
         avance_final = []
         lista_avance_real = self.reporte_curva_s_avance_real()
-        
         calculo_avance_final = float(0)
         cont = 0
         contador = 0
 
         #Fechas para la proyección de avance real
         for avance in lista_avance_real:
-
-            if cont == (len(lista_avance_real) - 1):
-                
+            if cont == (len(lista_avance_real) - 1):  
                 calculo_avance_final = float(avance[0])
-
             cont = cont + 1
 
-        if calculo_avance_final != 100:
-                
+        if calculo_avance_final != 100:           
             avance_real_now = 100 - calculo_avance_final
             avance_semanal = calculo_avance_final / float(cont)
                 
-            if avance_semanal != 0:
-                
+            if avance_semanal != 0:           
                 avance_proyeccion = int(avance_real_now / avance_semanal)
-
                 if avance_proyeccion <= 10:
-                    while contador < avance_proyeccion:
-                            
+                    while contador < avance_proyeccion:                            
                         if contador == (avance_proyeccion - 1):
-
                             calculo_avance_final = calculo_avance_final + avance_semanal
-
-                            if calculo_avance_final != float(100):
-                                
+                            if calculo_avance_final != float(100):                                
                                 diferencia = float(100) - calculo_avance_final
                                 calculo_avance_final = calculo_avance_final + diferencia
-
                                 avance_inicial = [format(calculo_avance_final, '.2f')]
                                 avance_final.append(avance_inicial)  
                                 contador = contador + 1 
-
                             else: 
                                 avance_inicial = [format(calculo_avance_final, '.2f')]
                                 avance_final.append(avance_inicial)  
-                                contador = contador + 1 
-                        
+                                contador = contador + 1                       
                         else: 
                             calculo_avance_final = calculo_avance_final + avance_semanal
                             avance_inicial = [format(calculo_avance_final, '.2f')]
@@ -981,24 +638,17 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                         avance_semanal = avance_semanal * 2
                         while contador < avance_proyeccion:
                             if contador == (avance_proyeccion - 1):
-
                                 calculo_avance_final = calculo_avance_final + avance_semanal
-
-                                if calculo_avance_final != float(100):
-                                    
+                                if calculo_avance_final != float(100):                                    
                                     diferencia = float(100) - calculo_avance_final
                                     calculo_avance_final = calculo_avance_final + diferencia
-
                                     avance_inicial = [format(calculo_avance_final, '.2f')]
                                     avance_final.append(avance_inicial)  
                                     contador = contador + 1 
-
                                 else: 
-
                                     avance_inicial = [format(calculo_avance_final, '.2f')]
                                     avance_final.append(avance_inicial)  
-                                    contador = contador + 1 
-                            
+                                    contador = contador + 1                           
                             else:
                                 calculo_avance_final = calculo_avance_final + avance_semanal
                                 avance_inicial = [format(calculo_avance_final, '.2f')]
@@ -1009,23 +659,17 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                         avance_semanal = avance_semanal * 2
                         while contador < avance_proyeccion:
                             if contador == (avance_proyeccion - 1):
-
                                 calculo_avance_final = calculo_avance_final + (avance_semanal/2)
-
-                                if calculo_avance_final != float(100):
-                                    
+                                if calculo_avance_final != float(100):                             
                                     diferencia = float(100) - calculo_avance_final
                                     calculo_avance_final = calculo_avance_final + diferencia
-
                                     avance_inicial = [format(calculo_avance_final, '.2f')]
                                     avance_final.append(avance_inicial)  
                                     contador = contador + 1 
-
                                 else: 
                                     avance_inicial = [format(calculo_avance_final, '.2f')]
                                     avance_final.append(avance_inicial)  
-                                    contador = contador + 1 
-                            
+                                    contador = contador + 1                
                             else:
                                 calculo_avance_final = calculo_avance_final + avance_semanal
                                 avance_inicial = [format(calculo_avance_final, '.2f')]
@@ -1036,8 +680,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         
         return avance_final
 
-
-    
     def valor_eje_x_grafico_uno(self):
 
         #Llamado para un método definido anteriormente
@@ -1052,26 +694,20 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if cont == 0:
                 maximo = lista[0]
                 cont = 1
-            
             else:
                 if maximo < lista[0]:
                     maximo = lista[0]
         
         #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
         division_exacta = 0
-
         if maximo > 20:  
-            
             division_exacta = maximo % 10
-
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-
         maximo = maximo + 1
 
         return maximo
@@ -1085,7 +721,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #Se secciona el eje en 10 partes iguales
         if dividendo > 20:
             espacios = espacios / 10
-
         else:
             espacios = 1
 
@@ -1104,23 +739,18 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         for lista in lista_grafico_uno:
             if cont == 0:
                 maximo = lista[0]
-                cont = 1
-            
+                cont = 1       
             else:
                 if maximo < lista[0]:
                     maximo = lista[0]
         
         #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
         division_exacta = 0
-
         if maximo > 20:  
-            
             division_exacta = maximo % 10
-
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-
         maximo = maximo + 1
 
         return maximo
@@ -1134,69 +764,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         #Se secciona el eje en 10 partes iguales
         if dividendo > 20:
             espacios = espacios / 10
-
         else:
             espacios = 1
 
-        return int(espacios)
-
-    ###################################################
-    #                                                 #
-    #                                                 #
-    #   OBTENER DOCUMENTOS ATRASADOS                  #
-    #                                                 #
-    #                                                 #
-    ###################################################
-
-    def documentos_atrasados(self):
-
-        lista_atrasados = []
-        fecha_version = 0
-        fecha_emision_b = 0
-        fecha_emision_0 = 0
-        revision_documento = 0
-
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
-
-        if documentos_totales != 0:
-
-            for doc in documentos:
-
-                fecha_emision_b = doc.fecha_Emision_B
-                fecha_emision_0 = doc.fecha_Emision_0
-                versiones = Version.objects.filter(documento_fk=doc).last()
-
-                if versiones:
-
-                    fecha_version = versiones.fecha
-                    revision_documento = versiones.revision
-
-                    for revision in TYPES_REVISION[1:4]:
-
-                        if revision_documento == revision[0]:
-
-                            if fecha_emision_b > fecha_version:
-
-                                lista_final.append(doc)
-
-                    for revision in TYPES_REVISION[5:]:
-
-                        if revision_documento == revision[0]:
-
-                            if fecha_emision_0 > fecha_version:
-
-                                lista_atrasados.append(doc.Codigo_documento)
-
-                if not versiones:
-
-                    pass
-
-        if documentos_totales == 0:
-
-            lista_atrasados.append(0)
-
-        return lista_atrasados                  
+        return int(espacios)          
 
     ###################################################
     #                                                 #
@@ -1228,9 +799,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
         context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
         context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
-        context['documentos_atrasados'] = self.documentos_atrasados()
         context['proyeccion'] = self.proyeccion()
         context['proyeccion_largo'] = len(self.proyeccion()) 
-
 
         return context

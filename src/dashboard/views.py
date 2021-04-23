@@ -71,40 +71,48 @@ class EscritorioView(ProyectoMixin, TemplateView):
             if not version:                
                 lista_inicial = [doc, []]
                 lista_final.append(lista_inicial)        
-        #################################################################    
+        #################################################################  
+        
+        #Variables
+        lista_atrasados_final = []
+        lista_emitidos_final = []
+        avance_real = 0
+        lista_datos_final = []
+        porcentaje = 0
+        porcentaje_atrasado = 0
+        diferencia = 0        
+        #################################################################     
 
         #Obtener documentos sin emisiones por especialidad
-        lista_atrasados_final = []
-        
         for especialidad in especialidad_list:
             lista_atrasados = []
-            contador = 0
+            lista_datos_inicial = []
+            contador_total = 0
             for doc in lista_final:
                 if especialidad == doc[0].Especialidad:
                     lista_atrasados.append(doc[0])
-                    contador = contador + 1
-            if contador != 0:
-                lista_atrasados_final.append(lista_atrasados)
+                    contador_total = contador_total + 1
+            if contador_total != 0:
+                lista_atrasados_final.append([lista_atrasados, contador_total])
+
+        print(lista_atrasados_final)
         #################################################################   
 
-        #Obtener documentos con emisiones porespecialidad
-        lista_emitidos_final = []
-        avance_real = 0
-        
+        #Obtener documentos con emisiones por especialidad        
         for especialidad in especialidad_list:
             lista_emitidos = []
-            contador = 0
+            lista_datos_inicial = []
+            contador_no_emitidos = 0
             for doc in lista_final_emitidos:
                 if especialidad == doc[0].Especialidad:
                     lista_emitidos.append(doc[0])
-                    contador = contador + 1
-            if contador != 0:
-                lista_emitidos_final.append(lista_emitidos)
+                    contador_no_emitidos = contador_no_emitidos + 1
+            if contador_no_emitidos != 0:
+                lista_emitidos_final.append([lista_emitidos, contador_no_emitidos])
+
+        #################################################################   
 
         #Obtener documentos emitidos vs documentos atrasados
-        lista_datos_final = []
-        porcentaje = 0
-
         for especialidad in especialidad_list:
             lista_datos_inicial = []
             contador_total = 0
@@ -124,21 +132,29 @@ class EscritorioView(ProyectoMixin, TemplateView):
             cantidad_documentos = cantidad_documentos + contador_total
             contador_atrasados = contador_atrasados + contador_no_emitidos
             porcentaje_documentos_emitidos = (cantidad_versiones * 100)/cantidad_documentos               
-            porcentaje = (contador_no_emitidos/contador_total)*100
+            porcentaje = (diferencia/contador_total)*100
             porcentaje = format(porcentaje, '.1f')
-            print(porcentaje)
-            lista_datos_inicial = [especialidad, contador_total, contador_no_emitidos, porcentaje]
+            porcentaje_atrasado = float(100) - float(porcentaje)
+            diferencia = contador_total - contador_no_emitidos
+            lista_datos_inicial = [especialidad, contador_total, contador_no_emitidos, porcentaje, diferencia]
             lista_datos_final.append(lista_datos_inicial)
         ########################################################################################
 
+        #Escritorio solicitado por deavys
+        documentos_contador = self.get_queryset().count()
+        
+
+        ########################################################################################
+
         context['Porcentaje'] = format(porcentaje_documentos_emitidos, '.2f')
+        context['Porcentaje_atrasado'] = format(porcentaje_atrasado, '.2f')
         context['Cantidad'] = cantidad_documentos
         context['Emitidos'] = cantidad_versiones
         context['Atrasados'] = contador_atrasados
-        context['Listado_no_emitidos'] = lista_atrasados_final
+        context['Listado_no_emitidos'] = lista_final
         context['Comparacion'] = lista_datos_final
         context['Listado_emitidos'] = lista_emitidos_final
-        context['Listado_final'] = lista_final_emitidos
+        context['Listado_final_emitidos'] = lista_final_emitidos
 
         return context
 
