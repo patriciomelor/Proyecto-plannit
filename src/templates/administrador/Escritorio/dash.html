@@ -311,7 +311,7 @@
             lineTension:0.18,
             fill: false,
             data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %} {% for real_linea in proyeccion %} {{real_linea.0}}, {% endfor %}],
-           
+          
           }, 
           {
             type: 'bar',
@@ -343,8 +343,8 @@
                   beginAtZero: true,
                   min: 0,
                   stepSize: 1,
-                       callback: function(value){return value+ "%"}
-    
+                      callback: function(value){return value+ "%"}
+
                 },
                 
               },

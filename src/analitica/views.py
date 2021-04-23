@@ -255,7 +255,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             valor_ganado = (100 / valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
             documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
-
             fecha_inicio = self.proyecto.fecha_inicio
             fecha_termino = self.proyecto.fecha_termino
             fecha_posterior = self.proyecto.fecha_inicio
@@ -279,9 +278,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             primera_de_dos = 0
 
             for doc in documentos:
-
-                if cont == 0:
-                    
+                if cont == 0:               
                     fecha_emision_b = doc.fecha_Emision_B
                     fecha_emision_0 = doc.fecha_Emision_0
                     ultima_fecha_b = fecha_emision_b
