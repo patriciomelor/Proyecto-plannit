@@ -8580,7 +8580,7 @@ a.text-dark:focus, a.text-dark:hover {
   padding: 15px 20px;
 }
 .accordion .card-header a.collapsed:hover, .accordion .card-header a.collapsed:focus {
-  background-color: #e9ecef;
+  background-color: #17A589;
 }
 .accordion .card-body {
   padding-top: 0;
