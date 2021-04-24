@@ -170,7 +170,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         ###################################################
 
     def Obtener_fechas(self):
-
+        elementos_final = []
         documentos = self.get_queryset()
         valor_ganado = self.get_queryset().count()
 
