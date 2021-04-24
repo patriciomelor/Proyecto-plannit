@@ -150,7 +150,7 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
-                    {% if request.user.is_superuser %}
+                    {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>                    
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                    
                     
@@ -159,7 +159,7 @@
                     {% if request.user.perfil.rol_usuario == 2 %}
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>                    
                     {% endif %}
-                    {% if request.user.perfil.rol_usuario == 3 %}
+                    {% if request.user.perfil.rol_usuario == 5 %}
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                    
                     {% endif %}
                     <form method="POST" class="form-control">
