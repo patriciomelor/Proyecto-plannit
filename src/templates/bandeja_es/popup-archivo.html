@@ -11,16 +11,10 @@
             {{ form.prev_documento_fk|as_crispy_field}}
             {{ form.prev_revision|as_crispy_field}}
             
-                {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
-                    {{ form.prev_estado_contratista|as_crispy_field}}                    
-                    {{ form.prev_estado_cliente|as_crispy_field}}                    
-              
-                    {% else %}
-                    {% endif %}
-                {% if request.user.perfil.rol_usuario == 5 %}
+                {% if request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3  %}
                      {{ form.prev_estado_contratista|as_crispy_field}}                    
-                {% endif %}
-                {% if request.user.perfil.rol_usuario == 2 %}
+                
+                {% elif request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6 %}
                     {{ form.prev_estado_cliente|as_crispy_field}}                    
                 {% endif %}         
             
