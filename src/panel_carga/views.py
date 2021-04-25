@@ -10,6 +10,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic.edit import FormMixin
 from django.core.exceptions import ValidationError
 from import_export import resources
+from django.contrib import messages
 from tablib import Dataset
 from django.core.exceptions import FieldError, ValidationError
 from django.db import IntegrityError
@@ -94,8 +95,8 @@ class CreateDocumento(ProyectoMixin, CreateView):
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        raise ValidationError("Error al cargar el Documento, puede que ya exista un Documento con ese Código.")
-
+        messages.error(self.request, message='Ocurrio un error. Intentelo nuevamente')
+        return super().form_invalid(form)
 
 class DetailDocumento(ProyectoMixin, DetailView):
     model = Documento
