@@ -8,7 +8,23 @@
     <form method="POST" enctype="multipart/form-data" id="verion_form" class="form-group mg-t-20">{% csrf_token %}
        <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper col-md-12">
-            {{ form | crispy}}
+            {{ form.prev_documento_fk|as_crispy_field}}
+            {{ form.prev_revision|as_crispy_field}}
+            
+                {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
+                    {{ form.prev_estado_contratista|as_crispy_field}}                    
+                    {{ form.prev_estado_cliente|as_crispy_field}}                    
+              
+                    {% else %}
+                    {% endif %}
+                {% if request.user.perfil.rol_usuario == 5 %}
+                     {{ form.prev_estado_contratista|as_crispy_field}}                    
+                {% endif %}
+                {% if request.user.perfil.rol_usuario == 2 %}
+                    {{ form.prev_estado_cliente|as_crispy_field}}                    
+                {% endif %}         
+            
+            {{ form.prev_archivo|as_crispy_field}}
              <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-send"></span>Subir</button>
         
         </div>

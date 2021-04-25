@@ -95,8 +95,15 @@
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.owner.first_name}}<br>{{version.owner.last_name}}  </td>       
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_revision_display}} </td>
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{% url 'paquete-detalle' version.1.pk %}" >{{paquete.codigo}} </a> </td>
+                {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4  %}
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_estado_cliente_display}} </td>
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_estado_contratista_display}} </td>
+              
+                {% elif request.user.perfil.rol_usuario == 2 %}
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_estado_cliente_display}} </td>
+                {% elif request.user.perfil.rol_usuario == 5 %}
+                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_estado_contratista_display}} </td>
+                {% endif %}
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'d-m-y'}} </td>                    
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'H:i'}} </td>                    
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{{version.0.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
