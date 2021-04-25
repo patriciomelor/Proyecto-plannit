@@ -18,19 +18,35 @@
   <div class="br-section-wrapper">
 <!--Tabla-->
 <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
+                    {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
+                    <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
+                      <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+                        <form class="col-6" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                              <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a></li>
+                              <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
+                        </form>
+                              <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
+                              <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"> Descargar Excel </button></a></li>            
+                              <li class="nav-item mg-l-5"><a href="http://143.198.55.178/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning"> Descargar Plantilla </button></a></li>
+                      </ul>
+                    </div><!-- ht-65 -->
+                    {% else %}
+                    <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
+                      <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+                         <form class="col-6" method="POST" enctype="multipart/form-data">
+                            {% csrf_token %}
+                              <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()" disabled></a></li>
+                              <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
+                         </form>
+                              <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary" disabled>Insertar por formulario</button></a></li>
+                              <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"disabled> Descargar Excel </button></a></li>            
+                              <li class="nav-item mg-l-5"><a href="http://143.198.55.178/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning"disabled> Descargar Plantilla </button></a></li>
+                      </ul>
+                    </div><!-- ht-65 -->
+                    {% endif %}
+                 
 
-<div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
-  <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-     <form class="col-6" method="POST" enctype="multipart/form-data">
-        {% csrf_token %}
-          <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a></li>
-          <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
-     </form>
-          <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
-          <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"> Descargar Excel </button></a></li>            
-          <li class="nav-item mg-l-5"><a href="http://143.198.55.178/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning"> Descargar Plantilla </button></a></li>
-  </ul>
-</div><!-- ht-65 -->
   <!--Upload Archivos-->
     <div class="row row-sm d-flex">
         <table  class="table table-responsive table-striped mg-b-0 table-bordered table-primary ">       
@@ -67,9 +83,16 @@
     </form>
           <thead class="mg-t-30">
             <tr>
-               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
+              {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
                 <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"><i class="icon ion-trash-b"></i></button></a>
+                </th>                
+        
+              {% else %}
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
+                <button class="btn btn-danger" id="delete_btn" type="submit" disabled><i class="icon ion-trash-b"></i></button>
                 </th>
+              {% endif %}
               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Especialidad</th>
               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Descripcion Documentos</th>
               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento</th>
@@ -93,10 +116,17 @@
             </tr>
             <!--Loop Listar Documento-->
             {% for documento in documentos %}
+            
             <tr>
+              {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" colspan="2">
                 <a href="{% url 'documento-actualizar' documento.pk %}" > <i class="fa fa-pencil"></i> </a>
-              </th>            
+              </th>  
+              {% else %} 
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" colspan="2">
+                
+              </th>           
+              {% endif %}
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Especialidad}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Descripcion}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Codigo_documento}} </th>

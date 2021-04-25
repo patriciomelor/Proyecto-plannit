@@ -104,7 +104,7 @@
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                 {% if paquete.comentario %}
-                  <button href="{{paquete.comentario.url}}"class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" type="button">Descargar</button>
+                <a href="{{paquete.comentario.url}}">  <button class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10">Descargar</button></a>
                 {% else %}    
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                   NO HAY ARCHIVO DE COMENTARIO
@@ -150,7 +150,7 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
-                    {% if request.user.is_superuser %}
+                    {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>                    
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                    
                     
@@ -159,7 +159,7 @@
                     {% if request.user.perfil.rol_usuario == 2 %}
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>                    
                     {% endif %}
-                    {% if request.user.perfil.rol_usuario == 3 %}
+                    {% if request.user.perfil.rol_usuario == 5 %}
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                    
                     {% endif %}
                     <form method="POST" class="form-control">
