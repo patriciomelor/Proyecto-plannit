@@ -49,9 +49,9 @@ class InBoxView(ProyectoMixin, ListView):
             pkg = Paquete.objects.all().filter(proyecto=self.proyecto).order_by("-fecha_creacion")
         elif user_rol:
             if user_rol <= 3:
-                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=clientes)
+                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=clientes, proyecto=self.proyecto)
             elif user_rol > 3 and user_rol <= 6:
-                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas)
+                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto)
 
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
@@ -68,7 +68,17 @@ class EnviadosView(ProyectoMixin, ListView):
     paginate_by = 10
 
     def get_queryset(self):
-        pkg =  Paquete.objects.filter(owner=self.request.user, proyecto=self.proyecto)
+        clientes = [1,2,3]        
+        contratistas = [4,5,6]        
+        user = self.request.user
+        user_rol =  user.perfil.rol_usuario
+        if user.is_superuser:
+            pkg = Paquete.objects.all().filter(proyecto=self.proyecto).order_by("-fecha_creacion")
+        elif user_rol:
+            if user_rol <= 3:
+                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=clientes, proyecto=self.proyecto)#.filter(proyecto=self.proyecto).order_by("-fecha_creacion")
+            elif user_rol > 3 and user_rol <= 6:
+                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto)#.filter(proyecto=self.proyecto).order_by("-fecha_creacion")
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
