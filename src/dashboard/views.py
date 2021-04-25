@@ -8,7 +8,7 @@ from .filters import DocFilter
 from panel_carga.models import Documento
 from bandeja_es.models import Version, Paquete
 from django.utils import timezone
-from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE
+from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE, ESTADO_CONTRATISTA
 
 from datetime import datetime, timedelta
 
@@ -38,128 +38,89 @@ class EscritorioView(ProyectoMixin, TemplateView):
         listado_versiones_doc = DocFilter(self.request.GET, queryset=Documento.objects.filter(proyecto=self.proyecto))
         return listado_versiones_doc.qs.order_by('Codigo_documento')
 
-    def get_context_data(self, **kwargs):
-        #Listar documentos
+    # def get_context_data(self, **kwargs):
+    #     #Listar documentos
+    #     lista_inicial = []
+    #     lista_final = []
+
+    #     #Variables Iniciales
+    #     semana_actual = timezone.now()
+    #     especialidad_list = tuple()
+
+    #     context = super().get_context_data(**kwargs)
+    #     documentos = self.get_queryset()
+    #     total_documentos = self.get_queryset().count()
+
+    #     # #Variables para funciones
+    #     # contador_emitidos = 0
+
+    #     # for doc in documentos:
+    #     #     versiones = Version.objects.filter(documento_fk=doc).last()
+    #     #     if versiones:
+    #     #         contador_emitidos = contador_emitidos + 1
+    #     #     else:
+    #     #         contador_no_emitidos = contador_no_emitidos + 1
+
+    #     # lista_inicial.append(contador_emitidos, contador_no_emitidos)
+
+    #     # print(lista_inicial)
+
+    #     # context['lista_final'] = lista_inicial
+
+    #     return context
+
+        ###################################################
+        #                                                 #
+        #                                                 #
+        #   Variables para tabla                          #
+        #                                                 #
+        #                                                 #
+        ###################################################
+        
+    def datos_tabla(self):
+
         lista_inicial = []
         lista_final = []
-        lista_inicial_emitidos = []
-        lista_final_emitidos = []
-        #################################################################   
-
-        #Variables
-        semana_actual = timezone.now()
-        cantidad_documentos = 0
-        cantidad_versiones = 0
-        contador_atrasados = 0
-        especialidad_list = tuple()
-
-        context = super().get_context_data(**kwargs)
         documentos = self.get_queryset()
-        #################################################################
+        total_documentos = self.get_queryset().count()
 
-        #Obtener especialidades de los documentos
-        for special in documentos:
-            especialidad_actual = special.Especialidad
-            if not especialidad_actual in especialidad_list:
-                especialidad_list = especialidad_list + (str(especialidad_actual),)
-        #################################################################  
-
-        #Obtener listas de documentos emitidos y no emitidos
-        for doc in documentos:
-            version = Version.objects.filter(documento_fk=doc).last()
-            if version:
-                lista_inicial_emitidos = [doc, version]
-                lista_final_emitidos.append(lista_inicial_emitidos) 
-                
-            if not version:                
-                lista_inicial = [doc, []]
-                lista_final.append(lista_inicial)        
-        #################################################################  
-        
-        #Variables
-        lista_atrasados_final = []
-        lista_emitidos_final = []
+        #Variables para funciones
+        contador_emitidos = 0
+        documentos_aprobados = 0
+        contador_no_emitidos = 0
+        documentos_revision_cliente = 0
+        documentos_revision_contratista = 0
+        prom_demora_revisión = 0
+        tiempo_ciclo_aprobación = 0
+        prom_revision_cliente = 0
+        prom_revision_contratista = 0
+        cantidad_paquetes_cliente = 0
+        cantidad_paquetes_contratista = 0
+        avance_programado = 0
         avance_real = 0
-        lista_datos_final = []
-        porcentaje = 0
-        porcentaje_atrasado = 0
-        diferencia = 0        
-        #################################################################     
 
-        #Obtener documentos sin emisiones por especialidad
-        for especialidad in especialidad_list:
-            lista_atrasados = []
-            lista_datos_inicial = []
-            contador_total = 0
-            for doc in lista_final:
-                if especialidad == doc[0].Especialidad:
-                    lista_atrasados.append(doc[0])
-                    contador_total = contador_total + 1
-            if contador_total != 0:
-                lista_atrasados_final.append([lista_atrasados, contador_total])
+        for doc in documentos:
+            versiones = Version.objects.filter(documento_fk=doc).last()
+            if versiones:
+                estado_cliente = versiones.estado_cliente
+                estado_contratista = versiones.estado_contratista
+                for cliente in ESTADOS_CLIENTE[1:]:
+                    if estado_cliente == 6:
+                        documentos_revision_cliente = documentos_revision_cliente + 1
+                    if estado_cliente == 4:
+                        documentos_aprobados = documentos_aprobados + 1
+                for cliente in ESTADO_CONTRATISTA[1:]:
+                    if estado_contratista == 1:
+                        documentos_revision_contratista = documentos_revision_contratista + 1           
 
-        print(lista_atrasados_final)
-        #################################################################   
+                contador_emitidos = contador_emitidos + 1
+            else:
+                contador_no_emitidos = contador_no_emitidos + 1
 
-        #Obtener documentos con emisiones por especialidad        
-        for especialidad in especialidad_list:
-            lista_emitidos = []
-            lista_datos_inicial = []
-            contador_no_emitidos = 0
-            for doc in lista_final_emitidos:
-                if especialidad == doc[0].Especialidad:
-                    lista_emitidos.append(doc[0])
-                    contador_no_emitidos = contador_no_emitidos + 1
-            if contador_no_emitidos != 0:
-                lista_emitidos_final.append([lista_emitidos, contador_no_emitidos])
+        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, contador_no_emitidos, documentos_revision_cliente, documentos_revision_contratista, prom_demora_revisión, tiempo_ciclo_aprobación, prom_revision_cliente, prom_revision_contratista, cantidad_paquetes_cliente, cantidad_paquetes_contratista, avance_programado, avance_real]
+        lista_final.append(lista_inicial)
 
-        #################################################################   
-
-        #Obtener documentos emitidos vs documentos atrasados
-        for especialidad in especialidad_list:
-            lista_datos_inicial = []
-            contador_total = 0
-            contador_no_emitidos = 0
-            for doc in documentos:
-                version = Version.objects.filter(documento_fk=doc).last()
-                if version:
-                    if especialidad == doc.Especialidad:
-                        contador_total = contador_total + 1
-                if not version:
-                    if especialidad == doc.Especialidad:
-                        contador_no_emitidos = contador_no_emitidos + 1
-            
-            #Calculo de datos superiores
-            cantidad_versiones = cantidad_versiones + contador_total
-            contador_total = contador_total + contador_no_emitidos
-            cantidad_documentos = cantidad_documentos + contador_total
-            contador_atrasados = contador_atrasados + contador_no_emitidos
-            porcentaje_documentos_emitidos = (cantidad_versiones * 100)/cantidad_documentos               
-            porcentaje = (diferencia/contador_total)*100
-            porcentaje = format(porcentaje, '.1f')
-            porcentaje_atrasado = float(100) - float(porcentaje)
-            diferencia = contador_total - contador_no_emitidos
-            lista_datos_inicial = [especialidad, contador_total, contador_no_emitidos, porcentaje, diferencia]
-            lista_datos_final.append(lista_datos_inicial)
-        ########################################################################################
-
-        #Escritorio solicitado por deavys
-        documentos_contador = self.get_queryset().count()
-        
-
-        ########################################################################################
-
-        context['Porcentaje'] = format(porcentaje_documentos_emitidos, '.2f')
-        context['Porcentaje_atrasado'] = format(porcentaje_atrasado, '.2f')
-        context['Cantidad'] = cantidad_documentos
-        context['Emitidos'] = cantidad_versiones
-        context['Atrasados'] = contador_atrasados
-        context['Listado_no_emitidos'] = lista_final
-        context['Comparacion'] = lista_datos_final
-        context['Listado_emitidos'] = lista_emitidos_final
-        context['Listado_final_emitidos'] = lista_final_emitidos
-
-        return context
+        return lista_inicial
 
         ###################################################
         #                                                 #
@@ -626,5 +587,5 @@ class EscritorioView(ProyectoMixin, TemplateView):
         context['proyeccion'] = self.proyeccion()
         context['proyeccion_largo'] = len(self.proyeccion()) 
         context['usuarios'] = self.get_users()
-        return context
+        return context8
 
