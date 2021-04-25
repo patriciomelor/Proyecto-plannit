@@ -41,7 +41,18 @@ class InBoxView(ProyectoMixin, ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        pkg =  self.request.user.perfil.rol_usuario
+        clientes = [1,2,3]        
+        contratistas = [4,5,6]        
+        user = self.request.user
+        user_rol =  user.perfil.rol_usuario
+        if user.is_superuser:
+            pkg = Paquete.objects.all().filter(proyecto=self.proyecto).order_by("-fecha_creacion")
+        elif user_rol:
+            if user_rol <= 3:
+                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=clientes)
+            elif user_rol > 3 and user_rol <= 6:
+                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas)
+
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
