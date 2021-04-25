@@ -41,7 +41,7 @@ class InBoxView(ProyectoMixin, ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        pkg =  Paquete.objects.filter(destinatario=self.request.user, proyecto= self.proyecto)
+        pkg =  self.request.user.perfil.rol_usuario
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
@@ -102,6 +102,7 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
 
         return response
+
 class PaqueteUpdate(ProyectoMixin, UpdateView):
     model = Paquete
     template_name = 'bandeja_es/paquete-update.html'
@@ -129,7 +130,6 @@ class BorradorList(ProyectoMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["filter"] = BorradorFilter(self.request.GET, queryset=self.get_queryset())
         return context
-
 
 def create_borrador(request, paquete_pk):
     prev_paquete = PrevPaquete.objects.get(pk=paquete_pk)
