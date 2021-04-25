@@ -8,6 +8,7 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic.edit import FormMixin
+from django.core.exceptions import ValidationError
 from import_export import resources
 from tablib import Dataset
 from django.core.exceptions import FieldError, ValidationError
@@ -91,6 +92,10 @@ class CreateDocumento(ProyectoMixin, CreateView):
         form.instance.owner = self.request.user
         form.instance.proyecto = self.proyecto
         return super().form_valid(form)
+
+    def form_invalid(self, form):
+        raise ValidationError("Error al cargar el Documento, puede que ya exista un Documento con ese Código.")
+
 
 class DetailDocumento(ProyectoMixin, DetailView):
     model = Documento
