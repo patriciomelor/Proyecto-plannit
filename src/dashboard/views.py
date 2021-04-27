@@ -280,9 +280,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
                 contador_final = 0
                 calculo_avance_final = 0
+                largo_fechas = len(avance_fechas_controles)
 
                 for avance in avance_fechas_controles: 
-                    if contador_final < cont:
+                    if contador_final < largo_fechas:
                         calculo_avance_final = calculo_avance_final + avance
                         avance_inicial = [format(calculo_avance_final, '.2f'), 'si versiones']
                         avance_final.append(avance_inicial)
