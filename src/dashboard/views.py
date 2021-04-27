@@ -587,5 +587,5 @@ class EscritorioView(ProyectoMixin, TemplateView):
         context['proyeccion'] = self.proyeccion()
         context['proyeccion_largo'] = len(self.proyeccion()) 
         context['usuarios'] = self.get_users()
-        return context8
+        return context
 
