@@ -125,12 +125,11 @@
                     <th class="pd-y-5"style="text-align: center;">Estado Cliente</th>                    
                     <th class="pd-y-5"style="text-align: center;">Estado Contratista</th>                    
                     {% endif %}
-                    {% if request.user.perfil.rol_usuario == 2 %}
-                    <th class="pd-y-5"style="text-align: center;">Estado Cliente</th>                    
-                    {% endif %}
-                    {% if request.user.perfil.rol_usuario == 3 %}
-                    <th class="pd-y-5"style="text-align: center;">Estado Contratista</th>                    
-                    {% endif %}                                  
+                    {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
+                     <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Contratista </th>
+                    {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
+                     <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Cliente </th>                  
+                    {% endif %}                                   
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
                    <form method="POST">{% csrf_token %}
                       
