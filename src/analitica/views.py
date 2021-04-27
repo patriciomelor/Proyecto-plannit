@@ -238,16 +238,17 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         
         return lista_final
 
-    ###################################################
-    #                                                 #
-    #                                                 #
-    #   CUARTO GRÁFICO DE CURVA S                     #
-    #                                                 #
-    #                                                 #
-    ###################################################
+        ###################################################     
+        #                                                 #
+        #                                                 #
+        #   CUARTO GRÁFICO DE CURVA S                     #
+        #                                                 #
+        #                                                 #
+        ###################################################
 
     def Obtener_fechas(self):
-
+        elementos_final = []
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
         if valor_ganado !=0:
@@ -348,6 +349,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
     def reporte_curva_s_avance_real(self):
 
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         lista_final = self.Obtener_fechas()
 
@@ -362,18 +364,20 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fecha_documento = 0
             fechas_controles = lista_final[0][0]
             avance_fechas_controles = lista_final[0][1]
+            contador_versiones = 0
 
             #Se almacenan los dato del documento
             for doc in documentos:
                 fecha_emision_0 = doc.fecha_Emision_0
                 fecha_emision_b = doc.fecha_Emision_B
                 versiones = Version.objects.filter(documento_fk=doc).last()
+                cont = 0
 
                 #Si exite una version
                 if versiones:
+                    contador_versiones = contador_versiones + 1
                     fecha_version = versiones.fecha
                     revision_documento = versiones.revision
-                    cont = 0
                     valor_documento = 0
 
                     #Se calcula el avance real en la fecha de control que corresponda
@@ -414,21 +418,27 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
                                 valor_documento = 1                             
                             cont = cont + 1
-                
+
                 #Si no hay versiones, pasa al siguiente documento
                 if not versiones:
                     pass
 
-            calculo_avance_final = 0
+            if contador_versiones != 0:
+                #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
+                contador_final = 0
+                calculo_avance_final = 0
+                largo_fechas = len(avance_fechas_controles)
 
-            #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
-            contador_final = 0
-            for avance in avance_fechas_controles: 
-                if contador_final < cont:
-                    calculo_avance_final = calculo_avance_final + avance
-                    avance_inicial = [format(calculo_avance_final, '.2f')]
-                    avance_final.append(avance_inicial)
-                    contador_final = contador_final + 1   
+                for avance in avance_fechas_controles: 
+                    if contador_final < largo_fechas:
+                        calculo_avance_final = calculo_avance_final + avance
+                        avance_inicial = [format(calculo_avance_final, '.2f'), 'si versiones']
+                        avance_final.append(avance_inicial)
+                        contador_final = contador_final + 1 
+            
+            if contador_versiones == 0:
+                avance_inicial = [0,'sin versiones']
+                avance_final.append(avance_inicial)
 
         #Si no existen documentos, se almacenan valores vacios en el arreglo final
         if valor_ganado == 0:
@@ -445,11 +455,12 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_avance_real = self.reporte_curva_s_avance_real()
         calculo_avance_final = float(0)
         contador = 0
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         avance_esperado = []
         lista_final_esperado = []
 
-        if valor_ganado !=0:
+        if valor_ganado !=0 and lista_avance_real[0][1] == 'si versiones':
             
             #Fechas para la proyección de avance real
             for avance in lista_avance_real:
@@ -513,7 +524,30 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 avance_esperado = [format(calculo_avanceEsperado, '.2f')]
                 lista_final_esperado.append(avance_esperado)
 
-        else:
+        if valor_ganado !=0 and lista_avance_real[0][1] == 'sin versiones':
+            #Calculo del avance esperado por fecha de control
+            fecha_emision_b = 0
+            fecha_emision_0 = 0
+            fechas_controles = lista_final[0][0]
+            valor_ganado = (100 / valor_ganado)
+
+            for controles in fechas_controles:
+                calculo_avanceEsperado = 0
+                for doc in documentos:                  
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+
+                    #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
+                    if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                        calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
+                    if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                        calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
+
+                #Se almacena el avance esperado hasta la fecha de control
+                avance_esperado = [format(calculo_avanceEsperado, '.2f')]
+                lista_final_esperado.append(avance_esperado)
+
+        if valor_ganado == 0:
             avance_esperado = [int(valor_ganado)]
             lista_final_esperado.append(avance_esperado)
 
@@ -522,14 +556,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     def reporte_curva_s_fechas(self):
         
         lista_final = self.Obtener_fechas()
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         lista_avance_real = self.reporte_curva_s_avance_real()
         calculo_avance_final = float(0)
-        contador = 0
-
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))        
+        fechas_controles = lista_final[0][0]
+        contador = 0       
         
-        if valor_ganado != 0:
+        if valor_ganado !=0 and lista_avance_real[0][1] == 'si versiones':
 
             #Fechas para la proyección de avance real
             for avance in lista_avance_real:
@@ -574,8 +608,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                         contador_proyeccion = contador_proyeccion + 1
                     fecha_termino = fecha_termino + timedelta(days=7)
                     fechas_controles.append(fecha_termino)
-        else:
-                
+            
+        if valor_ganado == 0:         
             fechas_controles = []
             fechas_controles.append('Sin registros')
 
@@ -675,7 +709,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             else: 
                 pass
         
-        return avance_final
+        return avance_final      
 
     def valor_eje_x_grafico_uno(self):
 
