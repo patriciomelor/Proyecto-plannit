@@ -64,20 +64,16 @@
                     <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Creador</th>                     
                     <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Revisión</th>
                     <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Paquete</th>
-                      {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}
-                      <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Estado Contratista</th>     
-                                      
-                
-                {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
-                   <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Estado Cliente</th>     
-                                       
-                {% endif %}   
+                    {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}
+                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Estado Contratista</th>     
+                    {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
+                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Estado Cliente</th>     
+                    {% endif %}   
                     <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="2">Fecha<br>Creacion</th>     
-
                     <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Archivo</th>
                   </tr>
                   <tr>
-                  <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="5">
+                  <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="4">
                   </th>
                   <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
                   fecha
@@ -90,8 +86,6 @@
                     <input type="submit" class="btn btn-warning" style="text-align: center;padding:2px;"value="Descargar ZIP">
                   </th >
                   </form>
-                  <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"></th>
-                  </tr>
                 </thead>
                 
                 <tbody>
