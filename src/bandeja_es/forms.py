@@ -72,8 +72,46 @@ class PaquetePreviewForm(forms.ModelForm):
         }
         
     def __init__(self, **kwargs):
+        user_list = []
         self.usuario = kwargs.pop('usuario')
+        self.participantes = kwargs.pop('participantes')
+        print(self.usuario)
+        current_rol = self.usuario.perfil.rol_usuario
+        print("Rol usuario actual:", current_rol)
+        for user in self.participantes:
+            print("participante:", user)
+            try:
+                rol = user.perfil.rol_usuario
+                print("Rol de {}:".format(user), rol)
+                if rol >= 1 and rol <= 3:
+                    if current_rol >= 1 and current_rol <= 3:
+                        print("pasó como cliente")
+                        user_list.append(user.pk)
+                        print(user_list)
+                elif rol <= 6 and rol >= 4:
+                    if current_rol <= 6 and current_rol >= 4:
+                        print("pasó como contratista")
+                        user_list.append(user.pk)
+                        print(user_list)
+            except:
+                continue
+            print(user_list)
+            # if user.perfil.rol_usuario <= 1 and user.perfil.rol_usuario >= 3:
+            #     if self.usuario.perfil.rol_usuario <= 1 and self.usuario.perfil.rol_usuario >= 3:
+            #         user_list.append(user.pk)
+            #         print(user_list)
+            #     else:
+            #         pass
+            # elif user.perfil.rol_usuario <= 6 and user.perfil.rol_usuario >= 4:
+            #     if self.usuario.perfil.rol_usuario <= 6 and self.usuario.perfil.rol_usuario >= 4:
+            #         user_list.append(user.pk)
+            #         print(user_list)
+            #     else:
+            #         pass
+        qs = self.participantes.exclude(pk__in=user_list)
+        print(qs)
         super(PaquetePreviewForm, self).__init__(**kwargs)
+        self.fields["prev_receptor"] = forms.ModelChoiceField(queryset=qs)
 
     def clean(self):
         cleaned_data = super().clean()

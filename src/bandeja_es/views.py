@@ -286,6 +286,8 @@ class PrevPaqueteView(ProyectoMixin, FormView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         user = self.request.user
+        participantes = self.proyecto.participantes.all()
+        kwargs["participantes"] = participantes
         kwargs["usuario"] = user
         return kwargs
 
