@@ -126,9 +126,10 @@
                     <th class="pd-y-5"style="text-align: center;">Estado Contratista</th>                    
                     {% endif %}
                     {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
-                     <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Contratista </th>
-                    {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
-                     <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Cliente </th>                  
+                     
+                     <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Cliente </th>     
+                    {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %} 
+                     <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Contratista </th>            
                     {% endif %}                                   
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
                    <form method="POST">{% csrf_token %}
@@ -156,10 +157,11 @@
                     {% else %}
                     {% endif %}
                     {% if request.user.perfil.rol_usuario == 2 %}
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>                    
+                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                     
                     {% endif %}
                     {% if request.user.perfil.rol_usuario == 5 %}
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                    
+                                      
+                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td> 
                     {% endif %}
                     <form method="POST" class="form-control">
                     <td class="tx-12"style="text-align: center;font-weight:800;"colspan="2">
