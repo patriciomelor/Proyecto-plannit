@@ -121,9 +121,7 @@
                     <th class="pd-y-5"style="text-align: center;">Tipo Documento</th>  
                     <th class="pd-y-5"style="text-align: center;">Codigo Documento</th>  
                     <th class="pd-y-5"style="text-align: center;">Revisión</th>
-                  
-                     <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado</th>            
-                                                    
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado</th>                                  
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
                    <form method="POST">{% csrf_token %}
                       
@@ -143,18 +141,12 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
-                    {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>                    
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                    
+                    {% if request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
                     
-                    {% else %}
-                    {% endif %}
-                    {% if request.user.perfil.rol_usuario == 2 %}
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>                     
-                    {% endif %}
-                    {% if request.user.perfil.rol_usuario == 5 %}
-                                      
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td> 
+                    
+                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>                     
+                    {% elif request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6 %}
+                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>            
                     {% endif %}
                     <form method="POST" class="form-control">
                     <td class="tx-12"style="text-align: center;font-weight:800;"colspan="2">
