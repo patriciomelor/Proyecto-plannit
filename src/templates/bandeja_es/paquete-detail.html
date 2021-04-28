@@ -142,12 +142,13 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
                     {% if request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
+                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>            
+                  
                     
-                    
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>                     
+                                     
                     {% elif request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6 %}
-                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>            
-                    {% endif %}
+                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>   
+                         {% endif %}
                     <form method="POST" class="form-control">
                     <td class="tx-12"style="text-align: center;font-weight:800;"colspan="2">
                       <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a></td>
