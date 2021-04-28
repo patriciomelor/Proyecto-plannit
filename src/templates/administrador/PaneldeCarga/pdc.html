@@ -83,7 +83,7 @@
     </form>
           <thead class="mg-t-30">
             <tr>
-              {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
+              {% if request.user.perfil.rol_usuario == 1 %}
               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
                 <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"><i class="icon ion-trash-b"></i></button></a>
                 </th>                
