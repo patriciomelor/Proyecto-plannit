@@ -2,8 +2,10 @@
 
 {% block content %}
   <div class="br-profile-page bg-warning">
+        {% include "messege.html" %}
 
       <div class="card shadow-base bd-0 rounded-0 widget-4">
+      
         <div class="card-header ht-75 bg-secondary">
           <a href="{% url 'account_logout' %}">
           <button href="{% url 'account_logout' %}" type="button" class="btn btn-warning" data-dismiss="modal" aria-label="Close">

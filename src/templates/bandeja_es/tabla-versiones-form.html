@@ -57,9 +57,15 @@
                                       <thead>
                                           <tr>
                                               <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Documento </th>
+                                              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Nombre </th>
                                               <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Revisión </th>
-                                              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Cliente </th>
+                                               {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
                                               <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Contratista </th>
+                                                    
+                                               {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
+                                                       <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Cliente </th>                  
+                                               {% endif %}  
+                                              
                                               <th style="text-align: center;border: 2px;border-color: grey; color: white;"></th>
                                               <th style="text-align: center;border: 2px;border-color: grey; color: white;"></th>
 
@@ -70,9 +76,16 @@
                                         {% for version in versiones %}
                                             <tr>
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{version.prev_documento_fk}} </td>
+                                              <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{version.prev_documento_fk.nombre}} </td>
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;"> {{version.get_prev_revision_display}} </td>
-                                              <td style="text-align: center;border: 2px;border-color: grey; color: black;"> {{version.get_prev_estado_cliente_display}} </td>
+                                               {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;"> {{version.get_prev_estado_contratista_display}} </td>
+                                                    
+                                                   
+                                               {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
+                                                      <td style="text-align: center;border: 2px;border-color: grey; color: black;"> {{version.get_prev_estado_cliente_display}} </td>
+                                                   
+                                               {% endif %}  
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a onclick="JavaScript:window.open('{% url 'popup-version-update' version.pk paquete_pk %}','subir datos','toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,resizable=yes,width=450,height=620,top=100,left=600');"><i class="fa fa-pencil"></i></a> </td>
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="{% url 'delete-prev-version' version.pk paquete_pk %}" onclick="confirm('Estás por eliminar esta versión. Estás seguro ?')"><i class="icon ion-trash-a"></i></a></td>
 

@@ -76,9 +76,9 @@ class EnviadosView(ProyectoMixin, ListView):
             pkg = Paquete.objects.all().filter(proyecto=self.proyecto).order_by("-fecha_creacion")
         elif user_rol:
             if user_rol <= 3:
-                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=clientes, proyecto=self.proyecto)#.filter(proyecto=self.proyecto).order_by("-fecha_creacion")
+                    pkg = Paquete.objects.filter(owner__perfil__rol_usuario__in=clientes, proyecto=self.proyecto)#.filter(proyecto=self.proyecto).order_by("-fecha_creacion")
             elif user_rol > 3 and user_rol <= 6:
-                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto)#.filter(proyecto=self.proyecto).order_by("-fecha_creacion")
+                    pkg = Paquete.objects.filter(owner__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto)#.filter(proyecto=self.proyecto).order_by("-fecha_creacion")
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
@@ -286,6 +286,8 @@ class PrevPaqueteView(ProyectoMixin, FormView):
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
         user = self.request.user
+        participantes = self.proyecto.participantes.all()
+        kwargs["participantes"] = participantes
         kwargs["usuario"] = user
         return kwargs
 
