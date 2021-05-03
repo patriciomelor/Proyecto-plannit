@@ -12,7 +12,7 @@ from django.forms import model_to_dict
 class Version(models.Model):
     fecha = models.DateTimeField(verbose_name="Fecha Versión", auto_now_add=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
-    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
+    archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True)
     revision = models.IntegerField(verbose_name="Revisión", choices=TYPES_REVISION)
     #revision = models.CharField(verbose_name="Revisión", max_length=1, default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True, null=True) #Necesario para tomar los estados del primer grafico
@@ -69,7 +69,7 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
 class PrevVersion(models.Model):
     prev_fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
     prev_documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
-    prev_archivo = models.FileField(upload_to="proyecto/documentos/", blank=True)
+    prev_archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True)
     prev_revision = models.IntegerField(choices=TYPES_REVISION, verbose_name="Revisión")
     prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True, null=True)
     prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True, null=True)
