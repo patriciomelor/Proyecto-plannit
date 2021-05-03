@@ -177,9 +177,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 fecha_termino = ultima_de_dos
 
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
-            avance_fechas_controles = []
-            avance_fechas_controles.append(0)
-            avance_fechas_controles.append(0)
             fecha_actual = primera_de_dos
             
             #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
@@ -187,15 +184,11 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 fecha_actual = fecha_actual + timedelta(days=7)
                 fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
-
-                #Se rellena el arreglo que aumentará el avance real por documento
-                avance_fechas_controles.append(0)
             
             fechas_controles.append(fecha_termino)
-            avance_fechas_controles.append(0)
             elementos = []
             elementos_final = []
-            elementos = [fechas_controles, avance_fechas_controles]
+            elementos = [fechas_controles]
             elementos_final.append(elementos)
         
         return elementos_final
@@ -205,7 +198,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         documentos = self.get_queryset()
         valor_ganado = self.get_queryset().count()
         lista_final = self.Obtener_fechas()
-
+        dia_actual = timezone.now()
+        
         if valor_ganado !=0:
 
             valor_ganado = (100 / valor_ganado)
@@ -216,8 +210,15 @@ class EscritorioView(ProyectoMixin, TemplateView):
             fecha_version = 0
             fecha_documento = 0
             fechas_controles = lista_final[0][0]
-            avance_fechas_controles = lista_final[0][1]
+            avance_fechas_controles = []
             contador_versiones = 0
+            fechas_controles_recorrer = []
+
+            #Se recorren las fechas de control para guardar las que necesitan evaluarse
+            for fechas in fechas_controles:
+                if fechas <= dia_actual:
+                    fechas_controles_recorrer.append(fechas)
+                    avance_fechas_controles.append(0)
 
             #Se almacenan los dato del documento
             for doc in documentos:
@@ -234,7 +235,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     valor_documento = 0
 
                     #Se calcula el avance real en la fecha de control que corresponda
-                    for controles in fechas_controles:
+                    for controles in fechas_controles_recorrer:
                         if valor_documento == 0:
                             calculo_real_0 = 0
                             calculo_real_b = 0
@@ -269,7 +270,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                             #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
                             if avance_documento != 0:
                                 avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
-                                valor_documento = 1                             
+                                valor_documento = 1 
                             cont = cont + 1
 
                 #Si no hay versiones, pasa al siguiente documento
@@ -281,14 +282,14 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 contador_final = 0
                 calculo_avance_final = 0
                 largo_fechas = len(avance_fechas_controles)
-
+                
                 for avance in avance_fechas_controles: 
                     if contador_final < largo_fechas:
                         calculo_avance_final = calculo_avance_final + avance
                         avance_inicial = [format(calculo_avance_final, '.2f'), 'si versiones']
                         avance_final.append(avance_inicial)
                         contador_final = contador_final + 1 
-            
+
             if contador_versiones == 0:
                 avance_inicial = [0,'sin versiones']
                 avance_final.append(avance_inicial)
@@ -323,7 +324,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
             if calculo_avance_final != 100:
                 avance_real_now = 100 - calculo_avance_final
                 avance_semanal = calculo_avance_final / float(contador)
-                avance_proyeccion = int(avance_real_now / avance_semanal)
+                if avance_semanal == 0:
+                    avance_proyeccion = int(avance_real_now)
+                if avance_semanal != 0:
+                    avance_proyeccion = int(avance_real_now / avance_semanal)
 
             valor_ganado = (100 / valor_ganado)
             documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
@@ -424,44 +428,51 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     calculo_avance_final = float(avance[0])
                 contador = contador + 1
 
-            if calculo_avance_final != 100:
-                avance_real_now = 100 - calculo_avance_final
-                avance_semanal = calculo_avance_final / float(contador)
-                avance_proyeccion = int(avance_real_now / avance_semanal)
+            if calculo_avance_final != 0:
+                if calculo_avance_final != 100:
+                    avance_real_now = 100 - calculo_avance_final
+                    avance_semanal = calculo_avance_final / float(contador)
+                    if avance_semanal == 0:
+                        avance_proyeccion = int(avance_real_now)
+                    if avance_semanal != 0:
+                        avance_proyeccion = int(avance_real_now / avance_semanal)
 
-            fecha_inicio = self.proyecto.fecha_inicio
-            fecha_termino = self.proyecto.fecha_termino
-            fecha_posterior = self.proyecto.fecha_inicio
-            fechas_controles = lista_final[0][0]
-            semana_actual = timezone.now()
+                fecha_inicio = self.proyecto.fecha_inicio
+                fecha_termino = self.proyecto.fecha_termino
+                fecha_posterior = self.proyecto.fecha_inicio
+                fechas_controles = lista_final[0][0]
+                semana_actual = timezone.now()
 
-            #Fechas extra para la proyección
-            contador_proyeccion = 0
-            diferencia = len(fechas_controles) - contador
-            avance_proyeccion = avance_proyeccion - diferencia
+                #Fechas extra para la proyección
+                contador_proyeccion = 0
+                diferencia = len(fechas_controles) - contador
+                avance_proyeccion = avance_proyeccion - diferencia
 
-            if avance_proyeccion <= 10:
-                while contador_proyeccion < avance_proyeccion:
-                    fecha_termino = fecha_termino + timedelta(days=7)
-                    fechas_controles.append(fecha_termino)
-                    contador_proyeccion = contador_proyeccion + 1
-
-            else:
-                if avance_proyeccion % 2 == 0:
-                    avance_proyeccion = avance_proyeccion / 2
+                if avance_proyeccion <= 10:
                     while contador_proyeccion < avance_proyeccion:
-                        fecha_termino = fecha_termino + timedelta(days=14)
+                        fecha_termino = fecha_termino + timedelta(days=7)
                         fechas_controles.append(fecha_termino)
                         contador_proyeccion = contador_proyeccion + 1
+
                 else:
-                    avance_proyeccion = (avance_proyeccion - 1 ) / 2
-                    while contador_proyeccion < avance_proyeccion:
-                        fecha_termino = fecha_termino + timedelta(days=14)
+                    if avance_proyeccion % 2 == 0:
+                        avance_proyeccion = avance_proyeccion / 2
+                        while contador_proyeccion < avance_proyeccion:
+                            fecha_termino = fecha_termino + timedelta(days=14)
+                            fechas_controles.append(fecha_termino)
+                            contador_proyeccion = contador_proyeccion + 1
+                    else:
+                        avance_proyeccion = (avance_proyeccion - 1 ) / 2
+                        while contador_proyeccion < avance_proyeccion:
+                            fecha_termino = fecha_termino + timedelta(days=14)
+                            fechas_controles.append(fecha_termino)
+                            contador_proyeccion = contador_proyeccion + 1
+                        fecha_termino = fecha_termino + timedelta(days=7)
                         fechas_controles.append(fecha_termino)
-                        contador_proyeccion = contador_proyeccion + 1
-                    fecha_termino = fecha_termino + timedelta(days=7)
-                    fechas_controles.append(fecha_termino)
             
+            if calculo_avance_final == 0:
+                pass
+
         if valor_ganado == 0:         
             fechas_controles = []
             fechas_controles.append('Sin registros')
@@ -481,9 +492,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
         avance_inicial = []
         avance_final = []
         lista_avance_real = self.reporte_curva_s_avance_real()
+        fechas = self.Obtener_fechas()
+        fechas = fechas[0][0]
         calculo_avance_final = float(0)
         cont = 0
         contador = 0
+        contador_sin_avance = 0
 
         #Fechas para la proyección de avance real
         for avance in lista_avance_real:
@@ -491,10 +505,9 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 calculo_avance_final = float(avance[0])
             cont = cont + 1
 
-        if calculo_avance_final != 100:           
+        if calculo_avance_final != 100 and calculo_avance_final != 0:           
             avance_real_now = 100 - calculo_avance_final
-            avance_semanal = calculo_avance_final / float(cont)
-                
+            avance_semanal = calculo_avance_final / float(cont)           
             if avance_semanal != 0:           
                 avance_proyeccion = int(avance_real_now / avance_semanal)
                 if avance_proyeccion <= 10:
@@ -561,6 +574,18 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                 contador = contador + 1
             else: 
                 pass
+        
+        if calculo_avance_final == 0:
+            proyeccion = len(fechas) - len(lista_avance_real)
+            avance = 100/proyeccion
+
+            print(proyeccion, avance)
+
+            while contador_sin_avance < proyeccion:
+                calculo_avance_final = calculo_avance_final + avance
+                avance_inicial = [format(calculo_avance_final, '.2f')]
+                avance_final.append(avance_inicial)  
+                contador_sin_avance = contador_sin_avance + 1
         
         return avance_final         
 
