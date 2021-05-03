@@ -70,7 +70,6 @@
               <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Descripcion|as_crispy_field}}</li>
               <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Codigo_documento|as_crispy_field}}</li>
               <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Tipo_Documento|as_crispy_field}}</li><br>
-              <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Numero_documento_interno|as_crispy_field}}</li>
               <li class="nav-item mg-t-35">
                 <button class="btn btn-oblong btn-warning justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
               </li>
@@ -97,8 +96,6 @@
               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Descripcion Documentos</th>
               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento</th>
               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo Doc.</th>
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Numero Interno</th>              
-
               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada de Emision</th>
 
             </tr>
@@ -131,7 +128,6 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Descripcion}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Codigo_documento}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Tipo_Documento}}  </th>                  
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Numero_documento_interno}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
               
