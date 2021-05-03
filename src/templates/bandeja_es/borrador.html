@@ -60,7 +60,9 @@
       <table class="table mg-b-0 table-contact">
         <thead>
           <tr>
-            <th class="tx-10-force tx-mont tx-medium">Transmital</th>
+            <th class="tx-10-force tx-mont tx-medium"> Asunto Transmital</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Fecha Guardado</th>
+
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Destinatario</th>
             <!-- <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th> -->
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Asunto</th>
@@ -73,11 +75,12 @@
             <td>
               <div class="d-flex align-items-center">
                 <div class="mg-l-15">
-                  <div  class="tx-inverse"><a href="{% url 'nueva-version' borrador.prev_paquete.pk %}"> {{paquete.codigo}}</a> </div>
-                  <span class="tx-9">Guardado el {{ borrador.fecha_creacion|date }} </span>
+                  <div  class="tx-inverse"><a href="{% url 'nueva-version' borrador.prev_paquete.pk %}"> {{borrador.prev_paquete}}</a> </div>
+                  
                 </div>
               </div>
             </td>
+            <td class="valign-middle hidden-xs-down"> {{ borrador.fecha_creacion|date }} </td>
             <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_receptor }} </td>
             <!-- <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_descripcion }} </td> -->
             <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_asunto }} </td>
