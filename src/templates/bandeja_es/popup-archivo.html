@@ -31,7 +31,6 @@
             </div><!-- alert -->
     {% endfor %}
 {% endif %}
-    <form method="POST" enctype="multipart/form-data" id="verion_form" class="form-group mg-t-20">{% csrf_token %}
     <form method="POST" name="form" enctype="multipart/form-data" id="verion_form" class="form-group mg-t-20">{% csrf_token %}
        <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper col-md-12">
@@ -48,7 +47,7 @@
                 {{ form.adjuntar|as_crispy_field}}
                 </div>
             {{ form.prev_archivo|as_crispy_field}}
-             <button name="submit" type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-send"></span>Subir</button>
+             <button name="submit" type="submit" class="btn btn-warning" ><span class="glyphicon glyphicon-send"></span>Subir</button>
         
         </div>
        
@@ -100,7 +99,7 @@ function detectStatus(){
 
 <script type="text/javascript">
     function disableSending() {
-    document.form.prev_archivo = !document.form.adjuntar.checked;
+    document.form.prev_archivo.disabled = !document.form.adjuntar.checked;
     };
 </script>
 
