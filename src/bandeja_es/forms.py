@@ -122,6 +122,7 @@ class PaquetePreviewForm(forms.ModelForm):
 
 
 class PrevVersionForm(forms.ModelForm):
+    adjuntar = forms.BooleanField(label="Adjuntar Archivo ?", required=False)
     class Meta:
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision' ,'prev_estado_cliente', 'prev_estado_contratista', 'prev_archivo']
@@ -187,6 +188,7 @@ class PrevVersionForm(forms.ModelForm):
 
         #Verifica que no se pueda enviar una version igual 
         # o anterior a la última emitida
+
         try:
             ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
             ultima_revision = Version.objects.filter(documento_fk=doc).last()
@@ -199,10 +201,12 @@ class PrevVersionForm(forms.ModelForm):
         
         #Verifica que el nombre del archivo coincida con
         #el nombre del documento + la version escogida.
-        if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
-            self.add_error('prev_archivo', 'No coinciden los nombres')
-            raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-          
+        con_archivo = cleaned_data.get("adjuntar")
+        if con_archivo == True:
+            if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
+                self.add_error('prev_archivo', 'No coinciden los nombres')
+                raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
+            
 
 def verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
     try:
