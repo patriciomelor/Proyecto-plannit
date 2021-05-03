@@ -601,6 +601,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         users = self.proyecto.participantes.all()
         return users
 
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
  
@@ -613,6 +614,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         context['proyeccion'] = self.proyeccion()
         context['proyeccion_largo'] = len(self.proyeccion()) 
         context['usuarios'] = self.get_users()
+        context["proyecto"] = self.proyecto
         context['datos_tabla'] = self.datos_tabla()
 
         return context
