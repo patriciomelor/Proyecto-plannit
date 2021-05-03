@@ -58,6 +58,7 @@
                                           <tr>
                                               <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Documento </th>
                                               <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Nombre </th>
+                                              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Especialidad </th>
                                               <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Revisión </th>
                                                {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
                                               <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Contratista </th>
@@ -76,7 +77,8 @@
                                         {% for version in versiones %}
                                             <tr>
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{version.prev_documento_fk}} </td>
-                                              <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{version.prev_documento_fk.nombre}} </td>
+                                              <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{version.prev_documento_fk.Descripcion}} </td>
+                                              <td style="text-align: center;border: 2px;border-color: grey; color: black;" > {{version.prev_documento_fk.Especialidad}} </td>
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;"> {{version.get_prev_revision_display}} </td>
                                                {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
                                               <td style="text-align: center;border: 2px;border-color: grey; color: black;"> {{version.get_prev_estado_contratista_display}} </td>
