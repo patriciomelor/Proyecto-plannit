@@ -258,12 +258,57 @@
           </div>
         </div><!-- d-flex -->
       </div>
-      <div class="pd-x-15 pd-b-15">
-        
-      </div>
+        <div class="form-layout form-layout-7">
+          <div class="row no-gutters text-left">
+            <div class="col-5 col-sm-4 text-left">
+              Nombre: 
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8 text-left">
+              {{proyecto.nombre}}
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-left">
+            <div class="col-5 col-sm-4 text-left">
+              Fecha Inicio: 
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8 text-left">
+              {{proyecto.fecha_inicio|date:'d-m-y'}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-left">
+            <div class="col-5 col-sm-4 text-left">
+              Fecha Termino:
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8 text-left">
+              {{proyecto.fecha_termino|date:'d-m-y'}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-left">
+            <div class="col-5 col-sm-4 text-left">
+              Descripción:
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8 text-left">
+              {{proyecto.descripcion}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-left">
+            <div class="col-5 col-sm-4 text-left">
+              Encargado:
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8 text-left">
+              {{proyecto.encargado}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-left">
+            <div class="col-5 col-sm-4 text-left">
+              Codigo:
+            </div><!-- col-4 -->
+            <div class="col-7 col-sm-8 text-left">
+              {{proyecto.codigo}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+        </div>
     </div><!-- card -->
-
-
 
   </div><!-- col-9 -->
   <div class="col-6">
@@ -282,7 +327,7 @@
         </div><!-- row -->
         <div class="row no-gutters">
           <div class="col-5 col-sm-4">
-            Documentos Atrasados*
+            Documentos Atrasados:
           </div><!-- col-4 -->
           <div class="col-7 col-sm-8">
             <input class="form-control" type="text" name="firstname" placeholder="Enter your email address">
@@ -290,7 +335,7 @@
         </div><!-- row -->
         <div class="row no-gutters">
           <div class="col-5 col-sm-4">
-            Revisiones Atrasadas*
+            Revisiones Atrasadas:
           </div><!-- col-4 -->
           <div class="col-7 col-sm-8">
             <input class="form-control" type="text" name="firstname" placeholder="Enter your email address">
@@ -298,7 +343,7 @@
         </div><!-- row -->
         <div class="row no-gutters">
           <div class="col-5 col-sm-4">
-            Desviación Porcentual del Proyecto
+            Desviación Porcentual del Proyecto:
           </div><!-- col-4 -->
           <div class="col-7 col-sm-8">
             <input class="form-control" type="text" name="firstname" placeholder="Enter your email address">
