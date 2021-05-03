@@ -42,9 +42,10 @@
                 
                 {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
                     {{ form.prev_estado_cliente|as_crispy_field}}                    
-                {% endif %}         
-            {{ form.adjuntar|as_crispy_field}}
-            
+                {% endif %}       
+                <div style="padding-left:35px;">  
+                {{ form.adjuntar|as_crispy_field}}
+                </div>
             {{ form.prev_archivo|as_crispy_field}}
              <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-send"></span>Subir</button>
         

@@ -122,7 +122,7 @@ class PaquetePreviewForm(forms.ModelForm):
 
 
 class PrevVersionForm(forms.ModelForm):
-    adjuntar = forms.BooleanField(label="Adjuntar Archivo ?", required=False)
+    adjuntar = forms.BooleanField(label="Adjuntar Archivo ?", required=False, widget=forms.CheckboxInput(attrs={'onClick':'disableSending()','class':'ckbox'}))
     class Meta:
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision' ,'prev_estado_cliente', 'prev_estado_contratista', 'prev_archivo']
@@ -138,6 +138,7 @@ class PrevVersionForm(forms.ModelForm):
             'prev_estado_contratista': forms.Select(attrs={'class' : 'form-control col-md-4' }),
             'prev_estado_cliente' : forms.Select(attrs={'class' : 'form-control col-md-4 '}),
             'prev_archivo' : forms.FileInput(attrs={'class' : 'col-md-4 '}),
+        
         }
     
     def __init__(self, **kwargs):
