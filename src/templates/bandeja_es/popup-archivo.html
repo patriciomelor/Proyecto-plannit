@@ -5,7 +5,33 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-    <form method="POST" enctype="multipart/form-data" id="verion_form" class="form-group mg-t-20">{% csrf_token %}
+{% if form.errors %}
+    {% for field in form %}
+        {% for error in field.errors %}
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="d-flex align-items-center justify-content-start">
+                <i class="icon ion-ios-checkmark alert-icon tx-32 mg-t-5 mg-xs-t-0"></i>
+                <span><strong>Error!</strong> {{ error|escape }}.</span>
+            </div><!-- d-flex -->
+            </div><!-- alert -->
+        {% endfor %}
+    {% endfor %}
+    {% for error in form.non_field_errors %}
+        <div class="alert alert-danger" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            <div class="d-flex align-items-center justify-content-start">
+                <i class="icon ion-ios-checkmark alert-icon tx-32 mg-t-5 mg-xs-t-0"></i>
+                <span><strong>Error!</strong> {{ error|escape }}.</span>
+            </div><!-- d-flex -->
+            </div><!-- alert -->
+    {% endfor %}
+{% endif %}
+    <form method="POST" name="form" enctype="multipart/form-data" id="verion_form" class="form-group mg-t-20">{% csrf_token %}
        <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper col-md-12">
             {{ form.prev_documento_fk|as_crispy_field}}
@@ -16,10 +42,12 @@
                 
                 {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
                     {{ form.prev_estado_cliente|as_crispy_field}}                    
-                {% endif %}         
-            
+                {% endif %}       
+                <div style="padding-left:35px;">  
+                {{ form.adjuntar|as_crispy_field}}
+                </div>
             {{ form.prev_archivo|as_crispy_field}}
-             <button type="submit" class="btn btn-warning"><span class="glyphicon glyphicon-send"></span>Subir</button>
+             <button name="submit" type="submit" class="btn btn-warning" ><span class="glyphicon glyphicon-send"></span>Subir</button>
         
         </div>
        
@@ -69,6 +97,10 @@ function detectStatus(){
 }
 </script>
 
-
+<script type="text/javascript">
+    function disableSending() {
+    document.form.prev_archivo.disabled = !document.form.adjuntar.checked;
+    };
+</script>
 
 {% endblock content %}

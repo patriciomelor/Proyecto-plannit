@@ -1,10 +1,17 @@
 {% if messages %}
     {% for message in messages%}
-        <div class="{{ message.tags}}" style="margin:0px!important;" role="alert">
+        <div class="{{ message.tags}}" style="margin:0px!important;" id="alert" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">×</span>
             </button>
             <strong class=""><strong>{{ message }}</strong>
           </div>
     {% endfor %}
+    
+<script>
+$('#alert').fadeIn();     
+  setTimeout(function() {
+       $("#alert").fadeOut();           
+  },2000);
+</script>
 {% endif%}
