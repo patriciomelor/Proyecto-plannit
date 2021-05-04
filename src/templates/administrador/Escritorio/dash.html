@@ -378,8 +378,8 @@
           {
             type: 'line',
             label: 'Avance Real a la fecha',
-            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 0.2)', {% endif %} {% endfor %}],
-            borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} 'rgba(54, 162, 235, 1)', {% endif %} {% endfor %}],
+            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% endfor %}],
+            borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% endfor %}],
             borderWidth: 1,
             lineTension:0.18,
             fill: false,
@@ -389,8 +389,8 @@
           {
             type: 'bar',
             label: 'Avance Real a la fecha (BARRAS)',
-            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(88, 214, 141 , 0.4)', {% endfor %}],
-            borderColor: [{% for esperado in lista_curva_s_avance_real %} 'rgba(88, 214, 141 , 1)', {% endfor %}],
+            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 214, 141 , 0.4)', {% endif %} {% endfor %}],
+            borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 214, 141 , 1)', {% endif %} {% endfor %}],
             fill: true,
             borderWidth: 1,
             data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.0}}, {% endfor %}],

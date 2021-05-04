@@ -53,6 +53,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         lista_final = []
         documentos = self.get_queryset()
         total_documentos = self.get_queryset().count()
+        lista_avance_real = self.reporte_curva_s_avance_real()
+        avance_esperado = self.reporte_curva_s_avance_esperado()
 
         #Variables para funciones
         contador_emitidos = 0
@@ -68,6 +70,27 @@ class EscritorioView(ProyectoMixin, TemplateView):
         cantidad_paquetes_contratista = 0
         avance_programado = 0
         avance_real = 0
+        contador_real = 0
+        contador_esperado = 0
+
+        #Obtener paquetes
+        clientes = [1,2,3]        
+        contratistas = [4,5,6]        
+        user = self.request.user
+        user_rol =  user.perfil.rol_usuario
+        cantidad_paquetes_cliente = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=clientes, proyecto=self.proyecto).count()
+        cantidad_paquetes_contratista = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto).count()
+
+        #Obtener otros datos        
+        for avance in lista_avance_real:
+            if avance[1] == 0:
+                avance_real = avance[0]
+                contador_real = contador_real + 1
+
+        for esperado in avance_esperado:
+            if contador_real == contador_esperado:
+                avance_programado = esperado[0]
+            contador_esperado = contador_esperado + 1
 
         for doc in documentos:
             versiones = Version.objects.filter(documento_fk=doc).last()
@@ -302,9 +325,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 proyeccion = (diferencia / avance_semanal) - diferencia_arreglo_fecha
                 contador = 0
 
-                # print('bucle 1')
-                # print('Avance real: ', calculo_avance_final, ' Diferencia fechas: ', diferencia_arreglo_fecha, ' Avance faltante: ', diferencia, ' Avance semanal: ', avance_semanal, ' Proyeccion: ', proyeccion, ' Largo fecha controles 1:', len(fechas_controles), 'Largo fecha controles 2: ', len(avance_fechas_controles))
-
                 if  calculo_avance_final < 100 and calculo_avance_final > 0:
 
                     #Variables
@@ -401,9 +421,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     avance_semanal = calculo_avance_final/largo_fechas
                     proyeccion = (diferencia / avance_semanal)
                     contador = 0
-
-                    # print('bucle 2')
-                    # print('Avance real: ', calculo_avance_final, 'Diferencia fechas: ', diferencia_arreglo_fecha, ' Avance faltante: ', diferencia, ' Avance semanal: ', avance_semanal, ' Proyeccion: ', proyeccion, ' Largo fecha controles 1:', len(fechas_controles), 'Largo fecha controles 2: ', len(avance_fechas_controles))
 
                     proyeccion = math.ceil(proyeccion)
                     if  calculo_avance_final < 100 and calculo_avance_final > 0:
