@@ -41,25 +41,6 @@
     <h4 class="tx-gray-800 mg-b-5">Detalle del paquete.</h4>
   </div>
 
-  <div class="d-flex align-items-center justify-content-start pd-x-20 pd-sm-x-30 pd-t-25 mg-b-20 mg-sm-b-30">
-
-    <button id="showSubLeft" class="btn btn-secondary mg-r-10 hidden-lg-up"><i class="fa fa-navicon"></i></button>
-
-    <!-- START: DISPLAYED FOR MOBILE ONLY -->
-    <div class="dropdown hidden-sm-up">
-      <a href="#" class="btn btn-outline-secondary" data-toggle="dropdown"><i class="icon ion-more"></i></a>
-      <div class="dropdown-menu pd-10">
-        <nav class="nav nav-style-1 flex-column">
-          <a href="" class="nav-link">Share</a>
-          <a href="" class="nav-link">Download</a>
-          <div class="dropdown-divider"></div>
-          <a href="" class="nav-link">Edit</a>
-          <a href="" class="nav-link">Delete</a>
-        </nav>
-      </div><!-- dropdown-menu -->
-    </div><!-- dropdown -->
-    <!-- END: DISPLAYED FOR MOBILE ONLY -->
-   </div><!-- d-flex -->
 
    <div class="col-lg-12">
             <div class="card shadow-base bd-0">
@@ -121,7 +102,7 @@
                     <th class="pd-y-5"style="text-align: center;">Tipo Documento</th>  
                     <th class="pd-y-5"style="text-align: center;">Codigo Documento</th>  
                     <th class="pd-y-5"style="text-align: center;">Revisión</th>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado</th>                                  
+                    <th class="pd-y-5"style="text-align: center;">Estado</th>                                  
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
                    <form method="POST">{% csrf_token %}
                       
@@ -141,14 +122,15 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
-                    {% if request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>            
-                  
+                   
+                    {% if not version.0.estado_contratista %}                   
+                      
+                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>      
+                    {% elif not version.0.estado_cliente %}  
                     
-                                     
-                    {% elif request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6 %}
-                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>   
-                         {% endif %}
+                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td> 
+                                   
+                    {% endif %}     
                     <form method="POST" class="form-control">
                     <td class="tx-12"style="text-align: center;font-weight:800;"colspan="2">
                       <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a></td>
