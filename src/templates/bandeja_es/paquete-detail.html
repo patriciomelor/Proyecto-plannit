@@ -123,12 +123,13 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
                    
-                    {% if not version.0.estado_contratista %}
-                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>  
-                          
-                    {% elif not version.0.estado_cliente %}
+                    {% if not version.0.estado_contratista %}                   
+                      
+                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>      
+                    {% elif not version.0.estado_cliente %}  
+                    
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td> 
-                                      
+                                   
                     {% endif %}     
                     <form method="POST" class="form-control">
                     <td class="tx-12"style="text-align: center;font-weight:800;"colspan="2">

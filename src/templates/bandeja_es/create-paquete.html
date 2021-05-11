@@ -111,7 +111,11 @@
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Codigo_documento}} </td>  
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_prev_revision_display}}</td>
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_prev_estado_cliente_display}}</td>                      
-                      <td class="tx-12"style="text-align: center;font-weight:800;"><a href="{{version.prev_archivo.url}}"><i class="icon ion-archive"></i></a></td>
+                      {% if version.prev_archivo.url is not None %}
+                        <td class="tx-12"style="text-align: center;font-weight:800;"><a href="{{version.prev_archivo.url}}"><i class="icon ion-archive"></i></a></td>
+                      {% else %}
+                        <td class="tx-12"style="text-align: center;font-weight:800;">Sin Documento</td>
+                      {% endif %}
                     </tr>    
                     {% empty %}
                     <h4> El paquete no tiene documentos. </h4>
