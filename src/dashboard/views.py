@@ -20,7 +20,7 @@ from datetime import datetime, timedelta
 class ProfileView(TemplateView):
     template_name = 'account/profile.html'
 
-class WelcomeView(TemplateView):
+class WelcomeView(ProyectoMixin, TemplateView):
     template_name = 'administrador/Escritorio/welcome.html'
 
 class RootView(RedirectView):

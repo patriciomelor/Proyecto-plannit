@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Software de Gestion y administracion de archivos.">
+    <meta name="author" content="STOD CHILE for DM">
+
+    <title>DMP</title>
+
+    <!-- vendor css -->
+    <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet"> 
+    <link href="{% static 'Ionicons/css/ionicons.css' %}" rel="stylesheet">
+    <link href="{% static 'perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
+    <link href="{% static 'jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
+    <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
+    <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
+    
+    
+    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script src="{% static 'Jquery-Autosave/autosaveform.js' %}"></script>
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
+  
+  </head>
+
+  <body>
+
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="br-logo"><a href=""><span>[</span>DMP<span>]</span></a></div>
+   
+    <!-- ########## END: LEFT PANEL ########## -->
+
+     <!-- ########## START: HEAD PANEL ########## -->
+    <div class="br-header">
+      <div class="br-header-left">
+    
+      </div><!-- br-header-left -->
+      <div class="br-header-right">
+        <nav class="nav">
+          <div class="dropdown">
+            <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
+              <span class="logged-name hidden-md-down"> {{user.first_name}} {{user.last_name}} </span>
+              <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
+              <span class="square-10 bg-success"></span>
+            </a>
+            <div class="dropdown-menu dropdown-menu-header wd-200">
+              <ul class="list-unstyled user-profile-nav">
+                <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
+                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
+                <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
+                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>-->
+                <li><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
+                <li><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesion</a></li>
+              </ul>
+            </div><!-- dropdown-menu -->
+          </div><!-- dropdown -->
+        </nav>
+      </div><!-- br-header-right -->
+    </div><!-- br-header -->
+    <!-- ########## END: HEAD PANEL ########## -->
+
+  
+
+    <!-- ########## START: MAIN PANEL ########## -->
+
+      
+        {% include "messege.html" %}
+      
+      {% block content %}
+
+      {% endblock content %}
+    <!-- ########## END: MAIN PANEL ########## -->
+
+    <script src="{% static 'jquery/jquery.js' %}"></script> 
+    <script src="{% static 'popper.js/popper.js' %}"></script>
+    <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
+    <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
+    <script src="{% static 'moment/moment.js' %}"></script>
+    <script src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
+    <script src="{% static 'jquery-switchbutton/jquery.switchButton.js' %}"></script>
+    <script src="{% static 'peity/jquery.peity.js' %}"></script>
+    <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
+    <script src="{% static 'd3/d3.js' %}"></script>
+    <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
+    <script src="{% static 'jt.timepicker/jquery.timepicker.js' %}"></script>
+    <script src="{% static 'highlightjs/highlight.pack.js' %}"></script>    
+
+
+    <script src="{% static 'js/bracket.js' %}"></script>
+    <script src="{% static 'js/ResizeSensor.js' %}"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script> 
+    <script>
+      $(function(){
+        'use strict'
+
+        // FOR DEMO ONLY
+        // menu collapsed by default during first page load or refresh with screen
+        // having a size between 992px and 1299px. This is intended on this page only
+        // for better viewing of widgets demo.
+        $(window).resize(function(){
+          minimizeMenu();
+        });
+
+        minimizeMenu();
+
+        function minimizeMenu() {
+          if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
+            // show only the icons and hide left menu label by default
+            $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
+            $('body').addClass('collapsed-menu');
+            $('.show-sub + .br-menu-sub').slideUp();
+          } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
+            $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
+            $('body').removeClass('collapsed-menu');
+            $('.show-sub + .br-menu-sub').slideDown();
+          }
+        }
+      });
+    </script>
+  </body>
+</html>
