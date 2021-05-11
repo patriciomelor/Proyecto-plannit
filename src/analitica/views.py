@@ -251,6 +251,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         elementos_final = []
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        dia_actual = timezone.now()
 
         if valor_ganado !=0:
 
@@ -321,6 +322,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             
             #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
             while fecha_actual < ultima_de_dos and fecha_posterior < ultima_de_dos:
+                if fecha_actual < dia_actual and dia_actual < fecha_posterior:
+                    fechas_controles.append(dia_actual)
                 fecha_actual = fecha_actual + timedelta(days=7)
                 fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
@@ -335,7 +338,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         else:
             #Se almacena arreglo de fechas en la lista final
             elementos = []
-            elementos_final = []
+            elementos_final = ['Sin registros']
             elementos_final.append(elementos)
         
         return elementos_final
@@ -457,10 +460,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     avance_fechas_controles = []
                     fechas_controles_recorrer = []
                     contador_versiones = 0
+                    posterior_fecha = ultima_fecha
 
                     #Funcion para agregar nuevas fechas
                     while contador < proyeccion:
+                        if ultima_fecha < dia_actual and dia_actual < posterior_fecha:
+                            fechas_controles.append(dia_actual)
                         ultima_fecha = ultima_fecha + timedelta(days=7)
+                        posterior_fecha = ultima_fecha + timedelta(days=7)
                         fechas_controles.append(ultima_fecha)
                         contador = contador + 1
 
@@ -640,6 +647,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         diferencia = 0
         contador = 0
         ultima_fecha = 0
+        posterior_fecha = 0
+        dia_actual = timezone.now()
 
         if valor_ganado !=0:
 
@@ -648,9 +657,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if diferencia > 0:
                 for fechas in fechas_controles:
                     ultima_fecha = fechas
+                
+                posterior_fecha = ultima_fecha
 
                 while contador < diferencia:
+                    if ultima_fecha < dia_actual and dia_actual < posterior_fecha:
+                        fechas_controles.append(dia_actual)
                     ultima_fecha = ultima_fecha + timedelta(days=7)
+                    posterior_fecha = ultima_fecha + timedelta(days=7)
                     fechas_controles.append(ultima_fecha)
                     contador = contador + 1 
 
@@ -658,7 +672,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles = ['Sin registros']
             fechas_controles.append(fechas_controles)
 
-        return fechas_controles  
+        return fechas_controles        
 
     ###################################################
     #                                                 #
