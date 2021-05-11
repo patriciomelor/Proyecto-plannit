@@ -62,7 +62,9 @@ class EscritorioView(ProyectoMixin, TemplateView):
         contador_no_emitidos = 0
         documentos_revision_cliente = 0
         documentos_revision_contratista = 0
-        prom_demora_revisión = 0
+        prom_demora_revisión_final = 0
+        prom_demora_revisión_b = 0
+        prom_demora_revisión_0 = 0
         tiempo_ciclo_aprobación = 0
         prom_revision_cliente = 0
         prom_revision_contratista = 0
@@ -74,6 +76,9 @@ class EscritorioView(ProyectoMixin, TemplateView):
         contador_esperado = 0
         fecha_emision_0 = 0
         fecha_emision_b = 0
+        diferencia = 0
+        contador_b = 0
+        contador_0 = 0
 
         #Obtener paquetes
         clientes = [1,2,3]        
@@ -96,6 +101,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
         for doc in documentos:
             versiones = Version.objects.filter(documento_fk=doc).last()
+            version_first = Version.objects.filter(documento_fk=doc).first()
             if versiones:
                 fecha_emision_0 = doc.fecha_Emision_0
                 fecha_emision_b = doc.fecha_Emision_B
@@ -111,10 +117,33 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         documentos_revision_contratista = documentos_revision_contratista + 1           
 
                 contador_emitidos = contador_emitidos + 1
-            else:
+            if not versiones:
                 contador_no_emitidos = contador_no_emitidos + 1
 
-        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, contador_no_emitidos, documentos_revision_cliente, documentos_revision_contratista, prom_demora_revisión, tiempo_ciclo_aprobación, prom_revision_cliente, prom_revision_contratista, cantidad_paquetes_cliente, cantidad_paquetes_contratista, avance_programado, avance_real]
+            if version_first:
+                fecha_emision_0 = doc.fecha_Emision_0
+                fecha_emision_b = doc.fecha_Emision_B
+                fecha_version = version_first.fecha
+                revision = version_first.revision
+                for estado in TYPES_REVISION[1:4]:
+                    if estado[0] == revision:
+                        diferencia = fecha_version.day - fecha_emision_b.day
+                        prom_demora_revisión_b = prom_demora_revisión_b + diferencia
+                        contador_b = contador_b + 1
+                for estado in TYPES_REVISION[5:]:
+                    if estado[0] == revision:
+                        diferencia = fecha_version.day - fecha_emision_0.day
+                        prom_demora_revisión_0 = prom_demora_revisión_0 + diferencia
+                        contador_0 = contador_0 + 1
+                if contador_0 != 0 and contador_b != 0:          
+                    prom_demora_revisión_final = (prom_demora_revisión_b/contador_b) + (prom_demora_revisión_0/contador_0)
+                if contador_0 != 0 and contador_b == 0:
+                    prom_demora_revisión_final = (prom_demora_revisión_0/contador_0)
+                if contador_0 == 0 and contador_b != 0:   
+                    prom_demora_revisión_final = (prom_demora_revisión_b/contador_b)
+                        
+
+        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, contador_no_emitidos, documentos_revision_cliente, documentos_revision_contratista, prom_demora_revisión_final, tiempo_ciclo_aprobación, prom_revision_cliente, prom_revision_contratista, cantidad_paquetes_cliente, cantidad_paquetes_contratista, avance_programado, avance_real]
         lista_final.append(lista_inicial)
 
         return lista_inicial
