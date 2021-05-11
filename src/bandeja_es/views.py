@@ -194,7 +194,12 @@ def create_paquete(request, paquete_pk, versiones_pk):
         paquete_prev = PrevPaquete.objects.get(pk=paquete_pk)
         proyecto = Proyecto.objects.get(pk=request.session.get('proyecto'))
         pkg = Paquete.objects.filter(proyecto=proyecto).count()
-        codigo_tramital = str(proyecto.codigo) + "-" + str((pkg + 1))
+        rol =paquete_prev.prev_propietario.perfil.rol_usuario 
+        if rol >= 1 and rol <=3:
+            codigo_tramital = str(proyecto.codigo) + "-" + "C" +"-" +str((pkg + 1))
+        elif rol > 3 and rol <=6:
+            codigo_tramital = str(proyecto.codigo) + "-" + "T" +"-" +str((pkg + 1))
+
         paquete = Paquete(
             codigo = codigo_tramital,
             asunto = paquete_prev.prev_asunto,

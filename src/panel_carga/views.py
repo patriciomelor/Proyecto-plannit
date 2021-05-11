@@ -41,7 +41,7 @@ class ProyectoSelectView(LoginRequiredMixin, SuccessMessageMixin, FormView):
     success_message = "Proyecto seleccionado correctamente"
     template_name = 'panel_carga/list-proyecto.html'
     form_class = ProyectoSelectForm
-    success_url = reverse_lazy("index")
+    success_url = reverse_lazy("welcome")
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
