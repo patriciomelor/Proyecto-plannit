@@ -72,6 +72,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         avance_real = 0
         contador_real = 0
         contador_esperado = 0
+        fecha_emision_0 = 0
+        fecha_emision_b = 0
 
         #Obtener paquetes
         clientes = [1,2,3]        
@@ -95,6 +97,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         for doc in documentos:
             versiones = Version.objects.filter(documento_fk=doc).last()
             if versiones:
+                fecha_emision_0 = doc.fecha_Emision_0
+                fecha_emision_b = doc.fecha_Emision_B
                 estado_cliente = versiones.estado_cliente
                 estado_contratista = versiones.estado_contratista
                 for cliente in ESTADOS_CLIENTE[1:]:
@@ -127,6 +131,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         elementos_final = []
         documentos = self.get_queryset()
         valor_ganado = self.get_queryset().count()
+        dia_actual = timezone.now()
 
         if valor_ganado !=0:
 
@@ -197,6 +202,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
             
             #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
             while fecha_actual < ultima_de_dos and fecha_posterior < ultima_de_dos:
+                if fecha_actual < dia_actual and dia_actual < fecha_posterior:
+                    fechas_controles.append(dia_actual)
                 fecha_actual = fecha_actual + timedelta(days=7)
                 fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
@@ -333,10 +340,14 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     avance_fechas_controles = []
                     fechas_controles_recorrer = []
                     contador_versiones = 0
+                    posterior_fecha = ultima_fecha
 
                     #Funcion para agregar nuevas fechas
                     while contador < proyeccion:
+                        if ultima_fecha < dia_actual and dia_actual < posterior_fecha:
+                            fechas_controles.append(dia_actual)
                         ultima_fecha = ultima_fecha + timedelta(days=7)
+                        posterior_fecha = ultima_fecha + timedelta(days=7)
                         fechas_controles.append(ultima_fecha)
                         contador = contador + 1
 
@@ -516,6 +527,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         diferencia = 0
         contador = 0
         ultima_fecha = 0
+        posterior_fecha = 0
+        dia_actual = timezone.now()
 
         if valor_ganado !=0:
 
@@ -524,9 +537,14 @@ class EscritorioView(ProyectoMixin, TemplateView):
             if diferencia > 0:
                 for fechas in fechas_controles:
                     ultima_fecha = fechas
+                
+                posterior_fecha = ultima_fecha
 
                 while contador < diferencia:
+                    if ultima_fecha < dia_actual and dia_actual < posterior_fecha:
+                        fechas_controles.append(dia_actual)
                     ultima_fecha = ultima_fecha + timedelta(days=7)
+                    posterior_fecha = ultima_fecha + timedelta(days=7)
                     fechas_controles.append(ultima_fecha)
                     contador = contador + 1 
 
