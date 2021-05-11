@@ -206,36 +206,45 @@
             </div><!-- card -->
            </div><!-- col-9 -->
           <div class="col-4">
-            <div class="card shadow-base bd-0" style="overflow-y: auto;overflow-x: auto;height: 350px;">
-              <div class="card-header pd-20 bg-transparent">
-                <h6 class="card-title tx-uppercase tx-12 mg-b-0">Lista Usuarios</h6>
+            <div class="card shadow-base bd-0 pd-0" >             
+              <div class="pd-x-30 pd-t-30 pd-b-15 bg-info">
+                <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;">Umbrales</h6>
               </div><!-- card-header -->
-              <table class="table table-responsive table-striped table-bordered mg-b-0 tx-12">
-                <thead class="bg-primary">
-                  <tr class="tx-10">
-                    <th class="wd-10p pd-y-5" style="color: white;text-align:center;">Usuarios</th>
-                    <th class="pd-y-5" style="color: white;text-align:center;">Correo</th>
-                    <th class="pd-y-5" style="color: white;text-align:center;">ROL</th>
-                  </tr>
-                </thead>
-                <tbody>
-                 {% for usuario in usuarios %}
-            <tr>            
-              {% if usuario.first_name %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
-              {% else %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
-              {% endif %} 
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
-              {% if usuario.perfil.rol_usuario %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
-              {% else %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
-              {% endif %}
-               </tr>         
-         {% endfor %}
-                </tbody>
-              </table>
+              <div class="pd-x-15 pd-b-15 form-layout form-layout-7">
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8">
+                    Documentos Aprobados:
+                    
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4">
+                    {{proyecto.umbral_documento_aprobado}} Dias
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8">
+                    Documentos Atrasados:
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4">
+                    {{proyecto.umbral_documento_atrasado}} Dias
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8">
+                    Revisiones Atrasadas:
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4">
+                    {{proyecto.umbral_revision_documento}} Dias
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8">
+                    Desviación Porcentual del Proyecto:
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4">
+                    {{proyecto.umbral_desviacion_porcentual}}%
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+              </div>
             </div>
 
           </div><!-- col-4 -->
@@ -301,45 +310,36 @@
 
   </div><!-- col-9 -->
   <div class="col-6">
-    <div class="card shadow-base bd-0">
-      <div class="card-header pd-20 bg-info">
-        <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;">Umbrales</h6>
+    <div class="card shadow-base bd-0" style="overflow-y: auto;overflow-x: auto;height: 350px;">
+      <div class="card-header pd-20 bg-primary">
+        <h6 class="card-title tx-uppercase tx-12 mg-b-0 ">Lista Usuarios</h6>
       </div><!-- card-header -->
-      <div class="form-layout form-layout-7">
-        <div class="row no-gutters">
-          <div class="col-5 col-sm-4">
-            Documentos Aprobados:
-            
-          </div><!-- col-4 -->
-          <div class="col-7 col-sm-8">
-            {{proyecto.umbral_documento_aprobado}}
-          </div><!-- col-8 -->
-        </div><!-- row -->
-        <div class="row no-gutters">
-          <div class="col-5 col-sm-4">
-            Documentos Atrasados:
-          </div><!-- col-4 -->
-          <div class="col-7 col-sm-8">
-            {{proyecto.umbral_documento_atrasado}}
-          </div><!-- col-8 -->
-        </div><!-- row -->
-        <div class="row no-gutters">
-          <div class="col-5 col-sm-4">
-            Revisiones Atrasadas:
-          </div><!-- col-4 -->
-          <div class="col-7 col-sm-8">
-            {{proyecto.umbral_revision_documento}}
-          </div><!-- col-8 -->
-        </div><!-- row -->
-        <div class="row no-gutters">
-          <div class="col-5 col-sm-4">
-            Desviación Porcentual del Proyecto:
-          </div><!-- col-4 -->
-          <div class="col-7 col-sm-8">
-            {{proyecto.umbral_desviacion_porcentual}}%
-          </div><!-- col-8 -->
-        </div><!-- row -->
-      </div>
+      <table class="table table-responsive table-striped table-bordered mg-b-0 tx-12">
+        <thead class="bg-primary">
+          <tr class="tx-10">
+            <th class="wd-10p pd-y-5" style="color: white;text-align:center;">Usuarios</th>
+            <th class="pd-y-5" style="color: white;text-align:center;">Correo</th>
+            <th class="pd-y-5" style="color: white;text-align:center;">ROL</th>
+          </tr>
+        </thead>
+        <tbody>
+         {% for usuario in usuarios %}
+    <tr>            
+      {% if usuario.first_name %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
+      {% else %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
+      {% endif %} 
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
+      {% if usuario.perfil.rol_usuario %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
+      {% else %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
+      {% endif %}
+       </tr>         
+ {% endfor %}
+        </tbody>
+      </table>
     </div>
 
   </div><!-- col-4 -->
