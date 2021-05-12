@@ -32,7 +32,7 @@
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
-      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entrada y Salida</a>      
+      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Transmital</a>      
       <span class="breadcrumb-item active">Detalle Paquete</span>
     </nav>
   </div><!-- br-pageheader -->
@@ -123,14 +123,20 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
                    
-                    {% if not version.0.estado_contratista == 0  %}                   
-                      
-                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>      
-                    {% elif not version.0.estado_cliente == 0  %}  
-                    
-                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td> 
-                                   
+                    {% if request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario <= 3 %} 
+                        {% if version.estado_contratista is None %}
+                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td> 
+                        {% else %}
+                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td> 
+                        {% endif %}  
+                    {% elif request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario <= 6 %}  
+                        {% if version.estado_cliente is None %}
+                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td> 
+                        {% else %}
+                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td> 
+                        {% endif %}
                     {% endif %}     
+      
                     {% if version.archivo.url is not None %}
                       <td class="tx-12"style="text-align: center;font-weight:800;"colspan="2">
                       <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a>
