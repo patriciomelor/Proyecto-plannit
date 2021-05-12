@@ -142,7 +142,8 @@ class PrevVersionForm(forms.ModelForm):
         }
     
     def __init__(self, **kwargs):
-        self.paquete = kwargs.pop('paquete_pk')
+        self.paquete = kwargs.pop('paquete_pk', None)
+        self.usuario = kwargs.pop('user', None)
         super(PrevVersionForm, self).__init__(**kwargs)
 
     def clean(self):
@@ -202,12 +203,15 @@ class PrevVersionForm(forms.ModelForm):
         
         #Verifica que el nombre del archivo coincida con
         #el nombre del documento + la version escogida.
-        con_archivo = cleaned_data.get("adjuntar")
-        if con_archivo == True:
-            if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
-                self.add_error('prev_archivo', 'No coinciden los nombres')
-                raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-            
+        if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
+            con_archivo = cleaned_data.get("adjuntar")
+            if con_archivo == True:
+                if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
+                    self.add_error('prev_archivo', 'No coinciden los nombres')
+                    raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
+        elif self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
+            if not nombre_archivo:
+                raise ValidationError('Como contratista, debes adjuntar un archivo para envíar.')
 
 def verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
     try:
