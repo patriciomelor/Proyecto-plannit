@@ -123,18 +123,23 @@
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
                     <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
                    
-                    {% if not version.0.estado_contratista %}                   
+                    {% if not version.0.estado_contratista == 0  %}                   
                       
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>      
-                    {% elif not version.0.estado_cliente %}  
+                    {% elif not version.0.estado_cliente == 0  %}  
                     
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td> 
                                    
                     {% endif %}     
-                    <form method="POST" class="form-control">
-                    <td class="tx-12"style="text-align: center;font-weight:800;"colspan="2">
-                      <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a></td>
-                  </form>
+                    {% if version.archivo.url is not None %}
+                      <td class="tx-12"style="text-align: center;font-weight:800;"colspan="2">
+                      <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a>
+                    </td>
+                    {% else %}
+                    
+                       <th class="pd-y-5"style="text-align: center;">No hay documento para Descargar</th>  
+
+                    {% endif %}
                   </tr>    
                 {% empty %}
                     <h4> El paquete no tiene documentos. </h4>
