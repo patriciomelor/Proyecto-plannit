@@ -110,7 +110,21 @@
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Tipo_Documento}}</td>
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.prev_documento_fk.Codigo_documento}} </td>  
                       <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_prev_revision_display}}</td>
-                      <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_prev_estado_cliente_display}}</td>                      
+                      
+                      {% if request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario <= 3 %} 
+                        {% if version.estado_contratista is None %}
+                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_prev_estado_cliente_display}}</td> 
+                        {% else %}
+                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_prev_estado_contratista_display}}</td> 
+                        
+                        {% endif %}  
+                    {% elif request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario <= 6 %}  
+                        {% if version.estado_cliente is None %}
+                        <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_prev_estado_contratista_display}}</td> 
+                        {% else %}
+                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_prev_estado_cliente_display}}</td> 
+                        {% endif %}
+                    {% endif %}                      
                       {% if version.prev_archivo.url is not None %}
                         <td class="tx-12"style="text-align: center;font-weight:800;"><a href="{{version.prev_archivo.url}}"><i class="icon ion-archive"></i></a></td>
                       {% else %}
