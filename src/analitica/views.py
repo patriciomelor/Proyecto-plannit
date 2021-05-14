@@ -583,8 +583,28 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                     avance_final_dos.append(avance_inicial_dos)
                                     contador = contador + 1
 
+                        #Se calcula el avance porcentual
+                        largo_curva_s = len(avance_final_dos)
+                        contador_curva_s = 1
+                        diferencia = 0
+                        arreglo_valores = []
+                        arreglo_valores_final = []
+
+                        arreglo_valores = [avance_final_dos[0][0], avance_final_dos[0][1], '0.0']
+                        arreglo_valores_final.append(arreglo_valores)
+
+                        while contador_curva_s < largo_curva_s:
+                            if avance_final_dos[contador_curva_s][1] == 0:
+                                diferencia = float(avance_final_dos[contador_curva_s][0]) - float(avance_final_dos[contador_curva_s - 1][0])
+                                arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
+                                arreglo_valores_final.append(arreglo_valores)
+                            else:
+                                arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1],'0']
+                                arreglo_valores_final.append(arreglo_valores)
+                            contador_curva_s = contador_curva_s + 1                                                                                       
+
                         #Se almacena avance real en lista final
-                        avance_final = avance_final_dos
+                        avance_final = arreglo_valores_final
 
                         #Calcular extension de fechas
                         largo_necesitado = largo_fechas + proyeccion
