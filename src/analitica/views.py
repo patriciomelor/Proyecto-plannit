@@ -366,6 +366,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             contador_versiones = 0
             fechas_controles_recorrer = []
             ultima_fecha = 0
+            contador_fechas = 1
 
             #Variables final
             largo_inicial_fechas = len(fechas_controles)
@@ -376,6 +377,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 if fechas <= dia_actual:
                     fechas_controles_recorrer.append(fechas)
                     avance_fechas_controles.append(0)
+                else:
+                    if fechas > dia_actual and contador_fechas == 1:
+                        fechas_controles_recorrer.append(fechas)
+                        avance_fechas_controles.append(0)
+                        contador_fechas = 0
                 ultima_fecha = fechas
 
             #Se almacenan los dato del documento
@@ -466,6 +472,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                         fechas_controles_recorrer = []
                         contador_versiones = 0
                         posterior_fecha = ultima_fecha
+                        contador_fechas = 1
 
                         #Funcion para agregar nuevas fechas
                         while contador < proyeccion:
@@ -479,6 +486,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                             if fechas <= dia_actual:
                                 fechas_controles_recorrer.append(fechas)
                                 avance_fechas_controles.append(0)
+                            else:
+                                if fechas > dia_actual and contador_fechas == 1:
+                                    fechas_controles_recorrer.append(fechas)
+                                    avance_fechas_controles.append(0)
+                                    contador_fechas = 0
 
                         #Se almacenan los dato del documento
                         for doc in documentos:

@@ -317,6 +317,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
             contador_versiones = 0
             fechas_controles_recorrer = []
             ultima_fecha = 0
+            contador_fechas = 1
 
             #Variables final
             largo_inicial_fechas = len(fechas_controles)
@@ -327,6 +328,11 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 if fechas <= dia_actual:
                     fechas_controles_recorrer.append(fechas)
                     avance_fechas_controles.append(0)
+                else:
+                    if fechas > dia_actual and contador_fechas == 1:
+                        fechas_controles_recorrer.append(fechas)
+                        avance_fechas_controles.append(0)
+                        contador_fechas = 0
                 ultima_fecha = fechas
 
             #Se almacenan los dato del documento
@@ -417,6 +423,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         fechas_controles_recorrer = []
                         contador_versiones = 0
                         posterior_fecha = ultima_fecha
+                        contador_fechas = 1
 
                         #Funcion para agregar nuevas fechas
                         while contador < proyeccion:
@@ -430,6 +437,11 @@ class EscritorioView(ProyectoMixin, TemplateView):
                             if fechas <= dia_actual:
                                 fechas_controles_recorrer.append(fechas)
                                 avance_fechas_controles.append(0)
+                            else:
+                                if fechas > dia_actual and contador_fechas == 1:
+                                    fechas_controles_recorrer.append(fechas)
+                                    avance_fechas_controles.append(0)
+                                    contador_fechas = 0
 
                         #Se almacenan los dato del documento
                         for doc in documentos:
@@ -522,6 +534,11 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                     avance_final_dos.append(avance_inicial_dos)
                                     contador = contador + 1
 
+                        # #Se calcula el avance porcentual
+                        # for avance in avance_final_dos:
+                        #     if avance[1] == 0:
+
+
                         #Se almacena avance real en lista final
                         avance_final = avance_final_dos
 
@@ -539,6 +556,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
                avance_final = []
                avance_inicial = [valor_ganado]
                avance_final.append(avance_inicial)
+
+        #print(avance_final)
 
         return avance_final
 
