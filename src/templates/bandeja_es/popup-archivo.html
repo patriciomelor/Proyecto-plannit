@@ -42,10 +42,11 @@
                 
                 {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
                     {{ form.prev_estado_cliente|as_crispy_field}}                    
+                    <div style="padding-left:35px;">  
+                        {{ form.adjuntar|as_crispy_field}}
+                    </div>    
                 {% endif %}       
-                <div style="padding-left:35px;">  
-                {{ form.adjuntar|as_crispy_field}}
-                </div>
+
             {{ form.prev_archivo|as_crispy_field}}
              <button name="submit" type="submit" class="btn btn-warning" ><span class="glyphicon glyphicon-send"></span>Subir</button>
         
@@ -96,11 +97,16 @@ function detectStatus(){
     )
 }
 </script>
-
-<script type="text/javascript">
-    function disableSending() {
-    document.form.prev_archivo.disabled = !document.form.adjuntar.checked;
-    };
-</script>
-
+{% if request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
+    <script type="text/javascript">
+        function disableSending() {
+        document.form.prev_archivo.disabled = !document.form.adjuntar.checked;
+        };
+    </script>
+    {% else %}
+    <script type="text/javascript">
+        $('#id_prev_archivo').prop('disabled', false);
+       
+    </script>
+{% endif %}
 {% endblock content %}

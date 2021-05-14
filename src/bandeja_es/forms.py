@@ -142,21 +142,21 @@ class PrevVersionForm(forms.ModelForm):
         }
     
     def __init__(self, **kwargs):
-        self.paquete = kwargs.pop('paquete_pk')
+        self.paquete = kwargs.pop('paquete_pk', None)
+        self.usuario = kwargs.pop('user', None)
         super(PrevVersionForm, self).__init__(**kwargs)
 
     def clean(self):
         cleaned_data = super().clean()
         #Verifica que el formulario venga con los datos minimos
-        try:
-            doc = cleaned_data.get('prev_documento_fk')
-            nombre_documento = doc.Codigo_documento
-            nombre_archivo = str(cleaned_data.get('prev_archivo'))
-            revision = cleaned_data.get('prev_revision')
-            revision_final = (dict(TYPES_REVISION).get(revision))
-        except AttributeError:
-            raise ValidationError('Inconsistencia de Datos en el formulario')
-        
+        doc = cleaned_data.get('prev_documento_fk')
+        nombre_documento = doc.Codigo_documento
+        nombre_archivo = str(cleaned_data.get('prev_archivo'))
+        estado_cliente = cleaned_data.get('prev_estado_cliente')
+        estado_contratista = cleaned_data.get('prev_estado_contratista')
+        revision = cleaned_data.get('prev_revision')
+        revision_final = (dict(TYPES_REVISION).get(revision))
+
         try:
             ultima_revision = Version.objects.filter(documento_fk=doc, revision=1)
             if not ultima_revision.exists() and revision > 1:
@@ -167,15 +167,19 @@ class PrevVersionForm(forms.ModelForm):
         #Varifica si existe una version creada en el paquete
         #para el documento selecionado
         try:
-            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc)
-            prev_paquete_doc = PrevPaqueteDocumento.objects.filter(prev_version__in=ultima_prev_revision, prev_paquete=self.paquete)
-            print(prev_paquete_doc)
-            if prev_paquete_doc.exists():
-                raise ValidationError('Ya creaste una version en este paquete para este documento')
+            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc, prev_revision=revision)
+            if ultima_prev_revision.count() < 2:
+                primero = ultima_prev_revision.first()
+                if primero.estado_cliente: 
+                    if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
+                        raise ValidationError('Ya no puedes emitir más documentos como Cliente la revision {}'.format(revision_final))
+                elif primero.estado_contratista:
+                    if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:    
+                        raise ValidationError('Ya no puedes emitir más documentos como Contratista la revision {}'.format(revision_final))
+            else:
+                raise ValidationError("Ya no se pueden emitir más documento en revision {}".format(revision_final))
         except (AttributeError, PrevPaqueteDocumento.DoesNotExist):
             pass
-
-
         #Verificca que no se pueda emitir una revision en número antes de que en letra
         try:
             ultima_revision = Version.objects.filter(documento_fk=doc)
@@ -186,10 +190,8 @@ class PrevVersionForm(forms.ModelForm):
             # if revision >= 5:
             #     raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
             pass
-
         #Verifica que no se pueda enviar una version igual 
         # o anterior a la última emitida
-
         try:
             ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
             ultima_revision = Version.objects.filter(documento_fk=doc).last()
@@ -199,15 +201,18 @@ class PrevVersionForm(forms.ModelForm):
                 raise ValidationError('No se puede elegir una revision anterior a la última emitida.')
         except AttributeError:
             pass
-        
         #Verifica que el nombre del archivo coincida con
         #el nombre del documento + la version escogida.
-        con_archivo = cleaned_data.get("adjuntar")
-        if con_archivo == True:
-            if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
-                self.add_error('prev_archivo', 'No coinciden los nombres')
-                raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-            
+        if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
+            con_archivo = cleaned_data.get("adjuntar")
+            if con_archivo == True:
+                if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
+                    self.add_error('prev_archivo', 'No coinciden los nombres')
+                    raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
+        
+        if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
+            if not nombre_archivo:
+                raise ValidationError('Como contratista, debes adjuntar un archivo para envíar.')
 
 def verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
     try:
