@@ -458,6 +458,33 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                 diferencia = 100 - calculo_avance_final
                 avance_semanal = calculo_avance_final/largo_fechas
+
+                if calculo_avance_final == 100:
+                    #Se calcula el avance porcentual
+                    largo_curva_s = len(avance_final)
+                    contador_curva_s = 1
+                    diferencia = 0
+                    arreglo_valores = []
+                    arreglo_valores_final = []
+
+                    arreglo_valores = [avance_final[0][0], avance_final[0][1], '0.0']
+                    arreglo_valores_final.append(arreglo_valores)
+
+                    while contador_curva_s < largo_curva_s:
+                        if avance_final[contador_curva_s][1] == 0:
+                            diferencia = float(avance_final[contador_curva_s][0]) - float(avance_final[contador_curva_s - 1][0])
+                            arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
+                            arreglo_valores_final.append(arreglo_valores)
+                        else:
+                            diferencia = float(avance_final[contador_curva_s][0]) - float(avance_final[contador_curva_s - 1][0])
+                            arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
+                            arreglo_valores_final.append(arreglo_valores)
+                        contador_curva_s = contador_curva_s + 1                                                                                       
+
+                    print(arreglo_valores_final)
+
+                    #Se almacena avance real en lista final
+                    avance_final = arreglo_valores_final
                 
                 if avance_semanal != 0:
                     proyeccion = (diferencia / avance_semanal) - diferencia_arreglo_fecha
@@ -599,7 +626,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
                                 arreglo_valores_final.append(arreglo_valores)
                             else:
-                                arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1],'0']
+                                diferencia = float(avance_final_dos[contador_curva_s][0]) - float(avance_final_dos[contador_curva_s - 1][0])
+                                arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
                                 arreglo_valores_final.append(arreglo_valores)
                             contador_curva_s = contador_curva_s + 1                                                                                       
 
