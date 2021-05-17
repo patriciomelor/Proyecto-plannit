@@ -200,8 +200,8 @@
               </div>
               <div class="pd-x-15 pd-b-15">
                 <div style="width: 100%">
-                  <canvas id="canvas"width="1507" height="653" class="chartjs-render-monitor" style="display: block; height: 603px; width: 1206px;"></canvas>
-                </div>
+                 <canvas id="canvas"width="1507" height="653" class="chartjs-render-monitor" style="display: block; height: 603px; width: 1206px;"></canvas>
+                   </div>
               </div>
             </div><!-- card -->
            </div><!-- col-9 -->
@@ -353,21 +353,21 @@
   <script>
     //Curva S
     
-        var chartData = {
-          labels: ['{% for emisiones in lista_curva_s_fechas %} {% if forloop.counter != lista_curva_s_fechas_largo %} {{emisiones|date:"d-m-y"}}', '{% endif %} {% if forloop.counter == lista_curva_s_fechas_largo %} {{emisiones|date:"d-m-y"}} {% endif %} {% endfor %}'],
-          datasets: [
-          {
-            type: 'line',
-            label: 'Avance Esperado',
-            backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)' {% endif %} {% endfor %}],
-            borderColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 1)' {% endif %} {% endfor %}],
-            borderWidth: 1,
-            lineTension:0.18,
-            fill: false,
-            data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
-          }, 
-          {
-            type: 'line',
+        	var chartData = {
+			labels: ['{% for emisiones in lista_curva_s_fechas %} {% if forloop.counter != lista_curva_s_fechas_largo %} {{emisiones|date:"d-m-y"}}', '{% endif %} {% if forloop.counter == lista_curva_s_fechas_largo %} {{emisiones|date:"d-m-y"}} {% endif %} {% endfor %}'],
+			datasets: [
+      {
+        type: 'line',
+        label: 'Avance Esperado',
+        backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)' {% endif %} {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 1)' {% endif %} {% endfor %}],
+        borderWidth: 1,
+        lineTension:0.18,
+				fill: false,
+				data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
+			}, 
+      {
+				type: 'line',
             label: 'Avance Real a la fecha',
             backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% endfor %}],
             borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% endfor %}],
@@ -375,52 +375,60 @@
             lineTension:0.18,
             fill: false,
             data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
-          
-          }]
-          
-        };
-        
-        window.onload = function() {
-          var ctx = document.getElementById('canvas').getContext('2d');
-          window.myMixedChart = new Chart(ctx, {
-            type: 'line',
-            data: chartData,
-            options: {
-          
-              barPercentage: 1,
-              responsive: true,
-              plugins: {
-                  tooltip: {
-                  mode: 'index',
-                  intersect: true
-                },
-                ticks: {
-                  beginAtZero: true,
-                  min: 0,
-                  stepSize: 1,
-                      callback: function(value){return value+ "%"}
-
-                },
-                
-              },
-              scales: {
-              yAxes: [{
-              ticks: {
+       
+			}, 
+      {
+				type: 'bar',
+        label: 'Avance Real a la fecha (BARRAS)',
+        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 214, 141 , 0.4)', {% endif %} {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 214, 141 , 1)', {% endif %} {% endfor %}],
+        fill: true,
+        borderWidth: 1,
+        data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.2}}, {% endfor %}],
+			}]
+      
+		};
+    
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myMixedChart = new Chart(ctx, {
+				type: 'line',
+				data: chartData,
+				options: {
+      
+          barPercentage: 1,
+					responsive: true,
+					plugins: {
+							tooltip: {
+							mode: 'index',
+							intersect: true
+            },
+            ticks: {
+              beginAtZero: true,
               min: 0,
-              max: 100,
-              callback: function(value) {
-              return value + "%"
-              }
-              },
-              scaleLabel: {
-              display: true,
-              }
-              }]
-              }
-            }
-          });
-        };
-      </script>
-     
+              stepSize: 1,
+                   callback: function(value){return value+ "%"}
+
+            },
+            
+					},
+          scales: {
+          yAxes: [{
+          ticks: {
+          min: 0,
+          max: 100,
+          callback: function(value) {
+          return value + "%"
+          }
+          },
+          scaleLabel: {
+          display: true,
+          }
+          }]
+          }
+				}
+			});
+		};
+	</script>
 {% endblock content %}
     
