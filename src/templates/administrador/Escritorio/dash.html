@@ -189,7 +189,7 @@
   </div>
 <!--Cuerpo-->
 <div class="row row-sm mg-t-20 mg-b-30">
-          <div class="col-8">
+          <div class="col-12">
             <div class="card pd-0 bd-0 shadow-base">
               <div class="pd-x-30 pd-t-30 pd-b-15">
                 <div class="d-flex align-items-center justify-content-between">
@@ -205,9 +205,12 @@
               </div>
             </div><!-- card -->
            </div><!-- col-9 -->
-          <div class="col-4">
-            <div class="card shadow-base bd-0 pd-0" >             
-              <div class="pd-x-30 pd-t-30 pd-b-15 bg-info">
+</div><!-- row -->
+
+<div class="row row-sm mg-t-20 mg-b-30">
+<div class="col-3">
+    <div class="card shadow-base bd-0">
+      <div class="pd-x-30 pd-t-30 pd-b-15 bg-info">
                 <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;">Umbrales</h6>
               </div><!-- card-header -->
               <div class="form-layout form-layout-7">
@@ -245,70 +248,67 @@
                   </div><!-- col-8 -->
                 </div><!-- row -->
               </div>
-            </div>
+    </div><!-- card -->
 
-          </div><!-- col-4 -->
-</div><!-- row -->
-
-<div class="row row-sm mg-t-20 mg-b-30">
-  <div class="col-6">
+  </div><!-- col-3 -->
+  <div class="col-3">
     <div class="card shadow-base bd-0">
       <div class="card-header pd-20 bg-info">
         <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;">Detalles de Proyecto</h6>
       </div><!-- card-header -->
         <div class="form-layout form-layout-7">
-          <div class="row no-gutters text-left">
-            <div class="col-5 col-sm-4 text-left">
+          <div class="row no-gutters text-center">
+            <div class="col-6 col-sm-5 text-center">
               Nombre: 
             </div><!-- col-4 -->
-            <div class="col-7 col-sm-8 text-left">
+            <div class="col-6 col-sm-7 text-center">
               {{proyecto.nombre}}
             </div><!-- col-8 -->
           </div><!-- row -->
-          <div class="row no-gutters text-left">
-            <div class="col-5 col-sm-4 text-left">
+          <div class="row no-gutters text-center">
+            <div class="col-6 col-sm-5 text-center">
               Fecha Inicio: 
             </div><!-- col-4 -->
-            <div class="col-7 col-sm-8 text-left">
+            <div class="col-6 col-sm-7 text-center">
               {{proyecto.fecha_inicio|date:'d-m-y'}}  
             </div><!-- col-8 -->
           </div><!-- row -->
-          <div class="row no-gutters text-left">
-            <div class="col-5 col-sm-4 text-left">
+          <div class="row no-gutters text-center">
+            <div class="col-6 col-sm-5 text-center">
               Fecha Termino:
             </div><!-- col-4 -->
-            <div class="col-7 col-sm-8 text-left">
+            <div class="col-6 col-sm-7 text-center">
               {{proyecto.fecha_termino|date:'d-m-y'}}  
             </div><!-- col-8 -->
           </div><!-- row -->
-          <div class="row no-gutters text-left">
-            <div class="col-5 col-sm-4 text-left">
+          <div class="row no-gutters text-center">
+            <div class="col-6 col-sm-5 text-center">
               Descripción:
             </div><!-- col-4 -->
-            <div class="col-7 col-sm-8 text-left">
+            <div class="col-6 col-sm-7 text-center">
               {{proyecto.descripcion}}  
             </div><!-- col-8 -->
           </div><!-- row -->
-          <div class="row no-gutters text-left">
-            <div class="col-5 col-sm-4 text-left">
+          <div class="row no-gutters text-center">
+            <div class="col-6 col-sm-5 text-center">
               Encargado:
             </div><!-- col-4 -->
-            <div class="col-7 col-sm-8 text-left">
+            <div class="col-6 col-sm-7 text-center">
               {{proyecto.encargado}}  
             </div><!-- col-8 -->
           </div><!-- row -->
-          <div class="row no-gutters text-left">
-            <div class="col-5 col-sm-4 text-left">
+          <div class="row no-gutters text-center">
+            <div class="col-6 col-sm-5 text-center">
               Codigo:
             </div><!-- col-4 -->
-            <div class="col-7 col-sm-8 text-left">
+            <div class="col-6 col-sm-7 text-center">
               {{proyecto.codigo}}  
             </div><!-- col-8 -->
           </div><!-- row -->
         </div>
     </div><!-- card -->
 
-  </div><!-- col-9 -->
+  </div><!-- col-3 -->
   <div class="col-6">
     <div class="card shadow-base bd-0" style="overflow-y: auto;overflow-x: auto;height:367px;">
       <div class="card-header pd-20 bg-primary">
@@ -349,11 +349,10 @@
 </div>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>    
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
   <script>
-    //Curva S
-    
-        	var chartData = {
+//Curva S
+
+		var chartData = {
 			labels: ['{% for emisiones in lista_curva_s_fechas %} {% if forloop.counter != lista_curva_s_fechas_largo %} {{emisiones|date:"d-m-y"}}', '{% endif %} {% if forloop.counter == lista_curva_s_fechas_largo %} {{emisiones|date:"d-m-y"}} {% endif %} {% endfor %}'],
 			datasets: [
       {
@@ -429,6 +428,6 @@
 				}
 			});
 		};
-	</script>
+    </script>
 {% endblock content %}
     
