@@ -94,7 +94,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         aprobados_final = []
         aprobados_inicial = []
-
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         especialidad_list = tuple()
