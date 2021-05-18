@@ -373,15 +373,6 @@
             fill: false,
             data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
        
-			}, 
-      {
-				type: 'bar',
-        label: 'Avance Real a la fecha (BARRAS)',
-        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 214, 141 , 0.4)', {% endif %} {% endfor %}],
-        borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 214, 141 , 1)', {% endif %} {% endfor %}],
-        fill: true,
-        borderWidth: 1,
-        data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.2}}, {% endfor %}],
 			}]
       
 		};
