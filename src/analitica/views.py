@@ -330,6 +330,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
             fechas_controles.append(ultima_de_dos)
+            fechas_controles.append(fecha_posterior)
+
 
             #Se almacena arreglo de fechas en la lista final
             elementos = []
@@ -669,30 +671,49 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fecha_emision_0 = 0
             fechas_controles = lista_final[0][0]
             valor_ganado = (100 / valor_ganado)
+            contador_largo = 0
 
             diferencia = len(lista_avance_real) - len(fechas_controles)
 
             for controles in fechas_controles:
-                calculo_avanceEsperado = 0
-                for doc in documentos:                  
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
+                if contador_largo < (len(fechas_controles) - 1):
+                    calculo_avanceEsperado = 0
+                    for doc in documentos:                  
+                        fecha_emision_b = doc.fecha_Emision_B
+                        fecha_emision_0 = doc.fecha_Emision_0
 
-                    #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                    if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                        calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
-                    if fecha_emision_0 <= controles and fecha_emision_b < controles:
-                        calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
+                        #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
+                        if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                            calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
+                        if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                            calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 
-                #Se almacena el avance esperado hasta la fecha de control
-                avance_esperado = [format(calculo_avanceEsperado, '.2f')]
-                lista_final_esperado.append(avance_esperado)
+                    #Se almacena el avance esperado hasta la fecha de control
+                    avance_esperado = [format(calculo_avanceEsperado, '.2f')]
+                    lista_final_esperado.append(avance_esperado)
 
             if diferencia > 0:
                 while contador < diferencia:
                     avance_esperado = [format(numero, '.2f')]
                     lista_final_esperado.append(avance_esperado)
                     contador = contador + 1
+            
+            calculo_parcial = []
+            calculo_parcial_final = []
+            diferencia_esperado = 0
+            contador_parcial = 1
+
+            calculo_parcial = [lista_final_esperado[0][0], '0.0']
+            calculo_parcial_final.append(calculo_parcial)
+
+            while contador_parcial < (len(lista_final_esperado) - 1):
+                diferencia = float(lista_final_esperado[contador_parcial][0]) - float(lista_final_esperado[contador_parcial - 1][0])
+                diferencia = format(diferencia, '.2f')
+                calculo_parcial = [lista_final_esperado[contador_parcial][0], str(diferencia)]
+                calculo_parcial_final.append(calculo_parcial)
+                contador_parcial = contador_parcial + 1
+
+            lista_final_esperado = calculo_parcial_final
 
         if valor_ganado == 0:
             avance_esperado = [int(valor_ganado)]
