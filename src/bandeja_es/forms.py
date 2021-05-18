@@ -91,6 +91,7 @@ class PaquetePreviewForm(forms.ModelForm):
         print(qs)
         super(PaquetePreviewForm, self).__init__(**kwargs)
         self.fields["prev_receptor"] = forms.ModelChoiceField(queryset=qs)
+        self.fields["prev_receptor"].label = 'Destinatario'
 
     def clean(self):
         cleaned_data = super().clean()
@@ -176,10 +177,12 @@ class PrevVersionForm(forms.ModelForm):
         try:
             ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
             ultima_revision = Version.objects.filter(documento_fk=doc).last()
+            print(revision)
+            print(ultima_revision.revision)
             if revision < ultima_revision.revision:
-                raise ValidationError('No se puede elegir una revision anterior a la última emitida.')
-            elif revision < ultima_prev_revision.prev_revision:
-                raise ValidationError('No se puede elegir una revision anterior a la última emitida.')
+                raise ValidationError('No se puede elegir una revisión anterior a la última emitida')
+            # elif revision < ultima_prev_revision.prev_revision:
+            #     raise ValidationError('No se puede elegir una revisión anterior a la última emitida')
         except AttributeError:
             pass
         #Verifica que el nombre del archivo coincida con
