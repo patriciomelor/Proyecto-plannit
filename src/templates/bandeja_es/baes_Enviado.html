@@ -90,7 +90,7 @@
         </thead>
            {% for paquete in paquetes %}
           <tr>
-            <td><a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.codigo}}</a></td>            
+            <td class="valign-middle hidden-xs-down"><a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.codigo}}</a></td>            
             <td class="valign-middle hidden-xs-down">{{ paquete.asunto }} </td>           
             <td class="valign-middle hidden-xs-down">{{ paquete.owner }}</td>
             <td class="valign-middle hidden-xs-down">{{ paquete.destinatario }}</td>
