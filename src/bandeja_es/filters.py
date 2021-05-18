@@ -12,7 +12,7 @@ class PaqueteFilter(django_filters.FilterSet):
             'type': 'date'
         })
     )
-    owner = django_filters.ModelChoiceFilter(
+    owner = django_filters.CharFilter(
         lookup_expr='icontains',
         label = 'Autor:',
         widget=forms.TextInput(

@@ -75,39 +75,18 @@ class PaquetePreviewForm(forms.ModelForm):
         user_list = []
         self.usuario = kwargs.pop('usuario')
         self.participantes = kwargs.pop('participantes')
-        print(self.usuario)
         current_rol = self.usuario.perfil.rol_usuario
-        print("Rol usuario actual:", current_rol)
         for user in self.participantes:
-            print("participante:", user)
             try:
                 rol = user.perfil.rol_usuario
-                print("Rol de {}:".format(user), rol)
                 if rol >= 1 and rol <= 3:
                     if current_rol >= 1 and current_rol <= 3:
-                        print("pasó como cliente")
                         user_list.append(user.pk)
-                        print(user_list)
                 elif rol <= 6 and rol >= 4:
                     if current_rol <= 6 and current_rol >= 4:
-                        print("pasó como contratista")
                         user_list.append(user.pk)
-                        print(user_list)
             except:
                 continue
-            print(user_list)
-            # if user.perfil.rol_usuario <= 1 and user.perfil.rol_usuario >= 3:
-            #     if self.usuario.perfil.rol_usuario <= 1 and self.usuario.perfil.rol_usuario >= 3:
-            #         user_list.append(user.pk)
-            #         print(user_list)
-            #     else:
-            #         pass
-            # elif user.perfil.rol_usuario <= 6 and user.perfil.rol_usuario >= 4:
-            #     if self.usuario.perfil.rol_usuario <= 6 and self.usuario.perfil.rol_usuario >= 4:
-            #         user_list.append(user.pk)
-            #         print(user_list)
-            #     else:
-            #         pass
         qs = self.participantes.exclude(pk__in=user_list)
         print(qs)
         super(PaquetePreviewForm, self).__init__(**kwargs)
@@ -145,7 +124,8 @@ class PrevVersionForm(forms.ModelForm):
         self.paquete = kwargs.pop('paquete_pk', None)
         self.usuario = kwargs.pop('user', None)
         super(PrevVersionForm, self).__init__(**kwargs)
-
+        if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
+            self.fields["prev_archivo"].required = True
     def clean(self):
         cleaned_data = super().clean()
         #Verifica que el formulario venga con los datos minimos
@@ -156,20 +136,21 @@ class PrevVersionForm(forms.ModelForm):
         estado_contratista = cleaned_data.get('prev_estado_contratista')
         revision = cleaned_data.get('prev_revision')
         revision_final = (dict(TYPES_REVISION).get(revision))
-
+        print(nombre_archivo)
         try:
-            ultima_revision = Version.objects.filter(documento_fk=doc, revision=1)
+            document = Documento.objects.get(Codigo_documento=doc)
+            ultima_revision = Version.objects.filter(documento_fk=document)
             if not ultima_revision.exists() and revision > 1:
                 raise ValidationError('Se debe emitir una revisión en B primero')
         except AttributeError:
-            if revision > 1:
-                raise ValidationError('Se debe emitir una revisión en B primero')
+            pass
         #Varifica si existe una version creada en el paquete
         #para el documento selecionado
         try:
-            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc, prev_revision=revision)
-            if ultima_prev_revision.count() < 2:
-                primero = ultima_prev_revision.first()
+            document = Documento.objects.get(Codigo_documento=doc)
+            ultima_rev = Version.objects.filter(documento_fk=doc, revision=revision)
+            if ultima_rev.count() < 2:
+                primero = ultima_rev.first()
                 if primero.estado_cliente: 
                     if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
                         raise ValidationError('Ya no puedes emitir más documentos como Cliente la revision {}'.format(revision_final))
@@ -209,10 +190,11 @@ class PrevVersionForm(forms.ModelForm):
                 if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
                     self.add_error('prev_archivo', 'No coinciden los nombres')
                     raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-        
+            if not estado_cliente: 
+                raise ValidationError("Debes seleccionar un estado para esta revisión.")
         if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
-            if not nombre_archivo:
-                raise ValidationError('Como contratista, debes adjuntar un archivo para envíar.')
+            if not estado_contratista: 
+                raise ValidationError("Debes seleccionar un estado para esta revisión.")
 
 def verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
     try:
