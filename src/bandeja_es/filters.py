@@ -12,7 +12,7 @@ class PaqueteFilter(django_filters.FilterSet):
             'type': 'date'
         })
     )
-    owner = django_filters.ModelChoiceFilter(
+    owner = django_filters.CharFilter(
         lookup_expr='icontains',
         label = 'Autor:',
         widget=forms.TextInput(
@@ -23,7 +23,7 @@ class PaqueteFilter(django_filters.FilterSet):
             ), 
         ),
 
-    id = django_filters.NumberFilter(
+    codigo = django_filters.CharFilter(
         lookup_expr='icontains',
         label='Numero de Tramital:',
         widget=forms.TextInput(
@@ -35,9 +35,9 @@ class PaqueteFilter(django_filters.FilterSet):
     )
     class Meta:
         model = Paquete
-        fields = ['id', 'owner', 'fecha_creacion']
+        fields = ['codigo', 'owner', 'fecha_creacion']
         labels = {
-            'id': 'Número de Tramital:',
+            'codigo': 'Número de Tramital:',
             'owner': 'Autor:'
         }
 
