@@ -62,9 +62,9 @@
       <table class="table mg-b-0 table-contact">
         <thead>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Transmital</th>
-            <!-- <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripción</th> -->
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Asunto</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Autor</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Receptor</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Fecha</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Detalle</th>
           </tr>
@@ -80,12 +80,12 @@
                 </div>
               </div>
             </td>            
-            <!-- <td class="valign-middle hidden-xs-down"> {{ paquete.descripcion }} </td>            -->
             <td class="valign-middle hidden-xs-down"> {{ paquete.asunto }} </td>           
             <td class="valign-middle hidden-xs-down"> {{ paquete.owner }}</td>
+            <td class="valign-middle hidden-xs-down"> {{ paquete.destinatario  }} </td>
             <td><span class="tx-15"><strong>{{ paquete.fecha_creacion|date:'d-m-yy'}} - {{paquete.fecha_creacion|date:'H:i'}}</strong> </span></td>
             <td class="valign-middle hidden-xs-down">
-              <a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}" class="nav-link">Detalle</a>       
+              <a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}" class="nav-link"><i class="icon ion-edit"></i></a>       
             </td>
           </tr>
           
