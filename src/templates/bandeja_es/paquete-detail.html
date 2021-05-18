@@ -62,6 +62,14 @@
                   {{paquete.owner}}
                 </div><!-- col-8 -->
               </div>
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                  Destinatario:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                  {{paquete.destinatario}}
+                </div><!-- col-8 -->
+              </div>
                <div class="row no-gutters">
                 <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
                   Asunto:
@@ -92,7 +100,23 @@
                 </div>
                 {% endif %}
                 </div><!-- col-8 -->
-              </div>                                      
+              </div>  
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
+                Descargar Todo:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                {% if version.archivo.url is not None %}
+                <form method="POST">{% csrf_token %}
+                  <input type="submit" class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" value="Descargar todo"></input>                         
+                </form>
+                {% else %}    
+                <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                  No hay paquete de archivos para descargar
+                </div>
+                {% endif %}
+                </div><!-- col-8 -->
+              </div>                                     
             </div>
               <table class="table table-striped mg-b-0 table-bordered table-primary">
                 <thead class="thead-colored thead-primary">
@@ -104,13 +128,7 @@
                     <th class="pd-y-5"style="text-align: center;">Revisión</th>
                     <th class="pd-y-5"style="text-align: center;">Estado</th>                                  
                     <th class="pd-y-5"style="text-align: center;">Archivo</th>
-                   <form method="POST">{% csrf_token %}
-                      
-                      <th class="pd-y-5"style="text-align: center;">                       
-                          <input type="submit" class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" value="Descargar todo"></input>                         
-                        
-                      </th>
-                    </form>
+                   
                   </tr>
                 </thead>
                
