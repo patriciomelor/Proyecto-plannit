@@ -82,7 +82,9 @@
             </td>
             <td class="valign-middle hidden-xs-down"> {{ borrador.fecha_creacion|date }} </td>
             <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_receptor }} </td>
-            <td class="dropdown hidden-xs-down"><a class="btn btn-teal"href="{% url 'nueva-version' borrador.prev_paquete.pk %}" class="nav-link"><i class="icon ion-edit"></i></a></td>
+            <!-- <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_descripcion }} </td> -->
+            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_asunto }} </td>
+            <td class="dropdown hidden-xs-down"><a class="btn btn-teal"href="{% url 'nueva-version' borrador.prev_paquete.pk %}" class="nav-link">Modificar</a></td>
           </tr>
                      
           
