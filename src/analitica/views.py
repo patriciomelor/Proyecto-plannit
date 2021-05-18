@@ -94,7 +94,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         aprobados_final = []
         aprobados_inicial = []
-
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         especialidad_list = tuple()
@@ -308,6 +307,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             #Agregar una semana antes a la primera de los documentos
             fechas_controles = []
+            primera_de_dos = primera_de_dos + timedelta(hours=23)
+            primera_de_dos = primera_de_dos + timedelta(minutes=59)
+            primera_de_dos = primera_de_dos + timedelta(seconds=59)
+            primera_de_dos = primera_de_dos + timedelta(microseconds=59)
+            primera_de_dos = primera_de_dos + timedelta(milliseconds=59)
             primera_de_dos = primera_de_dos - timedelta(days=7)
             fechas_controles.append(primera_de_dos)
             primera_de_dos = primera_de_dos + timedelta(days=7)
@@ -322,8 +326,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             
             #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
             while fecha_actual < ultima_de_dos and fecha_posterior < ultima_de_dos:
-                if fecha_actual < dia_actual and dia_actual < fecha_posterior:
-                    fechas_controles.append(dia_actual)
                 fecha_actual = fecha_actual + timedelta(days=7)
                 fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
@@ -338,7 +340,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         else:
             #Se almacena arreglo de fechas en la lista final
             elementos = []
-            elementos_final = ['Sin registros']
+            elementos_final = ['Sin registro']
             elementos_final.append(elementos)
         
         return elementos_final
@@ -363,6 +365,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             contador_versiones = 0
             fechas_controles_recorrer = []
             ultima_fecha = 0
+            contador_fechas = 1
 
             #Variables final
             largo_inicial_fechas = len(fechas_controles)
@@ -373,6 +376,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 if fechas <= dia_actual:
                     fechas_controles_recorrer.append(fechas)
                     avance_fechas_controles.append(0)
+                else:
+                    if fechas > dia_actual and contador_fechas == 1:
+                        fechas_controles_recorrer.append(fechas)
+                        avance_fechas_controles.append(0)
+                        contador_fechas = 0
                 ultima_fecha = fechas
 
             #Se almacenan los dato del documento
@@ -449,131 +457,185 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                 diferencia = 100 - calculo_avance_final
                 avance_semanal = calculo_avance_final/largo_fechas
-                proyeccion = (diferencia / avance_semanal) - diferencia_arreglo_fecha
-                contador = 0
 
-                if  calculo_avance_final < 100 and calculo_avance_final > 0:
+                if calculo_avance_final == 100:
+                    #Se calcula el avance porcentual
+                    largo_curva_s = len(avance_final)
+                    contador_curva_s = 1
+                    diferencia = 0
+                    arreglo_valores = []
+                    arreglo_valores_final = []
 
-                    #Variables
-                    avance_inicial_dos = []
-                    avance_final_dos = []
-                    avance_fechas_controles = []
-                    fechas_controles_recorrer = []
-                    contador_versiones = 0
-                    posterior_fecha = ultima_fecha
+                    arreglo_valores = [avance_final[0][0], avance_final[0][1], '0.0']
+                    arreglo_valores_final.append(arreglo_valores)
 
-                    #Funcion para agregar nuevas fechas
-                    while contador < proyeccion:
-                        if ultima_fecha < dia_actual and dia_actual < posterior_fecha:
-                            fechas_controles.append(dia_actual)
-                        ultima_fecha = ultima_fecha + timedelta(days=7)
-                        posterior_fecha = ultima_fecha + timedelta(days=7)
-                        fechas_controles.append(ultima_fecha)
-                        contador = contador + 1
+                    while contador_curva_s < largo_curva_s:
+                        if avance_final[contador_curva_s][1] == 0:
+                            diferencia = float(avance_final[contador_curva_s][0]) - float(avance_final[contador_curva_s - 1][0])
+                            arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
+                            arreglo_valores_final.append(arreglo_valores)
+                        else:
+                            diferencia = float(avance_final[contador_curva_s][0]) - float(avance_final[contador_curva_s - 1][0])
+                            arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
+                            arreglo_valores_final.append(arreglo_valores)
+                        contador_curva_s = contador_curva_s + 1                                                                                       
 
-                    #Se recorren las fechas de control para guardar las que necesitan evaluarse
-                    for fechas in fechas_controles:
-                        if fechas <= dia_actual:
-                            fechas_controles_recorrer.append(fechas)
-                            avance_fechas_controles.append(0)
-
-                    #Se almacenan los dato del documento
-                    for doc in documentos:
-                        fecha_emision_0 = doc.fecha_Emision_0
-                        fecha_emision_b = doc.fecha_Emision_B
-                        versiones = Version.objects.filter(documento_fk=doc).last()
-                        cont = 0
-
-                        #Si exite una version
-                        if versiones:
-                            contador_versiones = contador_versiones + 1
-                            fecha_version = versiones.fecha
-                            revision_documento = versiones.revision
-                            valor_documento = 0
-
-                            #Se calcula el avance real en la fecha de control que corresponda
-                            for controles in fechas_controles_recorrer:
-                                if valor_documento == 0:
-                                    calculo_real_0 = 0
-                                    calculo_real_b = 0
-                                    avance_documento = 0
-
-                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                    for revision in TYPES_REVISION[1:4]:
-                                        if revision[0] == revision_documento and fecha_version <= controles:
-                                            calculo_real_b = valor_ganado * 0.7
-                                        if cont == (len(fechas_controles) - 1):
-                                            if revision[0] == revision_documento and fecha_version > controles:                              
-                                                calculo_real_b = valor_ganado * 0.7
-
-                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                    for revision in TYPES_REVISION[5:]:
-                                        if revision[0] == revision_documento and fecha_version <= controles:
-                                            calculo_real_0 = valor_ganado * 1
-                                        if cont == (len(fechas_controles) - 1):
-                                            if revision[0] == revision_documento and fecha_version > controles:                                
-                                                calculo_real_0 = valor_ganado * 1
-
-                                    #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                                    if calculo_real_b > calculo_real_0:
-                                        avance_documento = calculo_real_b
-                                        fecha_documento = fecha_emision_b
-
-                                    #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                                    if calculo_real_b < calculo_real_0:
-                                        avance_documento = calculo_real_0
-                                        fecha_documento = fecha_emision_0
-
-                                    #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
-                                    if avance_documento != 0:
-                                        avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
-                                        valor_documento = 1 
-                                    cont = cont + 1
-
-                        #Si no hay versiones, pasa al siguiente documento
-                        if not versiones:
-                            pass
-
-                    #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
-                    contador_final = 0
-                    calculo_avance_final = 0
-                    largo_fechas = len(avance_fechas_controles)
-                    
-                    for avance in avance_fechas_controles: 
-                        if contador_final < largo_fechas:
-                            calculo_avance_final = calculo_avance_final + avance
-                            avance_inicial_dos = [format(calculo_avance_final, '.2f'), 0]
-                            avance_final_dos.append(avance_inicial_dos)
-                            contador_final = contador_final + 1
-
-                    #Funcion en caso de que el avance real no sea el 100%
-                    diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
-                    diferencia = 100 - calculo_avance_final
-                    avance_semanal = calculo_avance_final/largo_fechas
-                    proyeccion = (diferencia / avance_semanal)
-                    contador = 0
-
-                    proyeccion = math.ceil(proyeccion)
-                    if  calculo_avance_final < 100 and calculo_avance_final > 0:
-                        while contador < proyeccion:
-                            if contador == (proyeccion - 1):
-                                calculo_avance_final = 100
-                                avance_inicial_dos = [format(calculo_avance_final, '.2f'), 1]
-                                avance_final_dos.append(avance_inicial_dos)
-                                contador = contador + 1
-
-                            else:
-                                calculo_avance_final = calculo_avance_final + avance_semanal
-                                avance_inicial_dos = [format(calculo_avance_final, '.2f'), 1]
-                                avance_final_dos.append(avance_inicial_dos)
-                                contador = contador + 1
+                    print(arreglo_valores_final)
 
                     #Se almacena avance real en lista final
-                    avance_final = avance_final_dos
+                    avance_final = arreglo_valores_final
+                
+                if avance_semanal != 0:
+                    proyeccion = (diferencia / avance_semanal) - diferencia_arreglo_fecha
+                    contador = 0
 
-                    #Calcular extension de fechas
-                    largo_necesitado = largo_fechas + proyeccion
-                    largo_necesitado = largo_necesitado - largo_inicial_fechas
+                    if  calculo_avance_final < 100 and calculo_avance_final > 0:
+
+                        #Variables
+                        avance_inicial_dos = []
+                        avance_final_dos = []
+                        avance_fechas_controles = []
+                        fechas_controles_recorrer = []
+                        contador_versiones = 0
+                        posterior_fecha = ultima_fecha
+                        contador_fechas = 1
+
+                        #Funcion para agregar nuevas fechas
+                        while contador < proyeccion:
+                            ultima_fecha = ultima_fecha + timedelta(days=7)
+                            posterior_fecha = ultima_fecha + timedelta(days=7)
+                            fechas_controles.append(ultima_fecha)
+                            contador = contador + 1
+
+                        #Se recorren las fechas de control para guardar las que necesitan evaluarse
+                        for fechas in fechas_controles:
+                            if fechas <= dia_actual:
+                                fechas_controles_recorrer.append(fechas)
+                                avance_fechas_controles.append(0)
+                            else:
+                                if fechas > dia_actual and contador_fechas == 1:
+                                    fechas_controles_recorrer.append(fechas)
+                                    avance_fechas_controles.append(0)
+                                    contador_fechas = 0
+
+                        #Se almacenan los dato del documento
+                        for doc in documentos:
+                            fecha_emision_0 = doc.fecha_Emision_0
+                            fecha_emision_b = doc.fecha_Emision_B
+                            versiones = Version.objects.filter(documento_fk=doc).last()
+                            cont = 0
+
+                            #Si exite una version
+                            if versiones:
+                                contador_versiones = contador_versiones + 1
+                                fecha_version = versiones.fecha
+                                revision_documento = versiones.revision
+                                valor_documento = 0
+
+                                #Se calcula el avance real en la fecha de control que corresponda
+                                for controles in fechas_controles_recorrer:
+                                    if valor_documento == 0:
+                                        calculo_real_0 = 0
+                                        calculo_real_b = 0
+                                        avance_documento = 0
+
+                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                        for revision in TYPES_REVISION[1:4]:
+                                            if revision[0] == revision_documento and fecha_version <= controles:
+                                                calculo_real_b = valor_ganado * 0.7
+                                            if cont == (len(fechas_controles) - 1):
+                                                if revision[0] == revision_documento and fecha_version > controles:                              
+                                                    calculo_real_b = valor_ganado * 0.7
+
+                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                        for revision in TYPES_REVISION[5:]:
+                                            if revision[0] == revision_documento and fecha_version <= controles:
+                                                calculo_real_0 = valor_ganado * 1
+                                            if cont == (len(fechas_controles) - 1):
+                                                if revision[0] == revision_documento and fecha_version > controles:                                
+                                                    calculo_real_0 = valor_ganado * 1
+
+                                        #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                        if calculo_real_b > calculo_real_0:
+                                            avance_documento = calculo_real_b
+                                            fecha_documento = fecha_emision_b
+
+                                        #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                        if calculo_real_b < calculo_real_0:
+                                            avance_documento = calculo_real_0
+                                            fecha_documento = fecha_emision_0
+
+                                        #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                        if avance_documento != 0:
+                                            avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                            valor_documento = 1 
+                                        cont = cont + 1
+
+                            #Si no hay versiones, pasa al siguiente documento
+                            if not versiones:
+                                pass
+
+                        #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
+                        contador_final = 0
+                        calculo_avance_final = 0
+                        largo_fechas = len(avance_fechas_controles)
+                        
+                        for avance in avance_fechas_controles: 
+                            if contador_final < largo_fechas:
+                                calculo_avance_final = calculo_avance_final + avance
+                                avance_inicial_dos = [format(calculo_avance_final, '.2f'), 0]
+                                avance_final_dos.append(avance_inicial_dos)
+                                contador_final = contador_final + 1
+
+                        #Funcion en caso de que el avance real no sea el 100%
+                        diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
+                        diferencia = 100 - calculo_avance_final
+                        avance_semanal = calculo_avance_final/largo_fechas
+                        proyeccion = (diferencia / avance_semanal)
+                        contador = 0
+
+                        proyeccion = math.ceil(proyeccion)
+                        if  calculo_avance_final < 100 and calculo_avance_final > 0:
+                            while contador < proyeccion:
+                                if contador == (proyeccion - 1):
+                                    calculo_avance_final = 100
+                                    avance_inicial_dos = [format(calculo_avance_final, '.2f'), 1]
+                                    avance_final_dos.append(avance_inicial_dos)
+                                    contador = contador + 1
+
+                                else:
+                                    calculo_avance_final = calculo_avance_final + avance_semanal
+                                    avance_inicial_dos = [format(calculo_avance_final, '.2f'), 1]
+                                    avance_final_dos.append(avance_inicial_dos)
+                                    contador = contador + 1
+
+                        #Se calcula el avance porcentual
+                        largo_curva_s = len(avance_final_dos)
+                        contador_curva_s = 1
+                        diferencia = 0
+                        arreglo_valores = []
+                        arreglo_valores_final = []
+
+                        arreglo_valores = [avance_final_dos[0][0], avance_final_dos[0][1], '0.0']
+                        arreglo_valores_final.append(arreglo_valores)
+
+                        while contador_curva_s < largo_curva_s:
+                            if avance_final_dos[contador_curva_s][1] == 0:
+                                diferencia = float(avance_final_dos[contador_curva_s][0]) - float(avance_final_dos[contador_curva_s - 1][0])
+                                arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
+                                arreglo_valores_final.append(arreglo_valores)
+                            else:
+                                diferencia = float(avance_final_dos[contador_curva_s][0]) - float(avance_final_dos[contador_curva_s - 1][0])
+                                arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
+                                arreglo_valores_final.append(arreglo_valores)
+                            contador_curva_s = contador_curva_s + 1                                                                                       
+
+                        #Se almacena avance real en lista final
+                        avance_final = arreglo_valores_final
+
+                        #Calcular extension de fechas
+                        largo_necesitado = largo_fechas + proyeccion
+                        largo_necesitado = largo_necesitado - largo_inicial_fechas
     
             if contador_versiones == 0:
                 avance_inicial = [0]
@@ -661,8 +723,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 posterior_fecha = ultima_fecha
 
                 while contador < diferencia:
-                    if ultima_fecha < dia_actual and dia_actual < posterior_fecha:
-                        fechas_controles.append(dia_actual)
                     ultima_fecha = ultima_fecha + timedelta(days=7)
                     posterior_fecha = ultima_fecha + timedelta(days=7)
                     fechas_controles.append(ultima_fecha)
@@ -672,7 +732,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles = ['Sin registros']
             fechas_controles.append(fechas_controles)
 
-        return fechas_controles        
+        return fechas_controles      
 
     ###################################################
     #                                                 #

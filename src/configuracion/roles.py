@@ -1,5 +1,4 @@
 ROLES = (
-    ('','-----'),
     (1, 'Administrador Cliente'),     
     (2, 'Revisor Cliente'), #Tiene acceso al panel de carga y Baes pero con aprobacion de su jefe o administrador
     (3, 'Vizualizador Cliente'), #Tiene acceso a solo Analitica buscador y status

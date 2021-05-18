@@ -35,7 +35,7 @@
                   <div class="card shadow-base overflow-hidden chart">
 
                       <div class="card-header">
-                    <h4 class="tx-gray-800 mg-b-5">Estados de Documentos</h4>                        
+                    <h4 class="tx-gray-800 mg-b-5"> Documentos por revisión</h4>                        
                         
                       </div>
                       <div class="card-body">
@@ -52,7 +52,7 @@
                     <div class="card shadow-base overflow-hidden chart">
                     
                         <div class="card-header">
-                           <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos a Emitir por Especialidad</h4>                        
+                           <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos pendientes por especialidad</h4>                        
                           
                         </div>
                         <div class="card-body">
@@ -71,7 +71,7 @@
       <div class="widget-2">
           <div class="card shadow-base overflow-hidden chart">
               <div class="card-header">
-            <h4 class="tx-gray-800 mg-b-5">Documentos Totales por Especialidad <strong>VS</strong> Documentos Emitidos</h4>                        
+            <h4 class="tx-gray-800 mg-b-5" style="text-align:center;margin-left:auto;margin-right:auto;">Documentos totales por especialidad vs Documentos emitidos</h4>                        
 
                 
               </div>
@@ -405,7 +405,7 @@
         borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 214, 141 , 1)', {% endif %} {% endfor %}],
         fill: true,
         borderWidth: 1,
-        data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.0}}, {% endfor %}],
+        data: [{% for real_barra in lista_curva_s_avance_real %} {{real_barra.2}}, {% endfor %}],
 			}]
       
 		};
