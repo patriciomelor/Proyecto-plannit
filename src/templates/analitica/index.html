@@ -386,12 +386,25 @@
         lineTension:0.18,
 				fill: false,
 				data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
-			}, 
+			},
+       {% comment %}aqui vas a poner hasta el punto azul  {% endcomment %}
       {
 				type: 'line',
             label: 'Avance Real a la fecha',
-            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% endfor %}],
-            borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% endfor %}],
+            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %}  {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 1)', {% endif %}{% endif %} {% endfor %}],
+            borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 1)', {% endif %} {% endif %} {% endfor %}],
+            borderWidth: 1,
+            lineTension:0.18,
+            fill: false,
+            data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
+       
+			}, 
+      {% comment %} Aqui poner la proyeccion  {% endcomment %}
+      {
+				type: 'line',
+            label:'Proyeccion',
+            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(220, 118, 51, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(220, 118, 51, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(220, 118, 51, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(220, 118, 51, 1)', {% endif %} {% endif %} {% endfor %}],
+            borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(220, 118, 51, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(220, 118, 51, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(220, 118, 51, 1)', {% endif %} {% if esperado.1 == 1 %} 'rgba(220, 118, 51, 1)', {% endif %} {% endif %} {% endfor %}],
             borderWidth: 1,
             lineTension:0.18,
             fill: false,
