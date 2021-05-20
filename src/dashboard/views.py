@@ -127,8 +127,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
                         contador_aprobacion = contador_aprobacion + 1
                         documentos_aprobados = documentos_aprobados + 1
-                        
-                        documentos_revision_contratista = documentos_revision_contratista + 1
                         diferencia = abs((semana_actual - fecha_version).days)
                         prom_revision_contratista = float(prom_revision_contratista) + diferencia
                         contador_revision_contratista = contador_revision_contratista + 1

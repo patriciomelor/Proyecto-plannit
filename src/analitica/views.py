@@ -330,8 +330,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 fecha_posterior = fecha_actual + timedelta(days=7)
                 fechas_controles.append(fecha_actual)
             fechas_controles.append(ultima_de_dos)
-            fechas_controles.append(fecha_posterior)
-
 
             #Se almacena arreglo de fechas en la lista final
             elementos = []
@@ -483,8 +481,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                             arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
                             arreglo_valores_final.append(arreglo_valores)
                         contador_curva_s = contador_curva_s + 1                                                                                       
-
-                    print(arreglo_valores_final)
 
                     #Se almacena avance real en lista final
                     avance_final = arreglo_valores_final
@@ -680,7 +676,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             diferencia = len(lista_avance_real) - len(fechas_controles)
 
             for controles in fechas_controles:
-                if contador_largo < (len(fechas_controles) - 1):
+                if contador_largo < len(fechas_controles):
                     calculo_avanceEsperado = 0
                     for doc in documentos:                  
                         fecha_emision_b = doc.fecha_Emision_B
@@ -710,7 +706,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             calculo_parcial = [lista_final_esperado[0][0], '0.0']
             calculo_parcial_final.append(calculo_parcial)
 
-            while contador_parcial < (len(lista_final_esperado) - 1):
+            while contador_parcial < len(lista_final_esperado):
                 diferencia = float(lista_final_esperado[contador_parcial][0]) - float(lista_final_esperado[contador_parcial - 1][0])
                 diferencia = format(diferencia, '.2f')
                 calculo_parcial = [lista_final_esperado[contador_parcial][0], str(diferencia)]
