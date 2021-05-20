@@ -474,10 +474,12 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     while contador_curva_s < largo_curva_s:
                         if avance_final[contador_curva_s][1] == 0:
                             diferencia = float(avance_final[contador_curva_s][0]) - float(avance_final[contador_curva_s - 1][0])
+                            diferencia = format(diferencia, '.2f')
                             arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
                             arreglo_valores_final.append(arreglo_valores)
                         else:
                             diferencia = float(avance_final[contador_curva_s][0]) - float(avance_final[contador_curva_s - 1][0])
+                            diferencia = format(diferencia, '.2f')
                             arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
                             arreglo_valores_final.append(arreglo_valores)
                         contador_curva_s = contador_curva_s + 1                                                                                       
@@ -624,10 +626,12 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                         while contador_curva_s < largo_curva_s:
                             if avance_final_dos[contador_curva_s][1] == 0:
                                 diferencia = float(avance_final_dos[contador_curva_s][0]) - float(avance_final_dos[contador_curva_s - 1][0])
+                                diferencia = format(diferencia, '.2f')
                                 arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
                                 arreglo_valores_final.append(arreglo_valores)
                             else:
                                 diferencia = float(avance_final_dos[contador_curva_s][0]) - float(avance_final_dos[contador_curva_s - 1][0])
+                                diferencia = format(diferencia, '.2f')
                                 arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
                                 arreglo_valores_final.append(arreglo_valores)
                             contador_curva_s = contador_curva_s + 1                                                                                       
