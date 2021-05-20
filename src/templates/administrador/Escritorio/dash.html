@@ -208,7 +208,7 @@
 </div><!-- row -->
 
 <div class="row row-sm mg-t-20 mg-b-30">
-<div class="col-3">
+  <div class="col-3">
     <div class="card shadow-base bd-0">
       <div class="pd-x-30 pd-t-30 pd-b-15 bg-info">
                 <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;">Umbrales</h6>
@@ -258,50 +258,50 @@
       </div><!-- card-header -->
         <div class="form-layout form-layout-7">
           <div class="row no-gutters text-center">
-            <div class="col-6 col-sm-5 text-center">
+            <div class="col-7 col-sm-6 text-center">
               Nombre: 
             </div><!-- col-4 -->
-            <div class="col-6 col-sm-7 text-center">
+            <div class="col-5 col-sm-6 text-center">
               {{proyecto.nombre}}
             </div><!-- col-8 -->
           </div><!-- row -->
           <div class="row no-gutters text-center">
-            <div class="col-6 col-sm-5 text-center">
+            <div class="col-7 col-sm-6 text-center">
               Fecha Inicio: 
             </div><!-- col-4 -->
-            <div class="col-6 col-sm-7 text-center">
+            <div class="col-5 col-sm-6 text-center">
               {{proyecto.fecha_inicio|date:'d-m-y'}}  
             </div><!-- col-8 -->
           </div><!-- row -->
           <div class="row no-gutters text-center">
-            <div class="col-6 col-sm-5 text-center">
+            <div class="col-7 col-sm-6 text-center">
               Fecha Termino:
             </div><!-- col-4 -->
-            <div class="col-6 col-sm-7 text-center">
+            <div class="col-5 col-sm-6 text-center">
               {{proyecto.fecha_termino|date:'d-m-y'}}  
             </div><!-- col-8 -->
           </div><!-- row -->
           <div class="row no-gutters text-center">
-            <div class="col-6 col-sm-5 text-center">
+            <div class="col-7 col-sm-6 text-center">
               Descripción:
             </div><!-- col-4 -->
-            <div class="col-6 col-sm-7 text-center">
+            <div class="col-5 col-sm-6 text-center">
               {{proyecto.descripcion}}  
             </div><!-- col-8 -->
           </div><!-- row -->
           <div class="row no-gutters text-center">
-            <div class="col-6 col-sm-5 text-center">
+            <div class="col-7 col-sm-6 text-center">
               Encargado:
             </div><!-- col-4 -->
-            <div class="col-6 col-sm-7 text-center">
+            <div class="col-5 col-sm-6 text-center">
               {{proyecto.encargado}}  
             </div><!-- col-8 -->
           </div><!-- row -->
           <div class="row no-gutters text-center">
-            <div class="col-6 col-sm-5 text-center">
+            <div class="col-7 col-sm-6 text-center">
               Codigo:
             </div><!-- col-4 -->
-            <div class="col-6 col-sm-7 text-center">
+            <div class="col-5 col-sm-6 text-center">
               {{proyecto.codigo}}  
             </div><!-- col-8 -->
           </div><!-- row -->
@@ -310,8 +310,8 @@
 
   </div><!-- col-3 -->
   <div class="col-6">
-    <div class="card shadow-base bd-0" style="overflow-y: auto;overflow-x: auto;height: 350px;">
-      <div class="card-header pd-20 bg-primary">
+    <div class="card shadow-base bd-0 " >
+      <div class="card-header pd-20 bg-info">
         <h6 class="card-title tx-uppercase tx-12 mg-b-0 "style="color:#fff;"> Lista Usuarios</h6>
       </div><!-- card-header -->
       <table class="table table-responsive table-striped table-bordered mg-b-0 tx-12">
@@ -319,6 +319,7 @@
           <tr class="tx-10">
             <th class="wd-10p pd-y-5" style="color: white;text-align:center;">Usuarios</th>
             <th class="pd-y-5" style="color: white;text-align:center;">Correo</th>
+            <th class="pd-y-5" style="color: white;text-align:center;">Empresa</th>            
             <th class="pd-y-5" style="color: white;text-align:center;">ROL</th>
           </tr>
         </thead>
@@ -331,6 +332,7 @@
       <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
       {% endif %} 
       <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.empresa}} </th>
       {% if usuario.perfil.rol_usuario %}
       <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
       {% else %}

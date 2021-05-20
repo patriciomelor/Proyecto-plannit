@@ -80,28 +80,23 @@
          <tr>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Transmital</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Asunto</th>
-            <!-- <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Descripcion</th>            -->
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Autor</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Fecha creacion</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Destinatario</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Fecha</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Hora</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Detalle</th>
             <th class="wd-5p hidden-xs-down"></th>
           </tr>
         </thead>
            {% for paquete in paquetes %}
           <tr>
-            <td>
-              <div class="d-flex align-items-center">
-                <div class="mg-l-15">
-                  <div class="tx-inverse"> <a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.codigo}}</a> </div>
-                </div>
-              </div>
-            </td>            
-            <td class="valign-middle hidden-xs-down"> {{ paquete.asunto }} </td>           
-            <!-- <td class="valign-middle hidden-xs-down"> {{ paquete.descripcion }} </td>            -->
-            <td class="valign-middle hidden-xs-down"> {{ paquete.owner }}</td>
-            <td><span class="tx-15"><strong>{{ paquete.fecha_creacion|date:'d-m-yy'}} -{{paquete.fecha_creacion|date:'H:i'}}</strong> </span></td>
-            <td class="valign-middle hidden-xs-down">
-              <a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}" class="nav-link">Detalle</a>       
+            <td class="valign-middle hidden-xs-down"><a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.codigo}}</a></td>            
+            <td class="valign-middle hidden-xs-down">{{ paquete.asunto }} </td>           
+            <td class="valign-middle hidden-xs-down">{{ paquete.owner }}</td>
+            <td class="valign-middle hidden-xs-down">{{ paquete.destinatario }}</td>
+            <td class="valign-middle hidden-xs-down">{{ paquete.fecha_creacion|date:'d-M-y'}}</td>
+            <td class="valign-middle hidden-xs-down">{{ paquete.fecha_creacion|date:'H:i'}}</td>
+            <td class="valign-middle hidden-xs-down"><a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}"><i class="icon ion-eye"></i></a>       
             </td>
           </tr>
           
