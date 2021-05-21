@@ -58,6 +58,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         documentos_contador = self.get_queryset().count()
         total_documentos = self.get_queryset().count()
         lista_avance_real = self.reporte_curva_s_avance_real()
+        fechas = self.Obtener_fechas()
+        fechas = fechas[0][0]
         avance_esperado = self.reporte_curva_s_avance_esperado()
         semana_actual = timezone.now()
 
@@ -97,20 +99,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
         cantidad_paquetes_contratista = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto).count()
 
         #Obtener otros datos 
-
-        #Obtener avance real curva s       
-        if documentos_contador != 0:
-            for avance in lista_avance_real:
-                if avance[1] == 0:
-                    avance_real = avance[0]
-                    contador_real = contador_real + 1
-
-            #Obtener avance esperado curva s   
-            for esperado in avance_esperado:
-                if (contador_real - 1) == contador_esperado:
-                    avance_programado = esperado[0]
-                contador_esperado = contador_esperado + 1
-
         for doc in documentos:
             versiones = Version.objects.filter(documento_fk=doc).last()
             version_first = Version.objects.filter(documento_fk=doc).first()
@@ -199,7 +187,34 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 if contador_revision_contratista != 0:
                     prom_revision_contratista = float(prom_revision_contratista)/contador_revision_contratista
                     prom_revision_contratista = format(float(prom_revision_contratista), '.1f')
-                        
+
+        #Obtener avance real y esperado
+        if contador_emitidos != 0:
+            #Obtener avance real curva s       
+            if documentos_contador != 0:
+                for avance in lista_avance_real:
+                    if avance[1] == 0:
+                        avance_real = avance[0]
+                        contador_real = contador_real + 1
+
+                #Obtener avance esperado curva s   
+                for esperado in avance_esperado:
+                    if (contador_real - 1) == contador_esperado:
+                        avance_programado = esperado[0]
+                    contador_esperado = contador_esperado + 1
+
+        if contador_emitidos == 0:
+            avance_real = '0.0'
+            contador_fechas = 0
+            puesto_esperado = 0
+            unico = 1
+            for date in fechas:
+                if date >= semana_actual and unico == 1:
+                    puesto_esperado = contador_fechas
+                    unico = 0
+                contador_fechas = contador_fechas + 1
+            avance_programado = avance_esperado[puesto_esperado][0]
+        
         #Se almacenan los datos obtenidos
         lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, contador_no_emitidos, documentos_revision_cliente, documentos_revision_contratista, prom_demora_revisión_final, tiempo_ciclo_aprobación, prom_revision_cliente, prom_revision_contratista, cantidad_paquetes_cliente, cantidad_paquetes_contratista, avance_programado, avance_real]
         lista_final.append(lista_inicial)
