@@ -105,15 +105,14 @@
                 {% endif %}  
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'d-m-y'}} </td>                    
                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'H:i'}} </td>         
-                      {% if version.0.archivo is not None %}
+                     {% if version.archivo.url is not None %}
                       <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{{version.0.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
 
                     {% else %}
                     
                        <th class="pd-y-5"style="text-align: center;">No hay documento para Descargar</th>  
 
-                    {% endif %}           
-                    
+                    {% endif %} 
                   </tr>    
                 {% empty %}
                       <h4> El Documento {{documento}}, no tiene Versiones. </h4>
