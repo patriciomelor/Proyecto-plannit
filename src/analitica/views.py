@@ -3,6 +3,7 @@ from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
+from analitica.models import CurvasBase
 from panel_carga.views import ProyectoMixin
 from bandeja_es.models import Version
 from panel_carga.models import Documento, Proyecto
@@ -882,5 +883,17 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
         context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
         context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
+        # context['curva'] = CurvaBaseView.get_queryset()
 
         return context
+
+# class CurvaBaseView(ProyectoMixin, View):
+#     def get_queryset(self, request, *args, **kwargs):
+#         qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
+#         return qs.get_lista()
+    
+#     def post(self, request, *args, **kwargs):
+#         value = IndexAnalitica().reporte_curva_s_avance_esperado()
+#         curva = CurvasBase.get_list(list=value)
+#         curva.save()
+#         return value
