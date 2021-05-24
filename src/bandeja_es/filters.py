@@ -14,11 +14,12 @@ class PaqueteFilter(django_filters.FilterSet):
     )
     owner = django_filters.CharFilter(
         lookup_expr='icontains',
-        label = 'Autor:',
+        labels = {'Autor:'},
         widget=forms.TextInput(
             attrs={
                 'name':'#ordenName', 
-                'id':'ordenName'
+                'id':'ordenName',
+                'label':'Autor',
                 }
             ), 
         ),
@@ -38,7 +39,7 @@ class PaqueteFilter(django_filters.FilterSet):
         fields = ['codigo', 'owner', 'fecha_creacion']
         labels = {
             'codigo': 'Número de Tramital:',
-            'owner': 'Autor:'
+            'owner': 'Autor:',
         }
 
 class PaqueteDocumentoFilter(django_filters.FilterSet):
