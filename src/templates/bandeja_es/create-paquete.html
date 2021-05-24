@@ -29,7 +29,7 @@
 
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Detalle del paquete.</h4>
+    <h4 class="tx-gray-800 mg-b-5">Detalle del paquete</h4>
   </div>
 
   {% comment %} {% if invalido == 0 %} {% endcomment %}
@@ -47,15 +47,7 @@
           </div>
    <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">   
-       <div class="form-layout form-layout-7 ">               
-                <div class="row no-gutters">
-                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                          Numero de paquete:
-                  </div><!-- col-4 -->
-                  <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
-                          {{paquete.pk}}
-                  </div><!-- col-8 -->
-                </div> 
+       <div class="form-layout form-layout-7 ">
                 <div class="row no-gutters">
                   <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
                     Asunto:
@@ -66,7 +58,7 @@
                 </div>
                 <div class="row no-gutters">
                   <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                    creador:
+                    Creador:
                   </div><!-- col-4 -->
                   <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                     {{paquete.prev_propietario}}
@@ -74,7 +66,7 @@
                 </div>
                 <div class="row no-gutters">
                   <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                    fecha creacion:
+                    Fecha creacion:
                   </div><!-- col-4 -->
                   <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                     {{paquete.prev_fecha_creacion|date:'d-M-Y'}}
@@ -82,7 +74,7 @@
                 </div>  
                  <div class="row no-gutters">
                   <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                    Hora de creacion:
+                    Hora de creación:
                   </div><!-- col-4 -->
                   <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                     {{paquete.prev_fecha_creacion|date:'H:i'}}
@@ -95,7 +87,7 @@
                       <th class="pd-y-5"style="text-align: center;">Especialidad</th>  
                       <th class="pd-y-5"style="text-align: center;">Nombre</th>   
                       <th class="pd-y-5"style="text-align: center;">Tipo Documento</th>   
-                      <th class="pd-y-5"style="text-align: center;">Codigo Documento</th>  
+                      <th class="pd-y-5"style="text-align: center;">Código Documento</th>  
                       <th class="pd-y-5"style="text-align: center;">Revisión</th>
                       <th class="pd-y-5"style="text-align: center;">Status</th>                                    
                       <th class="pd-y-5"style="text-align: center;">Archivo</th>
@@ -132,14 +124,14 @@
                       {% endif %}
                     </tr>    
                     {% empty %}
-                    <h4> El paquete no tiene documentos. </h4>
+                    <h4> El paquete no tiene documentos </h4>
                     {% endfor %}
                               
                   </tbody>
                   
                 </table>
                 <div class="row no-gutters" style="float: left;margin-top: 10px;margin-right: 10px;margin-bottom: 10px;">
-                  <a href="{% url 'paquete-crear' paquete.pk versiones_pk %}"><button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-20" type="submit"> Envíar </button></a>                  
+                  <a href="{% url 'paquete-crear' paquete.pk versiones_pk %}"><button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-20" type="submit"> Enviar </button></a>                  
                   <a onclick="history.back();"><button  class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="buttom"> volver </button></a>
                 </div>
         </div><!-- card -->

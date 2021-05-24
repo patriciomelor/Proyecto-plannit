@@ -127,6 +127,7 @@ class PrevVersionForm(forms.ModelForm):
         super(PrevVersionForm, self).__init__(**kwargs)
         if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
             self.fields["prev_archivo"].required = True
+            
     def clean(self):
         cleaned_data = super().clean()
         #Verifica que el formulario venga con los datos minimos
@@ -136,8 +137,7 @@ class PrevVersionForm(forms.ModelForm):
         estado_cliente = cleaned_data.get('prev_estado_cliente')
         estado_contratista = cleaned_data.get('prev_estado_contratista')
         revision = cleaned_data.get('prev_revision')
-        revision_final = (dict(TYPES_REVISION).get(revision))
-        print(nombre_archivo)
+        revision_str = (dict(TYPES_REVISION).get(revision))
         try:
             document = Documento.objects.get(Codigo_documento=doc)
             ultima_revision = Version.objects.filter(documento_fk=document)
@@ -149,40 +149,26 @@ class PrevVersionForm(forms.ModelForm):
         #para el documento selecionado
         try:
             document = Documento.objects.get(Codigo_documento=doc)
-            ultima_rev = Version.objects.filter(documento_fk=doc, revision=revision)
-            if ultima_rev.count() < 2:
-                primero = ultima_rev.first()
-                if primero.estado_cliente: 
-                    if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
-                        raise ValidationError('Ya no puedes emitir más documentos como Cliente la revision {}'.format(revision_final))
-                elif primero.estado_contratista:
-                    if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:    
-                        raise ValidationError('Ya no puedes emitir más documentos como Contratista la revision {}'.format(revision_final))
-            else:
-                raise ValidationError("Ya no se pueden emitir más documento en revision {}".format(revision_final))
-        except (AttributeError, PrevPaqueteDocumento.DoesNotExist):
+            ultima_rev = Version.objects.filter(documento_fk=document).last()
+            if ultima_rev.estado_cliente is not None:
+                print("La última versión de este Documento Fue emitido por el Cliente")
+                if not ultima_rev.estado_cliente == 6 and revision == ultima_rev.revision:
+                    raise ValidationError('No se puede mantener la revisión del documento {}, por favor intente con una revisión distinta'.format(document.Codigo_documento))
+        except (AttributeError, Version.DoesNotExist):
             pass
         #Verificca que no se pueda emitir una revision en número antes de que en letra
         try:
             ultima_revision = Version.objects.filter(documento_fk=doc)
-            print(ultima_revision)
             if not ultima_revision.exists() and revision >= 5:
                 raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
         except (AttributeError, Version.DoesNotExist):
-            # if revision >= 5:
-            #     raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
             pass
         #Verifica que no se pueda enviar una version igual 
         # o anterior a la última emitida
         try:
-            ultima_prev_revision = PrevVersion.objects.filter(prev_documento_fk=doc).last()
             ultima_revision = Version.objects.filter(documento_fk=doc).last()
-            print(revision)
-            print(ultima_revision.revision)
             if revision < ultima_revision.revision:
                 raise ValidationError('No se puede elegir una revisión anterior a la última emitida')
-            # elif revision < ultima_prev_revision.prev_revision:
-            #     raise ValidationError('No se puede elegir una revisión anterior a la última emitida')
         except AttributeError:
             pass
         #Verifica que el nombre del archivo coincida con
@@ -190,16 +176,25 @@ class PrevVersionForm(forms.ModelForm):
         if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
             con_archivo = cleaned_data.get("adjuntar")
             if con_archivo == True:
-                if not verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
+                if not verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
                     self.add_error('prev_archivo', 'No coinciden los nombres')
                     raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
+                if not nombre_archivo:
+                    raise ValidationError('No se adjuntó archivo')
             if not estado_cliente: 
                 raise ValidationError("Debes seleccionar un estado para esta revisión.")
         if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
             if not estado_contratista: 
                 raise ValidationError("Debes seleccionar un estado para esta revisión.")
+        #Verificar que no se pueda emitir para constucción con estados Números
+        if revision < 5 and estado_cliente == 5:
+            raise ValidationError('No se puede emitir Válido para construcción estando en Letra')
 
-def verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
+
+
+
+
+def verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
     try:
         index = nombre_archivo.index('.')
     except ValueError:
@@ -208,7 +203,7 @@ def verificar_nombre_archivo(nombre_documento, revision_final, nombre_archivo):
     cleaned_name = nombre_archivo[:index]
     extencion = nombre_archivo[index:]
 
-    nombre_final = nombre_documento + '-' + revision_final
+    nombre_final = nombre_documento + '-' + revision_str
     print(nombre_final)
     if cleaned_name == nombre_final:
         return True

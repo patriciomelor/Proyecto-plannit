@@ -4,7 +4,7 @@
 <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
-      <a class="breadcrumb-item" href="{% url 'listar-usuarios' %}">Configuracion</a>      
+      <a class="breadcrumb-item" href="{% url 'listar-usuarios' %}">Configuración</a>      
       <span class="breadcrumb-item active"> Eliminar Usuario</span>
     </nav>
 </div>
@@ -24,7 +24,7 @@
                     <h4 class="tx-danger  tx-semibold mg-b-20">ATENCIÓN: Esta apunto de ELIMINAR a un usuario!</h4>                    
                      <form method="POST">{% csrf_token %}
                     <p class="mg-b-20 mg-x-20">
-                        <p class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10">Seguro que quieres eliminar a {{usuario.first_name}} {{usuario.last_name}} registros ?<br></p>
+                        <p class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10">¿Estás seguro que quieres eliminar a {{usuario.first_name}} {{usuario.last_name}} registros ?<br></p>
                         <input type="submit" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" onclick="windows.close();" value="Confirmar">
                     </p>
                     </form>
