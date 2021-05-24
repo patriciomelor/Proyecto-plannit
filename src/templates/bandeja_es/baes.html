@@ -4,6 +4,14 @@
 {% load crispy_forms_tags %}
 
 {% block mailing %}
+<style>
+  #mydatatable tfoot input{
+      width: 100% !important;
+  }
+  #mydatatable tfoot {
+      display: table-header-group !important;
+  }
+  </style>
 <div class="br-subleft">
       <div class="pd-10">
         <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
@@ -40,6 +48,7 @@
     <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
       <li class="nav-item mg-10">{{filter.form.codigo|as_crispy_field}}</li>
       <li class="nav-item mg-10">{{filter.form.owner|as_crispy_field}}</li>
+      <li class="nav-item mg-10">{{filter.form.destinatario|as_crispy_field}}</li>
       <li class="nav-item mg-t-35">
         <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
       </li>
@@ -52,8 +61,8 @@
   </div>
 
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
-    <div class="card bd-0 shadow-base">
-      <table class="table mg-b-0 table-contact">
+    <div class="card bd-0 shadow-base" id="mydatatable-container">
+      <table class="records_list table table-striped table-bordered table-hover" id="mydatatable">
         <thead>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Transmital</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Asunto</th>
@@ -64,6 +73,14 @@
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Detalle</th>
           </tr>
         </thead>
+        <tfoot>
+          <tr>
+              <th>Filter..</th>
+              <th>Filter..</th>
+              <th>Filter..</th>
+              <th>Filter..</th>
+              
+      </tfoot>
         <tbody>
         {% for paquete in paquetes %}
           <tr>
@@ -109,6 +126,8 @@
           {% endfor %}
       </table>    
 </div>
+
+
 {% if is_paginated %}
 <div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
 <ul class="pagination pagination-basic mg-b-0"> 
@@ -181,6 +200,39 @@
       }
     });
 
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('#mydatatable tfoot th').each(function () {
+          var title = $(this).text();
+          $(this).html('<input type="text" placeholder="Filtrar.." class="input-control"/>');
+      });
+
+      var table = $('#mydatatable').DataTable({
+          "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',
+          "responsive": true,
+          "language": {
+              "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          },
+          "order": [
+              [0, "desc"]
+          ],
+          "initComplete": function () {
+              this.api().columns().every(function () {
+                  var that = this;
+
+                  $('input', this.footer()).on('keyup change', function () {
+                      if (that.search() !== this.value) {
+                          that
+                              .search(this.value)
+                              .draw();
+                      }
+                  });
+              })
+          },
+          "buttons": ['csv', 'excel', 'pdf', 'print']
+      });
   });
 </script>
 {% endblock content %}

@@ -5,23 +5,19 @@ from .models import Paquete, PaqueteDocumento, BorradorPaquete
 from django.http import JsonResponse
 
 class PaqueteFilter(django_filters.FilterSet):
-    fecha_creacion = django_filters.DateFilter(
+    destinatario = django_filters.CharFilter(
         lookup_expr='icontains',
-        label= 'Fecha de Creación:',
-        widget=forms.DateInput(attrs={
-            'type': 'date'
-        })
+        label= 'Destinatario:',
+        widget=forms.TextInput(
+                attrs={
+                    'name':'#ordenName2',
+                    'id':'ordenName2',
+                    }
+                ), 
     )
     owner = django_filters.CharFilter(
         lookup_expr='icontains',
-        labels = {'Autor:'},
-        widget=forms.TextInput(
-            attrs={
-                'name':'#ordenName', 
-                'id':'ordenName',
-                'label':'Autor',
-                }
-            ), 
+        label = 'Autor:', 
         ),
 
     codigo = django_filters.CharFilter(
@@ -36,11 +32,8 @@ class PaqueteFilter(django_filters.FilterSet):
     )
     class Meta:
         model = Paquete
-        fields = ['codigo', 'owner', 'fecha_creacion']
-        labels = {
-            'codigo': 'Número de Tramital:',
-            'owner': 'Autor:',
-        }
+        fields = ['codigo', 'owner', 'destinatario']
+        
 
 class PaqueteDocumentoFilter(django_filters.FilterSet):
     class Meta:
