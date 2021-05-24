@@ -7,7 +7,7 @@
       <div class="card shadow-base bd-0 rounded-0 widget-4">
         <div class="card-header ht-75">
           <div class="hidden-xs-down">
-            <a href="" class="mg-r-10"><span class="tx-medium">Ultimo inicio de sesion: </span><strong>{{ request.user.last_login }}</strong></a>
+            <a href="" class="mg-r-10"><span class="tx-medium">Último inicio de sesión: </span><strong>{{ request.user.last_login }}</strong></a>
             
           </div>
           <div class="tx-24 hidden-xs-down">
@@ -29,7 +29,7 @@
       <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Accesos Rapidos:</h4>
         <ul class="nav nav-outline active-info align-items-center flex-row" role="tablist">
           <li class="nav-item"><a class="nav-link"  href="{% url 'Bandejaeys' %}" >Bandeja de entrada</a></li>
-          <li class="nav-item"><a class="nav-link"  href="{% url 'analitica-index' %}">Analiticas</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'analitica-index' %}">Analíticas</a></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'status-index' %}" >Buscador</a></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'index' %}">Escritorio</a></li>
         </ul>

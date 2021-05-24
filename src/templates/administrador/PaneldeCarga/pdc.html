@@ -11,13 +11,13 @@
     </nav>
   </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Panel de carga de entregables.</h4>
+    <h4 class="tx-gray-800 mg-b-5">Panel de carga de entregables / {{proyecto}} </h4>
     <p class="mg-b-0"></p>
   </div>
 
   <div class="br-section-wrapper">
 <!--Tabla-->
-<h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4>
+{% comment %} <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4> {% endcomment %}
                     {% if request.user.perfil.rol_usuario == 1 %}
                     <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
                       <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
@@ -27,8 +27,8 @@
                               <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
                         </form>
                               <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
-                              <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"> Descargar Excel </button></a></li>            
-                              <li class="nav-item mg-l-5"><a href="http://143.198.228.81/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning"> Descargar Plantilla </button></a></li>
+                              <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"> Exportar Excel </button></a></li>            
+                              <li class="nav-item mg-l-5"><a href="http://143.198.228.81/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning"> Archivo de carga </button></a></li>
                       </ul>
                     </div><!-- ht-65 -->
                     {% else %}
@@ -58,7 +58,7 @@
           <h6 class="mg-b-0">
             <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
             aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition" style="color: #fff;">
-              FILTROS DE BUSQUEDA <i class="icon ion-search"></i>
+              FILTROS DE BÚSQUEDA <i class="icon ion-search"></i>
             </a>
           </h6>
         </div><!-- card-header -->
@@ -93,10 +93,10 @@
                 </th>
               {% endif %}
               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Especialidad</th>
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Descripcion Documentos</th>
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento</th>
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Descripción Documentos</th>
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Código Documento</th>
               <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo Doc.</th>
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada de Emision</th>
+              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada de Emisión</th>
 
             </tr>
           </thead>
