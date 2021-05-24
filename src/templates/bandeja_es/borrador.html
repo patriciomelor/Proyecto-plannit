@@ -19,9 +19,9 @@
       <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
 
       <nav class="nav br-nav-mailbox flex-column">
+        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
         <a href="{% url 'Bandejaeys' %}" class="nav-link "><i class="icon fa fa-reply"></i> Recibidos</a>
         <a href="{% url 'Borradores' %}" class="nav-link active"><i class="icon icon ion-edit"></i> Borradores</a>
-        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
       </nav>
 </div>
 
@@ -64,25 +64,25 @@
       <table class="table mg-b-0 table-contact">
         <thead>
           <tr>
-            <th class="tx-10-force tx-mont tx-medium"> Asunto Transmital</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Fecha Guardado</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Destinatario</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Propietario</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Asunto</th>
-            <th class="wd-5p hidden-xs-down"></th>
+            <th class="tx-10-force tx-mont tx-medium"style="vertical-align:center;text-align:center;"> Asunto Transmital</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Fecha Guardado</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Destinatario</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Propietario</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Asunto</th>
+            <th class="wd-5p hidden-xs-down"style="vertical-align:center;text-align:center;"></th>
           </tr>
         </thead>
         <tbody>
         {% for borrador in borrador_paquete %}
           <tr>
-            <td class="valign-middle hidden-xs-down"><a href="{% url 'nueva-version' borrador.prev_paquete.pk %}"> {{borrador.prev_paquete}}</a> </div>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{% url 'nueva-version' borrador.prev_paquete.pk %}"> {{borrador.prev_paquete}}</a> </div>
             
             </td>
-            <td class="valign-middle hidden-xs-down"> {{ borrador.fecha_creacion|date:'d-M-y' }} </td>
-            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_receptor }} </td>
-            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_propietario }} </td> 
-            <td class="valign-middle hidden-xs-down"> {{ borrador.prev_paquete.prev_asunto }} </td>
-            <td class="dropdown hidden-xs-down"><a class="btn btn-teal"href="{% url 'nueva-version' borrador.prev_paquete.pk %}"><i class="icon ion-eye"></i></a></td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{ borrador.fecha_creacion|date:'d-M-y' }} </td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{ borrador.prev_paquete.prev_receptor }} </td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{ borrador.prev_paquete.prev_propietario }} </td> 
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{ borrador.prev_paquete.prev_asunto }} </td>
+            <td class="dropdown hidden-xs-down"style="vertical-align:center;text-align:center;"><a class="btn btn-teal"href="{% url 'nueva-version' borrador.prev_paquete.pk %}"><i class="icon ion-eye"></i></a></td>
           </tr>
                      
           
