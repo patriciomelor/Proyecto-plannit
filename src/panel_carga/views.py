@@ -133,7 +133,6 @@ class ListDocumento(ProyectoMixin, ListView):
                 Descripcion= data[1],
                 Codigo_documento= data[2],
                 Tipo_Documento= data[3],
-                Numero_documento_interno= data[4], 
                 fecha_Emision_B= fecha_b,
                 fecha_Emision_0= fecha_0,
                 proyecto= self.proyecto,
@@ -155,7 +154,7 @@ def export_document(request):
     proyecto = request.session.get('proyecto')
     dataset = DocumentResource().export(proyecto=proyecto)
     response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
-    response['Content-Disposition'] = 'attachment; filename="documento.xlsx"'
+    response['Content-Disposition'] = 'attachment; filename="Panel_Carga.xlsx"'
     return response
 class DeleteDocumento(ProyectoMixin, SuperUserViewMixin, ListView):
     template_name = 'panel_carga/delete-lista_documentos.html'
