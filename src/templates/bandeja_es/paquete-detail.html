@@ -47,7 +47,7 @@
             <div class="form-layout form-layout-7 " STYLE="" >               
               <div class="row no-gutters">
                 <div class="col-5 col-sm-4" style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                  creador
+                  Creador
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
                   {{paquete.owner}}
@@ -71,7 +71,7 @@
               </div>                
               <div class="row no-gutters">
                 <div class="col-5 col-sm-4" style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                  fecha creacion
+                  Fecha creacion
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
                   {{paquete.fecha_creacion|date:"d-M-Y H:i"}}
@@ -157,14 +157,14 @@
                     {% endif %}
                   </tr>    
                 {% empty %}
-                    <h4> El paquete no tiene documentos. </h4>
+                    <h4> El paquete no tiene documentos </h4>
                 {% endfor %}          
                 </tbody>
                
               </table>
               <div class="card col-12 bd-0 mg-t-20 mg-b-30 ">
                 <div class="card-header tx-medium bd-0 tx-white bg-info">
-                  Descripcion:
+                  Descripción:
                 </div><!-- card-header -->
                 <div class="card-body bd bd-t-0 rounded-bottom">
                   <p class="mg-b-0"><strong>{{paquete.descripcion}}</strong></p>
