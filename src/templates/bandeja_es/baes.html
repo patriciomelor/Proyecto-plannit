@@ -61,16 +61,17 @@
   </div>
 
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
-    <div class="card bd-0 shadow-base" id="mydatatable-container">
-      <table class="records_list table table-striped table-bordered table-hover" id="mydatatable">
+    <div class="card bd-0 shadow-base dataTables_wrapper no-footer" id="mydatatable-container">
+      <table class="records_list table table-striped table-bordered table-hover" id="mydatatable" role="grid" aria-describedby="datatable2_info">
         <thead>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Transmital</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Asunto</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Autor</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Destinatario</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Fecha</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Hora</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Detalle</th>
+          <tr role="row"> 
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Transmital</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Asunto</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Autor</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Destinatario</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Fecha</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Hora</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Detalle</th>
           </tr>
         </thead>
         <tfoot>
@@ -83,8 +84,8 @@
       </tfoot>
         <tbody>
         {% for paquete in paquetes %}
-          <tr>
-            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
+          <tr role="row" class="odd">
+            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
                   <a href="{% url 'paquete-detalle' paquete.pk %}">
                   {{paquete.codigo}}</a>
             </td>            
@@ -125,9 +126,8 @@
 
           {% endfor %}
       </table>    
-</div>
-
-
+    </div>
+    Paquete: {{paquetes}}
 {% if is_paginated %}
 <div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
 <ul class="pagination pagination-basic mg-b-0"> 
@@ -208,8 +208,14 @@
           var title = $(this).text();
           $(this).html('<input type="text" placeholder="Filtrar.." class="input-control"/>');
       });
-
+      var data = [
+        "{{paquete.codigo}}",
+        "{{ paquete.asunto }}",           
+        "{{ paquete.owner }}",
+        "{{ paquete.destinatario }}"
+      ];
       var table = $('#mydatatable').DataTable({
+          data: data,
           "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',
           "responsive": true,
           "language": {
@@ -231,7 +237,6 @@
                   });
               })
           },
-          "buttons": ['csv', 'excel', 'pdf', 'print']
       });
   });
 </script>
