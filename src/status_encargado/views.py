@@ -7,5 +7,5 @@ from django.views.generic import (ListView, DetailView, CreateView, UpdateView, 
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
 # Create your views here.
-class Encargado(TemplateView):
+class EncargadoIndex(TemplateView):
     template_name = 'status_encargado/index.html'
