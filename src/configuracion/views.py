@@ -13,14 +13,13 @@ from django.core.mail import send_mail
 from panel_carga.models import *
 from panel_carga.forms import ProyectoForm
 from bandeja_es.models import *
-
+from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check, is_admin_check
 
 from .models import Perfil
 from .forms import CrearUsuario, EditUsuario, InvitationForm
 from invitations.utils import get_invitation_model
-from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
 
-class UsuarioView(ProyectoMixin, CreateView):
+class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
     template_name = "configuracion/create-user.html"
     form_class = CrearUsuario
     success_message = 'Usuario Creado.'
@@ -42,7 +41,7 @@ class UsuarioView(ProyectoMixin, CreateView):
         perfil.save()
         return response
 
-class UsuarioEdit(ProyectoMixin, UpdateView):
+class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     model = User
     template_name = 'configuracion/edit-user.html'
     success_url = reverse_lazy('listar-usuarios')
@@ -59,7 +58,7 @@ class UsuarioEdit(ProyectoMixin, UpdateView):
         perfil.save()
         return response
     
-class UsuarioLista(ProyectoMixin, ListView):
+class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
     model = User
     template_name = 'configuracion/list-user.html'
     context_object_name = 'usuarios'
@@ -69,18 +68,19 @@ class UsuarioLista(ProyectoMixin, ListView):
         context["codigo_proyecto"] = self.proyecto.codigo
         return context
 
-class UsuarioDelete(ProyectoMixin, DeleteView):
+class UsuarioDelete(ProyectoMixin, AdminViewMixin, DeleteView):
     model = User
     template_name = 'configuracion/delete-user.html'
     success_url = reverse_lazy('listar-usuarios')
     context_object_name = 'usuario'
     
-class UsuarioDetail(ProyectoMixin, DetailView):
+class UsuarioDetail(ProyectoMixin, AdminViewMixin, DetailView):
     model = User
     template_name = 'configuracion/detail-user.html'
     context_object_name = "usuario"
 
     def get_context_data(self, **kwargs):
+        context = {}
         user = self.get_object()
         grupos = user.groups.all()
         print(grupos)
@@ -88,7 +88,7 @@ class UsuarioDetail(ProyectoMixin, DetailView):
         return context
 
 # Añade usuarios al proyecto actual seleccionado
-class UsuarioAdd(ProyectoMixin, ListView):
+class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
     model = User
     template_name = 'configuracion/add-lista_usuario.html'
     success_message = 'Usuarios añadidos correctamente'
@@ -113,35 +113,35 @@ class UsuarioAdd(ProyectoMixin, ListView):
             proyecto_add.participantes.add(user)
         return redirect('listar-usuarios')
 
-class ProyectoList(ProyectoMixin, ListView):
+class ProyectoList(ProyectoMixin, AdminViewMixin, ListView):
     context_object_name = 'proyectos'
     template_name = 'configuracion/list-proyecto.html'
     queryset = Proyecto.objects.all().order_by('-fecha_inicio')
 
-class ProyectoDetail(ProyectoMixin, DetailView):
+class ProyectoDetail(ProyectoMixin, AdminViewMixin, DetailView):
     template_name='configuracion/detail-proyecto.html'       
     context_object_name = 'proyecto'
 
-class ProyectoEdit(ProyectoMixin, UpdateView):
+class ProyectoEdit(ProyectoMixin, SuperuserViewMixin, UpdateView):
     template_name = 'configuracion/edit-proyecto.html'
     form_class = ProyectoForm
     success_url = reverse_lazy('lista-proyecto')
     success_message = 'Información del Proyecto Actualizada'
 
-class ProyectoDelete(ProyectoMixin, DeleteView):
+class ProyectoDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     template_name = 'configuracion/delete-proyecto.html'
     success_message = 'Proyecto Eliminado'
     success_url = reverse_lazy('lista-proyecto')
 
     def delete(self, request, *args, **kwargs):
         objeto = self.get_object()
-        if objeto == proyecto:
+        if objeto == self.proyecto:
             messages.add_message(request, messages.ERROR, 'No se puede eliminar el proyecto seleccionado.')
             return redirect('lista-proyecto')
         else:  
             return super(ProyectoDelete, self).delete(request, *args, **kwargs)
 
-class ProyectoCreate(ProyectoMixin, CreateView):
+class ProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
     template_name = 'configuracion/create-proyecto.html'
     success_message = 'Proyecto Creado correctamente'
     success_url = reverse_lazy('lista-proyecto')
