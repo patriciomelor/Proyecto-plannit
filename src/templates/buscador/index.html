@@ -24,35 +24,35 @@
   <!--Upload Archivos-->
      <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
   <!--Table-->
-          <form class="form-group col-lg-10 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
-               <!--Filtros-->
-            <div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-130 pd-b-120 ">
-              <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Filtros</h4>
-              <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-                <li class="nav-item mg-10">{{filter.form.Especialidad|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.Descripcion|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.Codigo_documento|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.Tipo_Documento|as_crispy_field}}</li><br>
-                <li class="nav-item mg-10">{{filter.form.Numero_documento_interno|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.fecha_Emision_B|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.fecha_Emision_0|as_crispy_field}}</li>
-                <li class="nav-item mg-t-35">
-                  <button class="btn btn-oblong btn-teal mg-t-8 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
-                </li>
-              </ul>
-            </div><!-- ht-65 -->
-            <!--Fin Filtros-->
-          </form>
-
-          <thead>
+  <table class="records_list table table-striped table-bordered table-hover" id="mydatatable" role="grid" aria-describedby="datatable2_info">
+    <thead>
+      <tr role="row"> 
+        <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;"></th>
+        <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Especialidad</th>
+        <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Descripción Documentos</th>
+        <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Código Documento Contractual</th>
+        <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Tipo Doc.</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for documento in documentos %}
+      <tr role="row" class="odd">
+        <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><a href="{% url 'buscador-detalle' documento.pk %}" class="btn btn-teal center"><i class="fa fa-plus"></i></a></td>            
+        <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Especialidad}}</td>            
+        <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Descripcion}}</td>            
+        <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Codigo_documento}}</td>            
+        <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Tipo_Documento}}</td>            
+      </tr>
+      {% endfor %}   
+      </tbody>
+    </table>
+          {% comment %} <thead>
             <tr>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 15px;"></th>
-
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 15px;">Especialidad</th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 15px;">Descripción Documentos</th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 15px;">Código Documento Contractual</th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 15px;">Tipo Doc.</th>
-
             </tr>
           </thead>
           <tbody>
@@ -94,7 +94,7 @@
       {% endfor %}
             <!--Fin Loop-->
          
-
+ {% endcomment %}
 
       
     </div>
@@ -205,6 +205,21 @@ $('#ordenName5').keyup(function() {
   $('#lblOrden').html(datos);
   $('#ordenName5').val(datos);
 })
+</script>
+<script>
+$(document).ready(function() {
+    $('#mydatatable').DataTable(
+      {
+          "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"clearfix">',
+          "responsive": true,
+          "language": {
+              "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          }
+        }
+
+    );
+    
+} );
 </script>
 
 {% endblock content %}
