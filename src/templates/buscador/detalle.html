@@ -58,74 +58,101 @@
                 </div><!-- col-8 -->
               </div>                                           
             </div>
-              <table class="table table-striped mg-b-0 table-bordered table-primary">
-                <thead class="thead-colored thead-primary">
-                  <tr class="tx-10">
-                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Creador</th>                     
-                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Revisión</th>
-                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Paquete</th>
-                    
-                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Estado</th>     
-                     
-                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="2">Fecha<br>Creación</th>     
-                    <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Archivo</th>
-                  </tr>
-                  <tr>
-                  <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="4">
-                  </th>
-                  <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
-                  fecha
-                  </th>
-                  <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
-                  hora
-                  </th>
-                  <form method="POST">{% csrf_token %}
-                  <th style="text-align: center;border: 2px #fff solid; vertical-align: middle;padding: 5px; font-size: 10px;">
-                    <input type="submit" class="btn btn-warning" style="text-align: center;padding:2px;"value="Descargar ZIP">
-                  </th >
-                  </form>
-                </thead>
-                
-                <tbody>
-                {% for version in lista_final %}
-                  <tr>                    
-                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.owner.first_name}} {{version.0.owner.last_name}} </td>       
-                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.get_revision_display}} </td>
-                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{% url 'paquete-detalle' version.1.pk %}" >{{version.1.codigo}} </a> </td>
-                 {% if not version.0.estado_contratista %}
-                     <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> 
-                     {{version.0.get_estado_cliente_display}}  
-                     </td>
-                {% endif %}             
-                {% if not version.0.estado_cliente %}
-                   <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> 
-                   {{version.0.get_estado_contratista_display}} 
-                   </td>
-                                  
-                {% endif %}  
-                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'d-m-y'}} </td>                    
-                    <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{version.0.fecha|date:'H:i'}} </td>         
-                     {% if version.0.archivo.url is not None %}
-                      <td class="tx-12"style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{{version.0.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
-                    {% else %}
-                       <th class="pd-y-5"style="text-align: center;">Sin documento adjunto.</th>  
-                    {% endif %} 
-                  </tr>    
-                {% empty %}
+            <div class="br-pagebody pd-x-30 pd-sm-x-40">
+              <div class="card bd-0 shadow-base dataTables_wrapper no-footer " style="padding:20px;"id="mydatatable-container">
+                <table id="mydatatable" class="table display responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable1_info" style="width: 1110px;">
+                  <thead>
+                    <tr role="row"> 
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Creador</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Revisión</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Paquete</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Estado</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Fecha<br>Creación</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Archivo</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Detalle</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for version in lista_final %}
+                    <tr role="row" class="odd">
+                      <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{version.0.owner.first_name}} {{version.0.owner.last_name}}</td>            
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{version.0.get_revision_display}} </td>           
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> <a href="{% url 'paquete-detalle' version.1.pk %}" >{{version.1.codigo}} </a></td>
+                      {% if not version.0.estado_contratista %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.get_estado_cliente_display}}</td>
+                      {% endif %}
+                      {% if not version.0.estado_cliente %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.get_estado_contratista_display}}</td>
+                      {% endif %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.fecha|date:'d-m-y'}}</td>
+                      {% if version.0.archivo.url is not None %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{{version.0.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
+                      {% else %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">Sin documento adjunto.</td>
+                      {% endif %} 
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
+                        <i class="icon ion-eye"></i></a>       
+                      </td>
+                      {% empty %}
                       <h4> El Documento {{documento}}, no tiene Versiones </h4>
-                {% endfor %}          
-                </tbody>
+                      
+                      {% endfor %}   
+                    </tr>
+                    </tbody>
+                  </table>
                 
-              </table>
+          {% if is_paginated %}
+          <div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
+          <ul class="pagination pagination-basic mg-b-0"> 
+          {% if page_obj.has_previous %}
+          <li class="page-item">
+            <a href="?page={{ page_obj.previous_page_number }}" class="page-link" aria-label="ANTERIOR">
+              <i class="fa fa-angle-left"></i>
+            </a>
+            ANTERIOR 
+          </li>
+          </ul>
+          {% endif %}
+          {% if page_obj.has_next %}
+          <ul class="pagination pagination-basic mg-b-0">
+          <li class="page-item">
+            <a href="?page={{ page_obj.next_page_number }}" class="page-link">
+              <i class="fa fa-angle-right"></i>  
+            </a>
+          </li>
+          </ul>
+          {% endif %}
+          {% endif %}      
+           </ul>
+          </nav>
+              </div>
+            </div><!-- br-pagebody -->  
+          </div><!-- br-contentpanel -->
             
             </div><!-- card -->
           </div> 
           <div class="row no-gutters" style="float: left;margin-top: 10px;margin-right: 10px;margin-bottom: 10px;">
                   <a onclick="history.back();"><button  class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="buttom"> volver </button></a>
-                </div>
+          </div>
         </div><!-- card-header -->
         
 </div>
  
+<script>
+$(document).ready(function() {
+    $('#mydatatable').DataTable(
+      {
+          "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"clearfix">',
+          "responsive": true,
+          "language": {
+              "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          }
+        }
+
+    );
+    
+} );
+</script>
+
 {% endblock content %}
     
