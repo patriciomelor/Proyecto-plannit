@@ -196,7 +196,17 @@
 </script>
 <script>
 $(document).ready(function() {
-    $('#mydatatable').DataTable();
+    $('#mydatatable').DataTable(
+      {
+          "dom": 'lfrtip',
+          "responsive": true,
+          "language": {
+              "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          }
+        }
+
+    );
+    
 } );
 </script>
 <!-- {% comment %} <script type="text/javascript">
