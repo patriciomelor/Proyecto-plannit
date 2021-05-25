@@ -14,7 +14,6 @@ from django.conf import settings
 from .filters import DocFilter
 from panel_carga.models import Documento
 from bandeja_es.models import Version, Paquete
-from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
 
 # Create your views here.
 

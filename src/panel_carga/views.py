@@ -19,7 +19,7 @@ from .models import Proyecto, Documento, Revision, Historial
 from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
 from .filters import DocFilter
 from tools.views import ProyectoSeleccionadoMixin
-from tools.objects import StaffViewMixin, SuperUserViewMixin, is_staff_check, is_superuser_check
+from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check, is_admin_check
 
 # Create your views here.
 
@@ -68,16 +68,16 @@ class ListaProyecto(ProyectoMixin, ListView):
         else:
             return HttpResponseRedirect(reverse_lazy('proyecto-crear'))
         
-class CreateProyecto(CreateView):
+class CreateProyecto(CreateView, SuperuserViewMixin, AdminViewMixin):
     form_class = ProyectoForm
     template_name = 'panel_carga/create-proyecto.html'
     success_url = reverse_lazy("index")
 
-class DetailProyecto(ProyectoMixin, DetailView):
+class DetailProyecto(ProyectoMixin, SuperuserViewMixin, AdminViewMixin, DetailView):
     template_name = 'panel_carga/detail-proyecto.html'
     context_object_name = "proyecto"
 
-class EditProyecto(ProyectoMixin, UpdateView):
+class EditProyecto(ProyectoMixin, SuperuserViewMixin, AdminViewMixin, UpdateView):
     model = Proyecto
     form_class = ProyectoForm
     template_name = 'panel_carga/edit-proyecto.html'
@@ -156,7 +156,7 @@ def export_document(request):
     response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="Panel_Carga.xlsx"'
     return response
-class DeleteDocumento(ProyectoMixin, SuperUserViewMixin, ListView):
+class DeleteDocumento(ProyectoMixin, ListView):
     template_name = 'panel_carga/delete-lista_documentos.html'
     model = Documento
     success_url = reverse_lazy('PanelCarga')
@@ -173,7 +173,7 @@ class DeleteDocumento(ProyectoMixin, SuperUserViewMixin, ListView):
         return render(request, self.template_name)
 
 
-class DeleteAllDocuments(ProyectoMixin, SuperUserViewMixin, TemplateView):
+class DeleteAllDocuments(ProyectoMixin, TemplateView):
     model = Documento
     template_name = 'panel_carga/delete-documento.html'
     
