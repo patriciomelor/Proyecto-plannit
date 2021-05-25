@@ -12,9 +12,9 @@
       <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
 
       <nav class="nav br-nav-mailbox flex-column">
+        <a href="{% url 'bandeja-enviados' %}" class="nav-link active"><i class="icon fa fa-share"></i> Enviados</a>
         <a href="{% url 'Bandejaeys' %}" class="nav-link "><i class="icon fa fa-reply"></i> Recibidos</a>
         <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
-        <a href="{% url 'bandeja-enviados' %}" class="nav-link active"><i class="icon fa fa-share"></i> Enviados</a>
       </nav>
 </div>
 
@@ -37,7 +37,6 @@
     <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
       <li class="nav-item mg-10">{{filter.form.codigo|as_crispy_field}}</li>
       <li class="nav-item mg-10">{{filter.form.owner|as_crispy_field}}</li>
-      <li class="nav-item mg-10">{{filter.form.fecha_creacion|as_crispy_field}}</li>
       <li class="nav-item mg-t-35">
         <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
         </li>
@@ -78,25 +77,25 @@
       <table class="table mg-b-0 table-contact">
         <thead>
          <tr>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Transmital</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Asunto</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Autor</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Destinatario</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Fecha</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Hora</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Detalle</th>
-            <th class="wd-5p hidden-xs-down"></th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Transmital</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Asunto</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Autor</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Destinatario</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Fecha</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Hora</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Detalle</th>
+            <th class="wd-5p hidden-xs-down"style="vertical-align:center;text-align:center;"></th>
           </tr>
         </thead>
            {% for paquete in paquetes %}
           <tr>
-            <td class="valign-middle hidden-xs-down"><a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.codigo}}</a></td>            
-            <td class="valign-middle hidden-xs-down">{{ paquete.asunto }} </td>           
-            <td class="valign-middle hidden-xs-down">{{ paquete.owner }}</td>
-            <td class="valign-middle hidden-xs-down">{{ paquete.destinatario }}</td>
-            <td class="valign-middle hidden-xs-down">{{ paquete.fecha_creacion|date:'d-M-y'}}</td>
-            <td class="valign-middle hidden-xs-down">{{ paquete.fecha_creacion|date:'H:i'}}</td>
-            <td class="valign-middle hidden-xs-down"><a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}"><i class="icon ion-eye"></i></a>       
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.codigo}}</a></td>            
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.asunto }} </td>           
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.owner }}</td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.destinatario }}</td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.fecha_creacion|date:'d-M-y'}}</td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.fecha_creacion|date:'H:i'}}</td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}"><i class="icon ion-eye"></i></a>       
             </td>
           </tr>
           

@@ -33,10 +33,60 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <link href="{% static 'jquery.steps/jquery.steps.css' %}" rel="stylesheet" />
 
-   
+     <link rel="stylesheet" href="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.css">
+     <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.js"></script>
+     
 
+     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+     <!-- Bootstrap CSS -->
+     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css">
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
+
+     <!-- Datatables -->
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"/>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.3.6/css/autoFill.bootstrap4.css"/>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.bootstrap4.min.css"/>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/datetime/1.0.3/css/dataTables.dateTime.min.css"/>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/fixedheader/3.1.8/css/fixedHeader.bootstrap4.min.css"/>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/responsive/2.2.7/css/responsive.bootstrap4.min.css"/>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchbuilder/1.0.1/css/searchBuilder.bootstrap4.min.css"/>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/searchpanes/1.2.2/css/searchPanes.bootstrap4.min.css"/>
+     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/select/1.3.3/css/select.bootstrap4.min.css"/>
+      
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/autofill/2.3.6/js/dataTables.autoFill.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/autofill/2.3.6/js/autoFill.bootstrap4.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/dataTables.buttons.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.bootstrap4.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/buttons/1.7.0/js/buttons.html5.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/datetime/1.0.3/js/dataTables.dateTime.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/fixedheader/3.1.8/js/dataTables.fixedHeader.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/dataTables.responsive.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/responsive/2.2.7/js/responsive.bootstrap4.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/searchbuilder/1.0.1/js/dataTables.searchBuilder.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/searchbuilder/1.0.1/js/searchBuilder.bootstrap4.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/1.2.2/js/dataTables.searchPanes.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/searchpanes/1.2.2/js/searchPanes.bootstrap4.min.js"></script>
+     <script type="text/javascript" src="https://cdn.datatables.net/select/1.3.3/js/dataTables.select.min.js"></script>
+    <!--Fin datatable-->
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
+
+    <style>
+        #mydatatable tfoot input {
+            width: 100% !important;
+        }
+
+        #mydatatable tfoot {
+            display: table-header-group !important;
+        }
+    </style>
   </head>
   <body class="collapsed-menu with-subleft">
   {% block menublank %}
@@ -44,7 +94,7 @@
     <!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo"><a href=""><span>[</span>DMP<span>]</span></a></div>
     <div class="br-sideleft overflow-y-auto">
-      <label class="sidebar-label pd-x-15 mg-t-20">Navigacion</label>
+      <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
       <div class="br-sideleft-menu">
         <a href="{% url 'index' %}" class="br-menu-link">
           <div class="br-menu-item">
@@ -68,7 +118,7 @@
         <a href="{% url 'analitica-index' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
-            <span class="menu-item-label">Analitica</span>
+            <span class="menu-item-label">Analítica</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
        
@@ -87,7 +137,7 @@
         <a href="{% url 'lista-proyecto' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
-            <span class="menu-item-label">Configuracíon</span>
+            <span class="menu-item-label">Configuración</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         
@@ -117,7 +167,7 @@
                 <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
                 <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>-->
                 <li><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
-                <li><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesion</a></li>
+                <li><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a></li>
               </ul>
             </div><!-- dropdown-menu -->
           </div><!-- dropdown -->
@@ -169,9 +219,68 @@
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
-    {% block js %} {% endblock js %}
 
-    <script>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+
+    <script src=”https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js”></script>
+    <script src=”https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js”></script>
+    <script src=”https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/pdfmake.min.js”></script>
+    <script src=”https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/vfs_fonts.js”></script>
+    <script src=”https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js”></script>
+    <script src=”https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js”></script>
+    <script src=”https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js”></script>
+   
+    <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.js"></script>
+<!-- 
+     <script src="{% static 'tables/AutoFill-2.3.6/js/autoFill.bootstrap.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/autoFill.bootstrap.min.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/autoFill.bootstrap4.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/autoFill.bootstrap4.min.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/autoFill.foundation.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/autoFill.foundation.min.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/autoFill.jqueryui.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/autoFill.jqueryui.min.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/autoFill.semanticui.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/autoFill.semanticui.min.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/dataTables.autoFill.js' %}"></script>
+     <script src="{% static 'tables/AutoFill-2.3.6/js/dataTables.autoFill.min.js' %}"></script>
+ 
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.bootstrap.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.bootstrap.min.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.bootstrap4.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.bootstrap4.min.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.foundation.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.foundation.min.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.jqueryui.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.jqueryui.min.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.semanticui.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.semanticui.min.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.autoFill.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.autoFill.min.js' %}"></script>    
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.print.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.print.js.min.js' %}"></script>   
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.html5.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.html5.min.js' %}"></script>  
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.flash.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.flash.min.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.colVis.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.colVis.min.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/buttons.colVis.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/dataTables.buttons.js' %}"></script>
+     <script src="{% static 'tables/Buttons-1.7.0/js/dataTables.buttons..minjs' %}"></script>
+ 
+     <script src="{% static 'tables/JSZip-2.5.0/jszip.js' %}"></script>
+     <script src="{% static 'tables/JSZip-2.5.0/jszip..min.js' %}"></script>
+ 
+     <script src="{% static 'tables/pdfmake-0.1.36/pdfmake.js' %}"></script>
+     <script src="{% static 'tables/pdfmake-0.1.36/pdfmake.min.js' %}"></script>
+ 
+     <script src="{% static 'tables/datatables.js'%}"></script>
+     <script src="{% static 'tables/datatables.min.js'%}"></script> -->
+
+        <script>
       axios.defaults.xsrfCookieName = 'csrftoken';
       axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
     </script>

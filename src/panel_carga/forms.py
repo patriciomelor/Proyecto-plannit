@@ -27,6 +27,12 @@ class ProyectoForm(forms.ModelForm):
             'descripcion':forms.Textarea(attrs={'row':'5','style':'height:100px;'}),
             # 'participantes': forms.CheckboxSelectMultiple
         }
+        labels = {
+            'codigo':'Código del Proyecto',
+            'fecha_termino':'Fecha de Término',
+            'umbral_desviacion_porcentual':'Umbral para Desviación Porcentual del Proyecto'
+
+        }
 
 class DocumentoForm(forms.ModelForm):
 

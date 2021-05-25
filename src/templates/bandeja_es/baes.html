@@ -4,6 +4,14 @@
 {% load crispy_forms_tags %}
 
 {% block mailing %}
+<style>
+  #mydatatable tfoot input{
+      width: 100% !important;
+  }
+  #mydatatable tfoot {
+      display: table-header-group !important;
+  }
+  </style>
 <div class="br-subleft">
       <div class="pd-10">
         <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
@@ -13,8 +21,9 @@
 
       <nav class="nav br-nav-mailbox flex-column">
         <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon fa fa-reply"></i> Recibidos</a>
-        <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
         <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
+        <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
+
       </nav>
 </div>
 
@@ -39,7 +48,7 @@
     <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
       <li class="nav-item mg-10">{{filter.form.codigo|as_crispy_field}}</li>
       <li class="nav-item mg-10">{{filter.form.owner|as_crispy_field}}</li>
-      <li class="nav-item mg-10">{{filter.form.fecha_creacion|as_crispy_field}}</li>
+      <li class="nav-item mg-10">{{filter.form.destinatario|as_crispy_field}}</li>
       <li class="nav-item mg-t-35">
         <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
       </li>
@@ -52,31 +61,40 @@
   </div>
 
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
-    <div class="card bd-0 shadow-base">
-      <table class="table mg-b-0 table-contact">
+    <div class="card bd-0 shadow-base dataTables_wrapper no-footer" id="mydatatable-container">
+      <table class="records_list table table-striped table-bordered table-hover" id="mydatatable" role="grid" aria-describedby="datatable2_info">
         <thead>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Transmital</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Asunto</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Autor</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Destinatario</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Fecha</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Hora</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down">Detalle</th>
+          <tr role="row"> 
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Transmital</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Asunto</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Autor</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Destinatario</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Fecha</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Hora</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Detalle</th>
           </tr>
         </thead>
+        <tfoot>
+          <tr>
+              <th>Filter..</th>
+              <th>Filter..</th>
+              <th>Filter..</th>
+              <th>Filter..</th>
+              
+      </tfoot>
         <tbody>
         {% for paquete in paquetes %}
-          <tr>
-            <td class="valign-middle hidden-xs-down">
+          <tr role="row" class="odd">
+            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
                   <a href="{% url 'paquete-detalle' paquete.pk %}">
                   {{paquete.codigo}}</a>
             </td>            
-            <td class="valign-middle hidden-xs-down"> {{ paquete.asunto }} </td>           
-            <td class="valign-middle hidden-xs-down"> {{ paquete.owner }}</td>
-            <td class="valign-middle hidden-xs-down"> {{ paquete.destinatario }}</td>
-            <td class="valign-middle hidden-xs-down">{{ paquete.fecha_creacion|date:'d-M-y'}}</td>
-            <td class="valign-middle hidden-xs-down">{{paquete.fecha_creacion|date:'H:i'}}</td>
-            <td class="valign-middle hidden-xs-down">
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{ paquete.asunto }} </td>           
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{ paquete.owner }}</td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{ paquete.destinatario }}</td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.fecha_creacion|date:'d-M-y'}}</td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{paquete.fecha_creacion|date:'H:i'}}</td>
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
               <a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}"><i class="icon ion-eye"></i></a>       
             </td>
           </tr>
@@ -108,7 +126,8 @@
 
           {% endfor %}
       </table>    
-</div>
+    </div>
+    Paquete: {{paquetes}}
 {% if is_paginated %}
 <div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
 <ul class="pagination pagination-basic mg-b-0"> 
@@ -181,6 +200,44 @@
       }
     });
 
+  });
+</script>
+<script type="text/javascript">
+  $(document).ready(function () {
+      $('#mydatatable tfoot th').each(function () {
+          var title = $(this).text();
+          $(this).html('<input type="text" placeholder="Filtrar.." class="input-control"/>');
+      });
+      var data = [
+        "{{paquete.codigo}}",
+        "{{ paquete.asunto }}",           
+        "{{ paquete.owner }}",
+        "{{ paquete.destinatario }}"
+      ];
+      var table = $('#mydatatable').DataTable({
+          data: data,
+          "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',
+          "responsive": true,
+          "language": {
+              "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          },
+          "order": [
+              [0, "desc"]
+          ],
+          "initComplete": function () {
+              this.api().columns().every(function () {
+                  var that = this;
+
+                  $('input', this.footer()).on('keyup change', function () {
+                      if (that.search() !== this.value) {
+                          that
+                              .search(this.value)
+                              .draw();
+                      }
+                  });
+              })
+          },
+      });
   });
 </script>
 {% endblock content %}
