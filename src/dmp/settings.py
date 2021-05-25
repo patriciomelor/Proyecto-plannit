@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'configuracion',
     'buscador',
     'status',
+    'status_encargado',
     'analitica',
     
 

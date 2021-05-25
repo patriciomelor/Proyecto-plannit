@@ -32,6 +32,7 @@ urlpatterns = [
     path('configuracion/', include('configuracion.urls')),
     path('buscador/', include('buscador.urls')),
     path('status/', include('status.urls')),
+    path('status_encargado/', include('status_encargado.urls')),
 ]
 
 if settings.DEBUG:
