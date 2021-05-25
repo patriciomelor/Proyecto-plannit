@@ -16,88 +16,38 @@
   </div>
 
   <div class="br-section-wrapper">
-<!--Tabla-->
-{% comment %} <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4> {% endcomment %}
-
-          
-  <div class="row row-sm d-flex " >
-  <!--Upload Archivos-->
-     <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
-  <!--Table-->
-          <form class="form-group col-lg-10 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
-               <!--Filtros-->
-            <div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-130 pd-b-120 ">
-              <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Filtros</h4>
-              <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-                <li class="nav-item mg-10">{{filter.form.Especialidad|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.Descripcion|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.Codigo_documento|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.Tipo_Documento|as_crispy_field}}</li><br>
-                <li class="nav-item mg-10">{{filter.form.Numero_documento_interno|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.fecha_Emision_B|as_crispy_field}}</li>
-                <li class="nav-item mg-10">{{filter.form.fecha_Emision_0|as_crispy_field}}</li>
-                <li class="nav-item mg-t-35">
-                  <button class="btn btn-oblong btn-teal mg-t-8 mg-b-10 justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
-                </li>
-              </ul>
-            </div><!-- ht-65 -->
-            <!--Fin Filtros-->
-          </form>
-
-          <thead>
-            <tr>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 15px;"></th>
-
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 15px;">Especialidad</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 15px;">Descripción Documentos</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 15px;">Código Documento Contractual</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 15px;">Tipo Doc.</th>
-
-            </tr>
-          </thead>
-          <tbody>
-            <!--Loop Listar Documento-->
-            {% for documento in documentos %}
-            <tr>            
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 15px;" ><a href="{% url 'buscador-detalle' documento.pk %}" class="btn btn-teal center"><i class="fa fa-plus"></i></a></th>
-
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 15px;" > {{documento.Especialidad}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 15px;" > {{documento.Descripcion}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 15px;" > {{documento.Codigo_documento}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 15px;" > {{documento.Tipo_Documento}}  </th>                  
-            </tr>  
-                    
-          </tbody>
-          
-          {% empty %}  
-          <tbody>
-            <tr>  
-              <th colspan="6" style="background-color: #fff;">       
-          <div class="alert alert-warning alert-bordered pd-y-20" role="alert">
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">×</span>
-          </button>
-          <div class="d-sm-flex align-items-center justify-content-start">
-            <i class="icon ion-alert-circled alert-icon tx-52 tx-warning mg-r-20"></i>
-            <div class="mg-t-20 mg-sm-t-0">
-              <h5 class="mg-b-2 tx-warning"><strong>AVISO!</strong> </h5>
-              <p class="mg-b-0 tx-gray">No hay archivos coincidentes con la búsqueda</p>
-            </div>
-          </div><!-- d-flex -->
-        </div> 
-      </th> 
-      </tr>
-      </tbody> 
-    </table>
-  </div>            
-         
-      {% endfor %}
-            <!--Fin Loop-->
-         
+      <div class="row row-sm d-flex " >
+       
+    <table id="datatable2" class="table display responsive nowrap dataTable no-footer dtr-inline collapsed" role="grid" aria-describedby="datatable2_info" style="width: 1110px;">
+              <thead>
+                <tr role="row">
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 87px;text-align:center;"></th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 143px;text-align:center;">Especialidad</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 143px;text-align:center;" >Descripción Documentos</th>
+                <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 198px;text-align:center;" >Código Documento Contractual</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: 142px;text-align:center;" >Tipo</th>
+                </tr>
+              </thead>
+              <tbody>
+               {% for documento in documentos %}
+                  <tr role="row" class="odd">
+                    <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><a href="{% url 'buscador-detalle' documento.pk %}" class="btn btn-teal center"><i class="fa fa-plus"></i></a></td>            
+                    <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Especialidad}}</td>            
+                    <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Descripcion}}</td>            
+                    <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Codigo_documento}}</td>            
+                    <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Tipo_Documento}}</td>            
+                  </tr>
+                  {% endfor %} 
+                </tbody>
+            </table>  
 
 
-      
+
+
     </div>
+
+
+
 {% if is_paginated %}
     <div class="ht-80 d-flex align-items-center justify-content-center">
       <nav aria-label="Page navigation">      
@@ -130,7 +80,6 @@
     </div>
 {% endif %}
 </div>
-
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -141,71 +90,21 @@
     $("button").prop("disabled", this.files.length == 0);
 });
 </script>
-<script>
-   $('.datepicker').datetimepicker.dates['es'] = {
-                    days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
-                    daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"],
-                    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
-                    months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-                    monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                    today: "Hoy"
-                };
 
+<script>
+$(document).ready(function() {
+    $('#datatable2').DataTable(
+      {
+          "dom": 'B<"float-right"f>t<"float-left"l><"clearfix">',
+          "responsive": true,
+          "language": {
+              "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          }
+        }
 
-  $('.datepicker').datetimepicker({
-              uiLibrary: 'bootstrap4',
-              defaultDate: "+1w",
-              showOn: 'button',
-              numberOfMonths: 1,
-              format: 'dd-mm-yyyy hh:00',
-              language: 'es',
-              daysShort: ["Lun", "Mar", "Mie", "Juev", "Vie", "Sab","Dom"],
-              weekStart: 1,
-              minView: "day",
-              minuteStep: 61,
-              autoclose: true
- });
+    );
+    
+} );
 </script>
-<script>
-$('#ordenName').keyup(function() {
-  var datos = new String($('#ordenName').val());
-  datos = datos.toUpperCase(datos);
-  $('#lblOrden').html(datos);
-  $('#ordenName').val(datos);
-})
-</script>
-<script>
-$('#ordenName2').keyup(function() {
-  var datos = new String($('#ordenName2').val());
-  datos = datos.toUpperCase(datos);
-  $('#lblOrden').html(datos);
-  $('#ordenName2').val(datos);
-})
-</script>
-<script>
-$('#ordenName3').keyup(function() {
-  var datos = new String($('#ordenName3').val());
-  datos = datos.toUpperCase(datos);
-  $('#lblOrden').html(datos);
-  $('#ordenName3').val(datos);
-})
-</script>
-<script>
-$('#ordenName4').keyup(function() {
-  var datos = new String($('#ordenName4').val());
-  datos = datos.toUpperCase(datos);
-  $('#lblOrden').html(datos);
-  $('#ordenName4').val(datos);
-})
-</script>
-<script>
-$('#ordenName5').keyup(function() {
-  var datos = new String($('#ordenName5').val());
-  datos = datos.toUpperCase(datos);
-  $('#lblOrden').html(datos);
-  $('#ordenName5').val(datos);
-})
-</script>
-
 {% endblock content %}
     
