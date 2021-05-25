@@ -17,144 +17,114 @@
 
   <div class="br-section-wrapper">
 <!--Tabla-->
-{% comment %} <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins" style="text-align: left; margin-right: 30px;" >{{proyecto}}</h4> {% endcomment %}
-                    {% if request.user.perfil.rol_usuario == 1 %}
-                    <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
-                      <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-                        <form class="col-6" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                              <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a></li>
-                              <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
-                        </form>
-                              <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
-                              <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"> Exportar Excel </button></a></li>            
-                              <li class="nav-item mg-l-5"><a href="http://143.198.228.81/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning">Plantilla de Carga</button></a></li>
-                      </ul>
-                    </div><!-- ht-65 -->
-                    {% else %}
-                    <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
-                      <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-                         <form class="col-6" method="POST" enctype="multipart/form-data">
-                            {% csrf_token %}
-                              <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()" disabled></a></li>
-                              <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
-                         </form>
-                              <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary" disabled>Insertar por formulario</button></a></li>
-                              <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"disabled> Exportar a Excel </button></a></li>            
-                              <li class="nav-item mg-l-5"><a href="http://143.198.228.81/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning"disabled> Plantilla de Carga</button></a></li>
-                      </ul>
-                    </div><!-- ht-65 -->
-                    {% endif %}
+    {% if request.user.perfil.rol_usuario == 1 %}
+      <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
+        <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+          <form class="col-6" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+           <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a></li>
+           <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
+          </form>
+          <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
+          <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"> Exportar Excel </button></a></li>            
+          <li class="nav-item mg-l-5"><a href="http://143.198.228.81/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning">Plantilla de Carga</button></a></li>
+        </ul>
+      </div><!-- ht-65 -->
+    {% else %}
+      <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
+         <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+           <form class="col-6" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+            <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()" disabled></a></li>
+            <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
+           </form>
+           <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary" disabled>Insertar por formulario</button></a></li>
+           <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"disabled> Exportar a Excel </button></a></li>            
+           <li class="nav-item mg-l-5"><a href="http://143.198.228.81/static/media/proyecto/temp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning"disabled> Plantilla de Carga</button></a></li>
+         </ul>
+       </div><!-- ht-65 -->
+    {% endif %}
                  
 
   <!--Upload Archivos-->
     <div class="row row-sm d-flex">
-        <table  class="table table-responsive table-striped mg-b-0 table-bordered table-primary ">       
-  <!--Table-->
-  <form class="form-group col-lg-10 mg-t-20 mg-b-20" style="margin-top: 30px;" method="GET">
-    <div id="accordion" class="accordion mg-b-20" role="tablist" aria-multiselectable="true">
-      <div class="card bg-teal">
-        <div class="card-header" role="tab" id="headingOne">
-          <h6 class="mg-b-0">
-            <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
-            aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition" style="color: #fff;">
-              FILTROS DE BÚSQUEDA <i class="icon ion-search"></i>
-            </a>
-          </h6>
-        </div><!-- card-header -->
 
-        <div id="collapseOne" class="collapse" role="tabpanel" aria-labelledby="headingOne">
-          <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist" style="color: #fff;">
-          <!--Filtros-->
-              <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Especialidad|as_crispy_field}}</li>
-              <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Descripcion|as_crispy_field}}</li>
-              <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Codigo_documento|as_crispy_field}}</li>
-              <li class="nav-item mg-10"style="color: #fff;">{{filter.form.Tipo_Documento|as_crispy_field}}</li><br>
-              <li class="nav-item mg-t-35">
-                <button class="btn btn-oblong btn-warning justify-align-center"type="submit"><i class="fa fa-search mg-r-10"></i>Buscar</button>
-              </li>
-          </ul>
-        </div>
-      </div><!-- card -->
-      <!-- ADD MORE CARD HERE -->
-    </div><!-- accordion -->
-        
-    </form>
-          <thead class="mg-t-30">
-            <tr>
+        <div id="datatable2_wrapper" class="dataTables_wrapper no-footer col-md-12">
+          <table id="datatable2" class="table display responsive nowrap dataTable no-footer dtr-inline table-primary"role="grid" aria-describedby="datatable1_info" style="width: 100%!important;">
+          <thead>
+            <tr role="row">
               {% if request.user.perfil.rol_usuario == 1 %}
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
+              <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="color:#fff;text-align: center;">
                 <a class="nav-link" href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"><i class="icon ion-trash-b"></i></button></a>
                 </th>                
         
               {% else %}
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">
+              <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="margin: 5px;padding: 5px; color:#fff;text-align: center;"  >
                 <button class="btn btn-danger" id="delete_btn" type="submit" disabled><i class="icon ion-trash-b"></i></button>
                 </th>
               {% endif %}
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Especialidad</th>
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Descripción Documentos</th>
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Código Documento</th>
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo Doc.</th>
-              <th style="text-align: center;border: 2px solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada de Emisión</th>
-
+              <th class="wd-15p sorting_asc" tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: auto;color:#fff;text-align: center;"">Especialidad</th>
+              <th class="wd-20p sorting" tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: auto;color:#fff;text-align: center;"">Descripción</th>
+              <th class="wd-15p sorting" tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: auto;color:#fff;text-align: center;"">Código Documento</th>
+              <th class="wd-10p sorting" tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: auto;color:#fff;text-align: center;"">Tipo</th>
+              <th class="wd-25p sorting" tabindex="0" aria-controls="datatable2" rowspan="1" colspan="2" style="width: auto;color:#fff;text-align: center;"">Fecha Programada de Emisión</th>
+            </tr>
+            <tr >
+              <th colspan="5"></th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emision en Rev B</th>              
+              <th style="color:#fff;text-align: center;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emision en Rev 0</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <th colspan="6"></th>
-              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Inicio Emision en Rev B</th>              
-              <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emision en Rev 0</th>
-            </tr>
-            <!--Loop Listar Documento-->
-            {% for documento in documentos %}
+          <!--Loop Listar Documento-->
+          {% for documento in documentos %}
             
-            <tr>
-              {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" colspan="2">
-                <a href="{% url 'documento-actualizar' documento.pk %}" > <i class="fa fa-pencil"></i> </a>
-              </th>  
-              {% else %} 
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" colspan="2">
-                
-              </th>           
-              {% endif %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Especialidad}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Descripcion}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Codigo_documento}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.Tipo_Documento}}  </th>                  
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
+          <tr role="row" class="odd">
+            {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
+            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" >
+              <a href="{% url 'documento-actualizar' documento.pk %}" > <i class="fa fa-pencil"></i> </a>
+            </th>  
+            {% else %} 
+            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;">
               
-            </tr>           
+            </th>           
+            {% endif %}
+            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.Especialidad}} </th>
+            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.Descripcion}} </th>
+            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.Codigo_documento}} </th>
+            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;"> {{documento.Tipo_Documento}}  </th>                  
+            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
+            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
             
-            {% empty %}
-            <div class="modal fade in" id="myModal" role="dialog" style="display: block; padding-right: 16px;">
-              <div class="modal-dialog" role="document">
-                <div class="modal-content tx-size-sm">
-                  <div class="modal-body tx-center pd-y-20 pd-x-20">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">&times;</span>
-                    </button>
-                    <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                    <h4 class="tx-danger  tx-semibold mg-b-20">Error: No hay Información Ingresada!</h4>
-                    <p class="mg-b-20 mg-x-20">Recuerde Que puede importar desde <strong>Excel</strong> o Insertar Manualmente por formulario.</p>
-                    <h6 class="tx-info tx-semibold mg-b-20">Descargar plantilla de informacion <a href="{% url 'panel-export' %}">Aqui</a></h6>
-                    <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
-                      Continue</button>
-                    </div><!-- modal-body -->
-                  </div><!-- modal-content -->
-                </div><!-- modal-dialog -->
-          </div>
-          <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-          <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
-          <script type="text/javascript">
-           $(function(){
-            $("#myModal").modal();
-           });
-          </script>
-      {% endfor %}
-            <!--Fin Loop-->
+          </tr>           
+          
+          {% empty %}
+          <div class="modal fade in" id="myModal" role="dialog" style="display: block; padding-right: 16px;">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content tx-size-sm">
+                <div class="modal-body tx-center pd-y-20 pd-x-20">
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                  <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
+                  <h4 class="tx-danger  tx-semibold mg-b-20">Error: No hay Información Ingresada!</h4>
+                  <p class="mg-b-20 mg-x-20">Recuerde Que puede importar desde <strong>Excel</strong> o Insertar Manualmente por formulario.</p>
+                  <h6 class="tx-info tx-semibold mg-b-20">Descargar plantilla de informacion <a href="{% url 'panel-export' %}">Aqui</a></h6>
+                  <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
+                    Continue</button>
+                  </div><!-- modal-body -->
+                </div><!-- modal-content -->
+              </div><!-- modal-dialog -->
+        </div>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+         $(function(){
+          $("#myModal").modal();
+         });
+        </script>
+    {% endfor %}
+          
           </tbody>
         </table>  
       </div>   
@@ -224,70 +194,21 @@
     $("button").prop("disabled", this.files.length == 0);
 });
 </script>
-<script>
-$('#ordenName').keyup(function() {
-  var datos = new String($('#ordenName').val());
-  datos = datos.toUpperCase(datos);
-  $('#lblOrden').html(datos);
-  $('#ordenName').val(datos);
-})
-</script>
-<script>
-$('#ordenName2').keyup(function() {
-  var datos = new String($('#ordenName2').val());
-  datos = datos.toUpperCase(datos);
-  $('#lblOrden').html(datos);
-  $('#ordenName2').val(datos);
-})
-</script>
-<script>
-$('#ordenName3').keyup(function() {
-  var datos = new String($('#ordenName3').val());
-  datos = datos.toUpperCase(datos);
-  $('#lblOrden').html(datos);
-  $('#ordenName3').val(datos);
-})
-</script>
-<script>
-$('#ordenName4').keyup(function() {
-  var datos = new String($('#ordenName4').val());
-  datos = datos.toUpperCase(datos);
-  $('#lblOrden').html(datos);
-  $('#ordenName4').val(datos);
-})
-</script>
-<script>
-$('#ordenName5').keyup(function() {
-  var datos = new String($('#ordenName5').val());
-  datos = datos.toUpperCase(datos);
-  $('#lblOrden').html(datos);
-  $('#ordenName5').val(datos);
-})
-</script>
-<script>
-   $('.datepicker').datetimepicker.dates['es'] = {
-                    days: ["Domingo", "Lunes", "Martes", "Miércoles", "Jueves", "Viernes", "Sábado", "Domingo"],
-                    daysShort: ["Dom", "Lun", "Mar", "Mie", "Jue", "Vie", "Sab", "Dom"],
-                    daysMin: ["Do", "Lu", "Ma", "Mi", "Ju", "Vi", "Sa", "Do"],
-                    months: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septiembre", "Octubre", "Noviembre", "Diciembre"],
-                    monthsShort: ["Ene", "Feb", "Mar", "Abr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
-                    today: "Hoy"
-                };
 
-
-  $('.datepicker').datetimepicker({
-              uiLibrary: 'bootstrap4',
-              defaultDate: "+1w",
-              showOn: 'button',
-              numberOfMonths: 1,
-              format: 'yyyy-mm-dd',
-              language: 'es',
-              daysShort: ["Lun", "Mar", "Mie", "Juev", "Vie", "Sab","Dom"],
-              weekStart: 1,
-              minView: "day",
-              minuteStep: 61,
-              autoclose: true
- });
-</script>
+<script>
+  $(document).ready(function() {
+      $('#datatable2').DataTable(
+        {
+            "dom": 'B<"float-right"f>t<"float-left"l><"clearfix">',
+            "responsive": true,
+            "language": {
+                "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+            }
+          }
+  
+      );
+      
+  } );
+  </script>
 {% endblock content %}
     
