@@ -74,14 +74,6 @@
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Detalle</th>
           </tr>
         </thead>
-        <tfoot>
-          <tr>
-              <th>Filter..</th>
-              <th>Filter..</th>
-              <th>Filter..</th>
-              <th>Filter..</th>
-              
-      </tfoot>
         <tbody>
         {% for paquete in paquetes %}
           <tr role="row" class="odd">
@@ -202,7 +194,12 @@
 
   });
 </script>
-<script type="text/javascript">
+<script>
+$(document).ready(function() {
+    $('#mydatatable').DataTable();
+} );
+</script>
+<!-- {% comment %} <script type="text/javascript">
   $(document).ready(function () {
       $('#mydatatable tfoot th').each(function () {
           var title = $(this).text();
@@ -234,5 +231,5 @@
           },
       });
   });
-</script>
+</script> {% endcomment %} -->
 {% endblock content %}

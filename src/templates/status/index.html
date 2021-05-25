@@ -47,7 +47,7 @@
               
           </form>   
 
-     <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary"id="tblData">       
+     <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary"id="mydatatable">       
   <!--Table-->
   
           <thead class="mg-t-30">
@@ -246,6 +246,11 @@ $('#ordenName5').keyup(function() {
   $('#ordenName5').val(datos);
 })
 </script>
+<script>
+  $(document).ready(function() {
+      $('#mydatatable').DataTable();
+  } );
+  </script>
 
 {% endblock content %}
     
