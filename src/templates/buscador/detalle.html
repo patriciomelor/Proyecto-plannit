@@ -58,18 +58,17 @@
                 </div><!-- col-8 -->
               </div>                                           
             </div>
-            <div class="br-pagebody pd-x-30 pd-sm-x-40">
               <div class="card bd-0 shadow-base dataTables_wrapper no-footer " style="padding:20px;"id="mydatatable-container">
                 <table id="mydatatable" class="table display responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable1_info" style="width: 1110px;">
                   <thead>
                     <tr role="row"> 
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Creador</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Revisión</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Paquete</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Estado</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Fecha<br>Creación</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Archivo</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Detalle</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Creador</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Revisión</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Paquete</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Estado</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Fecha<br>Creación</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Archivo</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Detalle</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -126,7 +125,6 @@
            </ul>
           </nav>
               </div>
-            </div><!-- br-pagebody -->  
           </div><!-- br-contentpanel -->
             
             </div><!-- card -->
@@ -142,7 +140,7 @@
 $(document).ready(function() {
     $('#mydatatable').DataTable(
       {
-          "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"clearfix">',
+          "dom": 'B<"float-right"f>t<"float-left"l><"clearfix">',
           "responsive": true,
           "language": {
               "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
