@@ -208,12 +208,7 @@
           var title = $(this).text();
           $(this).html('<input type="text" placeholder="Filtrar.." class="input-control"/>');
       });
-      var data = [
-        "{{paquete.codigo}}",
-        "{{ paquete.asunto }}",           
-        "{{ paquete.owner }}",
-        "{{ paquete.destinatario }}"
-      ];
+      var data = [{% for paquete in paquetes %} ["{{paquete.codigo}}","{{paquete.asunto}}","{{paquete.owner}}","{{paquete.destinatario}}"], {% endfor %}];
       var table = $('#mydatatable').DataTable({
           data: data,
           "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"float-right"p><"clearfix">',
