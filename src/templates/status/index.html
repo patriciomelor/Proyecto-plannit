@@ -30,7 +30,7 @@
                 <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Fecha Inicial</th>
                 <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Fecha Final</th>
                 <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">(%) de Avance</th>
-                <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Ciclo de <br>revisión</th>
+                <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Ciclo de <br>revisión (d)</th>
                 </tr>
               </thead>
                 <tbody>
@@ -61,10 +61,11 @@
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.0.get_revision_display}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.1.0.destinatario.perfil.empresa}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> <a href="{% url 'paquete-detalle' documento.1.1.0.pk %}">{{documento.1.1.0}} </a></th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.4}} di­as </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.4}}</th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {% if not documento.1.0.get_estado_cliente_display %} Sin Revision {% else %}{{documento.1.0.get_estado_cliente_display}} {% endif %}  </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.1.0.fecha_creacion|date:"d-m-y"}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.5|date:"d-m-y"}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.1.0.fecha_creacion|date:"d-m-y"}} </th>
+
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.3}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.6}} </th>
               </tr>
