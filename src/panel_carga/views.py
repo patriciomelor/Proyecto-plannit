@@ -28,7 +28,7 @@ class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
         field = ( 'Especialidad','descripcion','Codigo_documento','Tipo_Documento', 'fecha_Emision_B', 'fecha_Emision_0')
-        exclude = ('id', 'emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
+        exclude = ('id', 'emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto', 'Numero_documento_interno')
         import_id_fields = ('id')
 
     def export(self, queryset=None, *args, **kwargs):
@@ -125,27 +125,27 @@ class ListDocumento(ProyectoMixin, ListView):
         new_documentos = request.FILES['importfile']
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
         for data in imported_data:
-            # try:
-            fecha_b = data[5].strftime("%Y-%m-%d")
-            fecha_0 = data[6].strftime("%Y-%m-%d")
-            documento = Documento(
-                Especialidad= data[0],
-                Descripcion= data[1],
-                Codigo_documento= data[2],
-                Tipo_Documento= data[3],
-                fecha_Emision_B= fecha_b,
-                fecha_Emision_0= fecha_0,
-                proyecto= self.proyecto,
-                owner= request.user
-            )
+            try:
+                fecha_b = data[4].strftime("%Y-%m-%d")
+                fecha_0 = data[5].strftime("%Y-%m-%d")
+                documento = Documento(
+                    Especialidad= data[0],
+                    Descripcion= data[1],
+                    Codigo_documento= data[2],
+                    Tipo_Documento= data[3],
+                    fecha_Emision_B= fecha_b,
+                    fecha_Emision_0= fecha_0,
+                    proyecto= self.proyecto,
+                    owner= request.user
+                )
 
-            documento.save()
-            # except IntegrityError:
-            #     documentos_erroneos.append(data)
-            # except ValueError:
-            #     documentos_erroneos.append(data)
-            # except TypeError:
-            #     documentos_erroneos.append(data)
+                documento.save()
+            except IntegrityError:
+                documentos_erroneos.append(data)
+            except ValueError:
+                documentos_erroneos.append(data)
+            except TypeError:
+                documentos_erroneos.append(data)
         return render(request, 'panel_carga/list-error.html', context={'errores': documentos_erroneos})
 
 # funcion de exportación
@@ -171,6 +171,7 @@ class DeleteDocumento(ProyectoMixin, ListView):
             doc = Documento.objects.get(pk=documento)
             doc.delete()
         return render(request, self.template_name)
+
 
 class DeleteAllDocuments(ProyectoMixin, TemplateView):
     model = Documento
