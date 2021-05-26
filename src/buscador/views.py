@@ -1,3 +1,4 @@
+from django.db.models.query import ValuesIterable
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.urls import (reverse_lazy, reverse)
@@ -64,9 +65,11 @@ class VersionesList(ProyectoMixin, DetailView):
         doc = Documento.objects.get(pk=self.kwargs['pk'])
         versiones = Version.objects.filter(documento_fk=doc)
         for version in versiones:
-            static = version.archivo.path
-            if static:
+            try:
+                static = version.archivo.path
                 listado_versiones_url.append(static)
+            except ValueError:
+                pass
         print(listado_versiones_url)
         zip_subdir = "Documentos"
         zip_filename = "%s.zip" % zip_subdir
