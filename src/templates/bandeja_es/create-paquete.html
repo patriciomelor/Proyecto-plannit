@@ -6,7 +6,7 @@
 <div class="br-contentpanel">
   <div class="br-subleft">
       <div class="pd-10">
-        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
+        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Transmittal</a>
       </div>
 
       <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
@@ -23,13 +23,13 @@
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
       <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja de Entrada</a>      
-      <span class="breadcrumb-item active">Pre-visualización Paquete</span>
+      <span class="breadcrumb-item active">Pre-visualización Transmittal</span>
     </nav>
   </div>
 
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Detalle del paquete</h4>
+    <h4 class="tx-gray-800 mg-b-5">Detalle del Transmittal</h4>
   </div>
 
   {% comment %} {% if invalido == 0 %} {% endcomment %}
@@ -124,7 +124,7 @@
                       {% endif %}
                     </tr>    
                     {% empty %}
-                    <h4> El paquete no tiene documentos </h4>
+                    <h4> El Transmittal no tiene documentos </h4>
                     {% endfor %}
                               
                   </tbody>

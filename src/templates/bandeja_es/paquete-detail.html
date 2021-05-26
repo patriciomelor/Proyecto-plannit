@@ -7,7 +7,7 @@
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
       <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja de Entrada</a>      
-      <span class="breadcrumb-item active">Detalle Paquete</span>
+      <span class="breadcrumb-item active">Detalle Transmittal</span>
     </nav>
 </div>
 {% endblock navegacion %}
@@ -32,13 +32,13 @@
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
-      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Transmital</a>      
-      <span class="breadcrumb-item active">Detalle Paquete</span>
+      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Transmittal</a>      
+      <span class="breadcrumb-item active">Detalle Transmittal</span>
     </nav>
   </div><!-- br-pageheader -->
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Detalle de Transmital</h4>
+    <h4 class="tx-gray-800 mg-b-5">Detalle de Transmittal</h4>
   </div>
 
 
@@ -157,7 +157,7 @@
                     {% endif %}
                   </tr>    
                 {% empty %}
-                    <h4> El paquete no tiene documentos </h4>
+                    <h4> El Transmittal no tiene documentos </h4>
                 {% endfor %}          
                 </tbody>
                
