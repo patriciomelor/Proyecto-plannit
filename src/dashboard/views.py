@@ -100,6 +100,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         contador_aprobacion = 0
         contador_revision_cliente = 0
         contador_revision_contratista = 0
+        verificador_emision_0 = 1 
 
         #Obtener paquetes
         clientes = [1,2,3]        
@@ -137,6 +138,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         diferencia = abs((semana_actual - fecha_version).days)
                         prom_revision_contratista = float(prom_revision_contratista) + diferencia
                         contador_revision_contratista = contador_revision_contratista + 1
+                        verificador_emision_0 = 0
                     if estado_cliente == 1 and cliente[0] == 1:
                         documentos_revision_contratista = documentos_revision_contratista + 1
                         diferencia = abs((semana_actual - fecha_version).days)
@@ -158,14 +160,23 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         diferencia = abs((semana_actual - fecha_version).days)
                         prom_revision_contratista = float(prom_revision_contratista) + diferencia
                         contador_revision_contratista = contador_revision_contratista + 1
+                        verificador_emision_0 = 0
                     if estado_cliente == 7 and cliente[0] == 7:
                         contador_emitidos_0 = contador_emitidos_0 + 1
+                        verificador_emision_0 = 0
                     if estado_cliente == 8 and cliente[0] == 8:
-                        contador_emitidos_0 = contador_emitidos_0 + 1                    
+                        contador_emitidos_0 = contador_emitidos_0 + 1   
+                        verificador_emision_0 = 0                 
                     if estado_cliente == 9 and cliente[0] == 9:
-                        contador_emitidos_0 = contador_emitidos_0 + 1                    
+                        contador_emitidos_0 = contador_emitidos_0 + 1 
+                        verificador_emision_0 = 0                   
                     if estado_cliente == 10 and cliente[0] == 10:
                         contador_emitidos_0 = contador_emitidos_0 + 1
+                        verificador_emision_0 = 0
+                if verificador_emision_0 == 1:
+                    diferencia =(fecha_version - fecha_emision_0).days
+                    prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
+                    contador_demora_0 = contador_demora_0 + 1
                 for cliente in ESTADO_CONTRATISTA[1:]:
                     if estado_contratista == 1 and cliente[0] == 1:
                         documentos_revision_cliente = documentos_revision_cliente + 1
@@ -181,11 +192,11 @@ class EscritorioView(ProyectoMixin, TemplateView):
             if not versiones:
                 #Calculo del promedio de demora emisión en b
                 if semana_actual >= fecha_emision_0:
-                    diferencia = (fecha_emision_0 - semana_actual).days
+                    diferencia =(semana_actual - fecha_emision_0).days
                     prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
                     contador_demora_0 = contador_demora_0 + 1
                 if semana_actual >= fecha_emision_b:
-                    diferencia = (fecha_emision_b - semana_actual).days
+                    diferencia = (semana_actual - fecha_emision_b).days
                     prom_demora_emisión_B = prom_demora_emisión_B + diferencia
                     contador_demora_b = contador_demora_b + 1
             if total_versiones:
@@ -194,14 +205,14 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     fecha_version = ver.fecha
                     estado = ver.revision
                     if estado == 5 and repeticion == 1:
-                        diferencia = (fecha_emision_0 - fecha_version).days
+                        diferencia = (fecha_version - fecha_emision_0).days
                         prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
                         contador_demora_0 = contador_demora_0 + 1
                         repeticion = 0
             if version_first:   
                 #Calculo del promedio de demora emisión en b
                 fecha_version = version_first.fecha
-                diferencia = (fecha_emision_b - fecha_version).days
+                diferencia = (fecha_version - fecha_emision_b).days
                 prom_demora_emisión_B = prom_demora_emisión_B + diferencia
                 contador_demora_b = contador_demora_b + 1
 

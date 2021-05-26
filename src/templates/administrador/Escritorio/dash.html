@@ -245,6 +245,36 @@
                   </div><!-- col-4 -->
                   <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
                     {{proyecto.umbral_desviacion_porcentual}}%
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;">
+                    Doc. Aprobados(D):
+                    
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;">
+                    {{proyecto.umbral_documento_aprobado}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;">
+                    Doc. Atrasados(D):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;">
+                    {{proyecto.umbral_documento_atrasado}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;">
+                    Rev. Atrasadas(D):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;">
+                    {{proyecto.umbral_revision_documento}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;">
+                    Desviación del Proyecto(%):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;">
+                    {{proyecto.umbral_desviacion_porcentual}}
                   </div><!-- col-8 -->
                 </div><!-- row -->
               </div>
@@ -274,8 +304,13 @@
             </div><!-- col-8 -->
           </div><!-- row -->
           <div class="row no-gutters text-center">
+<<<<<<< HEAD
             <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
               Fecha Termino:
+=======
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;">
+              Fecha Término:
+>>>>>>> a2fed6253620941031a76f7c9ec743a487acb20d
             </div><!-- col-4 -->
             <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
               {{proyecto.fecha_termino|date:'d-m-y'}}  

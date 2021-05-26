@@ -15,7 +15,7 @@
     <div class="col-md-12">
           <div class="widget-2">
               <div class="card shadow-base overflow-hidden chart">
-                  <div class="card-header">
+                  <div class="card-header"style="text-align:center;display:flow-root;">
                     <h4 class="tx-gray-800 mg-b-5">Curva de Avance Físico Ingenieria</h4>                       
                   </div>
                   <div class="card-body" height="1280px">
@@ -401,7 +401,7 @@
       {
 				type: 'bar',
         label: 'Avance Real Parcial (BARRAS)',
-        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 150, 141 , 0.4)', {% endif %} {% endfor %}],
+        backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 150, 141 , 0.6)', {% endif %} {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 150, 141 , 1)', {% endif %} {% endfor %}],
         fill: true,
         borderWidth: 1,
