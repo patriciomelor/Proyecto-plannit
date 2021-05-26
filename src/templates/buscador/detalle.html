@@ -80,11 +80,11 @@
                   <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
                   hora
                   </th>
-                  <form method="POST">{% csrf_token %}
                   <th style="text-align: center;border: 2px #fff solid; vertical-align: middle;padding: 5px; font-size: 10px;">
-                    <input type="submit" class="btn btn-warning" style="text-align: center;padding:2px;"value="Descargar ZIP">
+                    <form method="POST">{% csrf_token %}
+                      <input type="submit" class="btn btn-warning" style="text-align: center;padding:2px;"value="Descargar ZIP">
+                    </form>
                   </th >
-                  </form>
 
 =======
                       <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Creador</th>

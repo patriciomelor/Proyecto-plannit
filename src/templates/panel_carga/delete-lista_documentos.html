@@ -15,9 +15,9 @@
 
 
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
-  <div class="card bd-0 shadow-base" >                 
+  <div class="card bd-0 shadow-base" style="padding: 20px;" >                 
           <div class="row col-8 mg-t-10 mg-b-20">
-            <a ><button class="btn btn-danger"  id="delete_btn" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;" type="submit"> Eliminar Registros <br> Seleccionados </button></a></th>
+            <a ><button class="btn btn-warning"  id="delete_btn" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;" type="submit"> Eliminar Registros <br> Seleccionados </button></a></th>
             <a  href="{% url 'documento-eliminar-multiple' %}" ><button class="btn btn-danger mg-l-10" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;" type="submit"> Eliminar todo <br> Registro </button></a></th>
         </div>
           <table border="1" style="width:auto; height:20px;white-space: nowrap;"  class="table table-striped mg-b-0 table-bordered table-primary"style="width:100%;">       
@@ -27,18 +27,17 @@
             <tr>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"><label class="ckbox"></label></th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Especialidad</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Descripcion Documentos</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo Documento Contractual</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Numero Interno</th>              
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Descripcion</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Codigo</th>
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Tipo Doc.</th>
-              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada de Emision</th>
+              <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;" colspan="2">Fecha Programada</th>
               
             </tr>
           </thead>
           <tbody>
           
             <tr>
-              <th colspan="6"></th>
+              <th colspan="5"></th>
               <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Inicio Emision en Rev B</th>              
               <th style="text-align: center;border: 5px;border-color: black; color:black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emision en Rev 0</th>
             </tr>
@@ -53,7 +52,6 @@
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Descripcion}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Codigo_documento}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Tipo_Documento}} </th>
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Numero_documento_interno}}</th>                  
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.fecha_Emision_B|date:'d-M-y'}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.fecha_Emision_0|date:'d-M-y'}}</th>
               </tr>           
