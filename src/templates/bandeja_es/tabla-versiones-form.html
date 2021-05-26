@@ -43,22 +43,22 @@
                             <h3 class="title current">Versiones adjuntadas</h3>
 
                               <div id="tablaVersiones">
-                                  <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">
+                                  <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary" style="width:100%;">
                                       <thead>
                                           <tr>
-                                              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Documento </th>
-                                              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Nombre </th>
-                                              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Especialidad </th>
-                                              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Revisión </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Documento </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Nombre </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Especialidad </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Revisión </th>
                                                {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
-                                              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Contratista </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado Contratista </th>
                                                     
                                                {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
-                                                       <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Estado Cliente </th>                  
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado Cliente </th>                  
                                                {% endif %}  
                                               
-                                              <th style="text-align: center;border: 2px;border-color: grey; color: white;"></th>
-                                              <th style="text-align: center;border: 2px;border-color: grey; color: white;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
 
 
                                           </tr>

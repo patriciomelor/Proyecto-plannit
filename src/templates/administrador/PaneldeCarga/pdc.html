@@ -51,8 +51,8 @@
   <!--Upload Archivos-->
     <div class="row row-sm d-flex">
 
-        <div id="datatable2_wrapper" class="dataTables_wrapper no-footer col-md-12">
-          <table id="datatable2" class="table display responsive nowrap dataTable no-footer dtr-inline table-primary"role="grid" aria-describedby="datatable1_info" style="width: 100%!important;">
+        <div id="datatable2_wrapper" class="col-md-12 dataTables_wrapper no-footer">
+          <table id="datatable2" class="records_list table table-striped table-bordered table-hover table-primary"role="grid" aria-describedby="datatable1_info" style="width: 100%!important;">
           <thead>
             <tr role="row">
              
@@ -124,7 +124,6 @@
           </tbody>
         </table>  
       </div>   
-
 {% if is_paginated %}
     <div class="col-md-9 col-9 ht-80 d-flex align-items-center justify-content-center">
       <nav aria-label="Page navigation">      
@@ -133,10 +132,8 @@
           <li class="page-item"><a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
           <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR"><i class="fa fa-angle-left"></i></a></li>
           
-          {% if page_obj.has_previous %}
-            <li class="page-item"><a class="page-link " href="page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-          {% endif %}
-          <li class="page-item active"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
+         
+          <li class="page-item "><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
           <li class="page-item disabled"><span class="page-link">...</span></li>
           <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>          
        {% endif %}
@@ -157,6 +154,7 @@
       </nav>
     </div>
 {% endif %}
+
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -194,15 +192,16 @@
 <script>
   $(document).ready(function() {
       $('#datatable2').DataTable(
-        {
+          { 
+            "pagingType": 'full',
             "dom": 'B<"float-right"f>t<"float-left"l><"clearfix">',
             "responsive": true,
             "language": {
                 "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
-            }
-             "order": [[ 0, "desc" ]]
-          }
-  
+            },
+             "order": [ 0, "desc" ],
+
+          },
       );
       
   } );
