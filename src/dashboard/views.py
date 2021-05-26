@@ -34,6 +34,13 @@ class IndexView(ProyectoMixin, TemplateView):
         context["proyecto"] = self.proyecto
         return context
     
+# Ejemplo de función
+# def diferencia_fechas(fecha_uno, fecha_dos):
+    
+#     diferencia = 0
+#     diferencia = abs((fecha_uno - fecha_dos).days)
+
+#     return diferencia
 
 class EscritorioView(ProyectoMixin, TemplateView):
     template_name = "administrador/Escritorio/dash.html"
@@ -70,12 +77,11 @@ class EscritorioView(ProyectoMixin, TemplateView):
         documentos_atrasados_0 = 0
         documentos_revision_cliente = 0
         documentos_revision_contratista = 0
-        #prom_demora_revisión_final = 0
-        #prom_demora_revisión_b = 0
-        #prom_demora_revisión_0 = 0
         tiempo_ciclo_aprobación = 0
-        demora_emisión_B = 0
-        demora_emisión_0 = 0
+        prom_demora_emisión_B = 0
+        prom_demora_emisión_0 = 0
+        contador_demora_b = 0
+        contador_demora_0 = 0
         prom_revision_cliente = 0
         prom_revision_contratista = 0
         cantidad_paquetes_cliente = 0
@@ -106,6 +112,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         #Obtener otros datos 
         for doc in documentos:
             versiones = Version.objects.filter(documento_fk=doc).last()
+            total_versiones = Version.objects.filter(documento_fk=doc)
             version_first = Version.objects.filter(documento_fk=doc).first()
             fecha_emision_0 = doc.fecha_Emision_0
             fecha_emision_b = doc.fecha_Emision_B
@@ -122,6 +129,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 for cliente in ESTADOS_CLIENTE[1:]:
                     if estado_cliente == 5 and cliente[0] == 5:
                         contador_emitidos_0 = contador_emitidos_0 + 1
+                        #diferencia = diferencia_fechas(fecha_version, paquete_first[0].fecha_creacion)
                         diferencia = abs((fecha_version - paquete_first[0].fecha_creacion).days)
                         tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
                         contador_aprobacion = contador_aprobacion + 1
@@ -171,33 +179,33 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         contador_revision_cliente = contador_revision_cliente + 1  
                 contador_emitidos = contador_emitidos + 1
             if not versiones:
-                pass
-            if version_first:
-                fecha_emision_0 = doc.fecha_Emision_0
-                fecha_emision_b = doc.fecha_Emision_B
+                #Calculo del promedio de demora emisión en b
+                if semana_actual >= fecha_emision_0:
+                    diferencia = (fecha_emision_0 - semana_actual).days
+                    prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
+                    contador_demora_0 = contador_demora_0 + 1
+                if semana_actual >= fecha_emision_b:
+                    diferencia = (fecha_emision_b - semana_actual).days
+                    prom_demora_emisión_B = prom_demora_emisión_B + diferencia
+                    contador_demora_b = contador_demora_b + 1
+            if total_versiones:
+                repeticion = 1
+                for ver in total_versiones:
+                    fecha_version = ver.fecha
+                    estado = ver.revision
+                    if estado == 5 and repeticion == 1:
+                        diferencia = (fecha_emision_0 - fecha_version).days
+                        prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
+                        contador_demora_0 = contador_demora_0 + 1
+                        repeticion = 0
+            if version_first:   
+                #Calculo del promedio de demora emisión en b
                 fecha_version = version_first.fecha
-                revision = version_first.revision
-                # for estado in TYPES_REVISION[1:4]:
-                #     if estado[0] == revision:
-                #         diferencia = abs((fecha_version - fecha_emision_b).days)
-                #         prom_demora_revisión_b = prom_demora_revisión_b + diferencia
-                #         contador_b = contador_b + 1
-                # for estado in TYPES_REVISION[5:]:
-                #     if estado[0] == revision:
-                #         diferencia = abs((fecha_version - fecha_emision_0).days)
-                #         prom_demora_revisión_0 = prom_demora_revisión_0 + diferencia
-                #         contador_0 = contador_0 + 1
+                diferencia = (fecha_emision_b - fecha_version).days
+                prom_demora_emisión_B = prom_demora_emisión_B + diferencia
+                contador_demora_b = contador_demora_b + 1
 
-        #Condicionales para promedios
-        # if contador_0 != 0 and contador_b != 0:          
-        #     prom_demora_revisión_final = (prom_demora_revisión_b/contador_b) + (prom_demora_revisión_0/contador_0)
-        #     prom_demora_revisión_final = format(float(prom_demora_revisión_final), '.1f')
-        # if contador_0 != 0 and contador_b == 0:
-        #     prom_demora_revisión_final = (prom_demora_revisión_0/contador_0)
-        #     prom_demora_revisión_final = format(float(prom_demora_revisión_final), '.1f')
-        # if contador_0 == 0 and contador_b != 0:   
-        #     prom_demora_revisión_final = (prom_demora_revisión_b/contador_b)
-        #     prom_demora_revisión_final = format(float(prom_demora_revisión_final), '.1f')
+        #Dar formato a valores de los promedios
         if contador_aprobacion != 0:
             tiempo_ciclo_aprobación = float(tiempo_ciclo_aprobación)/contador_aprobacion
             tiempo_ciclo_aprobación = format(float(tiempo_ciclo_aprobación), '.1f')
@@ -207,14 +215,19 @@ class EscritorioView(ProyectoMixin, TemplateView):
         if contador_revision_contratista != 0:
             prom_revision_contratista = float(prom_revision_contratista)/contador_revision_contratista
             prom_revision_contratista = format(float(prom_revision_contratista), '.1f')
-
+        if contador_demora_b != 0:
+            prom_demora_emisión_B = float(prom_demora_emisión_B)/contador_demora_b
+            prom_demora_emisión_B = format(float(prom_demora_emisión_B), '.1f')
+        if contador_demora_0 != 0:
+            prom_demora_emisión_0 = float(prom_demora_emisión_0)/contador_demora_0
+            prom_demora_emisión_0 = format(float(prom_demora_emisión_0), '.1f')
+        
         #Calculo de documentos atrasados
         documentos_atrasados_B = contador_b - contador_emitidos_b
         documentos_atrasados_0 = contador_0 - contador_emitidos_0
 
         if documentos_atrasados_B < 0:
             documentos_atrasados_B = 0
-
         if documentos_atrasados_0 < 0:
             documentos_atrasados_0 = 0
 
@@ -233,6 +246,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         avance_programado = esperado[0]
                     contador_esperado = contador_esperado + 1
 
+        #Avance real y esperado en caso no existir documentos emitidos
         if contador_emitidos == 0:
             avance_real = '0.0'
             contador_fechas = 0
@@ -246,7 +260,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
             avance_programado = avance_esperado[puesto_esperado][0]
         
         #Se almacenan los datos obtenidos
-        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente, documentos_revision_contratista, documentos_atrasados_B, tiempo_ciclo_aprobación, demora_emisión_B, demora_emisión_0, cantidad_paquetes_cliente, cantidad_paquetes_contratista, avance_programado, avance_real]
+        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente, documentos_revision_contratista, documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0, cantidad_paquetes_cliente, cantidad_paquetes_contratista, avance_programado, avance_real]
         lista_final.append(lista_inicial)
 
         return lista_inicial
@@ -726,4 +740,3 @@ class EscritorioView(ProyectoMixin, TemplateView):
         context['datos_tabla'] = self.datos_tabla()
 
         return context
-

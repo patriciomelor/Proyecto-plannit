@@ -4,32 +4,25 @@
 
 {% block content %}
 <div class="br-contentpanel">
-  <div class="br-subleft">
-      <div class="pd-10">
-        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
-      </div>
-
-      <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
-
-      <nav class="nav br-nav-mailbox flex-column">
-        <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon fa fa-reply"></i> Recibidos</a>
-        <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
-        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
-      </nav>
-</div>
-
-
+ 
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
       <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja de Entrada</a>      
-      <span class="breadcrumb-item active">Pre-visualización Paquete</span>
+      <span class="breadcrumb-item active">Pre-visualización Transmittal</span>
     </nav>
   </div>
-
+   <div class="pd-10 bg-gray-900 rounded">
+            <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" role="tablist">
+              <li class="nav-item"><a href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose" role="tab">Nuevo Transmittal</a></li>
+              <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link  mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
+              <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15 active"><i class="icon fa fa-share"></i> Enviados</a></li>
+              <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15"><i class="icon icon ion-edit"></i> Borradores</a></li>
+            </ul>
+          </div>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Detalle del paquete</h4>
+    <h4 class="tx-gray-800 mg-b-5">Detalle del Transmittal</h4>
   </div>
 
   {% comment %} {% if invalido == 0 %} {% endcomment %}
@@ -124,7 +117,7 @@
                       {% endif %}
                     </tr>    
                     {% empty %}
-                    <h4> El paquete no tiene documentos </h4>
+                    <h4> El Transmittal no tiene documentos </h4>
                     {% endfor %}
                               
                   </tbody>
