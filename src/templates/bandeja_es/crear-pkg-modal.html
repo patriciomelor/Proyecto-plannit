@@ -4,30 +4,9 @@
 
 {% load crispy_forms_tags %}
 
-{% block mailing %}
-
-<div class="br-subleft">
-      <div class="pd-10">
-        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Transmittal</a>
-      </div>
-    
-    
-
-      <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
-
-      <nav class="nav br-nav-mailbox flex-column">
-        <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon fa fa-reply"></i> Recibidos</a>
-        <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
-        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
-      </nav>
-</div>
-
-
-{% endblock mailing %}
 
 {% block content %}
 
-<div class="br-contentpanel">
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
