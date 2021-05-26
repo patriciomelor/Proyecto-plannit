@@ -65,7 +65,9 @@ class VersionesList(ProyectoMixin, DetailView):
         versiones = Version.objects.filter(documento_fk=doc)
         for version in versiones:
             static = version.archivo.path
-            listado_versiones_url.append(static)
+            if static:
+                listado_versiones_url.append(static)
+        print(listado_versiones_url)
         zip_subdir = "Documentos"
         zip_filename = "%s.zip" % zip_subdir
         s = BytesIO()

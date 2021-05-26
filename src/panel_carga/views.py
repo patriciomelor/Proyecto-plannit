@@ -27,7 +27,7 @@ from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        field = ( 'Especialidad','descripcion','Codigo_documento','Numero_documento_interno','Tipo_Documento', 'fecha_Emision_B', 'fecha_Emision_0')
+        field = ( 'Especialidad','descripcion','Codigo_documento','Tipo_Documento', 'fecha_Emision_B', 'fecha_Emision_0')
         exclude = ('id', 'emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto')
         import_id_fields = ('id')
 
@@ -111,7 +111,7 @@ class ListDocumento(ProyectoMixin, ListView):
     def get_queryset(self):
         qs =  Documento.objects.filter(proyecto=self.proyecto)
         lista_documentos_filtrados = DocFilter(self.request.GET, queryset=qs)
-        return  lista_documentos_filtrados.qs.order_by('Numero_documento_interno')
+        return  lista_documentos_filtrados.qs.order_by('Codigo_documento')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -171,7 +171,6 @@ class DeleteDocumento(ProyectoMixin, ListView):
             doc = Documento.objects.get(pk=documento)
             doc.delete()
         return render(request, self.template_name)
-
 
 class DeleteAllDocuments(ProyectoMixin, TemplateView):
     model = Documento
