@@ -35,36 +35,42 @@ class StatusIndex(ProyectoMixin, TemplateView):
         documentos = self.get_queryset()
         for doc in documentos:
             version = Version.objects.filter(documento_fk=doc).last()
+            total_versiones = Version.objects.filter(documento_fk=doc)
             version_first = Version.objects.filter(documento_fk=doc).first()
             if version:
                 paquete = version.paquete_set.all()
                 paquete_first = version_first.paquete_set.all()
+                estado_version = version.revision
                 if version.estado_cliente == 5:
-                    transmital = paquete[0].fecha_creacion - paquete_first[0].fecha_creacion
-                    dias_revision = 0
+                    transmital = abs((paquete[0].fecha_creacion - paquete_first[0].fecha_creacion).days)
                 else:
-                    transmital = semana_actual - paquete_first[0].fecha_creacion
-                    dias_revision = semana_actual.day - version.fecha.day
-                
+                    transmital = abs((semana_actual - paquete_first[0].fecha_creacion).days)
                 version_documento = version.revision
+                if estado_version == 1 or estado_version == 2 or estado_version == 3 or estado_version == 4:
+                    fecha_version = version_first.fecha
+                    dias_revision = abs((semana_actual - fecha_version).days)
+                if estado_version >= 5 and version.estado_cliente == 5:
+                    fecha_version_actual = version.fecha
+                    fecha_version_primera = version_first.fecha
+                    dias_revision = abs((fecha_version_actual - fecha_version_primera).days)
+                if estado_version >= 5 and version.estado_cliente != 5:
+                    fecha_version_primera = version_first.fecha
+                    dias_revision = abs((semana_actual - fecha_version_primera).days)
+
                 for revision in TYPES_REVISION[1:4]:
                     if version_documento == revision[0]:
                         if dias_revision < 0:
                             dias_revision = 0
-                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
+                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first[0].fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
                         else:
-                            #dias_revision = 0
-                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
+                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first[0].fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
 
                 for revision in TYPES_REVISION[5:]:
                     if version_documento == revision[0]:
-                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
+                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital, paquete_first[0].fecha_creacion, dias_revision]]
                         lista_final.append(lista_inicial)
-                #print('documento: ', doc, ' version: ', version, ' paquete:', paquete, ' listado final: ', lista_final) 
-
-
 
             else: 
                 lista_inicial = [doc, []]
