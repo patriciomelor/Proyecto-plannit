@@ -26,30 +26,9 @@
    
   </div>
 
-  <div class="d-flex align-items-center justify-content-start pd-x-20 pd-sm-x-30 pd-t-25 mg-b-20 mg-sm-b-30">
-
-    <button id="showSubLeft" class="btn btn-secondary mg-r-10 hidden-lg-up"><i class="fa fa-navicon"></i></button>
-
-    <!-- START: DISPLAYED FOR MOBILE ONLY -->
-    <div class="dropdown hidden-sm-up">
-      <a href="#" class="btn btn-outline-secondary" data-toggle="dropdown"><i class="icon ion-more"></i></a>
-      <div class="dropdown-menu pd-10">
-        <nav class="nav nav-style-1 flex-column">
-          <a href="" class="nav-link">Share</a>
-          <a href="" class="nav-link">Download</a>
-          <div class="dropdown-divider"></div>
-          <a href="" class="nav-link">Edit</a>
-          <a href="" class="nav-link">Delete</a>
-        </nav>
-      </div><!-- dropdown-menu -->
-    </div><!-- dropdown -->
-    <!-- END: DISPLAYED FOR MOBILE ONLY -->
-
-
-  </div><!-- d-flex -->
 
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
-    <div class="card bd-0 shadow-base">
+    <div class="card bd-0 shadow-base dataTables_wrapper no-footer" style="padding:20px;"id="mydatatable-container">
       <table class="records_list table table-striped table-bordered table-hover table-primary" id="mydatatable" role="grid" aria-describedby="datatable2_info">
         <thead>
          <tr role="row">

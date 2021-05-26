@@ -120,25 +120,7 @@
      }
     </style>
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
-    <Script Language="JavaScript">
-    function DameLaFechaHora() {
-      var hora = new Date()
-      var hrs = hora.getHours();
-      var min = hora.getMinutes();
-      var hoy = new Date();
-      var m = new Array();
-      var d = new Array()
-      var an= hoy.getYear();
-      m[0]="Enero";  m[1]="Febrero";  m[2]="Marzo";
-      m[3]="Abril";   m[4]="Mayo";  m[5]="Junio";
-      m[6]="Julio";    m[7]="Agosto";   m[8]="Septiembre";
-      m[9]="Octubre";   m[10]="Noviembre"; m[11]="Diciembre";
-      document.write(hoy.getDate());
-      document.write(" de ");
-      document.write(m[hoy.getMonth()]);
-            
-    }
-  </Script>
+    
   </head>
   <body class="collapsed-menu">
   {% block menublank %}
@@ -148,13 +130,14 @@
     <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-x ps--active-y" data-ps-id="9f275960-8fc4-263c-8019-2d3495e7d5c1">
       <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
       <div class="br-sideleft-menu">
-        <a href="{% url 'index' %}" class="br-menu-link">
+        {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
+         <a href="{% url 'PanelCarga' %}" class="br-menu-link ">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
-            <span class="menu-item-label">Escritorio</span>
+            <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
+            <span class="menu-item-label">Panel de Carga</span>
           </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-        
+          </a>
+        {% endif %}
          <a href="{% url 'PanelCarga' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
@@ -186,13 +169,14 @@
             <span class="menu-item-label">Buscador</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
+          {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
         <a href="{% url 'lista-proyecto' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
             <span class="menu-item-label">Configuración</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        
+        {% endif %}
       </div><!-- br-sideleft-menu -->
     </div><!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
