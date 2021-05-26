@@ -34,20 +34,22 @@ class ProyectoForm(forms.ModelForm):
 
         }
 
-class DocumentoForm(forms.ModelForm):
-
-    Especialidad = forms.CharField( max_length=50, required=True)
-    Descripcion = forms.CharField( max_length=150, required=True )
-    Codigo_documento = forms.CharField( max_length=100, required=True)
-    Numero_documento_interno = forms.CharField(max_length=30, required=False)
-    archivo = forms.FileField(required=False)
-    fecha_Emision_B = forms.DateField(widget=forms.TextInput(attrs={'type': 'date'})) 
-    fecha_Emision_0 =  forms.DateField(widget=forms.TextInput(attrs={'type': 'date'}))
-    
+class DocumentoForm(forms.ModelForm):  
 
     class Meta:
         model = Documento
-        exclude = ['tipo','owner','emision','proyecto', 'ultima_edicion']
+        exclude = ['tipo','owner','emision','proyecto', 'ultima_edicion', 'archivo', 'Numero_documento_interno']
+        widgets = {
+            'fecha_Emision_B':forms.TextInput(attrs={'type': 'date'}),
+            'fecha_Emision_0':forms.TextInput(attrs={'type': 'date'}),
+        }
+        labels = {
+            'Descripcion':'Descripción',
+            'Codigo_documento':'Código',
+            'Tipo_Documento':'Tipo',
+            'fecha_Emision_B':'Fecha Emisión B',
+            'fecha_Emision_0':'Fecha Emisión 0'
+        }
 
 class RevisionForm(forms.ModelForm):
     
