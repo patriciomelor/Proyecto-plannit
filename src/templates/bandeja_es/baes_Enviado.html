@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 
+<<<<<<< HEAD
 {% block mailing %}
 <div class="br-subleft">
       <div class="pd-10">
@@ -20,9 +21,10 @@
 
 {% endblock mailing %}
 
+=======
+>>>>>>> 93d4c10c00ed7ee58f458b56d494e9d27f9e27cc
 {% block content %}   
 
-<div class="br-contentpanel">
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -31,20 +33,14 @@
     </nav>
   </div><!-- br-pageheader -->
 <!--Filtros-->
-<form action="" method="GET">
-  <div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-50 pd-b-40 ">
-    <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Filtros</h4>
-    <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-      <li class="nav-item mg-10">{{filter.form.codigo|as_crispy_field}}</li>
-      <li class="nav-item mg-10">{{filter.form.owner|as_crispy_field}}</li>
-      <li class="nav-item mg-t-35">
-        <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
-        </li>
-    </ul>
-  </div><!-- ht-65 -->
-  <!--Fin Filtros-->
-</form>
-
+  <div class="pd-10 bg-gray-900 rounded">
+            <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" role="tablist">
+              <li class="nav-item"><a href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose" role="tab">Nuevo Transmittal</a></li>
+              <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link  mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
+              <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15 active"><i class="icon fa fa-share"></i> Enviados</a></li>
+              <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15"><i class="icon icon ion-edit"></i> Borradores</a></li>
+            </ul>
+          </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Enviados</h4>
    
@@ -74,8 +70,9 @@
 
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
-      <table class="table mg-b-0 table-contact">
+      <table class="records_list table table-striped table-bordered table-hover table-primary" id="mydatatable" role="grid" aria-describedby="datatable2_info">
         <thead>
+<<<<<<< HEAD
          <tr>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Transmittal</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Asunto</th>
@@ -85,10 +82,20 @@
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Hora</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Detalle</th>
             <th class="wd-5p hidden-xs-down"style="vertical-align:center;text-align:center;"></th>
+=======
+         <tr role="row">
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Transmittal</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Asunto</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Autor</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Destinatario</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Fecha</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Hora</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Detalle</th>
+>>>>>>> 93d4c10c00ed7ee58f458b56d494e9d27f9e27cc
           </tr>
         </thead>
            {% for paquete in paquetes %}
-          <tr>
+          <tr role="row" class="odd">
             <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.codigo}}</a></td>            
             <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.asunto }} </td>           
             <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.owner }}</td>
@@ -175,5 +182,21 @@
     });
 
   });
+</script>
+<script>
+$(document).ready(function() {
+    $('#mydatatable').DataTable(
+      {
+          "dom": 'B<"float-right"f>t<"float-left"l><"clearfix">',
+          "responsive": true,
+          "language": {
+              "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          }
+          "order": [[ 0, "desc" ]],
+        }
+
+    );
+    
+} );
 </script>
 {% endblock content %}
