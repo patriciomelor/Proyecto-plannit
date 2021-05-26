@@ -4,10 +4,17 @@
 
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 {% block mailing %}
 <div class="br-subleft">
       <div class="pd-10">
         <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Transmittal</a>
+=======
+{% block mailing %}
+<div class="br-subleft">
+      <div class="pd-10">
+        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
+>>>>>>> parent of 2b4a769d... cambios baes y otros estilos.
       </div>
     
       <!-- <nav class="nav br-nav-mailbox flex-column">
@@ -18,13 +25,25 @@
       </nav> -->
 
       <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
+<<<<<<< HEAD
 =======
 >>>>>>> 93d4c10c00ed7ee58f458b56d494e9d27f9e27cc
+=======
+>>>>>>> parent of 2b4a769d... cambios baes y otros estilos.
 
+      <nav class="nav br-nav-mailbox flex-column">
+        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
+        <a href="{% url 'Bandejaeys' %}" class="nav-link "><i class="icon fa fa-reply"></i> Recibidos</a>
+        <a href="{% url 'Borradores' %}" class="nav-link active"><i class="icon icon ion-edit"></i> Borradores</a>
+      </nav>
+</div>
+
+{% endblock mailing %}
 
 {% block content %}
 
 
+<div class="br-contentpanel">
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -32,14 +51,20 @@
       <span class="breadcrumb-item active">Borradores</span>
     </nav>
   </div><!-- br-pageheader -->
-<div class="pd-10 bg-gray-900 rounded">
-            <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" role="tablist">
-              <li class="nav-item"><a href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose" role="tab">Nuevo Transmittal</a></li>
-              <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link  mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
-              <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15"><i class="icon fa fa-share"></i> Enviados</a></li>
-              <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15 active"><i class="icon icon ion-edit"></i> Borradores</a></li>
-            </ul>
-          </div>
+
+<form action="" method="GET">
+<!--Filtros-->
+<div class="ht-65 bd bg-gray-100 pd-x-40 d-flex align-items-center justify-content-between pd-t-50 pd-b-40 ">
+  <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Filtros</h4>
+  <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+    <li class="nav-item mg-10">{{filter.form|crispy}}</li>
+    <li class="nav-item mg-t-35">
+      <input type="submit" class="btn btn-primary btn-block tx-uppercase tx-10 tx-mont tx-spacing-2 tx-medium active" style="background: #00b297; border-color: #00b297;" value="Filtrar">
+      </li>
+  </ul>
+</div><!-- ht-65 -->
+<!--Fin Filtros-->
+</form>
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Bandeja de Borradores</h4>
@@ -49,15 +74,21 @@
 
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
-      <table class="records_list table table-striped table-bordered table-hover table-primary" id="mydatatable" role="grid" aria-describedby="datatable2_info">
+      <table class="table mg-b-0 table-contact">
         <thead>
+<<<<<<< HEAD
 <<<<<<< HEAD
           <tr>
             <th class="tx-10-force tx-mont tx-medium"style="vertical-align:center;text-align:center;"> Asunto Transmittal</th>
+=======
+          <tr>
+            <th class="tx-10-force tx-mont tx-medium"style="vertical-align:center;text-align:center;"> Asunto Transmital</th>
+>>>>>>> parent of 2b4a769d... cambios baes y otros estilos.
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Fecha Guardado</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Destinatario</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Propietario</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;">Asunto</th>
+<<<<<<< HEAD
 =======
           <tr role="row">
             <th class="tx-10-force tx-mont tx-medium"style="vertical-align:center;text-align:center;color:#fff;"> Asunto Transmittal</th>
@@ -66,12 +97,14 @@
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Propietario</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Asunto</th>
 >>>>>>> 93d4c10c00ed7ee58f458b56d494e9d27f9e27cc
+=======
+>>>>>>> parent of 2b4a769d... cambios baes y otros estilos.
             <th class="wd-5p hidden-xs-down"style="vertical-align:center;text-align:center;"></th>
           </tr>
         </thead>
         <tbody>
         {% for borrador in borrador_paquete %}
-          <tr role="row" class="odd">
+          <tr>
             <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{% url 'nueva-version' borrador.prev_paquete.pk %}"> {{borrador.prev_paquete}}</a> </div>
             
             </td>
@@ -85,7 +118,7 @@
           
           {% empty %}
           <tr>
-          <th style="background-color:#fff;" colspan="6">
+          <th style="background-color:#fff;" colspan="4">
           <div class="alert alert-info alert-bordered pd-y-20" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
               <span aria-hidden="true">×</span>
@@ -105,6 +138,7 @@
           {% endfor %}
       </table>    
 </div>
+<<<<<<< HEAD
 <script>
 $(document).ready(function() {
     $('#mydatatable').DataTable(
@@ -121,5 +155,7 @@ $(document).ready(function() {
     
 } );
 </script>
+=======
+>>>>>>> parent of 2b4a769d... cambios baes y otros estilos.
 {% endblock content %}
 
