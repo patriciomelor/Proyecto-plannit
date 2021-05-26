@@ -3,49 +3,9 @@
 
 {% load crispy_forms_tags %}
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> parent of 2b4a769d... cambios baes y otros estilos.
-{% block mailing %}
-<style>
-  #mydatatable tfoot input{
-      width: 100% !important;
-  }
-  #mydatatable tfoot {
-      display: table-header-group !important;
-  }
-  </style>
-<div class="br-subleft">
-      <div class="pd-10">
-<<<<<<< HEAD
-        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Transmittal</a>
-=======
-        <a  href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Paquete</a>
->>>>>>> parent of 2b4a769d... cambios baes y otros estilos.
-      </div>
-
-      <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">SECCIONES</h6>
-
-      <nav class="nav br-nav-mailbox flex-column">
-        <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon fa fa-reply"></i> Recibidos</a>
-        <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon fa fa-share"></i> Enviados</a>
-        <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
-
-      </nav>
-</div>
-
-{% endblock mailing %}
-<<<<<<< HEAD
-=======
->>>>>>> 93d4c10c00ed7ee58f458b56d494e9d27f9e27cc
-=======
->>>>>>> parent of 2b4a769d... cambios baes y otros estilos.
 
 {% block content %}   
-
-<div class="br-contentpanel">
-  
+ 
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -54,30 +14,22 @@
     </nav>
   </div><!-- br-pageheader -->
 <!--Fin Filtros-->
+<div class="pd-10 bg-gray-900 rounded">
+            <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" style="margin-left:auto;margin-right:auto;"role="tablist">
+              <li class="nav-item"><a href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose" role="tab">Nuevo Transmittal</a></li>
+              <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link active mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
+              <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15"><i class="icon fa fa-share"></i> Enviados</a></li>
+              <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15"><i class="icon icon ion-edit"></i> Borradores</a></li>
+            </ul>
+          </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Bandeja Entrada</h4>
   </div>
 
   <div class="br-pagebody pd-x-30 pd-sm-x-40">
     <div class="card bd-0 shadow-base dataTables_wrapper no-footer " style="padding:20px;"id="mydatatable-container">
-      <table class="records_list table table-striped table-bordered table-hover" id="mydatatable" role="grid" aria-describedby="datatable2_info">
+      <table class="records_list table table-striped table-bordered table-hover table-primary" id="mydatatable" role="grid" aria-describedby="datatable2_info">
         <thead>
-<<<<<<< HEAD
-<<<<<<< HEAD
-          <tr role="row"> 
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Transmittal</th>
-=======
-          <tr role="row"> 
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Transmital</th>
->>>>>>> parent of 2b4a769d... cambios baes y otros estilos.
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Asunto</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Autor</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Destinatario</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Fecha</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Hora</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;">Detalle</th>
-<<<<<<< HEAD
-=======
           <tr role="row" style="color:#fff;"> 
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="width: 143px;vertical-align:center;text-align:center;color:#fff;">Transmittal</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" aria-sort="ascending"style="vertical-align:center;text-align:center;color:#fff;">Asunto</th>
@@ -86,9 +38,6 @@
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" aria-sort="ascending"style="vertical-align:center;text-align:center;color:#fff;">Fecha</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" aria-sort="ascending"style="vertical-align:center;text-align:center;color:#fff;">Hora</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" aria-sort="ascending"style="vertical-align:center;text-align:center;color:#fff;">Detalle</th>
->>>>>>> 93d4c10c00ed7ee58f458b56d494e9d27f9e27cc
-=======
->>>>>>> parent of 2b4a769d... cambios baes y otros estilos.
           </tr>
         </thead>
         <tbody>
@@ -214,7 +163,7 @@
 $(document).ready(function() {
     $('#mydatatable').DataTable(
       {
-          "dom": 'B<"float-left"i><"float-right"f>t<"float-left"l><"clearfix">',
+          "dom": 'B<"float-right"f>t<"float-left"l><"clearfix">',
           "responsive": true,
           "language": {
               "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
