@@ -14,7 +14,6 @@
 
 {% block content %}
 
-<div class="br-contentpanel">
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -22,14 +21,15 @@
       <span class="breadcrumb-item active">Detalle Transmittal</span>
     </nav>
   </div><!-- br-pageheader -->
- <div class="pd-10 bg-gray-900 rounded">
+  <div class="pd-10 bg-gray-900 rounded">
             <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" role="tablist">
               <li class="nav-item"><a href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose" role="tab">Nuevo Transmittal</a></li>
               <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link  mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
-              <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15 active"><i class="icon fa fa-share"></i> Enviados</a></li>
-              <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15"><i class="icon icon ion-edit"></i> Borradores</a></li>
+              <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15"><i class="icon fa fa-share"></i> Enviados</a></li>
+              <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15 active"><i class="icon icon ion-edit"></i> Borradores</a></li>
             </ul>
           </div>
+
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Detalle de Transmittal</h4>
   </div>
@@ -150,7 +150,22 @@
                     {% endif %}
                   </tr>    
                 {% empty %}
-                    <h4> El Transmittal no tiene documentos </h4>
+                    <tr>
+          <th style="background-color:#fff;" colspan="7">
+          <div class="alert alert-info alert-bordered pd-y-20" role="alert">
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+              <span aria-hidden="true">×</span>
+            </button>
+            <div class="d-sm-flex align-items-center justify-content-start">
+              <i class="icon ion-ios-information alert-icon tx-52 mg-r-20"></i>
+              <div class="mg-t-20 mg-sm-t-0">
+                <h5 class="mg-b-2">AVISO!</h5>
+                <p class="mg-b-0 tx-gray">El Transmittal no tiene documentos</p>
+              </div>
+            </div><!-- d-flex -->
+          </div>
+          </th>
+          </tr>
                 {% endfor %}          
                 </tbody>
                
