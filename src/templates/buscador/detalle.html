@@ -60,9 +60,10 @@
               </div>                                           
             </div>
               <div class="card bd-0 shadow-base dataTables_wrapper no-footer " style="padding:20px;"id="mydatatable-container">
-                <table id="mydatatable" class="table display responsive nowrap dataTable no-footer dtr-inline table-primary" role="grid" aria-describedby="datatable1_info" style="width: 100%;">
+                <table id="mydatatable" class="table display responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable1_info" style="width: 1110px;">
                   <thead>
                     <tr role="row"> 
+<<<<<<< HEAD
                       <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Creador</th>
                       <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Revisión</th>
                       <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Transmittal</th>
@@ -85,10 +86,20 @@
                     </form>
                   </th >
 
+=======
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Creador</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Revisión</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Paquete</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Estado</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Fecha<br>Creación</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Archivo</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="width: 143px;" aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;display:flow-root;">Detalle</th>
+                    </tr>
+>>>>>>> parent of 2d92540e... cambios tablar order desec
                   </thead>
                   <tbody>
                     {% for version in lista_final %}
-                      <tr role="row" class="odd">
+                    <tr role="row" class="odd">
                       <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{version.0.owner.first_name}} {{version.0.owner.last_name}}</td>            
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{version.0.get_revision_display}} </td>           
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> <a href="{% url 'paquete-detalle' version.1.pk %}" >{{version.1.codigo}} </a></td>
@@ -99,13 +110,14 @@
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.get_estado_contratista_display}}</td>
                       {% endif %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.fecha|date:'d-m-y'}}</td>
-                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{version.0.fecha|date:'H:i'}} </td>  
                       {% if version.0.archivo.url is not None %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{{version.0.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
                       {% else %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">Sin documento adjunto.</td>
                       {% endif %} 
-                      
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
+                        <i class="icon ion-eye"></i></a>       
+                      </td>
                       {% empty %}
                       <h4> El Documento {{documento}}, no tiene Versiones </h4>
                       
