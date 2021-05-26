@@ -60,7 +60,7 @@
               </div>                                           
             </div>
               <div class="card bd-0 shadow-base dataTables_wrapper no-footer " style="padding:20px;"id="mydatatable-container">
-                <table id="mydatatable" class="table display responsive nowrap dataTable no-footer dtr-inline" role="grid" aria-describedby="datatable1_info" style="width: 1110px;">
+                <table id="mydatatable" class="records_list table table-striped table-bordered table-hover table-primary" role="grid" aria-describedby="datatable1_info" style="width: 100%">
                   <thead>
                     <tr role="row"> 
                       <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Creador</th>
@@ -71,15 +71,15 @@
                       <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Archivo</th>
                                 </tr>
                     <tr>
-                     <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="4">
+                     <th style="text-align: center;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="4">
                   </th>
-                  <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
+                  <th class="pd-y-5"style="text-align: center;vertical-align: middle;padding: 5px; font-size: 10px;color:#fff;">
                   fecha
                   </th>
-                  <th class="pd-y-5"style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
+                  <th class="pd-y-5"style="text-align: center;vertical-align: middle;padding: 5px; font-size: 10px;color:#fff;">
                   hora
                   </th>
-                  <th style="text-align: center;border: 2px #fff solid; vertical-align: middle;padding: 5px; font-size: 10px;">
+                  <th style="text-align: center; vertical-align: middle;padding: 5px; font-size: 10px;">
                     <form method="POST">{% csrf_token %}
                       <input type="submit" class="btn btn-warning" style="text-align: center;padding:2px;"value="Descargar ZIP">
                     </form>
@@ -99,14 +99,13 @@
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.get_estado_contratista_display}}</td>
                       {% endif %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.fecha|date:'d-m-y'}}</td>
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.fecha|date:'H:i'}}</td>
                       {% if version.0.archivo.url is not None %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{{version.0.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
                       {% else %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">Sin documento adjunto.</td>
                       {% endif %} 
-                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
-                        <i class="icon ion-eye"></i></a>       
-                      </td>
+                     
                       {% empty %}
                       <h4> El Documento {{documento}}, no tiene Versiones </h4>
                       
