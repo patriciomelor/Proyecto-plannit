@@ -1,6 +1,7 @@
 import pathlib
 import os.path
 import zipfile
+import time
 import datetime
 from io import BytesIO
 from django.conf import settings
@@ -96,20 +97,26 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         context = super().get_context_data(**kwargs)
         paquete = Paquete.objects.get(pk=self.kwargs['pk'])
         versiones = paquete.version.all()
+        if versiones.first().archivo.path:
+            correcto = True
+        else:
+            correcto = False
         context['versiones'] = versiones
+        context['correcto'] = correcto
         return context
     
     def post(self, request, *args, **kwargs):
         # Sacado de https://stackoverflow.com/questions/12881294/django-create-a-zip-of-multiple-files-and-make-it-downloadable
         listado_versiones_url = []
         paquete = Paquete.objects.get(pk=self.kwargs['pk'])
-        versiones = PaqueteDocumento.objects.filter(paquete=paquete)
+        versiones = paquete.version.all()
         for version in versiones:
-            act_version = version.version
-            static = act_version.archivo.path
-            #static = act_version.archivo.url
-            listado_versiones_url.append(static)
-        zip_subdir = "Documentos"
+            try:
+                static = version.archivo.path
+                listado_versiones_url.append(static)
+            except ValueError:
+                pass
+        zip_subdir = "Documentos-{0}-{1}".format(paquete.codigo, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
         s = BytesIO()
         zf = zipfile.ZipFile(s, "w")
