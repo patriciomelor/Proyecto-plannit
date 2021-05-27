@@ -10,29 +10,28 @@
       <span class="breadcrumb-item active">Estatus</span>
     </nav>
   </div>
-  <div class="br-section-wrapper"style="overflow: auto ;word-wrap: break-word;
-    padding-left: 3px;
-    padding-right: 3px;
-" >
-  <div class="row row-sm d-flex " >
-    <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10 mg-b-20 wd-100v " style="text-align: left; margin-left: 30px;" >Estatus documental del proyecto / {{proyecto}}</h4>
-        <table id="datatable1" class="table display responsive nowrap dataTable no-footer dtr-inline wd-100v table-primary" role="grid" aria-describedby="datatable" style="padding-left:2px!important;">
+  <div class="br-section-wrapper" style=" padding-left: 3px; padding-right: 3px;">
+   <div class="row row-sm d-flex container col-md-12"style="
+   padding-left: 0px;
+   padding-right: 0px;
+">
+    <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10 mg-b-20" style="text-align: left; margin-left: 30px;" >Estatus documental del proyecto / {{proyecto}}</h4>
+        <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
               <thead>
                 <tr role="row">
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Especialidad</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Descripción</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Código</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Tipo</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Rev. Actual</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">A cargo de:</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Último Transmittal</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Días de revisión</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Estado</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Fecha Inicial</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Fecha Final</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">(%) de Avance</th>
-                <th class="sorting wd-100v" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Ciclo de <br>revisión (d)</th>
-
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Especialidad</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Descripción</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Código</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Tipo</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Rev. Actual</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">cargo de:</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Último Transmittal</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Días de revisión</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Estado</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Fecha Inicial</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">Fecha Final</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;">(%) de Avance</th>
+                  <th  tabindex="0" style="color:#fff;text-align: center;vertical-align: middle;font-size: 8px;">Cic.revisión(d)</th>
                 </tr>
               </thead>
                 <tbody>
@@ -40,43 +39,40 @@
             {% for documento in Listado %}
               {% if not documento.1 %}
               <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Especialidad}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Descripcion}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Codigo_documento}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Tipo_Documento}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > Pendiente </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Especialidad}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Descripcion}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Codigo_documento}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > {{documento.0.Tipo_Documento}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > Pendiente </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;" > </th>
               </tr>
               {% else %}
               <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Especialidad}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Descripcion}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a></th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Tipo_Documento}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.0.get_revision_display}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.1.0.destinatario.perfil.empresa}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> <a href="{% url 'paquete-detalle' documento.1.1.0.pk %}">{{documento.1.1.0}} </a></th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.4}}</th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {% if not documento.1.0.get_estado_cliente_display %} {{documento.1.0.get_estado_contratista_display}} {% else %}{{documento.1.0.get_estado_cliente_display}} {% endif %}  </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.5|date:"d-m-y"}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.1.0.fecha_creacion|date:"d-m-y"}} </th>
-
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.3}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.1.6}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.0.Especialidad}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.0.Descripcion}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a></th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.0.Tipo_Documento}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.1.0.get_revision_display}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.1.1.0.destinatario.perfil.empresa}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> <a href="{% url 'paquete-detalle' documento.1.1.0.pk %}">{{documento.1.1.0}} </a></th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.1.4}}</th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {% if not documento.1.0.get_estado_cliente_display %} {{documento.1.0.get_estado_contratista_display}} {% else %}{{documento.1.0.get_estado_cliente_display}} {% endif %}  </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.1.5|date:"d-m-y"}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.1.1.0.fecha_creacion|date:"d-m-y"}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.1.3}} </th>
+                <th style="word-wrap: break-word;text-align: center;color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.1.6}} </th>
               </tr>
               {% endif %}
               {% endfor %}
-            </table>
-        
+        </table>       
 
-      </div>
     </div>
 {% if is_paginated %}
     <div class="ht-80 d-flex align-items-center justify-content-center">
@@ -126,7 +122,7 @@
   $(document).ready(function() {
       $('#datatable1').DataTable(
         {
-          "dom": 'B<"float-right"f>t<"float-left"l><"clearfix">',
+          "dom": 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
           "responsive": true,
           "language": {
               "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
