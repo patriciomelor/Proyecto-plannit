@@ -1,3 +1,4 @@
+import time
 from django.db.models.query import ValuesIterable
 from django.shortcuts import render
 from django.contrib.auth.models import User
@@ -71,7 +72,7 @@ class VersionesList(ProyectoMixin, DetailView):
             except ValueError:
                 pass
         print(listado_versiones_url)
-        zip_subdir = "Documentos"
+        zip_subdir = "Documento-{0}-{1}".format(doc.Codigo_documento, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
         s = BytesIO()
         zf = zipfile.ZipFile(s, "w")

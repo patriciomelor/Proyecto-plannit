@@ -1,6 +1,7 @@
 import pathlib
 import os.path
 import zipfile
+import time
 import datetime
 from io import BytesIO
 from django.conf import settings
@@ -30,7 +31,7 @@ from panel_carga.filters import DocFilter
 from panel_carga.models import Documento, Proyecto
 from panel_carga.choices import TYPES_REVISION
 from .serializers import PrevVersionSerializer
-
+from configuracion.roles import ROLES
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -96,20 +97,32 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         context = super().get_context_data(**kwargs)
         paquete = Paquete.objects.get(pk=self.kwargs['pk'])
         versiones = paquete.version.all()
+        for version in versiones:
+            try:
+                static = version.archivo.path
+                listado_versiones_url.append(static)
+            except ValueError:
+                pass
+        if listado_versiones_url:
+            correcto = True
+        else:
+            correcto = False
         context['versiones'] = versiones
+        context['correcto'] = correcto
         return context
     
     def post(self, request, *args, **kwargs):
         # Sacado de https://stackoverflow.com/questions/12881294/django-create-a-zip-of-multiple-files-and-make-it-downloadable
         listado_versiones_url = []
         paquete = Paquete.objects.get(pk=self.kwargs['pk'])
-        versiones = PaqueteDocumento.objects.filter(paquete=paquete)
+        versiones = paquete.version.all()
         for version in versiones:
-            act_version = version.version
-            static = act_version.archivo.path
-            #static = act_version.archivo.url
-            listado_versiones_url.append(static)
-        zip_subdir = "Documentos"
+            try:
+                static = version.archivo.path
+                listado_versiones_url.append(static)
+            except ValueError:
+                pass
+        zip_subdir = "Documentos-{0}-{1}".format(paquete.codigo, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
         s = BytesIO()
         zf = zipfile.ZipFile(s, "w")
@@ -192,16 +205,18 @@ def create_paquete(request, paquete_pk, versiones_pk):
     #########################################################
         paquete_prev = PrevPaquete.objects.get(pk=paquete_pk)
         proyecto = Proyecto.objects.get(pk=request.session.get('proyecto'))
-        rol =paquete_prev.prev_propietario.perfil.rol_usuario 
-        if rol >= 1 and rol <=3:
-            pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario=rol).count()
-            codigo_tramital = str(proyecto.codigo) + "-" + "C" +"-" +str((pkg + 1))
-        elif rol >= 4 and rol <=6:
-            pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario=rol).count()
-            codigo_tramital = str(proyecto.codigo) + "-" + "T" +"-" +str((pkg + 1))
+        rol =paquete_prev.prev_propietario.perfil.rol_usuario
+        clientes = [1,2,3]
+        contratistas = [4,5,6]
+        if rol in clientes:
+            pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario__in=clientes).count()
+            codigo_trasmital = str(proyecto.codigo) + "-" + "C" +"-" +str((pkg + 1))
+        elif rol in contratistas:
+            pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario__in=contratistas).count()
+            codigo_trasmital = str(proyecto.codigo) + "-" + "T" +"-" +str((pkg + 1))
 
         paquete = Paquete(
-            codigo = codigo_tramital,
+            codigo = codigo_trasmital,
             asunto = paquete_prev.prev_asunto,
             descripcion = paquete_prev.prev_descripcion,
             destinatario = paquete_prev.prev_receptor,

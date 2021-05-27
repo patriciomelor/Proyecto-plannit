@@ -90,7 +90,7 @@
                 Descargar Archivos
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                {% if version.archivo.url is not None %}
+                {% if correcto %}
                 <form method="POST">{% csrf_token %}
                   <input type="submit" class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" value="Descargar todo"></input>                         
                 </form>
@@ -106,7 +106,7 @@
                 <thead class="thead-colored thead-primary">
                   <tr class="tx-10">
                     <th class="pd-y-5"style="text-align: center;">Especialidad</th>     
-                    <th class="pd-y-5"style="text-align: center;">Nombre</th>                     
+                    <th class="pd-y-5"style="text-align: center;">Descripción</th>                     
                     <th class="pd-y-5"style="text-align: center;">Tipo</th>  
                     <th class="pd-y-5"style="text-align: center;">Código</th>  
                     <th class="pd-y-5"style="text-align: center;">Revisión</th>
