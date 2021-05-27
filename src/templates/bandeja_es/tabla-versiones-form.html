@@ -46,19 +46,19 @@
                                   <table class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary" style="width:100%;">
                                       <thead>
                                           <tr>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Codigo </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Descripcion </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Especialidad </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Revisión </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Código </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Descripción </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Especialidad </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Revisión </th>
                                                {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado Contratista </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Estado </th>
                                                     
                                                {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado Cliente </th>                  
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Estado </th>                  
                                                {% endif %}  
                                               
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"></th>
 
 
                                           </tr>
