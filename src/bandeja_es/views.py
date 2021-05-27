@@ -97,7 +97,13 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         context = super().get_context_data(**kwargs)
         paquete = Paquete.objects.get(pk=self.kwargs['pk'])
         versiones = paquete.version.all()
-        if versiones.first().archivo.path:
+        for version in versiones:
+            try:
+                static = version.archivo.path
+                listado_versiones_url.append(static)
+            except ValueError:
+                pass
+        if listado_versiones_url:
             correcto = True
         else:
             correcto = False
