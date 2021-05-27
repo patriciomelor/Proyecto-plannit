@@ -10,6 +10,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic.edit import FormMixin
 from django.core.exceptions import ValidationError
 from import_export import resources
+from import_export.widgets import DateWidget
 from django.contrib import messages
 from tablib import Dataset
 from django.core.exceptions import FieldError, ValidationError
@@ -27,10 +28,13 @@ from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check
 class DocumentResource(resources.ModelResource):
     class Meta:
         model = Documento
-        field = ( 'Especialidad','descripcion','Codigo_documento','Tipo_Documento', 'fecha_Emision_B', 'fecha_Emision_0')
+        field = ('Especialidad','descripcion','Codigo_documento','Tipo_Documento', 'fecha_Emision_B', 'fecha_Emision_0')
         exclude = ('id', 'emision', 'archivo', 'ultima_edicion', 'owner', 'proyecto', 'Numero_documento_interno')
         import_id_fields = ('id')
-
+        widgets = {
+            'fecha_Emision_B': {'format': '%Y-%m-%d'},
+            'fecha_Emision_0': {'format': '%Y-%m-%d'},
+        }
     def export(self, queryset=None, *args, **kwargs):
         qs = Documento.objects.filter(proyecto=kwargs.pop('proyecto'))
         return super(DocumentResource, self).export(qs, *args, **kwargs)
@@ -125,6 +129,7 @@ class ListDocumento(ProyectoMixin, ListView):
         new_documentos = request.FILES['importfile']
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
         for data in imported_data:
+            print(type(data),data)
             try:
                 if isinstance(data[4], str):
                     fecha_b = data[4]
