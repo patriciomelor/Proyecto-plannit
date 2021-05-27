@@ -126,8 +126,14 @@ class ListDocumento(ProyectoMixin, ListView):
         imported_data = dataset.load(new_documentos.read(), format='xlsx')
         for data in imported_data:
             try:
-                fecha_b = data[4]
-                fecha_0 = data[5]
+                if isinstance(data[4], str):
+                    fecha_b = data[4]
+                else:
+                    fecha_b = data[4].strftime("%Y-%m-%d")
+                if isinstance(data[5], str):
+                    fecha_0 = data[5]
+                else:
+                    fecha_0 = data[5].strftime("%Y-%m-%d")
                 documento = Documento(
                     Especialidad= data[0],
                     Descripcion= data[1],
