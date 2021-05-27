@@ -42,8 +42,8 @@
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
-         <a href="{% url 'PanelCarga' %}" class="br-menu-link ">
-          <div class="br-menu-item">
+         <a href="{% url 'PanelCarga' %}" class="br-menu-link active">
+          <div class="br-menu-item active">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
             <span class="menu-item-label">Panel de Carga</span>
           </div><!-- menu-item -->
@@ -55,23 +55,23 @@
             <span class="menu-item-label">Bandeja</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <a href="{% url 'analitica-index' %}" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
+          <a href="{% url 'analitica-index' %}" class="br-menu-link">
+          <div class="br-menu-item active">
+           <i class="menu-item-icon fa fa-bar-chart tx-24 "></i>
             <span class="menu-item-label">Analítica</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
        
-         <a href="{% url 'status-index' %}" class="br-menu-link">
-          <div class="br-menu-item active">
+        <a href="{% url 'status-index' %}" class="br-menu-link">
+          <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
             <span class="menu-item-label">Estatus</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <a href="{% url 'encargado-index' %}" class="br-menu-link">
-          <div class="br-menu-item active">
-            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
-            <span class="menu-item-label">Asignación de Responsabilidades</span>
+          <div class="br-menu-item ">
+            <i class=" menu-item-icon icon ion-person tx-24"></i>
+            <span class="menu-item-label">Asignación de<br>Responsabilidades</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <a href="{% url 'buscador-index' %}" class="br-menu-link">
@@ -82,7 +82,7 @@
         </a><!-- br-menu-link -->
           {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
         <a href="{% url 'lista-proyecto' %}" class="br-menu-link">
-          <div class="br-menu-item">
+          <div class="br-menu-item active">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
             <span class="menu-item-label">Configuración</span>
           </div><!-- menu-item -->
