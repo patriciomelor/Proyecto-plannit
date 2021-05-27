@@ -248,41 +248,9 @@
                   {% endif %}
               
                 {% endfor %}], 
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.2)',
-                  'rgba(54, 162, 235, 0.2)',
-                  'rgba(255, 206, 86, 0.2)',
-                  'rgba(75, 192, 192, 0.2)',
-                  'rgba(153, 102, 255, 0.2)',
-                  'rgba(255, 159, 64, 0.2)',
-                  'rgba(211, 84, 0, 0.2)',
-                  'rgba(191, 201, 202, 0.2)',
-                  'rgba(249, 231, 159, 0.2)',
-                  'rgba(210, 180, 222, 0.2)',
-                  'rgba(231, 76, 60, 0.2)',
-                  'rgba(17, 122, 101, 0.2)',
-                  'rgba(93, 173, 226, 0.2)',
-                  'rgba(241, 196, 15, 0.2)',
-                  'rgba(253, 237, 236, 0.2)',
-                  'rgba(64, 247, 7, 0.2)'
+              backgroundColor: [{% for emisiones in lista_total_documentos %} 'rgba(255, 99, 132, 0.2)', {% endfor %}
               ],
-              borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)',
-                  'rgba(211, 84, 0, 1)',
-                  'rgba(191, 201, 202, 1)',
-                  'rgba(249, 231, 159, 1)',
-                  'rgba(210, 180, 222, 1)',
-                  'rgba(231, 76, 60, 1)',
-                  'rgba(17, 122, 101, 1)',
-                  'rgba(93, 173, 226, 1)',
-                  'rgba(241, 196, 15, 1)',
-                  'rgba(253, 237, 236, 1)',
-                  'rgba(64, 247, 7, 1)'
+              borderColor: [{% for emisiones in lista_total_documentos %} 'rgba(255, 99, 132, 1)', {% endfor %}
               ],
               borderWidth: 1
           }, {
@@ -301,41 +269,9 @@
               {% endif %}
               
               {% endfor %}],
-              backgroundColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)',
-                  'rgba(211, 84, 0, 1)',
-                  'rgba(191, 201, 202, 1)',
-                  'rgba(249, 231, 159, 1)',
-                  'rgba(210, 180, 222, 1)',
-                  'rgba(231, 76, 60, 1)',
-                  'rgba(17, 122, 101, 1)',
-                  'rgba(93, 173, 226, 1)',
-                  'rgba(241, 196, 15, 1)',
-                  'rgba(253, 237, 236, 1)',
-                  'rgba(64, 247, 7, 1)'
+              backgroundColor: [{% for emisiones in lista_total_documentos_emitidos %} 'rgba(255, 99, 132, 1)', {% endfor %}
               ],
-              borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)',
-                  'rgba(211, 84, 0, 1)',
-                  'rgba(191, 201, 202, 1)',
-                  'rgba(249, 231, 159, 1)',
-                  'rgba(210, 180, 222, 1)',
-                  'rgba(231, 76, 60, 1)',
-                  'rgba(17, 122, 101, 1)',
-                  'rgba(93, 173, 226, 1)',
-                  'rgba(241, 196, 15, 1)',
-                  'rgba(253, 237, 236, 1)',
-                  'rgba(64, 247, 7, 1)'
+              borderColor: [{% for emisiones in lista_total_documentos_emitidos %} 'rgba(255, 99, 132, 1)', {% endfor %}
               ],
               borderWidth: 1
           }
@@ -410,7 +346,7 @@
       {
 				type: 'bar',
         label: 'Avance Esperado Parcial (BARRAS)',
-        backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 15, 132, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 15, 132, 0.2)' {% endif %} {% endfor %}],
+        backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 15, 132, 0.7)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 15, 132, 0.7)' {% endif %} {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 15, 132, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 15, 132, 1)' {% endif %} {% endfor %}],
         fill: true,
         borderWidth: 1,

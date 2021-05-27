@@ -64,25 +64,20 @@
                   <thead>
                     <tr role="row"> 
                       <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Emisor</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Revisión</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Transmittal</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Estado</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="2"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Fecha Creación</th>
-                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Archivo</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="1" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Revisión</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="2" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Transmittal</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="3" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Estado</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="4" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">fecha</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="4" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Hora</th>
+                      <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="5" aria-controls="datatable2" rowspan="1" colspan="1"  aria-sort="ascending"style="vertical-align:center;text-align:center;text-align:center;color:#fff;">Archivo</th>
                                 </tr>
                     <tr>
-                     <th style="text-align: center;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="4">
-                  </th>
-                  <th class="pd-y-5"style="text-align: center;vertical-align: middle;padding: 5px; font-size: 10px;color:#fff;">
-                  fecha
-                  </th>
-                  <th class="pd-y-5"style="text-align: center;vertical-align: middle;padding: 5px; font-size: 10px;color:#fff;">
-                  hora
-                  </th>
-                  <th style="text-align: center; vertical-align: middle;padding: 5px; font-size: 10px;">
-                    <form method="POST">{% csrf_token %}
-                      <input type="submit" class="btn btn-warning" style="text-align: center;padding:2px;"value="Descargar ZIP">
-                    </form>
+                     <th style="text-align: center;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="6">
+                      </th>
+                      <th style="text-align: center; vertical-align: middle;padding: 5px; font-size: 10px;">
+                      <form method="POST">{% csrf_token %}
+                        <input type="submit" class="btn btn-warning" style="text-align: center;padding:2px;"value="Descargar ZIP">
+                      </form>
                   </th >
 
                   </thead>
@@ -159,7 +154,7 @@ $(document).ready(function() {
           "language": {
               "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
           },
-          "order": [[ 0, "desc" ]],
+          "order":[[ 4, 'desc' ], [ 5, 'desc' ]],
         }
 
     );

@@ -106,41 +106,25 @@
        
         <!-- Bracket CSS -->
     <style>
-     #datatable1_paginate{
-       display:none;
-     }
-     .buttons-excel{
-        color: #fff!important;
-        background: #23BF08!important;
-        border-color: #23BF08!important;
-        display: block!important;
-        width: 100%!important;
-        border-radius: 50px!important;
-        margin-left:20px!important;
-     }
      
-}
+     .buttons-excel{
+              color: #fff!important;
+              background: #23BF08!important;
+              border-color: #23BF08!important;
+              display: block!important;
+              width: 100%!important;
+              border-radius: 50px!important;
+              margin-left:20px!important;
+          }
+          
+    table 
+      {
+          table-layout:fixed;
+          width:100%;
+      }
     </style>
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
-    <Script Language="JavaScript">
-    function DameLaFechaHora() {
-      var hora = new Date()
-      var hrs = hora.getHours();
-      var min = hora.getMinutes();
-      var hoy = new Date();
-      var m = new Array();
-      var d = new Array()
-      var an= hoy.getYear();
-      m[0]="Enero";  m[1]="Febrero";  m[2]="Marzo";
-      m[3]="Abril";   m[4]="Mayo";  m[5]="Junio";
-      m[6]="Julio";    m[7]="Agosto";   m[8]="Septiembre";
-      m[9]="Octubre";   m[10]="Noviembre"; m[11]="Diciembre";
-      document.write(hoy.getDate());
-      document.write(" de ");
-      document.write(m[hoy.getMonth()]);
-            
-    }
-  </Script>
+   
   </head>
   <body class="collapsed-menu">
   {% block menublank %}
@@ -171,17 +155,23 @@
             <span class="menu-item-label">Bandeja</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        <a href="{% url 'analitica-index' %}" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-pie-outline tx-20"></i>
+         <a href="{% url 'analitica-index' %}" class="br-menu-link">
+          <div class="br-menu-item active">
+           <i class="menu-item-icon fa fa-bar-chart tx-24 "></i>
             <span class="menu-item-label">Analítica</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
        
-        <a href="{% url 'status-index' %}" class="br-menu-link active">
-          <div class="br-menu-item active">
+        <a href="{% url 'status-index' %}" class="br-menu-link">
+          <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
             <span class="menu-item-label">Estatus</span>
+          </div><!-- menu-item -->
+        </a><!-- br-menu-link -->
+        <a href="{% url 'encargado-index' %}" class="br-menu-link">
+          <div class="br-menu-item ">
+            <i class=" menu-item-icon icon ion-person tx-24"></i>
+            <span class="menu-item-label">Asignación de<br>Responsabilidades</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
         <a href="{% url 'buscador-index' %}" class="br-menu-link ">
