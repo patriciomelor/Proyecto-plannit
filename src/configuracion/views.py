@@ -30,15 +30,18 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
         response = super().form_valid(form)
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
-        rol = form.cleaned_data['rol_usuario']
-        company = form.cleaned_data['empresa']
-        perfil = Perfil(
-            usuario=form.instance,
-            rol_usuario=rol,
-            empresa=company,
-            client=True
-        )
-        perfil.save()
+        if user.is_superuser == True:
+            rol = form.cleaned_data['rol_usuario']
+            company = form.cleaned_data['empresa']
+            perfil = Perfil(
+                usuario=form.instance,
+                rol_usuario=rol,
+                empresa=company,
+                client=True
+            )
+            perfil.save()
+        else:
+            return response
         return response
 
 class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):

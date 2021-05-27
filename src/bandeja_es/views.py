@@ -30,7 +30,7 @@ from panel_carga.filters import DocFilter
 from panel_carga.models import Documento, Proyecto
 from panel_carga.choices import TYPES_REVISION
 from .serializers import PrevVersionSerializer
-
+from configuracion.roles import ROLES
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -192,16 +192,18 @@ def create_paquete(request, paquete_pk, versiones_pk):
     #########################################################
         paquete_prev = PrevPaquete.objects.get(pk=paquete_pk)
         proyecto = Proyecto.objects.get(pk=request.session.get('proyecto'))
-        rol =paquete_prev.prev_propietario.perfil.rol_usuario 
-        if rol >= 1 and rol <=3:
-            pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario=rol).count()
-            codigo_tramital = str(proyecto.codigo) + "-" + "C" +"-" +str((pkg + 1))
-        elif rol >= 4 and rol <=6:
-            pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario=rol).count()
-            codigo_tramital = str(proyecto.codigo) + "-" + "T" +"-" +str((pkg + 1))
+        rol =paquete_prev.prev_propietario.perfil.rol_usuario
+        clientes = [1,2,3]
+        contratistas = [4,5,6]
+        if rol in clientes:
+            pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario__in=clientes).count()
+            codigo_trasmital = str(proyecto.codigo) + "-" + "C" +"-" +str((pkg + 1))
+        elif rol in contratistas:
+            pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario__in=contratistas).count()
+            codigo_trasmital = str(proyecto.codigo) + "-" + "T" +"-" +str((pkg + 1))
 
         paquete = Paquete(
-            codigo = codigo_tramital,
+            codigo = codigo_trasmital,
             asunto = paquete_prev.prev_asunto,
             descripcion = paquete_prev.prev_descripcion,
             destinatario = paquete_prev.prev_receptor,
