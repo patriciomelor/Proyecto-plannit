@@ -16,6 +16,7 @@ urlpatterns = [
     path('proyecto-delete/<pk>/', views.ProyectoDelete.as_view(), name='delete-proyecto'),
     path('proyecto-create/', views.ProyectoCreate.as_view(), name='crear-proyecto'),
     path('proyecto-add-user/', views.UsuarioAdd.as_view(), name='add-user-proyecto'),
+    path('proyecto-remove-user/', views.UsuarioRemove.as_view(), name='remove-user-proyecto'),
     
     
 
