@@ -9,10 +9,10 @@
           <thead>
             <tr>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo <br> Doc.</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripcion <br>Documentos</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tipo</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripción</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">N° Documento <br>Contractual</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Creador </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Emisor </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;"> Archivo </th>
             </tr>
           </thead>
@@ -27,7 +27,7 @@
               <th><form  class="nav-item "method="POST" enctype="multipart/form-data">{% csrf_token %}<li class="nav-item float-left mg-t-7" style="width: auto;"><a class="nav-link active"><input type="file" name="importfile" id="file" onchange="fileValidation()"></a></li><li class="nav-item float-left"style="width: auto;"><a class="nav-link"><button class="btn btn-outline-danger" type="submit"> Importar </button></a></li></form></th>           
             </tr>
           {% empty %}
-              <th> Aun no hay documentos cargados para el proyecto actual. </th>              
+              <th> Aún no hay documentos cargados para el proyecto actual. </th>              
           {% endfor %}
 
           </tbody>
