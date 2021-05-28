@@ -116,6 +116,31 @@ class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
             proyecto_add.participantes.add(user)
         return redirect('listar-usuarios')
 
+class UsuarioRemove(ProyectoMixin, SuperuserViewMixin, ListView):
+    template_name = 'configuracion/remove-user.html'
+    success_message = 'Usuario(s) eliminados del proyecto'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_list = []
+        all_users = User.objects.all()
+        current_users = self.proyecto.participantes.all()
+        for user in all_users:
+            if user in current_users:
+                user_list.append(user)
+
+        context['users'] = user_list
+        return context
+
+    def post(self, request, *args, **kwargs):
+        usuario_ids = self.request.POST.getlist('id[]')
+        for usuario in usuario_ids:
+            user = User.objects.get(pk=usuario)
+            proyecto_remove = self.proyecto
+            proyecto_remove.participantes.remove(user)
+        return redirect('listar-usuarios')
+
+
 class ProyectoList(ProyectoMixin, AdminViewMixin, ListView):
     context_object_name = 'proyectos'
     template_name = 'configuracion/list-proyecto.html'
@@ -164,29 +189,6 @@ class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
         invite = invitation.create(correo, inviter=self.request.user)
         invite.send_invitation(self.request)
         return response 
-
-class RemoveUser(ProyectoMixin, SuperuserViewMixin, ListView):
-    template_name = 'configuracion/remove-user.html'
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        user_list = []
-        all_users = User.objects.all()
-        current_users = self.proyecto.participantes.all()
-        for user in all_users:
-            if user in current_users:
-                user_list.append(user)
-
-        context['users'] = user_list
-        return context
-
-    def post(self, request, *args, **kwargs):
-        usuario_ids = self.request.POST.getlist('id[]')
-        for usuario in usuario_ids:
-            user = User.objects.get(pk=usuario)
-            proyecto_remove = self.proyecto
-            proyecto_remove.participantes.remove(user)
-        return redirect('listar-usuarios')
-
 
 class UmbralesView(ProyectoMixin, TemplateView):
 
