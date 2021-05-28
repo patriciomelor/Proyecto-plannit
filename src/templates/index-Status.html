@@ -117,11 +117,23 @@
               margin-left:20px!important;
           }
           
-    table 
-      {
-          table-layout:fixed;
-          width:100%;
-      }
+    .pagination{
+      margin-left:auto;
+      margin-right:auto;
+      padding-right: 80px;
+    }
+    .page-link {
+      width:15vh;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding : 0px;
+    margin-left: 0px;
+    display: inline;
+    border: 0px;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        border: 0px;
+    }
     </style>
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
    

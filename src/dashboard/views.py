@@ -283,7 +283,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
             avance_programado = avance_esperado[puesto_esperado][0]
         
         #Se almacenan los datos obtenidos
-        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente, documentos_revision_contratista, documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0, cantidad_paquetes_cliente, cantidad_paquetes_contratista, avance_programado, avance_real]
+        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_contratista, documentos_revision_cliente,  documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0, cantidad_paquetes_cliente, cantidad_paquetes_contratista, avance_programado, avance_real]
         lista_final.append(lista_inicial)
 
         return lista_inicial
