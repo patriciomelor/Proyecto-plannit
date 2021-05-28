@@ -71,38 +71,44 @@
               {% endif %}
               {% endfor %}
             </table>
-        {% if is_paginated %}
-    <div class="ht-80 d-flex align-items-center justify-content-center">
-      <nav aria-label="Page navigation">
-        <ul class="pagination pagination-basic mg-b-0">
-        {% if page_obj.has_previous %}
-          <li class="page-item"><a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
-          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR"><i class="fa fa-angle-left"></i></a></li>
-
-          {% if page_obj.has_previous %}
-            <li class="page-item active"><a class="page-link active" href="page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-          {% endif %}
-          <li class="page-item"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
-          <li class="page-item disabled"><span class="page-link">...</span></li>
-          <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>
-       {% endif %}
-       {% if page_obj.has_next %}
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-              <i class="fa fa-angle-right"></i>
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-              <i class="fa fa-angle-double-right"></i>
-            </a>
-          </li>
-    {% endif %}
-        </ul>
-      </nav>
-    </div>
-{% endif %}
-
+            {% if is_paginated %}
+            <div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
+              {% if page_obj.has_previous %}
+               <ul class="pagination pagination-basic mg-b-0">
+                 <li class="page-item">             
+                  <a class="page-link" href="?page=1" aria-label="Last">
+                     <i class="fa fa-angle-double-left"></i>
+                   </a>
+                 </li>
+                 <li class="page-item">
+                   <a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="Next">
+                     <i class="fa fa-angle-left"></i>
+                   </a>
+                 </li>
+               </ul>
+               {% endif %}
+               <ul class="pagination pagination-basic mg-b-0"style="margin-left:auto;margin-right:auto;">
+                 <li class="page-item"disabled><a class="page-link" disabled>Pag</a></li>
+                 <li class="page-item active"><a class="page-link" href="#">{{ page_obj.number }}</a></li>
+                 <li class="page-item"disabled><a class="page-link hidden-xs-down"disabled>de</a></li>
+                 <li class="page-item"><a class="page-link hidden-xs-down" href="#">{{ page_obj.paginator.num_pages }}</a></li>
+               </ul>
+                {% if page_obj.has_next %}
+               <ul class="pagination pagination-basic mg-b-0">
+                 <li class="page-item">
+                   <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
+                     <i class="fa fa-angle-right"></i>
+                   </a>
+                 </li>
+                 <li class="page-item">
+                   <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
+                     <i class="fa fa-angle-double-right"></i>
+                   </a>
+                 </li>
+               </ul>
+               {% endif %}
+             </div>
+            {% endif %}
 
     </div>
 
