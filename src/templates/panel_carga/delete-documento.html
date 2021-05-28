@@ -24,7 +24,7 @@
                     <h4 class="tx-danger  tx-semibold mg-b-20">ATENCIÓN: Esta apunto de eliminar TODOS los registros!</h4>                    
                      <form method="POST">{% csrf_token %}
                     <p class="mg-b-20 mg-x-20">
-                        <p class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10">Seguro que quieres eliminar {{cantidad}} registros ?<br></p>
+                        <p class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10">¿Estás seguro de qué quieres eliminar {{cantidad}} registros ?<br></p>
                         <input type="submit" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" onclick="windows.close();" value="Confirmar">
                     </p>
                     </form>
