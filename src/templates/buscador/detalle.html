@@ -109,27 +109,7 @@
                     </tbody>
                   </table>
                 
-          {% if is_paginated %}
-          <div class="ht-80 bd pd-x-20 d-flex align-items-center justify-content-between">
-          <ul class="pagination pagination-basic mg-b-0"> 
-          {% if page_obj.has_previous %}
-          <li class="page-item">
-            <a href="?page={{ page_obj.previous_page_number }}" class="page-link" aria-label="ANTERIOR">
-              <i class="fa fa-angle-left"></i>
-            </a>
-            ANTERIOR 
-          </li>
-          </ul>
-          {% endif %}
-          {% if page_obj.has_next %}
-          <ul class="pagination pagination-basic mg-b-0">
-          <li class="page-item">
-            <a href="?page={{ page_obj.next_page_number }}" class="page-link">
-              <i class="fa fa-angle-right"></i>  
-            </a>
-          </li>
-          </ul>
-          {% endif %}
+        
           {% endif %}      
            </ul>
           </nav>
@@ -149,7 +129,7 @@
 $(document).ready(function() {
     $('#mydatatable').DataTable(
       {
-          "dom": 'B<"float-right"f>t<"float-left"l><"clearfix">',
+          "dom": 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
           "responsive": true,
           "language": {
               "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
