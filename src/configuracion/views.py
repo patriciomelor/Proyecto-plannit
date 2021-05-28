@@ -150,7 +150,7 @@ class ProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
     success_url = reverse_lazy('lista-proyecto')
     form_class = ProyectoForm
 
-class InvitationView(ProyectoMixin, FormView):
+class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
     template_name = 'configuracion/invitation_form.html'
     success_message = 'Invitación enviada correctamente'
     success_url = reverse_lazy('listar-usuarios')
@@ -164,6 +164,29 @@ class InvitationView(ProyectoMixin, FormView):
         invite = invitation.create(correo, inviter=self.request.user)
         invite.send_invitation(self.request)
         return response 
+
+class RemoveUser(ProyectoMixin, SuperuserViewMixin, ListView):
+    template_name = 'configuracion/remove-user.html'
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_list = []
+        all_users = User.objects.all()
+        current_users = self.proyecto.participantes.all()
+        for user in all_users:
+            if user in current_users:
+                user_list.append(user)
+
+        context['users'] = user_list
+        return context
+
+    def post(self, request, *args, **kwargs):
+        usuario_ids = self.request.POST.getlist('id[]')
+        for usuario in usuario_ids:
+            user = User.objects.get(pk=usuario)
+            proyecto_remove = self.proyecto
+            proyecto_remove.participantes.remove(user)
+        return redirect('listar-usuarios')
+
 
 class UmbralesView(ProyectoMixin, TemplateView):
 
