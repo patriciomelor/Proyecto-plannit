@@ -85,17 +85,6 @@ $(document).ready(function() {
   integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
   crossorigin="anonymous">
 </script>
-<script>
-function detectStatus(){
-    $.getJSON("{% url 'popup-version' paquete_pk %}",
-        function(data){
-            console.log("{% url 'popup-version' paquete_pk %}")
-            if (data.status == 1){
-                alert('YESSS, YESSSSSS')
-            }
-        }
-    )
-}
 </script>
 {% if request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
     <script type="text/javascript">

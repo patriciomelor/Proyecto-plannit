@@ -41,32 +41,40 @@
     <div class="card bd-0 shadow-base">   
        <div class="form-layout form-layout-7 ">
                 <div class="row no-gutters">
-                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                    Asunto:
+                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;justify-content: flex-start;text-transform:capitalize;">
+                    Asunto
                   </div><!-- col-4 -->
                   <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                     {{paquete.prev_asunto}}
                   </div><!-- col-8 -->
                 </div>
                 <div class="row no-gutters">
-                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                    Emisor:
+                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;justify-content: flex-start;text-transform:capitalize;">
+                    Emisor
                   </div><!-- col-4 -->
                   <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                     {{paquete.prev_propietario}}
                   </div><!-- col-8 -->
                 </div>
                 <div class="row no-gutters">
-                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                    Fecha creación:
+                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;justify-content: flex-start;text-transform:capitalize;">
+                    Destinatario
+                  </div><!-- col-4 -->
+                  <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
+                    {{paquete.prev_receptor}}
+                  </div><!-- col-8 -->
+                </div>
+                <div class="row no-gutters">
+                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;justify-content: flex-start;text-transform:capitalize;">
+                    Fecha creación
                   </div><!-- col-4 -->
                   <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                     {{paquete.prev_fecha_creacion|date:'d-M-Y'}}
                   </div><!-- col-8 -->
                 </div>  
                  <div class="row no-gutters">
-                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                    Hora de creación:
+                  <div class="col-5 col-sm-4" style="text-align: center;color:black;font-weight: 900;font-size: 18px;justify-content: flex-start;text-transform:capitalize;">
+                    Hora de creación
                   </div><!-- col-4 -->
                   <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 18px;">
                     {{paquete.prev_fecha_creacion|date:'H:i'}}

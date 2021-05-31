@@ -138,6 +138,8 @@ class PrevVersionForm(forms.ModelForm):
         estado_contratista = cleaned_data.get('prev_estado_contratista')
         revision = cleaned_data.get('prev_revision')
         revision_str = (dict(TYPES_REVISION).get(revision))
+
+        #Verifica que primero se emita una revisión en B
         try:
             document = Documento.objects.get(Codigo_documento=doc)
             ultima_revision = Version.objects.filter(documento_fk=document)
@@ -145,6 +147,8 @@ class PrevVersionForm(forms.ModelForm):
                 raise ValidationError('Se debe emitir una revisión en B primero')
         except AttributeError:
             pass
+
+
         #Varifica si existe una version creada en el paquete
         #para el documento selecionado
         try:
@@ -154,8 +158,13 @@ class PrevVersionForm(forms.ModelForm):
                 print("La última versión de este Documento Fue emitido por el Cliente")
                 if not ultima_rev.estado_cliente == 6 and revision == ultima_rev.revision:
                     raise ValidationError('No se puede mantener la revisión del documento {}, por favor intente con una revisión distinta'.format(document.Codigo_documento))
+            else:
+                print("La última versión de este Documento Fue emitido por el Contratista")
+                
         except (AttributeError, Version.DoesNotExist):
             pass
+
+
         #Verificca que no se pueda emitir una revision en número antes de que en letra
         try:
             ultima_revision = Version.objects.filter(documento_fk=doc)
@@ -163,6 +172,8 @@ class PrevVersionForm(forms.ModelForm):
                 raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
         except (AttributeError, Version.DoesNotExist):
             pass
+
+
         #Verifica que no se pueda enviar una version igual 
         # o anterior a la última emitida
         try:
@@ -171,21 +182,27 @@ class PrevVersionForm(forms.ModelForm):
                 raise ValidationError('No se puede elegir una revisión anterior a la última emitida')
         except AttributeError:
             pass
+
+
         #Verifica que el nombre del archivo coincida con
         #el nombre del documento + la version escogida.
         if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
             con_archivo = cleaned_data.get("adjuntar")
+            print(con_archivo)
             if con_archivo == True:
                 if not verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
-                    self.add_error('prev_archivo', 'No coinciden los nombres')
                     raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-                if not nombre_archivo:
-                    raise ValidationError('No se adjuntó archivo')
+                print(nombre_archivo)
+                if nombre_archivo == '':
+                    self.add_error('No se adjuntó archivo')
             if not estado_cliente: 
                 raise ValidationError("Debes seleccionar un estado para esta revisión.")
+        
         if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
             if not estado_contratista: 
                 raise ValidationError("Debes seleccionar un estado para esta revisión.")
+
+        
         #Verificar que no se pueda emitir para constucción con estados Números
         if revision < 5 and estado_cliente == 5:
             raise ValidationError('No se puede emitir Válido para construcción estando en Letra')
