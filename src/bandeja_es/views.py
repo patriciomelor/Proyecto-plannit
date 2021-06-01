@@ -386,6 +386,7 @@ class UpdatePrevVersion(ProyectoMixin, UpdateView):
         kwargs = super().get_form_kwargs(**kwargs)
         paquete = PrevPaquete.objects.get(pk= self.kwargs['paquete_pk'])
         kwargs["paquete_pk"] = paquete
+        kwargs["user"] = self.request.user
         return kwargs
     
     def get_context_data(self, **kwargs):
