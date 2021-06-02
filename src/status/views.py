@@ -34,6 +34,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         documentos = self.get_queryset()
         for doc in documentos:
+            fecha_emision_b = doc.fecha_Emision_B
             version = Version.objects.filter(documento_fk=doc).last()
             total_versiones = Version.objects.filter(documento_fk=doc)
             version_first = Version.objects.filter(documento_fk=doc).first()
@@ -73,8 +74,12 @@ class StatusIndex(ProyectoMixin, TemplateView):
                         lista_final.append(lista_inicial)
 
             else: 
-                lista_inicial = [doc, []]
-                lista_final.append(lista_inicial)
+                if semana_actual >= fecha_emision_b:
+                    lista_inicial = [doc, ['no version','Atrasado']]
+                    lista_final.append(lista_inicial)
+                else:
+                    lista_inicial = [doc, ['no version','Pendiente']]
+                    lista_final.append(lista_inicial)
                 
         context['Listado'] = lista_final
         context['filter'] = DocFilter(self.request.GET, queryset=documentos)

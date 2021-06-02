@@ -35,7 +35,7 @@
                 <tbody>
             <!--Loop Listar Documento-->
             {% for documento in Listado %}
-              {% if not documento.1 %}
+              {% if documento.1.0 == 'no version' %}
               <tr role="row" class="odd">
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > {{documento.0.Descripcion}} </th>
@@ -45,7 +45,7 @@
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > Pendiente </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > {{documento.1.1}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
