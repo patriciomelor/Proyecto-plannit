@@ -37,7 +37,7 @@ class BaseArticleFormSet(BaseFormSet):
 # ***********************************
 
 class CreatePaqueteForm(forms.ModelForm):
-    descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
+    descripcion = forms.CharField(widget=forms.Textarea(attrs={'id':'summernote'}), max_length=500)
     class Meta:
         model = Paquete
         fields = ['destinatario', 'asunto']
@@ -68,7 +68,7 @@ class PaquetePreviewForm(forms.ModelForm):
             'prev_comentario': 'Archivo de Comentario'
         }
         widgets = {
-            'prev_descripcion': forms.Textarea
+            'prev_descripcion': forms.Textarea(attrs={'id':'summernote'})
         }
         
     def __init__(self, **kwargs):
