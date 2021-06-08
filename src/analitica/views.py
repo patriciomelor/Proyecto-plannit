@@ -894,7 +894,7 @@ class CurvaBaseView(ProyectoMixin, View):
     
     def post(self, request, *args, **kwargs):
         value = IndexAnalitica.reporte_curva_s_avance_esperado()
-        value_texto = str(value)
+        value_texto = hacer_texto(value=value)
         #transformar arreglo a texto
         ############################
         #value_texto = hacer_texto(value)
@@ -911,8 +911,8 @@ class CurvaBaseView(ProyectoMixin, View):
         value = curva.datos_lista
         valores = hacer_arreglo(value=value)
 
-def hacer_texto(request, value):
+def hacer_texto(value):
     pass
 
-def hacer_arreglo(request, value):
+def hacer_arreglo(value):
     pass
