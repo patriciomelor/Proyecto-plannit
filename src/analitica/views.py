@@ -887,13 +887,32 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         return context
 
-# class CurvaBaseView(ProyectoMixin, View):
-#     def get_queryset(self, request, *args, **kwargs):
-#         qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
-#         return qs.get_lista()
+class CurvaBaseView(ProyectoMixin, View):
+    def get_queryset(self, request, *args, **kwargs):
+        qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
+        return qs.get_lista()
     
-#     def post(self, request, *args, **kwargs):
-#         value = IndexAnalitica().reporte_curva_s_avance_esperado()
-#         curva = CurvasBase.get_list(list=value)
-#         curva.save()
-#         return value
+    def post(self, request, *args, **kwargs):
+        value = IndexAnalitica.reporte_curva_s_avance_esperado()
+        value_texto = str(value)
+        #transformar arreglo a texto
+        ############################
+        #value_texto = hacer_texto(value)
+        ############################
+        # curva = CurvasBase(
+        #     datos_lista= value_texto,
+        #     proyecto= self.proyecto
+        # )
+        # curva.save()
+        return value
+
+    def mostrar_datos(self, request, *args, **kwargs):
+        curva = CurvasBase.objects.get(pk=1)
+        value = curva.datos_lista
+        valores = hacer_arreglo(value=value)
+
+def hacer_texto(request, value):
+    pass
+
+def hacer_arreglo(request, value):
+    pass
