@@ -199,6 +199,8 @@ class PrevVersionForm(forms.ModelForm):
                 raise ValidationError("Debes seleccionar un estado para esta revisión.")
         
         if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
+            if not verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
+                raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
             if not estado_contratista: 
                 raise ValidationError("Debes seleccionar un estado para esta revisión.")
 
