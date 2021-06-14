@@ -18,6 +18,7 @@
             <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
               <thead>
                 <tr role="row">
+                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;"></th>
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Especialidad</th>
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Descripción</th>
                 <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Código</th>
@@ -38,6 +39,7 @@
             {% for documento in Listado %}
               {% if not documento.1 %}
               <tr role="row" class="odd">
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"> Agregar Responsal</button> </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Descripcion}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Codigo_documento}} </th>
@@ -54,6 +56,8 @@
               </tr>
               {% else %}
               <tr role="row" class="odd">
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"> Agregar Responsal</button> </th>
+                
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Descripcion}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a></th>
@@ -71,41 +75,53 @@
               {% endif %}
               {% endfor %}
             </table>
-        
-
-
-    </div>
-{% if is_paginated %}
-    <div class="ht-80 d-flex align-items-center justify-content-center">
-      <nav aria-label="Page navigation">
-        <ul class="pagination pagination-basic mg-b-0">
-        {% if page_obj.has_previous %}
-          <li class="page-item"><a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
-          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR"><i class="fa fa-angle-left"></i></a></li>
-
-          {% if page_obj.has_previous %}
-            <li class="page-item active"><a class="page-link active" href="page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-          {% endif %}
-          <li class="page-item"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
-          <li class="page-item disabled"><span class="page-link">...</span></li>
-          <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>
-       {% endif %}
-       {% if page_obj.has_next %}
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-              <i class="fa fa-angle-right"></i>
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-              <i class="fa fa-angle-double-right"></i>
-            </a>
-          </li>
-    {% endif %}
-        </ul>
-      </nav>
-    </div>
-{% endif %}
+  </div>
+  <div class="row row-sm mg-t-20">
+    <div class="col-lg-6">
+      <div class="card shadow-base card-body pd-25 bd-0">
+        <div class="row">
+          <div class="col-sm-12">
+            <h6 class="card-title tx-uppercase tx-12" >Documentos Asignados Vs Documentos Realizado
+</h6>
+           <canvas id="chartBar1" width="100%"></canvas>
+         </div><!-- col-6 -->                
+        </div><!-- row -->
+      </div><!-- card -->
+    </div><!-- col-6 -->
+    <div class="col-lg-6 mg-t-30 mg-lg-t-0">
+      <div class="card shadow-base card-body pd-25 bd-0">
+        <div class="row">
+          <div class="col-sm-12">
+            <h6 class="card-title tx-uppercase tx-12 tx-inverse">Documentos pendientes
+</h6>
+               <canvas id="chartBar2" width="100%"></canvas>
+           </div><!-- col-6 -->                
+        </div><!-- row -->
+      </div><!-- card -->
+    </div><!-- col-6 -->
+  </div>
+  <div class="row row-sm mg-t-20">
+    <div class="col-lg-6">
+      <div class="card shadow-base card-body pd-25 bd-0">
+        <div class="row">
+          <div class="col-sm-12">
+            <h6 class="card-title tx-uppercase tx-12" >HH Asignadas VS HH Gastadas</h6>
+           <canvas id="chartBar3" width="100%"></canvas>
+         </div><!-- col-6 -->                
+        </div><!-- row -->
+      </div><!-- card -->
+    </div><!-- col-6 -->
+    <div class="col-lg-6 mg-t-30 mg-lg-t-0">
+      <div class="card shadow-base card-body pd-25 bd-0">
+        <div class="row">
+          <div class="col-sm-12">
+            <h6 class="card-title tx-uppercase tx-12 tx-inverse">Asignadas VS Gastadas</h6>
+               <canvas id="chartBar4" width="100%"></canvas>
+           </div><!-- col-6 -->                
+        </div><!-- row -->
+      </div><!-- card -->
+    </div><!-- col-6 -->
+  </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
@@ -162,5 +178,161 @@
         });
   } );
 </script>
+<script>
+var ctx = document.getElementById('chartBar1').getContext('2d');
+new Chart(ctx, {
+  type: 'bar',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [
+      {
+      label: '# of a',
+      data: [12, 39, 20, 10, 25, 18],
+      backgroundColor: '#27AAC8'
+    },
+    {
+      label: '# of b',
+      data: [12, 39, 20, 10, 25, 18],
+      backgroundColor: '#EB984E'
+    }
+    ]
+  },
+  options: {
+    plugins: {
+      title: {
+        display: true,
+        text: 'Documentos Asignados Vs Documentos Realizado'
+      },
+    },
+    legend: {
+      display: false,
+        labels: {
+          display: false
+        }
+    },
+    scales: {
+        yAxes: [{
+          stacked: true
+        }],
+        xAxes: [{
+          stacked: true
+        }]
+      }
+  }
+});
+</script>
+<script>
+var ctx = document.getElementById('chartBar2').getContext('2d');
+new Chart(ctx, {
+  type: 'horizontalBar',
+  data: {
+    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+    datasets: [{
+      label: '# of Votes',
+      data: [12, 39, 20, 10, 25, 18],
+      backgroundColor: '#27AAC8'
+    }]
+  },
+  options: {
+    legend: {
+      display: false,
+        labels: {
+          display: false
+        }
+    },
+    scales: {
+      yAxes: [{
+        stacked: true,
+        ticks: {
+          beginAtZero:true,
+          fontSize: 10,
+          max: 80
+        }
+      }],
+      xAxes: [{
+        stacked: true,
+        ticks: {
+          beginAtZero:true,
+          fontSize: 11
+        }
+      }]
+    }
+  }
+});
+</script>
+<script>
+var ctx = document.getElementById('chartBar3').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 39, 20],
+        backgroundColor: '#27AAC8'
+      }]
+    },
+    options: {
+      legend: {
+        display: false,
+          labels: {
+            display: false
+          }
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            beginAtZero:true,
+            fontSize: 10,
+            max: 80
+          }
+        }],
+        xAxes: [{
+          ticks: {
+            beginAtZero:true,
+            fontSize: 11
+          }
+        }]
+      }
+    }
+  });
+</script>
 
+<script>
+  var ctx = document.getElementById('chartBar').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 39, 20],
+          backgroundColor: '#27AAC8'
+        }]
+      },
+      options: {
+        legend: {
+          display: false,
+            labels: {
+              display: false
+            }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true,
+              fontSize: 10,
+              max: 80
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              beginAtZero:true,
+              fontSize: 11
+            }
+          }]
+        }
+      }
+    });
+  </script>
 {% endblock content %}
