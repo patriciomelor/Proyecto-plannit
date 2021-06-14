@@ -14,8 +14,8 @@ from panel_carga.views import ProyectoMixin
 
 from panel_carga.choices import TYPES_REVISION
 from panel_carga.models import Documento
-
-
+#summernote
+from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 
 
@@ -68,7 +68,7 @@ class PaquetePreviewForm(forms.ModelForm):
             'prev_comentario': 'Archivo de Comentario'
         }
         widgets = {
-            'prev_descripcion': forms.Textarea
+            'prev_descripcion': SummernoteInplaceWidget()
         }
         
     def __init__(self, **kwargs):

@@ -1,4 +1,5 @@
 asgiref==3.2.10
+astroid @ file:///tmp/build/80754af9/astroid_1592495912941/work
 certifi==2020.6.20
 chardet==3.0.4
 defusedxml==0.6.0
@@ -20,27 +21,35 @@ django-multiupload==0.5.2
 django-polymorphic==3.0.0
 django-redis==4.12.1
 django-select2==7.4.2
+django-summernote==0.8.11.6
 djangorestframework==3.12.2
 easy-thumbnails==2.7
 et-xmlfile==1.0.1
 gunicorn==20.0.4
 idna==2.10
+isort @ file:///tmp/build/80754af9/isort_1602603989581/work
 jdcal==1.4.1
+lazy-object-proxy @ file:///tmp/build/80754af9/lazy-object-proxy_1607707356794/work
 MarkupPy==1.14
+mccabe==0.6.1
 oauthlib==3.1.0
 odfpy==1.4.1
 openpyxl==3.0.5
 Pillow==8.0.1
 psycopg2-binary==2.8.6
+pylint @ file:///tmp/build/80754af9/pylint_1598623985952/work
 python3-openid==3.2.0
 pytz==2020.1
 PyYAML==5.3.1
 redis==3.5.3
 requests==2.24.0
 requests-oauthlib==1.3.0
+six @ file:///tmp/build/80754af9/six_1605205327372/work
 sqlparse==0.3.1
 tablib==2.0.0
+toml @ file:///tmp/build/80754af9/toml_1592853716807/work
 Unidecode==1.1.1
 urllib3==1.25.10
+wrapt==1.11.2
 xlrd==1.2.0
 xlwt==1.3.0
