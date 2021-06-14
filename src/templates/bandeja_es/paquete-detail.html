@@ -179,5 +179,15 @@
                 </div><!-- card-body -->
               </div>
             </div><!-- card -->
-        
+    </div>    
+
+    <link href="{% static 'summernote/lang/summernote-es-ES.js' %}" rel="stylesheet" />
+    <link href="{% static 'summernote/lang/summernote-es-ES.min.js' %}" rel="stylesheet" />
+  <script>
+    $(document).ready(function() {
+  $('#summernote').summernote({
+    lang: 'es-ES' // default: 'en-US'
+  });
+});
+  </script>
 {% endblock content %}
