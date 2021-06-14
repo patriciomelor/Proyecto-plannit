@@ -36,13 +36,8 @@
                     <section id="wizard4-p-0" role="tabpanel" aria-labelledby="wizard4-h-0" class="body current" aria-hidden="false">
                      <div class="form-group col-md-12">
                     <h3 id="wizard2-h-0" tabindex="-1" class="title current">Destinatario</h3>
-                        {{form.prev_receptor|as_crispy_field}}
-                        {{form.prev_asunto|as_crispy_field}}
-                        {{form.prev_descripcion|as_crispy_field}}
-                        <div id="summernote">
-                        {{form.prev_comentario|as_crispy_field}}
-                        </div>
-                          {% comment %} {{ form|crispy }} {% endcomment %}
+                        
+                          {{ form|crispy }}
                           
                         
                     </div><!-- form-group -->   
@@ -122,32 +117,18 @@ $(document).ready(function() {
  $(document).ready(function() {
         $('#summernote').summernote({
             placeholder: 'Hello stand alone ui',
-        
+        tabsize: 2,
+        height: 120,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
         });
     });
 </script>
-  <script src="https://cdn.tiny.cloud/1/u8pce9zm9twamelnhhvt0og0qu5lidm97dym9gz3uk3axh8i/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-    <script src="https://cdn.tiny.cloud/1/u8pce9zm9twamelnhhvt0og0qu5lidm97dym9gz3uk3axh8i/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>
-<script>
-  tinymce.init({
-    selector: 'textarea#summernote',
-    language: "es",
-    menubar: false,
-      plugins: [
-        'advlist autolink lists link image charmap print preview anchor',
-        'searchreplace visualblocks code fullscreen',
-        'insertdatetime media table paste code help wordcount',
-        'table',
-      ],
-      toolbar: 'undo redo | formatselect | ' +
-      'bold italic backcolor | alignleft aligncenter ' +
-      'alignright alignjustify | bullist numlist outdent indent | ' +
-      'table tabledelete | tableprops tablerowprops tablecellprops | tableinsertrowbefore tableinsertrowafter tabledeleterow | tableinsertcolbefore tableinsertcolafter tabledeletecol'+
-
-      'removeformat | help',
-      content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
-  });
-</script>
-
-
 {% endblock content %}
