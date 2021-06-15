@@ -18,7 +18,7 @@
             <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
               <thead>
                 <tr role="row">
-                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;"></th>
+                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Responsable</th>
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Especialidad</th>
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Descripción</th>
                 <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Código</th>
@@ -39,7 +39,7 @@
             {% for documento in Listado %}
               {% if not documento.1 %}
               <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"> Agregar Responsal</button> </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Descripcion}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Codigo_documento}} </th>
@@ -56,8 +56,7 @@
               </tr>
               {% else %}
               <tr role="row" class="odd">
-              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"> Agregar Responsal</button> </th>
-                
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </th>                
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Descripcion}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a></th>
@@ -139,7 +138,7 @@
   $(document).ready(function() {
       $('#datatable1').DataTable(
         {
-          "dom": '"Bfrtip"',
+          "dom": '"Bftip"',
           "responsive": true,
           "language": {
               "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
@@ -178,7 +177,6 @@
         });
   } );
 </script>
-<<<<<<< HEAD
 <script>
 var ctx = document.getElementById('chartBar1').getContext('2d');
 new Chart(ctx, {
