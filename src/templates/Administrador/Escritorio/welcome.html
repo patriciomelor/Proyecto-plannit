@@ -1,0 +1,49 @@
+{% extends 'Redirect.html' %}
+
+{% block content %}
+   <!-- ########## START: MAIN PANEL ########## -->
+    <div class="br-mainpanel br-profile-page" style="margin-left:0px!important;">
+
+      <div class="card shadow-base bd-0 rounded-0 widget-4">
+        <div class="card-header ht-75">
+          <div class="hidden-xs-down">
+            <a href="" class="mg-r-10"><span class="tx-medium">Último inicio de sesión: </span><strong>{{ request.user.last_login }}</strong></a>
+            
+          </div>
+          <div class="tx-24 hidden-xs-down">
+          </div>
+        </div><!-- card-header -->
+        <div class="card-body">
+          
+          <h4 class="tx-normal tx-roboto tx-white">Bienvenido:</h4>
+          <h4 class="tx-normal tx-roboto tx-white"><strong>{{user.first_name}} {{user.last_name}}</strong></h4>
+          <h4 class="tx-normal tx-roboto tx-white">a Proyecto:</h4>
+          <h4 class="tx-normal tx-roboto tx-white"><strong>{{proyecto}}</strong></h4>
+
+          
+          
+        </div><!-- card-body -->
+      </div><!-- card -->
+
+      <div class="ht-70 bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center shadow-base">
+      <h4 class="mg-b-0 tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins mg-r-20">Accesos Rápidos:</h4>
+        <ul class="nav nav-outline active-info align-items-center flex-row" role="tablist">
+          <li class="nav-item"><a class="nav-link"  href="{% url 'index' %}" ><i class="menu-item-icon icon ion-ios-home-outline tx-22"></i><span class="menu-item-label">Escritorio</span></a></li>
+          {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
+          <li class="nav-item"><a class="nav-link" href="{% url 'PanelCarga' %}"><i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i><span class="menu-item-label">Panel de Carga</span></a></li>
+          {% endif %}
+          <li class="nav-item"><a class="nav-link"  href="{% url 'Bandejaeys' %}" ><i class="menu-item-icon icon ion-ios-email-outline tx-24"></i> <span class="menu-item-label">Bandeja de entrada</a><span></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'analitica-index' %}"><i class="menu-item-icon ion-ios-pie-outline tx-20"></i><span class="menu-item-label"> Analíticas</a></span></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'status-index' %}"><i class="menu-item-icon ion-ios-redo-outline tx-24"></i><span class="menu-item-label">Estatus</a></span></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'buscador-index' %}" ><i class="menu-item-icon icon ion-ios-list-outline tx-22"></i><span class="menu-item-label">Buscador</span></a></li>
+          {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
+          <li class="nav-item"><a class="nav-link"  href="{% url 'lista-proyecto' %}"><i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i><span class="menu-item-label">Configuración</span></a></li>
+        {% endif %}
+        </ul>
+      </div>
+
+
+    </div><!-- br-mainpanel -->
+    <!-- ########## END: MAIN PANEL ########## -->
+
+{% endblock content %}
