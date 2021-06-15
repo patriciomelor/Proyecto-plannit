@@ -1,3 +1,0 @@
-[0911/185603.428:ERROR:minidumpwritedump_with_crashpad_info.cc(520)] Failed to call MiniDumpWriteDump for extra dump: Acceso denegado. (0x80070005)
-[0911/185603.564:ERROR:scoped_process_suspend.cc(40)] NtResumeProcess: Se intentó obtener acceso a un proceso que está cerrándose. (0xc000010a)
-[0120/011338.623:ERROR:directory_reader_win.cc(43)] FindFirstFile: El sistema no puede encontrar la ruta especificada. (0x3)
