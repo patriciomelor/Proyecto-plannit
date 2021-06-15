@@ -1,6 +1,9 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 <<<<<<< HEAD
+>>>>>>> parent of 5e93da33... cambios varios
+=======
 >>>>>>> parent of 5e93da33... cambios varios
 from django import forms
 from django.forms import BaseFormSet
@@ -19,8 +22,13 @@ from panel_carga.views import ProyectoMixin
 from panel_carga.choices import TYPES_REVISION
 from panel_carga.models import Documento
 <<<<<<< HEAD
+<<<<<<< HEAD
 #summernote
 from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
+=======
+
+
+>>>>>>> parent of 5e93da33... cambios varios
 =======
 
 
@@ -47,7 +55,11 @@ class BaseArticleFormSet(BaseFormSet):
 
 class CreatePaqueteForm(forms.ModelForm):
 <<<<<<< HEAD
+<<<<<<< HEAD
     descripcion = forms.CharField(widget=forms.Textarea(attrs={'id':'summernote'}), max_length=500)
+=======
+    descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
+>>>>>>> parent of 5e93da33... cambios varios
 =======
     descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
 >>>>>>> parent of 5e93da33... cambios varios
@@ -83,10 +95,14 @@ class PaquetePreviewForm(forms.ModelForm):
         widgets = {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
             'prev_descripcion': SummernoteInplaceWidget()
 =======
             'prev_descripcion': forms.Textarea(attrs={'id':'summernote'})
 >>>>>>> parent of 5d784d4d (Revert "Editor de texto")
+=======
+            'prev_descripcion': forms.Textarea
+>>>>>>> parent of 5e93da33... cambios varios
 =======
             'prev_descripcion': forms.Textarea
 >>>>>>> parent of 5e93da33... cambios varios
@@ -221,8 +237,11 @@ class PrevVersionForm(forms.ModelForm):
         
         if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
 <<<<<<< HEAD
+<<<<<<< HEAD
             if not verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
                 raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
+=======
+>>>>>>> parent of 5e93da33... cambios varios
 =======
 >>>>>>> parent of 5e93da33... cambios varios
             if not estado_contratista: 
@@ -252,7 +271,10 @@ def verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
         return True
     else:
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
+=======
+>>>>>>> parent of 5e93da33... cambios varios
 =======
 from django import forms
 from django.forms import BaseFormSet
@@ -484,5 +506,8 @@ def verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
         return True
     else:
 >>>>>>> dmp-beta
+<<<<<<< HEAD
+>>>>>>> parent of 5e93da33... cambios varios
+=======
 >>>>>>> parent of 5e93da33... cambios varios
         return False
