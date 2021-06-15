@@ -1,0 +1,922 @@
+<<<<<<< HEAD
+{% extends 'index-base.html' %}
+
+
+{% block content %}
+
+<div class="pd-15">
+  <h4 class="tx-gray-800 mg-b-5">Escritorio</h4>
+</div>
+<div class="br-pagebody mg-t-5 pd-x-30">
+  <!--Fila 1-->
+  <div class="row no-gutters widget-1 shadow-base mg-t-20">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-header"style="background-color: #3498DB ;display:flow-root;">
+          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;vertical-align:middle;display:flow-root;">DOCUMENTOS TOTALES</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="display:flow-root;text-align:center;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.0}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;vertical-align:middle;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color: white;display:flow-root;">Doc. emitidos</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="display:flow-root;text-align:center;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.1}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;display:flow-root;text-align: center;">
+          <h6 class="card-title" style="font-size:11px;color:white;display:flow-root;text-align: center;">Doc. aprobados</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.2}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color: white;text-align:center;display:flow-root;">Tiem. de Ciclo aprobación (d)</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"style="text-align:center;display:flow-root;"> {{datos_tabla.7}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+  </div>
+<!--Fila 2-->
+  <div class="row no-gutters widget-1 shadow-base mg-t-20">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align: center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;display:flow-root;">Doc. en Rev. cliente</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="display:flow-root;text-align:center;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.4}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. en Rev. contratista</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.5}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. atrasados Rev. B</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.6}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. atrasados Rev. 0</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.3}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+  </div>
+  <!--Fila 3-->
+  <div class="row no-gutters widget-1 shadow-base mg-t-20">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Prom. demora Rev. B (d)</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.8}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;font-size:11px;text-align:center;display:flow-root;">Prom. demora Rev. 0 (d)</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.9}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Cant. Transmittal cliente</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.10}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;font-size:11px;text-align:center;display:flow-root;">Cant. Transmittal Contratista</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.11}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+  </div>
+  <!--Fila 4-->
+  <div class="row no-gutters widget-1 shadow-base mg-t-20">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avance programado</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.12}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+          <h6 class="card-title"style="color:#fff;text-align:center;display:flow-root;">% Avance real</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.13}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+     <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avan. Semana Program.</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse">  </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+     <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avan. Semana Real</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse">  </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+  </div>
+<!--Cuerpo-->
+<div class="row row-sm mg-t-20 mg-b-30">
+          <div class="col-12">
+            <div class="card pd-0 bd-0 shadow-base">
+              <div class="pd-x-30 pd-t-30 pd-b-15">
+                <div class="align-items-center justify-content-between"style="text-align:center;display:flow-root;">
+                  <div style="text-align:center;display:flow-root;" >
+                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1"style="text-align:center;display:flow-root;">Curva de Avance Físico Ingenieria</h6>
+                  </div>
+                </div><!-- d-flex -->
+              </div>
+              <div class="pd-x-15 pd-b-15">
+                <div style="width: 100%">
+                 <canvas id="canvas"width="1507" height="653" class="chartjs-render-monitor" style="display: block; height: 603px; width: 1206px;"></canvas>
+                   </div>
+              </div>
+            </div><!-- card -->
+           </div><!-- col-9 -->
+</div><!-- row -->
+
+<div class="row row-sm mg-t-20 mg-b-30">
+  <div class="col-6">
+    <div class="card shadow-base bd-0">
+      <div class="pd-x-30 pd-t-30 pd-b-15 bg-info">
+                <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;text-align:center;display:flow-root;">Umbrales</h6>
+              </div><!-- card-header -->
+              <div class="form-layout form-layout-7">
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    Doc. Aprobados(D):
+                    
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    {{proyecto.umbral_documento_aprobado}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    Doc. Atrasados(D):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    {{proyecto.umbral_documento_atrasado}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    Rev. Atrasadas(D):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    {{proyecto.umbral_revision_documento}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    Desviación del Proyecto(%):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    {{proyecto.umbral_desviacion_porcentual}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+              </div>
+    </div><!-- card -->
+
+  </div><!-- col-3 -->
+  <div class="col-6">
+    <div class="card shadow-base bd-0">
+      <div class="card-header pd-20 bg-info">
+        <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;text-align:center;display:flow-root;">Detalles de Proyecto</h6>
+      </div><!-- card-header -->
+        <div class="form-layout form-layout-7">
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Nombre: 
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.nombre}}
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Fecha Inicio: 
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.fecha_inicio|date:'d-m-y'}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Fecha Término:
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.fecha_termino|date:'d-m-y'}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Descripción:
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.descripcion}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Encargado:
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.encargado}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Código:
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.codigo}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+        </div>
+    </div><!-- card -->
+
+  </div><!-- col-3 -->
+</div><!-- row -->
+<div class="row row-sm mg-t-20 mg-b-30">
+  
+  <div class="col-12 col-md-12">
+    <div class="card shadow-base bd-0 " >
+      <div class="card-header pd-20 bg-info">
+        <h6 class="card-title tx-uppercase tx-12 mg-b-0 "style="color:#fff;text-align:center;display:flow-root;"> Lista Usuarios</h6>
+      </div><!-- card-header -->
+      <table class="table table-responsive table-striped table-bordered mg-b-0 tx-12">
+        <thead class="bg-primary">
+          <tr class="tx-10">
+            <th class="wd-10p pd-y-5" style="color: white;text-align:center;width:auto;">Usuarios</th>
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Correo</th>
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Empresa</th>            
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">ROL</th>
+          </tr>
+        </thead>
+        <tbody>
+         {% for usuario in usuarios %}
+    <tr>            
+      {% if usuario.first_name %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
+      {% else %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
+      {% endif %} 
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.empresa}} </th>
+      {% if usuario.perfil.rol_usuario %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
+      {% else %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
+      {% endif %}
+       </tr>         
+ {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- col-4 -->
+</div><!-- row -->
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>    
+  <script>
+//Curva S
+
+		var chartData = {
+			labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"d-m-y"}}', '{% endfor %}'],
+			datasets: [
+      {
+				type: 'line',
+            label: 'Avance Real',
+            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% endfor %}],
+            borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% endfor %}],
+            borderWidth: 1,
+            lineTension:0.1,
+            fill: false,
+            data: [{% for real_linea in lista_curva_s_avance_real %} {% if real_linea.1 == 0 %} {{real_linea.0}}, {% endif %} {% endfor %}],
+			},
+      {
+				type: 'line',
+            label: 'Forecast',
+            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% endfor %} {% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% endfor %}],
+            borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% endfor %} {% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% endfor %}],
+            borderWidth: 0.5,
+            lineTension:0.09,
+            fill: false,
+            data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
+			},
+      {
+        type: 'line',
+        label: 'Avance Esperado',
+        backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)' {% endif %} {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 1)' {% endif %} {% endfor %}],
+        borderWidth: 1,
+        lineTension:0.18,
+				fill: false,
+				data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
+			}]
+      
+		};
+    
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myMixedChart = new Chart(ctx, {
+				type: 'line',
+				data: chartData,
+				options: {
+      
+          barPercentage: 1,
+					responsive: true,
+					plugins: {
+							tooltip: {
+							mode: 'index',
+							intersect: true
+            },
+            ticks: {
+              beginAtZero: true,
+              min: 0,
+              stepSize: 1,
+                   callback: function(value){return value+ "%"}
+
+            },
+            
+					},
+          scales: {
+          yAxes: [{
+          ticks: {
+          min: 0,
+          max: 100,
+          callback: function(value) {
+          return value + "%"
+          }
+          },
+          scaleLabel: {
+          display: true,
+          }
+          }]
+          }
+				}
+			});
+		};
+    </script>
+{% endblock content %}
+=======
+{% extends 'index-base.html' %}
+
+
+{% block content %}
+
+<div class="pd-15">
+  <h4 class="tx-gray-800 mg-b-5">Escritorio</h4>
+</div>
+<div class="br-pagebody mg-t-5 pd-x-30">
+  <!--Fila 1-->
+  <div class="row no-gutters widget-1 shadow-base mg-t-20">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-header"style="background-color: #3498DB ;display:flow-root;">
+          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;vertical-align:middle;display:flow-root;">DOCUMENTOS TOTALES</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="display:flow-root;text-align:center;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.0}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;vertical-align:middle;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color: white;display:flow-root;">Doc. emitidos</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="display:flow-root;text-align:center;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.1}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;display:flow-root;text-align: center;">
+          <h6 class="card-title" style="font-size:11px;color:white;display:flow-root;text-align: center;">Doc. aprobados</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.2}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color: white;text-align:center;display:flow-root;">Tiem. de Ciclo aprobación (d)</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"style="text-align:center;display:flow-root;"> {{datos_tabla.7}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+  </div>
+<!--Fila 2-->
+  <div class="row no-gutters widget-1 shadow-base mg-t-20">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align: center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;display:flow-root;">Doc. en Rev. cliente</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="display:flow-root;text-align:center;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.4}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. en Rev. contratista</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.5}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. atrasados Rev. B</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.6}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. atrasados Rev. 0</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.3}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+  </div>
+  <!--Fila 3-->
+  <div class="row no-gutters widget-1 shadow-base mg-t-20">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Prom. demora Rev. B (d)</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.8}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;font-size:11px;text-align:center;display:flow-root;">Prom. demora Rev. 0 (d)</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.9}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Cant. Transmittal cliente</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.10}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+          <h6 class="card-title" style="font-size:11px;color:#fff;font-size:11px;text-align:center;display:flow-root;">Cant. Transmittal Contratista</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.11}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+  </div>
+  <!--Fila 4-->
+  <div class="row no-gutters widget-1 shadow-base mg-t-20">
+    <div class="col-sm-6 col-lg-3">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avance programado</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.12}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+          <h6 class="card-title"style="color:#fff;text-align:center;display:flow-root;">% Avance real</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.13}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+     <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avan. Semana Program.</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.14}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+     <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+      <div class="card">
+        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avan. Semana Real</h6>
+        </div><!-- card-header -->
+        <div class="card-footer"style="text-align:center;display:flow-root;">
+          <div>
+            <h6 class="tx-inverse"> {{datos_tabla.15}} </h6>
+          </div>
+        </div><!-- card-footer -->
+      </div><!-- card -->
+    </div><!-- col-3 -->
+  </div>
+<!--Cuerpo-->
+<div class="row row-sm mg-t-20 mg-b-30">
+          <div class="col-12">
+            <div class="card pd-0 bd-0 shadow-base">
+              <div class="pd-x-30 pd-t-30 pd-b-15">
+                <div class="align-items-center justify-content-between"style="text-align:center;display:flow-root;">
+                  <div style="text-align:center;display:flow-root;" >
+                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1"style="text-align:center;display:flow-root;">Curva de Avance Físico Ingenieria</h6>
+                  </div>
+                </div><!-- d-flex -->
+              </div>
+              <div class="pd-x-15 pd-b-15">
+                <div style="width: 100%">
+                 <canvas id="canvas"width="1507" height="653" class="chartjs-render-monitor" style="display: block; height: 603px; width: 1206px;"></canvas>
+                   </div>
+              </div>
+            </div><!-- card -->
+           </div><!-- col-9 -->
+</div><!-- row -->
+
+<div class="row row-sm mg-t-20 mg-b-30">
+  <div class="col-6">
+    <div class="card shadow-base bd-0">
+      <div class="pd-x-30 pd-t-30 pd-b-15 bg-info">
+                <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;text-align:center;display:flow-root;">Umbrales</h6>
+              </div><!-- card-header -->
+              <div class="form-layout form-layout-7">
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    Doc. Aprobados(D):
+                    
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    {{proyecto.umbral_documento_aprobado}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    Doc. Atrasados(D):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    {{proyecto.umbral_documento_atrasado}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    Rev. Atrasadas(D):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    {{proyecto.umbral_revision_documento}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    Desviación del Proyecto(%):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    {{proyecto.umbral_desviacion_porcentual}}
+                  </div><!-- col-8 -->
+                </div><!-- row -->
+              </div>
+    </div><!-- card -->
+
+  </div><!-- col-3 -->
+  <div class="col-6">
+    <div class="card shadow-base bd-0">
+      <div class="card-header pd-20 bg-info">
+        <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;text-align:center;display:flow-root;">Detalles de Proyecto</h6>
+      </div><!-- card-header -->
+        <div class="form-layout form-layout-7">
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Nombre: 
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.nombre}}
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Fecha Inicio: 
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.fecha_inicio|date:'d-m-y'}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Fecha Término:
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.fecha_termino|date:'d-m-y'}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Descripción:
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.descripcion}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Encargado:
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.encargado}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+          <div class="row no-gutters text-center">
+            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              Código:
+            </div><!-- col-4 -->
+            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+              {{proyecto.codigo}}  
+            </div><!-- col-8 -->
+          </div><!-- row -->
+        </div>
+    </div><!-- card -->
+
+  </div><!-- col-3 -->
+</div><!-- row -->
+<div class="row row-sm mg-t-20 mg-b-30">
+  
+  <div class="col-12 col-md-12">
+    <div class="card shadow-base bd-0 " >
+      <div class="card-header pd-20 bg-info">
+        <h6 class="card-title tx-uppercase tx-12 mg-b-0 "style="color:#fff;text-align:center;display:flow-root;"> Lista Usuarios</h6>
+      </div><!-- card-header -->
+      <table class="table table-responsive table-striped table-bordered mg-b-0 tx-12">
+        <thead class="bg-primary">
+          <tr class="tx-10">
+            <th class="wd-10p pd-y-5" style="color: white;text-align:center;width:auto;">Usuarios</th>
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Correo</th>
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Empresa</th>            
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">ROL</th>
+          </tr>
+        </thead>
+        <tbody>
+         {% for usuario in usuarios %}
+    <tr>            
+      {% if usuario.first_name %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
+      {% else %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
+      {% endif %} 
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.empresa}} </th>
+      {% if usuario.perfil.rol_usuario %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
+      {% else %}
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
+      {% endif %}
+       </tr>         
+ {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- col-4 -->
+</div><!-- row -->
+</div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>    
+  <script>
+//Curva S
+
+		var chartData = {
+			labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"d-m-y"}}', '{% endfor %}'],
+			datasets: [
+      {
+				type: 'line',
+            label: 'Avance Real',
+            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% endfor %}],
+            borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% endfor %}],
+            borderWidth: 1,
+            lineTension:0.1,
+            fill: false,
+            data: [{% for real_linea in lista_curva_s_avance_real %} {% if real_linea.1 == 0 %} {{real_linea.0}}, {% endif %} {% endfor %}],
+			},
+      {
+				type: 'line',
+            label: 'Forecast',
+            backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% endfor %} {% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% endfor %}],
+            borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% endfor %} {% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.5)', {% endif %} {% endif %} {% endfor %}],
+            borderWidth: 0.5,
+            lineTension:0.09,
+            fill: false,
+            data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
+			},
+      {
+        type: 'line',
+        label: 'Avance Esperado',
+        backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)' {% endif %} {% endfor %}],
+        borderColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 1)' {% endif %} {% endfor %}],
+        borderWidth: 1,
+        lineTension:0.18,
+				fill: false,
+				data: [{% for esperado in lista_curva_s_avance_esperado %} {{esperado.0}}, {% endfor %}]
+			}]
+      
+		};
+    
+		window.onload = function() {
+			var ctx = document.getElementById('canvas').getContext('2d');
+			window.myMixedChart = new Chart(ctx, {
+				type: 'line',
+				data: chartData,
+				options: {
+      
+          barPercentage: 1,
+					responsive: true,
+					plugins: {
+							tooltip: {
+							mode: 'index',
+							intersect: true
+            },
+            ticks: {
+              beginAtZero: true,
+              min: 0,
+              stepSize: 1,
+                   callback: function(value){return value+ "%"}
+
+            },
+            
+					},
+          scales: {
+          yAxes: [{
+          ticks: {
+          min: 0,
+          max: 100,
+          callback: function(value) {
+          return value + "%"
+          }
+          },
+          scaleLabel: {
+          display: true,
+          }
+          }]
+          }
+				}
+			});
+		};
+    </script>
+{% endblock content %}
+>>>>>>> dmp-beta
+    
