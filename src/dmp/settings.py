@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 """
 Django settings for dmp project.
 
@@ -230,6 +231,8 @@ MESSAGE_TAGS = {
     messages.WARNING: 'alert alert-bordered alert-warning',
     messages.ERROR: 'alert alert-bordered alert-warning',
 =======
+=======
+>>>>>>> parent of 15158c48... cambios
 """
 Django settings for dmp project.
 
@@ -287,7 +290,11 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework.authtoken',
     'invitations',
+<<<<<<< HEAD
     'django_summernote',
+=======
+
+>>>>>>> parent of 15158c48... cambios
     
     'dashboard',
     'tools',
@@ -460,6 +467,7 @@ MESSAGE_TAGS = {
     messages.SUCCESS: 'alert alert-bordered alert-success',
     messages.WARNING: 'alert alert-bordered alert-warning',
     messages.ERROR: 'alert alert-bordered alert-warning',
+<<<<<<< HEAD
 }
 #summernote
 SUMMERNOTE_CONFIG = {
@@ -513,4 +521,6 @@ SUMMERNOTE_CONFIG = {
     'attachment_absolute_uri': False,
 
 >>>>>>> dmp-beta
+=======
+>>>>>>> parent of 15158c48... cambios
 }

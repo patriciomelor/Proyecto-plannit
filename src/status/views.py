@@ -1,4 +1,5 @@
 <<<<<<< HEAD
+<<<<<<< HEAD
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.urls import (reverse_lazy, reverse)
@@ -80,6 +81,8 @@ class StatusIndex(ProyectoMixin, TemplateView):
         context['Listado'] = lista_final
         context['filter'] = DocFilter(self.request.GET, queryset=documentos)
 =======
+=======
+>>>>>>> parent of 15158c48... cambios
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.urls import (reverse_lazy, reverse)
@@ -116,7 +119,10 @@ class StatusIndex(ProyectoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         documentos = self.get_queryset()
         for doc in documentos:
+<<<<<<< HEAD
             fecha_emision_b = doc.fecha_Emision_B
+=======
+>>>>>>> parent of 15158c48... cambios
             version = Version.objects.filter(documento_fk=doc).last()
             total_versiones = Version.objects.filter(documento_fk=doc)
             version_first = Version.objects.filter(documento_fk=doc).first()
@@ -156,6 +162,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
                         lista_final.append(lista_inicial)
 
             else: 
+<<<<<<< HEAD
                 if semana_actual >= fecha_emision_b:
                     lista_inicial = [doc, ['no version','Atrasado']]
                     lista_final.append(lista_inicial)
@@ -166,4 +173,11 @@ class StatusIndex(ProyectoMixin, TemplateView):
         context['Listado'] = lista_final
         context['filter'] = DocFilter(self.request.GET, queryset=documentos)
 >>>>>>> dmp-beta
+=======
+                lista_inicial = [doc, []]
+                lista_final.append(lista_inicial)
+                
+        context['Listado'] = lista_final
+        context['filter'] = DocFilter(self.request.GET, queryset=documentos)
+>>>>>>> parent of 15158c48... cambios
         return context
