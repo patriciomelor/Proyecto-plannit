@@ -71,7 +71,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
                     if version_documento == revision[0]:
                         lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital, paquete_first[0].fecha_creacion, dias_revision]]
                         lista_final.append(lista_inicial)
-
+                    
             else: 
                 if semana_actual >= fecha_emision_b:
                     lista_inicial = [doc, ['no version','Atrasado']]
