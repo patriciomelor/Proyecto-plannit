@@ -22,7 +22,6 @@ class StatusIndex(ProyectoMixin, TemplateView):
         listado_versiones_doc = DocFilter(self.request.GET, queryset=Documento.objects.filter(proyecto=self.proyecto))
         return listado_versiones_doc.qs.order_by('Codigo_documento')
     
-
     def get_context_data(self, **kwargs):
         #Listar documentos
         lista_inicial = []
@@ -31,12 +30,12 @@ class StatusIndex(ProyectoMixin, TemplateView):
         version_documento = 0
         transmital = 0
         dias_revision = 0
+        fecha_emision_b = 0
         context = super().get_context_data(**kwargs)
         documentos = self.get_queryset()
         for doc in documentos:
             fecha_emision_b = doc.fecha_Emision_B
             version = Version.objects.filter(documento_fk=doc).last()
-            total_versiones = Version.objects.filter(documento_fk=doc)
             version_first = Version.objects.filter(documento_fk=doc).first()
             if version:
                 paquete = version.paquete_set.all()
