@@ -9,7 +9,7 @@ from .models import PrevVersion
 from .models import PrevPaquete
 from .models import PrevPaqueteDocumento
 # Register your models here.
-
+from django_summernote.admin import SummernoteModelAdmin
 
 
 admin.site.register(Paquete)

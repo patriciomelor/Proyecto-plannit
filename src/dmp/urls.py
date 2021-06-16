@@ -16,7 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.conf import settings
-from django.conf.urls import handler403, handler404, handler500, handler400
+from django.conf.urls import handler403, handler404, handler500, handler400, url
 from django.conf.urls.static import static
 from tools.default_handler import error_400_view, error_403_view, error_404_view, error_500_view
 
@@ -33,6 +33,7 @@ urlpatterns = [
     path('buscador/', include('buscador.urls')),
     path('status/', include('status.urls')),
     path('status_encargado/', include('status_encargado.urls')),
+    url('summernote/', include('django_summernote.urls')),
 ]
 
 if settings.DEBUG:
