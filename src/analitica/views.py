@@ -1,5 +1,5 @@
 from typing import Text
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView, RedirectView, View
@@ -10,6 +10,8 @@ from bandeja_es.models import Version
 from panel_carga.models import Documento, Proyecto
 from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION
 from datetime import datetime, timedelta
+from django.contrib import messages
+import requests
 from django.utils import timezone
 import math
 
@@ -869,8 +871,12 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
         context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
         context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
-        # context['curva'] = CurvaBaseView.get_queryset()
-
+        ### Opción 1
+        # context['curvaBase'] = CurvaBaseView.get(self.request,*args, **kwargs)
+        ### Opción 2
+        # r = requests.get(reverse_lazy('curva-base'))
+        # a = r.json()["datos_lista"]
+        # context['curvaBase'] = a
         return context
 
 class CurvaBaseView(ProyectoMixin, TemplateView):
@@ -1013,25 +1019,26 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
 
         return lista_final_esperado
 
-    def get_queryset(self, request, *args, kwargs):
+    def get_queryset(self, request, *args, **kwargs):
         qs = CurvasBase.objects.filter(proyecto=self.proyecto)
         return qs
 
-    def post(self, request, *args, kwargs):
+    def post(self, request, *args, **kwargs):
         value = self.Obtener_linea_base()
         curva = CurvasBase(
             datos_lista= value,
             proyecto= self.proyecto
         )
         curva.save()
-
-        return value
+        messages.success(request, message="Curva base Guardada con éxito.")
+        return redirect('PanelCarga')
 
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
-        qs = CurvasBase.objects.filter(proyecto=self.proyecto)
-        print('hola mundo')
-        
-        # context['saludos'] = curva_base
-        return self.render_to_response(context)
+        qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
+        # context['curvaBase'] = qs
+        # return self.render_to_response(context)
+        result = {}
+        result["datos_lista"] = qs.datos_lista
+        return result
         
