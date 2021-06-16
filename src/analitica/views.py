@@ -1,3 +1,4 @@
+from typing import Text
 from django.shortcuts import render
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect
@@ -252,8 +253,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
-        dia_actual = timezone.now()
-
         if valor_ganado !=0:
 
             valor_ganado = (100 / valor_ganado)
@@ -319,9 +318,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             primera_de_dos = primera_de_dos + timedelta(days=7)
             fechas_controles.append(primera_de_dos)
 
-            #Obtener fechas de inicio y termino de proyecto
-            semana_actual = timezone.now()
-
             #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
             fecha_actual = primera_de_dos
             fecha_posterior = fecha_actual + timedelta(days=7)
@@ -361,7 +357,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             avance_inicial = []
             avance_final = []
             fecha_version = 0
-            fecha_documento = 0
             fechas_controles = lista_final[0][0]
             avance_fechas_controles = []
             contador_versiones = 0
@@ -702,7 +697,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             
             calculo_parcial = []
             calculo_parcial_final = []
-            diferencia_esperado = 0
             contador_parcial = 1
 
             calculo_parcial = [lista_final_esperado[0][0], '0.0']
@@ -732,8 +726,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         diferencia = 0
         contador = 0
         ultima_fecha = 0
-        posterior_fecha = 0
-        dia_actual = timezone.now()
 
         if valor_ganado !=0:
 
@@ -742,12 +734,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if diferencia > 0:
                 for fechas in fechas_controles:
                     ultima_fecha = fechas
-                
-                posterior_fecha = ultima_fecha
 
                 while contador < diferencia:
                     ultima_fecha = ultima_fecha + timedelta(days=7)
-                    posterior_fecha = ultima_fecha + timedelta(days=7)
                     fechas_controles.append(ultima_fecha)
                     contador = contador + 1 
 
@@ -755,7 +744,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles = ['Sin registros']
             fechas_controles.append(fechas_controles)
 
-        return fechas_controles      
+        return fechas_controles 
 
     ###################################################
     #                                                 #
@@ -769,8 +758,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         #Llamado para un método definido anteriormente
         lista_grafico_uno = self.reporte_general()
-        lista_inicial = []
-        lista_final = []
         maximo = 0
         cont = 0
 
@@ -815,8 +802,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         #Llamado para un método definido anteriormente
         lista_grafico_uno = self.reporte_total_documentos()
-        lista_inicial = []
-        lista_final = []
         maximo = 0
         cont = 0
 
@@ -1050,32 +1035,3 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
         # context['saludos'] = curva_base
         return self.render_to_response(context)
         
-class CurvaBaseView(ProyectoMixin, View):
-    def get_queryset(self, request, *args, **kwargs):
-        qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
-        return qs.get_lista()
-    
-    def post(self, request, *args, **kwargs):
-        value = IndexAnalitica.reporte_curva_s_avance_esperado()
-        value_texto = hacer_texto(value=value)
-        #transformar arreglo a texto
-        ############################
-        #value_texto = hacer_texto(value)
-        ############################
-        # curva = CurvasBase(
-        #     datos_lista= value_texto,
-        #     proyecto= self.proyecto
-        # )
-        # curva.save()
-        return value
-
-    def mostrar_datos(self, request, *args, **kwargs):
-        curva = CurvasBase.objects.get(pk=1)
-        value = curva.datos_lista
-        valores = hacer_arreglo(value=value)
-
-def hacer_texto(value):
-    pass
-
-def hacer_arreglo(value):
-    pass

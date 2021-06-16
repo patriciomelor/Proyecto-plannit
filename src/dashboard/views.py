@@ -70,6 +70,9 @@ class EscritorioView(ProyectoMixin, TemplateView):
         avance_esperado = self.reporte_curva_s_avance_esperado()
         semana_actual = timezone.now()
 
+        # print(lista_avance_real)
+        # print(avance_esperado)
+
         #Variables para funciones
         contador_emitidos = 0
         documentos_aprobados = 0
@@ -82,8 +85,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
         prom_demora_emisión_0 = 0
         contador_demora_b = 0
         contador_demora_0 = 0
-        prom_revision_cliente = 0
-        prom_revision_contratista = 0
         cantidad_paquetes_cliente = 0
         cantidad_paquetes_contratista = 0
         avance_programado = 0
@@ -98,15 +99,11 @@ class EscritorioView(ProyectoMixin, TemplateView):
         contador_emitidos_b = 0
         contador_emitidos_0 = 0
         contador_aprobacion = 0
-        contador_revision_cliente = 0
-        contador_revision_contratista = 0
         verificador_emision_0 = 1 
 
         #Obtener paquetes
         clientes = [1,2,3]        
         contratistas = [4,5,6]        
-        user = self.request.user
-        user_rol =  user.perfil.rol_usuario
         cantidad_paquetes_cliente = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=clientes, proyecto=self.proyecto).count()
         cantidad_paquetes_contratista = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto).count()
 
@@ -130,37 +127,20 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 for cliente in ESTADOS_CLIENTE[1:]:
                     if estado_cliente == 5 and cliente[0] == 5:
                         contador_emitidos_0 = contador_emitidos_0 + 1
-                        #diferencia = diferencia_fechas(fecha_version, paquete_first[0].fecha_creacion)
                         diferencia = abs((fecha_version - paquete_first[0].fecha_creacion).days)
                         tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
                         contador_aprobacion = contador_aprobacion + 1
                         documentos_aprobados = documentos_aprobados + 1
-                        # diferencia = abs((semana_actual - fecha_version).days)
-                        # prom_revision_contratista = float(prom_revision_contratista) + diferencia
-                        # contador_revision_contratista = contador_revision_contratista + 1
                         verificador_emision_0 = 0
                     if estado_cliente == 1 and cliente[0] == 1:
                         documentos_revision_contratista = documentos_revision_contratista + 1
-                        # diferencia = abs((semana_actual - fecha_version).days)
-                        # prom_revision_contratista = float(prom_revision_contratista) + diferencia
-                        # contador_revision_contratista = contador_revision_contratista + 1
                     if estado_cliente == 2 and cliente[0] == 2:
                         documentos_revision_contratista = documentos_revision_contratista + 1
-                        # diferencia = abs((semana_actual - fecha_version).days)
-                        # prom_revision_contratista = float(prom_revision_contratista) + diferencia
-                        # contador_revision_contratista = contador_revision_contratista + 1
                     if estado_cliente == 4 and cliente[0] == 4:
                         documentos_revision_contratista = documentos_revision_contratista + 1
-                        # diferencia = abs((semana_actual - fecha_version).days)
-                        # prom_revision_contratista = float(prom_revision_contratista) + diferencia
-                        # contador_revision_contratista = contador_revision_contratista + 1
                     if estado_cliente == 6 and cliente[0] == 6:
                         contador_emitidos_0 = contador_emitidos_0 + 1
                         documentos_revision_contratista = documentos_revision_contratista + 1
-                        # diferencia = abs((semana_actual - fecha_version).days)
-                        # prom_revision_contratista = float(prom_revision_contratista) + diferencia
-                        # contador_revision_contratista = contador_revision_contratista + 1
-                        verificador_emision_0 = 0
                     if estado_cliente == 7 and cliente[0] == 7:
                         contador_emitidos_0 = contador_emitidos_0 + 1
                         verificador_emision_0 = 0
@@ -180,14 +160,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 for cliente in ESTADO_CONTRATISTA[1:]:
                     if estado_contratista == 1 and cliente[0] == 1:
                         documentos_revision_cliente = documentos_revision_cliente + 1
-                        # diferencia = abs((semana_actual - fecha_version).days)
-                        # prom_revision_cliente = float(prom_revision_cliente) + diferencia
-                        # contador_revision_cliente = contador_revision_cliente + 1
                     if estado_contratista == 2 and cliente[0] == 2:
                         documentos_revision_cliente = documentos_revision_cliente + 1
-                        # diferencia = abs((semana_actual - fecha_version).days)
-                        # prom_revision_cliente = prom_revision_cliente + diferencia   
-                        # contador_revision_cliente = contador_revision_cliente + 1  
                 contador_emitidos = contador_emitidos + 1
             if not versiones:
                 #Calculo del promedio de demora emisión en b
@@ -220,12 +194,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
         if contador_aprobacion != 0:
             tiempo_ciclo_aprobación = float(tiempo_ciclo_aprobación)/contador_aprobacion
             tiempo_ciclo_aprobación = format(float(tiempo_ciclo_aprobación), '.1f')
-        # if contador_revision_cliente != 0:
-        #     prom_revision_cliente = float(prom_revision_cliente)/contador_revision_cliente
-        #     prom_revision_cliente = format(float(prom_revision_cliente), '.1f')
-        # if contador_revision_contratista != 0:
-        #     prom_revision_contratista = float(prom_revision_contratista)/contador_revision_contratista
-        #     prom_revision_contratista = format(float(prom_revision_contratista), '.1f')
         if contador_demora_b != 0:
             prom_demora_emisión_B = float(prom_demora_emisión_B)/contador_demora_b
             prom_demora_emisión_B = format(float(prom_demora_emisión_B), '.1f')
@@ -236,10 +204,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
         #Promedio negativos se transforman en 0
         if float(tiempo_ciclo_aprobación) < 0.0:
             tiempo_ciclo_aprobación = 0.0
-        # if prom_revision_cliente < 0:
-        #     prom_revision_cliente = 0
-        # if prom_revision_contratista < 0:
-        #     prom_revision_contratista = 0
         if float(prom_demora_emisión_B) < 0.0:
             prom_demora_emisión_B = 0.0
         if float(prom_demora_emisión_0) < 0.0:
