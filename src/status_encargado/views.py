@@ -76,6 +76,9 @@ class CreateTarea(ProyectoMixin, FormView):
     template_name = 'status_encargado/create-tarea.html'
     form_class = TareaForm
 
+    def form_valid(self, form, **kwargs):
+        tarea = form.save(commit=False)
+        
 class CreateRespuesta(ProyectoMixin, FormView):
     template_name = 'status_encargado/create-respuesta.html'
     form_class = RespuestaForm
