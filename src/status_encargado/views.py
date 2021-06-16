@@ -1,3 +1,4 @@
+from django.forms.forms import Form
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.urls import (reverse_lazy, reverse)
@@ -10,6 +11,7 @@ from panel_carga.models import Documento
 from django.utils import timezone
 from django.contrib import messages
 from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE
+from status_encargado.forms import RespuestaForm, TareaForm
 # Create your views here.
 class EncargadoIndex(ProyectoMixin, TemplateView):
     template_name = 'status_encargado/index.html'
@@ -67,3 +69,13 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                 
         context['Listado'] = lista_final
         return context
+
+class TablaEncargado(ProyectoMixin, ListView):
+    template_name = 'status_encargado/list-encargado.html'
+class CreateTarea(ProyectoMixin, FormView):
+    template_name = 'status_encargado/create-tarea.html'
+    form_class = TareaForm
+
+class CreateRespuesta(ProyectoMixin, FormView):
+    template_name = 'status_encargado/create-respuesta.html'
+    form_class = RespuestaForm
