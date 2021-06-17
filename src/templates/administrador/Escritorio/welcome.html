@@ -35,6 +35,7 @@
           <li class="nav-item"><a class="nav-link"  href="{% url 'Bandejaeys' %}" ><i class="menu-item-icon icon ion-ios-email-outline tx-24"></i> <span class="menu-item-label">Bandeja de entrada</a><span></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'analitica-index' %}"><i class="menu-item-icon ion-ios-pie-outline tx-20"></i><span class="menu-item-label"> Analíticas</a></span></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'status-index' %}"><i class="menu-item-icon ion-ios-redo-outline tx-24"></i><span class="menu-item-label">Estatus</a></span></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'encargado-index' %}"><i class="menu-item-icon icon ion-person tx-24"></i><span class="menu-item-label">Estatus</a></span></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'buscador-index' %}" ><i class="menu-item-icon icon ion-ios-list-outline tx-22"></i><span class="menu-item-label">Buscador</span></a></li>
           {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
           <li class="nav-item"><a class="nav-link"  href="{% url 'lista-proyecto' %}"><i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i><span class="menu-item-label">Configuración</span></a></li>

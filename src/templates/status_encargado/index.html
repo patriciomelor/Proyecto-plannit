@@ -7,23 +7,23 @@
  <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
-      <span class="breadcrumb-item active">Estatus</span>
+      <span class="breadcrumb-item active">Panel Administrador</span>
     </nav>
   </div>
   <div class="br-section-wrapper" style="overflow-x: auto;padding: 2px;margin: 2px;">
 <!--Tabla-->
-<h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10 mg-b-20" style="text-align: left; margin-right: 30px;" >Estatus documental del proyecto / {{proyecto}}</h4>
+<h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10 mg-b-20" style="text-align: left; margin-right: 30px;" >Asignacion de responsavilidad</h4>
 
               <!--Fin Loop-->
             <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
               <thead>
                 <tr role="row">
-                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;"></th>
+                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Responsable</th>
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Especialidad</th>
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Descripción</th>
                 <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Código</th>
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Tipo</th>
-                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Revisión Actual</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Revisión <br>Actual</th>
                 <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">A cargo de:</th>
                 <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Último Paquete</th>
                 <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Días de revisión</th>
@@ -39,7 +39,7 @@
             {% for documento in Listado %}
               {% if not documento.1 %}
               <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"> Agregar Responsal</button> </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"> <i class="fa fa-pencil"></i></button> </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Descripcion}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Codigo_documento}} </th>
@@ -56,7 +56,7 @@
               </tr>
               {% else %}
               <tr role="row" class="odd">
-              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"> Agregar Responsal</button> </th>
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </th>
                 
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Descripcion}} </th>
