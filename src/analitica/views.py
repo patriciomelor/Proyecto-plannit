@@ -1036,9 +1036,9 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
     def get(self, request, *args, **kwargs):
         context = self.get_context_data(**kwargs)
         qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
-        # context['curvaBase'] = qs
-        # return self.render_to_response(context)
-        result = {}
-        result["datos_lista"] = qs.datos_lista
-        return result
+        context['curvaBase'] = qs
+        return self.render_to_response(context)
+        # result = {}
+        # result["datos_lista"] = qs.datos_lista
+        # return result
         

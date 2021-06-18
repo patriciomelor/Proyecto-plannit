@@ -1,5 +1,5 @@
 {% extends 'index-analitica.html' %}
-
+{% for real_linea in curvaBase.datos_lista %} {{real_linea}}, {% endfor %}
 {% block content %}
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -333,6 +333,16 @@
             fill: false,
             data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
 			},
+      {
+				type: 'line',
+            label: 'Curva Base',
+            backgroundColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(54, 162, 235, 1)', {% endfor %}],
+            borderColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(54, 162, 235, 1)', {% endfor %}],
+            borderWidth: 1,
+            lineTension:0.1,
+            fill: false,
+            data: [{% for real_linea in curvaBase.datos_lista %} {{real_linea}}, {% endfor %}],
+			}, 
       {
 				type: 'bar',
         label: 'Avance Real Parcial (BARRAS)',

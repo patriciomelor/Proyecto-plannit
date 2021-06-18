@@ -1,5 +1,8 @@
-<ul>
+{% comment %} <ul>
     {% for elem in curvaBase %}
     <li>{{elem.datos_lista}}</li>
     {% endfor %}
-</ul>
+</ul> {% endcomment %}
+
+{% for real_linea in curvaBase.datos_lista %} {{real_linea.0}} {% endfor %}
+{{curvaBase.datos_lista}}
