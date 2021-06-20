@@ -42,7 +42,6 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                 else:
                     transmital = semana_actual - paquete_first[0].fecha_creacion
                     dias_revision = semana_actual.day - version.fecha.day
-                
                 version_documento = version.revision
                 for revision in TYPES_REVISION[1:4]:
                     if version_documento == revision[0]:
@@ -54,31 +53,32 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                             #dias_revision = 0
                             lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
-
                 for revision in TYPES_REVISION[5:]:
                     if version_documento == revision[0]:
                         lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                         lista_final.append(lista_inicial)
                 #print('documento: ', doc, ' version: ', version, ' paquete:', paquete, ' listado final: ', lista_final) 
-
-
-
             else: 
                 lista_inicial = [doc, []]
                 lista_final.append(lista_inicial)
-                
+
         context['Listado'] = lista_final
         return context
 
-class TablaEncargado(ProyectoMixin, ListView):
+class TablaEncargado(ProyectoMixin, FormView):
     template_name = 'status_encargado/list-encargado.html'
+
+
 class CreateTarea(ProyectoMixin, FormView):
     template_name = 'status_encargado/create-tarea.html'
     form_class = TareaForm
 
-    def form_valid(self, form, **kwargs):
-        tarea = form.save(commit=False)
-        
+    def get_initial(self, **kwargs):
+        initial = super().get_initial(**kwargs)
+        doc_pk = Documento.objects.get(pk=self.kwargs["doc_pk"])
+        initial["documento"] = doc_pk
+        return initial
+
 class CreateRespuesta(ProyectoMixin, FormView):
     template_name = 'status_encargado/create-respuesta.html'
     form_class = RespuestaForm

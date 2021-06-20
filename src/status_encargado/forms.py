@@ -16,7 +16,7 @@ from panel_carga.models import Documento
 class TareaForm(forms.ModelForm):
     class Meta:
         model = Tarea
-        fields = '__all__'
+        exclude = ["estado"]
 
 class RespuestaForm(forms.ModelForm):
     class Meta:

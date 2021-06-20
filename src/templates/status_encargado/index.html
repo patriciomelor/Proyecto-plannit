@@ -39,7 +39,7 @@
             {% for documento in Listado %}
               {% if not documento.1 %}
               <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"> <i class="fa fa-pencil"></i></button> </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </a>  </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Descripcion}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Codigo_documento}} </th>
@@ -56,8 +56,7 @@
               </tr>
               {% else %}
               <tr role="row" class="odd">
-              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </th>
-                
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </a> </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Descripcion}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a></th>
@@ -131,8 +130,7 @@
       <div class="card shadow-base card-body pd-25 bd-0">
         <div class="row">
           <div class="col-sm-12">
-            <h6 class="card-title tx-uppercase tx-12 tx-inverse">Documentos pendientes
-</h6>
+            <h6 class="card-title tx-uppercase tx-12 tx-inverse">Documentos pendientes</h6>
                <canvas id="chartBar2" width="100%"></canvas>
            </div><!-- col-6 -->                
         </div><!-- row -->
@@ -180,11 +178,7 @@
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
 
-<script>
-  $("#fileInput").change(function(){
-    $("button").prop("disabled", this.files.length == 0);
-});
-</script>
+
 
 <script>
   $(document).ready(function() {
@@ -231,91 +225,91 @@
 </script>
 <!--Graf 1-->
 <script>
-var ctx = document.getElementById('chartBar1').getContext('2d');
-new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-      label: '# of a',
-      data: [12, 39, 20, 10, 25, 18],
-      backgroundColor: '#27AAC8'
-    },
-    {
-      label: '# of b',
-      data: [12, 39, 20, 10, 25, 18],
-      backgroundColor: '#EB984E'
-    }
-    ]
-  },
-  options: {
-    plugins: {
-      title: {
-        display: true,
-        text: 'Documentos Asignados Vs Documentos Realizado'
+  var ctx = document.getElementById('chartBar1').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      datasets: [
+        {
+        label: '# of a',
+        data: [12, 39, 20, 10, 25, 18],
+        backgroundColor: '#27AAC8'
       },
+      {
+        label: '# of b',
+        data: [12, 39, 20, 10, 25, 18],
+        backgroundColor: '#EB984E'
+      }
+      ]
     },
-    legend: {
-      display: false,
-        labels: {
-          display: false
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Documentos Asignados Vs Documentos Realizado'
+        },
+      },
+      legend: {
+        display: false,
+          labels: {
+            display: false
+          }
+      },
+      scales: {
+          yAxes: [{
+            stacked: true
+          }],
+          xAxes: [{
+            stacked: true
+          }]
         }
+    }
+  });
+</script>
+<!--Graf 3-->
+<script>
+  var ctx = document.getElementById('chartBar2').getContext('2d');
+  new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 39, 20, 10, 25, 18],
+        backgroundColor: '#27AAC8'
+      }]
     },
-    scales: {
+    options: {
+      legend: {
+        display: false,
+          labels: {
+            display: false
+          }
+      },
+      scales: {
         yAxes: [{
-          stacked: true
+          stacked: true,
+          ticks: {
+            beginAtZero:true,
+            fontSize: 10,
+            max: 80
+          }
         }],
         xAxes: [{
-          stacked: true
+          stacked: true,
+          ticks: {
+            beginAtZero:true,
+            fontSize: 11
+          }
         }]
       }
-  }
-});
-</script>
-<!--Graf 3-->
-<script>
-var ctx = document.getElementById('chartBar2').getContext('2d');
-new Chart(ctx, {
-  type: 'horizontalBar',
-  data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [{
-      label: '# of Votes',
-      data: [12, 39, 20, 10, 25, 18],
-      backgroundColor: '#27AAC8'
-    }]
-  },
-  options: {
-    legend: {
-      display: false,
-        labels: {
-          display: false
-        }
-    },
-    scales: {
-      yAxes: [{
-        stacked: true,
-        ticks: {
-          beginAtZero:true,
-          fontSize: 10,
-          max: 80
-        }
-      }],
-      xAxes: [{
-        stacked: true,
-        ticks: {
-          beginAtZero:true,
-          fontSize: 11
-        }
-      }]
     }
-  }
-});
+  });
 </script>
 <!--Graf 3-->
 <script>
-var ctx = document.getElementById('chartBar3').getContext('2d');
+  var ctx = document.getElementById('chartBar3').getContext('2d');
   new Chart(ctx, {
     type: 'bar',
     data: {
