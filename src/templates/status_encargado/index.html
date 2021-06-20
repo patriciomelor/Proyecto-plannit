@@ -4,17 +4,18 @@
 
 {% block content %}
 <!--Titulo-->
- <div class="br-pageheader pd-y-15 pd-l-20">
+  <div class="row row-sm mg-t-10 pd-y-15">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
       <span class="breadcrumb-item active">Panel Administrador</span>
     </nav>
   </div>
-  <div class="br-section-wrapper">
-<!--Tabla-->
-<h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10 mg-b-20" style="text-align: left; margin-right: 30px;" >Asignacion de responsavilidad</h4>
-
-              <!--Fin Loop-->
+  <div class="row row-sm mg-t-10 pd-y-15">
+    <div class="col-lg-12">
+      <div class="card shadow-base card-body bd-0">
+        <div class="row">
+          <div class="col-sm-12">
+            <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10 mg-b-20" style="text-align: left; margin-right: 30px;" >Asignacion de responsavilidad</h4>
             <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
               <thead>
                 <tr role="row">
@@ -74,26 +75,27 @@
               {% endif %}
               {% endfor %}
             </table>
-
-        
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row row-sm mg-t-20">
+  <div class="row row-sm mg-t-10 pd-y-15">
     <div class="col-lg-12">
-      <div class="card shadow-base card-body pd-25 bd-0">
+      <div class="card shadow-base card-body bd-0">
         <div class="row">
           <div class="col-sm-12">
           <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
             <thead>
               <tr role="row">
-              <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">CODIGO</th>
-              <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Nombre</th>
-              <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">ESTADO</th>
-              <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">RESPONSABLE</th>
-            <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">RESTRICCION</th>
-            <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">FECHA SOLICITUD</th>
-            <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">FECHA REQUERIDO</th>
-            <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">FECHA REALIZADO</th>
-
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">CODIGO</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Nombre</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">ESTADO</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">RESPONSABLE</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">RESTRICCION</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">FECHA SOLICITUD</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">FECHA REQUERIDO</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">FECHA REALIZADO</th>
               </tr>
             </thead>
               <tbody>
@@ -115,7 +117,7 @@
       </div>
     </div>
   </div>
-  <div class="row row-sm mg-t-20">
+  <div class="row row-sm mg-t-10 pd-y-15">
     <div class="col-lg-6">
       <div class="card shadow-base card-body pd-25 bd-0">
         <div class="row">
@@ -137,7 +139,7 @@
       </div><!-- card -->
     </div><!-- col-6 -->
   </div>
-  <div class="row row-sm mg-t-20">
+  <div class="row row-sm mg-t-10 pd-y-15">
     <div class="col-lg-6">
       <div class="card shadow-base card-body pd-25 bd-0">
         <div class="row">
@@ -159,7 +161,7 @@
       </div><!-- card -->
     </div><!-- col-6 -->
   </div>
-  <div class="row row-sm mg-t-20">
+  <div class="row row-sm mg-t-10 pd-y-15">
     <div class="col-lg-12">
       <div class="card shadow-base card-body pd-25 bd-0">
         <div class="row">
