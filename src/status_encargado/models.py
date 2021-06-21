@@ -18,6 +18,6 @@ class Tarea(models.Model):
 class Respuesta(models.Model):
     contestado = models.DateTimeField(verbose_name="Fecha Creación", auto_now_add=True)
     tarea = models.OneToOneField(Tarea, related_name="task_answer", on_delete=models.CASCADE, verbose_name="Tarea")
-    not_done = models.ForeignKey(CausasNoCumplimiento, on_delete=models.CASCADE, related_name="answer_excuse", verbose_name="Causa no Cumplimiento")
+    not_done = models.ForeignKey(CausasNoCumplimiento, on_delete=models.CASCADE, related_name="answer_excuse", verbose_name="Causa no Cumplimiento", blank=True, null=True)
     contidad_hh = models.IntegerField(verbose_name="Cantidad Horas Hombre")
     comentarios = models.TextField(verbose_name="Comentarios")

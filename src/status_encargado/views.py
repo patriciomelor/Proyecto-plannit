@@ -1,5 +1,5 @@
 from django.forms.forms import Form
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -12,9 +12,17 @@ from django.utils import timezone
 from django.contrib import messages
 from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE
 from status_encargado.forms import RespuestaForm, TareaForm
+
+from .models import Tarea, Respuesta
 # Create your views here.
 class EncargadoIndex(ProyectoMixin, TemplateView):
     template_name = 'status_encargado/index.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4:
+            return super(EncargadoIndex, self).dispatch(request, *args, **kwargs)
+        else:
+            return redirect('revisor-index')
 
     def get_queryset(self):
         queryset=Documento.objects.filter(proyecto=self.proyecto)
@@ -82,3 +90,12 @@ class CreateTarea(ProyectoMixin, FormView):
 class CreateRespuesta(ProyectoMixin, FormView):
     template_name = 'status_encargado/create-respuesta.html'
     form_class = RespuestaForm
+
+class RevisorView(ProyectoMixin, ListView):
+    template_name = "status_encargado/revisor-index.html"
+    context_object_name = "tareas"
+
+    def get_queryset(self):
+        qs = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
+        return qs
+    

@@ -1,3 +1,4 @@
+from panel_carga.models import Proyecto
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.base import Model
@@ -17,13 +18,14 @@ class Perfil(models.Model):
 class Restricciones(models.Model):
     nombre = models.CharField(verbose_name="Nombre", max_length=30)
     created_at = models.DateTimeField(verbose_name="Fecha Creación", auto_now_add=True)
-
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="proyect_restrictions", verbose_name="Proyecto")
     def __str__(self):
         return self.nombre
 
 class CausasNoCumplimiento(models.Model):
     nombre = models.CharField(verbose_name="Nombre", max_length=30)
     created_at = models.DateTimeField(verbose_name="Fecha Creación", auto_now_add=True)
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="proyect_no_complete", verbose_name="Proyecto")
 
     def __str__(self):
         return self.nombre
