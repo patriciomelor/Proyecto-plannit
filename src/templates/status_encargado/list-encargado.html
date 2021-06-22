@@ -3,10 +3,12 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-<div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
+<div class="d-flex align-items-center justify-content-center bg-info ht-100v">
 
-      <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+      <div class="login-wrapper wd-300 wd-xs-350 pd-25 bg-white rounded shadow-base">
          <div class="card-body pd-x-25 pd-b-25 pd-t-0">
+         <form  method="POST">{% csrf_token %}
+
             <div class="row no-gutters">
 
                 {{form|crispy}}
@@ -15,6 +17,7 @@
 
              <button class="btn btn-warning mg-l-10" type="button" onClick="javascript:history.go(-1);"> volver</button></a>
             </div><!-- row -->
+            </form>
           </div><!-- card-body -->
         
       </div><!-- login-wrapper -->
