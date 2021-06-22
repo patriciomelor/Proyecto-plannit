@@ -12,8 +12,8 @@ class Tarea(models.Model):
     encargado = models.ForeignKey(User, related_name="taks_responsable", on_delete=models.CASCADE, verbose_name="Encargado")
     restricciones = models.ForeignKey(Restricciones, on_delete=models.CASCADE, blank=True, null=True, related_name="task_restrictions", verbose_name="Restricciones")
     contidad_hh = models.IntegerField(verbose_name="Cantidad Horas Hombre")
-    estado = models.BooleanField(verbose_name="Estado", default=0, blank=True)
-    plazo = models.DateField(verbose_name="Fecha de Plazo")
+    estado = models.BooleanField(verbose_name="Estado", default=False, blank=True)
+    plazo = models.DateField(verbose_name="Fecha Requerimiento")
 
 class Respuesta(models.Model):
     contestado = models.DateTimeField(verbose_name="Fecha Creación", auto_now_add=True)

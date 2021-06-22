@@ -80,6 +80,8 @@ class TablaEncargado(ProyectoMixin, FormView):
 class CreateTarea(ProyectoMixin, FormView):
     template_name = 'status_encargado/create-tarea.html'
     form_class = TareaForm
+    success_url = reverse_lazy('encargado-index')
+    success_message = 'Tarea asignada correctamente.'
 
     def get_initial(self, **kwargs):
         initial = super().get_initial(**kwargs)
@@ -90,6 +92,14 @@ class CreateTarea(ProyectoMixin, FormView):
 class CreateRespuesta(ProyectoMixin, FormView):
     template_name = 'status_encargado/create-respuesta.html'
     form_class = RespuestaForm
+    success_url = reverse_lazy('revisor-index')
+    success_message = 'Respuesta enviada correctamente.'
+
+    def form_valid(self, form):
+        task = Tarea.objects.get(pk=self.kwargs["task_pk"])
+        task.estado = True
+        task.save()
+        return super().form_valid(form)
 
 class RevisorView(ProyectoMixin, ListView):
     template_name = "status_encargado/revisor-index.html"
