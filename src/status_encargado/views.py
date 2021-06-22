@@ -99,3 +99,5 @@ class RevisorView(ProyectoMixin, ListView):
         qs = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
         return qs
     
+class EncargadoGraficoView(ProyectoMixin, TemplateView):
+    template_name = 'status_encargado/encargado-grafico.html'
