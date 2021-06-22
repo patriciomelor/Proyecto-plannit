@@ -111,9 +111,9 @@
 
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
 
-    <!-- B-->
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
+    <!-- B
         <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
 
@@ -229,11 +229,11 @@
  <div class="br-mainpanel">
   <div class="br-pagebody mg-t-5 pd-x-30">
   {% include "messege.html" %}
-
-{% block content %}
-{% endblock content %}
-</div><!-- br-pagebody -->
-</div><!-- br-mainpanel -->
+  {% block content %}
+  
+  {% endblock content %}
+  </div><!-- br-pagebody -->
+  </div><!-- br-mainpanel -->
 
 
     <!-- ########## END: MAIN PANEL ########## -->

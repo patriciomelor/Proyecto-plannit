@@ -1,0 +1,48 @@
+{% extends 'index-status-e.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<!--Titulo-->
+  <div class="row row-sm mg-t-10 pd-y-15">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" > {{proyecto}} </a>
+      <span class="breadcrumb-item active">Panel Administrador</span>
+    </nav>
+  </div>
+  <div class="row row-sm mg-t-10 pd-y-15">
+    <div class="col-lg-12">
+      <div class="card shadow-base card-body bd-0">
+        <div class="row">
+          <div class="col-sm-12">
+            <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10 mg-b-20" style="text-align: left; margin-right: 30px;" >Asignacion de responsavilidad</h4>
+            <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
+              <thead>
+                <tr role="row">
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Documento</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Fecha Asignada</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Restricciones</th>
+                <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Cantidad HH</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Responder</th>
+                </tr>
+              </thead>
+                <tbody>
+            <!--Loop Listar Documento-->
+            {% for tarea in tareas %}
+              <tr role="row" class="odd">
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.documento}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.plazo}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.resticciones}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.cantidad_hh}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-respuesta' tarea.pk %}"><button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </a>  </th>
+
+              </tr>
+              {% endfor %}
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% endblock content %}

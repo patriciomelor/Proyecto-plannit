@@ -7,7 +7,7 @@ from crispy_forms.layout import Submit
 from panel_carga.models import Documento
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Perfil
+from .models import Perfil, Restricciones, CausasNoCumplimiento
 from .roles import *
 
 
@@ -30,3 +30,12 @@ class EditUsuario(UserChangeForm):
 class InvitationForm(forms.Form):
     nombres = forms.CharField(max_length=30)
     correo = forms.CharField(max_length=30)
+
+class RestriccionForm(forms.ModelForm):
+    class Meta:
+        model = Restricciones
+        fields = ["nombre"]
+class NoCumplimientoForm(forms.ModelForm):
+    class Meta:
+        model = CausasNoCumplimiento
+        fields = ["nombre"]

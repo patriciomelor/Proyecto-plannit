@@ -4,17 +4,18 @@
 
 {% block content %}
 <!--Titulo-->
- <div class="br-pageheader pd-y-15 pd-l-20">
+  <div class="row row-sm mg-t-10 pd-y-15">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
-      <span class="breadcrumb-item active">Estatus</span>
+      <span class="breadcrumb-item active">Panel Administrador</span>
     </nav>
   </div>
-  <div class="br-section-wrapper" style="overflow-x: auto;padding: 2px;margin: 2px;">
-<!--Tabla-->
-<h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10 mg-b-20" style="text-align: left; margin-right: 30px;" >Estatus documental del proyecto / {{proyecto}}</h4>
-
-              <!--Fin Loop-->
+  <div class="row row-sm mg-t-10 pd-y-15">
+    <div class="col-lg-12">
+      <div class="card shadow-base card-body bd-0">
+        <div class="row">
+          <div class="col-sm-12">
+            <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10 mg-b-20" style="text-align: left; margin-right: 30px;" >Asignacion de responsavilidad</h4>
             <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
               <thead>
                 <tr role="row">
@@ -23,7 +24,7 @@
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Descripción</th>
                 <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Código</th>
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Tipo</th>
-                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Revisión Actual</th>
+                <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Revisión <br>Actual</th>
                 <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">A cargo de:</th>
                 <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Último Paquete</th>
                 <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Días de revisión</th>
@@ -39,7 +40,7 @@
             {% for documento in Listado %}
               {% if not documento.1 %}
               <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </a>  </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Descripcion}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Codigo_documento}} </th>
@@ -56,7 +57,7 @@
               </tr>
               {% else %}
               <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </th>                
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </a> </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Especialidad}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Descripcion}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a></th>
@@ -74,14 +75,54 @@
               {% endif %}
               {% endfor %}
             </table>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <div class="row row-sm mg-t-20">
+  <div class="row row-sm mg-t-10 pd-y-15">
+    <div class="col-lg-12">
+      <div class="card shadow-base card-body bd-0">
+        <div class="row">
+          <div class="col-sm-12">
+          <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
+            <thead>
+              <tr role="row">
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">CODIGO</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Nombre</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">ESTADO</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">RESPONSABLE</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">RESTRICCION</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">FECHA SOLICITUD</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">FECHA REQUERIDO</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">FECHA REALIZADO</th>
+              </tr>
+            </thead>
+              <tbody>
+          <!--Loop Listar Documento-->
+            <tr role="row" class="odd">
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+              <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+            </tr>
+            
+          </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="row row-sm mg-t-10 pd-y-15">
     <div class="col-lg-6">
       <div class="card shadow-base card-body pd-25 bd-0">
         <div class="row">
           <div class="col-sm-12">
-            <h6 class="card-title tx-uppercase tx-12" >Documentos Asignados Vs Documentos Realizado
-</h6>
+            <h6 class="card-title tx-uppercase tx-12" >Documentos Asignados Vs Documentos Realizado</h6>
            <canvas id="chartBar1" width="100%"></canvas>
          </div><!-- col-6 -->                
         </div><!-- row -->
@@ -91,15 +132,14 @@
       <div class="card shadow-base card-body pd-25 bd-0">
         <div class="row">
           <div class="col-sm-12">
-            <h6 class="card-title tx-uppercase tx-12 tx-inverse">Documentos pendientes
-</h6>
+            <h6 class="card-title tx-uppercase tx-12 tx-inverse">Documentos pendientes</h6>
                <canvas id="chartBar2" width="100%"></canvas>
            </div><!-- col-6 -->                
         </div><!-- row -->
       </div><!-- card -->
     </div><!-- col-6 -->
   </div>
-  <div class="row row-sm mg-t-20">
+  <div class="row row-sm mg-t-10 pd-y-15">
     <div class="col-lg-6">
       <div class="card shadow-base card-body pd-25 bd-0">
         <div class="row">
@@ -121,18 +161,26 @@
       </div><!-- card -->
     </div><!-- col-6 -->
   </div>
-</div>
+  <div class="row row-sm mg-t-10 pd-y-15">
+    <div class="col-lg-12">
+      <div class="card shadow-base card-body pd-25 bd-0">
+        <div class="row">
+          <div class="col-sm-12">
+            <h6 class="card-title tx-uppercase tx-12" >Documentos Asignados Vs Documentos realizados
+            </h6>
+           <canvas id="chartBar5" width="100%"></canvas>
+         </div><!-- col-6 -->                
+        </div><!-- row -->
+      </div><!-- card -->
+    </div><!-- col-6 -->
+  </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 
 
-<script>
-  $("#fileInput").change(function(){
-    $("button").prop("disabled", this.files.length == 0);
-});
-</script>
+
 
 <script>
   $(document).ready(function() {
@@ -177,90 +225,93 @@
         });
   } );
 </script>
+<!--Graf 1-->
 <script>
-var ctx = document.getElementById('chartBar1').getContext('2d');
-new Chart(ctx, {
-  type: 'bar',
-  data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [
-      {
-      label: '# of a',
-      data: [12, 39, 20, 10, 25, 18],
-      backgroundColor: '#27AAC8'
-    },
-    {
-      label: '# of b',
-      data: [12, 39, 20, 10, 25, 18],
-      backgroundColor: '#EB984E'
-    }
-    ]
-  },
-  options: {
-    plugins: {
-      title: {
-        display: true,
-        text: 'Documentos Asignados Vs Documentos Realizado'
+  var ctx = document.getElementById('chartBar1').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      datasets: [
+        {
+        label: '# of a',
+        data: [12, 39, 20, 10, 25, 18],
+        backgroundColor: '#27AAC8'
       },
+      {
+        label: '# of b',
+        data: [12, 39, 20, 10, 25, 18],
+        backgroundColor: '#EB984E'
+      }
+      ]
     },
-    legend: {
-      display: false,
-        labels: {
-          display: false
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Documentos Asignados Vs Documentos Realizado'
+        },
+      },
+      legend: {
+        display: false,
+          labels: {
+            display: false
+          }
+      },
+      scales: {
+          yAxes: [{
+            stacked: true
+          }],
+          xAxes: [{
+            stacked: true
+          }]
         }
+    }
+  });
+</script>
+<!--Graf 3-->
+<script>
+  var ctx = document.getElementById('chartBar2').getContext('2d');
+  new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      datasets: [{
+        label: '# of Votes',
+        data: [12, 39, 20, 10, 25, 18],
+        backgroundColor: '#27AAC8'
+      }]
     },
-    scales: {
+    options: {
+      legend: {
+        display: false,
+          labels: {
+            display: false
+          }
+      },
+      scales: {
         yAxes: [{
-          stacked: true
+          stacked: true,
+          ticks: {
+            beginAtZero:true,
+            fontSize: 10,
+            max: 80
+          }
         }],
         xAxes: [{
-          stacked: true
+          stacked: true,
+          ticks: {
+            beginAtZero:true,
+            fontSize: 11
+          }
         }]
       }
-  }
-});
-</script>
-<script>
-var ctx = document.getElementById('chartBar2').getContext('2d');
-new Chart(ctx, {
-  type: 'horizontalBar',
-  data: {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-    datasets: [{
-      label: '# of Votes',
-      data: [12, 39, 20, 10, 25, 18],
-      backgroundColor: '#27AAC8'
-    }]
-  },
-  options: {
-    legend: {
-      display: false,
-        labels: {
-          display: false
-        }
-    },
-    scales: {
-      yAxes: [{
-        stacked: true,
-        ticks: {
-          beginAtZero:true,
-          fontSize: 10,
-          max: 80
-        }
-      }],
-      xAxes: [{
-        stacked: true,
-        ticks: {
-          beginAtZero:true,
-          fontSize: 11
-        }
-      }]
     }
-  }
-});
+  });
 </script>
+<!--Graf 3-->
 <script>
-var ctx = document.getElementById('chartBar3').getContext('2d');
+  var ctx = document.getElementById('chartBar3').getContext('2d');
   new Chart(ctx, {
     type: 'bar',
     data: {
@@ -296,9 +347,47 @@ var ctx = document.getElementById('chartBar3').getContext('2d');
     }
   });
 </script>
-
+<!--Graf4-->
 <script>
-  var ctx = document.getElementById('chartBar').getContext('2d');
+  var ctx = document.getElementById('chartBar4').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Jan', 'Feb', 'Mar'],
+        datasets: [{
+          label: '# of Votes',
+          data: [12, 39, 20],
+          backgroundColor: '#27AAC8'
+        }]
+      },
+      options: {
+        legend: {
+          display: false,
+            labels: {
+              display: false
+            }
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero:true,
+              fontSize: 10,
+              max: 80
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              beginAtZero:true,
+              fontSize: 11
+            }
+          }]
+        }
+      }
+    });
+  </script>
+<!--Graf 5-->
+<script>
+  var ctx = document.getElementById('chartBar5').getContext('2d');
     new Chart(ctx, {
       type: 'doughnut',
       data: {

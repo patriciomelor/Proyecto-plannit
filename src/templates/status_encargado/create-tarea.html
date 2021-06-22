@@ -1,0 +1,19 @@
+{% extends "index-status-e.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="card shadow-base bd-0 mg-t-20">
+          <div class="card-header bg-transparent pd-x-25 pd-y-15 bd-b-0 d-flex justify-content-between align-items-center">
+            <h6 class="card-title tx-uppercase tx-12 mg-b-0"></h6>
+            <a href="" class="tx-gray-500 hover-info lh-0"><i class="icon ion-android-more-horizontal tx-24 lh-0"></i></a>
+          </div><!-- card-header -->
+          <div class="card-body pd-x-25 pd-b-25 pd-t-0">
+            <div class="row no-gutters">
+                {{form | crispy}}
+            </div><!-- row -->
+          </div><!-- card-body -->
+        </div>
+
+{% endblock content %}

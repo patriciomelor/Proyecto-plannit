@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic import FormView, CreateView, DeleteView, UpdateView, ListView, DetailView, FormView
+from django.views.generic.edit import FormMixin
 from panel_carga.views import ProyectoMixin
 from django.contrib.auth.models import User, Group, Permission, PermissionsMixin
 from .roles import ROLES
@@ -15,8 +16,8 @@ from panel_carga.forms import ProyectoForm
 from bandeja_es.models import *
 from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check, is_admin_check
 
-from .models import Perfil
-from .forms import CrearUsuario, EditUsuario, InvitationForm
+from .models import CausasNoCumplimiento, Perfil, Restricciones
+from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm
 from invitations.utils import get_invitation_model
 
 class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
@@ -192,6 +193,7 @@ class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
 
 class UmbralesView(ProyectoMixin, TemplateView):
 
+
     ###################################################
     #                                                 #
     #                                                 #
@@ -243,3 +245,48 @@ class UmbralesView(ProyectoMixin, TemplateView):
 
 
     #     return context
+
+class RestriccionesView(ProyectoMixin,  FormView):
+    http_method_names = ['get', 'post']
+    form_class = RestriccionForm
+    template_name = 'configuracion/add-restriccion.html'
+    success_url = reverse_lazy('restriccion')
+    success_message = 'Restriccion creada Correctamente.'
+
+
+    def get_queryset(self):
+        qs = Restricciones.objects.filter(proyecto=self.proyecto)
+        return qs
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["restricciones"] = self.get_queryset()
+        return context
+
+    def form_valid(self, form):
+        restriccion = form.save(commit=False)
+        restriccion.proyecto = self.proyecto
+        restriccion.save()
+        return super().form_valid(form)
+    
+class NoCumplimientoView(ProyectoMixin, FormView):
+    http_method_names = ['get', 'post']
+    form_class = NoCumplimientoForm
+    template_name = 'configuracion/add-no_cumplimiento.html'
+    success_url = reverse_lazy('no-cumplimiento')
+    success_message = 'Causa de no Cumplimiento creada Correctamente.'
+
+    def get_queryset(self):
+        qs = CausasNoCumplimiento.objects.filter(proyecto=self.proyecto)
+        return qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["no_cumplimientos"] = self.get_queryset()
+        return context
+
+    def form_valid(self, form):
+        no_cumplimiento = form.save(commit=False)
+        no_cumplimiento.proyecto = self.proyecto
+        no_cumplimiento.save()
+        return super().form_valid(form)
