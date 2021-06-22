@@ -27,6 +27,23 @@
         <h4 class="tx-gray-800 mg-b-5"> {{grupo}} </h4>
     </div>
     <div class="br-pagebody pd-x-20 pd-sm-x-30">
+        <div class="br-pagebody pd-x-20 pd-sm-x-30">
+            <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
+        <!--Table-->
+                <thead>
+                    <tr>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for restriccion in no_cumplimientos %}
+                    <tr>            
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{restriccion}}  </th>
+                    </tr>
+                {% endfor %}
+                    <!--Fin Loop-->
+                </tbody>
+            </table>
         <div class="card bd-0 shadow-base">
             <form class="form-control"style="float: left;"method="POST"> {% csrf_token %}
                 <label for="" class="col-6 col-md-12 mg-20">
