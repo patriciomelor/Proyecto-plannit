@@ -21,3 +21,4 @@ class Respuesta(models.Model):
     not_done = models.ForeignKey(CausasNoCumplimiento, on_delete=models.CASCADE, related_name="answer_excuse", verbose_name="Causa no Cumplimiento", blank=True, null=True)
     contidad_hh = models.IntegerField(verbose_name="Cantidad Horas Hombre")
     comentarios = models.TextField(verbose_name="Comentarios")
+    sent = models.BooleanField(verbose_name="Enviado", default=False, blank=True)

@@ -86,13 +86,20 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
 class TablaEncargado(ProyectoMixin, FormView):
     template_name = 'status_encargado/list-encargado.html'
 
-
 class CreateTarea(ProyectoMixin, CreateView):
     model = Tarea
     template_name = 'status_encargado/create-tarea.html'
     form_class = TareaForm
     success_url = reverse_lazy('encargado-index')
     success_message = 'Tarea asignada correctamente.'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        user = self.request.user
+        participantes = self.proyecto.participantes.all()
+        kwargs["participantes"] = participantes
+        kwargs["usuario"] = user
+        return kwargs
 
     def get_initial(self, **kwargs):
         initial = super().get_initial(**kwargs)
@@ -107,9 +114,13 @@ class CreateRespuesta(ProyectoMixin, CreateView):
     success_message = 'Respuesta enviada correctamente.'
 
     def form_valid(self, form):
+        answer = form.save(commit=False)
         task = Tarea.objects.get(pk=self.kwargs["task_pk"])
         task.estado = True
         task.save()
+        answer.tarea = task
+        answer.sent = True
+        answer.save()
         return super().form_valid(form)
 
 class RevisorView(ProyectoMixin, ListView):
@@ -119,6 +130,6 @@ class RevisorView(ProyectoMixin, ListView):
     def get_queryset(self):
         qs = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
         return qs
-    
+
 class EncargadoGraficoView(ProyectoMixin, TemplateView):
     template_name = 'status_encargado/graficos.html'
