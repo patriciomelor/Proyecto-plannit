@@ -100,4 +100,4 @@ class RevisorView(ProyectoMixin, ListView):
         return qs
     
 class EncargadoGraficoView(ProyectoMixin, TemplateView):
-    template_name = 'status_encargado/encargado-grafico.html'
+    template_name = 'status_encargado/graficos.html'
