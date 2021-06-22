@@ -4,17 +4,17 @@
 
 {% block content %}
 
-<div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
+<div class="d-flex align-items-center justify-content-center bg-info ht-100v">
 
-      <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+      <div class="login-wrapper wd-300 wd-xs-350 pd-25 bg-white rounded shadow-base">
          <div class="card-body pd-x-25 pd-b-25 pd-t-0">
             <div class="row no-gutters">
-
+              <form method="POST">{% csrf_token %}
                 {{form|crispy}}
                 
-              <button class="btn btn-teal" type="submit"> Guardar</button>
-
-             <button class="btn btn-warning mg-l-10" type="button" onClick="javascript:history.go(-1);"> volver</button></a>
+                <button class="btn btn-teal" type="submit"> Guardar</button>
+                <button class="btn btn-warning mg-l-10" type="button" onClick="javascript:history.go(-1);"> volver</button></a>
+              </form>
             </div><!-- row -->
           </div><!-- card-body -->
         
