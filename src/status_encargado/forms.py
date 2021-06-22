@@ -1,6 +1,6 @@
 from django import forms
 from django.contrib.auth import models
-from django.forms import BaseFormSet, fields
+from django.forms import BaseFormSet, fields, widgets
 from django.forms import (formset_factory, modelformset_factory)
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
@@ -17,7 +17,9 @@ class TareaForm(forms.ModelForm):
     class Meta:
         model = Tarea
         exclude = ["estado"]
-
+        widgets = {
+            'plazo': forms.DateInput(attrs={'type':'date'})
+        }
 class RespuestaForm(forms.ModelForm):
     class Meta:
         model = Respuesta

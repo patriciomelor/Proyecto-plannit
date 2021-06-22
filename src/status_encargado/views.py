@@ -14,6 +14,7 @@ from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE
 from status_encargado.forms import RespuestaForm, TareaForm
 
 from .models import Tarea, Respuesta
+from status_encargado import models
 # Create your views here.
 class EncargadoIndex(ProyectoMixin, TemplateView):
     template_name = 'status_encargado/index.html'
@@ -76,7 +77,8 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tasks = Tarea.objects.filter(documento__proyecto=self.proyecto).order_by('-created_at')
+        tasks = Tarea.objects.all()
+        print(tasks)
         context["tareas"] = tasks
         context['Listado'] = self.tabla_status()
         return context
@@ -85,7 +87,8 @@ class TablaEncargado(ProyectoMixin, FormView):
     template_name = 'status_encargado/list-encargado.html'
 
 
-class CreateTarea(ProyectoMixin, FormView):
+class CreateTarea(ProyectoMixin, CreateView):
+    model = Tarea
     template_name = 'status_encargado/create-tarea.html'
     form_class = TareaForm
     success_url = reverse_lazy('encargado-index')
@@ -97,7 +100,7 @@ class CreateTarea(ProyectoMixin, FormView):
         initial["documento"] = doc_pk
         return initial
 
-class CreateRespuesta(ProyectoMixin, FormView):
+class CreateRespuesta(ProyectoMixin, CreateView):
     template_name = 'status_encargado/create-respuesta.html'
     form_class = RespuestaForm
     success_url = reverse_lazy('revisor-index')
