@@ -28,7 +28,8 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         queryset=Documento.objects.filter(proyecto=self.proyecto)
         return queryset
     
-    def get_context_data(self, **kwargs):
+
+    def tabla_status(self):
         #Listar documentos
         lista_inicial = []
         lista_final = []
@@ -36,7 +37,6 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         version_documento = 0
         transmital = 0
         dias_revision = 0
-        context = super().get_context_data(**kwargs)
         documentos = self.get_queryset()
         for doc in documentos:
             version = Version.objects.filter(documento_fk=doc).last()
@@ -70,7 +70,15 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                 lista_inicial = [doc, []]
                 lista_final.append(lista_inicial)
 
-        context['Listado'] = lista_final
+        return lista_final
+
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tasks = Tarea.objects.filter(documento__proyecto=self.proyecto).order_by('-created_at')
+        context["tareas"] = tasks
+        context['Listado'] = self.tabla_status()
         return context
 
 class TablaEncargado(ProyectoMixin, FormView):
