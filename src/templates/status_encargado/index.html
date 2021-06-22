@@ -113,14 +113,17 @@
                 <tbody>
             <!--Loop Listar Documento-->
               <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+                {% for tarea in tareas %}
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.documento.Codigo_documento}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.documento.Descripcion}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.estado}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.encargado}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.restricciones}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.created_at}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.plazo}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.task_answer.contestado}} </th>
+                {% endfor %}
+
               </tr>
               
             </table>
