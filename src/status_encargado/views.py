@@ -134,10 +134,10 @@ class RevisorView(ProyectoMixin, ListView):
 
 class RevisorSentView(ProyectoMixin, ListView):
     template_name = "status_encargado/revisor-enviados.html"
-    context_object_name = "tareas"
+    context_object_name = "respuestas"
 
     def get_queryset(self):
-        qs = Respuesta.objects.filter(tarea__encargado=self.request.user, estado=True).order_by('-created_at')
+        qs = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True).order_by('-contestado')
         return qs
 
 class EncargadoGraficoView(ProyectoMixin, TemplateView):
