@@ -16,7 +16,7 @@
                     <a class="nav-link bd-0 tx-gray-light" href="{% url 'encargado-index' %}">Agregar Responsable</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link bd-0 active pd-y-8" href="{% url 'encargado-grafico' %}">Graficas</a>
+                    <a class="nav-link bd-0 active pd-y-8" href="{% url 'encargado-grafico' %}">Gráficas</a>
                 </li>
                 </ul>
             </div><!-- card-header -->
@@ -138,17 +138,17 @@
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      labels: ['{% for emisiones in grafico_1 %} {{emisiones.0}}', '{% endfor %}'],
       datasets: [
         {
         label: '# of a',
-        data: [12, 39, 20, 10, 25, 18],
-        backgroundColor: '#27AAC8'
+        data: [{% for emisiones in grafico_1 %} {{emisiones.1}}, {% endfor %}],
+        backgroundColor: {% for emisiones in grafico_1 %} 'rgba(54, 162, 235, 0.8)', {% endfor %}
       },
       {
         label: '# of b',
-        data: [12, 39, 20, 10, 25, 18],
-        backgroundColor: '#EB984E'
+        data: [{% for emisiones in grafico_1 %} {{emisiones.2}}, {% endfor %}],
+        backgroundColor: {% for emisiones in grafico_1 %} 'rgba(54, 162, 235, 0.8)', {% endfor %}
       }
       ]
     },
@@ -176,17 +176,17 @@
     }
   });
 </script>
-<!--Graf 3-->
+<!--Graf 2-->
 <script>
   var ctx = document.getElementById('chartBar2').getContext('2d');
   new Chart(ctx, {
     type: 'horizontalBar',
     data: {
-      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      labels: ['{% for emisiones in grafico_2 %} {{emisiones.0}}', '{% endfor %}'],
       datasets: [{
         label: '# of Votes',
-        data: [12, 39, 20, 10, 25, 18],
-        backgroundColor: '#27AAC8'
+        data: [{% for emisiones in grafico_2 %} {{emisiones.1}}, {% endfor %}],
+        backgroundColor: {% for emisiones in grafico_2 %} 'rgba(54, 162, 235, 0.8)', {% endfor %}
       }]
     },
     options: {
@@ -222,11 +222,11 @@
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['Jan', 'Feb', 'Mar'],
+      labels: ['{% for emisiones in grafico_3 %} {{emisiones.0}}', '{% endfor %}'],
       datasets: [{
         label: '# of Votes',
-        data: [12, 39, 20],
-        backgroundColor: '#27AAC8'
+        data: [{% for emisiones in grafico_3 %} {{emisiones.1}}, {% endfor %}],
+        backgroundColor: {% for emisiones in grafico_3 %} 'rgba(54, 162, 235, 0.8)', {% endfor %}
       }]
     },
     options: {

@@ -879,7 +879,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         # qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
         # context['curvaBase'] = qs.datos_lista
         # context['curvaBase'] = a
-        # return context
+        return context
 
 class CurvaBaseView(ProyectoMixin, TemplateView):
 
