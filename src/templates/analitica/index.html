@@ -345,7 +345,7 @@
 			// },
       {
 				type: 'bar',
-        label: 'Avance Real Parcial (BARRAS)',
+        label: 'Avance Real Parcial (Barras)',
         backgroundColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 150, 141 , 0.6)', {% endif %} {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_real %} {% if esperado.1 == 0 %} 'rgba(88, 150, 141 , 1)', {% endif %} {% endfor %}],
         fill: true,
@@ -354,7 +354,7 @@
 			},
       {
 				type: 'bar',
-        label: 'Avance Esperado Parcial (BARRAS)',
+        label: 'Avance Esperado Parcial (Barras)',
         backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 15, 132, 0.7)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 15, 132, 0.7)' {% endif %} {% endfor %}],
         borderColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 15, 132, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 15, 132, 1)' {% endif %} {% endfor %}],
         fill: true,
