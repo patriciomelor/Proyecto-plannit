@@ -47,15 +47,21 @@ class StatusIndex(ProyectoMixin, TemplateView):
                     transmital = abs((semana_actual - paquete_first[0].fecha_creacion).days)
                 version_documento = version.revision
                 if estado_version == 1 or estado_version == 2 or estado_version == 3 or estado_version == 4:
-                    fecha_version = version_first.fecha
+                    # fecha_version = version_first.fecha
+                    # dias_revision = abs((semana_actual - fecha_version).days)
+                    fecha_version = paquete[0].fecha_creacion
                     dias_revision = abs((semana_actual - fecha_version).days)
                 if estado_version >= 5 and version.estado_cliente == 5:
-                    fecha_version_actual = version.fecha
-                    fecha_version_primera = version_first.fecha
-                    dias_revision = abs((fecha_version_actual - fecha_version_primera).days)
+                    # fecha_version_actual = version.fecha
+                    # fecha_version_primera = version_first.fecha
+                    # dias_revision = abs((fecha_version_actual - fecha_version_primera).days)
+                    fecha_version = paquete[0].fecha_creacion
+                    dias_revision = abs((semana_actual - fecha_version).days)
                 if estado_version >= 5 and version.estado_cliente != 5:
-                    fecha_version_primera = version_first.fecha
-                    dias_revision = abs((semana_actual - fecha_version_primera).days)
+                    # fecha_version_primera = version_first.fecha
+                    # dias_revision = abs((semana_actual - fecha_version_primera).days)
+                    fecha_version = paquete[0].fecha_creacion
+                    dias_revision = abs((semana_actual - fecha_version).days)
 
                 for revision in TYPES_REVISION[1:4]:
                     if version_documento == revision[0]:
