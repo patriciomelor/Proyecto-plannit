@@ -138,17 +138,46 @@
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['{% for emisiones in grafico_1 %} {{emisiones.0}}', '{% endfor %}'],
-      datasets: [
-        {
+      labels: ['{% for value in grafico_1 %} {% if forloop.counter != grafico_1_largo %} {{value.0}}', ' {% endif %} {% if forloop.counter == grafico_1_largo %} {{value.0}} {% endif %} {% endfor %}'],
+      datasets: [{
         label: '# of a',
-        data: [{% for emisiones in grafico_1 %} {{emisiones.1}}, {% endfor %}],
-        backgroundColor: {% for emisiones in grafico_1 %} 'rgba(54, 162, 235, 0.8)', {% endfor %}
+        data: [
+          {% for value in grafico_1 %} 
+            {% if forloop.counter != grafico_1_largo %} 
+
+              {{value.1}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_1_largo %}
+                  
+              {{value.1}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: '#A93226'
       },
       {
         label: '# of b',
-        data: [{% for emisiones in grafico_1 %} {{emisiones.2}}, {% endfor %}],
-        backgroundColor: {% for emisiones in grafico_1 %} 'rgba(54, 162, 235, 0.8)', {% endfor %}
+        data: [
+          {% for value in grafico_1 %} 
+            {% if forloop.counter != grafico_1_largo %} 
+
+              {{value.2}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_1_largo %}
+                  
+              {{value.2}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: '#27AAC8'
       }
       ]
     },
@@ -182,11 +211,26 @@
   new Chart(ctx, {
     type: 'horizontalBar',
     data: {
-      labels: ['{% for emisiones in grafico_2 %} {{emisiones.0}}', '{% endfor %}'],
+      labels: ['{% for value in grafico_2 %} {% if forloop.counter != grafico_2_largo %} {{value.0}}', ' {% endif %} {% if forloop.counter == grafico_2_largo %} {{value.0}} {% endif %} {% endfor %}'],
       datasets: [{
         label: '# of Votes',
-        data: [{% for emisiones in grafico_2 %} {{emisiones.1}}, {% endfor %}],
-        backgroundColor: {% for emisiones in grafico_2 %} 'rgba(54, 162, 235, 0.8)', {% endfor %}
+        data: [
+          {% for value in grafico_2 %} 
+            {% if forloop.counter != grafico_2_largo %} 
+
+              {{value.1}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_2_largo %}
+                  
+              {{value.1}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: '#27AAC8'
       }]
     },
     options: {
@@ -222,12 +266,49 @@
   new Chart(ctx, {
     type: 'bar',
     data: {
-      labels: ['{% for emisiones in grafico_3 %} {{emisiones.0}}', '{% endfor %}'],
+      labels: ['{% for value in grafico_3 %} {% if forloop.counter != grafico_3_largo %} {{value.0}}', ' {% endif %} {% if forloop.counter == grafico_3_largo %} {{value.0}} {% endif %} {% endfor %}'],
       datasets: [{
         label: '# of Votes',
-        data: [{% for emisiones in grafico_3 %} {{emisiones.1}}, {% endfor %}],
-        backgroundColor: {% for emisiones in grafico_3 %} 'rgba(54, 162, 235, 0.8)', {% endfor %}
-      }]
+        data: [
+          {% for value in grafico_3 %} 
+            {% if forloop.counter != grafico_3_largo %} 
+
+              {{value.1}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_3_largo %}
+                  
+              {{value.1}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: '#A93226'
+      },
+      {
+        label: '# of b',
+        data: [
+          {% for value in grafico_3 %} 
+            {% if forloop.counter != grafico_3_largo %} 
+
+              {{value.2}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_3_largo %}
+                  
+              {{value.2}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: '#27AAC8'
+      }
+      
+      ]
     },
     options: {
       legend: {
