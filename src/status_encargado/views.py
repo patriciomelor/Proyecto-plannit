@@ -1,5 +1,5 @@
 from django.forms.forms import Form
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -12,15 +12,25 @@ from django.utils import timezone
 from django.contrib import messages
 from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE
 from status_encargado.forms import RespuestaForm, TareaForm
+
+from .models import Tarea, Respuesta
+from status_encargado import models
 # Create your views here.
 class EncargadoIndex(ProyectoMixin, TemplateView):
     template_name = 'status_encargado/index.html'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4:
+            return super(EncargadoIndex, self).dispatch(request, *args, **kwargs)
+        else:
+            return redirect('revisor-index')
 
     def get_queryset(self):
         queryset=Documento.objects.filter(proyecto=self.proyecto)
         return queryset
     
-    def get_context_data(self, **kwargs):
+
+    def tabla_status(self):
         #Listar documentos
         lista_inicial = []
         lista_final = []
@@ -28,7 +38,6 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         version_documento = 0
         transmital = 0
         dias_revision = 0
-        context = super().get_context_data(**kwargs)
         documentos = self.get_queryset()
         for doc in documentos:
             version = Version.objects.filter(documento_fk=doc).last()
@@ -42,7 +51,6 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                 else:
                     transmital = semana_actual - paquete_first[0].fecha_creacion
                     dias_revision = semana_actual.day - version.fecha.day
-                
                 version_documento = version.revision
                 for revision in TYPES_REVISION[1:4]:
                     if version_documento == revision[0]:
@@ -54,31 +62,74 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                             #dias_revision = 0
                             lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
-
                 for revision in TYPES_REVISION[5:]:
                     if version_documento == revision[0]:
                         lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                         lista_final.append(lista_inicial)
                 #print('documento: ', doc, ' version: ', version, ' paquete:', paquete, ' listado final: ', lista_final) 
-
-
-
             else: 
                 lista_inicial = [doc, []]
                 lista_final.append(lista_inicial)
-                
-        context['Listado'] = lista_final
+
+        return lista_final
+
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tasks = Tarea.objects.all()
+        print(tasks)
+        context["tareas"] = tasks
+        context['Listado'] = self.tabla_status()
         return context
 
-class TablaEncargado(ProyectoMixin, ListView):
+class TablaEncargado(ProyectoMixin, FormView):
     template_name = 'status_encargado/list-encargado.html'
-class CreateTarea(ProyectoMixin, FormView):
+
+class CreateTarea(ProyectoMixin, CreateView):
+    model = Tarea
     template_name = 'status_encargado/create-tarea.html'
     form_class = TareaForm
+    success_url = reverse_lazy('encargado-index')
+    success_message = 'Tarea asignada correctamente.'
 
-    def form_valid(self, form, **kwargs):
-        tarea = form.save(commit=False)
-        
-class CreateRespuesta(ProyectoMixin, FormView):
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        user = self.request.user
+        participantes = self.proyecto.participantes.all()
+        kwargs["participantes"] = participantes
+        kwargs["usuario"] = user
+        return kwargs
+
+    def get_initial(self, **kwargs):
+        initial = super().get_initial(**kwargs)
+        doc_pk = Documento.objects.get(pk=self.kwargs["doc_pk"])
+        initial["documento"] = doc_pk
+        return initial
+
+class CreateRespuesta(ProyectoMixin, CreateView):
     template_name = 'status_encargado/create-respuesta.html'
     form_class = RespuestaForm
+    success_url = reverse_lazy('revisor-index')
+    success_message = 'Respuesta enviada correctamente.'
+
+    def form_valid(self, form):
+        answer = form.save(commit=False)
+        task = Tarea.objects.get(pk=self.kwargs["task_pk"])
+        task.estado = True
+        task.save()
+        answer.tarea = task
+        answer.sent = True
+        answer.save()
+        return super().form_valid(form)
+
+class RevisorView(ProyectoMixin, ListView):
+    template_name = "status_encargado/revisor-index.html"
+    context_object_name = "tareas"
+
+    def get_queryset(self):
+        qs = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
+        return qs
+
+class EncargadoGraficoView(ProyectoMixin, TemplateView):
+    template_name = 'status_encargado/graficos.html'

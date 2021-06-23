@@ -56,6 +56,7 @@ INSTALLED_APPS = [
     'rest_framework.authtoken',
     'invitations',
     'django_summernote',
+    'django_celery_beat',
     
     'dashboard',
     'tools',

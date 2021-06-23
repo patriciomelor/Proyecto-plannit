@@ -8,4 +8,6 @@ app = Celery('dmp')
 
 app.config_from_object('django.conf:settings',namespace='CELERY')
 
+app.conf.timezone = 'America/Santiago'
+
 app.autodiscover_tasks()

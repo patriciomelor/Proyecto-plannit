@@ -56,7 +56,7 @@
      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
 
-     <!-- Datatables -->
+          <!-- Datatables -->
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"/>
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.3.6/css/autoFill.bootstrap4.css"/>
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.bootstrap4.min.css"/>
@@ -115,9 +115,6 @@
     <!-- B
         <!-- Bracket CSS -->
     <style>
-     #datatable1_paginate{
-       display:none;
-     }
      .buttons-excel{
         color: #fff!important;
         background: #23BF08!important;
@@ -167,12 +164,12 @@
             <span class="menu-item-label">Estatus</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-         <!--<a href="{% url 'encargado-index' %}" class="br-menu-link">
+        <a href="{% url 'encargado-index' %}" class="br-menu-link">
           <div class="br-menu-item ">
             <i class=" menu-item-icon icon ion-person tx-24"></i>
             <span class="menu-item-label">Asignación de<br>Responsabilidades</span>
           </div>
-        </a>-->
+        </a>
         <a href="{% url 'buscador-index' %}" class="br-menu-link ">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
@@ -225,9 +222,9 @@
 
  {% endblock menublank %}
  <div class="br-mainpanel">
-  <div class="br-pagebody mg-t-5 pd-x-30">
-  {% include "messege.html" %}
+  <div class="br-pagebody mg-t-5 pd-x-30" style="padding:0px;">
   {% block content %}
+  {% include "messege.html" %}
   
   {% endblock content %}
   </div><!-- br-pagebody -->
