@@ -145,7 +145,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
     def grafico_1(self):
         """
-        Diferencia de tareas y respuetas porcada uno de los participantes 
+        Diferencia de tareas y respuetas por cada uno de los participantes.
         """
         final_list = []
         participantes = self.proyecto.participantes.all()
@@ -164,7 +164,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         
     def grafico_2(self):
         """
-        Documentos pendientes de cada participante
+        Documentos pendientes de cada participante del proyecto.
         """
         final_list = []
         participantes = self.proyecto.participantes.all()
@@ -181,7 +181,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
     def grafico_3(self):
         """
-        Diferencia entre hh asignadas y hh gastadas porcada uno de los participantes 
+        Diferencia entre hh asignadas y hh gastadas por cada uno de los participantes.
         """
         final_list = []
         participantes = self.proyecto.participantes.all()
@@ -201,7 +201,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
     def grafico_4(self):
         """
-        Diferencia entre hh asignadas y hh gastadas total del proyecto
+        Diferencia entre hh asignadas y hh gastadas total del proyecto.
         """
         final_list = []
         tasks = Tarea.objects.filter(documento__proyecto=self.proyecto)
@@ -219,7 +219,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         
     def grafico_5(self):
         """
-        Diferencia de tareas y respuetas total del proyecto
+        Diferencia de tareas y respuetas total del proyecto.
         """
         final_list = []
         tasks = Tarea.objects.filter(documento__proyecto=self.proyecto)
@@ -240,11 +240,6 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         g3 =self.grafico_3()
         g4 =self.grafico_4()
         g5 =self.grafico_5()
-        print("Grafico N°1: -->",g1)
-        print("Grafico N°2: -->",g2)
-        print("Grafico N°3: -->",g3)
-        print("Grafico N°4: -->",g4)
-        print("Grafico N°5: -->",g5)
         context["grafico_1"] = g1
         context["grafico_2"] = g2
         context["grafico_3"] = g3
