@@ -240,14 +240,25 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         g3 =self.grafico_3()
         g4 =self.grafico_4()
         g5 =self.grafico_5()
-        print("Grafico N°1: -->",g1)
-        print("Grafico N°2: -->",g2)
-        print("Grafico N°3: -->",g3)
-        print("Grafico N°4: -->",g4)
-        print("Grafico N°5: -->",g5)
+        # print("Grafico N°1: -->",g1)
+        # print("Grafico N°2: -->",g2)
+        # print("Grafico N°3: -->",g3)
+        # print("Grafico N°4: -->",g4)
+        # print("Grafico N°5: -->",g5)
+        g1_largo =len(self.grafico_1())
+        g2_largo =len(self.grafico_2())
+        g3_largo =len(self.grafico_3())
+        g4_largo =len(self.grafico_4())
+        g5_largo =len(self.grafico_5())
         context["grafico_1"] = g1
+        context["grafico_1_largo"] = g1_largo
         context["grafico_2"] = g2
+        context["grafico_2_largo"] = g2_largo
         context["grafico_3"] = g3
+        context["grafico_3_largo"] = g3_largo
         context["grafico_4"] = g4
+        context["grafico_4_largo"] = g4_largo
         context["grafico_5"] = g5
+        context["grafico_5_largo"] = g5_largo
+
         return context

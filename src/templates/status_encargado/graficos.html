@@ -140,7 +140,7 @@
     data: {
       labels: ['{% for value in grafico_1 %} {% if forloop.counter != grafico_1_largo %} {{value.0}}', ' {% endif %} {% if forloop.counter == grafico_1_largo %} {{value.0}} {% endif %} {% endfor %}'],
       datasets: [{
-        label: '# of a',
+        label: 'Documento Asignados',
         data: [
           {% for value in grafico_1 %} 
             {% if forloop.counter != grafico_1_largo %} 
@@ -160,7 +160,7 @@
         backgroundColor: '#A93226'
       },
       {
-        label: '# of b',
+        label: 'Documentos Realizados',
         data: [
           {% for value in grafico_1 %} 
             {% if forloop.counter != grafico_1_largo %} 
@@ -213,7 +213,7 @@
     data: {
       labels: ['{% for value in grafico_2 %} {% if forloop.counter != grafico_2_largo %} {{value.0}}', ' {% endif %} {% if forloop.counter == grafico_2_largo %} {{value.0}} {% endif %} {% endfor %}'],
       datasets: [{
-        label: '# of Votes',
+        label: 'Documentos Pendientes',
         data: [
           {% for value in grafico_2 %} 
             {% if forloop.counter != grafico_2_largo %} 
@@ -268,7 +268,7 @@
     data: {
       labels: ['{% for value in grafico_3 %} {% if forloop.counter != grafico_3_largo %} {{value.0}}', ' {% endif %} {% if forloop.counter == grafico_3_largo %} {{value.0}} {% endif %} {% endfor %}'],
       datasets: [{
-        label: '# of Votes',
+        label: 'HH Asignadas',
         data: [
           {% for value in grafico_3 %} 
             {% if forloop.counter != grafico_3_largo %} 
@@ -288,7 +288,7 @@
         backgroundColor: '#A93226'
       },
       {
-        label: '# of b',
+        label: 'HH Gastadas',
         data: [
           {% for value in grafico_3 %} 
             {% if forloop.counter != grafico_3_largo %} 
@@ -339,12 +339,27 @@
 <script>
   var ctx = document.getElementById('chartBar4').getContext('2d');
     new Chart(ctx, {
-      type: 'doughnut',
+      type: 'pie',
       data: {
-        labels: ['Jan', 'Feb', 'Mar'],
+        labels: ['HH Asignadas', 'HH Gastadas'],
         datasets: [{
           label: '# of Votes',
-          data: [12, 39, 20],
+          data: [
+            {% for value in grafico_4 %} 
+              {% if forloop.counter != grafico_4_largo %} 
+
+                {{value}},
+
+              {% endif %} 
+
+              {% if forloop.counter == grafico_4_largo %}
+                  
+                {{value}}
+                  
+              {% endif %}
+                  
+            {% endfor %}
+          ],
           backgroundColor: '#27AAC8'
         }]
       },
@@ -377,12 +392,27 @@
 <script>
   var ctx = document.getElementById('chartBar5').getContext('2d');
     new Chart(ctx, {
-      type: 'doughnut',
+      type: 'pie',
       data: {
-        labels: ['Jan', 'Feb', 'Mar'],
+        labels: ['HH Asignadas', 'HH Gastadas'],
         datasets: [{
           label: '# of Votes',
-          data: [12, 39, 20],
+          data: [
+            {% for value in grafico_5 %} 
+              {% if forloop.counter != grafico_5_largo %} 
+
+                {{value}},
+
+              {% endif %} 
+
+              {% if forloop.counter == grafico_5_largo %}
+                  
+                {{value}}
+                  
+              {% endif %}
+                  
+            {% endfor %}
+          ],
           backgroundColor: '#27AAC8'
         }]
       },
