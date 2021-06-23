@@ -1,3 +1,4 @@
+from django.db.models.query_utils import select_related_descend
 from django.forms.forms import Form
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
@@ -133,3 +134,72 @@ class RevisorView(ProyectoMixin, ListView):
 
 class EncargadoGraficoView(ProyectoMixin, TemplateView):
     template_name = 'status_encargado/graficos.html'
+
+    def grafico_1(self):
+        """
+        diferencia de tareas y respuetas porcada uno de los participantes 
+        """
+        final_list = []
+        participantes = self.proyecto.participantes.all()
+        for user in participantes:
+            realizados = 0
+            asignados = 0
+            tareas = Tarea.objects.filter(encargado=user)
+            for tarea in tareas:
+                asignados = asignados + 1
+                if tarea.estado == True:
+                    realizados = realizados + 1
+
+            final_list.append([user.first_name, asignados, realizados])
+
+        return final_list
+        
+    def grafico_2(self):
+        """
+        Documentos pendientes de cada participante
+        """
+        final_list = []
+        participantes = self.proyecto.participantes.all()
+        for user in participantes:
+            asignados = 0
+            tareas = Tarea.objects.filter(encargado=user)
+            for tarea in tareas:
+                if tarea.estado == False:
+                    asignados = asignados + 1
+
+            final_list.append([user.first_name, asignados])
+
+        return final_list
+
+    def grafico_3(self):
+        """
+        diferencia entre hh asignadas y hh gastadas porcada uno de los participantes 
+        """
+        final_list = []
+        participantes = self.proyecto.participantes.all()
+        for user in participantes:
+            hh_realizados = 0
+            hh_asignados = 0
+            tareas = Tarea.objects.filter(encargado=user)
+            for tarea in tareas:
+                hh_asignados = hh_asignados + tarea.contidad_hh
+                hh_realizados = hh_realizados + tarea.task_answer.contidad_hh
+            final_list.append([user.first_name, hh_asignados, hh_realizados])
+        
+        return final_list
+
+    def grafico_4(self):
+        """
+        diferencia entre hh asignadas y hh gastadas total del proyecto
+        """
+    def grafico_5(self):
+        """
+        diferencia de tareas y respuetas total del proyecto
+        """
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        context["grafico_1"] = self.grafico_1()
+        context["grafico_2"] = self.grafico_2()
+        context["grafico_3"] = self.grafico_3()
+        return context
