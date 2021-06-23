@@ -35,7 +35,7 @@
                   <div class="card shadow-base overflow-hidden chart">
 
                       <div class="card-header"style="text-align:center;display:flow-root;">
-                    <h4 class="tx-gray-800 mg-b-5"> Documentos emitidos por revisión</h4>                        
+                    <h4 class="tx-gray-800 mg-b-5"> Documentos emitidos por revisión </h4>                        
                         
                       </div>
                       <div class="card-body">
@@ -333,6 +333,16 @@
             fill: false,
             data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
 			},
+      // {
+			// 	type: 'line',
+      //       label: 'Curva Base',
+      //       backgroundColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(7, 254, 3, 0.7)', {% endfor %}],
+      //       borderColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(7, 254, 3, 0.7)', {% endfor %}],
+      //       borderWidth: 0.5,
+      //       lineTension:0.09,
+      //       fill: false,
+      //       data: [{% for real_linea in curvaBase.datos_lista %} {{real_linea)}, {% endfor %}],
+			// },
       {
 				type: 'bar',
         label: 'Avance Real Parcial (BARRAS)',
