@@ -22,8 +22,8 @@ class TareaForm(forms.ModelForm):
         current_rol = self.usuario.perfil.rol_usuario
         #### recorre a todos los participantes e incluye en un listado solo el equipo de la empresa
         for user in self.participantes:
+            rol = user.perfil.rol_usuario
             if current_rol >= 1 and current_rol <= 3:
-                rol = user.perfil.rol_usuario
                 if rol == 2:
                     user_list.append(user.pk)
                 elif rol == 3:
@@ -35,7 +35,6 @@ class TareaForm(forms.ModelForm):
                     user_list.append(user.pk)
 
         qs = self.participantes.filter(pk__in=user_list)
-        print(qs)
         super(TareaForm, self).__init__(**kwargs)
         self.fields["encargado"] = forms.ModelChoiceField(queryset=qs)
 
@@ -48,4 +47,4 @@ class TareaForm(forms.ModelForm):
 class RespuestaForm(forms.ModelForm):
     class Meta:
         model = Respuesta
-        exclude = ["tarea"]
+        exclude = ["tarea", "sent"]

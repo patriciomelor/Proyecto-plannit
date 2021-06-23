@@ -1,3 +1,4 @@
+from django.db.models.query_utils import select_related_descend
 from django.forms.forms import Form
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
@@ -131,5 +132,133 @@ class RevisorView(ProyectoMixin, ListView):
         qs = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
         return qs
 
+class RevisorSentView(ProyectoMixin, ListView):
+    template_name = "status_encargado/revisor-enviados.html"
+    context_object_name = "respuestas"
+
+    def get_queryset(self):
+        qs = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True).order_by('-contestado')
+        return qs
+
 class EncargadoGraficoView(ProyectoMixin, TemplateView):
     template_name = 'status_encargado/graficos.html'
+
+    def grafico_1(self):
+        """
+        Diferencia de tareas y respuetas por cada uno de los participantes.
+        """
+        final_list = []
+        participantes = self.proyecto.participantes.all()
+        for user in participantes:
+            realizados = 0
+            asignados = 0
+            tareas = Tarea.objects.filter(encargado=user)
+            for tarea in tareas:
+                asignados = asignados + 1
+                if tarea.estado == True:
+                    realizados = realizados + 1
+
+            final_list.append([(user.first_name+" "+user.last_name), asignados, realizados])
+
+        return final_list
+        
+    def grafico_2(self):
+        """
+        Documentos pendientes de cada participante del proyecto.
+        """
+        final_list = []
+        participantes = self.proyecto.participantes.all()
+        for user in participantes:
+            asignados = 0
+            tareas = Tarea.objects.filter(encargado=user)
+            for tarea in tareas:
+                if tarea.estado == False:
+                    asignados = asignados + 1
+
+            final_list.append([(user.first_name+" "+user.last_name), asignados])
+
+        return final_list
+
+    def grafico_3(self):
+        """
+        Diferencia entre hh asignadas y hh gastadas por cada uno de los participantes.
+        """
+        final_list = []
+        participantes = self.proyecto.participantes.all()
+        for user in participantes:
+            hh_realizados = 0
+            hh_asignados = 0
+            tareas = Tarea.objects.filter(encargado=user)
+            for tarea in tareas:
+                hh_asignados = hh_asignados + tarea.contidad_hh
+                try:
+                    hh_realizados = hh_realizados + tarea.task_answer.contidad_hh
+                except:
+                    pass
+            final_list.append([(user.first_name+" "+user.last_name), hh_asignados, hh_realizados])
+        
+        return final_list
+
+    def grafico_4(self):
+        """
+        Diferencia entre hh asignadas y hh gastadas total del proyecto.
+        """
+        final_list = []
+        tasks = Tarea.objects.filter(documento__proyecto=self.proyecto)
+        total_asignados = 0
+        total_realizados = 0
+        for task in tasks:
+            if task.estado == False:
+                total_asignados = total_asignados + task.contidad_hh
+            else:
+                total_realizados = total_realizados + task.task_answer.contidad_hh
+        final_list.append(total_asignados)
+        final_list.append(total_realizados)
+        return final_list
+                
+        
+    def grafico_5(self):
+        """
+        Diferencia de tareas y respuetas total del proyecto.
+        """
+        final_list = []
+        tasks = Tarea.objects.filter(documento__proyecto=self.proyecto)
+        total_tareas = 0
+        total_respuestas = 0
+        for task in tasks:
+            total_tareas = total_tareas + 1
+            if task.estado == True:
+                total_respuestas = total_respuestas + 1 
+        final_list.append(total_tareas)
+        final_list.append(total_respuestas)
+        return final_list
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+        g1 =self.grafico_1()
+        g2 =self.grafico_2()
+        g3 =self.grafico_3()
+        g4 =self.grafico_4()
+        g5 =self.grafico_5()
+        # print("Grafico N°1: -->",g1)
+        # print("Grafico N°2: -->",g2)
+        # print("Grafico N°3: -->",g3)
+        # print("Grafico N°4: -->",g4)
+        # print("Grafico N°5: -->",g5)
+        g1_largo =len(self.grafico_1())
+        g2_largo =len(self.grafico_2())
+        g3_largo =len(self.grafico_3())
+        g4_largo =len(self.grafico_4())
+        g5_largo =len(self.grafico_5())
+        context["grafico_1"] = g1
+        context["grafico_1_largo"] = g1_largo
+        context["grafico_2"] = g2
+        context["grafico_2_largo"] = g2_largo
+        context["grafico_3"] = g3
+        context["grafico_3_largo"] = g3_largo
+        context["grafico_4"] = g4
+        context["grafico_4_largo"] = g4_largo
+        context["grafico_5"] = g5
+        context["grafico_5_largo"] = g5_largo
+
+        return context
