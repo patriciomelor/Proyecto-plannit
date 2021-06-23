@@ -4,12 +4,26 @@
 
 {% block content %}
 <!--Titulo-->
-  <div class="row row-sm mg-t-10 pd-y-15">
+<div class="card-body">
+   <div class="row row-sm mg-t-10 pd-y-15">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
       <span class="breadcrumb-item active">Panel Administrador</span>
     </nav>
   </div>
+<div class="br-pagebody">
+<div class="card bd-0">
+  <div class="card-header bg-dark">
+    <ul class="nav nav-tabs nav-tabs-for-dark card-header-tabs">
+      <li class="nav-item">
+        <a class="nav-link bd-0 active pd-y-8" href="{% url 'revisor-index' %}">Tabla de Tareas</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link bd-0 tx-gray-light" href="{% url 'revisor-sent' %}">Enviados</a>
+      </li>
+    </ul>
+  </div><!-- card-header -->
+  
   <div class="row row-sm mg-t-10 pd-y-15">
     <div class="col-lg-12">
       <div class="card shadow-base card-body bd-0">
@@ -47,5 +61,9 @@
       </div>
     </div>
   </div>
+  </div>
+</div><!-- card -->
+</div>
+ 
 
 {% endblock content %}
