@@ -382,10 +382,12 @@ class UpdatePrevVersion(ProyectoMixin, UpdateView):
     template_name = 'bandeja_es/popup-archivo.html'
     form_class = PrevVersionForm
 
-    def get_form_kwargs(self, **kwargs):
-        kwargs = super().get_form_kwargs(**kwargs)
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
         paquete = PrevPaquete.objects.get(pk= self.kwargs['paquete_pk'])
+        user = self.request.user
         kwargs["paquete_pk"] = paquete
+        kwargs["user"] = user
         return kwargs
     
     def get_context_data(self, **kwargs):
