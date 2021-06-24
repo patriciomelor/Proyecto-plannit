@@ -1,0 +1,96 @@
+{% extends "index-status-e.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<div class="br-pagebody">
+
+<div class="row row-sm mg-t-10 pd-y-15">
+  <nav class="breadcrumb pd-0 mg-0 tx-12">
+    <a class="breadcrumb-item" > {{proyecto}} </a>
+    <span class="breadcrumb-item active">Panel Administrador</span>
+  </nav>
+</div>
+<div class="br-section-wrapper">
+<div class="row row-sm mg-t-20">
+          <div class="col-lg-12">
+            <div class="card shadow-base bd-0">
+              <div class="card-header bg-transparent pd-20">
+                <h6 class="card-title tx-uppercase tx-12 mg-b-0">Datos de Tarea Asignada por Administrador</h6>
+              </div><!-- card-header -->
+              <table class="table table-responsive mg-b-0 tx-12">
+                <thead>
+                  <tr class="tx-10">
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">CODIGO</th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">Nombre</th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">ESTADO</th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">RESPONSABLE</th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">RESTRICCION</th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">FECHA SOLICITUD</th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">FECHA REQUERIDO</th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">FECHA REALIZADO</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr role="row" class="odd">
+                    <th style="text-align: center;vertical-align:middle;" > {{tarea.documento.Codigo_documento}} </th>
+                    <th style="text-align: center;vertical-align:middle;" > {{tarea.documento.Descripcion}} </th>
+                    <th style="text-align: center;vertical-align:middle;" > {% if tarea.estado == False %} <i class="fa fa-close" style="color:red;"></i> {% else %} <i class="fa fa-check" style="color:green;"></i> {% endif %}</th>
+                    <th style="text-align: center;vertical-align:middle;" > {{tarea.encargado}} </th>
+                    <th style="text-align: center;vertical-align:middle;" > {% if tarea.restricciones == None %}Sin restricción {% else %}{{tarea.restricciones}}{% endif %} </th>
+                    <th style="text-align: center;vertical-align:middle;" > {{tarea.created_at|date:'d-M-y H:i'}} </th>
+                    <th style="text-align: center;vertical-align:middle;" > {{tarea.plazo|date:'d-M-y'}} </th>
+                    <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contestado|date:'d-M-y H:i'}} </th>
+                  </tr>
+                </tbody>
+              </table>
+            </div><!-- card -->
+          </div><!-- col-6 -->
+</div>
+<div class="row row-sm mg-t-20">
+  <div class="col-lg-12 mg-t-20 mg-lg-t-0">
+    <div class="card shadow-base bd-0">
+      <div class="card-header pd-20 bg-transparent">
+        <h6 class="card-title tx-uppercase tx-12 mg-b-0">Datos de revisor</h6>
+      </div><!-- card-header -->
+      <table class="table table-responsive mg-b-0 tx-12">
+        <thead>
+          <tr class="tx-10">
+        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">Fecha Contestado</th>
+        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">No Cumplimiento</th>
+        <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">Cantidad HH</th>
+        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">Comentarios</th>
+          </tr>
+        </thead>
+        <tbody>
+            {% if tarea.task_answer %}
+            <tr role="row" class="odd">
+              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contestado}} </th>
+              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.not_done}} </th>
+              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contidad_hh}} </th>
+              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.comentarios}} </th>
+              {% if tarea.task_answer.archivo.url is not None%}
+              <th style="text-align: center;vertical-align:middle;" > <a href="{{tarea.task_answer.archivo.url}}"><button class="btn btn-teal"><i class="icon ion-arrow-down-a"></i></button></a> </th>
+              {% else %}
+              <th style="text-align: center;vertical-align:middle;" > </th>
+              {% endif %}
+            </tr>
+            {% else %}   
+            <tr role="row" class="odd">
+              <th style="text-align: center;vertical-align:middle;" > 
+                
+            <div class="card-header pd-20 bg-transparent">
+              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Sin Respuesta</h6>
+            </div><!-- card-header -->
+              </th>
+              </tr>         
+            {% endif %}
+       
+        </tbody>
+      </table>
+    </div><!-- card -->
+  </div><!-- col-6 -->
+</div>
+</div>
+</div>
+{% endblock content %}
