@@ -157,7 +157,11 @@
                   
           {% endfor %}
         ],
-        backgroundColor: '#F07373'
+        backgroundColor: [{% for emisiones in grafico_1 %} {% if forloop.counter != grafico_1_largo %} 'rgba(54, 162, 235, 0.8)', {% endif %} {% if forloop.counter == grafico_1_largo  %} 'rgba(54, 162, 235, 0.8)' {% endif %} {% endfor %}
+        ],
+        borderColor: [{% for emisiones in grafico_1 %} {% if forloop.counter != grafico_1_largo %} 'rgba(54, 162, 235, 1)', {% endif %} {% if forloop.counter == grafico_1_largo  %} 'rgba(54, 162, 235, 1)' {% endif %} {% endfor %}
+        ],
+        borderWidth: 1
       },
       {
         label: 'Documentos Realizados',
@@ -177,36 +181,28 @@
                   
           {% endfor %}
         ],
-        backgroundColor: '#4695DA' 
+        backgroundColor: [{% for emisiones in grafico_1 %} {% if forloop.counter != grafico_1_largo %} 'rgba(255, 99, 132, 0.8)', {% endif %} {% if forloop.counter == grafico_1_largo  %} 'rgba(255, 99, 132, 0.8)', {% endif %} {% endfor %}
+        ],
+        borderColor: [{% for emisiones in grafico_1 %} {% if forloop.counter != grafico_1_largo %} 'rgba(255, 99, 132, 1)',, {% endif %} {% if forloop.counter == grafico_1_largo  %} 'rgba(255, 99, 132, 1)', {% endif %} {% endfor %}
+        ],
+        borderWidth: 1
       }
       ]
     },
     options: {
-      plugins: {
-        title: {
-          display: true,
-          text: 'Documentos Asignados Vs Documentos Realizado'
-        },
-      },
-      legend: {
-        display: false,
-          labels: {
-            display: false
-          }
-      },
-      scales: {
-          yAxes: [{
-            stacked: true,
-            ticks: {
+         
+          scales: {
+
+              yAxes: [{
+                  ticks: {
                       min:0,
                       max: {{tamano_grafico_1}},
                       stepSize: {{espacio_grafico_1}}
-                  }
-          }],
-          xAxes: [{
-            stacked: true
-          }]
-        }
+                  },
+                  
+                              
+              }]
+          }
     }
   });
 </script>
@@ -235,35 +231,54 @@
                   
           {% endfor %}
         ],
-        backgroundColor: '#27AAC8'
+        backgroundColor: [
+                  'rgba(255, 99, 132, 0.8)',
+                  'rgba(54, 162, 235, 0.8)',
+                  'rgba(255, 206, 86, 0.8)',
+                  'rgba(75, 192, 192, 0.8)',
+                  'rgba(153, 102, 255, 0.8)',
+                  'rgba(255, 159, 64, 0.8)',
+                  'rgba(211, 84, 0, 0.8)',
+                  'rgba(191, 201, 202, 0.8)',
+                  'rgba(249, 231, 159, 0.8)',
+                  'rgba(210, 180, 222, 0.8)'
+        ],
+        borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)',
+                  'rgba(211, 84, 0, 1)',
+                  'rgba(191, 201, 202, 1)',
+                  'rgba(249, 231, 159, 1)',
+                  'rgba(210, 180, 222, 1)'
+        ],
+        borderWidth: 1
       }]
     },
     options: {
-      legend: {
-        display: false,
-          labels: {
-            display: false
+          scales: {
+              xAxes: [{
+                  ticks: {
+                      min:0,
+                      max: {{tamano_grafico_2}},
+                      stepSize: {{espacio_grafico_2}}
+                  },
+                  scaleLabel: {
+                    display: true,
+                  },
+                    gridLines: {
+                    zeroLineColor: "black",
+                    zeroLineWidth: 2
+                  },
+                  scaleLabel: {
+                    display: true,
+                  },
+              }]
           }
-      },
-      scales: {
-        yAxes: [{
-          stacked: true,
-          ticks: {
-            beginAtZero:true,
-            fontSize: 10,
-            max: 80
-          }
-        }],
-        xAxes: [{
-          stacked: true,
-          ticks: {
-                  min:0,
-                  max: {{tamano_grafico_2}},
-                  stepSize: {{espacio_grafico_2}}
-          }
-        }]
       }
-    }
   });
 </script>
 <!--Graf 3-->
@@ -291,7 +306,11 @@
                   
           {% endfor %}
         ],
-        backgroundColor: '#F07373' 
+        backgroundColor: [{% for emisiones in grafico_3 %} {% if forloop.counter != grafico_3_largo %} 'rgba(54, 162, 235, 0.8)', {% endif %} {% if forloop.counter == grafico_3_largo  %} 'rgba(54, 162, 235, 0.8)' {% endif %} {% endfor %}
+        ],
+        borderColor: [{% for emisiones in grafico_3 %} {% if forloop.counter != grafico_3_largo %} 'rgba(54, 162, 235, 1)', {% endif %} {% if forloop.counter == grafico_3_largo  %} 'rgba(54, 162, 235, 1)' {% endif %} {% endfor %}
+        ],
+        borderWidth: 1        
       },
       {
         label: 'HH Gastadas',
@@ -311,35 +330,29 @@
                   
           {% endfor %}
         ],
-        backgroundColor: '#4695DA'
+        backgroundColor: [{% for emisiones in grafico_3 %} {% if forloop.counter != grafico_3_largo %} 'rgba(255, 99, 132, 0.8)', {% endif %} {% if forloop.counter == grafico_3_largo  %} 'rgba(255, 99, 132, 0.8)', {% endif %} {% endfor %}
+        ],
+        borderColor: [{% for emisiones in grafico_3 %} {% if forloop.counter != grafico_3_largo %} 'rgba(255, 99, 132, 1)',, {% endif %} {% if forloop.counter == grafico_3_largo  %} 'rgba(255, 99, 132, 1)', {% endif %} {% endfor %}
+        ],
+        borderWidth: 1
       }
       
       ]
     },
     options: {
-      legend: {
-        display: false,
-          labels: {
-            display: false
-          }
-      },
-      scales: {
-        yAxes: [{
-          ticks: {
-            ticks: {
+         
+          scales: {
+
+              yAxes: [{
+                  ticks: {
                       min:0,
                       max: {{tamano_grafico_3}},
                       stepSize: {{espacio_grafico_3}}
-            }
+                  },
+                  
+                              
+              }]
           }
-        }],
-        xAxes: [{
-          ticks: {
-            beginAtZero:true,
-            fontSize: 11
-          }
-        }]
-      }
     }
   });
 </script>
@@ -368,31 +381,21 @@
                   
             {% endfor %}
           ],
-          backgroundColor: '#27AAC8'
+          backgroundColor: [
+                  'rgba(255, 99, 132, 0.8)',
+                  'rgba(54, 162, 235, 0.8)'
+          ],
+          borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)'
+          ],
+          borderWidth: 1
         }]
       },
-      options: {
-        legend: {
-          display: false,
-            labels: {
-              display: false
-            }
-        },
-        scales: {
-          {% comment %} yAxes: [{
-            ticks: {
-              beginAtZero:true,
-              fontSize: 10,
-              max: 80
-            }
-          }],
-          xAxes: [{
-            ticks: {
-              beginAtZero:true,
-              fontSize: 11
-            }
-          }] {% endcomment %}
-        }
+      options:{
+        scaleLabel: {
+                    display: true,
+                  },
       }
     });
   </script>
@@ -421,31 +424,21 @@
                   
             {% endfor %}
           ],
-          backgroundColor: '#27AAC8'
+          backgroundColor: [
+                  'rgba(255, 99, 132, 0.8)',
+                  'rgba(54, 162, 235, 0.8)'
+          ],
+          borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)'
+          ],
+          borderWidth: 1
         }]
       },
-      options: {
-        legend: {
-          display: false,
-            labels: {
-              display: false
-            }
-        },
-        scales: {
-          {% comment %} yAxes: [{
-            ticks: {
-              beginAtZero:true,
-              fontSize: 10,
-              max: 80
-            }
-          }],
-          xAxes: [{
-            ticks: {
-              beginAtZero:true,
-              fontSize: 11
-            }
-          }] {% endcomment %}
-        }
+      options:{
+        scaleLabel: {
+                    display: true,
+                  },
       }
     });
   </script>
