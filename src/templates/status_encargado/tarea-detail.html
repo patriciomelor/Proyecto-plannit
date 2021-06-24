@@ -69,7 +69,11 @@
               <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.not_done}} </th>
               <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contidad_hh}} </th>
               <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.comentarios}} </th>
-              <th style="text-align: center;vertical-align:middle;" > <a href=""><button class="btn btn-teal"><i class="icon ion-arrow-down-a"></i></button></a> </th>
+              {% if tarea.task_answer.archivo.url is not None%}
+              <th style="text-align: center;vertical-align:middle;" > <a href="{{tarea.task_answer.archivo.url}}"><button class="btn btn-teal"><i class="icon ion-arrow-down-a"></i></button></a> </th>
+              {% else %}
+              <th style="text-align: center;vertical-align:middle;" > </th>
+              {% endif %}
             </tr>
             {% else %}   
             <tr role="row" class="odd">
