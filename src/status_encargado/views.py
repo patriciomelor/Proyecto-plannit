@@ -132,7 +132,8 @@ class RevisorView(ProyectoMixin, ListView):
         qs = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
         return qs
 
-class TareaDetailview(ProyectoMixin, DetailView):
+class TareaDetailView(ProyectoMixin, DetailView):
+    model = Tarea
     template_name = 'status_encargado/tarea-detail.html'
     context_object_name = 'tarea'
 
