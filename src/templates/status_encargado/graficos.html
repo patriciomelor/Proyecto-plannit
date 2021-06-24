@@ -1,0 +1,452 @@
+{% extends "index-status-e.html" %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+  <div class="row row-sm mg-t-10 pd-y-15">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item" > {{proyecto}} </a>
+      <span class="breadcrumb-item active">Panel Administrador</span>
+    </nav>
+  </div>
+        <div class="card bd-0">
+            <div class="card-header bg-dark">
+                <ul class="nav nav-tabs nav-tabs-for-dark card-header-tabs">
+                <li class="nav-item">
+                    <a class="nav-link bd-0 tx-gray-light" href="{% url 'encargado-index' %}">Agregar Responsable</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link bd-0 active pd-y-8" href="{% url 'encargado-grafico' %}">Gráficas</a>
+                </li>
+                </ul>
+            </div><!-- card-header -->
+            <div class="card-body">
+                <!--AREA DE GRAFICOS-->
+                <div class="row row-sm mg-t-10 pd-y-15">
+                    <div class="col-lg-6">
+                    <div class="card shadow-base card-body pd-25 bd-0">
+                        <div class="row">
+                        <div class="col-sm-12">
+                            <h6 class="card-title tx-uppercase tx-12" >Documentos Asignados Vs Documentos Realizado</h6>
+                        <canvas id="chartBar1" width="100%"></canvas>
+                        </div><!-- col-6 -->                
+                        </div><!-- row -->
+                    </div><!-- card -->
+                    </div><!-- col-6 -->
+                    <div class="col-lg-6 mg-t-30 mg-lg-t-0">
+                    <div class="card shadow-base card-body pd-25 bd-0">
+                        <div class="row">
+                        <div class="col-sm-12">
+                            <h6 class="card-title tx-uppercase tx-12 tx-inverse">Documentos pendientes</h6>
+                            <canvas id="chartBar2" width="100%"></canvas>
+                        </div><!-- col-6 -->                
+                        </div><!-- row -->
+                    </div><!-- card -->
+                    </div><!-- col-6 -->
+                </div>
+                <div class="row row-sm mg-t-10 pd-y-15">
+                    <div class="col-lg-6">
+                    <div class="card shadow-base card-body pd-25 bd-0">
+                        <div class="row">
+                        <div class="col-sm-12">
+                            <h6 class="card-title tx-uppercase tx-12" >HH Asignadas VS HH Gastadas</h6>
+                        <canvas id="chartBar3" width="100%"></canvas>
+                        </div><!-- col-6 -->                
+                        </div><!-- row -->
+                    </div><!-- card -->
+                    </div><!-- col-6 -->
+                    <div class="col-lg-6 mg-t-30 mg-lg-t-0">
+                    <div class="card shadow-base card-body pd-25 bd-0">
+                        <div class="row">
+                        <div class="col-sm-12">
+                            <h6 class="card-title tx-uppercase tx-12 tx-inverse">Asignadas VS Gastadas</h6>
+                            <canvas id="chartBar4" width="100%"></canvas>
+                        </div><!-- col-6 -->                
+                        </div><!-- row -->
+                    </div><!-- card -->
+                    </div><!-- col-6 -->
+                </div>
+                <div class="row row-sm mg-t-10 pd-y-15">
+                    <div class="col-lg-12">
+                    <div class="card shadow-base card-body pd-25 bd-0">
+                        <div class="row">
+                        <div class="col-sm-12">
+                            <h6 class="card-title tx-uppercase tx-12" >Documentos Asignados Vs Documentos realizados
+                            </h6>
+                        <canvas id="chartBar5" width="100%"></canvas>
+                        </div><!-- col-6 -->                
+                        </div><!-- row -->
+                    </div><!-- card -->
+                    </div><!-- col-6 -->
+                </div>
+            </div>
+     </div><!-- card -->
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+
+
+
+
+<script>
+  $(document).ready(function() {
+      $('#datatable1').DataTable(
+        {
+          "dom": '"Bfrtip"',
+          "responsive": true,
+          "language": {
+              "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          },
+          buttons:{
+            dom: {
+                button: {
+                    className: 'btn btn-success'
+                }
+            },
+          },
+          buttons:[ 
+            {
+                //definimos estilos del boton de excel
+                extend: "excel",
+                text:'Exportar a Excel',
+                className:'btn btn-success',
+
+                // 1 - ejemplo básico - uso de templates pre-definidos
+                //definimos los parametros al exportar a excel
+                
+                excelStyles: {                
+                    template: "header_blue",  // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
+                    template:"green_medium",
+                    
+                    "template": [
+                        "blue_medium",
+                        "header_green",
+                        "title_medium"
+                    ] 
+                    
+                },
+                
+
+            }]	     
+        });
+  } );
+</script>
+<!--Graf 1-->
+<script>
+  var ctx = document.getElementById('chartBar1').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['{% for value in grafico_1 %} {% if forloop.counter != grafico_1_largo %} {{value.0}}', ' {% endif %} {% if forloop.counter == grafico_1_largo %} {{value.0}} {% endif %} {% endfor %}'],
+      datasets: [{
+        label: 'Documento Asignados',
+        data: [
+          {% for value in grafico_1 %} 
+            {% if forloop.counter != grafico_1_largo %} 
+
+              {{value.1}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_1_largo %}
+                  
+              {{value.1}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: '#F07373'
+      },
+      {
+        label: 'Documentos Realizados',
+        data: [
+          {% for value in grafico_1 %} 
+            {% if forloop.counter != grafico_1_largo %} 
+
+              {{value.2}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_1_largo %}
+                  
+              {{value.2}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: '#4695DA' 
+      }
+      ]
+    },
+    options: {
+      plugins: {
+        title: {
+          display: true,
+          text: 'Documentos Asignados Vs Documentos Realizado'
+        },
+      },
+      legend: {
+        display: false,
+          labels: {
+            display: false
+          }
+      },
+      scales: {
+          yAxes: [{
+            stacked: true,
+            ticks: {
+                      min:0,
+                      max: {{tamano_grafico_1}},
+                      stepSize: {{espacio_grafico_1}}
+                  }
+          }],
+          xAxes: [{
+            stacked: true
+          }]
+        }
+    }
+  });
+</script>
+<!--Graf 2-->
+<script>
+  var ctx = document.getElementById('chartBar2').getContext('2d');
+  new Chart(ctx, {
+    type: 'horizontalBar',
+    data: {
+      labels: ['{% for value in grafico_2 %} {% if forloop.counter != grafico_2_largo %} {{value.0}}', ' {% endif %} {% if forloop.counter == grafico_2_largo %} {{value.0}} {% endif %} {% endfor %}'],
+      datasets: [{
+        label: 'Documentos Pendientes',
+        data: [
+          {% for value in grafico_2 %} 
+            {% if forloop.counter != grafico_2_largo %} 
+
+              {{value.1}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_2_largo %}
+                  
+              {{value.1}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: '#27AAC8'
+      }]
+    },
+    options: {
+      legend: {
+        display: false,
+          labels: {
+            display: false
+          }
+      },
+      scales: {
+        yAxes: [{
+          stacked: true,
+          ticks: {
+            beginAtZero:true,
+            fontSize: 10,
+            max: 80
+          }
+        }],
+        xAxes: [{
+          stacked: true,
+          ticks: {
+                  min:0,
+                  max: {{tamano_grafico_2}},
+                  stepSize: {{espacio_grafico_2}}
+          }
+        }]
+      }
+    }
+  });
+</script>
+<!--Graf 3-->
+<script>
+  var ctx = document.getElementById('chartBar3').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['{% for value in grafico_3 %} {% if forloop.counter != grafico_3_largo %} {{value.0}}', ' {% endif %} {% if forloop.counter == grafico_3_largo %} {{value.0}} {% endif %} {% endfor %}'],
+      datasets: [{
+        label: 'HH Asignadas',
+        data: [
+          {% for value in grafico_3 %} 
+            {% if forloop.counter != grafico_3_largo %} 
+
+              {{value.1}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_3_largo %}
+                  
+              {{value.1}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: '#F07373' 
+      },
+      {
+        label: 'HH Gastadas',
+        data: [
+          {% for value in grafico_3 %} 
+            {% if forloop.counter != grafico_3_largo %} 
+
+              {{value.2}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_3_largo %}
+                  
+              {{value.2}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: '#4695DA'
+      }
+      
+      ]
+    },
+    options: {
+      legend: {
+        display: false,
+          labels: {
+            display: false
+          }
+      },
+      scales: {
+        yAxes: [{
+          ticks: {
+            ticks: {
+                      min:0,
+                      max: {{tamano_grafico_3}},
+                      stepSize: {{espacio_grafico_3}}
+            }
+          }
+        }],
+        xAxes: [{
+          ticks: {
+            beginAtZero:true,
+            fontSize: 11
+          }
+        }]
+      }
+    }
+  });
+</script>
+<!--Graf4-->
+<script>
+  var ctx = document.getElementById('chartBar4').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['HH Asignadas', 'HH Gastadas'],
+        datasets: [{
+          label: '# of Votes',
+          data: [
+            {% for value in grafico_4 %} 
+              {% if forloop.counter != grafico_4_largo %} 
+
+                {{value}},
+
+              {% endif %} 
+
+              {% if forloop.counter == grafico_4_largo %}
+                  
+                {{value}}
+                  
+              {% endif %}
+                  
+            {% endfor %}
+          ],
+          backgroundColor: '#27AAC8'
+        }]
+      },
+      options: {
+        legend: {
+          display: false,
+            labels: {
+              display: false
+            }
+        },
+        scales: {
+          {% comment %} yAxes: [{
+            ticks: {
+              beginAtZero:true,
+              fontSize: 10,
+              max: 80
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              beginAtZero:true,
+              fontSize: 11
+            }
+          }] {% endcomment %}
+        }
+      }
+    });
+  </script>
+<!--Graf 5-->
+<script>
+  var ctx = document.getElementById('chartBar5').getContext('2d');
+    new Chart(ctx, {
+      type: 'pie',
+      data: {
+        labels: ['HH Asignadas', 'HH Gastadas'],
+        datasets: [{
+          label: '# of Votes',
+          data: [
+            {% for value in grafico_5 %} 
+              {% if forloop.counter != grafico_5_largo %} 
+
+                {{value}},
+
+              {% endif %} 
+
+              {% if forloop.counter == grafico_5_largo %}
+                  
+                {{value}}
+                  
+              {% endif %}
+                  
+            {% endfor %}
+          ],
+          backgroundColor: '#27AAC8'
+        }]
+      },
+      options: {
+        legend: {
+          display: false,
+            labels: {
+              display: false
+            }
+        },
+        scales: {
+          {% comment %} yAxes: [{
+            ticks: {
+              beginAtZero:true,
+              fontSize: 10,
+              max: 80
+            }
+          }],
+          xAxes: [{
+            ticks: {
+              beginAtZero:true,
+              fontSize: 11
+            }
+          }] {% endcomment %}
+        }
+      }
+    });
+  </script>
+{% endblock content %}

@@ -1,0 +1,68 @@
+{% extends 'index-config.html' %}
+
+{% load crispy_forms_tags %}
+
+
+{% block content %}
+<div class="br-mainpanel">
+    <div class="br-pageheader pd-y-15 pd-md-l-20">
+        <nav class="breadcrumb pd-0 mg-0 tx-12">
+          <a class="breadcrumb-item"> {{proyecto}}</a>
+          <a class="breadcrumb-item" href="">Configuración</a>      
+          <span class="breadcrumb-item active">Registrar Usuario </span>
+        </nav>
+      </div><!-- br-pageheader -->
+    <div class="pd-10 bd bg-gray-900  rounded mg-t-10">
+        <ul class="nav nav-pills flex-column flex-md-row justify-content-center" role="tablist">
+          <li class="nav-item"><a class="nav-link " href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'add-user-proyecto' %}" role="tab">Agregar Usuarios a Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-usuario' %}" role="tab">Agregar Usuario</a></li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'listar-usuarios' %}" role="tab">Listar Usuarios</a></li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'restriccion' %}" role="tab">Crear Restriccion</a></li>
+          <li class="nav-item"><a class="nav-link active" style="color:#fff;" href="{% url 'no-cumplimiento' %}" role="tab">Crear causa no<br>Cumplimiento</a></li></ul>
+    </div><!-- pd-10 -->
+    <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+        <h4 class="tx-gray-800 mg-b-5">Registrar Condición de no Cumplimiento</h4>
+        <h4 class="tx-gray-800 mg-b-5"> {{grupo}} </h4>
+    </div>
+    <div class="br-pagebody pd-x-20 pd-sm-x-30">
+        <div class="br-pagebody pd-x-20 pd-sm-x-30">
+            <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
+        <!--Table-->
+                <thead>
+                    <tr>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
+                    </tr>
+                </thead>
+                <tbody>
+                {% for restriccion in no_cumplimientos %}
+                    <tr>            
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{restriccion}}  </th>
+                    </tr>
+                {% endfor %}
+                    <!--Fin Loop-->
+                </tbody>
+            </table>
+        <div class="card bd-0 shadow-base">
+            <form class="form-control"style="float: left;"method="POST"> {% csrf_token %}
+                <label for="" class="col-6 col-md-12 mg-20">
+                {{form|crispy}}
+                </label>
+                <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit"> Enviar </button>                
+                <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" onClick="javascript:history.go(-1);" type="submit"> volver</button>
+
+            </form>
+        </div>
+    </div>
+ </div>
+</div>
+<script>
+$(document).ready(function(){
+    $('input:checkbox').click(function() {
+        $('input:checkbox').not(this).prop('checked', false);
+    });
+});
+</script>
+
+{% endblock content %}

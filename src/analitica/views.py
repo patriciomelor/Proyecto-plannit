@@ -872,10 +872,12 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
         context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
         ### Opción 1
-        # context['curvaBase'] = CurvaBaseView.get(self.request,*args, **kwargs)
+        # context['curvaBase'] = CurvaBaseView.get(self.request, **kwargs)
         ### Opción 2
-        # r = requests.get(reverse_lazy('curva-base'))
+        # r = requests.get('http://127.0.0.1:8000/analitica/curva_base/')
         # a = r.json()["datos_lista"]
+        # qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
+        # context['curvaBase'] = qs.datos_lista
         # context['curvaBase'] = a
         return context
 

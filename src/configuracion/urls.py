@@ -17,7 +17,9 @@ urlpatterns = [
     path('proyecto-create/', views.ProyectoCreate.as_view(), name='crear-proyecto'),
     path('proyecto-add-user/', views.UsuarioAdd.as_view(), name='add-user-proyecto'),
     path('proyecto-remove-user/', views.UsuarioRemove.as_view(), name='remove-user-proyecto'),
-    
-    
+    #URL DE CONFIG
+    path('restricciones/', views.RestriccionesView.as_view() , name='restriccion'),
+    path('no-cumplimiento/', views.NoCumplimientoView.as_view() , name='no-cumplimiento')
+
 
 ]
