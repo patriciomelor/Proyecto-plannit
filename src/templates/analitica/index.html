@@ -1,5 +1,5 @@
 {% extends 'index-analitica.html' %}
-
+{% for real_linea in curvaBase.datos_lista %} {{real_linea}}, {% endfor %}
 {% block content %}
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -248,9 +248,9 @@
                   {% endif %}
               
                 {% endfor %}], 
-              backgroundColor: [{% for emisiones in lista_total_documentos %} 'rgba(54, 162, 235, 0.8)', {% endfor %}
+              backgroundColor: [{% for emisiones in lista_total_documentos %} {% if forloop.counter != lista_total_documentos_largo %} 'rgba(54, 162, 235, 0.8)', {% endif %} {% if forloop.counter == lista_total_documentos_largo  %} 'rgba(54, 162, 235, 0.8)' {% endif %} {% endfor %}
               ],
-              borderColor: [{% for emisiones in lista_total_documentos %} 'rgba(54, 162, 235, 1)', {% endfor %}
+              borderColor: [{% for emisiones in lista_total_documentos %} {% if forloop.counter != lista_total_documentos_largo %} 'rgba(54, 162, 235, 1)', {% endif %} {% if forloop.counter == lista_total_documentos_largo  %} 'rgba(54, 162, 235, 1)' {% endif %} {% endfor %}
               ],
               borderWidth: 1
           }, {
@@ -269,9 +269,9 @@
               {% endif %}
               
               {% endfor %}],
-              backgroundColor: [{% for emisiones in lista_total_documentos_emitidos %} 'rgba(255, 99, 132, 0.8)', {% endfor %}
+              backgroundColor: [{% for emisiones in lista_total_documentos %} {% if forloop.counter != lista_total_documentos_largo %} 'rgba(255, 99, 132, 0.8)', {% endif %} {% if forloop.counter == lista_total_documentos_largo  %} 'rgba(255, 99, 132, 0.8)', {% endif %} {% endfor %}
               ],
-              borderColor: [{% for emisiones in lista_total_documentos_emitidos %} 'rgba(255, 99, 132, 1)', {% endfor %}
+              borderColor: [{% for emisiones in lista_total_documentos %} {% if forloop.counter != lista_total_documentos_largo %} 'rgba(255, 99, 132, 1)',, {% endif %} {% if forloop.counter == lista_total_documentos_largo  %} 'rgba(255, 99, 132, 1)', {% endif %} {% endfor %}
               ],
               borderWidth: 1
           }
@@ -344,6 +344,16 @@
       //       fill: false,
       //       data: [{% for real_linea in curvaBase.datos_lista %} {{real_linea)}, {% endfor %}],
 			// },
+      {
+				type: 'line',
+            label: 'Curva Base',
+            backgroundColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(54, 162, 235, 1)', {% endfor %}],
+            borderColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(54, 162, 235, 1)', {% endfor %}],
+            borderWidth: 1,
+            lineTension:0.1,
+            fill: false,
+            data: [{% for real_linea in curvaBase.datos_lista %} {{real_linea}}, {% endfor %}],
+			}, 
       {
 				type: 'bar',
         label: 'Avance Real Parcial (Barras)',
