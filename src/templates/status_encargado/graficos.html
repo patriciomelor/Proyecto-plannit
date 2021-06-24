@@ -157,7 +157,7 @@
                   
           {% endfor %}
         ],
-        backgroundColor: '#A93226'
+        backgroundColor: '#F07373'
       },
       {
         label: 'Documentos Realizados',
@@ -177,7 +177,7 @@
                   
           {% endfor %}
         ],
-        backgroundColor: '#27AAC8'
+        backgroundColor: '#4695DA' 
       }
       ]
     },
@@ -196,7 +196,12 @@
       },
       scales: {
           yAxes: [{
-            stacked: true
+            stacked: true,
+            ticks: {
+                      min:0,
+                      max: {{tamano_grafico_1}},
+                      stepSize: {{espacio_grafico_1}}
+                  }
           }],
           xAxes: [{
             stacked: true
@@ -252,8 +257,9 @@
         xAxes: [{
           stacked: true,
           ticks: {
-            beginAtZero:true,
-            fontSize: 11
+                  min:0,
+                  max: {{tamano_grafico_2}},
+                  stepSize: {{espacio_grafico_2}}
           }
         }]
       }
@@ -285,7 +291,7 @@
                   
           {% endfor %}
         ],
-        backgroundColor: '#A93226'
+        backgroundColor: '#F07373' 
       },
       {
         label: 'HH Gastadas',
@@ -305,7 +311,7 @@
                   
           {% endfor %}
         ],
-        backgroundColor: '#27AAC8'
+        backgroundColor: '#4695DA'
       }
       
       ]
@@ -320,9 +326,11 @@
       scales: {
         yAxes: [{
           ticks: {
-            beginAtZero:true,
-            fontSize: 10,
-            max: 80
+            ticks: {
+                      min:0,
+                      max: {{tamano_grafico_3}},
+                      stepSize: {{espacio_grafico_3}}
+            }
           }
         }],
         xAxes: [{
@@ -371,7 +379,7 @@
             }
         },
         scales: {
-          yAxes: [{
+          {% comment %} yAxes: [{
             ticks: {
               beginAtZero:true,
               fontSize: 10,
@@ -383,7 +391,7 @@
               beginAtZero:true,
               fontSize: 11
             }
-          }]
+          }] {% endcomment %}
         }
       }
     });
@@ -424,7 +432,7 @@
             }
         },
         scales: {
-          yAxes: [{
+          {% comment %} yAxes: [{
             ticks: {
               beginAtZero:true,
               fontSize: 10,
@@ -436,7 +444,7 @@
               beginAtZero:true,
               fontSize: 11
             }
-          }]
+          }] {% endcomment %}
         }
       }
     });
