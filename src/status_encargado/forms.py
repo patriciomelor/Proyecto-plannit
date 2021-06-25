@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import models
+from django.db.models.fields import TextField
 from django.forms import BaseFormSet, fields, widgets
 from django.forms import (formset_factory, modelformset_factory)
 from crispy_forms.helper import FormHelper
@@ -47,6 +48,7 @@ class TareaForm(forms.ModelForm):
         exclude = ["estado"]
         widgets = {
             'plazo': forms.DateInput(attrs={'type':'date'}),
+            'comentarios': forms.Textarea(attrs={'style':'margin-top: 0px; margin-bottom: 0px; height: 63px;'})
         }
 class RespuestaForm(forms.ModelForm):
     class Meta:

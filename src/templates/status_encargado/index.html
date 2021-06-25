@@ -97,7 +97,7 @@
         <div class="card shadow-base card-body bd-0">
           <div class="row">
             <div class="col-sm-12">
-            <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
+            <table id="datatable2" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
               <thead>
                 <tr role="row">
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">CODIGO</th>
@@ -149,6 +149,51 @@
 <script>
   $(document).ready(function() {
       $('#datatable1').DataTable(
+        {
+          "dom": 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
+          "paging": true,
+          pageLength: 5,
+          "responsive": true,
+          "language": {
+              "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          },
+          buttons:{
+            dom: {
+                button: {
+                    className: 'btn btn-success'
+                }
+            },
+          },
+          buttons:[ 
+            {
+                //definimos estilos del boton de excel
+                extend: "excel",
+                text:'Exportar a Excel',
+                className:'btn btn-success',
+
+                // 1 - ejemplo básico - uso de templates pre-definidos
+                //definimos los parametros al exportar a excel
+                
+                excelStyles: {                
+                    template: "header_blue",  // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
+                    template:"green_medium",
+                    
+                    "template": [
+                        "blue_medium",
+                        "header_green",
+                        "title_medium"
+                    ] 
+                    
+                },
+                
+
+            }]	     
+        });
+  } );
+</script>
+<script>
+  $(document).ready(function() {
+      $('#datatable2').DataTable(
         {
           "dom": 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
           "paging": true,
