@@ -17,7 +17,7 @@ class Perfil(models.Model):
     client = models.BooleanField(verbose_name='Es cliente', default=True)
 
     def __str__(self):
-        return '{}+''+{}'.format(self.usuario.first_name, self.usuario.last_name)
+        return str(self.get_rol_usuario_display())
         
 
 class Restricciones(models.Model):

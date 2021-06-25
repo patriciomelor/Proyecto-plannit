@@ -27,23 +27,21 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
     success_url = reverse_lazy('crear-usuario')
     
     def form_valid(self, form):
-        context = {}
-        response = super().form_valid(form)
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
-        if user.is_superuser == False:
+        if user.is_superuser == True:
+            return super().form_valid(form)
+        else:
             rol = form.cleaned_data['rol_usuario']
             company = form.cleaned_data['empresa']
-            perfil = Perfil(
-                usuario=form.instance,
+            Perfil.objects.create(
+                usuario=user,
                 rol_usuario=rol,
                 empresa=company,
                 client=True
             )
-            perfil.save()
-        else:
-            return response
-        return response
+            
+        return super().form_valid(form)
 
 class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     model = User

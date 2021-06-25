@@ -75,10 +75,9 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         return lista_final
 
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tasks = Tarea.objects.all()
+        tasks = Tarea.objects.all().filter(documento__proyecto= self.proyecto).order_by('-created_at')
         print(tasks)
         context["tareas"] = tasks
         context['Listado'] = self.tabla_status()
@@ -136,6 +135,27 @@ class TareaDetailView(ProyectoMixin, DetailView):
     model = Tarea
     template_name = 'status_encargado/tarea-detail.html'
     context_object_name = 'tarea'
+
+class TareaEditView(ProyectoMixin, UpdateView):
+    model = Tarea
+    template_name = 'status_encargado/create-tarea.html'
+    form_class = TareaForm
+    success_url = reverse_lazy('encargado-index')
+    success_message = 'Tarea editada correctamente.'
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        user = self.request.user
+        participantes = self.proyecto.participantes.all()
+        kwargs["participantes"] = participantes
+        kwargs["usuario"] = user
+        return kwargs
+
+class TareaDeleteView(ProyectoMixin, DeleteView):
+    model = Tarea
+    template_name = 'status_encargado/delete-tarea.html'
+    success_message = 'Tarea eliminada correctamente.'
+    success_url = reverse_lazy('encargado-index')
 
 class RevisorSentView(ProyectoMixin, ListView):
     template_name = "status_encargado/revisor-enviados.html"

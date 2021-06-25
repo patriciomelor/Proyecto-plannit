@@ -40,6 +40,7 @@
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">No Cumplimiento</th>
                 <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Cantidad HH</th>
                 <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Comentarios</th>
+                <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;">Archivo</th>
                 </tr>
               </thead>
                 <tbody>
@@ -53,6 +54,11 @@
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {% if tarea.not_done == None %} Sin Causas de No Cumplimiento {% else %} {{tarea.not_done}} {% endif %} </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.contidad_hh}} </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.comentarios}} </th>
+                  {% if tarea.archivo.url is not None %}
+                  <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{{tarea.archivo.url}}"><button class="btn btn-teal"><i class="icon ion-arrow-down-a"></i></button></a> </th>
+                  {% else %}
+                  <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > </th>
+                  {% endif %}
                 </tr>
               {% endif %}
 
