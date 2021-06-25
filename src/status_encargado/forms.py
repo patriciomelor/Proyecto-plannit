@@ -25,17 +25,21 @@ class TareaForm(forms.ModelForm):
         for user in self.participantes:
             rol = user.perfil.rol_usuario
             if current_rol >= 1 and current_rol <= 3:
-                if rol == 2:
-                    user_list.append(user.pk)
-                elif rol == 3:
-                    user_list.append(user.pk)
-            elif current_rol <= 6 and current_rol >= 4:
-                if rol == 5:
-                    user_list.append(user.pk)
-                elif rol == 6:
-                    user_list.append(user.pk)
+                if rol >= 1 and current_rol <= 3:
+                    if rol == 1: 
+                        pass
+                    else:
+                        user_list.append(user.pk)
+
+            elif current_rol >= 4 and current_rol <= 6:
+                if rol >= 4 and rol <= 6:
+                    if rol == 4: 
+                        pass
+                    else:
+                        user_list.append(user.pk)
 
         qs = self.participantes.filter(pk__in=user_list)
+        print(qs)
         super(TareaForm, self).__init__(**kwargs)
         self.fields["encargado"] = forms.ModelChoiceField(queryset=qs)
 
