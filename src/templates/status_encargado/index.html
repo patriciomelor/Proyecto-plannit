@@ -111,6 +111,8 @@
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA REQUERIDO</th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA REALIZADO</th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
                 </tr>
               </thead>
                 <tbody>
@@ -128,6 +130,8 @@
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.plazo|date:'d-M-y'}} </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.task_answer.contestado|date:'d-M-y H:i'}} </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'detail-tarea' tarea.pk %}"><button type="button" class="btn btn-teal"><i class="fa fa-eye"></i></button></a> </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'edit-tarea' tarea.pk %}"><button type="button" class="btn btn-primary"><i class="icon ion-edit"></i></button></a> </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'delete-tarea' tarea.pk %}"><button type="button" class="btn btn-danger"><i class="icon ion-trash-b"></i></button></a> </th>
                   </tr>
                 {% endfor %}
               

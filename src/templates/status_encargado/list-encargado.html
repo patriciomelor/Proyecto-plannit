@@ -7,14 +7,13 @@
 
       <div class=" bg-white rounded shadow-base col-md-8">
          <div class="card-body">
-            <div class="row no-gutters">
               <form method="POST">{% csrf_token %}
                 {{form|crispy}}
-                
-                <button class="btn btn-teal" type="submit"> Guardar</button>
-                <button class="btn btn-warning mg-l-10" type="button" onClick="javascript:history.go(-1);"> volver</button></a>
-              </form>
-            </div><!-- row -->
+                 <div class="form-layout-footer mg-t-30">
+                  <button class="btn btn-teal" type="submit"> Guardar</button>
+                  <button class="btn btn-warning mg-l-10" type="button" onClick="javascript:history.go(-1);"> volver</button></a>
+                </div>
+                </form>
           </div><!-- card-body -->
         
       </div><!-- login-wrapper -->
