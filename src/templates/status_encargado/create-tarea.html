@@ -9,7 +9,7 @@
       <div class=" bg-white rounded shadow-base col-md-8">
          <div class="card-body">
             <div class="row no-gutters">
-              <form method="POST">{% csrf_token %}
+              <form enctype="multipart/form-data" method="POST">{% csrf_token %}
                 {{form|crispy}}
                 
                 <button class="btn btn-teal" type="submit"> Guardar</button>

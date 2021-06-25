@@ -37,7 +37,10 @@ class TareaForm(forms.ModelForm):
                         pass
                     else:
                         user_list.append(user.pk)
-
+        # try:
+        #     user_list.remove(self.usuario.pk)
+        # except:
+        #     pass
         qs = self.participantes.filter(pk__in=user_list)
         print(qs)
         super(TareaForm, self).__init__(**kwargs)

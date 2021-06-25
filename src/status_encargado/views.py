@@ -75,10 +75,9 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         return lista_final
 
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        tasks = Tarea.objects.all()
+        tasks = Tarea.objects.all().filter(documento__proyecto= self.proyecto).order_by('-created_at')
         print(tasks)
         context["tareas"] = tasks
         context['Listado'] = self.tabla_status()

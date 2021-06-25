@@ -60,6 +60,11 @@
         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">No Cumplimiento</th>
         <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">Cantidad HH</th>
         <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">Comentarios</th>
+        {% if tarea.task_answer.archivo.url is not None%}
+        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;"> Descargar </th>
+        {% else %}
+        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;"> </th>
+        {% endif %}
           </tr>
         </thead>
         <tbody>
