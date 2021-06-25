@@ -31,7 +31,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
         response = super().form_valid(form)
         user_pk = form.instance.pk
         user = User.objects.get(pk=user_pk)
-        if not user.is_superuser == True:
+        if user.is_superuser == False:
             rol = form.cleaned_data['rol_usuario']
             company = form.cleaned_data['empresa']
             perfil = Perfil(
