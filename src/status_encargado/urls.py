@@ -7,6 +7,8 @@ urlpatterns = [
     path('index_rev/', views.RevisorView.as_view(), name='revisor-index'),
     path('rev_sent/', views.RevisorSentView.as_view(), name='revisor-sent'),
     path('detail_tarea/<pk>/', views.TareaDetailView.as_view(), name='detail-tarea'),
+    path('delete_tarea/<pk>/', views.TareaDeleteView.as_view(), name='delete-tarea'),
+    path('edit_tarea/<pk>/', views.TareaEditView.as_view(), name='edit-tarea'),
     path('crear_tarea/<doc_pk>/', views.CreateTarea.as_view(), name='create-tarea'),
     path('crear_respuesta/<task_pk>/', views.CreateRespuesta.as_view(), name='create-respuesta')
 ]
