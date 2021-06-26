@@ -34,7 +34,7 @@
               <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
                 <thead>
                   <tr role="row">
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Responsable </th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Especialidad</th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Descripción</th>
                   <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Código</th>
@@ -54,7 +54,7 @@
               {% for documento in Listado %}
                 {% if not documento.1 %}
                 <tr role="row" class="odd">
-                  <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </a>  </th>
+                  <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a>  </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Especialidad}} </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Descripcion}} </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Codigo_documento}} </th>
@@ -70,7 +70,7 @@
                 </tr>
                 {% else %}
                 <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </a> </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a> </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Especialidad}} </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Descripcion}} </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a></th>
@@ -100,19 +100,19 @@
             <table id="datatable2" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
               <thead>
                 <tr role="row">
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">CODIGO</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Nombre</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">ESTADO</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">RESPONSABLE</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">HH ASIGNADAS</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">HH REALES</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">RESTRICCION</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA SOLICITUD</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA REQUERIDO</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA REALIZADO</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">CODIGO</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Nombre</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">ESTADO</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">RESPONSABLE</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">HH ASIGNADAS</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">HH REALES</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">RESTRICCION</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA SOLICITUD</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA REQUERIDO</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA REALIZADO</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
                 </tr>
               </thead>
                 <tbody>
@@ -121,7 +121,7 @@
                   <tr role="row" class="odd">
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.documento.Codigo_documento}} </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.documento.Descripcion}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {% if tarea.estado == False %} <i class="fa fa-close" style="color:red;"></i> {% else %} <i class="fa fa-check" style="color:green;"></i> {% endif %}</th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {% if tarea.estado == False %} <h6 style="color:red;">&#9587;</h6> {% else %} <h5 style="color:green;">&#10004;</h5> {% endif %}</th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.encargado}} </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.contidad_hh}} </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.task_answer.contidad_hh}} </th>
@@ -129,9 +129,9 @@
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.created_at|date:'d-M-y H:i'}} </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.plazo|date:'d-M-y'}} </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.task_answer.contestado|date:'d-M-y H:i'}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'detail-tarea' tarea.pk %}"><button type="button" class="btn btn-teal"><i class="fa fa-eye"></i></button></a> </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'edit-tarea' tarea.pk %}"><button type="button" class="btn btn-primary"><i class="icon ion-edit"></i></button></a> </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'delete-tarea' tarea.pk %}"><button type="button" class="btn btn-danger"><i class="icon ion-trash-b"></i></button></a> </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'detail-tarea' tarea.pk %}"><i class="fa fa-eye" style="color:teal;"></i></a> </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'edit-tarea' tarea.pk %}"><i class="icon ion-edit" style="color:blue;"></i></a> </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'delete-tarea' tarea.pk %}"><i class="icon ion-trash-b" style="color:red;"></i></a> </th>
                   </tr>
                 {% endfor %}
               
@@ -206,6 +206,7 @@
           "language": {
               "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
           },
+          "order":[[ 8, 'desc' ]],
           buttons:{
             dom: {
                 button: {
