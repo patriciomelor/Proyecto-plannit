@@ -70,19 +70,20 @@
         </thead>
         <tbody>
           {% for respuesta in respuestas %}
-          <tr role="row" class="odd">
-            <th style="text-align: center;vertical-align:middle;" > {{respuesta.contestado}} </th>
-            <th style="text-align: center;vertical-align:middle;" > {% if respuesta.not_done is not None %} {{respuesta.not_done}} {% else %} Sin Causa de no Cumplimiento {% endif %}  </th>
-            <th style="text-align: center;vertical-align:middle;" > {{respuesta.contidad_hh}} </th>
-            <th style="text-align: center;vertical-align:middle;" > {% if respuesta.comentarios is not None %} {{respuesta.comentarios}} {% else %} Sin Comentarios {% endif %} </th>
-            {% if respuesta.archivo.url is not None%}
-            <th style="text-align: center;vertical-align:middle;" > <a href="{{respuesta.archivo.url}}"><button class="btn btn-teal"><i class="icon ion-arrow-down-a"></i></button></a> </th>
-            {% else %}
-            <th style="text-align: center;vertical-align:middle;" > </th>
+            {% if respuesta.sent == True %}
+            <tr role="row" class="odd">
+              <th style="text-align: center;vertical-align:middle;" > {{respuesta.contestado}} </th>
+              <th style="text-align: center;vertical-align:middle;" > {% if respuesta.not_done is not None %} {{respuesta.not_done}} {% else %} Sin Causa de no Cumplimiento {% endif %}  </th>
+              <th style="text-align: center;vertical-align:middle;" > {{respuesta.contidad_hh}} </th>
+              <th style="text-align: center;vertical-align:middle;" > {% if respuesta.comentarios is not None %} {{respuesta.comentarios}} {% else %} Sin Comentarios {% endif %} </th>
+              {% if respuesta.archivo.url is not None%}
+              <th style="text-align: center;vertical-align:middle;" > <a href="{{respuesta.archivo.url}}"><button class="btn btn-teal"><i class="icon ion-arrow-down-a"></i></button></a> </th>
+              {% else %}
+              <th style="text-align: center;vertical-align:middle;" > </th>
+              {% endif %}
+            </tr>
             {% endif %}
-          </tr>
-
-            {% endfor %}
+          {% endfor %}
         </tbody>
       </table>
        <div class="form-layout-footer mg-t-30">
