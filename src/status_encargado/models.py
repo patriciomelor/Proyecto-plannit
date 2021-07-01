@@ -14,6 +14,7 @@ class Tarea(models.Model):
     contidad_hh = models.IntegerField(verbose_name="Cantidad Horas Hombre")
     comentarios = models.TextField(verbose_name="Comentarios")
     estado = models.BooleanField(verbose_name="Estado", default=False, blank=True)
+    archivo = models.FileField(verbose_name="Archivo", upload_to="respuestas/documentos/", null=True, blank=True)
     plazo = models.DateField(verbose_name="Fecha Requerimiento")
 
 class Respuesta(models.Model):
