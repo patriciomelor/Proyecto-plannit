@@ -130,6 +130,12 @@ class RevisorView(ProyectoMixin, ListView):
     def get_queryset(self):
         qs = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
         return qs
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        qs = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True).order_by('-contestado')
+        context["respuestas"] = qs
+        return context
 
 class TareaDetailView(ProyectoMixin, DetailView):
     model = Tarea

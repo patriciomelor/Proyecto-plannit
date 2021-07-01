@@ -18,17 +18,17 @@
               <div class="card-header bg-transparent pd-20">
                 <h6 class="card-title tx-uppercase tx-12 mg-b-0">Datos de Tarea Asignada por Administrador</h6>
               </div><!-- card-header -->
-              <table class="table table-responsive mg-b-0 tx-12">
+              <table class="table mg-b-0 tx-12 table-primary">
                 <thead>
                   <tr class="tx-10">
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">CODIGO</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">Nombre</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">ESTADO</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">RESPONSABLE</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">RESTRICCION</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">FECHA SOLICITUD</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">FECHA REQUERIDO</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">FECHA REALIZADO</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">CODIGO</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">Nombre</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">ESTADO</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">RESPONSABLE</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">RESTRICCION</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">FECHA SOLICITUD</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">FECHA REQUERIDO</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">FECHA REALIZADO</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -53,24 +53,24 @@
       <div class="card-header pd-20 bg-transparent">
         <h6 class="card-title tx-uppercase tx-12 mg-b-0">Datos de revisor</h6>
       </div><!-- card-header -->
-      <table class="table table-responsive mg-b-0 tx-12">
+      <table class="table mg-b-0 tx-12 table-primary">
         <thead>
           <tr class="tx-10">
-        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">Fecha Contestado</th>
-        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">No Cumplimiento</th>
-        <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">Cantidad HH</th>
-        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;">Comentarios</th>
+        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Fecha Contestado</th>
+        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">No Cumplimiento</th>
+        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Cantidad HH</th>
+        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Comentarios</th>
         {% if tarea.task_answer.archivo.url is not None%}
-        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;"> Descargar </th>
+        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> Descargar </th>
         {% else %}
-        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;"> </th>
+        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> </th>
         {% endif %}
           </tr>
         </thead>
         <tbody>
             {% if tarea.task_answer %}
             <tr role="row" class="odd">
-              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contestado}} </th>
+              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contestado|date:'d-M-y H:i'}} </th>
               <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.not_done}} </th>
               <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contidad_hh}} </th>
               <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.comentarios}} </th>
