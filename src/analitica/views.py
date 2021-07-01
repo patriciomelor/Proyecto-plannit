@@ -347,8 +347,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
     def reporte_curva_s_avance_real(self):
 
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        documentos = Documento.objects.filter(proyecto=self.proyecto)
+        valor_ganado = Documento.objects.filter(proyecto=self.proyecto).count()
         lista_final = self.Obtener_fechas()
         dia_actual = timezone.now()
         
