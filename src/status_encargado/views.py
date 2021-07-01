@@ -191,13 +191,16 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         lista_grafico_uno = self.grafico_1()
         maximo = 0
-        suma = 0
+        cont = 0
 
         #Se obtiene el valor máximo del gráfico
         for valores in lista_grafico_uno:
-            suma = valores[1] + valores[2]
-            if maximo < suma:
-                maximo = suma
+            if cont == 0:
+                maximo = valores[1]
+                cont = 1
+            else:
+                if maximo < valores[1]:
+                    maximo = valores[1]
 
         #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
         division_exacta = 0
@@ -218,7 +221,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         #Se secciona el eje en 10 partes iguales
         if dividendo > 20:
-            espacios = espacios / 10
+            espacios = dividendo / 10
         else:
             espacios = 1
 
@@ -251,6 +254,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         for valores in lista_grafico_uno:
             if cont == 0:
                 maximo = valores[1]
+                cont = 1
             else:
                 if maximo < valores[1]:
                     maximo = valores[1]
@@ -274,7 +278,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         #Se secciona el eje en 10 partes iguales
         if dividendo > 20:
-            espacios = espacios / 10
+            espacios = dividendo / 10
         else:
             espacios = 1
 
@@ -304,13 +308,16 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         lista_grafico_uno = self.grafico_3()
         maximo = 0
-        suma = 0
+        cont = 0
 
         #Se obtiene el valor máximo del gráfico
         for valores in lista_grafico_uno:
-            suma = valores[1] + valores[2]
-            if maximo < suma:
-                maximo = suma
+            if cont == 0:
+                maximo = valores[1]
+                cont = 1
+            else:
+                if maximo < valores[1]:
+                    maximo = valores[1]
 
         #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
         division_exacta = 0
@@ -331,7 +338,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         #Se secciona el eje en 10 partes iguales
         if dividendo > 20:
-            espacios = espacios / 10
+            espacios = dividendo / 10
         else:
             espacios = 1
 
