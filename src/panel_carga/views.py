@@ -110,7 +110,6 @@ class ListDocumento(ProyectoMixin, ListView):
     model = Documento
     template_name = 'administrador/PaneldeCarga/pdc.html'
     context_object_name = "documentos"
-    paginate_by = 15
 
     def get_queryset(self):
         qs =  Documento.objects.filter(proyecto=self.proyecto)
