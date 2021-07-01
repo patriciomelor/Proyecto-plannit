@@ -347,8 +347,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
     def reporte_curva_s_avance_real(self):
 
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        documentos = Documento.objects.filter(proyecto=self.proyecto)
+        valor_ganado = Documento.objects.filter(proyecto=self.proyecto).count()
         lista_final = self.Obtener_fechas()
         dia_actual = timezone.now()
         
@@ -779,9 +779,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-            while division_exacta != 0:
-                maximo = maximo + 1
-                division_exacta = maximo % 10
         maximo = maximo + 1
 
         return maximo
@@ -794,7 +791,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         #Se secciona el eje en 10 partes iguales
         if dividendo > 20:
-            espacios = espacios / 10
+            espacios = dividendo / 10
         else:
             espacios = 1
 
@@ -835,7 +832,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         #Se secciona el eje en 10 partes iguales
         if dividendo > 20:
-            espacios = espacios / 10
+            espacios = dividendo / 10
         else:
             espacios = 1
 
