@@ -30,9 +30,11 @@
                   <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">FECHA SOLICITUD</th>
                   <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">FECHA REQUERIDO</th>
                   <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">FECHA REALIZADO</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">DESCARGAR</th>
                   </tr>
                 </thead>
                 <tbody>
+                {% for tarea in tareas %}
                   <tr role="row" class="odd">
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.documento.Codigo_documento}} </th>
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.documento.Descripcion}} </th>
@@ -42,7 +44,9 @@
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.created_at|date:'d-M-y H:i'}} </th>
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.plazo|date:'d-M-y'}} </th>
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contestado|date:'d-M-y H:i'}} </th>
+                    <th style="text-align: center;vertical-align:middle;" > {{tarea.archivo}} </th>
                   </tr>
+                {% endfor %}
                 </tbody>
               </table>
             </div><!-- card -->
@@ -57,41 +61,28 @@
       <table class="table mg-b-0 tx-12 table-primary">
         <thead>
           <tr class="tx-10">
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Fecha Contestado</th>
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">No Cumplimiento</th>
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Cantidad HH</th>
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Comentarios</th>
-        {% if tarea.task_answer.archivo.url is not None%}
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> Descargar </th>
-        {% else %}
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> </th>
-        {% endif %}
+            <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Fecha Contestado</th>
+            <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">No Cumplimiento</th>
+            <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Cantidad HH</th>
+            <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Comentarios</th>
+            <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> Descargar </th>
           </tr>
         </thead>
         <tbody>
-            {% if tarea.task_answer %}
-            <tr role="row" class="odd">
-              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contestado|date:'d-M-y H:i'}} </th>
-              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.not_done}} </th>
-              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contidad_hh}} </th>
-              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.comentarios}} </th>
-              {% if tarea.task_answer.archivo.url is not None%}
-              <th style="text-align: center;vertical-align:middle;" > <a href="{{tarea.task_answer.archivo.url}}"><button class="btn btn-teal"><i class="icon ion-arrow-down-a"></i></button></a> </th>
-              {% else %}
-              <th style="text-align: center;vertical-align:middle;" > </th>
-              {% endif %}
-            </tr>
-            {% else %}   
-            <tr role="row" class="odd">
-              <th style="text-align: center;vertical-align:middle;" > 
-                
-            <div class="card-header pd-20 bg-transparent">
-              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Sin Respuesta</h6>
-            </div><!-- card-header -->
-              </th>
-              </tr>         
+          {% for respuesta in respuestas %}
+          <tr role="row" class="odd">
+            <th style="text-align: center;vertical-align:middle;" > {{respuesta.contestado}} </th>
+            <th style="text-align: center;vertical-align:middle;" > {% if respuesta.not_done is not None %} {{respuesta.not_done}} {% else %} Sin Causa de no Cumplimiento {% endif %}  </th>
+            <th style="text-align: center;vertical-align:middle;" > {{respuesta.contidad_hh}} </th>
+            <th style="text-align: center;vertical-align:middle;" > {% if respuesta.comentarios is not None %} {{respuesta.comentarios}} {% else %} Sin Comentarios {% endif %} </th>
+            {% if respuesta.archivo.url is not None%}
+            <th style="text-align: center;vertical-align:middle;" > <a href="{{respuesta.archivo.url}}"><button class="btn btn-teal"><i class="icon ion-arrow-down-a"></i></button></a> </th>
+            {% else %}
+            <th style="text-align: center;vertical-align:middle;" > </th>
             {% endif %}
-       
+          </tr>
+
+            {% endfor %}
         </tbody>
       </table>
        <div class="form-layout-footer mg-t-30">
