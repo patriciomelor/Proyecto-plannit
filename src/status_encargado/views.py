@@ -130,10 +130,8 @@ class RevisorView(ProyectoMixin, ListView):
         context = super().get_context_data(**kwargs)
         qs1 = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
         qs2 = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True).order_by('-contestado')
-        print(qs1)
-        print(qs2)
         context["tareas"] = qs1
-        context["respuestas"] = qs1
+        context["respuestas"] = qs
         return context
 
 class TareaDetailView(ProyectoMixin, DetailView):
