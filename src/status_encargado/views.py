@@ -131,7 +131,7 @@ class RevisorView(ProyectoMixin, ListView):
         qs1 = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
         qs2 = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True).order_by('-contestado')
         context["tareas"] = qs1
-        context["respuestas"] = qs
+        context["respuestas"] = qs2
         return context
 
 class TareaDetailView(ProyectoMixin, DetailView):
