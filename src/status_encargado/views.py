@@ -125,16 +125,13 @@ class CreateRespuesta(ProyectoMixin, CreateView):
 
 class RevisorView(ProyectoMixin, ListView):
     template_name = "status_encargado/revisor-index.html"
-    context_object_name = "tareas"
-
-    def get_queryset(self):
-        qs = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
-        return qs
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        qs = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True).order_by('-contestado')
-        context["respuestas"] = qs
+        qs1 = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
+        qs2 = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True).order_by('-contestado')
+        context["tareas"] = qs1
+        context["respuestas"] = qs2
         return context
 
 class TareaDetailView(ProyectoMixin, DetailView):
