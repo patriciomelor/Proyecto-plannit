@@ -34,11 +34,11 @@
               <table id="datatable1" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">
                 <thead>
                   <tr role="row">
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Responsable </th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"> </th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Especialidad</th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Descripción</th>
                   <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Código</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;width: auto;width: auto;">Tipo</th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Tipo</th>
                   <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Revisión <br>Actual</th>
                   <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">A cargo de:</th>
                   <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">Último Paquete</th>
@@ -54,7 +54,7 @@
               {% for documento in Listado %}
                 {% if not documento.1 %}
                 <tr role="row" class="odd">
-                  <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </a>  </th>
+                  <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a>  </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Especialidad}} </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Descripcion}} </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{documento.0.Codigo_documento}} </th>
@@ -70,7 +70,7 @@
                 </tr>
                 {% else %}
                 <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><button class="btn btn-teal"><i class="fa fa-pencil"></i></button> </a> </th>
+                  <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a> </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Especialidad}} </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> {{documento.0.Descripcion}} </th>
                   <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;"> <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a></th>
@@ -110,7 +110,10 @@
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA SOLICITUD</th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA REQUERIDO</th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;">FECHA REALIZADO</th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="4" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
+                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
                 </tr>
               </thead>
                 <tbody>
@@ -164,6 +167,8 @@
           "language": {
               "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
           },
+          "order":[ 3 ,'asc'],
+          
           buttons:{
             dom: {
                 button: {
@@ -208,6 +213,8 @@
           "language": {
               "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
           },
+          "order":[ 7, 'asc' ],
+
           buttons:{
             dom: {
                 button: {
