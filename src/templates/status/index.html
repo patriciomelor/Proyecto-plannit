@@ -132,20 +132,31 @@
           "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
           },
           "order":[[4,"desc"]],
-        
-          buttons:
-          [{
-            extend: "excel",  
-            text:'Exportar a Excel',
-            className:'btn btn-outline-success',                  // Extend the excel button
-            excelStyles: {   
-                 "template": [
-                        "blue_medium",
-                        "header_blue",
-                        "title_medium"
-                    ]                   // Add an excelStyles definition
-                  }
-                }],	     
+          buttons:{
+            dom: {
+                button: {
+                    className: 'btn btn-success'
+                }
+            },
+          },
+          buttons:[ 
+            {
+                //definimos estilos del boton de excel
+                extend: "excel",
+                text:'Exportar a Excel',
+                className:'btn btn-success',
+
+                // 1 - ejemplo básico - uso de templates pre-definidos
+                //definimos los parametros al exportar a excel
+                
+                excelStyles: {               // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
+                    template:"blue_medium",
+                    
+                    
+                },
+                
+
+            }]	     
         });
   } );
 </script>
