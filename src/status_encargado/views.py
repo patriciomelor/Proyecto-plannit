@@ -179,11 +179,12 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         Diferencia de tareas y respuetas por cada uno de los participantes.
         """
         final_list = []
+        
         participantes = self.proyecto.participantes.all()
         for user in participantes:
             realizados = 0
             asignados = 0
-            tareas = Tarea.objects.filter(encargado=user)
+            tareas = Tarea.objects.filter(encargado=user, documento__proyecto=self.proyecto)
             for tarea in tareas:
                 asignados = asignados + 1
                 if tarea.estado == True:
@@ -241,7 +242,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         participantes = self.proyecto.participantes.all()
         for user in participantes:
             asignados = 0
-            tareas = Tarea.objects.filter(encargado=user)
+            tareas = Tarea.objects.filter(encargado=user, documento__proyecto=self.proyecto)
             for tarea in tareas:
                 if tarea.estado == False:
                     asignados = asignados + 1
@@ -299,7 +300,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         for user in participantes:
             hh_realizados = 0
             hh_asignados = 0
-            tareas = Tarea.objects.filter(encargado=user)
+            tareas = Tarea.objects.filter(encargado=user, documento__proyecto=self.proyecto)
             for tarea in tareas:
                 hh_asignados = hh_asignados + tarea.contidad_hh
                 try:
@@ -359,9 +360,8 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         total_asignados = 0
         total_realizados = 0
         for task in tasks:
-            if task.estado == False:
-                total_asignados = total_asignados + task.contidad_hh
-            else:
+            total_asignados = total_asignados + task.contidad_hh
+            if task.estado == True:
                 total_realizados = total_realizados + task.task_answer.contidad_hh
         final_list.append(total_asignados)
         final_list.append(total_realizados)
