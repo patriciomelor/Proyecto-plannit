@@ -2,6 +2,8 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task
 from celery.decorators import task
 
+from panel_carga.models import Documento, Proyecto
+
 @task(name="desviacion")
 def umbral_1(umbral, doc):
     pass
