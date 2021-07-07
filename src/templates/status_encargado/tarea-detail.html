@@ -29,6 +29,7 @@
                   <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">FECHA SOLICITUD</th>
                   <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">FECHA REQUERIDO</th>
                   <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;">FECHA REALIZADO</th>
+                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="text-align: center;vertical-align: middle;width:auto;color:#fff;"></th>
                   </tr>
                 </thead>
                 <tbody>
@@ -41,6 +42,11 @@
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.created_at|date:'d-M-y H:i'}} </th>
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.plazo|date:'d-M-y'}} </th>
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contestado|date:'d-M-y H:i'}} </th>
+                    {% if tarea.task_answer.archivo.url is not None%}
+                    <th style="text-align: center;vertical-align:middle;" > <a href="{{tarea.task_answer.archivo.url}}"><i class="icon ion-arrow-down-a" style="color:orange;"></i></a> </th>
+                    {% else %}
+                    <th style="text-align: center;vertical-align:middle;" > </th>
+                    {% endif %}
                   </tr>
                 </tbody>
               </table>
@@ -75,7 +81,7 @@
               <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contidad_hh}} </th>
               <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.comentarios}} </th>
               {% if tarea.task_answer.archivo.url is not None%}
-              <th style="text-align: center;vertical-align:middle;" > <a href="{{tarea.task_answer.archivo.url}}"><button class="btn btn-teal"><i class="icon ion-arrow-down-a"></i></button></a> </th>
+              <th style="text-align: center;vertical-align:middle;" > <a href="{{tarea.task_answer.archivo.url}}"><i class="icon ion-arrow-down-a" style="color:orange;"></i></a> </th>
               {% else %}
               <th style="text-align: center;vertical-align:middle;" > </th>
               {% endif %}
