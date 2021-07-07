@@ -113,7 +113,6 @@
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
                   <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
-                  <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width: auto;"></th>
                 </tr>
               </thead>
                 <tbody>
@@ -129,12 +128,8 @@
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {% if tarea.restricciones == None %}Sin restricción {% else %}{{tarea.restricciones}}{% endif %} </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.created_at|date:'d-M-y'}} </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.plazo|date:'d-M-y'}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.task_answer.contestado|date:'d-M-y'}} </th>
-                    {% if tarea.task_answer.archivo.url is not None%}
-                    <th style="text-align: center;vertical-align:middle;" > <a href="{{tarea.task_answer.archivo.url}}"><i class="icon ion-arrow-down-a" style="color:orange;"></i></a> </th>
-                    {% else %}
-                    <th style="text-align: center;vertical-align:middle;" > </th>
-                    {% endif %}
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.task_answer.contestado|date:'d-M-y'}} </th>                    
+                   
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'detail-tarea' tarea.pk %}"><i class="fa fa-eye" style="color:teal;"></i></a> </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'edit-tarea' tarea.pk %}"><i class="icon ion-edit" style="color:blue;"></i></a> </th>
                     <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'delete-tarea' tarea.pk %}"><i class="icon ion-trash-b" style="color:red;"></i></a> </th>
