@@ -35,19 +35,6 @@
         </ul>
       </div><!-- ht-65 -->
     {% else %}
-      <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
-         <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-           <form class="col-6" method="POST" enctype="multipart/form-data">
-          {% csrf_token %}
-            <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()" disabled></a></li>
-            <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
-           </form>
-           <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary" disabled>Insertar por formulario</button></a></li>
-           <li class="nav-item mg-l-5"><a href="{% url 'panel-export' %}"><button class="btn btn-success"disabled> Exportar a Excel </button></a></li>            
-           <li class="nav-item mg-l-5"><a href="http://143.198.228.81/static/media/proyecto/tmp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning"disabled> Plantilla de Carga</button></a></li>
-           <li class="nav-item mg-l-5"><button class="btn btn-danger" id="delete_btn" type="submit" disabled><i class="icon ion-trash-b mg-r-3"></i> Eliminar</button></li>
-         </ul>
-       </div><!-- ht-65 -->
     {% endif %}
                  
 

@@ -145,19 +145,22 @@
           buttons:[ 
             {
                 //definimos estilos del boton de excel
-                extend: "excel",
+                extend: "excelHtml5",
                 text:'Exportar a Excel',
                 className:'btn btn-success',
 
                 // 1 - ejemplo básico - uso de templates pre-definidos
                 //definimos los parametros al exportar a excel
-                
-                excelStyles: {               // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
+              customize: function( xlsx ) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+ 
+                $('row c[r^="C"]', sheet).attr( 's', '2' );
+            },
+                 excelStyles: {               // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
                     template:"blue_medium",
                     
                     
                 },
-                
 
             }]	     
         });
