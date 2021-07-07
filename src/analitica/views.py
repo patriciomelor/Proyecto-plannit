@@ -355,7 +355,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         if valor_ganado !=0:
 
             #Variables
-            valor_ganado = (100 / valor_ganado)                     
+            valor_ganado = (100 / valor_ganado)                  
             avance_inicial = []
             avance_final = []
             fecha_version = 0
@@ -365,6 +365,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles_recorrer = []
             ultima_fecha = 0
             contador_fechas = 1
+            lista_versiones = []
 
             #Variables final
             largo_inicial_fechas = len(fechas_controles)
@@ -384,17 +385,45 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             #Se almacenan los dato del documento
             for doc in documentos:
-                fecha_emision_0 = doc.fecha_Emision_0
-                fecha_emision_b = doc.fecha_Emision_B
-                versiones = Version.objects.filter(documento_fk=doc).last()
-                cont = 0
+                version_first = Version.objects.filter(documento_fk=doc).first()
+                version = Version.objects.filter(documento_fk=doc)
+                if version_first:
+                    revision_version_first = version_first.revision
+                    contador = 0
 
-                #Si exite una version
-                if versiones:
+                    if revision_version_first < 5:
+                        for versiones in version:
+                            if versiones.revision >4 and contador == 0:
+                                version_numerica = versiones
+                                contador = 1
+                    
+                    if contador == 0:
+                        lista_versiones.append([doc, [version_first]])
+                        # print('Documento: ', doc.Descripcion, ' Fecha: ', version_first.fecha, ' Revision: ', version_first.revision)
+                        
+                    if contador == 1:
+                        if version_first.fecha.day == version_numerica.fecha.day and version_first.fecha.month == version_numerica.fecha.month and version_first.fecha.year == version_numerica.fecha.year:
+                            lista_versiones.append([doc, [version_numerica]])
+                            # print('Documento: ', doc.Descripcion, ' Fecha: ', version_numerica.fecha, ' Revision: ', version_numerica.revision)
+                        else:
+                            lista_versiones.append([doc, [version_first, version_numerica]])
+                            # print('Documento: ', doc.Descripcion, ' Fecha: ', version_first.fecha, ' Revision: ', version_first.revision)
+                            # print('Documento: ', doc.Descripcion, ' Fecha: ', version_numerica.fecha, ' Revision: ', version_numerica.revision)
+
+                if not version_first:
+                    pass
+
+            for docs in lista_versiones:
+
+                fecha_emision_0 = docs[0].fecha_Emision_0
+                fecha_emision_b = docs[0].fecha_Emision_B
+
+                for versiones in docs[1]:
                     contador_versiones = contador_versiones + 1
                     fecha_version = versiones.fecha
                     revision_documento = versiones.revision
                     valor_documento = 0
+                    cont = 0
 
                     #Se calcula el avance real en la fecha de control que corresponda
                     for controles in fechas_controles_recorrer:
@@ -434,10 +463,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
                                 valor_documento = 1 
                             cont = cont + 1
-
-                #Si no hay versiones, pasa al siguiente documento
-                if not versiones:
-                    pass
 
             if contador_versiones != 0:
                 #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
@@ -517,19 +542,17 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                     avance_fechas_controles.append(0)
                                     contador_fechas = 0
 
-                        #Se almacenan los dato del documento
-                        for doc in documentos:
-                            fecha_emision_0 = doc.fecha_Emision_0
-                            fecha_emision_b = doc.fecha_Emision_B
-                            versiones = Version.objects.filter(documento_fk=doc).last()
-                            cont = 0
+                        for docs in lista_versiones:
 
-                            #Si exite una version
-                            if versiones:
+                            fecha_emision_0 = docs[0].fecha_Emision_0
+                            fecha_emision_b = docs[0].fecha_Emision_B
+
+                            for versiones in docs[1]:
                                 contador_versiones = contador_versiones + 1
                                 fecha_version = versiones.fecha
                                 revision_documento = versiones.revision
                                 valor_documento = 0
+                                cont = 0
 
                                 #Se calcula el avance real en la fecha de control que corresponda
                                 for controles in fechas_controles_recorrer:
@@ -570,11 +593,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                             valor_documento = 1 
                                         cont = cont + 1
 
-                            #Si no hay versiones, pasa al siguiente documento
-                            if not versiones:
-                                pass
-
                         #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
+                        print(avance_fechas_controles)
                         contador_final = 0
                         calculo_avance_final = 0
                         largo_fechas = len(avance_fechas_controles)
