@@ -187,7 +187,8 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
                 if tarea.estado == True:
                     realizados = realizados + 1
 
-            final_list.append([(user.first_name+" "+user.last_name), asignados, realizados])
+            if asignados != 0:
+                final_list.append([(user.first_name+" "+user.last_name), asignados, realizados])
 
         return final_list
 
@@ -244,7 +245,8 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
                 if tarea.estado == False:
                     asignados = asignados + 1
 
-            final_list.append([(user.first_name+" "+user.last_name), asignados])
+            if asignados !=0:
+                final_list.append([(user.first_name+" "+user.last_name), asignados])
 
         return final_list
 
@@ -304,7 +306,9 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
                     hh_realizados = hh_realizados + tarea.task_answer.contidad_hh
                 except:
                     pass
-            final_list.append([(user.first_name+" "+user.last_name), hh_asignados, hh_realizados])
+            
+            if hh_asignados != 0:
+                final_list.append([(user.first_name+" "+user.last_name), hh_asignados, hh_realizados])
         
         return final_list
 
