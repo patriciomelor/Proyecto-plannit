@@ -25,12 +25,6 @@ class Proyecto(models.Model):
     def __str__(self):
         return self.nombre
 
-    def toJSON(self):
-        item = model_to_dict(self)
-        item['Nombre'] = self.nombre
-        item['Fecha Inicio'] = self.fecha_inicio
-        item['Fecha Termino'] = self.fecha_termino
-        return item
 
 class Documento(models.Model):
     
@@ -50,15 +44,6 @@ class Documento(models.Model):
     def __str__(self):
         return self.Codigo_documento
     
-    def toJSON(self):
-        item = model_to_dict(self)
-        item['Codigo_Documento'] = {'id': self.Codigo_documento, 'name': self.get_Codigo_documento_display()}
-        item['Fecha Emision B'] = self.fecha_Emision_B
-        return item
-
-
-
-
 
 #Tabla que almacena el historico de las ediciones por documento, la idea es mostrar siempre el ultimo para saber quien le metio mano a ese documento
 #De ser necesario tambien se puede revisar quien lo hizo antes, pero la idea es que este restringida su vista al ultimo 
@@ -70,12 +55,6 @@ class Historial(models.Model):
 
     def __str__(self):
         return self.fecha
-    
-    def toJSON(self):
-        item = model_to_dict(self)
-        item['Codigo Documento'] = self.documento
-        item['Fecha'] = self.fecha
-        return item
 
 
 class Revision(models.Model):
