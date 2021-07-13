@@ -425,11 +425,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 if not version:
                     pass
-            
+            #Se recorren las versiones a calcular el avance real
             for docs in lista_versiones:
-
-                fecha_emision_0 = docs[0].fecha_Emision_0
-                fecha_emision_b = docs[0].fecha_Emision_B
                 contador_avance = 0
 
                 for versiones in docs[1]:
@@ -503,7 +500,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 #Funcion en caso de que el avance real no sea el 100%
                 diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                 diferencia = 100 - calculo_avance_final
-                avance_semanal = calculo_avance_final/largo_fechas
+                avance_semanal = calculo_avance_final/(largo_fechas - 1)
 
                 if calculo_avance_final == 100:
                     #Se calcula el avance porcentual
@@ -565,10 +562,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                     avance_fechas_controles.append(0)
                                     contador_fechas = 0
 
+                        #Se recorren las versiones a calcular el avance real
                         for docs in lista_versiones:
-
-                            fecha_emision_0 = docs[0].fecha_Emision_0
-                            fecha_emision_b = docs[0].fecha_Emision_B
                             contador_avance = 0
 
                             for versiones in docs[1]:
@@ -641,7 +636,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                         #Funcion en caso de que el avance real no sea el 100%
                         diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                         diferencia = 100 - calculo_avance_final
-                        avance_semanal = calculo_avance_final/largo_fechas
+                        avance_semanal = calculo_avance_final/(largo_fechas - 1)
                         proyeccion = (diferencia / avance_semanal)
                         contador = 0
 
