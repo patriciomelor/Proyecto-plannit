@@ -27,6 +27,16 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     #                                                 #
     ###################################################
+
+    def get_users(self, *args, **kwargs):
+        users = self.proyecto.participantes.all()
+        lista_usuarios = []
+
+        for usuarios in users:
+            if usuarios.perfil.rol_usuario == 4 or usuarios.perfil.rol_usuario == 5:
+                lista_usuarios.append(usuarios)             
+
+        return lista_usuarios
     
     def Obtener_documentos_versiones(self):
 
@@ -351,6 +361,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         valor_ganado = Documento.objects.filter(proyecto=self.proyecto).count()
         lista_final = self.Obtener_fechas()
         dia_actual = timezone.now()
+        usuarios = self.get_users()
         
         if valor_ganado !=0:
 
@@ -385,38 +396,41 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
             #Se almacenan los dato del documento
             for doc in documentos:
-                version_first = Version.objects.filter(documento_fk=doc).first()
                 version = Version.objects.filter(documento_fk=doc)
-                if version_first:
-                    revision_version_first = version_first.revision
-                    contador = 0
+                contador = 0
+                if version:
+                    cont = 0
+                    cont2 = 0
 
-                    if revision_version_first < 5:
-                        for versiones in version:
-                            if versiones.revision >4 and contador == 0:
-                                version_numerica = versiones
-                                contador = 1
-                    
-                    if contador == 0:
-                        lista_versiones.append([doc, [version_first]])
-                        # print('Documento: ', doc.Descripcion, ' Fecha: ', version_first.fecha, ' Revision: ', version_first.revision)
-                        
-                    if contador == 1:
-                        if version_first.fecha.day == version_numerica.fecha.day and version_first.fecha.month == version_numerica.fecha.month and version_first.fecha.year == version_numerica.fecha.year:
-                            lista_versiones.append([doc, [version_numerica]])
-                            # print('Documento: ', doc.Descripcion, ' Fecha: ', version_numerica.fecha, ' Revision: ', version_numerica.revision)
-                        else:
-                            lista_versiones.append([doc, [version_first, version_numerica]])
-                            # print('Documento: ', doc.Descripcion, ' Fecha: ', version_first.fecha, ' Revision: ', version_first.revision)
-                            # print('Documento: ', doc.Descripcion, ' Fecha: ', version_numerica.fecha, ' Revision: ', version_numerica.revision)
+                    for versiones in version:
+                        for user in usuarios:
+                            nombre = user.first_name + ' ' + user.last_name
+                            if versiones.revision < 5:
+                                if str(nombre) == str(versiones.owner) and cont == 0:               
+                                    version_letras = versiones
+                                    cont = 1
+                            if versiones.revision > 4:
+                                if str(nombre) == str(versiones.owner) and cont2 == 0:               
+                                    version_numerica = versiones
+                                    cont2 = 1
 
-                if not version_first:
+                    if cont == 1 and cont2 == 1:
+                        lista_versiones.append([doc, [version_letras, version_numerica]])
+
+                    if cont == 1 and cont2 == 0:
+                        lista_versiones.append([doc, [version_letras]])
+
+                    if cont == 0 and cont2 == 1:
+                        lista_versiones.append([doc, [version_numerica]])
+
+                if not version:
                     pass
-
+            
             for docs in lista_versiones:
 
                 fecha_emision_0 = docs[0].fecha_Emision_0
                 fecha_emision_b = docs[0].fecha_Emision_B
+                contador_avance = 0
 
                 for versiones in docs[1]:
                     contador_versiones = contador_versiones + 1
@@ -440,28 +454,37 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                     if revision[0] == revision_documento and fecha_version > controles:                              
                                         calculo_real_b = valor_ganado * 0.7
 
-                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                            for revision in TYPES_REVISION[5:]:
-                                if revision[0] == revision_documento and fecha_version <= controles:
-                                    calculo_real_0 = valor_ganado * 1
-                                if cont == (len(fechas_controles) - 1):
-                                    if revision[0] == revision_documento and fecha_version > controles:                                
+                            if contador_avance == 0:
+                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                for revision in TYPES_REVISION[5:]:
+                                    if revision[0] == revision_documento and fecha_version <= controles:
                                         calculo_real_0 = valor_ganado * 1
+                                    if cont == (len(fechas_controles) - 1):
+                                        if revision[0] == revision_documento and fecha_version > controles:                                
+                                            calculo_real_0 = valor_ganado * 1
+
+                            if contador_avance != 0:
+                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                for revision in TYPES_REVISION[5:]:
+                                    if revision[0] == revision_documento and fecha_version <= controles:
+                                        calculo_real_0 = valor_ganado * 0.3
+                                    if cont == (len(fechas_controles) - 1):
+                                        if revision[0] == revision_documento and fecha_version > controles:                                
+                                            calculo_real_0 = valor_ganado * 0.3
 
                             #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b > calculo_real_0:
-                                avance_documento = calculo_real_b
-                                fecha_documento = fecha_emision_b
+                                avance_documento = calculo_real_b                               
 
                             #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b < calculo_real_0:
                                 avance_documento = calculo_real_0
-                                fecha_documento = fecha_emision_0
 
                             #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
                             if avance_documento != 0:
                                 avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
                                 valor_documento = 1 
+                                contador_avance = contador_avance + 1
                             cont = cont + 1
 
             if contador_versiones != 0:
@@ -546,6 +569,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                             fecha_emision_0 = docs[0].fecha_Emision_0
                             fecha_emision_b = docs[0].fecha_Emision_B
+                            contador_avance = 0
 
                             for versiones in docs[1]:
                                 contador_versiones = contador_versiones + 1
@@ -569,32 +593,40 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                                 if revision[0] == revision_documento and fecha_version > controles:                              
                                                     calculo_real_b = valor_ganado * 0.7
 
-                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                        for revision in TYPES_REVISION[5:]:
-                                            if revision[0] == revision_documento and fecha_version <= controles:
-                                                calculo_real_0 = valor_ganado * 1
-                                            if cont == (len(fechas_controles) - 1):
-                                                if revision[0] == revision_documento and fecha_version > controles:                                
+                                        if contador_avance == 0:
+                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                            for revision in TYPES_REVISION[5:]:
+                                                if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_0 = valor_ganado * 1
+                                                if cont == (len(fechas_controles) - 1):
+                                                    if revision[0] == revision_documento and fecha_version > controles:                                
+                                                        calculo_real_0 = valor_ganado * 1
+
+                                        if contador_avance != 0:
+                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                            for revision in TYPES_REVISION[5:]:
+                                                if revision[0] == revision_documento and fecha_version <= controles:
+                                                    calculo_real_0 = valor_ganado * 0.3
+                                                if cont == (len(fechas_controles) - 1):
+                                                    if revision[0] == revision_documento and fecha_version > controles:                                
+                                                        calculo_real_0 = valor_ganado * 0.3
 
                                         #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                         if calculo_real_b > calculo_real_0:
-                                            avance_documento = calculo_real_b
-                                            fecha_documento = fecha_emision_b
+                                            avance_documento = calculo_real_b                               
 
                                         #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                         if calculo_real_b < calculo_real_0:
                                             avance_documento = calculo_real_0
-                                            fecha_documento = fecha_emision_0
 
                                         #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
                                         if avance_documento != 0:
                                             avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
                                             valor_documento = 1 
+                                            contador_avance = contador_avance + 1
                                         cont = cont + 1
 
                         #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
-                        print(avance_fechas_controles)
                         contador_final = 0
                         calculo_avance_final = 0
                         largo_fechas = len(avance_fechas_controles)
