@@ -56,6 +56,16 @@ class EscritorioView(ProyectoMixin, TemplateView):
         #                                                 #
         #                                                 #
         ###################################################
+
+    def get_users_dash(self, *args, **kwargs):
+        users = self.proyecto.participantes.all()
+        lista_usuarios = []
+
+        for usuarios in users:
+            if usuarios.perfil.rol_usuario == 4 or usuarios.perfil.rol_usuario == 5:
+                lista_usuarios.append(usuarios)             
+
+        return lista_usuarios
         
     def datos_tabla(self):
 
@@ -69,9 +79,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
         fechas = fechas[0][0]
         avance_esperado = self.reporte_curva_s_avance_esperado()
         semana_actual = timezone.now()
-
-        # print(lista_avance_real)
-        # print(avance_esperado)
 
         #Variables para funciones
         contador_emitidos = 0
@@ -253,8 +260,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
         avance_semanal_programado = float(avance_esperado[contador_real][0]) - float(avance_esperado[contador_real - 1][0])
         avance_semanal_programado = [format(avance_semanal_programado, '.2f')]
         avance_semanal_real = [format(avance_semanal_real, '.2f')]
-
-        print(lista_avance_real[contador_real][0], avance_esperado[contador_real][0], lista_avance_real[contador_real - 1][0], avance_esperado[contador_real - 1][0])
         
         #Se almacenan los datos obtenidos
         lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente,  documentos_revision_contratista,  documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0,cantidad_paquetes_contratista, cantidad_paquetes_cliente,  avance_programado, avance_real, avance_semanal_programado[0], avance_semanal_real[0]]
@@ -375,6 +380,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         valor_ganado = self.get_queryset().count()
         lista_final = self.Obtener_fechas()
         dia_actual = timezone.now()
+        usuarios = self.get_users_dash()
         
         if valor_ganado !=0:
 
@@ -390,6 +396,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
             fechas_controles_recorrer = []
             ultima_fecha = 0
             contador_fechas = 1
+            lista_versiones = []
 
             #Variables final
             largo_inicial_fechas = len(fechas_controles)
@@ -409,17 +416,45 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
             #Se almacenan los dato del documento
             for doc in documentos:
-                fecha_emision_0 = doc.fecha_Emision_0
-                fecha_emision_b = doc.fecha_Emision_B
-                versiones = Version.objects.filter(documento_fk=doc).last()
-                cont = 0
+                version = Version.objects.filter(documento_fk=doc)
+                contador = 0
+                if version:
+                    cont = 0
+                    cont2 = 0
 
-                #Si exite una version
-                if versiones:
+                    for versiones in version:
+                        for users in usuarios:
+                            nombre = users.first_name + ' ' + users.last_name
+                            if versiones.revision < 5:
+                                if str(nombre) == str(versiones.owner) and cont == 0:               
+                                    version_letras = versiones
+                                    cont = 1
+                            if versiones.revision > 4:
+                                if str(nombre) == str(versiones.owner) and cont2 == 0:               
+                                    version_numerica = versiones
+                                    cont2 = 1
+
+                    if cont == 1 and cont2 == 1:
+                        lista_versiones.append([doc, [version_letras, version_numerica]])
+
+                    if cont == 1 and cont2 == 0:
+                        lista_versiones.append([doc, [version_letras]])
+
+                    if cont == 0 and cont2 == 1:
+                        lista_versiones.append([doc, [version_numerica]])
+
+                if not version:
+                    pass
+            #Se recorren las versiones a calcular el avance real
+            for docs in lista_versiones:
+                contador_avance = 0
+
+                for versiones in docs[1]:
                     contador_versiones = contador_versiones + 1
                     fecha_version = versiones.fecha
                     revision_documento = versiones.revision
                     valor_documento = 0
+                    cont = 0
 
                     #Se calcula el avance real en la fecha de control que corresponda
                     for controles in fechas_controles_recorrer:
@@ -436,28 +471,37 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                     if revision[0] == revision_documento and fecha_version > controles:                              
                                         calculo_real_b = valor_ganado * 0.7
 
-                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                            for revision in TYPES_REVISION[5:]:
-                                if revision[0] == revision_documento and fecha_version <= controles:
-                                    calculo_real_0 = valor_ganado * 1
-                                if cont == (len(fechas_controles) - 1):
-                                    if revision[0] == revision_documento and fecha_version > controles:                                
+                            if contador_avance == 0:
+                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                for revision in TYPES_REVISION[5:]:
+                                    if revision[0] == revision_documento and fecha_version <= controles:
                                         calculo_real_0 = valor_ganado * 1
+                                    if cont == (len(fechas_controles) - 1):
+                                        if revision[0] == revision_documento and fecha_version > controles:                                
+                                            calculo_real_0 = valor_ganado * 1
+
+                            if contador_avance != 0:
+                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                for revision in TYPES_REVISION[5:]:
+                                    if revision[0] == revision_documento and fecha_version <= controles:
+                                        calculo_real_0 = valor_ganado * 0.3
+                                    if cont == (len(fechas_controles) - 1):
+                                        if revision[0] == revision_documento and fecha_version > controles:                                
+                                            calculo_real_0 = valor_ganado * 0.3
 
                             #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b > calculo_real_0:
-                                avance_documento = calculo_real_b
-                                fecha_documento = fecha_emision_b
+                                avance_documento = calculo_real_b                               
 
                             #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b < calculo_real_0:
                                 avance_documento = calculo_real_0
-                                fecha_documento = fecha_emision_0
 
                             #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
                             if avance_documento != 0:
                                 avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
                                 valor_documento = 1 
+                                contador_avance = contador_avance + 1
                             cont = cont + 1
 
                 #Si no hay versiones, pasa al siguiente documento
@@ -480,7 +524,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 #Funcion en caso de que el avance real no sea el 100%
                 diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                 diferencia = 100 - calculo_avance_final
-                avance_semanal = calculo_avance_final/largo_fechas
+                avance_semanal = calculo_avance_final/(largo_fechas - 1)
                 
                 if avance_semanal != 0:
                     proyeccion = (diferencia / avance_semanal) - diferencia_arreglo_fecha
@@ -515,19 +559,16 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                     avance_fechas_controles.append(0)
                                     contador_fechas = 0
 
-                        #Se almacenan los dato del documento
-                        for doc in documentos:
-                            fecha_emision_0 = doc.fecha_Emision_0
-                            fecha_emision_b = doc.fecha_Emision_B
-                            versiones = Version.objects.filter(documento_fk=doc).last()
-                            cont = 0
+                        #Se recorren las versiones a calcular el avance real
+                        for docs in lista_versiones:
+                            contador_avance = 0
 
-                            #Si exite una version
-                            if versiones:
+                            for versiones in docs[1]:
                                 contador_versiones = contador_versiones + 1
                                 fecha_version = versiones.fecha
                                 revision_documento = versiones.revision
                                 valor_documento = 0
+                                cont = 0
 
                                 #Se calcula el avance real en la fecha de control que corresponda
                                 for controles in fechas_controles_recorrer:
@@ -544,28 +585,37 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                                 if revision[0] == revision_documento and fecha_version > controles:                              
                                                     calculo_real_b = valor_ganado * 0.7
 
-                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                        for revision in TYPES_REVISION[5:]:
-                                            if revision[0] == revision_documento and fecha_version <= controles:
-                                                calculo_real_0 = valor_ganado * 1
-                                            if cont == (len(fechas_controles) - 1):
-                                                if revision[0] == revision_documento and fecha_version > controles:                                
+                                        if contador_avance == 0:
+                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                            for revision in TYPES_REVISION[5:]:
+                                                if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_0 = valor_ganado * 1
+                                                if cont == (len(fechas_controles) - 1):
+                                                    if revision[0] == revision_documento and fecha_version > controles:                                
+                                                        calculo_real_0 = valor_ganado * 1
+
+                                        if contador_avance != 0:
+                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                            for revision in TYPES_REVISION[5:]:
+                                                if revision[0] == revision_documento and fecha_version <= controles:
+                                                    calculo_real_0 = valor_ganado * 0.3
+                                                if cont == (len(fechas_controles) - 1):
+                                                    if revision[0] == revision_documento and fecha_version > controles:                                
+                                                        calculo_real_0 = valor_ganado * 0.3
 
                                         #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                         if calculo_real_b > calculo_real_0:
-                                            avance_documento = calculo_real_b
-                                            fecha_documento = fecha_emision_b
+                                            avance_documento = calculo_real_b                               
 
                                         #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                         if calculo_real_b < calculo_real_0:
                                             avance_documento = calculo_real_0
-                                            fecha_documento = fecha_emision_0
 
                                         #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
                                         if avance_documento != 0:
                                             avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
                                             valor_documento = 1 
+                                            contador_avance = contador_avance + 1
                                         cont = cont + 1
 
                             #Si no hay versiones, pasa al siguiente documento
@@ -587,7 +637,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         #Funcion en caso de que el avance real no sea el 100%
                         diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                         diferencia = 100 - calculo_avance_final
-                        avance_semanal = calculo_avance_final/largo_fechas
+                        avance_semanal = calculo_avance_final/(largo_fechas - 1)
                         proyeccion = (diferencia / avance_semanal)
                         contador = 0
 
