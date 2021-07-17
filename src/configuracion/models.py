@@ -1,4 +1,5 @@
-from panel_carga.models import Proyecto
+from notifications.models import Notificacion
+from panel_carga.models import Documento, Proyecto
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.base import Model
@@ -34,3 +35,16 @@ class CausasNoCumplimiento(models.Model):
 
     def __str__(self):
         return self.nombre
+
+class Umbral(models.Model):
+    nombre = models.CharField(max_length=100, editable=False)
+
+class HistorialUmbrales(models.Model):
+    umbral = models.ForeignKey(Umbral, on_delete=models.CASCADE, related_name="umbral")
+    proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="hu_proyecto")
+    last_checked = models.DateField(verbose_name="Ultima Revisión")
+
+class NotificacionHU(models.Model):
+    h_umbral = models.ForeignKey(HistorialUmbrales, on_delete=models.CASCADE, related_name="historial_umbral")
+    notificacion = models.OneToOneField(Notificacion, on_delete=models.CASCADE, related_name="hu_notificacion")
+    documentos = models.ManyToManyField(Documento, related_name="hu_documentos", verbose_name="Listado de Documentos")
