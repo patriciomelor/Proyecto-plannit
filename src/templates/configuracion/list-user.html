@@ -36,6 +36,7 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Correo</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">ROL</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Cargo</th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Modificar </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;">Eliminar  </th>
             </tr>
@@ -55,6 +56,8 @@
               {% else %}
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
               {% endif %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.cargo}} </th>
+
               <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'editar-usuario' usuario.pk %}" class="btn btn-teal center"> Modificar </a></th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'eliminar-usuario' usuario.pk %}" class="btn btn-danger center"> Eliminar </a></th>
             </tr>           
