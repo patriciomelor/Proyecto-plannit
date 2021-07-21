@@ -15,19 +15,30 @@ from configuracion.models import Umbral, HistorialUmbrales, NotificacionHU
 @app.task(name="umbral_2")
 def umbral_2():
     recipients = []
+    document_list = []
     proyectos = Proyecto.objects.all()
     for proyecto in proyectos:
         participantes = proyecto.participantes.all()
+        
         for user in participantes:
             rol = user.perfil.rol_usuario
             if rol == 1:
                 recipients.append(user.email)
         last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto).last()
-        delta = (datetime.now() - last_hu.last_checked)
-        if delta.days >= proyecto.umbral_documento_atrasado :
+        delta_proyect = (datetime.now() - last_hu.last_checked)
+
+        if delta_proyect.days >= proyecto.umbral_documento_atrasado:
+            documentos = Documento.objects.filter(proyecto=proyecto)
+            for doc in documentos:
+                delta_doc = (datetime.now() - doc.fecha_Emision_B)
+                if delta_doc > 0:
+                    document_list.append(doc)
+
             send_email(
                 html= 'configuracion/umbral_1.html',
-                context= {},
+                context= {
+                    "documentos": document_list,
+                },
                 subject="[UMBRAL] Listado de Documentos Atrasados.",
                 recipients=recipients
             )

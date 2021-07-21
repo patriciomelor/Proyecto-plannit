@@ -39,8 +39,6 @@ class Documento(models.Model):
     fecha_Emision_B = models.DateTimeField(verbose_name="Fecha inicio emisión B", blank=True, default=None) 
     fecha_Emision_0 = models.DateTimeField(verbose_name="Fecha inicio emisión 0", blank=True, default=None) 
     
-
-
     def __str__(self):
         return self.Codigo_documento
     
