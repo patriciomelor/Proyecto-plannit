@@ -38,7 +38,11 @@ class CausasNoCumplimiento(models.Model):
         return self.nombre
 
 class Umbral(models.Model):
+    """
+    4 umbrales inmodificables
+    """
     nombre = models.CharField(max_length=100, editable=False)
+
 
 class HistorialUmbrales(models.Model):
     umbral = models.ForeignKey(Umbral, on_delete=models.CASCADE, related_name="umbral")
