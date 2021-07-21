@@ -189,7 +189,7 @@ class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
         invite.send_invitation(self.request)
         return response 
 
-class UmbralesEdit(ProyectoMixin, SuperuserViewMixin, UpdateView):
+class UmbralesEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     form_class = UmbralesForm
     template_name = 'configuracion/edit-umbrales.html'
     success_message = 'Umbrales editados correctamente'
