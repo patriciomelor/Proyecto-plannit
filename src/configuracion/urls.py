@@ -20,7 +20,7 @@ urlpatterns = [
     #URL DE CONFIG
     path('restricciones/', views.RestriccionesView.as_view() , name='restriccion'),
     path('no-cumplimiento/', views.NoCumplimientoView.as_view() , name='no-cumplimiento'),
-    path('edit-umbrales/', views.UmbralesEdit.as_view(), name='edit-umbrales'),
+    path('edit-umbrales/<pk>', views.UmbralesEdit.as_view(), name='edit-umbrales'),
 ]
 
 
