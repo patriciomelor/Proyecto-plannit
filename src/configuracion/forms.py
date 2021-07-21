@@ -33,7 +33,7 @@ class InvitationForm(forms.Form):
     correo = forms.CharField(max_length=30)
 
 
-class UmbralesForm(forms.Form):
+class UmbralesForm(forms.ModelForm):
     class Meta:
         model = Proyecto
         fields = ["umbral_documento_aprobado", "umbral_documento_atrasado", "umbral_revision_documento", "umbral_desviacion_porcentual"]
