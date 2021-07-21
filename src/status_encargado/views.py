@@ -99,6 +99,7 @@ class CreateTarea(ProyectoMixin, CreateView):
         participantes = self.proyecto.participantes.all()
         kwargs["participantes"] = participantes
         kwargs["usuario"] = user
+        kwargs["proyecto"] = self.proyecto
         return kwargs
 
     def get_initial(self, **kwargs):
