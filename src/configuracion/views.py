@@ -34,10 +34,12 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
         else:
             rol = form.cleaned_data['rol_usuario']
             company = form.cleaned_data['empresa']
+            cargo = form.cleaned_data['cargo_empresa']
             Perfil.objects.create(
                 usuario=user,
                 rol_usuario=rol,
                 empresa=company,
+                cargo_empresa=cargo,
                 client=True
             )
             
