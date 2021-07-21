@@ -14,7 +14,8 @@ class Perfil(models.Model):
     usuario = models.OneToOneField(User, verbose_name="Usuario", on_delete=models.CASCADE)
     foto_de_perfil = models.ImageField(upload_to="perfil/foto/%Y/%m/%d", blank=True, null=True )
     rol_usuario = models.IntegerField(verbose_name='Rol de Usuario', choices=ROLES)
-    empresa = models.CharField(verbose_name='Empresa', max_length=60)
+    empresa = models.CharField(verbose_name='Empresa', max_length=64, default="")
+    cargo_empresa = models.CharField(verbose_name='Cargo en Empresa', max_length=128, default="")
     client = models.BooleanField(verbose_name='Es cliente', default=True)
 
     def __str__(self):
