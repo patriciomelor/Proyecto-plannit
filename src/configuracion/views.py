@@ -54,9 +54,11 @@ class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     def form_valid(self, form):
         rol = form.cleaned_data['rol_usuario']
         company = form.cleaned_data['empresa']
+        cargo = form.cleaned_data['cargo_empresa']
         perfil = Perfil.objects.get(usuario=form.instance)
         perfil.rol_usuario = rol
         perfil.empresa = company
+        perfil.cargo_empresa = cargo
         perfil.save()
         return super().form_valid(form)
     
@@ -138,7 +140,6 @@ class UsuarioRemove(ProyectoMixin, SuperuserViewMixin, ListView):
             proyecto_remove = self.proyecto
             proyecto_remove.participantes.remove(user)
         return redirect('listar-usuarios')
-
 
 class ProyectoList(ProyectoMixin, AdminViewMixin, ListView):
     context_object_name = 'proyectos'
