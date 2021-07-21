@@ -17,7 +17,7 @@ from bandeja_es.models import *
 from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check, is_admin_check
 
 from .models import CausasNoCumplimiento, Perfil, Restricciones
-from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm
+from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm, UmbralesForm
 from invitations.utils import get_invitation_model
 
 class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
@@ -34,10 +34,12 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
         else:
             rol = form.cleaned_data['rol_usuario']
             company = form.cleaned_data['empresa']
+            cargo = form.cleaned_data['cargo_empresa']
             Perfil.objects.create(
                 usuario=user,
                 rol_usuario=rol,
                 empresa=company,
+                cargo_empresa=cargo,
                 client=True
             )
             
@@ -52,9 +54,11 @@ class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     def form_valid(self, form):
         rol = form.cleaned_data['rol_usuario']
         company = form.cleaned_data['empresa']
+        cargo = form.cleaned_data['cargo_empresa']
         perfil = Perfil.objects.get(usuario=form.instance)
         perfil.rol_usuario = rol
         perfil.empresa = company
+        perfil.cargo_empresa = cargo
         perfil.save()
         return super().form_valid(form)
     
@@ -137,7 +141,6 @@ class UsuarioRemove(ProyectoMixin, SuperuserViewMixin, ListView):
             proyecto_remove.participantes.remove(user)
         return redirect('listar-usuarios')
 
-
 class ProyectoList(ProyectoMixin, AdminViewMixin, ListView):
     context_object_name = 'proyectos'
     template_name = 'configuracion/list-proyecto.html'
@@ -186,6 +189,12 @@ class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
         invite = invitation.create(correo, inviter=self.request.user)
         invite.send_invitation(self.request)
         return response 
+
+class UmbralesEdit(ProyectoMixin, AdminViewMixin, UpdateView):
+    form_class = UmbralesForm
+    template_name = 'configuracion/edit-umbrales.html'
+    success_message = 'Umbrales editados correctamente'
+    success_url = reverse_lazy('lista-proyecto')
 
 class UmbralesView(ProyectoMixin, TemplateView):
 
