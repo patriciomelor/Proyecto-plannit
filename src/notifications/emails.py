@@ -25,4 +25,4 @@ def send_email(html, context, subject, recipients):
         connection=connection
     )
     email.attach_alternative(html_content, "text/html")
-    email.send
+    email.send()

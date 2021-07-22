@@ -99,6 +99,7 @@ class CreateTarea(ProyectoMixin, CreateView):
         participantes = self.proyecto.participantes.all()
         kwargs["participantes"] = participantes
         kwargs["usuario"] = user
+        kwargs["proyecto"] = self.proyecto
         return kwargs
 
     def get_initial(self, **kwargs):
@@ -133,6 +134,10 @@ class RevisorView(ProyectoMixin, ListView):
         context["tareas"] = qs1
         context["respuestas"] = qs2
         return context
+
+class RespuestaDetail(ProyectoMixin, DetailView):
+    template_name = 'status_encargado/respuesta-detail.html'
+    context_object_name = 'respuesta'
 
 class TareaDetailView(ProyectoMixin, DetailView):
     model = Tarea

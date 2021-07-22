@@ -5,6 +5,8 @@ from django.views.generic import FormView, CreateView, DeleteView, UpdateView, L
 from django.views.generic.edit import FormMixin
 from panel_carga.views import ProyectoMixin
 from django.contrib.auth.models import User, Group, Permission, PermissionsMixin
+
+from status_encargado import forms
 from .roles import ROLES
 from django.contrib import messages
 from django.contrib.contenttypes.models import ContentType
@@ -295,3 +297,26 @@ class NoCumplimientoView(ProyectoMixin, FormView):
         no_cumplimiento.proyecto = self.proyecto
         no_cumplimiento.save()
         return super().form_valid(form)
+
+class RestriccionesEdit(ProyectoMixin, UpdateView):
+    template_name = "configuracion/restriccion-edit.html"
+    form_class = RestriccionForm
+    success_url = reverse_lazy('restriccion')
+    success_message = 'Restriccion editada correctamente'
+class NoCumplimientoEdit(ProyectoMixin, UpdateView):
+    template_name = "configuracion/no_cumplimiento-edit.html"
+    form_class = NoCumplimientoForm
+    success_url = reverse_lazy('no-cumplimiento')
+    success_message = 'Causa de No Cumplimiento editada correctamente'
+
+class RestriccionesDelete(ProyectoMixin, DeleteView):
+    template_name = "configuracion/restriccion-delete.html"
+    success_url = reverse_lazy('restriccion')
+    success_message = 'Restriccion eliminada correctamente'
+
+
+class NoCumplimientoDelete(ProyectoMixin, DeleteView):
+    template_name = "configuracion/no_cumplimiento-delete.html"
+    success_url = reverse_lazy('no-cumplimiento')
+    success_message = 'Causa de No Cumplimiento eliminada correctamente'
+
