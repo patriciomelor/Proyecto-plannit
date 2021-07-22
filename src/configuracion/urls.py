@@ -24,7 +24,7 @@ urlpatterns = [
     path('no-cumplimiento/', views.NoCumplimientoView.as_view() , name='no-cumplimiento'),
     path('no-cumplimiento-edit/<pk>/', views.NoCumplimientoEdit.as_view() , name='no-cumplimiento-edit'),
     path('no-cumplimiento-delete/<pk>/', views.NoCumplimientoDelete.as_view() , name='no-cumplimiento-delete'),
-    path('edit-umbrales/<pk>', views.UmbralesEdit.as_view(), name='edit-umbrales'),
+    # path('edit-umbrales/<pk>', views.UmbralesEdit.as_view(), name='edit-umbrales'),
 ]
 
 

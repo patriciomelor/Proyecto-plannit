@@ -41,12 +41,15 @@ class Umbral(models.Model):
     """
     4 umbrales inmodificables
     """
-    nombre = models.CharField(max_length=100, editable=False)
+    nombre = models.CharField(max_length=100, editable=False, default="")
+    descripcion =  models.CharField(max_length=256, editable=False, default="")
 
 
 class HistorialUmbrales(models.Model):
     umbral = models.ForeignKey(Umbral, on_delete=models.CASCADE, related_name="umbral")
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="hu_proyecto")
+    tiempo_control = models.IntegerField(verbose_name="Días de notificación", default=0)
+    variable_atraso = models.IntegerField(verbose_name="Días de atraso", default=0)
     last_checked = models.DateField(verbose_name="Ultima Revisión")
 
 class NotificacionHU(models.Model):
