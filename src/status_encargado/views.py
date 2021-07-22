@@ -135,6 +135,10 @@ class RevisorView(ProyectoMixin, ListView):
         context["respuestas"] = qs2
         return context
 
+class RespuestaDetail(ProyectoMixin, DetailView):
+    template_name = 'status_encargado/respuesta-detail.html'
+    context_object_name = 'respuesta'
+
 class TareaDetailView(ProyectoMixin, DetailView):
     model = Tarea
     template_name = 'status_encargado/tarea-detail.html'
