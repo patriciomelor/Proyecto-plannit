@@ -324,6 +324,7 @@
             <th class="wd-10p pd-y-5" style="color: white;text-align:center;width:auto;">Usuarios</th>
             <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Correo</th>
             <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Empresa</th>            
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Cargo</th>            
             <th class="pd-y-5" style="color: white;text-align:center;width:auto;">ROL</th>
           </tr>
         </thead>
@@ -337,6 +338,7 @@
       {% endif %} 
       <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
       <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.empresa}} </th>
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.cargo}} </th>
       {% if usuario.perfil.rol_usuario %}
       <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
       {% else %}

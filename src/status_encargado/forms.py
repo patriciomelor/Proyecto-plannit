@@ -8,6 +8,9 @@ from crispy_forms.layout import Submit
 from django.core.exceptions import ValidationError
 
 from django.contrib.auth.models import User
+from django.forms.forms import Form
+
+from configuracion.models import Restricciones
 
 from .models import Tarea, Respuesta
 
@@ -18,8 +21,9 @@ class TareaForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         user_list = []
-        self.usuario = kwargs.pop('usuario')
-        self.participantes = kwargs.pop('participantes')
+        self.proyecto = kwargs.pop('proyecto', None)
+        self.usuario = kwargs.pop('usuario', None)
+        self.participantes = kwargs.pop('participantes', None)
         current_rol = self.usuario.perfil.rol_usuario
         #### recorre a todos los participantes e incluye en un listado solo el equipo de la empresa
         for user in self.participantes:
@@ -45,6 +49,7 @@ class TareaForm(forms.ModelForm):
         print(qs)
         super(TareaForm, self).__init__(**kwargs)
         self.fields["encargado"] = forms.ModelChoiceField(queryset=qs)
+        self.fields["restricciones"] = forms.ModelChoiceField(queryset=Restricciones.objects.filter(proyecto=self.proyecto))
 
     class Meta:
         model = Tarea

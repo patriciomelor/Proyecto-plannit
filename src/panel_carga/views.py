@@ -16,6 +16,8 @@ from tablib import Dataset
 from django.core.exceptions import FieldError, ValidationError
 from django.db import IntegrityError
 from django.urls import reverse_lazy
+
+from configuracion.models import HistorialUmbrales, Umbral
 from .models import Proyecto, Documento, Revision, Historial
 from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
 from .filters import DocFilter
@@ -72,10 +74,21 @@ class ListaProyecto(ProyectoMixin, ListView):
         else:
             return HttpResponseRedirect(reverse_lazy('proyecto-crear'))
         
-class CreateProyecto(CreateView, SuperuserViewMixin, AdminViewMixin):
+class CreateProyecto(SuperuserViewMixin, AdminViewMixin, CreateView):
     form_class = ProyectoForm
     template_name = 'panel_carga/create-proyecto.html'
     success_url = reverse_lazy("index")
+
+    def form_valid(self, form):
+        proyecto = form.instance
+        thresholds = Umbral.objects.all()
+        for umbral in thresholds:
+            HistorialUmbrales.objects.create(
+                umbral=umbral,
+                proyecto=proyecto,
+                last_checked=datetime.date.today()
+            )
+        return super().form_valid(form)
 
 class DetailProyecto(ProyectoMixin, SuperuserViewMixin, AdminViewMixin, DetailView):
     template_name = 'panel_carga/detail-proyecto.html'

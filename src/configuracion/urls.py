@@ -19,7 +19,12 @@ urlpatterns = [
     path('proyecto-remove-user/', views.UsuarioRemove.as_view(), name='remove-user-proyecto'),
     #URL DE CONFIG
     path('restricciones/', views.RestriccionesView.as_view() , name='restriccion'),
-    path('no-cumplimiento/', views.NoCumplimientoView.as_view() , name='no-cumplimiento')
-
-
+    path('restricciones-edit/<pk>/', views.RestriccionesEdit.as_view() , name='restriccion-edit'),
+    path('restricciones-delete/<pk>/', views.RestriccionesDelete.as_view() , name='restriccion-delete'),
+    path('no-cumplimiento/', views.NoCumplimientoView.as_view() , name='no-cumplimiento'),
+    path('no-cumplimiento-edit/<pk>/', views.NoCumplimientoEdit.as_view() , name='no-cumplimiento-edit'),
+    path('no-cumplimiento-delete/<pk>/', views.NoCumplimientoDelete.as_view() , name='no-cumplimiento-delete'),
+    # path('edit-umbrales/<pk>', views.UmbralesEdit.as_view(), name='edit-umbrales'),
 ]
+
+
