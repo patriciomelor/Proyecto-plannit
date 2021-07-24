@@ -41,7 +41,7 @@ def umbral_2():
             context= {
                 "documentos": document_list,
             },
-            subject="[UMBRAL {proyecto}] Listado de Documentos Atrasados - {date}.".format(date=datetime.datetime.now(), proyecto=proyecto.nombre),
+            subject="[UMBRAL {proyecto}] Listado de Documentos Atrasados - {date}.".format(date=datetime.datetime.now().strftime("%d-%B-%y"), proyecto=proyecto.nombre),
             recipients=['patriciomelor@gmail.com']
         )
         # else:
