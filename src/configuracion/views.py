@@ -19,7 +19,7 @@ from bandeja_es.models import *
 from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check, is_admin_check
 
 from .models import CausasNoCumplimiento, Perfil, Restricciones
-from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm, UmbralesForm
+from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm
 from invitations.utils import get_invitation_model
 
 class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
@@ -191,12 +191,6 @@ class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
         invite = invitation.create(correo, inviter=self.request.user)
         invite.send_invitation(self.request)
         return response 
-
-class UmbralesEdit(ProyectoMixin, AdminViewMixin, UpdateView):
-    form_class = UmbralesForm
-    template_name = 'configuracion/edit-umbrales.html'
-    success_message = 'Umbrales editados correctamente'
-    success_url = reverse_lazy('lista-proyecto')
 
 class UmbralesView(ProyectoMixin, TemplateView):
 
