@@ -18,7 +18,7 @@ def umbral_2():
     document_list = []
     proyectos = Proyecto.objects.all()
     for proyecto in proyectos:
-        recipients = []
+        # recipients = []
         # participantes = proyecto.participantes.all()
         # for user in participantes:
         #     rol = user.perfil.rol_usuario
@@ -26,23 +26,27 @@ def umbral_2():
         #         recipients.append(user.email)
 
         # last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=2).last()
-        # delta_proyect = (datetime.now() - last_hu.last_checked)
+        # delta_proyect = (timezone.now().strftime("%d-%m-%y") - last_hu.last_checked.strftime("%d-%m-%y"))
 
-        # if delta_proyect.days >= proyecto.umbral_documento_atrasado:
+        # if delta_proyect.days >= last_hu.tiempo_control:
+        #     documentos = Documento.objects.filter(proyecto=proyecto)
+        #     for doc in documentos:
+        #         delta_doc = (timezone.now().strftime("%d-%m-%y") - doc.fecha_Emision_B.strftime("%d-%m-%y"))
+        #         if delta_doc.days > last_hu.variable_atraso:
+        #             document_list.append(doc)
         documentos = Documento.objects.filter(proyecto=proyecto)
         for doc in documentos:
-            delta_doc = (timezone.now() - doc.fecha_Emision_B)
-            print(delta_doc.days)
+            delta_doc = (timezone.now().strftime("%d-%m-%y") - doc.fecha_Emision_B.strftime("%d-%m-%y"))
             if delta_doc.days > 0:
                 document_list.append(doc)
-                
+
         send_email(
             html= 'configuracion/umbral_2.html',
             context= {
                 "documentos": document_list,
             },
-            subject="[UMBRAL {proyecto}] Listado de Documentos Atrasados - {date}.".format(date=datetime.datetime.now().strftime("%d-%B-%y"), proyecto=proyecto.nombre),
-            recipients=['patriciomelor@gmail.com']
+            subject="[UMBRAL {proyecto}] Listado de Documentos Atrasados - {date}.".format(proyecto=proyecto.nombre, date=timezone.now().strftime("%d-%B-%y")),
+            recipients= 'patriciomelor@gmail.com' #recipients
         )
         # else:
         #     pass
