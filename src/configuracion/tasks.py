@@ -35,17 +35,18 @@ def umbral_2():
             print(delta_doc.days)
             if delta_doc.days > 0:
                 document_list.append(doc)
+                
         send_email(
             html= 'configuracion/umbral_2.html',
             context= {
                 "documentos": document_list,
             },
-            subject="[UMBRAL] Listado de Documentos Atrasados.",
-            recipients='contacto@stod.cl'
+            subject="[UMBRAL] Listado de Documentos Atrasados .",
+            recipients=['patriciomelor@gmail.com']
         )
         # else:
         #     pass
-
+    return document_list
 
 # @app.task(name="umbral_3")
 # def umbral_3(umbral, doc):
