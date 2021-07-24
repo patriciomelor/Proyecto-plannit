@@ -79,7 +79,6 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tasks = Tarea.objects.all().filter(documento__proyecto= self.proyecto).order_by('-created_at')
-        print(tasks)
         context["tareas"] = tasks
         context['Listado'] = self.tabla_status()
         return context
@@ -130,8 +129,8 @@ class RevisorView(ProyectoMixin, ListView):
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        qs1 = Tarea.objects.filter(encargado=self.request.user).order_by('-created_at')
-        qs2 = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True).order_by('-contestado')
+        qs1 = Tarea.objects.filter(encargado=self.request.user, documento__proyecto=self.proyecto).order_by('-created_at')
+        qs2 = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True, tarea__documento__proyecto=self.proyecto).order_by('-contestado')
         context["tareas"] = qs1
         context["respuestas"] = qs2
         return context

@@ -92,6 +92,10 @@ INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
 
 LOGIN_URL = reverse_lazy("account_login")
 
+CELERY_TIMEZONE = 'America/Santiago'
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60
+
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
