@@ -13,30 +13,11 @@
     <title>DMP</title>
 
     <!-- vendor css -->
-    <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet"> 
-    <link href="{% static 'Ionicons/css/ionicons.css' %}" rel="stylesheet">
-    <link href="{% static 'perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
-    <link href="{% static 'jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
-    <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
-    <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
-    
-    
-    
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="{% static 'Jquery-Autosave/autosaveform.js' %}"></script>
-
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="{% static 'Jquery-Autosave/autosaveform.js' %}"></script>
-    <!--Chart js-->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
-    
-
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
     <!-- Bracket CSS -->
-    <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
+    <link rel="stylesheet" href="https://stod.cl/bracket.css"> 
+    <link rel="stylesheet" href="https://stod.cl/bracket.min.css"> 
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css">
    <script>
       window.onload = function(){
       var fecha = new Date(); //Fecha actual
@@ -101,55 +82,5 @@
     <div class="resize-sensor" style="position: absolute; inset: 0px; overflow: hidden; z-index: -1; visibility: hidden;"><div class="resize-sensor-expand" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0px; top: 0px; transition: all 0s ease 0s; width: 100000px; height: 100000px;"></div></div><div class="resize-sensor-shrink" style="position: absolute; left: 0; top: 0; right: 0; bottom: 0; overflow: hidden; z-index: -1; visibility: hidden;"><div style="position: absolute; left: 0; top: 0; transition: 0s; width: 200%; height: 200%"></div></div></div></div>
     <!-- ########## END: MAIN PANEL ########## -->
 
-    <script src="{% static 'jquery/jquery.js' %}"></script> 
-    <script src="{% static 'popper.js/popper.js' %}"></script>
-    <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
-    <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
-    <script src="{% static 'moment/moment.js' %}"></script>
-    <script src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
-    <script src="{% static 'jquery-switchbutton/jquery.switchButton.js' %}"></script>
-    <script src="{% static 'peity/jquery.peity.js' %}"></script>
-    <script src="{% static 'chartist/chartist.js' %}"></script>
-    <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
-    <script src="{% static 'd3/d3.js' %}"></script>
-    <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
-    <script src="{% static 'jt.timepicker/jquery.timepicker.js' %}"></script>
-    <script src="{% static 'highlightjs/highlight.pack.js' %}"></script>    
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    <script src="{% static 'select2/js/select2.min.js' %}"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
-
-    <script src="{% static 'js/bracket.js' %}"></script>
-    <script src="{% static 'js/ResizeSensor.js' %}"></script>
-    <script src="{% static 'js/dashboard.js' %}"></script> 
-
-    <script>
-      $(function(){
-        'use strict'
-
-        // FOR DEMO ONLY
-        // menu collapsed by default during first page load or refresh with screen
-        // having a size between 992px and 1299px. This is intended on this page only
-        // for better viewing of widgets demo.
-        $(window).resize(function(){
-          minimizeMenu();
-        });
-
-        minimizeMenu();
-
-        function minimizeMenu() {
-          if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
-            // show only the icons and hide left menu label by default
-            $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
-            $('body').addClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideUp();
-          } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
-            $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
-            $('body').removeClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideDown();
-          }
-        }
-      });
-    </script>
   </body>
 </html>
