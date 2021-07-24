@@ -15,10 +15,10 @@ class Proyecto(models.Model):
     encargado = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Encargado")
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
     participantes = models.ManyToManyField(User, related_name="participantes")
-    umbral_documento_aprobado = models.IntegerField(verbose_name="Umbral para Documentos Aprobados")
-    umbral_documento_atrasado = models.IntegerField(verbose_name="Umbral para Documentos Atrasados")
-    umbral_revision_documento = models.IntegerField(verbose_name="Umbral para Revisiones Atrasadas")
-    umbral_desviacion_porcentual = models.FloatField(verbose_name="Umbral para Dviación Porcentual del Proyecto")
+    umbral_documento_aprobado = models.IntegerField(verbose_name="Umbral para Documentos Aprobados", default=0)
+    umbral_documento_atrasado = models.IntegerField(verbose_name="Umbral para Documentos Atrasados", default=0)
+    umbral_revision_documento = models.IntegerField(verbose_name="Umbral para Revisiones Atrasadas", default=0)
+    umbral_desviacion_porcentual = models.FloatField(verbose_name="Umbral para Dviación Porcentual del Proyecto", default=0)
     #dias para revision
 
 

@@ -13,6 +13,7 @@ from django.utils import timezone
 from django.contrib import messages
 from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE
 from status_encargado.forms import RespuestaForm, TareaForm
+import datetime
 
 from .models import Tarea, Respuesta
 from status_encargado import models
@@ -390,6 +391,76 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         final_list.append(total_respuestas)
         return final_list
 
+    def grafico_6(self):
+        """
+        Documentos asignados vs documentos.
+        """
+        final_list = []
+        
+        participantes = self.proyecto.participantes.all()
+        for user in participantes:
+            atrasados = 0
+            asignados = 0
+            tareas = Tarea.objects.filter(encargado=user, documento__proyecto=self.proyecto)
+            for tarea in tareas:
+                asignados = asignados + 1
+                if tarea.estado == True:
+                    if tarea.task_answer.contestado.year > tarea.plazo.year:
+                        atrasados = atrasados + 1
+                    else:
+                        if tarea.task_answer.contestado.year == tarea.plazo.year:
+                            if tarea.task_answer.contestado.month > tarea.plazo.month:
+                                atrasados = atrasados + 1
+                            else:
+                                if tarea.task_answer.contestado.month == tarea.plazo.month:
+                                    if tarea.task_answer.contestado.day > tarea.plazo.day:
+                                        atrasados = atrasados + 1
+
+            if asignados != 0:
+                final_list.append([(user.first_name+" "+user.last_name), asignados, atrasados])
+        
+        return final_list
+
+    def tamano_grafico_6(self):
+
+        lista_grafico_uno = self.grafico_6()
+        maximo = 0
+        cont = 0
+
+        #Se obtiene el valor máximo del gráfico
+        for valores in lista_grafico_uno:
+            if cont == 0:
+                maximo = valores[1]
+                cont = 1
+            else:
+                if maximo < valores[1]:
+                    maximo = valores[1]
+
+        #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
+        division_exacta = 0
+        if maximo > 20:  
+            division_exacta = maximo % 10
+            while division_exacta != 0:
+                maximo = maximo + 1
+                division_exacta = maximo % 10
+        maximo = maximo + 1
+
+        return maximo
+
+    def espacios_grafico_6(self):
+
+        #Llamado para un método definido anteriormente
+        dividendo = self.tamano_grafico_6() - 1
+        espacios = 0
+
+        #Se secciona el eje en 10 partes iguales
+        if dividendo > 20:
+            espacios = dividendo / 10
+        else:
+            espacios = 1
+
+        return int(espacios)
+
     def get_context_data(self, **kwargs):
         context =  super().get_context_data(**kwargs)
         g1 =self.grafico_1()
@@ -397,11 +468,15 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         g3 =self.grafico_3()
         g4 =self.grafico_4()
         g5 =self.grafico_5()
+        g6 =self.grafico_6()
+
         g1_largo =len(self.grafico_1())
         g2_largo =len(self.grafico_2())
         g3_largo =len(self.grafico_3())
         g4_largo =len(self.grafico_4())
         g5_largo =len(self.grafico_5())
+        g6_largo =len(self.grafico_6())
+
         context["grafico_1"] = g1
         context["grafico_1_largo"] = g1_largo
         context["tamano_grafico_1"] = self.tamano_grafico_1()
@@ -418,5 +493,9 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         context["grafico_4_largo"] = g4_largo
         context["grafico_5"] = g5
         context["grafico_5_largo"] = g5_largo
+        context["grafico_6"] = g6
+        context["grafico_6_largo"] = g6_largo
+        context["tamano_grafico_6"] = self.tamano_grafico_6()
+        context["espacio_grafico_6"] = self.espacios_grafico_6()
 
         return context
