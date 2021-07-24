@@ -21,7 +21,7 @@ def send_email(html, context, subject, recipients):
         subject= subject,
         body= text_content,
         from_email= settings.EMAIL_HOST_USER,
-        to= list(recipients),
+        to= recipients,
         connection=connection
     )
     email.attach_alternative(html_content, "text/html")
