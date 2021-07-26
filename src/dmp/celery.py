@@ -17,6 +17,6 @@ app.autodiscover_tasks(lambda:settings.INSTALLED_APPS)
 app.conf.beat_schedule = {
     'check-every-day': {
         'task': 'umbral_2',
-        'schedule' :  crontab(minute="*/1") #crontab(hour='*/24')
+        'schedule' : crontab(hour='*/24')
     }
 }

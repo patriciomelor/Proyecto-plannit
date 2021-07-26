@@ -67,7 +67,7 @@
   <!--4to Grafico-->
   <div class="row row-sm mg-t-20">
     
-    <div class="col-md-12">
+    <div class="col-md-6">
       <div class="widget-2">
           <div class="card shadow-base overflow-hidden chart">
               <div class="card-header">
@@ -77,13 +77,28 @@
               </div>
               <div class="card-body">
                 <div style="width: 100%">
-                <canvas id="myChart3"width="1507" height="653" class="chartjs-render-monitor" style="display: block; height: 603px; width: 1206px;" ></canvas>
+                <canvas id="myChart3"></canvas>
                 </div>
               </div>
             </div>
           </div>
       </div>
-  </div>
+  <div class="col-md-6">
+                <div class="widget-2">
+                    <div class="card shadow-base overflow-hidden chart">
+                        <div class="card-header"style="text-align:center;display:flow-root;">
+                           <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos válidos construcción vs Documentos no válidos</h4>                        
+                          
+                        </div>
+                        <div class="card-body">
+                          <div style="width: 100%">
+                          <canvas id="myChart7"></canvas>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+                <div class="row row-sm mg-t-20"></div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>          
 <script>
@@ -146,9 +161,7 @@
 
     //ESTADOS DE LOS DOCUMENTOS
     var ctx = document.getElementById('myChart2').getContext('2d');
-
     var largo = 0;
-
     var myChart2 = new Chart(ctx, {
       type: 'horizontalBar',
       data: {
@@ -293,9 +306,6 @@
           }
       }
   });
-
-   
-
 </script>
 <!--Curva S-->
 <script>
@@ -416,5 +426,47 @@
 			});
 		};
 	</script>
+  <script>
+   $(document).ready(function(){
+        //Documentos validos para construccion vs no validos
+    var ctx = document.getElementById('myChart7').getContext('2d');
+    var myChart5 = new Chart(ctx, {
+      type: 'pie',
+      fill: false,
+      data: {
+          labels: [ 'Documentos válidos contrucción', 'Documentos no válidos'],
+          datasets: [{
+              data: [ 
+              {% for emisiones in validos_contruccion %} 
+                 {% if forloop.counter != validos_contruccion_largo %}
+              
+                  {{emisiones}},
+              
+                {% endif %} 
+              {% if forloop.counter == validos_contruccion_largo %}
+              
+                {{emisiones}}
+
+              {% endif %}
+              {% endfor %} ],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.8)',
+                  'rgba(54, 162, 235, 0.8)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options:{
+        scaleLabel: {
+                    display: true,
+                  },
+      }
+    });
+   });
+  </script>
 {% endblock content %}
       

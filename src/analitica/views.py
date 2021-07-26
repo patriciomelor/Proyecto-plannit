@@ -252,13 +252,51 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         
         return lista_final
 
-        ###################################################
-        #                                                 #
-        #                                                 #
-        #   CUARTO GRÁFICO DE CURVA S                     #
-        #                                                 #
-        #                                                 #
-        ###################################################
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #   CUARTO GRÁFICO DE STATUS POR ESPECIALIDAD     #
+    #                                                 #
+    #                                                 #
+    ###################################################
+
+    def reporte_documentos_valido_contruccion(self):
+
+        lista_actual = []
+        lista_final = []
+
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        documentos_valido_contruccion = 0
+        documentos_no_valido_contruccion = 0
+
+        if documentos_totales != 0:
+
+            #Obtener lista de todas las especialidades 
+            for doc in documentos:
+                version = Version.objects.filter(documento_fk=doc).last()
+                estado_cliente = version.estado_cliente
+                if estado_cliente == 5:
+                    documentos_valido_contruccion = documentos_valido_contruccion + 1
+                else:
+                    documentos_no_valido_contruccion = documentos_no_valido_contruccion + 1
+
+            lista_final.append(documentos_valido_contruccion)
+            lista_final.append(documentos_no_valido_contruccion)
+
+        if documentos_totales == 0:
+            lista_final.append(0)
+            lista_final.append(0)
+        
+        return lista_final
+
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #   GRÁFICO DE CURVA S                     #
+    #                                                 #
+    #                                                 #
+    ###################################################
 
     def Obtener_fechas(self):
         elementos_final = []
@@ -915,6 +953,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
         context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
         context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
+        context['validos_contruccion'] = self.reporte_documentos_valido_contruccion()
+        context['validos_contruccion_largo'] = len(self.reporte_documentos_valido_contruccion())
+
         ### Opción 1
         # context['curvaBase'] = CurvaBaseView.get(self.request, **kwargs)
         ### Opción 2
