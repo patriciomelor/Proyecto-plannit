@@ -87,7 +87,7 @@
                 <div class="widget-2">
                     <div class="card shadow-base overflow-hidden chart">
                         <div class="card-header"style="text-align:center;display:flow-root;">
-                           <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos validos para construccion vs no validos</h4>                        
+                           <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos válidos construcción vs Documentos no válidos</h4>                        
                           
                         </div>
                         <div class="card-body">
@@ -433,32 +433,28 @@
       type: 'pie',
       fill: false,
       data: {
-          labels: [ '' ],
+          labels: [ 'Documentos válidos contrucción', 'Documentos no válidos'],
           datasets: [{
-              data: [  ],
+              data: [ 
+              {% for emisiones in validos_contruccion %} 
+                 {% if forloop.counter != validos_contruccion_largo %}
+              
+                  {{emisiones}},
+              
+                {% endif %} 
+              {% if forloop.counter == validos_contruccion_largo %}
+              
+                {{emisiones}}
+
+              {% endif %}
+              {% endfor %} ],
               backgroundColor: [
                   'rgba(255, 99, 132, 0.8)',
-                  'rgba(54, 162, 235, 0.8)',
-                  'rgba(255, 206, 86, 0.8)',
-                  'rgba(75, 192, 192, 0.8)',
-                  'rgba(153, 102, 255, 0.8)',
-                  'rgba(255, 159, 64, 0.8)',
-                  'rgba(211, 84, 0, 0.8)',
-                  'rgba(191, 201, 202, 0.8)',
-                  'rgba(249, 231, 159, 0.8)',
-                  'rgba(210, 180, 222, 0.8)'
+                  'rgba(54, 162, 235, 0.8)'
               ],
               borderColor: [
                   'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)',
-                  'rgba(211, 84, 0, 1)',
-                  'rgba(191, 201, 202, 1)',
-                  'rgba(249, 231, 159, 1)',
-                  'rgba(210, 180, 222, 1)'
+                  'rgba(54, 162, 235, 1)'
               ],
               borderWidth: 1
           }]
