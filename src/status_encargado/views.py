@@ -39,9 +39,11 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         semana_actual = timezone.now()
         version_documento = 0
         transmital = 0
+        fecha_emision_b = 0
         dias_revision = 0
         documentos = self.get_queryset()
         for doc in documentos:
+            fecha_emision_b = doc.fecha_Emision_B
             version = Version.objects.filter(documento_fk=doc).last()
             version_first = Version.objects.filter(documento_fk=doc).first()
             if version:
@@ -52,7 +54,9 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                     dias_revision = 0
                 else:
                     transmital = semana_actual - paquete_first[0].fecha_creacion
-                    dias_revision = semana_actual.day - version.fecha.day
+                    fecha_version = paquete[0].fecha_creacion
+                    dias_revision = abs((semana_actual - fecha_version).days)
+
                 version_documento = version.revision
                 for revision in TYPES_REVISION[1:4]:
                     if version_documento == revision[0]:
@@ -61,7 +65,6 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                             lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
                         else:
-                            #dias_revision = 0
                             lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
                 for revision in TYPES_REVISION[5:]:
@@ -70,8 +73,12 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                         lista_final.append(lista_inicial)
                 #print('documento: ', doc, ' version: ', version, ' paquete:', paquete, ' listado final: ', lista_final) 
             else: 
-                lista_inicial = [doc, []]
-                lista_final.append(lista_inicial)
+                if semana_actual >= fecha_emision_b:
+                    lista_inicial = [doc, ['no version','Atrasado']]
+                    lista_final.append(lista_inicial)
+                else:
+                    lista_inicial = [doc, ['no version','Pendiente']]
+                    lista_final.append(lista_inicial)
 
         return lista_final
 
