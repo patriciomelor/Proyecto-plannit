@@ -585,7 +585,7 @@ def reporte_curva_s_avance_esperado():
             fechas_controles = lista_final[contador_fechas][0][0]
             valor_ganado = (100 / valor_ganado)
 
-            diferencia = len(lista_avance_real) - len(fechas_controles)
+            diferencia = len(lista_avance_real[contador_fechas]) - len(fechas_controles)
 
             for controles in fechas_controles:
                 calculo_avanceEsperado = 0
@@ -672,14 +672,14 @@ def umbral_4():
         valor_ganado = Documento.objects.filter(proyecto=proyecto).count()
 
         if valor_ganado != 0:
-            lista_avance_real = lista_avance_real_all[contador_proyecto][0][0]
+            lista_avance_real = lista_avance_real_all[contador_proyecto]
             for avance in lista_avance_real:
                 if avance[1] == 0:
                     avance_real = avance[0]
                     contador_real = contador_real + 1
                 contador_real = contador_real - 1
                 #Obtener avance esperado curva s 
-                avance_programado = avance_esperado_all[contador_proyecto][contador_real][0]
+                avance_programado = avance_esperado_all[contador_proyecto][contador_real]
             
             diferencia_avance = float(avance_real - avance_programado)
             if diferencia_avance > float(20):
