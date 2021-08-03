@@ -203,7 +203,7 @@ LANGUAGES = (
  ('zh', _('Chinese')),
  ('en', _('English')),
 )
-TIME_ZONE = 'UTC'  # use this, whenever possible
+
 TIME_ZONE = 'America/Santiago'
 
 

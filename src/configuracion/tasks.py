@@ -8,7 +8,7 @@ from notifications.models import Notificacion
 from panel_carga.models import Documento, Proyecto
 from configuracion.models import Umbral, HistorialUmbrales, NotificacionHU
 from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE, ESTADO_CONTRATISTA
-from datetime import datetime, time, timedelta
+from datetime import date, datetime, time, timedelta
 from django.utils import timezone
 import math
 
@@ -31,52 +31,53 @@ def users_notifier(proyecto):
 @app.task(name="umbral_2")
 def umbral_2():
     proyectos = Proyecto.objects.all()
+    fecha_actual = timezone.now()
     for proyecto in proyectos:
         document_list = []
+        last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=2).last()
+        delta_proyect = (fecha_actual - last_hu.last_checked)
 
+        if delta_proyect.days >= last_hu.tiempo_control:
+            documentos = Documento.objects.filter(proyecto=proyecto)
+            for doc in documentos:
+                delta_doc = (fecha_actual - doc.fecha_Emision_B)
+                if delta_doc.days > last_hu.variable_atraso:
+                    document_list.append(doc)
 
-        # last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=2).last()
-        # delta_proyect = (datetime.date.today() - last_hu.last_checked)
+            try:
+                usuarios = users_notifier(proyecto=proyecto)
 
-        # if delta_proyect.days >= last_hu.tiempo_control:
-        documentos = Documento.objects.filter(proyecto=proyecto)
-        for doc in documentos:
-            # delta_doc = (datetime.now() - doc.fecha_Emision_B)
-            # if delta_doc.days > 0: #last_hu.variable_atraso:
-            document_list.append(doc)
+                subject = "[UMBRAL {proyecto}] Listado de Documentos Atrasados - {date}".format(proyecto=proyecto.nombre, date=timezone.now().strftime("%d-%B-%y"))
+                send_email(
+                    html= 'configuracion/umbral_2.html',
+                    context= {
+                        "documentos": document_list,
+                        "proyecto": proyecto
+                    },
+                    subject=subject,
+                    recipients= ["patriciomelor@gmail.com", "esteban.martinezs@utem.cl", "ignaciovaldeb1996@gmail.com"] # usuarios[0]
+                )
+                for usuario in usuarios[1]:
+                    noti = Notificacion(
+                        proyecto=proyecto,
+                        usuario=usuario,
+                        notification_type=1,
+                        text_preview=subject
+                    )
+                    noti.save()
 
-        try:
-            subject = "[UMBRAL {proyecto}] Listado de Documentos Atrasados.".format(proyecto=proyecto.nombre)
-            send_email(
-                html= 'configuracion/umbral_2.html',
-                context= {
-                    "documentos": document_list,
-                    "proyecto": proyecto
-                },
-                subject=subject,
-                recipients= ["patriciomelor@gmail.com", "esteban.martinezs@utem.cl", "ignaciovaldeb1996@gmail.com"]
-            )
-            # for usuario in notification_list:
-            #     noti = Notificacion(
-            #         proyecto=proyecto,
-            #         usuario=usuario,
-            #         notification_type=1,
-            #         text_preview=subject
-            #     )
-            #     noti.save()
+                    noti_hu = NotificacionHU(
+                        h_umbral=last_hu,
+                        notificacion=noti,
+                    )
+                    noti_hu.save()
+                    noti_hu.documentos.set(document_list, clear=True)
 
-            #     # noti_hu = NotificacionHU(
-            #     #     h_umbral=last_hu,
-            #     #     notificacion=noti,
-            #     # )
-            #     # noti_hu.save()
-            #     # noti_hu.documentos.set(document_list, clear=True)
-
-        except Exception as err:
-            error = "Un error Ocurrido al momento de notificar para el Umbral 2. {}".format(err)
-            return error
-    else:
-        pass
+            except Exception as err:
+                error = "Un error Ocurrido al momento de notificar para el Umbral 2. {}".format(err)
+                return error
+        else:
+            pass
 
     return document_list
 
@@ -84,6 +85,7 @@ def umbral_2():
 def umbral_3():
 
     proyectos = Proyecto.objects.all()
+    fecha_actual = timezone.now()
     for proyecto in proyectos:
         revision_list = []
         document_list = []
@@ -96,50 +98,50 @@ def umbral_3():
                 recipients.append(user.email)
                 notification_list.append(user)
 
-        # last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=3).last()
-        # delta_proyect = (datetime.date.today() - last_hu.last_checked)
+        last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=3).last()
+        delta_proyect = (fecha_actual - last_hu.last_checked)
 
-        # if delta_proyect.days >= last_hu.tiempo_control:
-        documentos = Documento.objects.filter(proyecto=proyecto)
-        revisiones = Version.objects.filter(documento_fk__in=documentos)
-        for rev in revisiones:
-            # delta_rev = (datetime.now() - rev.fecha)
-            # if delta_rev.days > 0:  #last_hu.variable_atraso:
-            revision_list.append(rev)
-            document_list.append(rev.documento_fk)
-        
-        subject = "[UMBRAL {proyecto}] Listado de Documentos Atrasados.".format(proyecto=proyecto.nombre)
-        try:
-            send_email(
-                html= 'configuracion/umbral_3.html',
-                context= {
-                    "revisiones": revision_list,
-                    "proyecto": proyecto
-                },
-                subject=subject,
-                recipients= ["patriciomelor@gmail.com", "esteban.martinezs@utem.cl", "ignaciovaldeb1996@gmail.com"]
-            )
-            for usuario in notification_list:
-                noti = Notificacion(
-                    proyecto=proyecto,
-                    usuario=usuario,
-                    notification_type=1,
-                    text_preview=subject
+        if delta_proyect.days >= last_hu.tiempo_control:
+            documentos = Documento.objects.filter(proyecto=proyecto)
+            revisiones = Version.objects.filter(documento_fk__in=documentos)
+            for rev in revisiones:
+                delta_rev = (fecha_actual - rev.fecha)
+                if delta_rev.days > last_hu.variable_atraso:
+                    revision_list.append(rev)
+                    document_list.append(rev.documento_fk)
+            
+            subject = "[UMBRAL {proyecto}] Listado de Documentos Atrasados.".format(proyecto=proyecto.nombre)
+            try:
+                send_email(
+                    html= 'configuracion/umbral_3.html',
+                    context= {
+                        "revisiones": revision_list,
+                        "proyecto": proyecto
+                    },
+                    subject=subject,
+                    recipients= ["patriciomelor@gmail.com", "esteban.martinezs@utem.cl", "ignaciovaldeb1996@gmail.com"]
                 )
-                noti.save()
+                for usuario in notification_list:
+                    noti = Notificacion(
+                        proyecto=proyecto,
+                        usuario=usuario,
+                        notification_type=1,
+                        text_preview=subject
+                    )
+                    noti.save()
 
-                # noti_hu = NotificacionHU(
-                #     h_umbral=last_hu,
-                #     notificacion=noti,
-                # )
-                # noti_hu.save()
-                # noti_hu.documentos.set(document_list, clear=True)
+                    # noti_hu = NotificacionHU(
+                    #     h_umbral=last_hu,
+                    #     notificacion=noti,
+                    # )
+                    # noti_hu.save()
+                    # noti_hu.documentos.set(document_list, clear=True)
 
-        except Exception as err:
-            error = "Un error Ocurrido al momento de notificar para el Umbral 3. {}".format(err)
-            return error
-    else:
-        pass
+            except Exception as err:
+                error = "Un error Ocurrido al momento de notificar para el Umbral 3. {}".format(err)
+                return error
+        else:
+            pass
 
     return revision_list
 

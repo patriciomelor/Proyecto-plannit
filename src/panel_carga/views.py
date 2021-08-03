@@ -1,5 +1,6 @@
 import os.path
 import datetime
+from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -86,7 +87,7 @@ class CreateProyecto(SuperuserViewMixin, AdminViewMixin, CreateView):
             HistorialUmbrales.objects.create(
                 umbral=umbral,
                 proyecto=proyecto,
-                last_checked=datetime.date.today()
+                last_checked=timezone.now()
             )
         return super().form_valid(form)
 
