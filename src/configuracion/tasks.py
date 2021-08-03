@@ -680,7 +680,8 @@ def umbral_4():
                 contador_real = contador_real - 1
                 #Obtener avance esperado curva s 
                 avance_programado = avance_esperado_all[contador_proyecto][contador_real]
-            
+
+            print('Avance real: ', avance_real, "Avance esperado: ", avance_programado)            
             diferencia_avance = float(avance_real - avance_programado)
             if diferencia_avance > float(20):
                 lista_proyectos_atrasados.append(proyecto)
