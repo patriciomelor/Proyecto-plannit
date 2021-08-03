@@ -956,14 +956,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['validos_contruccion'] = self.reporte_documentos_valido_contruccion()
         context['validos_contruccion_largo'] = len(self.reporte_documentos_valido_contruccion())
 
-        ### Opción 1
-        # context['curvaBase'] = CurvaBaseView.get(self.request, **kwargs)
         ### Opción 2
-        # r = requests.get('http://127.0.0.1:8000/analitica/curva_base/')
-        # a = r.json()["datos_lista"]
-        # qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
-        # context['curvaBase'] = qs.datos_lista
-        # context['curvaBase'] = a
+        qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
+        context['curvaBase'] = qs
         return context
 
 class CurvaBaseView(ProyectoMixin, TemplateView):
@@ -1098,7 +1093,7 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
 
                     #Se almacena el avance esperado hasta la fecha de control
                     avance_esperado = format(calculo_avanceEsperado, '.2f')
-                    lista_final_esperado.append(avance_esperado)
+                    lista_final_esperado.append(float(avance_esperado))
 
         if valor_ganado == 0:
             avance_esperado = [int(valor_ganado)]
@@ -1125,7 +1120,4 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
         qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
         context['curvaBase'] = qs
         return self.render_to_response(context)
-        # result = {}
-        # result["datos_lista"] = qs.datos_lista
-        # return result
         

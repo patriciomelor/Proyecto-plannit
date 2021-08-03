@@ -620,44 +620,6 @@ def reporte_curva_s_avance_esperado():
 
     return conjunto_finales
 
-# def diferencia_porcentual():
-
-#     avance_esperado_all = reporte_curva_s_avance_esperado()
-#     lista_avance_real_all = reporte_curva_s_avance_real()
-#     contador_real = 0
-#     avance_programado = 0
-#     avance_real = 0
-#     lista_proyectos_atrasados = []
-
-#     proyectos = Proyecto.objects.all()
-
-#     for proyecto in proyectos:
-#         documentos = Documento.objects.filter(proyecto=proyecto)        
-#         valor_ganado = Documento.objects.filter(proyecto=proyecto).count()
-#         contador_proyecto = 0
-
-#         if valor_ganado != 0:
-#             lista_avance_real = lista_avance_real_all[contador_proyecto]
-#             for avance in lista_avance_real:
-#                 if avance[1] == 0:
-#                     avance_real = avance[0]
-#                     contador_real = contador_real + 1
-#                 contador_real = contador_real - 1
-#                 #Obtener avance esperado curva s 
-#                 avance_programado = avance_esperado_all[contador_proyecto][contador_real][0]
-            
-#             diferencia_avance = float(avance_real - avance_programado)
-#             if diferencia_avance != float(5):
-#                 lista_proyectos_atrasados.append(proyecto)
-
-#         if valor_ganado == 0:
-#             pass
-    
-#         contador_proyecto = contador_proyecto + 1
-    
-#     return lista_proyectos_atrasados
-
-
 @app.task(name="umbral_4")
 def umbral_4():
     avance_esperado_all = reporte_curva_s_avance_esperado()
@@ -674,7 +636,9 @@ def umbral_4():
         contador_real = 0
 
         if valor_ganado != 0:
+
             lista_avance_real = lista_avance_real_all[contador_proyecto]
+
             for avance in lista_avance_real:
                 if avance[1] == 0:
                     avance_real = avance[0]
@@ -683,7 +647,6 @@ def umbral_4():
                 #Obtener avance esperado curva s 
                 avance_programado = avance_esperado_all[contador_proyecto][contador_real][0]
 
-            print('Avance real: ', avance_real, "Avance esperado: ", avance_programado)            
             diferencia_avance = float(avance_real) - float(avance_programado) 
             if diferencia_avance > float(20):
                 lista_proyectos_atrasados.append(proyecto)
@@ -692,7 +655,61 @@ def umbral_4():
             pass
     
         contador_proyecto = contador_proyecto + 1
+
+    for proyecto in lista_proyectos_atrasados:
+        revision_list = []
+        document_list = []
+        recipients = []
+        notification_list = []
+        participantes = proyecto.participantes.all()
+
+        for user in participantes:
+            rol = user.perfil.rol_usuario
+            if rol == 4:
+                recipients.append(user.email)
+                notification_list.append(user)
+
+        documentos = Documento.objects.filter(proyecto=proyecto)
+        revisiones = Version.objects.filter(documento_fk__in=documentos)
+        for rev in revisiones:
+            # delta_rev = (datetime.now() - rev.fecha)
+            # if delta_rev.days > 0:  #last_hu.variable_atraso:
+            revision_list.append(rev)
+            document_list.append(rev.documento_fk)
+
+        subject = "[UMBRAL {proyecto}] Listado de Documentos Atrasados.".format(proyecto=proyecto.nombre)
+        try:
+            send_email(
+                html= 'configuracion/umbral_4.html',
+                context= {
+                    "revisiones": revision_list,
+                    "documentos": document_list,
+                    "proyecto": proyecto
+                },
+                subject=subject,
+                recipients= ["patriciomelor@gmail.com", "esteban.martinezs@utem.cl", "ignaciovaldeb1996@gmail.com"]
+            )
+            for usuario in notification_list:
+                noti = Notificacion(
+                    proyecto=proyecto,
+                    usuario=usuario,
+                    notification_type=1,
+                    text_preview=subject
+                )
+                noti.save()
+
+                # noti_hu = NotificacionHU(
+                #     h_umbral=last_hu,
+                #     notificacion=noti,
+                # )
+                # noti_hu.save()
+                # noti_hu.documentos.set(document_list, clear=True)
+
+        except Exception as err:
+            error = "Un error Ocurrido al momento de notificar para el Umbral 4. {}".format(err)
+            return error
     
-    print('Proyectos: ', lista_proyectos_atrasados)
+    else:
+        pass
     
     return lista_proyectos_atrasados
