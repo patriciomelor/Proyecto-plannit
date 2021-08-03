@@ -660,7 +660,6 @@ def reporte_curva_s_avance_esperado():
 def umbral_4():
     avance_esperado_all = reporte_curva_s_avance_esperado()
     lista_avance_real_all = reporte_curva_s_avance_real()
-    contador_real = 0
     avance_programado = 0
     avance_real = 0
     lista_proyectos_atrasados = []
@@ -670,6 +669,7 @@ def umbral_4():
 
     for proyecto in proyectos:   
         valor_ganado = Documento.objects.filter(proyecto=proyecto).count()
+        contador_real = 0
 
         if valor_ganado != 0:
             lista_avance_real = lista_avance_real_all[contador_proyecto]
