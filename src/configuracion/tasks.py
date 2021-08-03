@@ -250,7 +250,7 @@ def reporte_curva_s_avance_real():
     proyectos = Proyecto.objects.all()
     lista_final = Obtener_fechas()
     dia_actual = timezone.now()
-    contador_fechas = 0
+    contador_fechas_grupo = 0
     conjunto_finales = []
 
     for proyecto in proyectos:
@@ -265,7 +265,7 @@ def reporte_curva_s_avance_real():
             avance_inicial = []
             avance_final = []
             fecha_version = 0
-            fechas_controles = lista_final[contador_fechas][0][0]
+            fechas_controles = lista_final[contador_fechas_grupo][0][0]
             avance_fechas_controles = []
             contador_versiones = 0
             fechas_controles_recorrer = []
@@ -658,16 +658,15 @@ def umbral_4(umbral, doc):
     avance_programado = 0
     avance_real = 0
     lista_proyectos_atrasados = []
+    contador_proyecto = 0
 
     proyectos = Proyecto.objects.all()
 
-    for proyecto in proyectos:
-        documentos = Documento.objects.filter(proyecto=proyecto)        
+    for proyecto in proyectos:   
         valor_ganado = Documento.objects.filter(proyecto=proyecto).count()
-        contador_proyecto = 0
 
         if valor_ganado != 0:
-            lista_avance_real = lista_avance_real_all[contador_proyecto]
+            lista_avance_real = lista_avance_real_all[contador_proyecto][0][0]
             for avance in lista_avance_real:
                 if avance[1] == 0:
                     avance_real = avance[0]
