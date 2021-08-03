@@ -21,9 +21,15 @@ app.conf.beat_schedule = {
         # 'schedule' : crontab(hour='*/24')
     },
 
-    # 'check-threshold-3': {
-    #     'task': 'umbral_3',
-    #     'schedule' : crontab(minute='*/1')
-    #     # 'schedule' : crontab(hour='*/24')
-    # },
+    'check-threshold-3': {
+        'task': 'umbral_3',
+        'schedule' : crontab(minute='*/1')
+        # 'schedule' : crontab(hour='*/24')
+    },
+    
+    'check-threshold-4': {
+        'task': 'umbral_4',
+        'schedule' : crontab(minute='*/1')
+        # 'schedule' : crontab(hour='*/24')
+    },
 }

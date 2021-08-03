@@ -2,7 +2,6 @@ from __future__ import absolute_import, unicode_literals
 from bandeja_es.models import Version
 from os import name
 
-import datetime
 from dmp.celery import app
 from notifications.emails import send_email
 from notifications.models import Notificacion
@@ -31,9 +30,9 @@ def users_notifier(proyecto):
 
 @app.task(name="umbral_2")
 def umbral_2():
-    document_list = []
     proyectos = Proyecto.objects.all()
     for proyecto in proyectos:
+        document_list = []
 
 
         # last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=2).last()
@@ -42,12 +41,10 @@ def umbral_2():
         # if delta_proyect.days >= last_hu.tiempo_control:
         documentos = Documento.objects.filter(proyecto=proyecto)
         for doc in documentos:
-            delta_doc = (datetime.datetime.today() - doc.fecha_Emision_B)
-            if delta_doc.days > 0: #last_hu.variable_atraso:
-                document_list.append(doc)
+            # delta_doc = (datetime.now() - doc.fecha_Emision_B)
+            # if delta_doc.days > 0: #last_hu.variable_atraso:
+            document_list.append(doc)
 
-        # subject = "[UMBRAL {proyecto}] Listado de Documentos Atrasados - {date}.".format(proyecto=proyecto.nombre, date=datetime.date.today().days.strftime("%d-%B-%y"))
-        print(proyecto.nombre)
         try:
             subject = "[UMBRAL {proyecto}] Listado de Documentos Atrasados.".format(proyecto=proyecto.nombre)
             send_email(
@@ -85,10 +82,11 @@ def umbral_2():
 
 @app.task(name="umbral_3")
 def umbral_3():
-    revision_list = []
-    document_list = []
+
     proyectos = Proyecto.objects.all()
     for proyecto in proyectos:
+        revision_list = []
+        document_list = []
         recipients = []
         notification_list = []
         participantes = proyecto.participantes.all()
@@ -102,20 +100,21 @@ def umbral_3():
         # delta_proyect = (datetime.date.today() - last_hu.last_checked)
 
         # if delta_proyect.days >= last_hu.tiempo_control:
-        #     documentos = Documento.objects.filter(proyecto=proyecto)
-        #     revisiones = Version.objects.filter(documento_fk__in=documentos)
-        #     for rev in revisiones:
-        #         delta_rev = (datetime.date.today() - rev.fecha)
-        #         if delta_rev.days > last_hu.variable_atraso:
-        #             revision_list.append(rev)
-        #             document_list.append(rev.documento_fk)
+        documentos = Documento.objects.filter(proyecto=proyecto)
+        revisiones = Version.objects.filter(documento_fk__in=documentos)
+        for rev in revisiones:
+            # delta_rev = (datetime.now() - rev.fecha)
+            # if delta_rev.days > 0:  #last_hu.variable_atraso:
+            revision_list.append(rev)
+            document_list.append(rev.documento_fk)
         
-        subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas - {date}.".format(proyecto=proyecto.nombre, date=datetime.date.today().strftime("%d-%B-%y"))
+        subject = "[UMBRAL {proyecto}] Listado de Documentos Atrasados.".format(proyecto=proyecto.nombre)
         try:
             send_email(
-                html= 'configuracion/umbral_2.html',
+                html= 'configuracion/umbral_3.html',
                 context= {
                     "revisiones": revision_list,
+                    "proyecto": proyecto
                 },
                 subject=subject,
                 recipients= ["patriciomelor@gmail.com"]
@@ -144,10 +143,6 @@ def umbral_3():
 
     return revision_list
 
-def get_context_data(self, **kwargs):
-    context = {}
-    context["proyecto"] = self.proyecto
-    return context
 
 def get_users_dash(proyecto):
     users = proyecto.participantes.all()
@@ -662,7 +657,7 @@ def reporte_curva_s_avance_esperado():
 
 
 @app.task(name="umbral_4")
-def umbral_4(umbral, doc):
+def umbral_4():
     avance_esperado_all = reporte_curva_s_avance_esperado()
     lista_avance_real_all = reporte_curva_s_avance_real()
     contador_real = 0
