@@ -54,7 +54,7 @@ def umbral_2():
                     "proyecto": proyecto
                 },
                 subject=subject,
-                recipients= ["patriciomelor@gmail.com"]
+                recipients= ["patriciomelor@gmail.com", "esteban.martinezs@utem.cl", "ignaciovaldeb1996@gmail.com"]
             )
             # for usuario in notification_list:
             #     noti = Notificacion(
@@ -117,7 +117,7 @@ def umbral_3():
                     "proyecto": proyecto
                 },
                 subject=subject,
-                recipients= ["patriciomelor@gmail.com"]
+                recipients= ["patriciomelor@gmail.com", "esteban.martinezs@utem.cl", "ignaciovaldeb1996@gmail.com"]
             )
             for usuario in notification_list:
                 noti = Notificacion(

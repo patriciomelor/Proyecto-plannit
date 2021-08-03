@@ -15,21 +15,11 @@ app.conf.timezone = 'America/Santiago'
 app.autodiscover_tasks(lambda:settings.INSTALLED_APPS)
 
 app.conf.beat_schedule = {
-    'check-threshold-2': {
-        'task': 'umbral_2',
-        'schedule' : crontab(minute='*/1')
-        # 'schedule' : crontab(hour='*/24')
-    },
-
-    'check-threshold-3': {
-        'task': 'umbral_3',
-        'schedule' : crontab(minute='*/1')
-        # 'schedule' : crontab(hour='*/24')
-    },
-    
     'check-threshold-4': {
         'task': 'umbral_4',
         'schedule' : crontab(minute='*/1')
         # 'schedule' : crontab(hour='*/24')
     },
 }
+
+
