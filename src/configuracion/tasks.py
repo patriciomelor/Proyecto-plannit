@@ -668,27 +668,27 @@ def umbral_4():
                 diferencia_avance = float(avance_real) - float(avance_programado)
                 
                 if diferencia_avance > float(last_hu.variable_atraso):
-                    lista_proyectos_atrasados.append(proyecto)
+                    lista_proyectos_atrasados.append([proyecto, diferencia_avance])
 
         contador_proyecto = contador_proyecto + 1
-    print("Proyectos Atrasados: ", lista_proyectos_atrasados)
 
     if len(lista_proyectos_atrasados) != 0:
         for proyecto in lista_proyectos_atrasados:
-            subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
-            usuarios = users_notifier(proyecto=proyecto)
+            subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto[0].codigo, date=timezone.now().strftime("%d-%B-%y"))
+            usuarios = users_notifier(proyecto=proyecto[0])
             try:
                 send_email(
                     html= 'configuracion/umbral_4.html',
                     context= {
-                        "proyecto": proyecto
+                        "proyecto": proyecto[0],
+                        "desviacion": proyecto[1]
                     },
                     subject=subject,
                     recipients= ["patriciomelor@gmail.com", "esteban.martinezs@utem.cl", "ignaciovaldeb1996@gmail.com"] # usuarios[0]
                 )
                 for usuario in usuarios[1]:
                     noti = Notificacion(
-                        proyecto=proyecto,
+                        proyecto=proyecto[0],
                         usuario=usuario,
                         notification_type=1,
                         text_preview=subject
