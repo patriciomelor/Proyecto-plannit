@@ -1,3 +1,4 @@
+from bandeja_es.models import Version
 from notifications.models import Notificacion
 from panel_carga.models import Documento, Proyecto
 from django.db import models
@@ -55,3 +56,4 @@ class NotificacionHU(models.Model):
     h_umbral = models.ForeignKey(HistorialUmbrales, on_delete=models.CASCADE, related_name="historial_umbral")
     notificacion = models.OneToOneField(Notificacion, on_delete=models.CASCADE, related_name="hu_notificacion")
     documentos = models.ManyToManyField(Documento, related_name="hu_documentos", verbose_name="Listado de Documentos")
+    versiones = models.ManyToManyField(Version, related_name="hu_versiones", verbose_name="Listado de Versiones")
