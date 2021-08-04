@@ -49,7 +49,7 @@ class HistorialUmbrales(models.Model):
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="hu_proyecto")
     tiempo_control = models.IntegerField(verbose_name="Días de notificación", default=0)
     variable_atraso = models.IntegerField(verbose_name="Días de atraso", default=0)
-    last_checked = models.DateField(verbose_name="Ultima Revisión")
+    last_checked = models.DateTimeField(verbose_name="Ultima Revisión")
 
 class NotificacionHU(models.Model):
     h_umbral = models.ForeignKey(HistorialUmbrales, on_delete=models.CASCADE, related_name="historial_umbral")
