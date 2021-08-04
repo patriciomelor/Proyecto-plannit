@@ -655,9 +655,9 @@ def umbral_4():
                 if avance[1] == 0:
                     avance_real = avance[0]
                     contador_real = contador_real + 1
-                contador_real = contador_real - 1
-                #Obtener avance esperado curva s 
-                avance_programado = avance_esperado_all[contador_proyecto][contador_real][0]
+            contador_real = contador_real - 1
+            #Obtener avance esperado curva s 
+            avance_programado = avance_esperado_all[contador_proyecto][contador_real][0]
 
             #### Filtros de verificación para notificar a encargados del Proyecto
             last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=4).last()
