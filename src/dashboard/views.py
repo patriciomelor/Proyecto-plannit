@@ -97,7 +97,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
         avance_programado = 0
         avance_real = 0
         contador_real = 0
-        contador_esperado = 0
         fecha_emision_0 = 0
         fecha_emision_b = 0
         diferencia = 0
@@ -223,7 +222,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         if documentos_atrasados_B < 0:
             documentos_atrasados_B = 0
         if documentos_atrasados_0 < 0:
-            documentos_atrasados_0 = 0
+            documentos_atrasados_0 = abs(documentos_atrasados_0)
 
         #Obtener avance real y esperado
         if contador_emitidos != 0:
@@ -236,10 +235,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 contador_real = contador_real - 1
                 #Obtener avance esperado curva s 
                 avance_programado = avance_esperado[contador_real][0]  
-                # for esperado in avance_esperado:
-                #     if (contador_real - 1) == contador_esperado:
-                #         avance_programado = esperado[0]
-                #     contador_esperado = contador_esperado + 1
 
         #Avance real y esperado en caso no existir documentos emitidos
         if contador_emitidos == 0:

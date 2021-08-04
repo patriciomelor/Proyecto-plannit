@@ -1,3 +1,4 @@
+from bandeja_es.models import Version
 from notifications.models import Notificacion
 from panel_carga.models import Documento, Proyecto
 from django.db import models
@@ -49,9 +50,10 @@ class HistorialUmbrales(models.Model):
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="hu_proyecto")
     tiempo_control = models.IntegerField(verbose_name="Días de notificación", default=0)
     variable_atraso = models.IntegerField(verbose_name="Días de atraso", default=0)
-    last_checked = models.DateField(verbose_name="Ultima Revisión")
+    last_checked = models.DateTimeField(verbose_name="Ultima Revisión")
 
 class NotificacionHU(models.Model):
     h_umbral = models.ForeignKey(HistorialUmbrales, on_delete=models.CASCADE, related_name="historial_umbral")
     notificacion = models.OneToOneField(Notificacion, on_delete=models.CASCADE, related_name="hu_notificacion")
     documentos = models.ManyToManyField(Documento, related_name="hu_documentos", verbose_name="Listado de Documentos")
+    versiones = models.ManyToManyField(Version, related_name="hu_versiones", verbose_name="Listado de Versiones")

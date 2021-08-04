@@ -16,7 +16,7 @@
           <div class="widget-2">
               <div class="card shadow-base overflow-hidden chart">
                   <div class="card-header"style="text-align:center;display:flow-root;">
-                    <h4 class="tx-gray-800 mg-b-5">Curva de Avance Físico Ingenieria</h4>                       
+                    <h4 class="tx-gray-800 mg-b-5">Curva de Avance Físico Ingenieria {{curvaBase.datos_lista}} </h4>                       
                   </div>
                   <div class="card-body" height="1280px">
                   	<div style="width: 100%">
@@ -344,26 +344,16 @@
             fill: false,
             data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
 			},
-      // {
-			// 	type: 'line',
-      //       label: 'Curva Base',
-      //       backgroundColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(7, 254, 3, 0.7)', {% endfor %}],
-      //       borderColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(7, 254, 3, 0.7)', {% endfor %}],
-      //       borderWidth: 0.5,
-      //       lineTension:0.09,
-      //       fill: false,
-      //       data: [{% for real_linea in curvaBase.datos_lista %} {{real_linea)}, {% endfor %}],
-			// },
       {
-				type: 'line',
-            label: 'Curva Base',
-            backgroundColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(54, 162, 235, 1)', {% endfor %}],
-            borderColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(54, 162, 235, 1)', {% endfor %}],
-            borderWidth: 1,
-            lineTension:0.1,
-            fill: false,
-            data: [{% for real_linea in curvaBase.datos_lista %} {{real_linea}}, {% endfor %}],
-			}, 
+			 	type: 'line',
+             label: 'Curva Base',
+             backgroundColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(222, 128, 62, 0.7)', {% endfor %}],
+             borderColor: [{% for esperado in curvaBase.datos_lista %} 'rgba(222, 128, 62, 0.7)', {% endfor %}],
+             borderWidth: 0.5,
+             lineTension:0.09,
+             fill: false,
+             data: [{% for real_linea in curvaBase.datos_lista %} {{real_linea}}, {% endfor %}],
+			},
       {
 				type: 'bar',
         label: 'Avance Real Parcial (Barras)',
@@ -450,12 +440,12 @@
               {% endif %}
               {% endfor %} ],
               backgroundColor: [
-                  'rgba(255, 99, 132, 0.8)',
-                  'rgba(54, 162, 235, 0.8)'
+                  'rgba(54, 162, 235, 0.8)',
+                  'rgba(255, 99, 132, 0.8)'
               ],
               borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)'
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 99, 132, 1)'
               ],
               borderWidth: 1
           }]
