@@ -24,7 +24,7 @@
     <!-- ########## START: MAIN PANEL ########## -->
       </div><!-- br-pageheader -->
       <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-        <h4 class="tx-gray-800 mg-b-5">Documentos con revisiones Atrasadas del proyecto <strong>{{proyecto.nombre}}</strong></h4>
+        <h4 class="tx-gray-800 mg-b-5">Documentos con revisiones Atrasadas del proyecto <strong>{{proyecto.codigo}}</strong></h4>
        </div>
 
         <table class="table table-bordered table-primary table mg-b-0" >
@@ -34,15 +34,19 @@
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Descripción</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Tipo Documento</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Especialidad</th>
+                  <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Revisión</th>
+                  <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Estado</th>
                 </tr>
               </thead>
               <tbody>
-                {% for doc in documentos %}
+                {% for rev in revisiones %}
                   <tr style="border: black 2px;">
-                    <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{doc.Codigo_documento}} </th>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Descripcion}}</td>
-                    <td style="border: black 2px;color: black; background-color: rgb(252, 251, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Tipo_Documento}}</td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Especialidad}}</td>
+                    <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{rev.documento_fk.Codigo_documento}} </th>
+                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{rev.documento_fk.Descripcion}}</td>
+                    <td style="border: black 2px;color: black; background-color: rgb(252, 251, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{rev.documento_fk.Tipo_Documento}}</td>
+                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{rev.documento_fk.Especialidad}}</td>
+                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{rev.get_revision_display}}</td>
+                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{rev.get_estado_contratista_display}}</td>
                   </tr>
                 {% endfor %}
 
