@@ -7,7 +7,7 @@ from crispy_forms.layout import Submit
 from panel_carga.models import Documento, Proyecto
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm
-from .models import Perfil, Restricciones, CausasNoCumplimiento
+from .models import HistorialUmbrales, Perfil, Restricciones, CausasNoCumplimiento
 from .roles import *
 
 
@@ -43,3 +43,9 @@ class NoCumplimientoForm(forms.ModelForm):
     class Meta:
         model = CausasNoCumplimiento
         fields = ["nombre"]
+
+
+class UmbralForm(forms.ModelForm):
+    class Meta:
+        model = HistorialUmbrales
+        fields = ["tiempo_control", "variable_atraso"]

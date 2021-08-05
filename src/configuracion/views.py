@@ -18,8 +18,8 @@ from panel_carga.forms import ProyectoForm
 from bandeja_es.models import *
 from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check, is_admin_check
 
-from .models import CausasNoCumplimiento, Perfil, Restricciones
-from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm
+from .models import CausasNoCumplimiento, HistorialUmbrales, Perfil, Restricciones
+from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm, UmbralForm
 from invitations.utils import get_invitation_model
 
 class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
@@ -313,4 +313,36 @@ class NoCumplimientoDelete(ProyectoMixin, DeleteView):
     template_name = "configuracion/no_cumplimiento-delete.html"
     success_url = reverse_lazy('no-cumplimiento')
     success_message = 'Causa de No Cumplimiento eliminada correctamente'
+
+class UmbralIndexList(ProyectoMixin, ListView):
+    template_name = 'configuracion/umbral-list.html'
+    context_object_name = 'umbrales'
+
+    def get_queryset(self):
+        qs = HistorialUmbrales.objects.filter(proyecto=self.proyecto)
+        return qs
+
+class UmbralesEdit(ProyectoMixin, UpdateView):
+    model = HistorialUmbrales
+    form_class = UmbralForm
+    template_name = 'configuracion/edit-umbrales.html'
+    success_url = reverse_lazy('list-umbrales')
+    success_message = 'Umbral editado correctamente'
+
+    # def get_object(self, queryset):
+    #     queryset=HistorialUmbrales.objects.get(pk=self.kwargs["pk"])
+    #     return super().get_object(queryset)
+
+# class Umbrales2Edit(ProyectoMixin, UpdateView):
+#     template_name = ''
+#     form_class = ''
+
+# class Umbrales3Edit(ProyectoMixin, UpdateView):
+#     template_name = ''
+#     form_class = ''
+
+
+# class Umbrales4Edit(ProyectoMixin, UpdateView):
+#     template_name = ''
+#     form_class = ''
 
