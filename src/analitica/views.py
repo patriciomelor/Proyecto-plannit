@@ -309,7 +309,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 version_final = versiones
 
                     estado_cliente = version_final.estado_cliente
-                    print("estado:", estado_cliente)
                     if estado_cliente == 5:
                         documentos_valido_contruccion = documentos_valido_contruccion + 1
                     else:
