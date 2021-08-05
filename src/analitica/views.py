@@ -44,15 +44,24 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_actual = []
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        usuarios = self.get_users()
+
 
         #Obtener lista de las últimas versiones de cada documento
         if documentos_totales != 0:
             for doc in documentos: 
-                versiones = Version.objects.filter(documento_fk=doc).last()
-                if versiones:         
-                    lista_actual = [versiones, doc]
+                version = Version.objects.filter(documento_fk=doc)
+                if version:         
+                    for versiones in version:
+                        for user in usuarios:
+                            nombre = user.first_name + ' ' + user.last_name
+                            if str(nombre) == str(versiones.owner):
+                                version_final = versiones
+
+                    lista_actual = [version_final, doc]
                     lista_final.append(lista_actual)
-                if not versiones:    
+
+                if not version:    
                     pass
         else:
             lista_actual = [0,0] 
@@ -111,26 +120,34 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         especialidad_list = tuple()
+        usuarios = self.get_users()
 
         if documentos_totales != 0:
 
             #Obtener versiones que no poseen un estado de revisión
             for doc in documentos:
-                versiones = Version.objects.filter(documento_fk=doc).last()
-                if versiones:
+                version = Version.objects.filter(documento_fk=doc)
+
+                if version:
+                    for versiones in version:
+                            for user in usuarios:
+                                nombre = user.first_name + ' ' + user.last_name
+                                if str(nombre) == str(versiones.owner):
+                                    version_final = versiones
+
                     cont = 0
                     for revision in TYPES_REVISION[1:]:
 
                         #Comparar que la versión no posea ningún estado de revisión
-                        if revision[0] == versiones.revision:
+                        if revision[0] == version_final.revision:
                             cont = 1
 
                     #Almacena la versión que no posee estado de revisión
                     if cont == 0:
-                        lista_actual = [versiones, doc] 
+                        lista_actual = [version_final, doc] 
                         lista_final.append(lista_actual)
-                if not versiones:
-                    lista_actual = [versiones, doc] 
+                if not version:
+                    lista_actual = [version, doc] 
                     lista_final.append(lista_actual)
 
             #Obtener lista de todas las especialidades
@@ -177,23 +194,30 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
 
         especialidad_list = tuple()
+        usuarios = self.get_users()
 
         if documentos_totales != 0:
 
             #Obtener lista de versiones que poseen un estado de revisión
             for doc in documentos:
-                versiones = Version.objects.filter(documento_fk=doc).last()
-                if versiones:
+                version = Version.objects.filter(documento_fk=doc)
+
+                if version:
+                    for versiones in version:
+                            for user in usuarios:
+                                nombre = user.first_name + ' ' + user.last_name
+                                if str(nombre) == str(versiones.owner):
+                                    version_final = versiones
                     cont = 0
                     for revision in TYPES_REVISION[1:]:
                         
                         #Comparar versiones que si poseen un estado de revisión
-                        if revision[0] == versiones.revision:
+                        if revision[0] == version_final.revision:
                             cont = 1
                     
                     #Almacena las versiones que poseen un estado de revisión
                     if cont == 1:
-                        lista_actual = [versiones, doc] 
+                        lista_actual = [version_final, doc] 
                         lista_final.append(lista_actual)
 
             #Obtener lista de todas las especialidades
@@ -269,16 +293,29 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         documentos_valido_contruccion = 0
         documentos_no_valido_contruccion = 0
-
+        usuarios = self.get_users()
+        
         if documentos_totales != 0:
 
             #Obtener lista de todas las especialidades 
             for doc in documentos:
-                version = Version.objects.filter(documento_fk=doc).last()
-                estado_cliente = version.estado_cliente
-                if estado_cliente == 5:
-                    documentos_valido_contruccion = documentos_valido_contruccion + 1
-                else:
+                version = Version.objects.filter(documento_fk=doc)
+
+                if version:
+                    for versiones in version:
+                        for user in usuarios:
+                            nombre = user.first_name + ' ' + user.last_name
+                            if str(nombre) != str(versiones.owner):
+                                version_final = versiones
+
+                    estado_cliente = version_final.estado_cliente
+                    print("estado:", estado_cliente)
+                    if estado_cliente == 5:
+                        documentos_valido_contruccion = documentos_valido_contruccion + 1
+                    else:
+                        documentos_no_valido_contruccion = documentos_no_valido_contruccion + 1
+                
+                if not version:
                     documentos_no_valido_contruccion = documentos_no_valido_contruccion + 1
 
             lista_final.append(documentos_valido_contruccion)
