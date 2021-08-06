@@ -22,47 +22,30 @@
     <!-- ########## START: MAIN PANEL ########## -->
       </div><!-- br-pageheader -->
       <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-        <h4 class="tx-gray-800 mg-b-5">Documentos Atrasados del proyecto <strong>{{proyecto.nombre}}</strong></h4>
+        <h4 class="tx-gray-800 mg-b-5">Documentos Atrasados del proyecto <strong>{{proyecto.codigo}}</strong></h4>
        </div>
 
-        <table class="table table-bordered table-primary ">
-              <thead>
-                <tr style="border: black 2px;">
-                  <th >Especialidad</th>
-                  <th >Descripción</th>
-                  <th >Código</th>
-                  <th >Tipo</th>
-                  <th >Revisión Actual</th>
-                  <th >Último transmittal</th>
-                  <th >Fecha Final</th>
-                  <th >Días de revisión</th>
-                  <th >Estado</th>
-                  <th >Fecha Inicial</th>
-                  <th >Fecha Final</th>
-                  <th >(%)Avance</th>
-                  <th >Ciclo revisión (d)</th>
-                </tr>
-              </thead>
-              <tbody>
-                {% for doc in documentos %}
-                  <tr style="border: black 2px;">
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{doc.Codigo_documento}} </td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Descripcion}}</td>
-                    <td style="border: black 2px;color: black; background-color: rgb(252, 251, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Tipo_Documento}}</td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Especialidad}}</td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"></td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"></td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"></td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"></td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"></td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"></td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"></td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"></td>
-                  </tr>
-                {% endfor %}
+       <table class="table table-bordered table-primary table mg-b-0" >
+        <thead>
+          <tr style="border: black 2px;">
+            <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Codigo Documento</th>
+            <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Descripción</th>
+            <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Tipo Documento</th>
+            <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Especialidad</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for doc in documentos %}
+            <tr style="border: black 2px;">
+              <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{doc.Codigo_documento}} </th>
+              <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Descripcion}}</td>
+              <td style="border: black 2px;color: black; background-color: rgb(252, 251, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Tipo_Documento}}</td>
+              <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Especialidad}}</td>
+            </tr>
+          {% endfor %}
 
-              </tbody>
-            </table>
+        </tbody>
+      </table>
               </div><!-- card-body -->
             </div><!-- card -->
           </div><!-- col-3 -->         
