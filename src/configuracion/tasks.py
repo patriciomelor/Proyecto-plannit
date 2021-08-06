@@ -38,7 +38,6 @@ def umbral_2():
         document_list = []
         last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=2).last()
         delta_proyect = (fecha_actual - last_hu.last_checked)
-        print("U-2 Delta días para Proyecto {pjc} :".format(pjc=proyecto.codigo), delta_proyect.days)
 
         if delta_proyect.days >= last_hu.tiempo_control:
             documentos = Documento.objects.filter(proyecto=proyecto)
@@ -102,7 +101,6 @@ def umbral_3():
         document_list = []
         last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=3).last()
         delta_proyect = (fecha_actual - last_hu.last_checked)
-        print("U-3 Delta días para Proyecto {pjc} :".format(pjc=proyecto.codigo), delta_proyect.days)
 
         if delta_proyect.days >= last_hu.tiempo_control:
             documentos = Documento.objects.filter(proyecto=proyecto)
@@ -662,11 +660,10 @@ def umbral_4():
             #### Filtros de verificación para notificar a encargados del Proyecto
             last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=4).last()
             delta_proyect = (fecha_actual - last_hu.last_checked)
-            print("U-4 Delta días para Proyecto {pjc} :".format(pjc=proyecto.codigo), delta_proyect.days)
 
             if delta_proyect.days >= last_hu.tiempo_control:
-                diferencia_avance = float(avance_real) - float(avance_programado)
-                
+                diferencia_avance =  float(avance_programado) - float(avance_real)
+                print("Proyecto {} Dif % :".format(proyecto.codigo), diferencia_avance)
                 if diferencia_avance > float(last_hu.variable_atraso):
                     lista_proyectos_atrasados.append([proyecto, diferencia_avance])
 

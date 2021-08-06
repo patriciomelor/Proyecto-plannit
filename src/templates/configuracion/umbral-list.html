@@ -39,9 +39,7 @@
 
       <div class="br-section-wrapper">    
         <div class="pd-x-20 pd-sm-x-30 mg-b-10">
-          <h4 class="tx-gray-800 mg-b-5">Lista de Proyecto / {{proyecto}}</h4>
-          {% comment %} <p class="mg-b-0">{{proyecto}}</p>  {% endcomment %}
-          <p class="mg-b-0">{{codigo_proyecto}}</p> 
+          <h4 class="tx-gray-800 mg-b-5">Lista de Umbrales / {{proyecto}}</h4>
         </div> 
 
         <div class="row row-sm d-flex justify-content-center">
@@ -50,26 +48,23 @@
               <thead>
                 <tr>
                   <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Encargado</th>
                   <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripción</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Código </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Fecha Inicio</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Fecha Término</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;"colspan="2">Acción  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tiempo de Control</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Variable de Atraso</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Última<br>Revisión</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Acción</th>
+
                 </tr>
               </thead>
               <tbody>
-              {% for proyecto in proyectos %}
+              {% for umbral in umbrales %}
                 <tr>            
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.nombre}}  </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.encargado}} </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.descripcion}}  </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.codigo}}</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.fecha_inicio|date:'d-M-y'}}</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{proyecto.fecha_termino|date:'d-M-y'}}</th>
-
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'editar-proyecto' proyecto.pk %}" class="btn btn-teal center"> Modificar </a></th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'delete-proyecto' proyecto.pk %}" class="btn btn-danger center"> Eliminar </a></th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.umbral.nombre}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.umbral.descripcion}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.tiempo_control}} </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.variable_atraso}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.last_checked|date:'d-M-y'}}</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'edit-umbrales' umbral.pk %}" class="btn btn-teal center"> Modificar </a></th>
                 </tr>
             {% endfor %}
                 <!--Fin Loop-->
