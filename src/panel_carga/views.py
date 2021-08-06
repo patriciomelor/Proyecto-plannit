@@ -150,34 +150,39 @@ class ListDocumento(ProyectoMixin, ListView):
             for data in imported_data:
                 print(type(data),data)
                 try:
-                    if isinstance(data[4], str):
-                        fecha_b = data[4]
-                    else:
-                        fecha_b = data[4].strftime("%Y-%m-%d")
-                    if isinstance(data[5], str):
-                        fecha_0 = data[5]
-                    else:
-                        fecha_0 = data[5].strftime("%Y-%m-%d")
+                    # if isinstance(data[4], str):
+                    #     fecha_b = data[4]
+                    # else:
+                    #     fecha_b = data[4].strftime("%Y-%m-%d")
+                    # if isinstance(data[5], str):
+                    #     fecha_0 = data[5]
+                    # else:
+                    #     fecha_0 = data[5].strftime("%Y-%m-%d")
                     documento = Documento(
                         Especialidad= data[0],
                         Descripcion= data[1],
                         Codigo_documento= data[2],
                         Tipo_Documento= data[3],
-                        fecha_Emision_B= fecha_b,
-                        fecha_Emision_0= fecha_0,
+                        fecha_Emision_B= data[4], #fecha_b,
+                        fecha_Emision_0= data[5], #fecha_0,
                         proyecto= self.proyecto,
                         owner= request.user
                     )
-
                     documento.save()
-                except IntegrityError:
+                except IntegrityError as error:
                     documentos_erroneos.append(data)
-                except ValueError:
+                    messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
+                except ValueError as error:
                     documentos_erroneos.append(data)
-                except TypeError:
+                    messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
+                except TypeError as error:
                     documentos_erroneos.append(data)
+                    messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
+                except ValidationError as error:
+                    documentos_erroneos.append(data)
+                    messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
         else:
-            messages.add_message(request, level=messages.ERROR, message="Ha ocurrido un error al importar los datos, puede ser que las dimenciones del Excel no correspondan. {err}".format(err=error))
+            messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
             return render(request, 'panel_carga/list-error.html', context={'exception': "Error en la Importación. Excel inválido."})
             
         return render(request, 'panel_carga/list-error.html', context={'errores': documentos_erroneos})
