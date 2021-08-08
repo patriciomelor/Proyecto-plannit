@@ -209,7 +209,6 @@
  {% endblock menublank %}
  <div class="br-mainpanel">
   <div class="br-pagebody mg-t-5 pd-x-5">
-  {% include "messege.html" %}
 
 {% block content %}
 {% endblock content %}
@@ -262,4 +261,10 @@
     </script>
 
   </body>
+   <script>
+    $('#alert').fadeIn();     
+      setTimeout(function() {
+          $("#alert").fadeOut();           
+      },2000);
+    </script>
 </html>
