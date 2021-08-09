@@ -10,7 +10,7 @@
     <meta name="description" content="Software de Gestion y administracion de archivos.">
     <meta name="author" content="STOD CHILE for DM">
 
-    <title>DMP</title>
+    <title>{{proyecto.nombre}}</title>
 
     <!-- vendor css -->
     <link rel="stylesheet" href="{% static 'file_form/file_form.css' %}">
@@ -95,7 +95,7 @@
   {% block menublank %}
  
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href=""><span>[</span>DMP<span>]</span></a></div>
+    <div class="br-logo"><a href=""><span>[</span>{{proyecto.nombre}}<span>]</span></a></div>
     <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-x ps--active-y" data-ps-id="9f275960-8fc4-263c-8019-2d3495e7d5c1">
       <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
       <div class="br-sideleft-menu">
@@ -239,7 +239,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.js"></script>
 
-
+     <script>
+    $('#alert').fadeIn();     
+      setTimeout(function() {
+          $("#alert").fadeOut();           
+      },2000);
+    </script>
     <script>
       $(function(){
         'use strict'

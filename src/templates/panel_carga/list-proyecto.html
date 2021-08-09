@@ -1,10 +1,12 @@
 
 {% extends "account/login_base.html" %}
+{% load crispy_forms_tags %}
 
 {% block content %}
  <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
        
-{% load crispy_forms_tags %}
+  {% include "messege.html" %}
+
 <form method="post">{% csrf_token %}
 
     {{ form|crispy }}
