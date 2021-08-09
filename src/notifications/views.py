@@ -8,11 +8,21 @@ from .models import Notificacion
 class EmailBaseView(ProyectoMixin, FormView):
     pass
 
-class NotificacionList(ListView):
+class NotificacionList(ProyectoMixin, ListView):
     model = Notificacion
-    context_object_name = 'notificacion'
+    context_object_name = 'notificaciones'
     template_name='notifications/main_box.html'
 
     def get_queryset(self):
         return Notificacion.objects.filter(usuario=self.request.user).order_by('-date')
     
+class NotificationDetail(ProyectoMixin, DetailView):
+    model = Notificacion
+    context_object_name = 'notificacion'
+    template_name = 'notifications/detail-notification.html'
+
+    def get(self, request, *args, **kwargs):
+        noti = self.get_object()
+        noti.is_seen = True
+        noti.save()
+        return super(NotificationDetail, self).get(request, *args, **kwargs)
