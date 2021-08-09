@@ -10,7 +10,7 @@
     <meta name="description" content="Software de Gestion y administracion de archivos.">
     <meta name="author" content="STOD CHILE for DM">
 
-    <title>DMP</title>
+    <title>{{proyecto.nombre}}</title>
    
     <!-- vendor css -->
     <link rel="stylesheet" href="{% static 'file_form/file_form.css' %}">
@@ -111,7 +111,7 @@
   {% block menublank %}
  
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href=""><span>[</span>DMP<span>]</span></a></div>
+    <div class="br-logo"><a href=""><span>[</span>{{proyecto.nombre}}<span>]</span></a></div>
     <div class="br-sideleft overflow-y-auto">
       <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
       <div class="br-sideleft-menu">
@@ -209,7 +209,6 @@
  {% endblock menublank %}
  <div class="br-mainpanel">
   <div class="br-pagebody mg-t-5 pd-x-5">
-  {% include "messege.html" %}
 
 {% block content %}
 {% endblock content %}
@@ -262,4 +261,10 @@
     </script>
 
   </body>
+   <script>
+    $('#alert').fadeIn();     
+      setTimeout(function() {
+          $("#alert").fadeOut();           
+      },2000);
+    </script>
 </html>
