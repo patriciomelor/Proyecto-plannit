@@ -57,14 +57,14 @@
                 </tr>
               </thead>
               <tbody>
-              {% for umbral in umbrales %}
+              {% for umbral in umbrales_notificados %}
                 <tr>            
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.umbral.nombre}}  </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.umbral.descripcion}}  </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.tiempo_control}} </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.variable_atraso}}  </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.last_checked|date:'d-M-y'}}</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'edit-umbrales' umbral.pk %}" class="btn btn-teal center"> Modificar </a></th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.h_umbral.umbral.nombre}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.h_umbral.umbral.descripcion}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.h_umbral.tiempo_control}} </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.h_umbral.variable_atraso}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.h_umbral.last_checked|date:'d-M-y'}}</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'detail-notif-umbrales' umbral.pk %}" class="btn btn-teal center"> Detalles </a></th>
                 </tr>
             {% endfor %}
                 <!--Fin Loop-->
