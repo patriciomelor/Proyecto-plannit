@@ -78,14 +78,8 @@
                                 
             </div>
 
-               {% for rev in umbral_notificado.versiones.all %} 
-                {{rev}}
-               {% endfor %}
 
-               {% for doc in umbral_notificado.documentos.all %} 
-                {{doc}}
-               {% endfor %}
-                {% comment %} {% if umbral_notificado.documentos.exists %}
+                {% if umbral_notificado.documentos.count != 0 %}
                     <table class="table table-striped mg-b-0 table-bordered table-primary">
                         <thead class="thead-colored thead-primary">
                             <tr class="tx-10">
@@ -127,7 +121,7 @@
                     </table>   
                 {% endif %}
 
-                {% if umbral_notificado.versiones.exists %}
+                {% if umbral_notificado.versiones.count != 0 %}
                     <table class="table table-striped mg-b-0 table-bordered table-primary">
                         <thead class="thead-colored thead-primary">
                             <tr class="tx-10">
@@ -168,7 +162,7 @@
                         {% endfor %}      
                         </tbody>
                     </table>   
-                {% endif %} {% endcomment %}
+                {% endif %}
          
 
 
