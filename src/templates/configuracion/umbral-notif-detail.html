@@ -79,7 +79,7 @@
             </div>
 
 
-                {% if umbral_notificado.documentos.count != 0 %}
+                {% if nu_umbral == 2 %}
                     <table class="table table-striped mg-b-0 table-bordered table-primary">
                         <thead class="thead-colored thead-primary">
                             <tr class="tx-10">
@@ -121,7 +121,7 @@
                     </table>   
                 {% endif %}
 
-                {% if umbral_notificado.versiones.count != 0 %}
+                {% if nu_umbral == 3 %}
                     <table class="table table-striped mg-b-0 table-bordered table-primary">
                         <thead class="thead-colored thead-primary">
                             <tr class="tx-10">

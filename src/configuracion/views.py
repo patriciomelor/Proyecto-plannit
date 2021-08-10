@@ -366,4 +366,14 @@ class UNDetail(ProyectoMixin, DetailView):
     model = NotificacionHU
     template_name = 'configuracion/umbral-notif-detail.html'
     context_object_name = 'umbral_notificado'
+
+    def get(self, request, *args, **kwargs):
+        un_obj = self.get_object()
+        context = {}
+        if un_obj.h_umbral.umbral.pk == 2:
+            context["nu_umbral"] = 2
+        elif un_obj.h_umbral.umbral.pk == 3:
+            context["nu_umbral"] = 3
+
+        return render(request, self.template_name, context=context)
     
