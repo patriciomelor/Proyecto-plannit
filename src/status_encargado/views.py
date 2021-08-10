@@ -30,7 +30,34 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
     def get_queryset(self):
         queryset=Documento.objects.filter(proyecto=self.proyecto)
         return queryset
-    
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        tasks = []
+        tareas = Tarea.objects.filter(documento__proyecto=self.proyecto).order_by('-created_at')
+        current_rol = self.request.user.perfil.rol_usuario
+        for tarea in tareas:
+            rol = tarea.encargado.perfil.rol_usuario
+
+            if current_rol >= 1 and current_rol <= 3:
+                if rol >= 1 and rol <= 3:
+                    if rol == 1: 
+                        pass
+                    else:
+                        tasks.append(tarea)
+
+            if current_rol >= 4 and current_rol <= 6:
+                if rol >= 4 and rol <= 6:
+                    if rol == 4: 
+                        pass
+                    else:
+                        tasks.append(tarea)
+
+        context["tareas"] = tasks
+        context['Listado'] = self.tabla_status()
+        return context
+
 
     def tabla_status(self):
         #Listar documentos
@@ -81,14 +108,6 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                     lista_final.append(lista_inicial)
 
         return lista_final
-
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        tasks = Tarea.objects.all().filter(documento__proyecto= self.proyecto).order_by('-created_at')
-        context["tareas"] = tasks
-        context['Listado'] = self.tabla_status()
-        return context
 
 class TablaEncargado(ProyectoMixin, FormView):
     template_name = 'status_encargado/list-encargado.html'

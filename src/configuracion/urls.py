@@ -26,6 +26,8 @@ urlpatterns = [
     path('no-cumplimiento-delete/<pk>/', views.NoCumplimientoDelete.as_view() , name='no-cumplimiento-delete'),
     path('umbrales/', views.UmbralIndexList.as_view(), name='list-umbrales'),
     path('edit-umbrales/<pk>/', views.UmbralesEdit.as_view(), name='edit-umbrales'),
+    path('umbrales-notificados/', views.UmbralesNotificados.as_view(), name='list-notif-umbrales'),
+    path('notif-umbral-detail/<pk>/', views.UNDetail.as_view(), name='detail-notif-umbrales'),
 ]
 
 

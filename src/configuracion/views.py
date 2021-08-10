@@ -18,7 +18,7 @@ from panel_carga.forms import ProyectoForm
 from bandeja_es.models import *
 from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check, is_admin_check
 
-from .models import CausasNoCumplimiento, HistorialUmbrales, Perfil, Restricciones
+from .models import CausasNoCumplimiento, HistorialUmbrales, NotificacionHU, Perfil, Restricciones, Umbral
 from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm, UmbralForm
 from invitations.utils import get_invitation_model
 
@@ -329,20 +329,51 @@ class UmbralesEdit(ProyectoMixin, UpdateView):
     success_url = reverse_lazy('list-umbrales')
     success_message = 'Umbral editado correctamente'
 
-    # def get_object(self, queryset):
-    #     queryset=HistorialUmbrales.objects.get(pk=self.kwargs["pk"])
-    #     return super().get_object(queryset)
+class UmbralesNotificados(ProyectoMixin, ListView):
+    model = NotificacionHU
+    template_name = 'configuracion/umbral-notif-list.html'
+    context_object_name = 'umbrales_notificados'
 
-# class Umbrales2Edit(ProyectoMixin, UpdateView):
-#     template_name = ''
-#     form_class = ''
+    def get_queryset(self):
+        umrales = HistorialUmbrales.objects.filter(proyecto=self.proyecto)
+        n_hu = NotificacionHU.objects.filter(h_umbral__in=umrales)
+        return n_hu
 
-# class Umbrales3Edit(ProyectoMixin, UpdateView):
-#     template_name = ''
-#     form_class = ''
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        notif_umbrales = self.get_queryset()
+        list_umbral_1 = []
+        list_umbral_2 = []
+        list_umbral_3 = []
+        list_umbral_4 = []
+        for notif_umbral in notif_umbrales:
+            if notif_umbral.h_umbral.umbral.pk == 1:
+                list_umbral_1.append(notif_umbral)
+            elif notif_umbral.h_umbral.umbral.pk == 2:
+                list_umbral_2.append(notif_umbral)
+            elif notif_umbral.h_umbral.umbral.pk == 3:
+                list_umbral_3.append(notif_umbral)
+            elif notif_umbral.h_umbral.umbral.pk ==4:
+                list_umbral_4.append(notif_umbral)
+                 
+        context["umbral_1"] = list_umbral_1
+        context["umbral_2"] = list_umbral_2
+        context["umbral_3"] = list_umbral_3
+        context["umbral_4"] = list_umbral_4
+        return context 
+        
+class UNDetail(ProyectoMixin, DetailView):
+    model = NotificacionHU
+    template_name = 'configuracion/umbral-notif-detail.html'
+    context_object_name = 'umbral_notificado'
 
+    def get(self, request, *args, **kwargs):
+        un_obj = self.get_object()
+        context = {}
+        if un_obj.h_umbral.umbral.pk == 2:
+            context["nu_umbral"] = 2
+        elif un_obj.h_umbral.umbral.pk == 3:
+            context["nu_umbral"] = 3
 
-# class Umbrales4Edit(ProyectoMixin, UpdateView):
-#     template_name = ''
-#     form_class = ''
-
+        return render(request, self.template_name, context=context)
+    
