@@ -99,23 +99,6 @@
                             <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Tipo_Documento}}</td>
                             <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Codigo_documento}} </td>  
                         </tr>    
-                        {% empty %}
-                            <tr>
-                                <th style="background-color:#fff;" colspan="7">
-                                    <div class="alert alert-info alert-bordered pd-y-20" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                        </button>
-                                        <div class="d-sm-flex align-items-center justify-content-start">
-                                            <i class="icon ion-ios-information alert-icon tx-52 mg-r-20"></i>
-                                            <div class="mg-t-20 mg-sm-t-0">
-                                                <h5 class="mg-b-2">AVISO!</h5>
-                                                <p class="mg-b-0 tx-gray">El Transmittal no tiene documentos</p>
-                                            </div>
-                                        </div><!-- d-flex -->
-                                    </div>
-                                </th>
-                            </tr>
                         {% endfor %}
                         </tbody>
                     </table>   
@@ -130,7 +113,7 @@
                                 <th class="pd-y-5"style="text-align: center;">Tipo</th>  
                                 <th class="pd-y-5"style="text-align: center;">Código</th>  
                                 <th class="pd-y-5"style="text-align: center;">Revisión</th>
-                            
+
                             </tr>
                         </thead>
                         <tbody>
@@ -142,23 +125,6 @@
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}} </td>  
                             </tr>    
-                            {% empty %}
-                                <tr>
-                                    <th style="background-color:#fff;" colspan="7">
-                                        <div class="alert alert-info alert-bordered pd-y-20" role="alert">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                            </button>
-                                            <div class="d-sm-flex align-items-center justify-content-start">
-                                                <i class="icon ion-ios-information alert-icon tx-52 mg-r-20"></i>
-                                                <div class="mg-t-20 mg-sm-t-0">
-                                                    <h5 class="mg-b-2">AVISO!</h5>
-                                                    <p class="mg-b-0 tx-gray">El Transmittal no tiene documentos</p>
-                                                </div>
-                                            </div><!-- d-flex -->
-                                        </div>
-                                    </th>
-                                </tr>
                         {% endfor %}      
                         </tbody>
                     </table>   

@@ -370,6 +370,7 @@ class UNDetail(ProyectoMixin, DetailView):
     def get(self, request, *args, **kwargs):
         un_obj = self.get_object()
         context = {}
+        context["umbral_notificado"] = un_obj
         if un_obj.h_umbral.umbral.pk == 2:
             context["nu_umbral"] = 2
         elif un_obj.h_umbral.umbral.pk == 3:
