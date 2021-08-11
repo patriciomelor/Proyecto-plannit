@@ -4,7 +4,5 @@ from django.apps import AppConfig
 class ConfiguracionConfig(AppConfig):
     name = 'configuracion'
 
-    def ready(self) -> None:
+    def ready(self):
         import configuracion.signals
-
-        return super().ready()
