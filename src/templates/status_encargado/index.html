@@ -1,5 +1,8 @@
-{% extends 'index-status-e.html' %} {% load crispy_forms_tags %} {% block
-content %}
+{% extends 'index-status-e.html' %}
+
+{% load crispy_forms_tags %} 
+
+{% block content %}
 <div class="br-pagebody">
   <!--Titulo-->
   <div class="row row-sm mg-t-10 pd-y-15">
@@ -282,8 +285,7 @@ content %}
                   </thead>
                   <tbody>
                     <!--Loop Listar Documento-->
-                    {% for documento in Listado %} {% if documento.1.0 == 'no
-                    version' %}
+                    {% for documento in Listado %} {% if documento.1.0 == 'no version' %}
                     <tr role="row" class="odd">
                       <th
                         style="
@@ -510,10 +512,10 @@ content %}
                           padding: 5px;
                         "
                       >
-                        {% if not documento.1.0.get_estado_cliente_display %} {{
-                        documento.1.0.get_estado_contratista_display }} {% else
-                        %}{{documento.1.0.get_estado_cliente_display}} {% endif
-                        %}
+                        {% if not documento.1.0.get_estado_cliente_display %} 
+                        {{ documento.1.0.get_estado_contratista_display }} 
+                        {% else %}{{documento.1.0.get_estado_cliente_display}}
+                         {% endif %}
                       </th>
                       <th
                         style="
@@ -866,8 +868,7 @@ content %}
                           padding: 5px;
                         "
                       >
-                        {% if tarea.restricciones == None %}Sin restricción {%
-                        else %}{{tarea.restricciones}}{% endif %}
+                        {% if tarea.restricciones == None %}Sin restricción {% else %}{{tarea.restricciones}}{% endif %}
                       </th>
                       <th
                         style="
