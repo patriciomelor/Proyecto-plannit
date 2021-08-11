@@ -14,28 +14,43 @@
     </div>
     <div class="br-pagebody mg-t-5 pd-x-30">
 
-       <div class="pd-10 bd bg-gray-900  rounded mg-t-10">
-        <ul class="nav nav-pills flex-column flex-md-row justify-content-center" role="tablist">
-          <li class="nav-item"><a class="nav-link active" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'add-user-proyecto' %}" role="tab">Agregar Usuarios a Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-usuario' %}" role="tab">Agregar Usuario</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'listar-usuarios' %}" role="tab">Listar Usuarios</a></li>
-          <li class="nav-item">
+<div class="ht-65 bd bg-black-100 pd-x-20 d-flex align-items-center justify-content-start mg-t-20">
+        <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row" role="tablist">
+        {% if request.user.is_superuser == true %}
+          <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
+        {% else %}
+        {% endif %}
+           <li class="nav-item">
             <div class="dropdown">
               <button class="btn btn-light dropdown-toggle nav-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Restricciones
+                <i class="icon ion-person-stalker"></i>Gestionar Usuarios
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button">Restricciones</button></a>
-                <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button">No cumplimiento</button></a>
+                <a class="nav-link" href="{% url 'crear-usuario' %}"><button class="dropdown-item" type="button"><i class="icon ion-person-add"></i> Agregar Usuario</button></a>
+                <a class="nav-link" href="{% url 'listar-usuarios' %}"><button class="dropdown-item" type="button"><i class="icon ion-person"></i> Listar Usuarios</button></a>
+                <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
                 
               </div>
+            
             </div>
           </li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item">
+            <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle nav-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Restricciones
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button">Restricciones</button></a>
+              <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button">No cumplimiento</button></a>
+              
+            </div>
+          </div>
+            </li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-notif-umbrales' %}">Historial Umbrales</a></li>
         </ul>
-      </div><!-- pd-10 -->
+      </div><!-- ht-65 -->
 
       <div class="br-section-wrapper">    
         <div class="pd-x-20 pd-sm-x-30 mg-b-10">
@@ -47,24 +62,24 @@
       <!--Table-->
               <thead>
                 <tr>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Descripción</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Tiempo de Control</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Variable de Atraso</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Última<br>Revisión</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;">Acción</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;width:auto;">Nombre</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;width:auto;">Descripción</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;width:5%;margin:0px;padding:0px;">Tiempo de Control</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;width:5%;margin:0px;padding:0px;">Variable de Atraso</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;width:auto;">Última<br>Revisión</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;width:auto;">Acción</th>
 
                 </tr>
               </thead>
               <tbody>
               {% for umbral in umbrales %}
                 <tr>            
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.umbral.nombre}}  </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.umbral.descripcion}}  </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.tiempo_control}} </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.variable_atraso}}  </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.last_checked|date:'d-M-y'}}</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'edit-umbrales' umbral.pk %}" class="btn btn-teal center"> Modificar </a></th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;width:auto;" >{{umbral.umbral.nombre}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;width:auto;" >{{umbral.umbral.descripcion}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;margin:0px;padding:0px;" >{{umbral.tiempo_control}} </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;margin:0px;padding:0px;" >{{umbral.variable_atraso}}  </th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;width:auto;" >{{umbral.last_checked|date:'d-M-y'}}</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: black;width:auto;"><a href="{% url 'edit-umbrales' umbral.pk %}" > <i class="fa fa-pencil"></i> </a></th>
                 </tr>
             {% endfor %}
                 <!--Fin Loop-->

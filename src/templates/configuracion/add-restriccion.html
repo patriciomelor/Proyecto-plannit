@@ -9,73 +9,92 @@
         <nav class="breadcrumb pd-0 mg-0 tx-12">
           <a class="breadcrumb-item"> {{proyecto}}</a>
           <a class="breadcrumb-item" href="">Configuración</a>      
-          <span class="breadcrumb-item active">Registrar Usuario </span>
+          <span class="breadcrumb-item active">Restricciones </span>
         </nav>
       </div><!-- br-pageheader -->
-      <div class="pd-10 bd bg-gray-900  rounded mg-t-10">
-        <ul class="nav nav-pills flex-column flex-md-row justify-content-center" role="tablist">
-          <li class="nav-item"><a class="nav-link active" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'add-user-proyecto' %}" role="tab">Agregar Usuarios a Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-usuario' %}" role="tab">Agregar Usuario</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'listar-usuarios' %}" role="tab">Listar Usuarios</a></li>
-          <li class="nav-item">
+     
+      <div class="ht-65 bd bg-black-100 pd-x-20 d-flex align-items-center justify-content-start mg-t-20">
+        <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row" role="tablist">
+        {% if request.user.is_superuser == true %}
+          <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
+        {% else %}
+        {% endif %}
+           <li class="nav-item">
             <div class="dropdown">
               <button class="btn btn-light dropdown-toggle nav-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Restricciones
+                <i class="icon ion-person-stalker"></i>Gestionar Usuarios
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button">Restricciones</button></a>
-                <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button">No cumplimiento</button></a>
+                <a class="nav-link" href="{% url 'crear-usuario' %}"><button class="dropdown-item" type="button"><i class="icon ion-person-add"></i> Agregar Usuario</button></a>
+                <a class="nav-link" href="{% url 'listar-usuarios' %}"><button class="dropdown-item" type="button"><i class="icon ion-person"></i> Listar Usuarios</button></a>
+                <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
                 
               </div>
+            
             </div>
           </li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'list-umbrales' %}">Editar Umbrales</a></li>
+          <li class="nav-item">
+            <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle nav-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Restricciones
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button">Restricciones</button></a>
+              <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button">No cumplimiento</button></a>
+              
+            </div>
+          </div>
+            </li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-notif-umbrales' %}">Historial Umbrales</a></li>
         </ul>
-      </div><!-- pd-10 -->
+      </div><!-- ht-65 -->
+
     <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
         <h4 class="tx-gray-800 mg-b-5">Registrar Restriccion</h4>
         <h4 class="tx-gray-800 mg-b-5"> {{grupo}} </h4>
     </div>
-{% include "messege.html" %}  
-        <div class="card bd-0 shadow-base">
-            <div class="br-pagebody pd-x-20 pd-sm-x-30">
-            <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
+{% include "messege.html" %} 
+<div class="br-pagebody pd-x-20 pd-sm-x-30"> 
+  <div class="row row-sm d-flex justify-content-center" >
+            <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary" style="width: auto;">        
         <!--Table-->
                 <thead>
                     <tr>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width: auto;">Nombre</th>
                     </tr>
                 </thead>
                 <tbody>
+                  <tr>            
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">Las restricciones se listaran aqui.  </th>
+                    </tr>
                 {% for restriccion in restricciones %}
                     <tr>            
-                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{restriccion}}  </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">{{restriccion}}  </th>
                     </tr>
                 {% endfor %}
                     <!--Fin Loop-->
                 </tbody>
             </table>
 
-            <form class="form-control"style="float: left;"method="POST"> {% csrf_token %}
-                <label for="" class="col-6 col-md-12 mg-20">
+            <div class="card bd-0 shadow-base">
+            <form class="form-group control col-md-12 "  method="POST"> {% csrf_token %}
+                <label  style="margin-top: 20px;margin-bottom: auto;">
                     {{form|crispy}}
                 </label>
                 <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit"> Enviar </button>                
                 <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" onClick="javascript:history.go(-1);" type="submit"> volver</button>
             </form>
         </div>
-    </div>
+ </div>
  </div>
 </div>
-<script>
-$(document).ready(function(){
-    $('input:checkbox').click(function() {
-        $('input:checkbox').not(this).prop('checked', false);
-    });
-});
+ <script>
+  $("#alert").fadeIn();
+  setTimeout(function () {
+    $("#alert").fadeOut();
+  }, 2000);
 </script>
-
 {% endblock content %}
  
