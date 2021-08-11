@@ -346,6 +346,7 @@
           </div>
           <!-- menu-item --> 
           </a>
+          {% endif %}
         {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
         <a href="{% url 'configuracion-index' %}" class="br-menu-link active">
           <div class="br-menu-item active">
