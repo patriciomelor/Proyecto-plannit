@@ -83,54 +83,47 @@
                     <table class="table table-striped mg-b-0 table-bordered table-primary">
                         <thead class="thead-colored thead-primary">
                             <tr class="tx-10">
-                                <th class="pd-y-5"style="text-align: center;">Especialidad</th>     
-                                <th class="pd-y-5"style="text-align: center;">Descripción</th>                     
-                                <th class="pd-y-5"style="text-align: center;">Tipo</th>  
-                                <th class="pd-y-5"style="text-align: center;">Código</th>  
-                            
+                                <th class="pd-y-5"style="text-align: center;">Especialidad</th>
+                                <th class="pd-y-5"style="text-align: center;">Descripción</th>
+                                <th class="pd-y-5"style="text-align: center;">Tipo</th>
+                                <th class="pd-y-5"style="text-align: center;">Código</th>
                             </tr>
                         </thead>
                         {% for doc in umbral_notificado.documentos.all %}
                         <tbody>
-
-                        <tr>                    
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Especialidad}} </td>       
+                        <tr>
+                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Especialidad}} </td>
                             <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Descripcion}}</td>
                             <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Tipo_Documento}}</td>
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Codigo_documento}} </td>  
-                        </tr>    
+                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Codigo_documento}} </td>
+                        </tr>
                         {% endfor %}
                         </tbody>
-                    </table>   
+                    </table>
                 {% endif %}
 
                 {% if nu_umbral == 3 %}
                     <table class="table table-striped mg-b-0 table-bordered table-primary">
                         <thead class="thead-colored thead-primary">
                             <tr class="tx-10">
-                                <th class="pd-y-5"style="text-align: center;">Especialidad</th>     
-                                <th class="pd-y-5"style="text-align: center;">Descripción</th>                     
-                                <th class="pd-y-5"style="text-align: center;">Tipo</th>  
-                                <th class="pd-y-5"style="text-align: center;">Código</th>  
+                                <th class="pd-y-5"style="text-align: center;">Especialidad</th>
+                                <th class="pd-y-5"style="text-align: center;">Descripción</th>
+                                <th class="pd-y-5"style="text-align: center;">Tipo</th>
+                                <th class="pd-y-5"style="text-align: center;">Código</th>
                                 <th class="pd-y-5"style="text-align: center;">Revisión</th>
-
                             </tr>
                         </thead>
                         <tbody>
                         {% for version in umbral_notificado.versiones.all %}
-                            <tr>                    
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Especialidad}} </td>       
+                            <tr>
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Especialidad}} </td>
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Descripcion}}</td>
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}} </td>  
-                            </tr>    
-                        {% endfor %}      
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
-                    </table>   
+                    </table>
                 {% endif %}
-         
-
-
-
 {% endblock content %}
