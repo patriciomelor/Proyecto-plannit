@@ -60,16 +60,16 @@
     </div>    
     {% include "messege.html" %}  
     <div class="row row-sm d-flex justify-content-center" >
-      <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
+      <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary"style="width:auto;">       
   <!--Table-->
           <thead>
             <tr>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Correo</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">ROL</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Cargo</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Modificar </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;">Eliminar  </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Nombre</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Correo</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">ROL</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Cargo</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Modificar </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Eliminar  </th>
             </tr>
           </thead>
           <tbody>
@@ -77,20 +77,20 @@
             {% for usuario in usuarios %}
             <tr>            
               {% if usuario.first_name %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.first_name}} {{usuario.last_name}} </th>
               {% else %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> No hay nombre registrado</th>
               {% endif %} 
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.email}} </th>
               {% if usuario.perfil.rol_usuario %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.perfil.get_rol_usuario_display}} </th>
               {% else %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> Sin Perfil </th>
               {% endif %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.cargo}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.cargo}} </th>
 
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'editar-usuario' usuario.pk %}" > <i class="fa fa-pencil"></i> </a></th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'eliminar-usuario' usuario.pk %}" style="color:red;"> <i class="fa fa-trash"></i> </a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'editar-usuario' usuario.pk %}" > <i class="fa fa-pencil"></i> </a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'eliminar-usuario' usuario.pk %}" style="color:red;"> <i class="fa fa-trash"></i> </a></th>
             </tr>           
             
           
