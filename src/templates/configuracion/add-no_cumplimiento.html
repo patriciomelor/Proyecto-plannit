@@ -9,7 +9,7 @@
         <nav class="breadcrumb pd-0 mg-0 tx-12">
           <a class="breadcrumb-item"> {{proyecto}}</a>
           <a class="breadcrumb-item" href="">Configuración</a>      
-          <span class="breadcrumb-item active">Registrar Usuario </span>
+          <span class="breadcrumb-item active">No cumplimiento</span>
         </nav>
       </div><!-- br-pageheader -->
      
@@ -46,7 +46,8 @@
             </div>
           </div>
             </li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-umbrales' %}">Umbrales</a></li>
+        <li class="nav-item"><a class="nav-link"  href="{% url 'list-notif-umbrales' %}">Historial Umbrales</a></li>
         </ul>
       </div><!-- ht-65 -->
 
@@ -55,35 +56,38 @@
         <h4 class="tx-gray-800 mg-b-5"> {{grupo}} </h4>
     </div>
     {% include "messege.html" %}  
-    <div class="br-pagebody pd-x-20 pd-sm-x-30">
-        <div class="br-pagebody pd-x-20 pd-sm-x-30">
-            <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
+    <div class="br-pagebody pd-x-20 pd-sm-x-30"> 
+  <div class="row row-sm d-flex justify-content-center" >
+            <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary" style="width: auto;">        
         <!--Table-->
                 <thead>
                     <tr>
-                    <th style="text-align: center;border: 2px;border-color: grey; color: white;">Nombre</th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width: auto;">Nombre</th>
                     </tr>
                 </thead>
                 <tbody>
-                {% for restriccion in no_cumplimientos %}
+                  <tr>            
+                    </tr>
+                {% for restriccion in restricciones %}
                     <tr>            
-                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{restriccion}}  </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">{{restriccion}}  </th>
                     </tr>
                 {% endfor %}
                     <!--Fin Loop-->
                 </tbody>
             </table>
-        <div class="card bd-0 shadow-base">
-            <form class="form-control"style="float: left;"method="POST"> {% csrf_token %}
-                <label for="" class="col-6 col-md-12 mg-20">
-                {{form|crispy}}
+
+            <div class="card bd-0 shadow-base">
+            <form class="form-group control col-md-12 "  method="POST"> {% csrf_token %}
+                <label  style="margin-top: 20px;margin-bottom: auto;">
+                    {{form|crispy}}
                 </label>
                 <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit"> Enviar </button>                
                 <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" onClick="javascript:history.go(-1);" type="submit"> volver</button>
-
             </form>
         </div>
-    </div>
+ </div>
+ </div>
  </div>
 </div>
 <script>
