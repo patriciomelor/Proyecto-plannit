@@ -1,20 +1,16 @@
-{% extends 'index-config.html' %}
-
-{% load crispy_forms_tags %}
-
-{% block content %}
+{% extends 'index-config.html' %} {% load crispy_forms_tags %} {% block content
+%}
 <div class="br-contentpanel">
-            
-    
-            <div class="br-pageheader pd-y-15 pd-md-l-20">
-              <nav class="breadcrumb pd-0 mg-0 tx-12">
-                <a class="breadcrumb-item"> {{proyecto}}</a>
-                <a class="breadcrumb-item"> {{proyecto.codigo}}</a>
-                <a class="breadcrumb-item" href="">Configuración</a>      
-                <span class="breadcrumb-item active">Eliminar Proyecto </span>
-              </nav>
-            </div><!-- br-pageheader -->
-              <div class="ht-65 bd bg-black-100 pd-x-20 d-flex align-items-center justify-content-start mg-t-20">
+  <div class="br-pageheader pd-y-15 pd-md-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item"> {{proyecto.codigo}}</a>
+      <a class="breadcrumb-item" href="">Configuración</a>
+      <span class="breadcrumb-item active">Eliminar Proyecto </span>
+    </nav>
+  </div>
+  <!-- br-pageheader -->
+     <div class="ht-65 bd bg-black-100 pd-x-20 d-flex align-items-center justify-content-start mg-t-20">
         <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row" role="tablist">
         {% if request.user.is_superuser == true %}
           <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
@@ -47,37 +43,68 @@
             </div>
           </div>
             </li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-notif-umbrales' %}">Historial Umbrales</a></li>
         </ul>
       </div><!-- ht-65 -->
-            <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-              <h4 class="tx-gray-800 mg-b-5">Eliminar Proyecto Usuario</h4>
-            </div>
-            <div class="br-pagebody pd-x-20 pd-sm-x-30">
-              <div class="card bd-0 shadow-base">
-              <form method="POST"> {% csrf_token %}
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Eliminar Proyecto Usuario</h4>
+  </div>
+  <div class="br-pagebody pd-x-20 pd-sm-x-30">
+    <div class="card bd-0 shadow-base">
+      <form method="POST">
+        {% csrf_token %}
 
-            <div id="modaldemo5" class="modal fade show" style="display: block;">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content tx-size-sm">
-                    <div class="modal-body tx-center pd-y-20 pd-x-20">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                      </button>
-                      <i class="icon ion-alert-circled alert-icon tx-52 tx-warning mg-r-20"></i>
-                      <h4 class="tx-warning tx-semibold mg-b-20">Advertencia: Esta apunto de eliminar un proyecto!</h4>
-                      <p class="mg-b-20 mg-x-20">Si elimina el proyecto no habra forma de recuperarlo. Este se eliminara <strong>permanentemente.</strong></p>
-                      <button type="submit" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
-                        Eliminar</button>
-                      </div><!-- modal-body -->
-                  </div><!-- modal-dialog -->
-                </div>
-            </div>
-          </form>            
-
+        <div id="modaldemo5" class="modal fade show" style="display: block">
+          <div class="modal-dialog" role="document">
+            <div class="modal-content tx-size-sm">
+              <div class="modal-body tx-center pd-y-20 pd-x-20">
+                <button
+                  type="button"
+                  class="close"
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  <span aria-hidden="true">×</span>
+                </button>
+                <i
+                  class="
+                    icon
+                    ion-alert-circled
+                    alert-icon
+                    tx-52 tx-warning
+                    mg-r-20
+                  "
+                ></i>
+                <h4 class="tx-warning tx-semibold mg-b-20">
+                  Advertencia: Esta apunto de eliminar un proyecto!
+                </h4>
+                <p class="mg-b-20 mg-x-20">
+                  Si elimina el proyecto no habra forma de recuperarlo. Este se
+                  eliminara <strong>permanentemente.</strong>
+                </p>
+                <button
+                  type="submit"
+                  class="
+                    btn btn-danger
+                    tx-11 tx-uppercase
+                    pd-y-12 pd-x-25
+                    tx-mont tx-medium
+                    mg-b-20
+                  "
+                  data-dismiss="modal"
+                  aria-label="Close"
+                >
+                  Eliminar
+                </button>
               </div>
+              <!-- modal-body -->
             </div>
+            <!-- modal-dialog -->
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 {% endblock content %}
-
-

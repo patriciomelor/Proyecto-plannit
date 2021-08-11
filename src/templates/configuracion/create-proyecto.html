@@ -10,7 +10,7 @@
           <span class="breadcrumb-item active">Crear Proyecto </span>
         </nav>
       </div><!-- br-pageheader -->
-      <div class="ht-65 bd bg-black-100 pd-x-20 d-flex align-items-center justify-content-start mg-t-20">
+         <div class="ht-65 bd bg-black-100 pd-x-20 d-flex align-items-center justify-content-start mg-t-20">
         <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row" role="tablist">
         {% if request.user.is_superuser == true %}
           <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
@@ -43,7 +43,8 @@
             </div>
           </div>
             </li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-notif-umbrales' %}">Historial Umbrales</a></li>
         </ul>
       </div><!-- ht-65 -->
     <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
