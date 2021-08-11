@@ -12,28 +12,44 @@
           <span class="breadcrumb-item active">Registrar Usuario </span>
         </nav>
       </div><!-- br-pageheader -->
-      <div class="pd-10 bd bg-gray-900  rounded mg-t-10">
-        <ul class="nav nav-pills flex-column flex-md-row justify-content-center" role="tablist">
-          <li class="nav-item"><a class="nav-link active" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'add-user-proyecto' %}" role="tab">Agregar Usuarios a Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-usuario' %}" role="tab">Agregar Usuario</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'listar-usuarios' %}" role="tab">Listar Usuarios</a></li>
-          <li class="nav-item">
+     
+       <div class="ht-65 bd bg-black-100 pd-x-20 d-flex align-items-center justify-content-start mg-t-20">
+        <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row" role="tablist">
+        {% if request.user.is_superuser == true %}
+          <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
+        {% else %}
+        {% endif %}
+           <li class="nav-item">
             <div class="dropdown">
               <button class="btn btn-light dropdown-toggle nav-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Restricciones
+                <i class="icon ion-person-stalker"></i>Gestionar Usuarios
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button">Restricciones</button></a>
-                <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button">No cumplimiento</button></a>
+                <a class="nav-link" href="{% url 'crear-usuario' %}"><button class="dropdown-item" type="button"><i class="icon ion-person-add"></i> Agregar Usuario</button></a>
+                <a class="nav-link" href="{% url 'listar-usuarios' %}"><button class="dropdown-item" type="button"><i class="icon ion-person"></i> Listar Usuarios</button></a>
+                <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
                 
               </div>
+            
             </div>
           </li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'list-umbrales' %}">Editar Umbrales</a></li>
+          <li class="nav-item">
+            <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle nav-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Restricciones
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button">Restricciones</button></a>
+              <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button">No cumplimiento</button></a>
+              
+            </div>
+          </div>
+            </li>
+          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'list-umbrales' %}">Umbrales</a></li>
         </ul>
-      </div><!-- pd-10 -->
+      </div><!-- ht-65 -->
+
     <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
         <h4 class="tx-gray-800 mg-b-5">Registrar Condición de no Cumplimiento</h4>
         <h4 class="tx-gray-800 mg-b-5"> {{grupo}} </h4>

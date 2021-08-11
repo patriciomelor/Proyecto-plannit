@@ -39,6 +39,7 @@
      <!-- ########## START: HEAD PANEL ########## -->
     <div class="br-header">
       <div class="br-header-left">
+      {% include "messege.html" %}
     
       </div><!-- br-header-left -->
       <div class="br-header-right">
@@ -68,12 +69,7 @@
   
 
     <!-- ########## START: MAIN PANEL ########## -->
-
-      
-        {% include "messege.html" %}
-      
-      {% block content %}
-
+ {% block content %}
       {% endblock content %}
     <!-- ########## END: MAIN PANEL ########## -->
 
