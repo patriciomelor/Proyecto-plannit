@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.db.models.signals import post_save, post_delete, pre_delete, pre_save
 from django.dispatch import receiver
 from notifications.emails import send_email
-from configuracion.models import NotificacionHU
+from configuracion.models import NotificacionHU, Umbral
 from notifications.models import Notificacion
 
 from bandeja_es.models import Version
@@ -26,7 +26,7 @@ def VPC_signal(sender, instance, created, *args, **kwargs):
 
             try:
                 send_email(
-                    html= 'configuracion/umbral_2.html',
+                    html= 'configuracion/umbral_1.html',
                     context= {
                         "revision": instance,
                     },
@@ -34,6 +34,7 @@ def VPC_signal(sender, instance, created, *args, **kwargs):
                     recipients= ["patriciomelor@gmail.com", "esteban.martinezs@utem.cl", "ignaciovaldeb1996@gmail.com"] # recipients
                 )
                 for usuario in notification_list:
+
                     noti = Notificacion(
                         proyecto=proyecto,
                         usuario=usuario,
@@ -41,7 +42,14 @@ def VPC_signal(sender, instance, created, *args, **kwargs):
                         text_preview=subject
                     )
                     noti.save()
-                
+
+                    noti_hu = NotificacionHU(
+                        h_umbral=Umbral.objects.get(pk=1),
+                        notificacion=noti,
+                    )
+                    noti_hu.save()
+                    noti_hu.versiones.add(instance)
+                    print("notification added")
                 return instance
 
             except Exception as err:

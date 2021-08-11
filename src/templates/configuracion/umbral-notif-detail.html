@@ -22,30 +22,43 @@
       </nav>
     </div>
     <div class="br-pagebody mg-t-5 pd-x-30">
-
-       <div class="pd-10 bd bg-gray-900  rounded mg-t-10">
-        <ul class="nav nav-pills flex-column flex-md-row justify-content-center" role="tablist">
-          <li class="nav-item"><a class="nav-link active" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'add-user-proyecto' %}" role="tab">Agregar Usuarios a Proyectos</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'crear-usuario' %}" role="tab">Agregar Usuario</a></li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'listar-usuarios' %}" role="tab">Listar Usuarios</a></li>
-          <li class="nav-item">
+     <div class="ht-65 bd bg-black-100 pd-x-20 d-flex align-items-center justify-content-start mg-t-20">
+        <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row" role="tablist">
+        {% if request.user.is_superuser == true %}
+          <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
+        {% else %}
+        {% endif %}
+           <li class="nav-item">
             <div class="dropdown">
               <button class="btn btn-light dropdown-toggle nav-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Restricciones
+                <i class="icon ion-person-stalker"></i>Gestionar Usuarios
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button">Restricciones</button></a>
-                <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button">No cumplimiento</button></a>
+                <a class="nav-link" href="{% url 'crear-usuario' %}"><button class="dropdown-item" type="button"><i class="icon ion-person-add"></i> Agregar Usuario</button></a>
+                <a class="nav-link" href="{% url 'listar-usuarios' %}"><button class="dropdown-item" type="button"><i class="icon ion-person"></i> Listar Usuarios</button></a>
+                <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
                 
               </div>
+            
             </div>
           </li>
-          <li class="nav-item"><a class="nav-link" style="color:#fff;" href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item">
+            <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle nav-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Restricciones
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button">Restricciones</button></a>
+              <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button">No cumplimiento</button></a>
+              
+            </div>
+          </div>
+            </li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-notif-umbrales' %}">Historial Umbrales</a></li>
         </ul>
-      </div><!-- pd-10 -->
-
+      </div><!-- ht-65 -->
    <div class="col-lg-12">
             <div class="card shadow-base bd-0">
             <div class="form-layout form-layout-7 " STYLE="" >               
@@ -83,88 +96,47 @@
                     <table class="table table-striped mg-b-0 table-bordered table-primary">
                         <thead class="thead-colored thead-primary">
                             <tr class="tx-10">
-                                <th class="pd-y-5"style="text-align: center;">Especialidad</th>     
-                                <th class="pd-y-5"style="text-align: center;">Descripción</th>                     
-                                <th class="pd-y-5"style="text-align: center;">Tipo</th>  
-                                <th class="pd-y-5"style="text-align: center;">Código</th>  
-                            
+                                <th class="pd-y-5"style="text-align: center;">Especialidad</th>
+                                <th class="pd-y-5"style="text-align: center;">Descripción</th>
+                                <th class="pd-y-5"style="text-align: center;">Tipo</th>
+                                <th class="pd-y-5"style="text-align: center;">Código</th>
                             </tr>
                         </thead>
                         {% for doc in umbral_notificado.documentos.all %}
                         <tbody>
-
-                        <tr>                    
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Especialidad}} </td>       
+                        <tr>
+                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Especialidad}} </td>
                             <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Descripcion}}</td>
                             <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Tipo_Documento}}</td>
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Codigo_documento}} </td>  
-                        </tr>    
-                        {% empty %}
-                            <tr>
-                                <th style="background-color:#fff;" colspan="7">
-                                    <div class="alert alert-info alert-bordered pd-y-20" role="alert">
-                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                        <span aria-hidden="true">×</span>
-                                        </button>
-                                        <div class="d-sm-flex align-items-center justify-content-start">
-                                            <i class="icon ion-ios-information alert-icon tx-52 mg-r-20"></i>
-                                            <div class="mg-t-20 mg-sm-t-0">
-                                                <h5 class="mg-b-2">AVISO!</h5>
-                                                <p class="mg-b-0 tx-gray">El Transmittal no tiene documentos</p>
-                                            </div>
-                                        </div><!-- d-flex -->
-                                    </div>
-                                </th>
-                            </tr>
+                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Codigo_documento}} </td>
+                        </tr>
                         {% endfor %}
                         </tbody>
-                    </table>   
+                    </table>
                 {% endif %}
 
                 {% if nu_umbral == 3 %}
                     <table class="table table-striped mg-b-0 table-bordered table-primary">
                         <thead class="thead-colored thead-primary">
                             <tr class="tx-10">
-                                <th class="pd-y-5"style="text-align: center;">Especialidad</th>     
-                                <th class="pd-y-5"style="text-align: center;">Descripción</th>                     
-                                <th class="pd-y-5"style="text-align: center;">Tipo</th>  
-                                <th class="pd-y-5"style="text-align: center;">Código</th>  
+                                <th class="pd-y-5"style="text-align: center;">Especialidad</th>
+                                <th class="pd-y-5"style="text-align: center;">Descripción</th>
+                                <th class="pd-y-5"style="text-align: center;">Tipo</th>
+                                <th class="pd-y-5"style="text-align: center;">Código</th>
                                 <th class="pd-y-5"style="text-align: center;">Revisión</th>
-                            
                             </tr>
                         </thead>
                         <tbody>
                         {% for version in umbral_notificado.versiones.all %}
-                            <tr>                    
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Especialidad}} </td>       
+                            <tr>
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Especialidad}} </td>
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Descripcion}}</td>
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}} </td>  
-                            </tr>    
-                            {% empty %}
-                                <tr>
-                                    <th style="background-color:#fff;" colspan="7">
-                                        <div class="alert alert-info alert-bordered pd-y-20" role="alert">
-                                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">×</span>
-                                            </button>
-                                            <div class="d-sm-flex align-items-center justify-content-start">
-                                                <i class="icon ion-ios-information alert-icon tx-52 mg-r-20"></i>
-                                                <div class="mg-t-20 mg-sm-t-0">
-                                                    <h5 class="mg-b-2">AVISO!</h5>
-                                                    <p class="mg-b-0 tx-gray">El Transmittal no tiene documentos</p>
-                                                </div>
-                                            </div><!-- d-flex -->
-                                        </div>
-                                    </th>
-                                </tr>
-                        {% endfor %}      
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
+                            </tr>
+                        {% endfor %}
                         </tbody>
-                    </table>   
+                    </table>
                 {% endif %}
-         
-
-
-
 {% endblock content %}

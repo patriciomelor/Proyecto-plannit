@@ -22,6 +22,11 @@ from .models import CausasNoCumplimiento, HistorialUmbrales, NotificacionHU, Per
 from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm, UmbralForm
 from invitations.utils import get_invitation_model
 
+
+class ConfiguracionIndex(ProyectoMixin, TemplateView):
+    template_name = 'configuracion/index.html'
+    pass 
+
 class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
     template_name = "configuracion/create-user.html"
     form_class = CrearUsuario
@@ -367,13 +372,14 @@ class UNDetail(ProyectoMixin, DetailView):
     template_name = 'configuracion/umbral-notif-detail.html'
     context_object_name = 'umbral_notificado'
 
-    def get(self, request, *args, **kwargs):
+
+    def get_context_data(self, **kwargs):
         un_obj = self.get_object()
-        context = {}
+        context = super().get_context_data(**kwargs)
+
         if un_obj.h_umbral.umbral.pk == 2:
             context["nu_umbral"] = 2
         elif un_obj.h_umbral.umbral.pk == 3:
             context["nu_umbral"] = 3
 
-        return render(request, self.template_name, context=context)
-    
+        return context
