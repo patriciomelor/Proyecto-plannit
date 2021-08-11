@@ -111,6 +111,7 @@
             <span class="menu-item-label">Buscador</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
+        
       {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
         <a href="{% url 'configuracion-index' %}" class="br-menu-link">
           <div class="br-menu-item">
