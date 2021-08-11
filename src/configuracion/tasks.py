@@ -58,7 +58,8 @@ def umbral_2():
                         html= 'configuracion/umbral_2.html',
                         context= {
                             "documentos": document_list,
-                            "proyecto": proyecto
+                            "proyecto": proyecto,
+                            "atraso": delta_doc,
                         },
                         subject=subject,
                         recipients= ["deivylop@hotmail.com"] # usuarios[0]
@@ -124,7 +125,8 @@ def umbral_3():
                         html= 'configuracion/umbral_3.html',
                         context= {
                             "revisiones": revision_list,
-                            "proyecto": proyecto
+                            "proyecto": proyecto,
+                            "atraso": delta_rev,
                         },
                         subject=subject,
                         recipients= ["deivylop@hotmail.com"] # usuarios[0]

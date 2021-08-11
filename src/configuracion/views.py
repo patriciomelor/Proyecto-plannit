@@ -34,8 +34,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
     success_url = reverse_lazy('crear-usuario')
     
     def form_valid(self, form):
-        user_pk = form.instance.pk
-        user = User.objects.get(pk=user_pk)
+        user = form.instance
         if user.is_superuser == True:
             return super().form_valid(form)
         else:
@@ -49,6 +48,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                 cargo_empresa=cargo,
                 client=True
             )
+            self.proyecto.participantes.add(user)
             
         return super().form_valid(form)
 
