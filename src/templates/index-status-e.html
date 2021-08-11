@@ -288,7 +288,6 @@
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}" />
   </head>
   <body class="collapsed-menu">
-    {% block menublank %}
 
     <!-- ########## START: LEFT PANEL ########## -->
     <div class="br-logo">
@@ -311,8 +310,7 @@
           </div>
           <!-- menu-item --> </a
         ><!-- br-menu-link -->
-        {% if request.user.perfil.rol_usuario == 1 or
-        request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
+        {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
         <a href="{% url 'PanelCarga' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
@@ -359,10 +357,9 @@
           </div>
           <!-- menu-item --> </a
         ><!-- br-menu-link -->
-        {% if request.user.perfil.rol_usuario == 1 or
-        request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
-        <a href="{% url 'configuracion-index' %}" class="br-menu-link active">
-          <div class="br-menu-item active">
+        {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
+        <a href="{% url 'configuracion-index' %}" class="br-menu-link">
+          <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
             <span class="menu-item-label">Configuración</span>
           </div>
@@ -404,19 +401,14 @@
             </a>
             <div class="dropdown-menu dropdown-menu-header wd-200">
               <ul class="list-unstyled user-profile-nav">
-                <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
-                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
-                <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
-                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>-->
                 <li>
                   <a href="{% url 'proyecto-select' %}"
                     ><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a
                   >
                 </li>
                 <li>
-                  <a href="{% url 'account_logout' %}"
-                    ><i class="icon ion-power"></i> Cerrar Sesión</a
-                  >
+                  <a href="{% url 'account_logout' %}">
+                  <i class="icon ion-power"></i> Cerrar Sesión</a>
                 </li>
               </ul>
             </div>
@@ -429,11 +421,11 @@
     </div>
     <!-- br-header -->
     <!-- ########## END: HEAD PANEL ########## -->
-
-    {% endblock menublank %}
     <div class="br-mainpanel">
       <div class="br-pagebody mg-t-5 pd-x-30" style="padding: 0px">
-        {% block content %} {% include "messege.html" %} {% endblock content %}
+        {% block content %}
+         {% include "messege.html" %} 
+         {% endblock content %}
       </div>
       <!-- br-pagebody -->
     </div>
