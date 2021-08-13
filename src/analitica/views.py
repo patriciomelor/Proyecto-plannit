@@ -9,7 +9,7 @@ from panel_carga.views import ProyectoMixin
 from bandeja_es.models import Version
 from panel_carga.models import Documento, Proyecto
 from panel_carga.choices import ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVISION
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, tzinfo
 from django.contrib import messages
 import requests
 from django.utils import timezone
@@ -45,21 +45,24 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         usuarios = self.get_users()
-
+        version_final = 0
 
         #Obtener lista de las últimas versiones de cada documento
         if documentos_totales != 0:
             for doc in documentos: 
                 version = Version.objects.filter(documento_fk=doc)
+                comprobacion = 0
                 if version:         
                     for versiones in version:
                         for user in usuarios:
                             nombre = user.first_name + ' ' + user.last_name
                             if str(nombre) == str(versiones.owner):
                                 version_final = versiones
-
-                    lista_actual = [version_final, doc]
-                    lista_final.append(lista_actual)
+                                comprobacion = 1
+                    
+                    if comprobacion == 1:
+                        lista_actual = [version_final, doc]
+                        lista_final.append(lista_actual)
 
                 if not version:    
                     pass
@@ -86,7 +89,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         #Obtener lista de cantidad de documentos por tipo de versión
         if documentos_totales != 0:
-            estado_documento = 0
             for estado in TYPES_REVISION[1:]:
                 cont = 0
                 for lista in lista_final:
@@ -121,31 +123,35 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         especialidad_list = tuple()
         usuarios = self.get_users()
+        version_final = 0
 
         if documentos_totales != 0:
 
             #Obtener versiones que no poseen un estado de revisión
             for doc in documentos:
                 version = Version.objects.filter(documento_fk=doc)
+                comprobacion = 0
 
                 if version:
                     for versiones in version:
-                            for user in usuarios:
-                                nombre = user.first_name + ' ' + user.last_name
-                                if str(nombre) == str(versiones.owner):
-                                    version_final = versiones
+                        for user in usuarios:
+                            nombre = user.first_name + ' ' + user.last_name
+                            if str(nombre) == str(versiones.owner):
+                                version_final = versiones
+                                comprobacion = 1
 
-                    cont = 0
-                    for revision in TYPES_REVISION[1:]:
+                    if comprobacion == 1:
+                        cont = 0
+                        for revision in TYPES_REVISION[1:]:
 
-                        #Comparar que la versión no posea ningún estado de revisión
-                        if revision[0] == version_final.revision:
-                            cont = 1
+                            #Comparar que la versión no posea ningún estado de revisión
+                            if revision[0] == version_final.revision:
+                                cont = 1
 
-                    #Almacena la versión que no posee estado de revisión
-                    if cont == 0:
-                        lista_actual = [version_final, doc] 
-                        lista_final.append(lista_actual)
+                        #Almacena la versión que no posee estado de revisión
+                        if cont == 0:
+                            lista_actual = [version_final, doc] 
+                            lista_final.append(lista_actual)
                 if not version:
                     lista_actual = [version, doc] 
                     lista_final.append(lista_actual)
@@ -195,12 +201,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         especialidad_list = tuple()
         usuarios = self.get_users()
+        version_final = 0
 
         if documentos_totales != 0:
 
             #Obtener lista de versiones que poseen un estado de revisión
             for doc in documentos:
                 version = Version.objects.filter(documento_fk=doc)
+                comprobacion = 0
 
                 if version:
                     for versiones in version:
@@ -208,17 +216,20 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 nombre = user.first_name + ' ' + user.last_name
                                 if str(nombre) == str(versiones.owner):
                                     version_final = versiones
-                    cont = 0
-                    for revision in TYPES_REVISION[1:]:
+                                    comprobacion = 1
+
+                    if comprobacion == 1:
+                        cont = 0
+                        for revision in TYPES_REVISION[1:]:
+                            
+                            #Comparar versiones que si poseen un estado de revisión
+                            if revision[0] == version_final.revision:
+                                cont = 1
                         
-                        #Comparar versiones que si poseen un estado de revisión
-                        if revision[0] == version_final.revision:
-                            cont = 1
-                    
-                    #Almacena las versiones que poseen un estado de revisión
-                    if cont == 1:
-                        lista_actual = [version_final, doc] 
-                        lista_final.append(lista_actual)
+                        #Almacena las versiones que poseen un estado de revisión
+                        if cont == 1:
+                            lista_actual = [version_final, doc] 
+                            lista_final.append(lista_actual)
 
             #Obtener lista de todas las especialidades
             for lista in lista_final: 
@@ -294,6 +305,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos_valido_contruccion = 0
         documentos_no_valido_contruccion = 0
         usuarios = self.get_users()
+        version_final = 0
+        comprobacion = 0
         
         if documentos_totales != 0:
 
@@ -307,12 +320,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                             nombre = user.first_name + ' ' + user.last_name
                             if str(nombre) != str(versiones.owner):
                                 version_final = versiones
+                                comprobacion = 1
 
-                    estado_cliente = version_final.estado_cliente
-                    if estado_cliente == 5:
-                        documentos_valido_contruccion = documentos_valido_contruccion + 1
-                    else:
-                        documentos_no_valido_contruccion = documentos_no_valido_contruccion + 1
+                    if comprobacion == 1:
+                        estado_cliente = version_final.estado_cliente
+                        if estado_cliente == 5:
+                            documentos_valido_contruccion = documentos_valido_contruccion + 1
+                        else:
+                            documentos_no_valido_contruccion = documentos_no_valido_contruccion + 1
                 
                 if not version:
                     documentos_no_valido_contruccion = documentos_no_valido_contruccion + 1
@@ -338,94 +353,244 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         elementos_final = []
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last().datos_lista
+        print(curva_base)
 
         if valor_ganado !=0:
 
-            valor_ganado = (100 / valor_ganado)
-            documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+            if curva_base:
 
-            #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
-            fechas_controles = []
-            
-            #Obtener la ultima fecha de emisión en B y en 0
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
-            ultima_fecha_b = 0
-            ultima_fecha_0 = 0
-            ultima_de_dos = 0
-            cont = 0
+                valor_ganado = (100 / valor_ganado)
 
-            #Obtener la primera fecha por documento
-            primera_fecha_b = 0
-            primera_fecha_0 = 0
-            primera_de_dos = 0
-
-            for doc in documentos:
-                if cont == 0:               
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-                    ultima_fecha_b = fecha_emision_b
-                    ultima_fecha_0 = fecha_emision_0
-                    primera_fecha_b = doc.fecha_Emision_B
-                    primera_fecha_0 = doc.fecha_Emision_0
-                    cont = 1
+                #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
+                fechas_controles = []
                 
-                if cont != 0:   
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-                    if fecha_emision_b > ultima_fecha_b:
+                #Obtener la ultima fecha de emisión en B y en 0
+                fecha_emision_b = 0
+                fecha_emision_0 = 0
+                ultima_fecha_b = 0
+                ultima_fecha_0 = 0
+                ultima_de_dos = 0
+                cont = 0
+
+                #Obtener la primera fecha por documento
+                primera_fecha_b = 0
+                primera_fecha_0 = 0
+                primera_de_dos = 0
+
+                for doc in documentos:
+                    if cont == 0:               
+                        fecha_emision_b = doc.fecha_Emision_B
+                        fecha_emision_0 = doc.fecha_Emision_0
                         ultima_fecha_b = fecha_emision_b
-                    if fecha_emision_0 > ultima_fecha_0:                 
                         ultima_fecha_0 = fecha_emision_0
-                    if fecha_emision_b < primera_fecha_b:               
-                        primera_fecha_b = fecha_emision_b
-                    if fecha_emision_0 < primera_fecha_0:            
-                        primera_fecha_0 = fecha_emision_0
+                        primera_fecha_b = doc.fecha_Emision_B
+                        primera_fecha_0 = doc.fecha_Emision_0
+                        cont = 1
+                    
+                    if cont != 0:   
+                        fecha_emision_b = doc.fecha_Emision_B
+                        fecha_emision_0 = doc.fecha_Emision_0
+                        if fecha_emision_b > ultima_fecha_b:
+                            ultima_fecha_b = fecha_emision_b
+                        if fecha_emision_0 > ultima_fecha_0:                 
+                            ultima_fecha_0 = fecha_emision_0
+                        if fecha_emision_b < primera_fecha_b:               
+                            primera_fecha_b = fecha_emision_b
+                        if fecha_emision_0 < primera_fecha_0:            
+                            primera_fecha_0 = fecha_emision_0
 
-            #Verificar cuál de las dos fechas, emisión B y 0, es la última
-            if ultima_fecha_b >= ultima_fecha_0:
-                ultima_de_dos = ultima_fecha_b
-            if ultima_fecha_b < ultima_fecha_0:
-                ultima_de_dos = ultima_fecha_0
-            if primera_fecha_b < primera_fecha_0:
-                primera_de_dos = primera_fecha_b
-            if primera_fecha_b > primera_fecha_0:
-                primera_de_dos = primera_fecha_0
+                #Verificar cuál de las dos fechas, emisión B y 0, es la última
+                if ultima_fecha_b >= ultima_fecha_0:
+                    ultima_de_dos = ultima_fecha_b
+                if ultima_fecha_b < ultima_fecha_0:
+                    ultima_de_dos = ultima_fecha_0
+                if primera_fecha_b < primera_fecha_0:
+                    primera_de_dos = primera_fecha_b
+                if primera_fecha_b > primera_fecha_0:
+                    primera_de_dos = primera_fecha_0
 
-            #Agregar una semana antes a la primera de los documentos
-            fechas_controles = []
-            primera_de_dos = primera_de_dos + timedelta(hours=23)
-            primera_de_dos = primera_de_dos + timedelta(minutes=59)
-            primera_de_dos = primera_de_dos + timedelta(seconds=59)
-            primera_de_dos = primera_de_dos + timedelta(microseconds=59)
-            primera_de_dos = primera_de_dos + timedelta(milliseconds=59)
-            primera_de_dos = primera_de_dos - timedelta(days=7)
-            fechas_controles.append(primera_de_dos)
-            primera_de_dos = primera_de_dos + timedelta(days=7)
-            fechas_controles.append(primera_de_dos)
+                primera_de_dos = primera_de_dos.replace(tzinfo = None)
+                ultima_de_dos = ultima_de_dos.replace(tzinfo = None)
 
-            #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
-            fecha_actual = primera_de_dos
-            fecha_posterior = fecha_actual + timedelta(days=7)
-            
-            #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
-            while fecha_actual < ultima_de_dos and fecha_posterior < ultima_de_dos:
-                fecha_actual = fecha_actual + timedelta(days=7)
+                primera_de_dos = primera_de_dos + timedelta(hours=23)
+                primera_de_dos = primera_de_dos + timedelta(minutes=59)
+                primera_de_dos = primera_de_dos + timedelta(seconds=59)
+
+                largo_fecha = 19
+                contador_menor = 0
+                contador_mayor = 0
+                nueva_fecha_menor = ''
+                nueva_fecha_mayor = ''
+
+                for menor in curva_base[1]:
+                    if contador_menor < largo_fecha:
+                        nueva_fecha_menor = nueva_fecha_menor + menor
+                    contador_menor = contador_menor + 1
+
+                for mayor in curva_base[len(curva_base)-1]:
+                    if contador_mayor < largo_fecha:
+                        nueva_fecha_mayor = nueva_fecha_mayor + mayor
+                    contador_mayor = contador_mayor + 1
+
+                primera_curva_base = datetime.strptime(nueva_fecha_menor, '%Y-%m-%d %H:%M:%S')
+                ultima_curva_base = datetime.strptime(nueva_fecha_mayor, '%Y-%m-%d %H:%M:%S')      
+
+                #Verificar si la curva base posee la primera fecha de los documentos
+                if primera_curva_base < primera_de_dos:
+                    diferencia = abs((primera_curva_base - primera_de_dos).days)  
+                    contador = 0 
+                    semanas = 0    
+                    resultado = diferencia
+
+                    #Se obtienen las semanas iniciales para agregar
+                    while resultado != 0:
+                        resultado = diferencia % 7
+                        contador = contador + 1
+                        diferencia = diferencia + 1
+                    
+                    #Se agrega una fecha extra final
+                    contador = contador + 1
+
+                    #Se agregan los semanas al arreglo de fechas
+                    while contador != 0:
+                        semanas = contador * 7
+                        nueva_semana = primera_curva_base - timedelta(days=semanas)
+                        fechas_controles.append(nueva_semana)
+                        contador = contador - 1
+                
+                #Almacenar fechas faltantes
+                contador_fechas = 0
+                for controles in curva_base:
+                    if (contador_fechas%2) != 0:
+                        cont = 0
+                        nueva_fecha = ''
+                        for menor in controles:
+                            if cont < largo_fecha:
+                                nueva_fecha = nueva_fecha + menor
+                            cont = cont + 1
+                        
+                        fecha_agregar = datetime.strptime(nueva_fecha, '%Y-%m-%d %H:%M:%S')
+                        fechas_controles.append(fecha_agregar)
+                    contador_fechas = contador_fechas + 1
+               
+                #Verificar si la curva base posee la última fecha de los documentos
+                if ultima_curva_base < ultima_de_dos:    
+                    diferencia = abs((ultima_curva_base - primera_de_dos).days)
+                    contador = 0 
+                    semanas = 0    
+                    resultado = diferencia
+
+                    #Se obtienen las semanas iniciales para agregar
+                    while resultado != 0:
+                        resultado = diferencia % 7
+                        contador = contador + 1
+                        diferencia = diferencia + 1
+                    
+                    #Se agrega una fecha extra final
+                    contador = contador + 1
+
+                    #Se agregan los semanas al arreglo de fechas
+                    while semanas != contador:
+                        semanas = semanas + 1
+                        semanas_final = semanas*7
+                        nueva_semana = ultima_curva_base + timedelta(days=semanas_final)
+                        fechas_controles.append(nueva_semana)
+
+                #Se almacena arreglo de fechas en la lista final
+                elementos = []
+                elementos_final = []
+                elementos = [fechas_controles]
+                elementos_final.append(elementos)
+
+            if  not curva_base:
+
+                valor_ganado = (100 / valor_ganado)
+
+                #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
+                fechas_controles = []
+                
+                #Obtener la ultima fecha de emisión en B y en 0
+                fecha_emision_b = 0
+                fecha_emision_0 = 0
+                ultima_fecha_b = 0
+                ultima_fecha_0 = 0
+                ultima_de_dos = 0
+                cont = 0
+
+                #Obtener la primera fecha por documento
+                primera_fecha_b = 0
+                primera_fecha_0 = 0
+                primera_de_dos = 0
+
+                for doc in documentos:
+                    if cont == 0:               
+                        fecha_emision_b = doc.fecha_Emision_B
+                        fecha_emision_0 = doc.fecha_Emision_0
+                        ultima_fecha_b = fecha_emision_b
+                        ultima_fecha_0 = fecha_emision_0
+                        primera_fecha_b = doc.fecha_Emision_B
+                        primera_fecha_0 = doc.fecha_Emision_0
+                        cont = 1
+                    
+                    if cont != 0:   
+                        fecha_emision_b = doc.fecha_Emision_B
+                        fecha_emision_0 = doc.fecha_Emision_0
+                        if fecha_emision_b > ultima_fecha_b:
+                            ultima_fecha_b = fecha_emision_b
+                        if fecha_emision_0 > ultima_fecha_0:                 
+                            ultima_fecha_0 = fecha_emision_0
+                        if fecha_emision_b < primera_fecha_b:               
+                            primera_fecha_b = fecha_emision_b
+                        if fecha_emision_0 < primera_fecha_0:            
+                            primera_fecha_0 = fecha_emision_0
+
+                #Verificar cuál de las dos fechas, emisión B y 0, es la última
+                if ultima_fecha_b >= ultima_fecha_0:
+                    ultima_de_dos = ultima_fecha_b
+                if ultima_fecha_b < ultima_fecha_0:
+                    ultima_de_dos = ultima_fecha_0
+                if primera_fecha_b < primera_fecha_0:
+                    primera_de_dos = primera_fecha_b
+                if primera_fecha_b > primera_fecha_0:
+                    primera_de_dos = primera_fecha_0
+
+                #Agregar una semana antes a la primera de los documentos
+                fechas_controles = []
+                primera_de_dos = primera_de_dos + timedelta(hours=23)
+                primera_de_dos = primera_de_dos + timedelta(minutes=59)
+                primera_de_dos = primera_de_dos + timedelta(seconds=59)
+                primera_de_dos = primera_de_dos + timedelta(microseconds=59)
+                primera_de_dos = primera_de_dos + timedelta(milliseconds=59)
+                primera_de_dos = primera_de_dos - timedelta(days=7)
+                fechas_controles.append(primera_de_dos)
+                primera_de_dos = primera_de_dos + timedelta(days=7)
+                fechas_controles.append(primera_de_dos)
+
+                #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
+                fecha_actual = primera_de_dos
                 fecha_posterior = fecha_actual + timedelta(days=7)
-                fechas_controles.append(fecha_actual)
-            fechas_controles.append(ultima_de_dos)
+                
+                #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
+                while fecha_actual < ultima_de_dos and fecha_posterior < ultima_de_dos:
+                    fecha_actual = fecha_actual + timedelta(days=7)
+                    fecha_posterior = fecha_actual + timedelta(days=7)
+                    fechas_controles.append(fecha_actual)
+                fechas_controles.append(ultima_de_dos)
 
-            #Se almacena arreglo de fechas en la lista final
-            elementos = []
-            elementos_final = []
-            elementos = [fechas_controles]
-            elementos_final.append(elementos)
+                #Se almacena arreglo de fechas en la lista final
+                elementos = []
+                elementos_final = []
+                elementos = [fechas_controles]
+                elementos_final.append(elementos)
 
         else:
             #Se almacena arreglo de fechas en la lista final
             elementos = []
             elementos_final = ['Sin registro']
             elementos_final.append(elementos)
+
+        print('Fechas controles: ',elementos_final)
         
         return elementos_final
 
@@ -435,6 +600,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         valor_ganado = Documento.objects.filter(proyecto=self.proyecto).count()
         lista_final = self.Obtener_fechas()
         dia_actual = timezone.now()
+        dia_actual = dia_actual.replace(tzinfo = None)
         usuarios = self.get_users()
         
         if valor_ganado !=0:
@@ -505,7 +671,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 for versiones in docs[1]:
                     contador_versiones = contador_versiones + 1
-                    fecha_version = versiones.fecha
+                    fecha_version = versiones.fecha.replace(tzinfo=None)
                     revision_documento = versiones.revision
                     valor_documento = 0
                     cont = 0
@@ -642,7 +808,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                             for versiones in docs[1]:
                                 contador_versiones = contador_versiones + 1
-                                fecha_version = versiones.fecha
+                                fecha_version = versiones.fecha.replace(tzinfo=None)
                                 revision_documento = versiones.revision
                                 valor_documento = 0
                                 cont = 0
@@ -770,6 +936,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                avance_inicial = [valor_ganado]
                avance_final.append(avance_inicial)
 
+        print('Arreglo avance real: ',avance_final)
+
         return avance_final
 
     def reporte_curva_s_avance_esperado(self):
@@ -799,8 +967,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 if contador_largo < len(fechas_controles):
                     calculo_avanceEsperado = 0
                     for doc in documentos:                  
-                        fecha_emision_b = doc.fecha_Emision_B
-                        fecha_emision_0 = doc.fecha_Emision_0
+                        fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
+                        fecha_emision_0 = doc.fecha_Emision_0.replace(tzinfo=None)
 
                         #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
                         if fecha_emision_b <= controles and fecha_emision_0 > controles:
@@ -838,6 +1006,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             avance_esperado = [int(valor_ganado)]
             lista_final_esperado.append(avance_esperado)
 
+        print('Avance esperado: ',lista_final_esperado)
+
         return lista_final_esperado
 
     def reporte_curva_s_fechas(self):
@@ -866,6 +1036,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         if valor_ganado == 0:         
             fechas_controles = ['Sin registros']
             fechas_controles.append(fechas_controles)
+
+        print('Fechas controles final: ',fechas_controles)
 
         return fechas_controles 
 
@@ -1129,7 +1301,8 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
 
                     #Se almacena el avance esperado hasta la fecha de control
                     avance_esperado = format(calculo_avanceEsperado, '.2f')
-                    lista_final_esperado.append(float(avance_esperado))
+                    lista_final_esperado.append(avance_esperado)
+                    lista_final_esperado.append(controles)
 
         if valor_ganado == 0:
             avance_esperado = [int(valor_ganado)]
