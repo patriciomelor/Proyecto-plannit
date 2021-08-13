@@ -36,6 +36,7 @@
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Especialidad</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Revisión</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Estado</th>
+                  <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Atraso</th>
                 </tr>
               </thead>
               <tbody>
@@ -47,6 +48,7 @@
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{rev.documento_fk.Especialidad}}</td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{rev.get_revision_display}}</td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{rev.get_estado_contratista_display}}</td>
+                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{atraso}}</td>
                   </tr>
                 {% endfor %}
 

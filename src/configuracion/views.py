@@ -22,6 +22,11 @@ from .models import CausasNoCumplimiento, HistorialUmbrales, NotificacionHU, Per
 from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm, UmbralForm
 from invitations.utils import get_invitation_model
 
+
+class ConfiguracionIndex(ProyectoMixin, TemplateView):
+    template_name = 'configuracion/index.html'
+    pass 
+
 class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
     template_name = "configuracion/create-user.html"
     form_class = CrearUsuario
@@ -29,8 +34,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
     success_url = reverse_lazy('crear-usuario')
     
     def form_valid(self, form):
-        user_pk = form.instance.pk
-        user = User.objects.get(pk=user_pk)
+        user = form.instance
         if user.is_superuser == True:
             return super().form_valid(form)
         else:
@@ -44,6 +48,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                 cargo_empresa=cargo,
                 client=True
             )
+            self.proyecto.participantes.add(user)
             
         return super().form_valid(form)
 
@@ -366,4 +371,15 @@ class UNDetail(ProyectoMixin, DetailView):
     model = NotificacionHU
     template_name = 'configuracion/umbral-notif-detail.html'
     context_object_name = 'umbral_notificado'
-    
+
+
+    def get_context_data(self, **kwargs):
+        un_obj = self.get_object()
+        context = super().get_context_data(**kwargs)
+
+        if un_obj.h_umbral.umbral.pk == 2:
+            context["nu_umbral"] = 2
+        elif un_obj.h_umbral.umbral.pk == 3:
+            context["nu_umbral"] = 3
+
+        return context

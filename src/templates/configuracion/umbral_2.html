@@ -32,15 +32,17 @@
             <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Descripción</th>
             <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Tipo Documento</th>
             <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Especialidad</th>
+            <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Atraso</th>
           </tr>
         </thead>
         <tbody>
           {% for doc in documentos %}
             <tr style="border: black 2px;">
-              <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{doc.Codigo_documento}} </th>
+              <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Codigo_documento}}</th>
               <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Descripcion}}</td>
               <td style="border: black 2px;color: black; background-color: rgb(252, 251, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Tipo_Documento}}</td>
               <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{doc.Especialidad}}</td>
+              <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{atraso}}</td>
             </tr>
           {% endfor %}
 

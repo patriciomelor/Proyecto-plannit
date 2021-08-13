@@ -161,8 +161,17 @@
             <span class="menu-item-label">Buscador</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
+           {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
+        <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
+          <div class="br-menu-item">
+            <i class="menu-item-icon icon fa fa-clock-o tx-24"></i>
+            <span class="menu-item-label">Historial del<br>Umbrales</span>
+          </div>
+          <!-- menu-item --> 
+          </a>
+          {% endif %}
           {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
-        <a href="{% url 'lista-proyecto' %}" class="br-menu-link">
+        <a href="{% url 'configuracion-index' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
             <span class="menu-item-label">Configuración</span>

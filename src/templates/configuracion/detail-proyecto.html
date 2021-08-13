@@ -4,17 +4,7 @@
 
 {% block content %}
 <div class="br-contentpanel">
-    <div class="br-subleft">
-        <div class="pd-10">
-            <a href="{% url 'crear-usuario' %}" class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Registrar Usuario</a>
-        </div>
-        <nav class="nav br-nav-mailbox flex-column">
-            <a href="{% url 'crear-proyecto' %}" class="nav-link active"><i class="icon ion-ios-plus-outline"></i> Agregar Proyecto</a>
-            <a href="{% url 'lista-proyecto' %}" class="nav-link "><i class="icon ion-ios-gear-outline"></i> Configurar Proyectos</a>
-        </nav>
-        <nav class="nav br-nav-mailbox flex-column">
-        </nav>
-    </div>
+  
     <div class="br-pageheader pd-y-15 pd-md-l-20">
       <nav class="breadcrumb pd-0 mg-0 tx-12">
         <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -23,6 +13,43 @@
         <span class="breadcrumb-item active">Detalle Proyecto </span>
       </nav>
     </div><!-- br-pageheader -->
+          <div class="ht-65 bd bg-black-100 pd-x-20 d-flex align-items-center justify-content-start mg-t-20">
+        <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row" role="tablist">
+        {% if request.user.is_superuser == true %}
+          <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link" data-toggle="tab" href="{% url 'crear-proyecto' %}" role="tab">Agregar Proyectos</a></li>
+        {% else %}
+        {% endif %}
+           <li class="nav-item">
+            <div class="dropdown">
+              <button class="btn btn-light dropdown-toggle nav-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="icon ion-person-stalker"></i>Gestionar Usuarios
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                <a class="nav-link" href="{% url 'crear-usuario' %}"><button class="dropdown-item" type="button"><i class="icon ion-person-add"></i> Agregar Usuario</button></a>
+                <a class="nav-link" href="{% url 'listar-usuarios' %}"><button class="dropdown-item" type="button"><i class="icon ion-person"></i> Listar Usuarios</button></a>
+                <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
+                
+              </div>
+            
+            </div>
+          </li>
+          <li class="nav-item">
+            <div class="dropdown">
+            <button class="btn btn-light dropdown-toggle nav-link" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Restricciones
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+              <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button">Restricciones</button></a>
+              <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button">No cumplimiento</button></a>
+              
+            </div>
+          </div>
+            </li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-umbrales' %}">Umbrales</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-notif-umbrales' %}">Historial Umbrales</a></li>
+        </ul>
+      </div><!-- ht-65 -->
      {% include "messege.html" %}
 
     <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
