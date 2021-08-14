@@ -354,7 +354,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last().datos_lista
+        print('')
         print(curva_base)
+        print(len(curva_base))
 
         if valor_ganado !=0:
 
@@ -437,7 +439,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 ultima_curva_base = datetime.strptime(nueva_fecha_mayor, '%Y-%m-%d %H:%M:%S')      
 
                 #Verificar si la curva base posee la primera fecha de los documentos
-                if primera_curva_base < primera_de_dos:
+                if primera_curva_base > primera_de_dos:
                     diferencia = abs((primera_curva_base - primera_de_dos).days)  
                     contador = 0 
                     semanas = 0    
@@ -590,7 +592,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             elementos_final = ['Sin registro']
             elementos_final.append(elementos)
 
+        print('')
         print('Fechas controles: ',elementos_final)
+        print(len(elementos_final))
         
         return elementos_final
 
@@ -936,7 +940,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                avance_inicial = [valor_ganado]
                avance_final.append(avance_inicial)
 
+        print('')
         print('Arreglo avance real: ',avance_final)
+        print(len(avance_final))
 
         return avance_final
 
@@ -1006,7 +1012,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             avance_esperado = [int(valor_ganado)]
             lista_final_esperado.append(avance_esperado)
 
+        print('')
         print('Avance esperado: ',lista_final_esperado)
+        print(len(lista_final_esperado))
+
 
         return lista_final_esperado
 
@@ -1037,7 +1046,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles = ['Sin registros']
             fechas_controles.append(fechas_controles)
 
+        print('')
         print('Fechas controles final: ',fechas_controles)
+        print(len(fechas_controles))
 
         return fechas_controles 
 
@@ -1237,8 +1248,6 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
             primera_de_dos = primera_de_dos + timedelta(hours=23)
             primera_de_dos = primera_de_dos + timedelta(minutes=59)
             primera_de_dos = primera_de_dos + timedelta(seconds=59)
-            primera_de_dos = primera_de_dos + timedelta(microseconds=59)
-            primera_de_dos = primera_de_dos + timedelta(milliseconds=59)
             primera_de_dos = primera_de_dos - timedelta(days=7)
             fechas_controles.append(primera_de_dos)
             primera_de_dos = primera_de_dos + timedelta(days=7)
@@ -1303,6 +1312,7 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
                     avance_esperado = format(calculo_avanceEsperado, '.2f')
                     lista_final_esperado.append(avance_esperado)
                     lista_final_esperado.append(controles)
+
 
         if valor_ganado == 0:
             avance_esperado = [int(valor_ganado)]
