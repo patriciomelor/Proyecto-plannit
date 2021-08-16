@@ -1,4 +1,5 @@
 from typing import Text
+from django.db.models.query_utils import select_related_descend
 from django.shortcuts import redirect, render
 from django.urls import (reverse_lazy, reverse)
 from django.contrib.auth.models import User
@@ -26,6 +27,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         qs = Documento.objects.filter(proyecto=self.proyecto)
         return qs
     
+    # def get_queryset(self):
+    #     qs1 = Documento.objects.filter(proyecto=self.proyecto)
+    #     qs2 = Version.objects.filter(documento_fk__in=qs1)
+    #     return [qs1, qs2]
 
     ###################################################
     #                                                 #
@@ -37,36 +42,45 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['lista_final'] = self.reporte_general()
-        context['lista_final_largo'] = len(self.reporte_total_documentos())
-        context['lista_final_largo'] = len(self.reporte_general()) 
-        context['lista_emisiones'] = self.reporte_emisiones()
-        context['lista_emisiones_largo'] = len(self.reporte_emisiones()) 
-        context['lista_total_documentos_emitidos'] = self.reporte_total_documentos_emitidos()
-        context['lista_total_documentos_emitidos_largo'] = len(self.reporte_total_documentos_emitidos()) 
-        context['lista_total_documentos'] = self.reporte_total_documentos()
-        context['lista_total_documentos_largo'] = len(self.reporte_total_documentos()) 
-        context['lista_curva_s_avance_real'] = self.reporte_curva_s_avance_real()
-        context['lista_curva_s_avance_real_largo'] = len(self.reporte_curva_s_avance_real()) 
-        context['lista_curva_s_avance_esperado'] = self.reporte_curva_s_avance_esperado()
-        context['lista_curva_s_avance_esperado_largo'] = len(self.reporte_curva_s_avance_esperado()) 
-        context['lista_curva_s_fechas'] = self.reporte_curva_s_fechas()
-        context['lista_curva_s_fechas_largo'] = len(self.reporte_curva_s_fechas()) 
-        context['tamano_grafico_uno'] = self.valor_eje_x_grafico_uno()
-        context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
-        context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
-        context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
-        context['validos_contruccion'] = self.reporte_documentos_valido_contruccion()
-        context['validos_contruccion_largo'] = len(self.reporte_documentos_valido_contruccion())
+        # reporte_total_documentos = self.reporte_total_documentos()
+        # reporte_general = self.reporte_general()
+        reporte_emisiones = self.reporte_emisiones()
+        # reporte_total_documentos_emitidos = self.reporte_total_documentos_emitidos()
+        # reporte_curva_s_avance_real = self.reporte_curva_s_avance_real()
+        # reporte_curva_s_avance_esperado = self.reporte_curva_s_avance_esperado()       
+        # reporte_curva_s_fechas = self.reporte_curva_s_fechas()
+        # reporte_documentos_valido_contruccion = self.reporte_documentos_valido_contruccion()
+
+        # context['lista_final_largo'] = len(reporte_total_documentos)
+        # context['lista_final'] = reporte_general
+        # context['lista_final_largo'] = len(reporte_general) 
+        context['lista_emisiones'] = reporte_emisiones
+        context['lista_emisiones_largo'] = len(reporte_emisiones) 
+        # context['lista_total_documentos_emitidos'] = reporte_total_documentos_emitidos
+        # context['lista_total_documentos_emitidos_largo'] = len(reporte_total_documentos_emitidos) 
+        # context['lista_total_documentos'] = reporte_total_documentos
+        # context['lista_total_documentos_largo'] = len(reporte_total_documentos) 
+        # context['lista_curva_s_avance_real'] = reporte_curva_s_avance_real
+        # context['lista_curva_s_avance_real_largo'] = len(reporte_curva_s_avance_real) 
+        # context['lista_curva_s_avance_esperado'] = reporte_curva_s_avance_esperado
+        # context['lista_curva_s_avance_esperado_largo'] = len(reporte_curva_s_avance_esperado) 
+        # context['lista_curva_s_fechas'] = reporte_curva_s_fechas
+        # context['lista_curva_s_fechas_largo'] = len(reporte_curva_s_fechas) 
+        # context['tamano_grafico_uno'] = self.valor_eje_x_grafico_uno()
+        # context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
+        # context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
+        # context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
+        # context['validos_contruccion'] = reporte_documentos_valido_contruccion
+        # context['validos_contruccion_largo'] = len(reporte_documentos_valido_contruccion)
 
         ### Opción 2
-        qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
-        context['curvaBase'] = qs
+        # qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
+        # context['curvaBase'] = qs
         return context
 
 
     def get_users(self, *args, **kwargs):
-        # users = self.proyecto.participantes.all()
+        users = self.proyecto.participantes.all()
         # users = User.objects.prefetch_related("")
         lista_usuarios = []
 
