@@ -23,14 +23,18 @@ import math
 class IndexAnalitica(ProyectoMixin, TemplateView):
     template_name =  'analitica/index.html'
 
-    def get_queryset(self):
-        qs = Documento.objects.filter(proyecto=self.proyecto)
-        return qs
-    
     # def get_queryset(self):
-    #     qs1 = Documento.objects.filter(proyecto=self.proyecto)
-    #     qs2 = Version.objects.filter(documento_fk__in=qs1)
-    #     return [qs1, qs2]
+    #     qs = Documento.objects.filter(proyecto=self.proyecto)
+    #     return qs
+    
+    def get_queryset(self):
+        qs1 = Documento.objects.filter(proyecto=self.proyecto)
+        return qs1
+
+    def get_versiones(self):
+        qs2 = Version.objects.filter(documento_fk__in=self.get_queryset())
+        print(qs2)
+        return qs2
 
     ###################################################
     #                                                 #
@@ -41,10 +45,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     ###################################################
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
+        version = self.get_versiones()
         # reporte_total_documentos = self.reporte_total_documentos()
         # reporte_general = self.reporte_general()
-        reporte_emisiones = self.reporte_emisiones()
+        # reporte_emisiones = self.reporte_emisiones()
         # reporte_total_documentos_emitidos = self.reporte_total_documentos_emitidos()
         # reporte_curva_s_avance_real = self.reporte_curva_s_avance_real()
         # reporte_curva_s_avance_esperado = self.reporte_curva_s_avance_esperado()       
@@ -54,8 +58,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         # context['lista_final_largo'] = len(reporte_total_documentos)
         # context['lista_final'] = reporte_general
         # context['lista_final_largo'] = len(reporte_general) 
-        context['lista_emisiones'] = reporte_emisiones
-        context['lista_emisiones_largo'] = len(reporte_emisiones) 
+        # context['lista_emisiones'] = reporte_emisiones
+        # context['lista_emisiones_largo'] = len(reporte_emisiones) 
         # context['lista_total_documentos_emitidos'] = reporte_total_documentos_emitidos
         # context['lista_total_documentos_emitidos_largo'] = len(reporte_total_documentos_emitidos) 
         # context['lista_total_documentos'] = reporte_total_documentos
@@ -80,15 +84,15 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
 
     def get_users(self, *args, **kwargs):
-        users = self.proyecto.participantes.all()
+        user_roles = [4,5]
+        # users = self.proyecto.participantes.all().filter(perfil__pk__in=user_roles)
         # users = User.objects.prefetch_related("")
-        lista_usuarios = []
 
-        for usuarios in users:
-            if usuarios.perfil.rol_usuario == 4 or usuarios.perfil.rol_usuario == 5:
-                lista_usuarios.append(usuarios)             
+        # lista_usuarios = users
+        # print(lista_usuarios)
 
-        return lista_usuarios
+        return [] #lista_usuarios
+    
     
     def Obtener_documentos_versiones(self):
 
