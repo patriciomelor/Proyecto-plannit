@@ -1,6 +1,7 @@
 from typing import Text
 from django.shortcuts import redirect, render
 from django.urls import (reverse_lazy, reverse)
+from django.contrib.auth.models import User
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
@@ -20,6 +21,12 @@ import math
 
 class IndexAnalitica(ProyectoMixin, TemplateView):
     template_name =  'analitica/index.html'
+
+    def get_queryset(self):
+        qs = Documento.objects.filter(proyecto=self.proyecto)
+        return qs
+    
+
     ###################################################
     #                                                 #
     #                                                 #
@@ -27,9 +34,40 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     #                                                 #
     ###################################################
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['lista_final'] = self.reporte_general()
+        context['lista_final_largo'] = len(self.reporte_total_documentos())
+        context['lista_final_largo'] = len(self.reporte_general()) 
+        context['lista_emisiones'] = self.reporte_emisiones()
+        context['lista_emisiones_largo'] = len(self.reporte_emisiones()) 
+        context['lista_total_documentos_emitidos'] = self.reporte_total_documentos_emitidos()
+        context['lista_total_documentos_emitidos_largo'] = len(self.reporte_total_documentos_emitidos()) 
+        context['lista_total_documentos'] = self.reporte_total_documentos()
+        context['lista_total_documentos_largo'] = len(self.reporte_total_documentos()) 
+        context['lista_curva_s_avance_real'] = self.reporte_curva_s_avance_real()
+        context['lista_curva_s_avance_real_largo'] = len(self.reporte_curva_s_avance_real()) 
+        context['lista_curva_s_avance_esperado'] = self.reporte_curva_s_avance_esperado()
+        context['lista_curva_s_avance_esperado_largo'] = len(self.reporte_curva_s_avance_esperado()) 
+        context['lista_curva_s_fechas'] = self.reporte_curva_s_fechas()
+        context['lista_curva_s_fechas_largo'] = len(self.reporte_curva_s_fechas()) 
+        context['tamano_grafico_uno'] = self.valor_eje_x_grafico_uno()
+        context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
+        context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
+        context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
+        context['validos_contruccion'] = self.reporte_documentos_valido_contruccion()
+        context['validos_contruccion_largo'] = len(self.reporte_documentos_valido_contruccion())
+
+        ### Opción 2
+        qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
+        context['curvaBase'] = qs
+        return context
+
 
     def get_users(self, *args, **kwargs):
-        users = self.proyecto.participantes.all()
+        # users = self.proyecto.participantes.all()
+        # users = User.objects.prefetch_related("")
         lista_usuarios = []
 
         for usuarios in users:
@@ -42,8 +80,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         lista_final = []
         lista_actual = []
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        documentos = self.get_queryset()
+        documentos_totales = len(documentos)
         usuarios = self.get_users()
         version_final = 0
 
@@ -85,10 +123,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_final = self.Obtener_documentos_versiones()
         estados_documento = []
         estados_final = []
-        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        # documentos_totales = self.get_queryset().count()
 
         #Obtener lista de cantidad de documentos por tipo de versión
-        if documentos_totales != 0:
+        if len(lista_final) != 0:
             for estado in TYPES_REVISION[1:]:
                 cont = 0
                 for lista in lista_final:
@@ -98,7 +136,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 if cont != 0:
                     estados_documentos = [cont, estado[1]]
                     estados_final.append(estados_documentos)
-        if documentos_totales == 0:
+
+        if len(lista_final) == 0:
             estados_documento = [0, 'Sin registros']
             estados_final.append(estados_documento)
 
@@ -119,8 +158,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         aprobados_final = []
         aprobados_inicial = []
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        documentos = self.get_queryset()
+        documentos_totales = len(documentos)
         especialidad_list = tuple()
         usuarios = self.get_users()
         version_final = 0
@@ -196,8 +235,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         aprobados_final = []
         aprobados_inicial = []
 
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        documentos = self.get_queryset()
+        documentos_totales = len(documentos)
 
         especialidad_list = tuple()
         usuarios = self.get_users()
@@ -259,8 +298,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_actual = []
         lista_final = []
 
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        documentos = self.get_queryset()
+        documentos_totales = len(documentos)
         especialidad_list = tuple()
 
         if documentos_totales != 0:
@@ -300,8 +339,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         lista_actual = []
         lista_final = []
 
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        documentos_totales = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        documentos = self.get_queryset()
+        documentos_totales = len(documentos)
         documentos_valido_contruccion = 0
         documentos_no_valido_contruccion = 0
         usuarios = self.get_users()
@@ -351,12 +390,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
     def Obtener_fechas(self):
         elementos_final = []
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        documentos = self.get_queryset()
+        valor_ganado = len(documentos)
         curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last().datos_lista
-        print('')
-        print(curva_base)
-        print(len(curva_base))
 
         if valor_ganado !=0:
 
@@ -600,8 +636,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
     def reporte_curva_s_avance_real(self):
 
-        documentos = Documento.objects.filter(proyecto=self.proyecto)
-        valor_ganado = Documento.objects.filter(proyecto=self.proyecto).count()
+        documentos = self.get_queryset()
+        valor_ganado = len(documentos)
         lista_final = self.Obtener_fechas()
         dia_actual = timezone.now()
         dia_actual = dia_actual.replace(tzinfo = None)
@@ -940,9 +976,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                avance_inicial = [valor_ganado]
                avance_final.append(avance_inicial)
 
-        print('')
-        print('Arreglo avance real: ',avance_final)
-        print(len(avance_final))
 
         return avance_final
 
@@ -950,8 +983,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 
         lista_final = self.Obtener_fechas()
         lista_avance_real = self.reporte_curva_s_avance_real()
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        documentos = self.get_queryset()
+        valor_ganado = len(documentos)
         avance_esperado = []
         lista_final_esperado = []
         diferencia = 0
@@ -1012,17 +1045,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             avance_esperado = [int(valor_ganado)]
             lista_final_esperado.append(avance_esperado)
 
-        print('')
-        print('Avance esperado: ',lista_final_esperado)
-        print(len(lista_final_esperado))
-
 
         return lista_final_esperado
 
     def reporte_curva_s_fechas(self):
         
         lista_final = self.Obtener_fechas()
-        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        valor_ganado = self.get_queryset().count()
         lista_avance_real = self.reporte_curva_s_avance_real()
         fechas_controles = lista_final[0][0]
         diferencia = 0
@@ -1046,9 +1075,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles = ['Sin registros']
             fechas_controles.append(fechas_controles)
 
-        print('')
-        print('Fechas controles final: ',fechas_controles)
-        print(len(fechas_controles))
 
         return fechas_controles 
 
@@ -1150,35 +1176,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     ###################################################
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
 
-        context['lista_final'] = self.reporte_general()
-        context['lista_final_largo'] = len(self.reporte_total_documentos())
-        context['lista_final_largo'] = len(self.reporte_general()) 
-        context['lista_emisiones'] = self.reporte_emisiones()
-        context['lista_emisiones_largo'] = len(self.reporte_emisiones()) 
-        context['lista_total_documentos_emitidos'] = self.reporte_total_documentos_emitidos()
-        context['lista_total_documentos_emitidos_largo'] = len(self.reporte_total_documentos_emitidos()) 
-        context['lista_total_documentos'] = self.reporte_total_documentos()
-        context['lista_total_documentos_largo'] = len(self.reporte_total_documentos()) 
-        context['lista_curva_s_avance_real'] = self.reporte_curva_s_avance_real()
-        context['lista_curva_s_avance_real_largo'] = len(self.reporte_curva_s_avance_real()) 
-        context['lista_curva_s_avance_esperado'] = self.reporte_curva_s_avance_esperado()
-        context['lista_curva_s_avance_esperado_largo'] = len(self.reporte_curva_s_avance_esperado()) 
-        context['lista_curva_s_fechas'] = self.reporte_curva_s_fechas()
-        context['lista_curva_s_fechas_largo'] = len(self.reporte_curva_s_fechas()) 
-        context['tamano_grafico_uno'] = self.valor_eje_x_grafico_uno()
-        context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
-        context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
-        context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
-        context['validos_contruccion'] = self.reporte_documentos_valido_contruccion()
-        context['validos_contruccion_largo'] = len(self.reporte_documentos_valido_contruccion())
-
-        ### Opción 2
-        qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
-        context['curvaBase'] = qs
-        return context
 
 class CurvaBaseView(ProyectoMixin, TemplateView):
 
