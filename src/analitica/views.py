@@ -22,7 +22,6 @@ import math
 
 class IndexAnalitica(ProyectoMixin, TemplateView):
     template_name =  'analitica/index.html'
-
     # def get_queryset(self):
     #     qs = Documento.objects.filter(proyecto=self.proyecto)
     #     return qs
@@ -30,11 +29,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     def get_queryset(self):
         qs1 = Documento.objects.filter(proyecto=self.proyecto)
         return qs1
-
+ 
     def get_versiones(self):
-        qs2 = Version.objects.filter(documento_fk__in=self.get_queryset())
-        print(qs2)
+        user_roles = [4,5]
+        qs1 = self.get_queryset()
+        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1, owner__perfil__rol_usuario__in=user_roles) #.select_related("owner").filter(owner__in=users)
         return qs2
+
 
     ###################################################
     #                                                 #
@@ -45,7 +46,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     ###################################################
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        version = self.get_versiones()
+        versiones = self.get_versiones()
+        print(versiones)
         # reporte_total_documentos = self.reporte_total_documentos()
         # reporte_general = self.reporte_general()
         # reporte_emisiones = self.reporte_emisiones()
@@ -83,15 +85,12 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         return context
 
 
-    def get_users(self, *args, **kwargs):
-        user_roles = [4,5]
-        # users = self.proyecto.participantes.all().filter(perfil__pk__in=user_roles)
-        # users = User.objects.prefetch_related("")
+    # def get_users(self, *args, **kwargs):
+    #     # users = self.proyecto.participantes.all().filter(perfil__pk__in=user_roles)  # Query Solita
+    #     # users = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__pk__in=user_roles)
+    #     # users = self.proyecto.participantes.all().select_related("perfil").filter(perfil__pk__in=user_roles)
 
-        # lista_usuarios = users
-        # print(lista_usuarios)
-
-        return [] #lista_usuarios
+    #     return users 
     
     
     def Obtener_documentos_versiones(self):
@@ -406,9 +405,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     ###################################################
 
-    def Obtener_fechas(self):
+    def Obtener_fechas(self, documentos=None):
         elementos_final = []
-        documentos = self.get_queryset()
+        # documentos = self.get_queryset()
         valor_ganado = len(documentos)
         curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last().datos_lista
 
