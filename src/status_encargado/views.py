@@ -268,16 +268,20 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         Documentos pendientes de cada participante del proyecto.
         """
         final_list = []
-        participantes = self.proyecto.participantes.all()
-        for user in participantes:
-            asignados = 0
-            tareas = Tarea.objects.filter(encargado=user, documento__proyecto=self.proyecto)
-            for tarea in tareas:
-                if tarea.estado == False:
-                    asignados = asignados + 1
+        current_rol = self.request.user.perfil.rol_usuario
+        if current_rol <= 3 and current_rol >= 1:
+            rols = [2,3]
+        elif current_rol <= 6 and current_rol >= 4:
+            rols = [5,6]
 
-            if asignados !=0:
-                final_list.append([(user.first_name+" "+user.last_name), asignados])
+
+            
+        tareas = Tarea.objects.select_related("encargado").filter(encargado__perfil__rol_usuario__in=rols, documento__proyecto=self.proyecto, estado=False).count()
+        asignados = len(tareas)
+
+
+        if asignados !=0:
+            final_list.append([(user.first_name+" "+user.last_name), asignados])
 
         return final_list
 
