@@ -21,7 +21,7 @@ import math
 def users_notifier(proyecto):
     recipients = []
     notification_list = []
-    participantes = proyecto.participante.select_related("perfil").all().filter(perfil__rol_usuario = 1)
+    participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario = 1)
     for user in participantes:
         recipients.append(user.email)
         notification_list.append(user)
