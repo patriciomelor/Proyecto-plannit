@@ -66,14 +66,45 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 lista_usuarios.append(usuarios)             
 
         return lista_usuarios
+
+    def get_users(self, *args, **kwargs):
+        users = self.proyecto.participantes.all()
+        return users
+
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #            METODO PARA EXPLAYAR INFO            #
+    #                                                 #
+    #                                                 #
+    ###################################################
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        reporte_curva_s_avance_real = self.reporte_curva_s_avance_real()
+        reporte_curva_s_avance_esperado = self.reporte_curva_s_avance_esperado()
+        reporte_curva_s_fechas = self.reporte_curva_s_fechas()
+ 
+        context['lista_curva_s_avance_real'] = reporte_curva_s_avance_real
+        context['lista_curva_s_avance_real_largo'] = len(reporte_curva_s_avance_real) 
+        context['lista_curva_s_avance_esperado'] = reporte_curva_s_avance_esperado
+        context['lista_curva_s_avance_esperado_largo'] = len(reporte_curva_s_avance_esperado) 
+        context['lista_curva_s_fechas'] = reporte_curva_s_fechas
+        context['lista_curva_s_fechas_largo'] = len(reporte_curva_s_fechas) 
+        context['usuarios'] = self.get_users()
+        context["proyecto"] = self.proyecto
+        context['datos_tabla'] = self.datos_tabla()
+
+        return context
         
     def datos_tabla(self):
 
         lista_inicial = []
         lista_final = []
         documentos = self.get_queryset()
-        documentos_contador = self.get_queryset().count()
-        total_documentos = self.get_queryset().count()
+        documentos_contador = len(documentos)
+        total_documentos = len(documentos)
         lista_avance_real = self.reporte_curva_s_avance_real()
         fechas = self.Obtener_fechas()
         fechas = fechas[0][0]
@@ -273,7 +304,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
     def Obtener_fechas(self):
         elementos_final = []
         documentos = self.get_queryset()
-        valor_ganado = self.get_queryset().count()
+        valor_ganado = len(documentos)
         dia_actual = timezone.now()
 
         if valor_ganado !=0:
@@ -372,7 +403,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
     def reporte_curva_s_avance_real(self):
 
         documentos = self.get_queryset()
-        valor_ganado = self.get_queryset().count()
+        valor_ganado = len(documentos)
         lista_final = self.Obtener_fechas()
         dia_actual = timezone.now()
         usuarios = self.get_users_dash()
@@ -676,7 +707,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         lista_final = self.Obtener_fechas()
         lista_avance_real = self.reporte_curva_s_avance_real()
         documentos = self.get_queryset()
-        valor_ganado = self.get_queryset().count()
+        valor_ganado = len(documentos)
         avance_esperado = []
         lista_final_esperado = []
         diferencia = 0
@@ -754,31 +785,3 @@ class EscritorioView(ProyectoMixin, TemplateView):
             fechas_controles.append(fechas_controles)
 
         return fechas_controles      
-
-    ###################################################
-    #                                                 #
-    #                                                 #
-    #            METODO PARA EXPLAYAR INFO            #
-    #                                                 #
-    #                                                 #
-    ###################################################
-
-    def get_users(self, *args, **kwargs):
-        users = self.proyecto.participantes.all()
-        return users
-
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
- 
-        context['lista_curva_s_avance_real'] = self.reporte_curva_s_avance_real()
-        context['lista_curva_s_avance_real_largo'] = len(self.reporte_curva_s_avance_real()) 
-        context['lista_curva_s_avance_esperado'] = self.reporte_curva_s_avance_esperado()
-        context['lista_curva_s_avance_esperado_largo'] = len(self.reporte_curva_s_avance_esperado()) 
-        context['lista_curva_s_fechas'] = self.reporte_curva_s_fechas()
-        context['lista_curva_s_fechas_largo'] = len(self.reporte_curva_s_fechas()) 
-        context['usuarios'] = self.get_users()
-        context["proyecto"] = self.proyecto
-        context['datos_tabla'] = self.datos_tabla()
-
-        return context
