@@ -29,7 +29,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     def get_queryset(self):
         qs1 = Documento.objects.filter(proyecto=self.proyecto)
         return qs1
-
+ 
     def get_versiones(self):
         user_roles = [4,5]
         qs1 = self.get_queryset()
