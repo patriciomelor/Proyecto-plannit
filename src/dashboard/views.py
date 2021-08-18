@@ -46,9 +46,14 @@ class EscritorioView(ProyectoMixin, TemplateView):
     template_name = "administrador/Escritorio/dash.html"
 
     def get_queryset(self):
-        listado_versiones_doc = DocFilter(self.request.GET, queryset=Documento.objects.filter(proyecto=self.proyecto))
-        return listado_versiones_doc.qs.order_by('Codigo_documento')
-
+        qs1 = Documento.objects.filter(proyecto=self.proyecto)
+        return qs1
+ 
+    def get_versiones(self):
+        user_roles = [4,5]
+        qs1 = self.get_queryset()
+        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1, owner__perfil__rol_usuario__in=user_roles) #.select_related("owner").filter(owner__in=users)
+        return qs2
         ###################################################
         #                                                 #
         #                                                 #
