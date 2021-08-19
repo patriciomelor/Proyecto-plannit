@@ -18,10 +18,14 @@ import math
 # def umbral_1(umbral, doc):
 #     pass
 
-def users_notifier(proyecto):
+def users_notifier(proyecto, cliente=None, contratista=None):
     recipients = []
     notification_list = []
-    participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario = 1)
+    if cliente == True:
+        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario = 1)
+    if contratista == True:
+        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario = 4)
+
     for user in participantes:
         recipients.append(user.email)
         notification_list.append(user)
@@ -33,34 +37,41 @@ def umbral_2():
     proyectos = Proyecto.objects.all()
     fecha_actual = timezone.now()
     for proyecto in proyectos:
+        print("Proyecto {}".format(proyecto))
         document_list = []
+        revision_list = []
         last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=2).last()
         delta_proyect = (fecha_actual - last_hu.last_checked)
+        print("Delta Días Umbral 2 /{}:".format(proyecto.nombre), delta_proyect.days)
+        print("Días Control Umbral 2 /{}:.".format(proyecto.nombre), last_hu.tiempo_control)
 
         if delta_proyect.days >= last_hu.tiempo_control:
+            print("Se notifica para proyecto {}!".format(proyecto.nombre))
             documentos = Documento.objects.filter(proyecto=proyecto)
-            for doc in documentos:
-                has_rev = Version.objects.filter(documento_fk=doc).exists()
-                if has_rev == True:
-                    pass
-                else:
-                    delta_doc = (fecha_actual - doc.fecha_Emision_B)
-                    if delta_doc.days > last_hu.variable_atraso:
-                        document_list.append(doc)
+            for documento in documentos:
+                revision = Version.objects.filter(documento_fk=documento).last()
+                if revision is not None:
+                    if revision.estado_cliente == None:
+                        delta_rev = (fecha_actual - revision.fecha)
+                        if delta_rev.days > last_hu.variable_atraso:
+                            revision_list.append(revision)
+                            document_list.append(documento)
+                    else:
+                        pass
             
-            if len(document_list) != 0:
-                usuarios = users_notifier(proyecto=proyecto)
+            if len(revision_list) != 0:
+                usuarios = users_notifier(proyecto=proyecto, cliente=True)
                 try:
-                    subject = "[UMBRAL {proyecto}] Listado de Documentos Atrasados - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Cliente - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
                     send_email(
                         html= 'configuracion/umbral_2.html',
                         context= {
                             "documentos": document_list,
                             "proyecto": proyecto,
-                            "atraso": delta_doc,
+                            "atraso": delta_rev,
                         },
                         subject=subject,
-                        recipients= usuarios[0]
+                        recipients= ["esteban.ams95@gmail.com", "ignaciovaldeb1996@gmail.com"] #usuarios[0]
                     )
                     for usuario in usuarios[1]:
                         noti = Notificacion(
@@ -78,8 +89,8 @@ def umbral_2():
                         noti_hu.save()
                         noti_hu.documentos.set(document_list, clear=True)
 
-                    last_hu.last_checked = timezone.now()
-                    last_hu.save()
+                    # last_hu.last_checked = timezone.now()
+                    # last_hu.save()
                     
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 2. {}".format(err)
@@ -96,26 +107,30 @@ def umbral_3():
     proyectos = Proyecto.objects.all()
     fecha_actual = timezone.now()
     for proyecto in proyectos:
+        print("Proyecto {}".format(proyecto))
         revision_list = []
         document_list = []
         last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=3).last()
         delta_proyect = (fecha_actual - last_hu.last_checked)
+        print("Delta Días Umbral 3 /{}:".format(proyecto.nombre), delta_proyect.days)
+        print("Días Control Umbral 3 /{}:.".format(proyecto.nombre), last_hu.tiempo_control)
 
         if delta_proyect.days >= last_hu.tiempo_control:
+            print("Se notifica para proyecto {}!".format(proyecto.nombre))
             documentos = Documento.objects.filter(proyecto=proyecto)
             for documento in documentos:
                 revision = Version.objects.filter(documento_fk=documento).last()
                 if revision is not None:
-                    if revision.estado_cliente == None:
+                    if revision.estado_contratista == None:
                         delta_rev = (fecha_actual - revision.fecha)
-                        if delta_rev.days > last_hu.variable_atraso:
+                        if delta_rev.days >= last_hu.variable_atraso:
                             revision_list.append(revision)
-                            document_list.append(revision.documento_fk)
+                            document_list.append(documento)
                     else:
                         pass
              
-            subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
-            usuarios = users_notifier(proyecto=proyecto)
+            subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Contratistas - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+            usuarios = users_notifier(proyecto=proyecto, contratista=True)
 
             if len(revision_list) != 0:
                 try:
@@ -127,7 +142,7 @@ def umbral_3():
                             "atraso": delta_rev,
                         },
                         subject=subject,
-                        recipients= usuarios[0]
+                        recipients= ["esteban.ams95@gmail.com", "ignaciovaldeb1996@gmail.com"] #usuarios[0]
                     )
                     for usuario in usuarios[1]:
                         noti = Notificacion(
@@ -146,22 +161,21 @@ def umbral_3():
                         noti_hu.documentos.set(document_list, clear=True)
                         noti_hu.versiones.set(revision_list, clear=True)
 
-                    last_hu.last_checked = timezone.now()
-                    last_hu.save()
+                    # last_hu.last_checked = timezone.now()
+                    # last_hu.save()
 
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 3. {}".format(err)
                     return error
             else:
-                pass
-            
+                pass 
         else:
             pass
 
     return revision_list
 
 def get_users_dash(proyecto):
-    users = proyecto.participantes.all()
+    users = proyecto.participantes.prefetch_related("perfil").all()
     lista_usuarios = []
 
     for usuarios in users:
@@ -661,28 +675,38 @@ def umbral_4():
             #### Filtros de verificación para notificar a encargados del Proyecto
             last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=4).last()
             delta_proyect = (fecha_actual - last_hu.last_checked)
+            print("Delta Días Umbral 4 /{}:".format(proyecto.nombre), delta_proyect.days)
+            print("Días Control Umbral 4 /{}:.".format(proyecto.nombre), last_hu.tiempo_control)
 
             if delta_proyect.days >= last_hu.tiempo_control:
+                print("Se notifica para proyecto {}!".format(proyecto.nombre))
+                diferencias = []
                 diferencia_avance =  float(avance_programado) - float(avance_real)
-                print("Proyecto {} Dif % :".format(proyecto.codigo), diferencia_avance)
-                if diferencia_avance > float(last_hu.variable_atraso):
-                    lista_proyectos_atrasados.append([proyecto, diferencia_avance])
+                
+                if last_hu.variable_atraso >= 0:
+                    if diferencia_avance >= float(last_hu.variable_atraso):
+                        lista_proyectos_atrasados.append([proyecto, [diferencia_avance, avance_programado, avance_real]])
+                if last_hu.variable_atraso < 0:
+                    if diferencia_avance <= float(last_hu.variable_atraso):
+                        lista_proyectos_atrasados.append([proyecto, diferencias])
 
         contador_proyecto = contador_proyecto + 1
 
     if len(lista_proyectos_atrasados) != 0:
         for proyecto in lista_proyectos_atrasados:
             subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto[0].codigo, date=timezone.now().strftime("%d-%B-%y"))
-            usuarios = users_notifier(proyecto=proyecto[0])
+            usuarios = users_notifier(proyecto=proyecto[0], cliente=True)
             try:
                 send_email(
                     html= 'configuracion/umbral_4.html',
                     context= {
                         "proyecto": proyecto[0],
-                        "desviacion": proyecto[1]
+                        "desviacion": proyecto[1][0],
+                        "avance_programado": proyecto[1][1],
+                        "avance_real": proyecto[1][2],
                     },
                     subject=subject,
-                    recipients= usuarios[0]
+                    recipients= ["esteban.ams95@gmail.com", "ignaciovaldeb1996@gmail.com"]# usuarios[0]
                 )
                 for usuario in usuarios[1]:
                     noti = Notificacion(
@@ -696,11 +720,12 @@ def umbral_4():
                     noti_hu = NotificacionHU(
                         h_umbral=last_hu,
                         notificacion=noti,
+                        porcentaje_atraso=proyecto[1]
                     )
                     noti_hu.save()
 
-                last_hu.last_checked = timezone.now()
-                last_hu.save()
+                # last_hu.last_checked = timezone.now()
+                # last_hu.save()
 
             except Exception as err:
                 error = "Un error Ocurrido al momento de notificar para el Umbral 4. {}".format(err)
