@@ -48,6 +48,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     #                                                 #
     ###################################################
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
@@ -60,20 +61,20 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         reporte_curva_s_avance_esperado = self.reporte_curva_s_avance_esperado()       
         reporte_curva_s_fechas = self.reporte_curva_s_fechas()
 
-        context['lista_final'] = reporte_general
-        context['lista_final_largo'] = len(reporte_general) 
+        context['lista_final'] = reporte_general[0]
+        context['lista_final_largo'] = len(reporte_general[0]) 
         context['lista_emisiones'] = reporte_emisiones
         context['lista_emisiones_largo'] = len(reporte_emisiones) 
         context['lista_total_documentos_emitidos'] = reporte_total_documentos_emitidos
         context['lista_total_documentos_emitidos_largo'] = len(reporte_total_documentos_emitidos) 
-        context['lista_total_documentos'] = reporte_total_documentos
-        context['lista_total_documentos_largo'] = len(reporte_total_documentos) 
+        context['lista_total_documentos'] = reporte_total_documentos[0]
+        context['lista_total_documentos_largo'] = len(reporte_total_documentos[0]) 
         context['validos_contruccion'] = reporte_documentos_valido_contruccion
         context['validos_contruccion_largo'] = len(reporte_documentos_valido_contruccion)
-        context['tamano_grafico_uno'] = self.valor_eje_x_grafico_uno()
-        context['espacios_grafico_uno'] = self.espacios_eje_x_grafico_uno()
-        context['tamano_grafico_tres'] = self.valor_eje_x_grafico_tres()
-        context['espacios_grafico_tres'] = self.espacios_eje_x_grafico_tres()
+        context['tamano_grafico_uno'] = reporte_general[1]
+        context['espacios_grafico_uno'] = reporte_general[2]
+        context['tamano_grafico_tres'] = reporte_total_documentos[1]
+        context['espacios_grafico_tres'] = reporte_total_documentos[2]
         context['lista_curva_s_avance_real'] = reporte_curva_s_avance_real
         context['lista_curva_s_avance_real_largo'] = len(reporte_curva_s_avance_real) 
         context['lista_curva_s_avance_esperado'] = reporte_curva_s_avance_esperado
@@ -197,7 +198,15 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             estados_documento = [0, 'Sin registros']
             estados_final.append(estados_documento)
 
-        return estados_final
+        lista_grafico_uno = self.valor_eje_x_grafico_uno(lista_grafico_uno = estados_final)
+        dividendo = self.espacios_eje_x_grafico_uno(dividendo = lista_grafico_uno)
+
+        final = []
+        final.append(estados_final)
+        final.append(lista_grafico_uno)
+        final.append(dividendo)
+
+        return final
 
     ###################################################
     #                                                 #
@@ -334,7 +343,15 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             lista_actual = [0, 'Sin registros']
             lista_final.append(lista_actual)
         
-        return lista_final
+        lista_grafico_uno = self.valor_eje_x_grafico_tres(lista_grafico_uno = lista_final)
+        dividendo = self.espacios_eje_x_grafico_tres(dividendo = lista_grafico_uno)
+
+        final = []
+        final.append(lista_final)
+        final.append(lista_grafico_uno)
+        final.append(dividendo)
+        
+        return final
 
     ###################################################
     #                                                 #
@@ -383,10 +400,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     #                                                 #
     ###################################################
 
-    def valor_eje_x_grafico_uno(self):
+    def valor_eje_x_grafico_uno(self, lista_grafico_uno):
 
         #Llamado para un método definido anteriormente
-        lista_grafico_uno = self.reporte_general()
+        # lista_grafico_uno = self.reporte_general()
         maximo = 0
         cont = 0
 
@@ -410,10 +427,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         return maximo
 
-    def espacios_eje_x_grafico_uno(self):
+    def espacios_eje_x_grafico_uno(self, dividendo):
 
         #Llamado para un método definido anteriormente
-        dividendo = self.valor_eje_x_grafico_uno() - 1
+        # dividendo = self.valor_eje_x_grafico_uno() - 1
+        dividendo = dividendo - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -424,10 +442,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         return int(espacios)
 
-    def valor_eje_x_grafico_tres(self):
+    def valor_eje_x_grafico_tres(self, lista_grafico_uno):
 
         #Llamado para un método definido anteriormente
-        lista_grafico_uno = self.reporte_total_documentos()
+        # lista_grafico_uno = self.reporte_total_documentos()
         maximo = 0
         cont = 0
 
@@ -451,10 +469,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         return maximo
 
-    def espacios_eje_x_grafico_tres(self):
+    def espacios_eje_x_grafico_tres(self, dividendo):
 
         #Llamado para un método definido anteriormente
-        dividendo = self.valor_eje_x_grafico_tres() - 1
+        # dividendo = self.valor_eje_x_grafico_tres() - 1
+        dividendo = dividendo - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -1047,6 +1066,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                avance_final = []
                avance_inicial = [valor_ganado]
                avance_final.append(avance_inicial)
+
+        print(avance_final)
 
         return avance_final
 

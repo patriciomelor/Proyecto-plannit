@@ -257,22 +257,22 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         context["grafico_1_largo"] = len(grafico_1[0])
         context["tamano_grafico_1"] = grafico_1[1]
         context["espacio_grafico_1"] = grafico_1[2]
-        context["grafico_2"] = grafico_2
-        context["grafico_2_largo"] = len(grafico_2)
-        context["tamano_grafico_2"] = self.tamano_grafico_2()
-        context["espacio_grafico_2"] = self.espacios_grafico_2()
-        context["grafico_3"] = grafico_3
-        context["grafico_3_largo"] = len(grafico_3)
-        context["tamano_grafico_3"] = self.tamano_grafico_3()
-        context["espacio_grafico_3"] = self.espacios_grafico_3()
+        context["grafico_2"] = grafico_2[0]
+        context["grafico_2_largo"] = len(grafico_2[0])
+        context["tamano_grafico_2"] = grafico_2[1]
+        context["espacio_grafico_2"] = grafico_2[2]
+        context["grafico_3"] = grafico_3[0]
+        context["grafico_3_largo"] = len(grafico_3[0])
+        context["tamano_grafico_3"] = grafico_3[1]
+        context["espacio_grafico_3"] = grafico_3[2]
         context["grafico_4"] = grafico_4
         context["grafico_4_largo"] = len(grafico_4)
         context["grafico_5"] = grafico_5
         context["grafico_5_largo"] = len(grafico_5)
-        context["grafico_6"] = grafico_6
-        context["grafico_6_largo"] = len(grafico_6)
-        context["tamano_grafico_6"] = self.tamano_grafico_6()
-        context["espacio_grafico_6"] = self.espacios_grafico_6()
+        context["grafico_6"] = grafico_6[0]
+        context["grafico_6_largo"] = len(grafico_6[0])
+        context["tamano_grafico_6"] = grafico_6[1]
+        context["espacio_grafico_6"] = grafico_6[2]
 
         return context
 
@@ -362,12 +362,22 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
                         pendiente = pendiente + 1
             if pendiente != 0:
                 final_list.append([(user.first_name+" "+user.last_name), pendiente])
+        
+        lista_grafico_uno = self.tamano_grafico_2(lista_grafico_uno = final_list)
+        dividendo = self.espacios_grafico_2(dividendo = lista_grafico_uno)
 
-        return final_list
+        final = []
+        final.append(final_list)
+        final.append(lista_grafico_uno)
+        final.append(dividendo)
 
-    def tamano_grafico_2(self):
+        print(final)
 
-        lista_grafico_uno = self.grafico_2()
+        return final
+
+    def tamano_grafico_2(self, lista_grafico_uno):
+
+        # lista_grafico_uno = self.grafico_2()
         maximo = 0
         cont = 0
 
@@ -391,10 +401,11 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         return maximo
 
-    def espacios_grafico_2(self):
+    def espacios_grafico_2(self, dividendo):
 
         #Llamado para un método definido anteriormente
-        dividendo = self.tamano_grafico_2() - 1
+        # dividendo = self.tamano_grafico_2() - 1
+        dividendo = dividendo - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -425,12 +436,20 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
                         pass
             if hh_asignados != 0:
                 final_list.append([(user.first_name+" "+user.last_name), hh_asignados, hh_realizados])
+
+        lista_grafico_uno = self.tamano_grafico_2(lista_grafico_uno = final_list)
+        dividendo = self.espacios_grafico_2(dividendo = lista_grafico_uno)
+
+        final = []
+        final.append(final_list)
+        final.append(lista_grafico_uno)
+        final.append(dividendo)
         
-        return final_list
+        return final
 
-    def tamano_grafico_3(self):
+    def tamano_grafico_3(self, lista_grafico_uno):
 
-        lista_grafico_uno = self.grafico_3()
+        # lista_grafico_uno = self.grafico_3()
         maximo = 0
         cont = 0
 
@@ -454,10 +473,11 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         return maximo
 
-    def espacios_grafico_3(self):
+    def espacios_grafico_3(self, dividendo):
 
         #Llamado para un método definido anteriormente
-        dividendo = self.tamano_grafico_3() - 1
+        # dividendo = self.tamano_grafico_3() - 1
+        dividendo = dividendo - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -534,12 +554,20 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
             if asignados != 0:
                 final_list.append([(user.first_name+" "+user.last_name), asignados, atrasados])
+
+        lista_grafico_uno = self.tamano_grafico_2(lista_grafico_uno = final_list)
+        dividendo = self.espacios_grafico_2(dividendo = lista_grafico_uno)
+
+        final = []
+        final.append(final_list)
+        final.append(lista_grafico_uno)
+        final.append(dividendo)
         
-        return final_list
+        return final
 
-    def tamano_grafico_6(self):
+    def tamano_grafico_6(self, lista_grafico_uno):
 
-        lista_grafico_uno = self.grafico_6()
+        # lista_grafico_uno = self.grafico_6()
         maximo = 0
         cont = 0
 
@@ -563,10 +591,11 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         return maximo
 
-    def espacios_grafico_6(self):
+    def espacios_grafico_6(self, dividendo):
 
         #Llamado para un método definido anteriormente
-        dividendo = self.tamano_grafico_6() - 1
+        # dividendo = self.tamano_grafico_6() - 1
+        dividendo = dividendo - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
