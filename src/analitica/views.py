@@ -795,13 +795,15 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 if primera_fecha_b > primera_fecha_0:
                     primera_de_dos = primera_fecha_0
 
+                primera_de_dos = primera_de_dos.replace(tzinfo = None)
+                ultima_de_dos = ultima_de_dos.replace(tzinfo = None)
+
                 #Agregar una semana antes a la primera de los documentos
                 fechas_controles = []
                 primera_de_dos = primera_de_dos + timedelta(hours=23)
                 primera_de_dos = primera_de_dos + timedelta(minutes=59)
                 primera_de_dos = primera_de_dos + timedelta(seconds=59)
-                primera_de_dos = primera_de_dos + timedelta(microseconds=59)
-                primera_de_dos = primera_de_dos + timedelta(milliseconds=59)
+
                 primera_de_dos = primera_de_dos - timedelta(days=7)
                 fechas_controles.append(primera_de_dos)
                 primera_de_dos = primera_de_dos + timedelta(days=7)
@@ -1506,14 +1508,14 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
     def reporte_curva_s_avance_esperado(self):
                 
         lista_final = self.Obtener_fechas()
-        lista_avance_real = self.reporte_curva_s_avance_real()
+        # lista_avance_real = self.reporte_curva_s_avance_real()
         documentos = self.get_queryset()
         valor_ganado = len(documentos)
         avance_esperado = []
         lista_final_esperado = []
         diferencia = 0
-        contador = 0
-        numero = 100
+        # contador = 0
+        # numero = 100
         
         if valor_ganado != 0:
             
@@ -1524,7 +1526,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             valor_ganado = (100 / valor_ganado)
             contador_largo = 0
 
-            diferencia = len(lista_avance_real) - len(fechas_controles)
+            # diferencia = len(lista_avance_real) - len(fechas_controles)
 
             for controles in fechas_controles:
                 if contador_largo < len(fechas_controles):
@@ -1543,11 +1545,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     avance_esperado = [format(calculo_avanceEsperado, '.2f')]
                     lista_final_esperado.append(avance_esperado)
 
-            if diferencia > 0:
-                while contador < diferencia:
-                    avance_esperado = [format(numero, '.2f')]
-                    lista_final_esperado.append(avance_esperado)
-                    contador = contador + 1
+            # if diferencia > 0:
+            #     while contador < diferencia:
+            #         avance_esperado = [format(numero, '.2f')]
+            #         lista_final_esperado.append(avance_esperado)
+            #         contador = contador + 1
             
             calculo_parcial = []
             calculo_parcial_final = []
