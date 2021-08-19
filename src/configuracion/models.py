@@ -61,3 +61,4 @@ class NotificacionHU(models.Model):
     documentos = models.ManyToManyField(Documento, related_name="hu_documentos", verbose_name="Listado de Documentos")
     versiones = models.ManyToManyField(Version, related_name="hu_versiones", verbose_name="Listado de Versiones")
     porcentaje_atraso = ArrayField(null=True, base_field=models.FloatField(verbose_name="porcentaje de atraso", blank=True, null=True))
+    #[Avance Real, Avance Programado, Desviación %]
