@@ -79,43 +79,39 @@
                 </div><!-- col-8 -->
             </div>
             
-              {% comment %} <div class="row no-gutters">
+              <div class="row no-gutters">
                 <div class="col-5 col-sm-4" style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                  Fecha creación
+                  Fecha Notificación
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                  {{paquete.fecha_creacion|date:"d-M-Y H:i"}}
+                  {{umbral_notificado.date|date:"d-M-Y H:i"}}
                 </div><!-- col-8 -->
-              </div>  {% endcomment %}
+              </div>
               
                                 
             </div>
 
 
-                {% if nu_umbral == 2 %}
+                {% if atrasos %}
                     <table class="table table-striped mg-b-0 table-bordered table-primary">
                         <thead class="thead-colored thead-primary">
                             <tr class="tx-10">
-                                <th class="pd-y-5"style="text-align: center;">Especialidad</th>
-                                <th class="pd-y-5"style="text-align: center;">Descripción</th>
-                                <th class="pd-y-5"style="text-align: center;">Tipo</th>
-                                <th class="pd-y-5"style="text-align: center;">Código</th>
+                                <th class="pd-y-5"style="text-align: center;">Avance Real</th>
+                                <th class="pd-y-5"style="text-align: center;">Avance Programado</th>
+                                <th class="pd-y-5"style="text-align: center;">Desviación<br>Porcentual </th>
                             </tr>
                         </thead>
-                        {% for doc in umbral_notificado.documentos.all %}
                         <tbody>
                         <tr>
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Especialidad}} </td>
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Descripcion}}</td>
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Tipo_Documento}}</td>
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{doc.Codigo_documento}} </td>
+                            <td class="tx-12"style="text-align: center;font-weight:800;">{{umbral_notificado.porcentaje_atraso.0}} </td>
+                            <td class="tx-12"style="text-align: center;font-weight:800;">{{umbral_notificado.porcentaje_atraso.1}} </td>
+                            <td class="tx-12"style="text-align: center;font-weight:800;">{{umbral_notificado.porcentaje_atraso.2}} </td>
                         </tr>
-                        {% endfor %}
                         </tbody>
                     </table>
                 {% endif %}
 
-                {% if nu_umbral == 3 %}
+                {% if not atrasos %}
                     <table class="table table-striped mg-b-0 table-bordered table-primary">
                         <thead class="thead-colored thead-primary">
                             <tr class="tx-10">

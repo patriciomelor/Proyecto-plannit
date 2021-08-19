@@ -337,35 +337,15 @@ class UmbralesEdit(ProyectoMixin, UpdateView):
 class UmbralesNotificados(ProyectoMixin, ListView):
     model = NotificacionHU
     template_name = 'configuracion/umbral-notif-list.html'
-    context_object_name = 'umbrales_notificados'
 
     def get_queryset(self):
-        umrales = HistorialUmbrales.objects.filter(proyecto=self.proyecto)
-        n_hu = NotificacionHU.objects.filter(h_umbral__in=umrales).order_by()
+        n_hu = NotificacionHU.objects.select_related("h_umbral", "h_umbral__umbral").filter(h_umbral__proyecto=self.proyecto).order_by("date")
         return n_hu
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        notif_umbrales = self.get_queryset("-date")
-        list_umbral_1 = []
-        list_umbral_2 = []
-        list_umbral_3 = []
-        list_umbral_4 = []
-        for notif_umbral in notif_umbrales:
-            if notif_umbral.h_umbral.umbral.pk == 1:
-                list_umbral_1.append(notif_umbral)
-            elif notif_umbral.h_umbral.umbral.pk == 2:
-                list_umbral_2.append(notif_umbral)
-            elif notif_umbral.h_umbral.umbral.pk == 3:
-                list_umbral_3.append(notif_umbral)
-            elif notif_umbral.h_umbral.umbral.pk ==4:
-                list_umbral_4.append(notif_umbral)
-                 
-        context["umbral_1"] = list_umbral_1
-        context["umbral_2"] = list_umbral_2
-        context["umbral_3"] = list_umbral_3
-        context["umbral_4"] = list_umbral_4
-        return context 
+        context["umbrales_notificados"] = self.get_queryset()
+        return context
         
 class UNDetail(ProyectoMixin, DetailView):
     model = NotificacionHU
@@ -377,9 +357,7 @@ class UNDetail(ProyectoMixin, DetailView):
         un_obj = self.get_object()
         context = super().get_context_data(**kwargs)
 
-        if un_obj.h_umbral.umbral.pk == 2:
-            context["nu_umbral"] = 2
-        elif un_obj.h_umbral.umbral.pk == 3:
-            context["nu_umbral"] = 3
+        if un_obj.porcentaje_atraso != None:
+            context["atrasos"] = True
 
         return context
