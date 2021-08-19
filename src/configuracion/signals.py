@@ -3,7 +3,7 @@ from django.utils import timezone
 from django.db.models.signals import post_save, post_delete, pre_delete, pre_save
 from django.dispatch import receiver
 from notifications.emails import send_email
-from configuracion.models import NotificacionHU, Umbral
+from configuracion.models import HistorialUmbrales, NotificacionHU, Umbral
 from notifications.models import Notificacion
 
 from bandeja_es.models import Version
@@ -15,12 +15,10 @@ def VPC_signal(sender, instance, created, *args, **kwargs):
             recipients = []
             notification_list = []
             proyecto = instance.documento_fk.proyecto
-            participantes = proyecto.participante.all()
+            participantes = proyecto.participante.select_related("perfil").all().filter(perfil__rol_usuario = 1)
             for user in participantes:
-                rol = user.perfil.rol_usuario
-                if rol == 1:
-                    recipients.append(user.email)
-                    notification_list.append(user)
+                recipients.append(user.email)
+                notification_list.append(user)
             
             subject = "[UMBRAL {proyecto}] Documento Actualizado como Válido para Construcción - {date}.".format(proyecto=proyecto.nombre, date=timezone.now().strftime("%d-%B-%y"))
 
@@ -31,8 +29,13 @@ def VPC_signal(sender, instance, created, *args, **kwargs):
                         "revision": instance,
                     },
                     subject=subject,
-                    recipients= ["patriciomelor@gmail.com", "esteban.martinezs@utem.cl", "ignaciovaldeb1996@gmail.com"] # recipients
+                    recipients= recipients
                 )
+
+                last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=2).last()
+                last_hu.last_checked = timezone.now()
+                last_hu.save()
+
                 for usuario in notification_list:
 
                     noti = Notificacion(
@@ -44,13 +47,15 @@ def VPC_signal(sender, instance, created, *args, **kwargs):
                     noti.save()
 
                     noti_hu = NotificacionHU(
-                        h_umbral=Umbral.objects.get(pk=1),
+                        h_umbral=last_hu,
                         notificacion=noti,
                     )
                     noti_hu.save()
                     noti_hu.versiones.add(instance)
                     print("notification added")
+
                 return instance
+
 
             except Exception as err:
                 error = "Un error Ocurrido al momento de notificar para el Umbral 1. {}".format(err)

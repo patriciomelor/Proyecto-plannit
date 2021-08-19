@@ -21,12 +21,10 @@ import math
 def users_notifier(proyecto):
     recipients = []
     notification_list = []
-    participantes = proyecto.participantes.all()
+    participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario = 1)
     for user in participantes:
-        rol = user.perfil.rol_usuario
-        if rol == 1:
-            recipients.append(user.email)
-            notification_list.append(user)
+        recipients.append(user.email)
+        notification_list.append(user)
 
     return [recipients, notification_list]
 
@@ -62,7 +60,7 @@ def umbral_2():
                             "atraso": delta_doc,
                         },
                         subject=subject,
-                        recipients= ["deivylop@hotmail.com"] # usuarios[0]
+                        recipients= usuarios[0]
                     )
                     for usuario in usuarios[1]:
                         noti = Notificacion(
@@ -80,8 +78,8 @@ def umbral_2():
                         noti_hu.save()
                         noti_hu.documentos.set(document_list, clear=True)
 
-                    # last_hu.last_checked = timezone.now()
-                    # last_hu.save()
+                    last_hu.last_checked = timezone.now()
+                    last_hu.save()
                     
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 2. {}".format(err)
@@ -129,7 +127,7 @@ def umbral_3():
                             "atraso": delta_rev,
                         },
                         subject=subject,
-                        recipients= ["deivylop@hotmail.com"] # usuarios[0]
+                        recipients= usuarios[0]
                     )
                     for usuario in usuarios[1]:
                         noti = Notificacion(
@@ -148,8 +146,9 @@ def umbral_3():
                         noti_hu.documentos.set(document_list, clear=True)
                         noti_hu.versiones.set(revision_list, clear=True)
 
-                    # last_hu.last_checked = timezone.now()
-                    # last_hu.save()
+                    last_hu.last_checked = timezone.now()
+                    last_hu.save()
+
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 3. {}".format(err)
                     return error
@@ -683,7 +682,7 @@ def umbral_4():
                         "desviacion": proyecto[1]
                     },
                     subject=subject,
-                    recipients= ["deivylop@hotmail.com"] # usuarios[0]
+                    recipients= usuarios[0]
                 )
                 for usuario in usuarios[1]:
                     noti = Notificacion(
@@ -700,8 +699,8 @@ def umbral_4():
                     )
                     noti_hu.save()
 
-                # last_hu.last_checked = timezone.now()
-                # last_hu.save()
+                last_hu.last_checked = timezone.now()
+                last_hu.save()
 
             except Exception as err:
                 error = "Un error Ocurrido al momento de notificar para el Umbral 4. {}".format(err)
