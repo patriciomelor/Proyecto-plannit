@@ -341,12 +341,12 @@ class UmbralesNotificados(ProyectoMixin, ListView):
 
     def get_queryset(self):
         umrales = HistorialUmbrales.objects.filter(proyecto=self.proyecto)
-        n_hu = NotificacionHU.objects.filter(h_umbral__in=umrales)
+        n_hu = NotificacionHU.objects.filter(h_umbral__in=umrales).order_by()
         return n_hu
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        notif_umbrales = self.get_queryset()
+        notif_umbrales = self.get_queryset("-date")
         list_umbral_1 = []
         list_umbral_2 = []
         list_umbral_3 = []

@@ -31,7 +31,6 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         queryset=Documento.objects.filter(proyecto=self.proyecto)
         return queryset
 
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tasks = []
@@ -57,7 +56,6 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         context["tareas"] = tasks
         context['Listado'] = self.tabla_status()
         return context
-
 
     def tabla_status(self):
         #Listar documentos
@@ -202,30 +200,114 @@ class RevisorSentView(ProyectoMixin, ListView):
 class EncargadoGraficoView(ProyectoMixin, TemplateView):
     template_name = 'status_encargado/graficos.html'
 
+    def get_queryset_true(self):
+        current_rol = self.request.user.perfil.rol_usuario
+        if current_rol <= 3 and current_rol >= 1:
+            rols = [2,3]
+        elif current_rol <= 6 and current_rol >= 4:
+            rols = [5,6]
+
+        tareas_true = Tarea.objects.select_related("encargado").filter(encargado__perfil__rol_usuario__in=rols, documento__proyecto=self.proyecto, estado=True)
+
+        return tareas_true
+
+    def get_queryset_false(self):
+        current_rol = self.request.user.perfil.rol_usuario
+        if current_rol <= 3 and current_rol >= 1:
+            rols = [2,3]
+        elif current_rol <= 6 and current_rol >= 4:
+            rols = [5,6]
+
+        tareas_false = Tarea.objects.select_related("encargado").filter(encargado__perfil__rol_usuario__in=rols, documento__proyecto=self.proyecto, estado=False)
+
+        return tareas_false
+
+    def get_queryset(self):
+        current_rol = self.request.user.perfil.rol_usuario
+        if current_rol <= 3 and current_rol >= 1:
+            rols = [2,3]
+        elif current_rol <= 6 and current_rol >= 4:
+            rols = [5,6]
+
+        tareas = Tarea.objects.select_related("encargado").filter(encargado__perfil__rol_usuario__in=rols, documento__proyecto=self.proyecto)         
+
+        return tareas
+
+    def get_queryset_user(self):
+        current_rol = self.request.user.perfil.rol_usuario
+        if current_rol <= 3 and current_rol >= 1:
+            rols = [2,3]
+        elif current_rol <= 6 and current_rol >= 4:
+            rols = [5,6]
+        users = self.proyecto.participantes.all().filter(perfil__rol_usuario__in = rols)
+
+        return users
+
+    def get_context_data(self, **kwargs):
+        context =  super().get_context_data(**kwargs)
+
+        grafico_1 =self.grafico_1()
+        grafico_2 =self.grafico_2()
+        grafico_3 =self.grafico_3()
+        grafico_4 =self.grafico_4()
+        grafico_5 =self.grafico_5()
+        grafico_6 =self.grafico_6()
+
+        context["grafico_1"] = grafico_1[0]
+        context["grafico_1_largo"] = len(grafico_1[0])
+        context["tamano_grafico_1"] = grafico_1[1]
+        context["espacio_grafico_1"] = grafico_1[2]
+        context["grafico_2"] = grafico_2
+        context["grafico_2_largo"] = len(grafico_2)
+        context["tamano_grafico_2"] = self.tamano_grafico_2()
+        context["espacio_grafico_2"] = self.espacios_grafico_2()
+        context["grafico_3"] = grafico_3
+        context["grafico_3_largo"] = len(grafico_3)
+        context["tamano_grafico_3"] = self.tamano_grafico_3()
+        context["espacio_grafico_3"] = self.espacios_grafico_3()
+        context["grafico_4"] = grafico_4
+        context["grafico_4_largo"] = len(grafico_4)
+        context["grafico_5"] = grafico_5
+        context["grafico_5_largo"] = len(grafico_5)
+        context["grafico_6"] = grafico_6
+        context["grafico_6_largo"] = len(grafico_6)
+        context["tamano_grafico_6"] = self.tamano_grafico_6()
+        context["espacio_grafico_6"] = self.espacios_grafico_6()
+
+        return context
+
     def grafico_1(self):
         """
         Diferencia de tareas y respuetas por cada uno de los participantes.
         """
         final_list = []
+        tareas = self.get_queryset()
+        users = self.get_queryset_user()
         
-        participantes = self.proyecto.participantes.all()
-        for user in participantes:
-            realizados = 0
+        for user in users:
             asignados = 0
-            tareas = Tarea.objects.filter(encargado=user, documento__proyecto=self.proyecto)
+            realizados = 0
             for tarea in tareas:
-                asignados = asignados + 1
-                if tarea.estado == True:
-                    realizados = realizados + 1
-
+                if tarea.encargado == user:
+                    if tarea.estado == True:
+                        realizados = realizados + 1
+                    asignados = asignados + 1
             if asignados != 0:
                 final_list.append([(user.first_name+" "+user.last_name), asignados, realizados])
 
-        return final_list
+        lista_grafico_uno = self.tamano_grafico_1(lista_grafico_uno = final_list)
+        dividendo = self.espacios_grafico_1(dividendo = lista_grafico_uno)
 
-    def tamano_grafico_1(self):
+        final = []
+        final.append(final_list)
+        final.append(lista_grafico_uno)
+        final.append(dividendo)
 
-        lista_grafico_uno = self.grafico_1()
+        return final
+
+    def tamano_grafico_1(self, lista_grafico_uno):
+
+        # lista_grafico_uno = self.grafico_1()
         maximo = 0
         cont = 0
 
@@ -249,10 +331,11 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         return maximo
 
-    def espacios_grafico_1(self):
+    def espacios_grafico_1(self, dividendo):
 
         #Llamado para un método definido anteriormente
-        dividendo = self.tamano_grafico_1() - 1
+        # dividendo = self.tamano_grafico_1() - 1
+        dividendo = dividendo - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -268,16 +351,17 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         Documentos pendientes de cada participante del proyecto.
         """
         final_list = []
-        participantes = self.proyecto.participantes.all()
-        for user in participantes:
-            asignados = 0
-            tareas = Tarea.objects.filter(encargado=user, documento__proyecto=self.proyecto)
+        tareas = self.get_queryset()
+        users = self.get_queryset_user()
+        
+        for user in users:
+            pendiente = 0
             for tarea in tareas:
-                if tarea.estado == False:
-                    asignados = asignados + 1
-
-            if asignados !=0:
-                final_list.append([(user.first_name+" "+user.last_name), asignados])
+                if tarea.encargado == user:
+                    if tarea.estado == False:
+                        pendiente = pendiente + 1
+            if pendiente != 0:
+                final_list.append([(user.first_name+" "+user.last_name), pendiente])
 
         return final_list
 
@@ -326,18 +410,19 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         Diferencia entre hh asignadas y hh gastadas por cada uno de los participantes.
         """
         final_list = []
-        participantes = self.proyecto.participantes.all()
-        for user in participantes:
+        tareas = self.get_queryset()
+        users = self.get_queryset_user()
+
+        for user in users:
             hh_realizados = 0
             hh_asignados = 0
-            tareas = Tarea.objects.filter(encargado=user, documento__proyecto=self.proyecto)
             for tarea in tareas:
-                hh_asignados = hh_asignados + tarea.contidad_hh
-                try:
-                    hh_realizados = hh_realizados + tarea.task_answer.contidad_hh
-                except:
-                    pass
-            
+                if tarea.encargado == user:
+                    hh_asignados = hh_asignados + tarea.contidad_hh
+                    try:
+                        hh_realizados = hh_realizados + tarea.task_answer.contidad_hh
+                    except:
+                        pass
             if hh_asignados != 0:
                 final_list.append([(user.first_name+" "+user.last_name), hh_asignados, hh_realizados])
         
@@ -388,32 +473,37 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         Diferencia entre hh asignadas y hh gastadas total del proyecto.
         """
         final_list = []
-        tasks = Tarea.objects.filter(documento__proyecto=self.proyecto)
+        tareas = self.get_queryset()
         total_asignados = 0
         total_realizados = 0
-        for task in tasks:
-            total_asignados = total_asignados + task.contidad_hh
-            if task.estado == True:
-                total_realizados = total_realizados + task.task_answer.contidad_hh
+
+        for tarea in tareas:
+            total_asignados = total_asignados + tarea.contidad_hh
+            if tarea.estado == True:
+                total_realizados = total_realizados + tarea.task_answer.contidad_hh
+
         final_list.append(total_asignados)
         final_list.append(total_realizados)
+
         return final_list
-                
-        
+                      
     def grafico_5(self):
         """
         Diferencia de tareas y respuetas total del proyecto.
         """
         final_list = []
-        tasks = Tarea.objects.filter(documento__proyecto=self.proyecto)
+        tareas = self.get_queryset()
         total_tareas = 0
         total_respuestas = 0
-        for task in tasks:
+
+        for tarea in tareas:
             total_tareas = total_tareas + 1
-            if task.estado == True:
+            if tarea.estado == True:
                 total_respuestas = total_respuestas + 1 
+
         final_list.append(total_tareas)
         final_list.append(total_respuestas)
+
         return final_list
 
     def grafico_6(self):
@@ -421,25 +511,26 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         Documentos asignados vs documentos.
         """
         final_list = []
-        
-        participantes = self.proyecto.participantes.all()
-        for user in participantes:
+        tareas = self.get_queryset()
+        users = self.get_queryset_user()
+
+        for user in users:
             atrasados = 0
             asignados = 0
-            tareas = Tarea.objects.filter(encargado=user, documento__proyecto=self.proyecto)
             for tarea in tareas:
-                asignados = asignados + 1
-                if tarea.estado == True:
-                    if tarea.task_answer.contestado.year > tarea.plazo.year:
-                        atrasados = atrasados + 1
-                    else:
-                        if tarea.task_answer.contestado.year == tarea.plazo.year:
-                            if tarea.task_answer.contestado.month > tarea.plazo.month:
-                                atrasados = atrasados + 1
-                            else:
-                                if tarea.task_answer.contestado.month == tarea.plazo.month:
-                                    if tarea.task_answer.contestado.day > tarea.plazo.day:
-                                        atrasados = atrasados + 1
+                if tarea.encargado == user:
+                    asignados = asignados + 1
+                    if tarea.estado == True:
+                        if tarea.task_answer.contestado.year > tarea.plazo.year:
+                            atrasados = atrasados + 1
+                        else:
+                            if tarea.task_answer.contestado.year == tarea.plazo.year:
+                                if tarea.task_answer.contestado.month > tarea.plazo.month:
+                                    atrasados = atrasados + 1
+                                else:
+                                    if tarea.task_answer.contestado.month == tarea.plazo.month:
+                                        if tarea.task_answer.contestado.day > tarea.plazo.day:
+                                            atrasados = atrasados + 1
 
             if asignados != 0:
                 final_list.append([(user.first_name+" "+user.last_name), asignados, atrasados])
@@ -485,42 +576,3 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             espacios = 1
 
         return int(espacios)
-
-    def get_context_data(self, **kwargs):
-        context =  super().get_context_data(**kwargs)
-        g1 =self.grafico_1()
-        g2 =self.grafico_2()
-        g3 =self.grafico_3()
-        g4 =self.grafico_4()
-        g5 =self.grafico_5()
-        g6 =self.grafico_6()
-
-        g1_largo =len(self.grafico_1())
-        g2_largo =len(self.grafico_2())
-        g3_largo =len(self.grafico_3())
-        g4_largo =len(self.grafico_4())
-        g5_largo =len(self.grafico_5())
-        g6_largo =len(self.grafico_6())
-
-        context["grafico_1"] = g1
-        context["grafico_1_largo"] = g1_largo
-        context["tamano_grafico_1"] = self.tamano_grafico_1()
-        context["espacio_grafico_1"] = self.espacios_grafico_1()
-        context["grafico_2"] = g2
-        context["grafico_2_largo"] = g2_largo
-        context["tamano_grafico_2"] = self.tamano_grafico_2()
-        context["espacio_grafico_2"] = self.espacios_grafico_2()
-        context["grafico_3"] = g3
-        context["grafico_3_largo"] = g3_largo
-        context["tamano_grafico_3"] = self.tamano_grafico_3()
-        context["espacio_grafico_3"] = self.espacios_grafico_3()
-        context["grafico_4"] = g4
-        context["grafico_4_largo"] = g4_largo
-        context["grafico_5"] = g5
-        context["grafico_5_largo"] = g5_largo
-        context["grafico_6"] = g6
-        context["grafico_6_largo"] = g6_largo
-        context["tamano_grafico_6"] = self.tamano_grafico_6()
-        context["espacio_grafico_6"] = self.espacios_grafico_6()
-
-        return context

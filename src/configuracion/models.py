@@ -4,6 +4,8 @@ from panel_carga.models import Documento, Proyecto
 from django.db import models
 from django.contrib.auth.models import User
 from django.db.models.base import Model
+from django.contrib.postgres.fields import ArrayField
+
 from .roles import *
 
 def get_full_name(self):
@@ -53,7 +55,9 @@ class HistorialUmbrales(models.Model):
     last_checked = models.DateTimeField(verbose_name="Ultima Revisión")
 
 class NotificacionHU(models.Model):
+    date = models.DateTimeField(auto_now_add=True)
     h_umbral = models.ForeignKey(HistorialUmbrales, on_delete=models.CASCADE, related_name="historial_umbral")
     notificacion = models.OneToOneField(Notificacion, on_delete=models.CASCADE, related_name="hu_notificacion")
     documentos = models.ManyToManyField(Documento, related_name="hu_documentos", verbose_name="Listado de Documentos")
     versiones = models.ManyToManyField(Version, related_name="hu_versiones", verbose_name="Listado de Versiones")
+    porcentaje_atraso = ArrayField(null=True, base_field=models.FloatField(verbose_name="porcentaje de atraso", blank=True, null=True))

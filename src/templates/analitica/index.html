@@ -315,6 +315,16 @@
 			labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"d-m-y"}}', '{% endfor %}'],
 			datasets: [
       {
+			 	type: 'line',
+             label: 'Línea Base',
+             backgroundColor: [{% for esperado in curvaBase.datos_lista %} {% if forloop.counter|divisibleby:2 %} {% else %} 'rgba(0, 0, 0, 1)', {% endif %} {% endfor %}],
+             borderColor: [{% for esperado in curvaBase.datos_lista %} {% if forloop.counter|divisibleby:2 %} {% else %} 'rgba(0, 0, 0, 1)', {% endif %} {% endfor %}],
+             borderWidth: 0.5,
+             lineTension:0.09,
+             fill: false,
+             data: [{% for real_linea in curvaBase.datos_lista %} {% if forloop.counter|divisibleby:2 %} {% else %} {{real_linea}},  {% endif %} {% endfor %}],
+			},
+      {
         type: 'line',
         label: 'Avance Esperado',
         backgroundColor: [{% for esperado in lista_curva_s_avance_esperado %} {% if forloop.counter != lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo %} 'rgba(255, 99, 132, 0.2)' {% endif %} {% endfor %}],
@@ -343,16 +353,6 @@
             lineTension:0.09,
             fill: false,
             data: [{% for real_linea in lista_curva_s_avance_real %} {{real_linea.0}}, {% endfor %}],
-			},
-      {
-			 	type: 'line',
-             label: 'Curva Base',
-             backgroundColor: [{% for esperado in curvaBase.datos_lista %} {% if forloop.counter|divisibleby:2 %} {% else %} 'rgba(222, 128, 62, 0.7)', {% endif %} {% endfor %}],
-             borderColor: [{% for esperado in curvaBase.datos_lista %} {% if forloop.counter|divisibleby:2 %} {% else %} 'rgba(222, 128, 62, 0.7)', {% endif %} {% endfor %}],
-             borderWidth: 0.5,
-             lineTension:0.09,
-             fill: false,
-             data: [{% for real_linea in curvaBase.datos_lista %} {% if forloop.counter|divisibleby:2 %} {% else %} {{real_linea}},  {% endif %} {% endfor %}],
 			},
       {
 				type: 'bar',
