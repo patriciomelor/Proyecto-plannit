@@ -66,14 +66,17 @@
                     </tr>
                 </thead>
                 <tbody>
-                  <tr>            
-                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">Las restricciones se listaran aqui.  </th>
-                    </tr>
+                  
                 {% for restriccion in restricciones %}
                     <tr>            
                     <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">{{restriccion}}  </th>
                     </tr>
+                      {% empty %}
+                  <tr>            
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">Lo ingresado se listaran aqui</th>
+                    </tr>
                 {% endfor %}
+                
                     <!--Fin Loop-->
                 </tbody>
             </table>
