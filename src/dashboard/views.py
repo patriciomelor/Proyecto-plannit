@@ -44,6 +44,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
         qs1 = self.get_queryset()
         qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1, owner__perfil__rol_usuario__in=user_roles) #.select_related("owner").filter(owner__in=users)
         return qs2
+
+    def get_versiones_last(self):
+        qs1 = self.get_queryset()
+        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1) #.select_related("owner").filter(owner__in=users)
+        return qs2
+
         ###################################################
         #                                                 #
         #                                                 #
@@ -86,18 +92,20 @@ class EscritorioView(ProyectoMixin, TemplateView):
         context['curvaBase'] = qs
 
         return context
-        
+       
     def datos_tabla(self):
 
         lista_inicial = []
         lista_final = []
         documentos = self.get_queryset()
+        versiones_documentos = self.get_versiones_last()
         total_documentos = len(documentos)
         lista_avance_real = self.reporte_curva_s_avance_real()
         fechas = self.Obtener_fechas()
         fechas = fechas[0][0]
         avance_esperado = self.reporte_curva_s_avance_esperado()
         semana_actual = timezone.now()
+        semana_actual = semana_actual.replace(tzinfo = None)
 
         #Variables para funciones
         contador_emitidos = 0
@@ -123,8 +131,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         contador_0 = 0
         contador_emitidos_b = 0
         contador_emitidos_0 = 0
-        contador_aprobacion = 0
-        verificador_emision_0 = 1 
+        # contador_aprobacion = 0
+        # verificador_emision_0 = 1 
 
         #Obtener paquetes
         clientes = [1,2,3]        
@@ -134,61 +142,81 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
         #Obtener otros datos 
         for doc in documentos:
-            versiones = Version.objects.filter(documento_fk=doc).last()
-            total_versiones = Version.objects.filter(documento_fk=doc)
-            version_first = Version.objects.filter(documento_fk=doc).first()
+            comprobacion_first = 0
+            version_first = 0
+            version_last = 0
+
+            #Se cuentan los documentos atrasados
             fecha_emision_0 = doc.fecha_Emision_0
+            fecha_emision_0 = fecha_emision_0.replace(tzinfo = None)
             fecha_emision_b = doc.fecha_Emision_B
+            fecha_emision_b = fecha_emision_b.replace(tzinfo = None)
+            
             if semana_actual >= fecha_emision_b:
                 contador_b = contador_b + 1     
             if semana_actual >= fecha_emision_0:
                 contador_0 = contador_0 + 1
-            if versiones:
+
+            #Se recorren las versiones por documento para obtener la primera y ultima
+            for versiones in versiones_documentos:
+                if str(doc.Codigo_documento) == str(versiones.documento_fk) and comprobacion_first == 0:
+                    version_first = versiones
+                    comprobacion_first = 1
+                if str(doc.Codigo_documento) == str(versiones.documento_fk):
+                    version_last = versiones
+
+            #calculos respecto al estado cliente
+            if version_first != 0:
+
+                #Se cuentan las emisiones de documentos en B
                 contador_emitidos_b = contador_emitidos_b + 1
+
+                #Calculo del promedio de demora emisión en b
+                fecha_version = version_first.fecha
+                fecha_version = fecha_version.replace(tzinfo = None)
+                diferencia = (fecha_version - fecha_emision_b).days
+                prom_demora_emisión_B = prom_demora_emisión_B + diferencia
+                contador_demora_b = contador_demora_b + 1
+
+                #Se obtienes las variables necesarias
                 paquete_first = version_first.paquete_set.all()
-                fecha_version = versiones.fecha
-                estado_cliente = versiones.estado_cliente
-                estado_contratista = versiones.estado_contratista
+                fecha_version = version_last.fecha
+                fecha_version = fecha_version.replace(tzinfo = None)
+                estado_cliente = version_last.estado_cliente
+                estado_contratista = version_last.estado_contratista
+
+                #Se obtienen y comparan los estados del cliente
                 for cliente in ESTADOS_CLIENTE[1:]:
-                    if estado_cliente == 5 and cliente[0] == 5:
-                        contador_emitidos_0 = contador_emitidos_0 + 1
-                        diferencia = abs((fecha_version - paquete_first[0].fecha_creacion).days)
-                        tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
-                        contador_aprobacion = contador_aprobacion + 1
-                        documentos_aprobados = documentos_aprobados + 1
-                        verificador_emision_0 = 0
-                    if estado_cliente == 1 and cliente[0] == 1:
+                    if estado_cliente == cliente[0] and estado_cliente != 3 and estado_cliente !=5:
                         documentos_revision_contratista = documentos_revision_contratista + 1
-                    if estado_cliente == 2 and cliente[0] == 2:
-                        documentos_revision_contratista = documentos_revision_contratista + 1
-                    if estado_cliente == 4 and cliente[0] == 4:
-                        documentos_revision_contratista = documentos_revision_contratista + 1
-                    if estado_cliente == 6 and cliente[0] == 6:
-                        contador_emitidos_0 = contador_emitidos_0 + 1
-                        documentos_revision_contratista = documentos_revision_contratista + 1
-                    if estado_cliente == 7 and cliente[0] == 7:
-                        contador_emitidos_0 = contador_emitidos_0 + 1
-                        verificador_emision_0 = 0
-                    if estado_cliente == 8 and cliente[0] == 8:
-                        contador_emitidos_0 = contador_emitidos_0 + 1   
-                        verificador_emision_0 = 0                 
-                    if estado_cliente == 9 and cliente[0] == 9:
-                        contador_emitidos_0 = contador_emitidos_0 + 1 
-                        verificador_emision_0 = 0                   
-                    if estado_cliente == 10 and cliente[0] == 10:
-                        contador_emitidos_0 = contador_emitidos_0 + 1
-                        verificador_emision_0 = 0
-                if verificador_emision_0 == 1:
-                    diferencia =(fecha_version - fecha_emision_0).days
-                    prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
-                    contador_demora_0 = contador_demora_0 + 1
+                        
+                #Se obtienen y comparan los estados del contratista
                 for cliente in ESTADO_CONTRATISTA[1:]:
-                    if estado_contratista == 1 and cliente[0] == 1:
+                    if estado_contratista == cliente[0]:
                         documentos_revision_cliente = documentos_revision_cliente + 1
-                    if estado_contratista == 2 and cliente[0] == 2:
-                        documentos_revision_cliente = documentos_revision_cliente + 1
+                
+                #Se realizan calculos para aprobado con comentarios
+                #Preguntar a deavys si aprobado con comentarios se encuentra en disposicion del contratista
+                if estado_cliente == 5:
+                    fecha_paquete = paquete_first[0].fecha_creacion.replace(tzinfo = None)
+                    diferencia = abs((fecha_version - fecha_paquete).days)
+                    tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
+                    documentos_aprobados = documentos_aprobados + 1
+
+                #calculos para revisiones de documentos
+                revision = version_last.revision
+                for estados in TYPES_REVISION[5:]:
+                    if revision == estados[0]:
+                        contador_emitidos_0 = contador_emitidos_0 + 1
+                        diferencia =(fecha_version - fecha_emision_0).days
+                        prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
+                        contador_demora_0 = contador_demora_0 + 1
+
+                #contar versiones emitidas 
                 contador_emitidos = contador_emitidos + 1
-            if not versiones:
+
+            if version_first == 0:
+
                 #Calculo del promedio de demora emisión en b
                 if semana_actual >= fecha_emision_0:
                     diferencia =(semana_actual - fecha_emision_0).days
@@ -198,26 +226,93 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     diferencia = (semana_actual - fecha_emision_b).days
                     prom_demora_emisión_B = prom_demora_emisión_B + diferencia
                     contador_demora_b = contador_demora_b + 1
-            if total_versiones:
-                repeticion = 1
-                for ver in total_versiones:
-                    fecha_version = ver.fecha
-                    estado = ver.revision
-                    if estado == 5 and repeticion == 1:
-                        diferencia = (fecha_version - fecha_emision_0).days
-                        prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
-                        contador_demora_0 = contador_demora_0 + 1
-                        repeticion = 0
-            if version_first:   
-                #Calculo del promedio de demora emisión en b
-                fecha_version = version_first.fecha
-                diferencia = (fecha_version - fecha_emision_b).days
-                prom_demora_emisión_B = prom_demora_emisión_B + diferencia
-                contador_demora_b = contador_demora_b + 1
+
+        # #Obtener otros datos 
+        # for doc in documentos:
+        #     versiones = Version.objects.filter(documento_fk=doc).last()
+        #     total_versiones = Version.objects.filter(documento_fk=doc)
+        #     version_first = Version.objects.filter(documento_fk=doc).first()
+        #     fecha_emision_0 = doc.fecha_Emision_0
+        #     fecha_emision_b = doc.fecha_Emision_B
+        #     if semana_actual >= fecha_emision_b:
+        #         contador_b = contador_b + 1     
+        #     if semana_actual >= fecha_emision_0:
+        #         contador_0 = contador_0 + 1
+        #     if versiones:
+        #         contador_emitidos_b = contador_emitidos_b + 1
+        #         paquete_first = version_first.paquete_set.all()
+        #         fecha_version = versiones.fecha
+        #         estado_cliente = versiones.estado_cliente
+        #         estado_contratista = versiones.estado_contratista
+        #         for cliente in ESTADOS_CLIENTE[1:]:
+        #             if estado_cliente == 5 and cliente[0] == 5:
+        #                 contador_emitidos_0 = contador_emitidos_0 + 1
+        #                 diferencia = abs((fecha_version - paquete_first[0].fecha_creacion).days)
+        #                 tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
+        #                 contador_aprobacion = contador_aprobacion + 1
+        #                 documentos_aprobados = documentos_aprobados + 1
+        #                 verificador_emision_0 = 0
+        #             if estado_cliente == 1 and cliente[0] == 1:
+        #                 documentos_revision_contratista = documentos_revision_contratista + 1
+        #             if estado_cliente == 2 and cliente[0] == 2:
+        #                 documentos_revision_contratista = documentos_revision_contratista + 1
+        #             if estado_cliente == 4 and cliente[0] == 4:
+        #                 documentos_revision_contratista = documentos_revision_contratista + 1
+        #             if estado_cliente == 6 and cliente[0] == 6:
+        #                 contador_emitidos_0 = contador_emitidos_0 + 1
+        #                 documentos_revision_contratista = documentos_revision_contratista + 1
+        #             if estado_cliente == 7 and cliente[0] == 7:
+        #                 contador_emitidos_0 = contador_emitidos_0 + 1
+        #                 verificador_emision_0 = 0
+        #             if estado_cliente == 8 and cliente[0] == 8:
+        #                 contador_emitidos_0 = contador_emitidos_0 + 1   
+        #                 verificador_emision_0 = 0                 
+        #             if estado_cliente == 9 and cliente[0] == 9:
+        #                 contador_emitidos_0 = contador_emitidos_0 + 1 
+        #                 verificador_emision_0 = 0                   
+        #             if estado_cliente == 10 and cliente[0] == 10:
+        #                 contador_emitidos_0 = contador_emitidos_0 + 1
+        #                 verificador_emision_0 = 0
+        #         if verificador_emision_0 == 1:
+        #             diferencia =(fecha_version - fecha_emision_0).days
+        #             prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
+        #             contador_demora_0 = contador_demora_0 + 1
+        #         for cliente in ESTADO_CONTRATISTA[1:]:
+        #             if estado_contratista == 1 and cliente[0] == 1:
+        #                 documentos_revision_cliente = documentos_revision_cliente + 1
+        #             if estado_contratista == 2 and cliente[0] == 2:
+        #                 documentos_revision_cliente = documentos_revision_cliente + 1
+        #         contador_emitidos = contador_emitidos + 1
+        #     if not versiones:
+        #         #Calculo del promedio de demora emisión en b
+        #         if semana_actual >= fecha_emision_0:
+        #             diferencia =(semana_actual - fecha_emision_0).days
+        #             prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
+        #             contador_demora_0 = contador_demora_0 + 1
+        #         if semana_actual >= fecha_emision_b:
+        #             diferencia = (semana_actual - fecha_emision_b).days
+        #             prom_demora_emisión_B = prom_demora_emisión_B + diferencia
+        #             contador_demora_b = contador_demora_b + 1
+        #     if total_versiones:
+        #         repeticion = 1
+        #         for ver in total_versiones:
+        #             fecha_version = ver.fecha
+        #             estado = ver.revision
+        #             if estado == 5 and repeticion == 1:
+        #                 diferencia = (fecha_version - fecha_emision_0).days
+        #                 prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
+        #                 contador_demora_0 = contador_demora_0 + 1
+        #                 repeticion = 0
+        #     if version_first:   
+        #         #Calculo del promedio de demora emisión en b
+        #         fecha_version = version_first.fecha
+        #         diferencia = (fecha_version - fecha_emision_b).days
+        #         prom_demora_emisión_B = prom_demora_emisión_B + diferencia
+        #         contador_demora_b = contador_demora_b + 1
 
         #Dar formato a valores de los promedios
-        if contador_aprobacion != 0:
-            tiempo_ciclo_aprobación = float(tiempo_ciclo_aprobación)/contador_aprobacion
+        if documentos_aprobados != 0:
+            tiempo_ciclo_aprobación = float(tiempo_ciclo_aprobación)/documentos_aprobados
             tiempo_ciclo_aprobación = format(float(tiempo_ciclo_aprobación), '.1f')
         if contador_demora_b != 0:
             prom_demora_emisión_B = float(prom_demora_emisión_B)/contador_demora_b

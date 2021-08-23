@@ -1,3 +1,4 @@
+from datetime import tzinfo
 from django.shortcuts import render
 from django.contrib.auth.models import User
 from django.urls import (reverse_lazy, reverse)
@@ -21,6 +22,11 @@ class StatusIndex(ProyectoMixin, TemplateView):
     def get_queryset(self):
         listado_versiones_doc = DocFilter(self.request.GET, queryset=Documento.objects.filter(proyecto=self.proyecto))
         return listado_versiones_doc.qs.order_by('Codigo_documento')
+
+    def get_versiones_last(self):
+        qs1 = self.get_queryset()
+        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1) #.select_related("owner").filter(owner__in=users)
+        return qs2
     
     def get_context_data(self, **kwargs):
         #Listar documentos
@@ -33,10 +39,19 @@ class StatusIndex(ProyectoMixin, TemplateView):
         fecha_emision_b = 0
         context = super().get_context_data(**kwargs)
         documentos = self.get_queryset()
+        versiones_documento = self.get_versiones_last()
+
         for doc in documentos:
             fecha_emision_b = doc.fecha_Emision_B
-            version = Version.objects.filter(documento_fk=doc).last()
-            version_first = Version.objects.filter(documento_fk=doc).first()
+            comprobacion_first = 0
+            version_first = 0
+            version = 0
+            for versiones in versiones_documento:
+                if str(doc.Codigo_documento) == str(versiones.documento_fk) and comprobacion_first == 0:
+                    version_first = versiones
+                if str(doc.Codigo_documento) == str(versiones.documento_fk):
+                    version = versiones
+
             if version:
                 paquete = version.paquete_set.all()
                 paquete_first = version_first.paquete_set.all()

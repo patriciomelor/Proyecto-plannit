@@ -96,7 +96,6 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                     if version_documento == revision[0]:
                         lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
                         lista_final.append(lista_inicial)
-                #print('documento: ', doc, ' version: ', version, ' paquete:', paquete, ' listado final: ', lista_final) 
             else: 
                 if semana_actual >= fecha_emision_b:
                     lista_inicial = [doc, ['no version','Atrasado']]
@@ -200,27 +199,27 @@ class RevisorSentView(ProyectoMixin, ListView):
 class EncargadoGraficoView(ProyectoMixin, TemplateView):
     template_name = 'status_encargado/graficos.html'
 
-    def get_queryset_true(self):
-        current_rol = self.request.user.perfil.rol_usuario
-        if current_rol <= 3 and current_rol >= 1:
-            rols = [2,3]
-        elif current_rol <= 6 and current_rol >= 4:
-            rols = [5,6]
+    # def get_queryset_true(self):
+    #     current_rol = self.request.user.perfil.rol_usuario
+    #     if current_rol <= 3 and current_rol >= 1:
+    #         rols = [2,3]
+    #     elif current_rol <= 6 and current_rol >= 4:
+    #         rols = [5,6]
 
-        tareas_true = Tarea.objects.select_related("encargado").filter(encargado__perfil__rol_usuario__in=rols, documento__proyecto=self.proyecto, estado=True)
+    #     tareas_true = Tarea.objects.select_related("encargado").filter(encargado__perfil__rol_usuario__in=rols, documento__proyecto=self.proyecto, estado=True)
 
-        return tareas_true
+    #     return tareas_true
 
-    def get_queryset_false(self):
-        current_rol = self.request.user.perfil.rol_usuario
-        if current_rol <= 3 and current_rol >= 1:
-            rols = [2,3]
-        elif current_rol <= 6 and current_rol >= 4:
-            rols = [5,6]
+    # def get_queryset_false(self):
+    #     current_rol = self.request.user.perfil.rol_usuario
+    #     if current_rol <= 3 and current_rol >= 1:
+    #         rols = [2,3]
+    #     elif current_rol <= 6 and current_rol >= 4:
+    #         rols = [5,6]
 
-        tareas_false = Tarea.objects.select_related("encargado").filter(encargado__perfil__rol_usuario__in=rols, documento__proyecto=self.proyecto, estado=False)
+    #     tareas_false = Tarea.objects.select_related("encargado").filter(encargado__perfil__rol_usuario__in=rols, documento__proyecto=self.proyecto, estado=False)
 
-        return tareas_false
+    #     return tareas_false
 
     def get_queryset(self):
         current_rol = self.request.user.perfil.rol_usuario
@@ -370,8 +369,6 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         final.append(final_list)
         final.append(lista_grafico_uno)
         final.append(dividendo)
-
-        print(final)
 
         return final
 

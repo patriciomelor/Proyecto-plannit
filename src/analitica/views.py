@@ -1067,8 +1067,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                avance_inicial = [valor_ganado]
                avance_final.append(avance_inicial)
 
-        print(avance_final)
-
         return avance_final
 
     def reporte_curva_s_avance_esperado(self):
