@@ -169,10 +169,10 @@ class ProyectoEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     success_url = reverse_lazy('lista-proyecto')
     success_message = 'Información del Proyecto Actualizada'
 
-    def get_form_kwargs(self):
-        kwargs = super().get_form_kwargs()
-        kwargs["participantes"] = self.proyecto.participantes.select_related("perfil").all()
-        return 
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs["participantes"] = self.proyecto.participantes.select_related("perfil").all()
+    #     return kwargs
 
 class ProyectoDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     template_name = 'configuracion/delete-proyecto.html'

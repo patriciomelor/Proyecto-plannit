@@ -20,7 +20,10 @@ class ProyectoSelectForm(forms.Form):
 class ProyectoForm(forms.ModelForm):
 
     # def __init__(self, *args, **kwargs):
-    #     self.participantes = 
+    #     self.participantes = self.kwargs["participantes"]
+    #     super(ProyectoForm, self).__init__(*args, **kwargs)
+    #     self.initial['participantes'] = forms.ModelChoiceField(queryset=self.participantes)
+
     class Meta:
         model = Proyecto
         exclude = ["umbral_documento_aprobado", "umbral_documento_atrasado", "umbral_revision_documento", "umbral_desviacion_porcentual"]
@@ -33,7 +36,7 @@ class ProyectoForm(forms.ModelForm):
         labels = {
             'codigo':'Código del Proyecto',
             'fecha_termino':'Fecha de Término',
-            'umbral_desviacion_porcentual':'Umbral para Desviación Porcentual del Proyecto'
+            # 'umbral_desviacion_porcentual':'Umbral para Desviación Porcentual del Proyecto'
 
         }
 
