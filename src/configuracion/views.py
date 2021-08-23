@@ -74,10 +74,16 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
     template_name = 'configuracion/list-user.html'
     context_object_name = 'usuarios'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context["codigo_proyecto"] = self.proyecto.codigo
-        return context
+    def get_queryset(self):
+        current_rol = self.request.user.perfil.rol_usuario
+        if current_rol <= 3 and current_rol >= 1:
+            rols = [2,3]
+        elif current_rol <= 6 and current_rol >= 4:
+            rols = [5,6]
+
+        qs = self.proyecto.participantes.select_related("perfil").filter(perfil__rol_usuario__in=rols)
+        return qs
+    
 
 class UsuarioDelete(ProyectoMixin, AdminViewMixin, DeleteView):
     model = User
@@ -157,11 +163,16 @@ class ProyectoDetail(ProyectoMixin, AdminViewMixin, DetailView):
     template_name='configuracion/detail-proyecto.html'       
     context_object_name = 'proyecto'
 
-class ProyectoEdit(ProyectoMixin, SuperuserViewMixin, UpdateView):
+class ProyectoEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     template_name = 'configuracion/edit-proyecto.html'
     form_class = ProyectoForm
     success_url = reverse_lazy('lista-proyecto')
     success_message = 'Información del Proyecto Actualizada'
+
+    # def get_form_kwargs(self):
+    #     kwargs = super().get_form_kwargs()
+    #     kwargs["participantes"] = self.proyecto.participantes.select_related("perfil").all()
+    #     return kwargs
 
 class ProyectoDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     template_name = 'configuracion/delete-proyecto.html'
