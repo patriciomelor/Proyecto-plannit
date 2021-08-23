@@ -29,16 +29,25 @@ class StatusIndex(ProyectoMixin, TemplateView):
         return qs2
     
     def get_context_data(self, **kwargs):
+
+        context = super().get_context_data(**kwargs)
+        documentos = self.get_queryset()
+
+        context['Listado'] = self.tabla()
+        context['filter'] = DocFilter(self.request.GET, queryset=documentos)
+        return context
+
+    def tabla(self):
+
         #Listar documentos
         lista_inicial = []
         lista_final = []
         semana_actual = timezone.now()
+        documentos = self.get_queryset()
         version_documento = 0
         transmital = 0
         dias_revision = 0
         fecha_emision_b = 0
-        context = super().get_context_data(**kwargs)
-        documentos = self.get_queryset()
         versiones_documento = self.get_versiones_last()
 
         for doc in documentos:
@@ -53,14 +62,14 @@ class StatusIndex(ProyectoMixin, TemplateView):
                     version = versiones
 
             if version:
-                paquete = version.paquete_set.all()
-                paquete_first = version_first.paquete_set.all()
+                paquete = version.paquete_set.first()
+                paquete_first = version_first.paquete_set.first()
                 if version.estado_cliente == 5:
-                    transmital = abs((paquete[0].fecha_creacion - paquete_first[0].fecha_creacion).days)
+                    transmital = abs((paquete.fecha_creacion - paquete_first.fecha_creacion).days)
                     dias_revision = 0
                 else:
-                    transmital = abs((semana_actual - paquete_first[0].fecha_creacion).days)
-                    fecha_version = paquete[0].fecha_creacion
+                    transmital = abs((semana_actual - paquete_first.fecha_creacion).days)
+                    fecha_version = paquete.fecha_creacion
                     dias_revision = abs((semana_actual - fecha_version).days)
 
                 version_documento = version.revision
@@ -69,15 +78,15 @@ class StatusIndex(ProyectoMixin, TemplateView):
                     if version_documento == revision[0]:
                         if dias_revision < 0:
                             dias_revision = 0
-                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first[0].fecha_creacion, dias_revision]]
+                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first.fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
                         else:
-                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first[0].fecha_creacion, dias_revision]]
+                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first.fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
 
                 for revision in TYPES_REVISION[5:]:
                     if version_documento == revision[0]:
-                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital, paquete_first[0].fecha_creacion, dias_revision]]
+                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital, paquete_first.fecha_creacion, dias_revision]]
                         lista_final.append(lista_inicial)
                         
             else: 
@@ -87,7 +96,5 @@ class StatusIndex(ProyectoMixin, TemplateView):
                 else:
                     lista_inicial = [doc, ['no version','Pendiente']]
                     lista_final.append(lista_inicial)
-                
-        context['Listado'] = lista_final
-        context['filter'] = DocFilter(self.request.GET, queryset=documentos)
-        return context
+    
+        return lista_final

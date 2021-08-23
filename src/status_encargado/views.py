@@ -508,18 +508,32 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         """
         Diferencia de tareas y respuetas total del proyecto.
         """
+
+        # final_list = []
+        # tareas = self.get_queryset()
+        # total_tareas = 0
+        # total_respuestas = 0
+
+        # for tarea in tareas:
+        #     total_tareas = total_tareas + 1
+        #     if tarea.estado == True:
+        #         total_respuestas = total_respuestas + 1 
+
+        # final_list.append(total_tareas)
+        # final_list.append(total_respuestas)
+
         final_list = []
         tareas = self.get_queryset()
         total_tareas = 0
-        total_respuestas = 0
+        total_pendientes = 0
 
         for tarea in tareas:
             total_tareas = total_tareas + 1
-            if tarea.estado == True:
-                total_respuestas = total_respuestas + 1 
+            if tarea.estado == False:
+                total_pendientes = total_pendientes + 1 
 
+        final_list.append(total_pendientes)
         final_list.append(total_tareas)
-        final_list.append(total_respuestas)
 
         return final_list
 
@@ -527,30 +541,73 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         """
         Documentos asignados vs documentos.
         """
+        # final_list = []
+        # tareas = self.get_queryset()
+        # users = self.get_queryset_user()
+
+        # for user in users:
+        #     atrasados = 0
+        #     asignados = 0
+        #     for tarea in tareas:
+        #         if tarea.encargado == user:
+        #             asignados = asignados + 1
+        #             if tarea.estado == True:
+        #                 if tarea.task_answer.contestado.year > tarea.plazo.year:
+        #                     atrasados = atrasados + 1
+        #                 else:
+        #                     if tarea.task_answer.contestado.year == tarea.plazo.year:
+        #                         if tarea.task_answer.contestado.month > tarea.plazo.month:
+        #                             atrasados = atrasados + 1
+        #                         else:
+        #                             if tarea.task_answer.contestado.month == tarea.plazo.month:
+        #                                 if tarea.task_answer.contestado.day > tarea.plazo.day:
+        #                                     atrasados = atrasados + 1
+
+        #     if asignados != 0:
+        #         final_list.append([(user.first_name+" "+user.last_name), asignados, atrasados])
+
+        # lista_grafico_uno = self.tamano_grafico_2(lista_grafico_uno = final_list)
+        # dividendo = self.espacios_grafico_2(dividendo = lista_grafico_uno)
+
+        # final = []
+        # final.append(final_list)
+        # final.append(lista_grafico_uno)
+        # final.append(dividendo)
+        
         final_list = []
         tareas = self.get_queryset()
         users = self.get_queryset_user()
 
         for user in users:
+            realizados_tiempo = 0
+            realizados_atrasados = 0
             atrasados = 0
             asignados = 0
             for tarea in tareas:
                 if tarea.encargado == user:
                     asignados = asignados + 1
                     if tarea.estado == True:
-                        if tarea.task_answer.contestado.year > tarea.plazo.year:
-                            atrasados = atrasados + 1
+                        contador_respuesta =0
+                        contador_plazo = 0     
+                        tarea_respuesta = ''   
+                        tarea_plazo = ''                
+                        for respuesta in str(tarea.task_answer.contestado):
+                            if contador_respuesta < 10:
+                                tarea_respuesta = tarea_respuesta + respuesta
+                                contador_respuesta = contador_respuesta + 1
+                        for plazo in str(tarea.plazo):
+                            if contador_plazo < 10:
+                                tarea_plazo = tarea_plazo + plazo
+                                contador_plazo = contador_plazo + 1
+                        if tarea_respuesta > tarea_plazo:
+                            realizados_atrasados = realizados_atrasados + 1
                         else:
-                            if tarea.task_answer.contestado.year == tarea.plazo.year:
-                                if tarea.task_answer.contestado.month > tarea.plazo.month:
-                                    atrasados = atrasados + 1
-                                else:
-                                    if tarea.task_answer.contestado.month == tarea.plazo.month:
-                                        if tarea.task_answer.contestado.day > tarea.plazo.day:
-                                            atrasados = atrasados + 1
+                            realizados_tiempo = realizados_tiempo + 1
+                    if tarea.estado == False:
+                        atrasados = atrasados + 1
 
             if asignados != 0:
-                final_list.append([(user.first_name+" "+user.last_name), asignados, atrasados])
+                final_list.append([(user.first_name+" "+user.last_name), realizados_tiempo, realizados_atrasados, atrasados])
 
         lista_grafico_uno = self.tamano_grafico_2(lista_grafico_uno = final_list)
         dividendo = self.espacios_grafico_2(dividendo = lista_grafico_uno)
@@ -559,7 +616,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         final.append(final_list)
         final.append(lista_grafico_uno)
         final.append(dividendo)
-        
+
         return final
 
     def tamano_grafico_6(self, lista_grafico_uno):
@@ -571,11 +628,24 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         #Se obtiene el valor máximo del gráfico
         for valores in lista_grafico_uno:
             if cont == 0:
-                maximo = valores[1]
+                maximo_pos_1 = valores[1]
+                maximo_pos_2 = valores[2]
+                maximo_pos_3 = valores[3]
                 cont = 1
             else:
-                if maximo < valores[1]:
-                    maximo = valores[1]
+                if maximo_pos_1 < valores[1]:
+                    maximo_pos_1 = valores[1]
+                if maximo_pos_2 < valores[2]:
+                    maximo_pos_2 = valores[2]
+                if maximo_pos_3 < valores[3]:
+                    maximo_pos_3 = valores[3]
+        
+        if maximo_pos_1 >= maximo_pos_2 and maximo_pos_1 >= maximo_pos_3:
+            maximo = maximo_pos_1
+        if maximo_pos_2 >= maximo_pos_1 and maximo_pos_2 >= maximo_pos_3:
+            maximo = maximo_pos_2
+        if maximo_pos_3 >= maximo_pos_2 and maximo_pos_3 >= maximo_pos_1:
+            maximo = maximo_pos_3
 
         #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
         division_exacta = 0
