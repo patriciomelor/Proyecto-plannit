@@ -19,14 +19,10 @@ class ProyectoSelectForm(forms.Form):
 
 class ProyectoForm(forms.ModelForm):
 
-    # def __init__(self, *args, **kwargs):
-    #     self.participantes = self.kwargs["participantes"]
-    #     super(ProyectoForm, self).__init__(*args, **kwargs)
-    #     self.initial['participantes'] = forms.ModelChoiceField(queryset=self.participantes)
 
     class Meta:
         model = Proyecto
-        exclude = ["umbral_documento_aprobado", "umbral_documento_atrasado", "umbral_revision_documento", "umbral_desviacion_porcentual"]
+        exclude = ["umbral_documento_aprobado", "umbral_documento_atrasado", "umbral_revision_documento", "umbral_desviacion_porcentual", "participantes"]
         widgets = {
             'fecha_inicio':forms.TextInput(attrs={'type': 'date'}),
             'fecha_termino':forms.TextInput(attrs={'type': 'date'}),
