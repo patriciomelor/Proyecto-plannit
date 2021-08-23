@@ -18,9 +18,11 @@ class ProyectoSelectForm(forms.Form):
         self.fields['proyectos'].queryset = qs
 
 class ProyectoForm(forms.ModelForm):
+
+
     class Meta:
         model = Proyecto
-        fields = '__all__'
+        exclude = ["umbral_documento_aprobado", "umbral_documento_atrasado", "umbral_revision_documento", "umbral_desviacion_porcentual", "participantes"]
         widgets = {
             'fecha_inicio':forms.TextInput(attrs={'type': 'date'}),
             'fecha_termino':forms.TextInput(attrs={'type': 'date'}),
@@ -30,7 +32,7 @@ class ProyectoForm(forms.ModelForm):
         labels = {
             'codigo':'Código del Proyecto',
             'fecha_termino':'Fecha de Término',
-            'umbral_desviacion_porcentual':'Umbral para Desviación Porcentual del Proyecto'
+            # 'umbral_desviacion_porcentual':'Umbral para Desviación Porcentual del Proyecto'
 
         }
 

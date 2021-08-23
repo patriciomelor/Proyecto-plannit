@@ -75,7 +75,7 @@ class ListaProyecto(ProyectoMixin, ListView):
         else:
             return HttpResponseRedirect(reverse_lazy('proyecto-crear'))
         
-class CreateProyecto(SuperuserViewMixin, AdminViewMixin, CreateView):
+class CreateProyecto(SuperuserViewMixin, CreateView):
     form_class = ProyectoForm
     template_name = 'panel_carga/create-proyecto.html'
     success_url = reverse_lazy("index")
