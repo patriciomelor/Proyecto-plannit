@@ -1,3 +1,4 @@
 {
-    "python.pythonPath": "/home/gringows/miniconda3/envs/dmp/bin/python"
+    "python.pythonPath": "/home/gringows/miniconda3/envs/dmp/bin/python",
+    "git.ignoreLimitWarning": true
 }
