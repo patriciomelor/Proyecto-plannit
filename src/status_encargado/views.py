@@ -39,7 +39,7 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tasks = []
-        tareas = Tarea.objects.select_related('encargado', 'documento').filter(documento__proyecto=self.proyecto).order_by('-created_at')
+        tareas = Tarea.objects.select_related('encargado', 'encargado__perfil', 'documento').filter(documento__proyecto=self.proyecto).order_by('-created_at')
         current_rol = self.request.user.perfil.rol_usuario
         for tarea in tareas:
             rol = tarea.encargado.perfil.rol_usuario

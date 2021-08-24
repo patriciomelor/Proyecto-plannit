@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth import models
+from django.core.files.storage import FileSystemStorage
 from django.db.models.fields import TextField
 from django.forms import BaseFormSet, fields, widgets
 from django.forms import (formset_factory, modelformset_factory)
@@ -55,6 +56,7 @@ class TareaForm(forms.ModelForm):
         self.fields["documento"].disabled = True
         self.fields["encargado"] = forms.ModelChoiceField(queryset=qs)
         self.fields["restricciones"] = forms.ModelChoiceField(queryset=Restricciones.objects.filter(proyecto=self.proyecto))
+        self.fields["restricciones"].required = False
 
     class Meta:
         model = Tarea
