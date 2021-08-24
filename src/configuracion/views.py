@@ -350,6 +350,12 @@ class UmbralesEdit(ProyectoMixin, UpdateView):
     success_url = reverse_lazy('list-umbrales')
     success_message = 'Umbral editado correctamente'
 
+    def get_form_kwargs(self):
+        user = self.request.user
+        kwargs = super().get_form_kwargs()
+        kwargs["usuario"] = user
+        return kwargs
+
 class UmbralesNotificados(ProyectoMixin, ListView):
     model = NotificacionHU
     template_name = 'configuracion/umbral-notif-list.html'

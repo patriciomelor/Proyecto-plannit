@@ -22,9 +22,9 @@ def users_notifier(proyecto, cliente=None, contratista=None):
     recipients = []
     notification_list = []
     if cliente == True:
-        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario = 1)
+        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario__in = [1,2])
     if contratista == True:
-        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario = 4)
+        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario__in = [4,5])
 
     for user in participantes:
         recipients.append(user.email)
