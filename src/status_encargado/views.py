@@ -493,7 +493,10 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         for tarea in tareas:
             total_asignados = total_asignados + tarea.contidad_hh
             if tarea.estado == True:
-                total_realizados = total_realizados + tarea.task_answer.contidad_hh
+                try:
+                    total_realizados = total_realizados + tarea.task_answer.contidad_hh
+                except:
+                    pass
 
         final_list.append(total_asignados)
         final_list.append(total_realizados)
@@ -541,19 +544,23 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
                         contador_respuesta =0
                         contador_plazo = 0     
                         tarea_respuesta = ''   
-                        tarea_plazo = ''                
-                        for respuesta in str(tarea.task_answer.contestado):
-                            if contador_respuesta < 10:
-                                tarea_respuesta = tarea_respuesta + respuesta
-                                contador_respuesta = contador_respuesta + 1
-                        for plazo in str(tarea.plazo):
-                            if contador_plazo < 10:
-                                tarea_plazo = tarea_plazo + plazo
-                                contador_plazo = contador_plazo + 1
-                        if tarea_respuesta > tarea_plazo:
-                            realizados_atrasados = realizados_atrasados + 1
-                        else:
-                            realizados_tiempo = realizados_tiempo + 1
+                        tarea_plazo = ''  
+                        try:              
+                            for respuesta in str(tarea.task_answer.contestado):
+                                if contador_respuesta < 10:
+                                    tarea_respuesta = tarea_respuesta + respuesta
+                                    contador_respuesta = contador_respuesta + 1
+                            for plazo in str(tarea.plazo):
+                                if contador_plazo < 10:
+                                    tarea_plazo = tarea_plazo + plazo
+                                    contador_plazo = contador_plazo + 1
+                            if tarea_respuesta > tarea_plazo:
+                                realizados_atrasados = realizados_atrasados + 1
+                            else:
+                                realizados_tiempo = realizados_tiempo + 1
+                        except:
+                            pass
+                        
                     if tarea.estado == False:
                         atrasados = atrasados + 1
 
