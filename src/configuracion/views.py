@@ -76,9 +76,13 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
 
     def get_queryset(self):
         current_rol = self.request.user.perfil.rol_usuario
-        if current_rol <= 3 and current_rol >= 1:
-            rols = [2,3]
-        elif current_rol <= 6 and current_rol >= 4:
+        if self.request.user.is_superuser:
+            qs = self.proyecto.participantes.select_related("perfil").all()
+            return qs
+
+        if current_rol == 1:
+            rols = [2,3,4,5,6]
+        elif current_rol == 4:
             rols = [5,6]
 
         qs = self.proyecto.participantes.select_related("perfil").filter(perfil__rol_usuario__in=rols)
@@ -169,10 +173,6 @@ class ProyectoEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     success_url = reverse_lazy('lista-proyecto')
     success_message = 'Información del Proyecto Actualizada'
 
-    # def get_form_kwargs(self):
-    #     kwargs = super().get_form_kwargs()
-    #     kwargs["participantes"] = self.proyecto.participantes.select_related("perfil").all()
-    #     return kwargs
 
 class ProyectoDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     template_name = 'configuracion/delete-proyecto.html'

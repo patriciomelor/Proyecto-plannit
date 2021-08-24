@@ -420,7 +420,7 @@
     new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: ['Documentos asignados', 'Documentos realizados'],
+        labels: ['Documentos asignados pendientes', 'Documentos asignados'],
         datasets: [{
           label: '# of Votes',
           data: [
@@ -465,7 +465,7 @@
     data: {
       labels: ['{% for value in grafico_6 %} {% if forloop.counter != grafico_6_largo %} {{value.0}}', ' {% endif %} {% if forloop.counter == grafico_6_largo %} {{value.0}} {% endif %} {% endfor %}'],
       datasets: [{
-        label: 'Documento Asignados',
+        label: 'Documentos realizados a tiempo',
         data: [
           {% for value in grafico_6 %} 
             {% if forloop.counter != grafico_6_largo %} 
@@ -489,7 +489,7 @@
         borderWidth: 1
       },
       {
-        label: 'Documentos Atrasados',
+        label: 'Documentos realizados atrasados',
         data: [
           {% for value in grafico_6 %} 
             {% if forloop.counter != grafico_6_largo %} 
@@ -509,6 +509,30 @@
         backgroundColor: [{% for emisiones in grafico_6 %} {% if forloop.counter != grafico_6_largo %} 'rgba(255, 99, 132, 0.8)', {% endif %} {% if forloop.counter == grafico_6_largo  %} 'rgba(255, 99, 132, 0.8)', {% endif %} {% endfor %}
         ],
         borderColor: [{% for emisiones in grafico_6 %} {% if forloop.counter != grafico_6_largo %} 'rgba(255, 99, 132, 1)',, {% endif %} {% if forloop.counter == grafico_6_largo  %} 'rgba(255, 99, 132, 1)', {% endif %} {% endfor %}
+        ],
+        borderWidth: 1
+      },
+      {
+        label: 'Documentos atrasados',
+        data: [
+          {% for value in grafico_6 %} 
+            {% if forloop.counter != grafico_6_largo %} 
+
+              {{value.3}},
+
+            {% endif %} 
+
+            {% if forloop.counter == grafico_6_largo %}
+                  
+              {{value.3}}
+                  
+            {% endif %}
+                  
+          {% endfor %}
+        ],
+        backgroundColor: [{% for emisiones in grafico_6 %} {% if forloop.counter != grafico_6_largo %} 'rgba(200, 122, 44, 0.8)', {% endif %} {% if forloop.counter == grafico_6_largo  %} 'rgba(200, 122, 44, 0.8)', {% endif %} {% endfor %}
+        ],
+        borderColor: [{% for emisiones in grafico_6 %} {% if forloop.counter != grafico_6_largo %} 'rgba(200, 122, 44, 1)',, {% endif %} {% if forloop.counter == grafico_6_largo  %} 'rgba(200, 122, 44, 1)', {% endif %} {% endfor %}
         ],
         borderWidth: 1
       }
