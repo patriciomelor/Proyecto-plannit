@@ -58,6 +58,11 @@ class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     success_url = reverse_lazy('listar-usuarios')
     form_class = EditUsuario
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["usuario"] = self.request.user.perfil.rol_usuario
+        return kwargs
+
     def form_valid(self, form):
         rol = form.cleaned_data['rol_usuario']
         company = form.cleaned_data['empresa']
@@ -344,6 +349,12 @@ class UmbralesEdit(ProyectoMixin, UpdateView):
     template_name = 'configuracion/edit-umbrales.html'
     success_url = reverse_lazy('list-umbrales')
     success_message = 'Umbral editado correctamente'
+
+    def get_form_kwargs(self):
+        user = self.request.user
+        kwargs = super().get_form_kwargs()
+        kwargs["usuario"] = user
+        return kwargs
 
 class UmbralesNotificados(ProyectoMixin, ListView):
     model = NotificacionHU

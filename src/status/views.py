@@ -20,12 +20,15 @@ class StatusIndex(ProyectoMixin, TemplateView):
     template_name = 'status/index.html'
     
     def get_queryset(self):
-        listado_versiones_doc = DocFilter(self.request.GET, queryset=Documento.objects.filter(proyecto=self.proyecto))
-        return listado_versiones_doc.qs.order_by('Codigo_documento')
+        # listado_versiones_doc = DocFilter(self.request.GET, queryset=Documento.objects.filter(proyecto=self.proyecto))
+        # return listado_versiones_doc.qs.order_by('Codigo_documento')
+        qs = Documento.objects.filter(proyecto=self.proyecto).order_by('-Codigo_documento')
+
+        return qs
 
     def get_versiones_last(self):
         qs1 = self.get_queryset()
-        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1) #.select_related("owner").filter(owner__in=users)
+        qs2 = Version.objects.select_related('documento_fk').prefetch_related("paquete_set", "paquete_set__destinatario").filter(documento_fk__in=qs1) #.select_related("owner").filter(owner__in=users)
         return qs2
     
     def get_context_data(self, **kwargs):
@@ -33,8 +36,8 @@ class StatusIndex(ProyectoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         documentos = self.get_queryset()
 
-        context['Listado'] = self.tabla()
-        context['filter'] = DocFilter(self.request.GET, queryset=documentos)
+        # context['Listado'] = self.tabla()
+        # context['filter'] = DocFilter(self.request.GET, queryset=documentos)
         return context
 
     def tabla(self):
@@ -56,14 +59,14 @@ class StatusIndex(ProyectoMixin, TemplateView):
             version_first = 0
             version = 0
             for versiones in versiones_documento:
-                if str(doc.Codigo_documento) == str(versiones.documento_fk) and comprobacion_first == 0:
+                if doc == versiones.documento_fk and comprobacion_first == 0:
                     version_first = versiones
-                if str(doc.Codigo_documento) == str(versiones.documento_fk):
+                if doc == versiones.documento_fk:
                     version = versiones
 
             if version:
-                paquete = version.paquete_set.first()
-                paquete_first = version_first.paquete_set.first()
+                paquete = version.paquete_set.select_related("destinatario").first()
+                paquete_first = version_first.paquete_set.select_related("destinatario").first()
                 if version.estado_cliente == 5:
                     transmital = abs((paquete.fecha_creacion - paquete_first.fecha_creacion).days)
                     dias_revision = 0
