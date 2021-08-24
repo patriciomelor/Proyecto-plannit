@@ -480,7 +480,7 @@
                           padding: 5px;
                         "
                       >
-                        {{documento.1.1.0.destinatario.perfil.empresa}}
+                        {{documento.1.1.destinatario.perfil.empresa}}
                       </th>
                       <th
                         style="
@@ -490,8 +490,8 @@
                           padding: 5px;
                         "
                       >
-                        <a href="{% url 'paquete-detalle' documento.1.1.0.pk %}"
-                          >{{documento.1.1.0}}
+                        <a href="{% url 'paquete-detalle' documento.1.1.pk %}"
+                          >{{documento.1.1}}
                         </a>
                       </th>
                       <th
@@ -535,7 +535,7 @@
                           padding: 5px;
                         "
                       >
-                        {{documento.1.1.0.fecha_creacion|date:"d-m-y"}}
+                        {{documento.1.1.fecha_creacion|date:"d-m-y"}}
                       </th>
                       <th
                         style="
