@@ -45,8 +45,8 @@
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.created_at|date:'d-M-y H:i'}} </th>
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.plazo|date:'d-M-y'}} </th>
                     <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contestado|date:'d-M-y H:i'}} </th>
-                    {% if tarea.task_answer.archivo.url is not None%}
-                    <th style="text-align: center;vertical-align:middle;" > <a href="{{tarea.task_answer.archivo.url}}"><i class="icon ion-arrow-down-a" style="color:orange;"></i></a> </th>
+                    {% if tarea.archivo.url is not None%}
+                    <th style="text-align: center;vertical-align:middle;" > <a href="{{tarea.archivo.url}}"><i class="icon ion-arrow-down-a" style="color:orange;"></i></a> </th>
                     {% else %}
                     <th style="text-align: center;vertical-align:middle;" > </th>
                     {% endif %}
