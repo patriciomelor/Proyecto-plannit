@@ -22,9 +22,9 @@ def users_notifier(proyecto, cliente=None, contratista=None):
     recipients = []
     notification_list = []
     if cliente == True:
-        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario = 1)
+        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario__in = [1,2])
     if contratista == True:
-        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario = 4)
+        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario__in = [4,5])
 
     for user in participantes:
         recipients.append(user.email)
@@ -43,7 +43,7 @@ def umbral_2():
         delta_proyect = (fecha_actual - last_hu.last_checked)
 
 
-        if delta_proyect.days >= last_hu.tiempo_control:
+        if delta_proyect.days >= last_hu.cliente_tiempo_control:
             print("Se notifica para proyecto {}!".format(proyecto.nombre))
             documentos = Documento.objects.filter(proyecto=proyecto)
             for documento in documentos:
@@ -51,7 +51,7 @@ def umbral_2():
                 if revision is not None:
                     if revision.estado_cliente == None:
                         delta_rev = (fecha_actual - revision.fecha)
-                        if delta_rev.days > last_hu.variable_atraso:
+                        if delta_rev.days > last_hu.cliente_variable_atraso:
                             revision_list.append(revision)
                             document_list.append(documento)
                     else:
@@ -110,7 +110,7 @@ def umbral_3():
         last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=3).last()
         delta_proyect = (fecha_actual - last_hu.last_checked)
 
-        if delta_proyect.days >= last_hu.tiempo_control:
+        if delta_proyect.days >= last_hu.contratista_tiempo_control:
             print("Se notifica para proyecto {}!".format(proyecto.nombre))
             documentos = Documento.objects.filter(proyecto=proyecto)
             for documento in documentos:
@@ -118,7 +118,7 @@ def umbral_3():
                 if revision is not None:
                     if revision.estado_contratista == None:
                         delta_rev = (fecha_actual - revision.fecha)
-                        if delta_rev.days >= last_hu.variable_atraso:
+                        if delta_rev.days >= last_hu.contratista_variable_atraso:
                             revision_list.append(revision)
                             document_list.append(documento)
                     else:
@@ -671,16 +671,16 @@ def umbral_4():
             last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=4).last()
             delta_proyect = (fecha_actual - last_hu.last_checked)
 
-            if delta_proyect.days >= last_hu.tiempo_control:
+            if delta_proyect.days >= last_hu.cliente_tiempo_control:
                 print("Se notifica para proyecto {}!".format(proyecto.nombre))
                 diferencias = []
                 diferencia_avance =  float(avance_programado) - float(avance_real)
                 
                 if last_hu.variable_atraso >= 0:
-                    if diferencia_avance >= float(last_hu.variable_atraso):
+                    if diferencia_avance >= float(last_hu.cliente_variable_atraso):
                         lista_proyectos_atrasados.append([proyecto, [diferencia_avance, avance_programado, avance_real]])
                 if last_hu.variable_atraso < 0:
-                    if diferencia_avance <= float(last_hu.variable_atraso):
+                    if diferencia_avance <= float(last_hu.cliente_variable_atraso):
                         lista_proyectos_atrasados.append([proyecto, diferencias])
 
         contador_proyecto = contador_proyecto + 1
