@@ -12,17 +12,13 @@
           <span class="breadcrumb-item active">Crear Proyecto </span>
         </nav>
       </div><!-- br-pageheader -->
-    
-
- 
-    <div class="br-pagebody pd-x-20 pd-sm-x-30">
-      <div class=" ht-md-65 bd bg-gray-100 pd-y-20 pd-md-y-0 pd-x-20 d-md-flex align-items-center justify-content-between mg-t-20" style="align-items: baseline;">
+ <div class=" ht-md-65 bd bg-gray-100 pd-y-20 pd-md-y-0 pd-x-20 d-md-flex align-items-center justify-content-between mg-t-20" style="align-items: baseline;">
         <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-md-row pd-t-20 pd-md-t-0" role="tablist">
         {% if request.user.is_superuser == true %}
-          <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="{% url 'lista-proyecto' %}" role="tab">Lista de Proyectos</a></li>
-        {% else %}
+            <li class="nav-item" ><a class="nav-link" href="{% url 'crear-proyecto' %}">Agregar Proyectos</a></li>
+            <li class="nav-item" ><a class="nav-link" href="{% url 'lista-proyecto' %}">Lista de Proyectos</a></li>
         {% endif %}
-          <li class="nav-item"><a class="nav-link tx-white" data-toggle="tab" href="{% url 'crear-proyecto' %}" role="tab"><i class="icon ion-gear-a"></i>&numsp;Configurar Proyectos</a></li>
+          <li class="nav-item"><a class="nav-link tx-white" href="{% url 'crear-proyecto' %}" ><i class="fa fa-pencil"></i> &numsp;Editar Proyectos</a></li>
 
            <li class="nav-item mg-l-10 mg-r-10">
             <div class="dropdown">
@@ -42,14 +38,18 @@
               <i class="fa fa-close"></i>&numsp;Restricciones
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-              <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button"><i class="fa fa-close"></i>&numsp;Agregar Restricciones</button></a>
-              <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button"><i class="fa fa-close"></i>&numsp; No cumplimiento</button></a>
+              <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button"><i class="icon ion-backspace-outline"></i>&numsp;Restricciones</button></a>
+              <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button"><i class="fas fa-ban"></i>&numsp; No cumplimiento</button></a>
             </div>
           </div>
             </li>
-          <li class="nav-item"><a class="nav-link"  href="{% url 'list-umbrales' %}"><i class="fa fa-calendar"></i>&numsp;Umbrales</a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-umbrales' %}"><i class="fas fa-business-time"></i>&numsp;Umbrales</a></li>
         </ul>
-      </div><!-- ht-65 -->
+      </div><!-- ht-65 -->    
+
+ {% include "messege.html" %}  
+    <div class="br-pagebody pd-x-20 pd-sm-x-30">
+
       <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
         <h4 class="tx-gray-800 mg-b-5">Crear Proyecto</h4>
       </div>
