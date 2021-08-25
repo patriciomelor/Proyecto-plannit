@@ -55,7 +55,7 @@ def umbral_2():
                         if delta_rev.days > last_hu.cliente_variable_atraso:
                             revision_list.append(revision)
                             document_list.append(documento)
-                            rev_dif.append(revision, delta_rev.days)
+                            rev_dif.append([revision, delta_rev.days])
 
                     else:
                         pass
@@ -127,7 +127,7 @@ def umbral_3():
                             if delta_rev.days >= last_hu.contratista_variable_atraso:
                                 revision_list.append(revision)
                                 document_list.append(documento)
-                                rev_dif.append(revision, delta_rev.days)
+                                rev_dif.append([revision, delta_rev.days])
                         else:
                             pass
              
