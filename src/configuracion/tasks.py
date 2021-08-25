@@ -886,7 +886,7 @@ def umbral_4():
                 print("Se notifica para proyecto {}!".format(proyecto.nombre))
                 diferencias = []
                 diferencia_avance =  float(avance_programado) - float(avance_real)
-                
+                diferencia_avance = format(diferencia_avance, '.2f')
                 if last_hu.cliente_variable_atraso >= 0:
                     if diferencia_avance >= float(last_hu.cliente_variable_atraso):
                         lista_proyectos_atrasados.append([proyecto, [diferencia_avance, avance_programado, avance_real]])
