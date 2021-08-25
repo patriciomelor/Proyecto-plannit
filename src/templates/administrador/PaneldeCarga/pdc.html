@@ -26,7 +26,7 @@
            <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
           </form>
           <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
-          <form name="cruvaBase_save" method="post" action="{% url 'curva-base' %}">
+          <form name="cruvaBase_save" onsubmit="return confirmation()" method="post" action="{% url 'curva-base' %}">
             {% csrf_token %}
             <li class="nav-item mg-l-5"><input type="submit" class="btn btn-success" style="width: auto;" value="Guardar Curva Base"></li>
           </form>            
@@ -189,5 +189,18 @@
         });
   } );
   </script>
+   <script type="text/javascript">
+     function confirmation() 
+     {
+        if(confirm("Desea guardar curva base?"))
+	{
+	   return true;
+	}
+	else
+	{
+	   return false;
+	}
+     }
+    </script>
 {% endblock content %}
     

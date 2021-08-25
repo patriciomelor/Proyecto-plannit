@@ -107,7 +107,7 @@
               {% endif %}  </th>
               <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contidad_hh}} </th>
               {% if tarea.task_answer.archivo.url is not None%}
-              <th style="text-align: center;vertical-align:middle;" > <a href="{{tarea.task_answer.archivo.url}}"><i class="icon ion-arrow-down-a" style="color:orange;"></i></a></th>
+              <th style="text-align: center;vertical-align:middle;" > <a type="submit" href="{{tarea.task_answer.archivo.url}}"><i class="icon ion-arrow-down-a" style="color:orange;"></i></a></th>
               {% else %}
               <th style="text-align: center;vertical-align:middle;" >  </th>
               {% endif %}
