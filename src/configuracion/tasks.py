@@ -38,6 +38,7 @@ def umbral_2():
     for proyecto in proyectos:
         document_list = []
         revision_list = []
+        rev_dif = []
         last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=2).last()
         delta_proyect = (fecha_actual - last_hu.last_checked)
 
@@ -53,6 +54,8 @@ def umbral_2():
                         if delta_rev.days > last_hu.cliente_variable_atraso:
                             revision_list.append(revision)
                             document_list.append(documento)
+                            rev_dif.append(revision, delta_rev.days)
+
                     else:
                         pass
             
@@ -63,9 +66,8 @@ def umbral_2():
                     send_email(
                         html= 'configuracion/umbral_2.html',
                         context= {
-                            "revisiones": revision_list,
+                            "revisiones": rev_dif,
                             "proyecto": proyecto,
-                            "atraso": delta_rev.days,
                         },
                         subject=subject,
                         recipients= usuarios[0]
@@ -86,8 +88,8 @@ def umbral_2():
                         noti_hu.save()
                         noti_hu.documentos.set(document_list, clear=True)
 
-                    last_hu.last_checked = timezone.now()
-                    last_hu.save()
+                    # last_hu.last_checked = timezone.now()
+                    # last_hu.save()
                     
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 2. {}".format(err)
@@ -106,6 +108,7 @@ def umbral_3():
     for proyecto in proyectos:
         revision_list = []
         document_list = []
+        rev_dif = []
         last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=3).last()
         delta_proyect = (fecha_actual - last_hu.last_checked)
 
@@ -123,6 +126,7 @@ def umbral_3():
                             if delta_rev.days >= last_hu.contratista_variable_atraso:
                                 revision_list.append(revision)
                                 document_list.append(documento)
+                                rev_dif.append(revision, delta_rev.days)
                         else:
                             pass
              
@@ -134,9 +138,8 @@ def umbral_3():
                     send_email(
                         html= 'configuracion/umbral_3.html',
                         context= {
-                            "revisiones": revision_list,
+                            "revisiones": rev_dif,
                             "proyecto": proyecto,
-                            "atraso": delta_rev.days,
                         },
                         subject=subject,
                         recipients= usuarios[0]
@@ -158,8 +161,8 @@ def umbral_3():
                         noti_hu.documentos.set(document_list, clear=True)
                         noti_hu.versiones.set(revision_list, clear=True)
 
-                    last_hu.last_checked = timezone.now()
-                    last_hu.save()
+                    # last_hu.last_checked = timezone.now()
+                    # last_hu.save()
 
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 3. {}".format(err)
