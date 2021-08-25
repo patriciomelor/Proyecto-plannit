@@ -15,6 +15,12 @@ class CrearUsuario(UserCreationForm):
     rol_usuario = forms.ChoiceField(choices=ROLES, required=True, label='Rol del Usuario')
     empresa = forms.CharField(max_length=128, required=True, label='Nombre de la Empresa')
     cargo_empresa = forms.CharField(max_length=128, required=True, label='Cargo en la Empresa')
+
+    def __init__(self, *args, **kwargs):
+        self.rol =  kwargs.pop("usuario")
+        super().__init__(*args, **kwargs)
+        if self.rol >= 4 and self.rol <=6:
+            self.fields["rol_usuario"].choices = ROLES[3:]
     class Meta:
         model = User
         fields = ['username', 'email', 'password1', 'password2', 'first_name', 'last_name']

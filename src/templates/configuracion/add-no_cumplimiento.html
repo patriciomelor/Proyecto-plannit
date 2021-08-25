@@ -65,13 +65,13 @@
                 <tbody>
                   <tr>            
                     </tr>
-                {% for restriccion in restricciones %}
+                {% for no_cumplimiento in no_cumplimientos %}
                     <tr>            
-                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">{{restriccion}}  </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">{{no_cumplimiento}}  </th>
                     </tr>
                   {% empty %}
                   <tr>            
-                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">Lo ingresado se listaran aqui</th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">Lo ingresado se listará aqui</th>
                     </tr>
                 {% endfor %}
                     <!--Fin Loop-->
