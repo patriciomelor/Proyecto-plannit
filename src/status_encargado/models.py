@@ -10,7 +10,7 @@ class Tarea(models.Model):
     created_at = models.DateTimeField(verbose_name="Fecha Creación", auto_now_add=True)
     documento = models.ForeignKey(Documento, related_name="task_document", on_delete=models.CASCADE, verbose_name="Documento")
     encargado = models.ForeignKey(User, related_name="taks_responsable", on_delete=models.CASCADE, verbose_name="Encargado")
-    restricciones = models.ForeignKey(Restricciones, on_delete=models.CASCADE, blank=True, null=True, related_name="task_restrictions", verbose_name="Restricciones")
+    restricciones = models.ForeignKey(Restricciones, on_delete=models.CASCADE, related_name="task_restrictions", verbose_name="Restricciones", blank=True, null=True,)
     contidad_hh = models.IntegerField(verbose_name="Cantidad Horas Hombre")
     comentarios = models.TextField(verbose_name="Comentarios")
     estado = models.BooleanField(verbose_name="Estado", default=False, blank=True)

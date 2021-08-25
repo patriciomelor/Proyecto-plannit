@@ -1088,7 +1088,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             contador_largo = 0
 
             for controles in fechas_controles:
-                if contador_largo < len(fechas_controles):
+                if contador_largo < (len(fechas_controles)-1):
                     calculo_avanceEsperado = 0
                     for doc in documentos:                  
                         fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
@@ -1103,6 +1103,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     #Se almacena el avance esperado hasta la fecha de control
                     avance_esperado = [format(calculo_avanceEsperado, '.2f')]
                     lista_final_esperado.append(avance_esperado)
+                contador_largo = contador_largo + 1
             
             calculo_parcial = []
             calculo_parcial_final = []

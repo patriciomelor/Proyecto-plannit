@@ -22,9 +22,9 @@ class Version(models.Model):
 
     def __str__(self):
         if self.estado_cliente is not None:
-            return str(self.documento_fk.Codigo_documento)+"-"+str(self.get_revision_display()+"-"+str(self.get_estado_cliente_display()))
+            return str(self.documento_fk.Codigo_documento)+"-"+str(self.get_revision_display()+"- "+str(self.get_estado_cliente_display()))
         elif self.estado_contratista is not None:
-            return str(self.documento_fk.Codigo_documento)+"-"+str(self.get_revision_display()+"-"+str(self.get_estado_contratista_display()))
+            return str(self.documento_fk.Codigo_documento)+"-"+str(self.get_revision_display()+"- "+str(self.get_estado_contratista_display()))
 
 class Paquete(models.Model):
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)

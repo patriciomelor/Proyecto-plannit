@@ -131,8 +131,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
         contador_0 = 0
         contador_emitidos_b = 0
         contador_emitidos_0 = 0
-        # contador_aprobacion = 0
-        # verificador_emision_0 = 1 
 
         #Obtener paquetes
         clientes = [1,2,3]        
@@ -226,89 +224,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     diferencia = (semana_actual - fecha_emision_b).days
                     prom_demora_emisión_B = prom_demora_emisión_B + diferencia
                     contador_demora_b = contador_demora_b + 1
-
-        # #Obtener otros datos 
-        # for doc in documentos:
-        #     versiones = Version.objects.filter(documento_fk=doc).last()
-        #     total_versiones = Version.objects.filter(documento_fk=doc)
-        #     version_first = Version.objects.filter(documento_fk=doc).first()
-        #     fecha_emision_0 = doc.fecha_Emision_0
-        #     fecha_emision_b = doc.fecha_Emision_B
-        #     if semana_actual >= fecha_emision_b:
-        #         contador_b = contador_b + 1     
-        #     if semana_actual >= fecha_emision_0:
-        #         contador_0 = contador_0 + 1
-        #     if versiones:
-        #         contador_emitidos_b = contador_emitidos_b + 1
-        #         paquete_first = version_first.paquete_set.all()
-        #         fecha_version = versiones.fecha
-        #         estado_cliente = versiones.estado_cliente
-        #         estado_contratista = versiones.estado_contratista
-        #         for cliente in ESTADOS_CLIENTE[1:]:
-        #             if estado_cliente == 5 and cliente[0] == 5:
-        #                 contador_emitidos_0 = contador_emitidos_0 + 1
-        #                 diferencia = abs((fecha_version - paquete_first[0].fecha_creacion).days)
-        #                 tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
-        #                 contador_aprobacion = contador_aprobacion + 1
-        #                 documentos_aprobados = documentos_aprobados + 1
-        #                 verificador_emision_0 = 0
-        #             if estado_cliente == 1 and cliente[0] == 1:
-        #                 documentos_revision_contratista = documentos_revision_contratista + 1
-        #             if estado_cliente == 2 and cliente[0] == 2:
-        #                 documentos_revision_contratista = documentos_revision_contratista + 1
-        #             if estado_cliente == 4 and cliente[0] == 4:
-        #                 documentos_revision_contratista = documentos_revision_contratista + 1
-        #             if estado_cliente == 6 and cliente[0] == 6:
-        #                 contador_emitidos_0 = contador_emitidos_0 + 1
-        #                 documentos_revision_contratista = documentos_revision_contratista + 1
-        #             if estado_cliente == 7 and cliente[0] == 7:
-        #                 contador_emitidos_0 = contador_emitidos_0 + 1
-        #                 verificador_emision_0 = 0
-        #             if estado_cliente == 8 and cliente[0] == 8:
-        #                 contador_emitidos_0 = contador_emitidos_0 + 1   
-        #                 verificador_emision_0 = 0                 
-        #             if estado_cliente == 9 and cliente[0] == 9:
-        #                 contador_emitidos_0 = contador_emitidos_0 + 1 
-        #                 verificador_emision_0 = 0                   
-        #             if estado_cliente == 10 and cliente[0] == 10:
-        #                 contador_emitidos_0 = contador_emitidos_0 + 1
-        #                 verificador_emision_0 = 0
-        #         if verificador_emision_0 == 1:
-        #             diferencia =(fecha_version - fecha_emision_0).days
-        #             prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
-        #             contador_demora_0 = contador_demora_0 + 1
-        #         for cliente in ESTADO_CONTRATISTA[1:]:
-        #             if estado_contratista == 1 and cliente[0] == 1:
-        #                 documentos_revision_cliente = documentos_revision_cliente + 1
-        #             if estado_contratista == 2 and cliente[0] == 2:
-        #                 documentos_revision_cliente = documentos_revision_cliente + 1
-        #         contador_emitidos = contador_emitidos + 1
-        #     if not versiones:
-        #         #Calculo del promedio de demora emisión en b
-        #         if semana_actual >= fecha_emision_0:
-        #             diferencia =(semana_actual - fecha_emision_0).days
-        #             prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
-        #             contador_demora_0 = contador_demora_0 + 1
-        #         if semana_actual >= fecha_emision_b:
-        #             diferencia = (semana_actual - fecha_emision_b).days
-        #             prom_demora_emisión_B = prom_demora_emisión_B + diferencia
-        #             contador_demora_b = contador_demora_b + 1
-        #     if total_versiones:
-        #         repeticion = 1
-        #         for ver in total_versiones:
-        #             fecha_version = ver.fecha
-        #             estado = ver.revision
-        #             if estado == 5 and repeticion == 1:
-        #                 diferencia = (fecha_version - fecha_emision_0).days
-        #                 prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
-        #                 contador_demora_0 = contador_demora_0 + 1
-        #                 repeticion = 0
-        #     if version_first:   
-        #         #Calculo del promedio de demora emisión en b
-        #         fecha_version = version_first.fecha
-        #         diferencia = (fecha_version - fecha_emision_b).days
-        #         prom_demora_emisión_B = prom_demora_emisión_B + diferencia
-        #         contador_demora_b = contador_demora_b + 1
 
         #Dar formato a valores de los promedios
         if documentos_aprobados != 0:
@@ -929,15 +844,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
     def reporte_curva_s_avance_esperado(self):
                 
         lista_final = self.Obtener_fechas()
-        # lista_avance_real = self.reporte_curva_s_avance_real()
         documentos = self.get_queryset()
         valor_ganado = len(documentos)
         avance_esperado = []
         lista_final_esperado = []
-        # diferencia = 0
-        # contador = 0
-        # numero = 100
-        
         if valor_ganado != 0:
             
             #Calculo del avance esperado por fecha de control
@@ -945,30 +855,25 @@ class EscritorioView(ProyectoMixin, TemplateView):
             fecha_emision_0 = 0
             fechas_controles = lista_final[0][0]
             valor_ganado = (100 / valor_ganado)
-
-            # diferencia = len(lista_avance_real) - len(fechas_controles)
+            contador_largo = 0
 
             for controles in fechas_controles:
-                calculo_avanceEsperado = 0
-                for doc in documentos:                  
-                    fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
-                    fecha_emision_0 = doc.fecha_Emision_0.replace(tzinfo=None)
+                if contador_largo < (len(fechas_controles)-1):
+                    calculo_avanceEsperado = 0
+                    for doc in documentos:                  
+                        fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
+                        fecha_emision_0 = doc.fecha_Emision_0.replace(tzinfo=None)
 
-                    #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                    if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                        calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
-                    if fecha_emision_0 <= controles and fecha_emision_b < controles:
-                        calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
+                        #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
+                        if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                            calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
+                        if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                            calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 
-                #Se almacena el avance esperado hasta la fecha de control
-                avance_esperado = [format(calculo_avanceEsperado, '.2f')]
-                lista_final_esperado.append(avance_esperado)
-
-            # if diferencia > 0:
-            #     while contador < diferencia:
-            #         avance_esperado = [format(numero, '.2f')]
-            #         lista_final_esperado.append(avance_esperado)
-            #         contador = contador + 1
+                    #Se almacena el avance esperado hasta la fecha de control
+                    avance_esperado = [format(calculo_avanceEsperado, '.2f')]
+                    lista_final_esperado.append(avance_esperado)
+                contador_largo = contador_largo + 1
 
         if valor_ganado == 0:
             avance_esperado = [int(valor_ganado)]

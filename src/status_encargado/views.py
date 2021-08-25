@@ -30,11 +30,16 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
     def get_queryset(self):
         queryset=Documento.objects.filter(proyecto=self.proyecto)
         return queryset
+    
+    def get_versiones_last(self):
+        qs1 = self.get_queryset()
+        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1) #.select_related("owner").filter(owner__in=users)
+        return qs2
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         tasks = []
-        tareas = Tarea.objects.filter(documento__proyecto=self.proyecto).order_by('-created_at')
+        tareas = Tarea.objects.select_related('encargado', 'encargado__perfil', 'documento').filter(documento__proyecto=self.proyecto).order_by('-created_at')
         current_rol = self.request.user.perfil.rol_usuario
         for tarea in tareas:
             rol = tarea.encargado.perfil.rol_usuario
@@ -58,44 +63,57 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         return context
 
     def tabla_status(self):
+        
         #Listar documentos
         lista_inicial = []
         lista_final = []
         semana_actual = timezone.now()
+        documentos = self.get_queryset()
         version_documento = 0
         transmital = 0
-        fecha_emision_b = 0
         dias_revision = 0
-        documentos = self.get_queryset()
+        fecha_emision_b = 0
+        versiones_documento = self.get_versiones_last()
+
         for doc in documentos:
             fecha_emision_b = doc.fecha_Emision_B
-            version = Version.objects.filter(documento_fk=doc).last()
-            version_first = Version.objects.filter(documento_fk=doc).first()
+            comprobacion_first = 0
+            version_first = 0
+            version = 0
+            for versiones in versiones_documento:
+                if str(doc.Codigo_documento) == str(versiones.documento_fk) and comprobacion_first == 0:
+                    version_first = versiones
+                if str(doc.Codigo_documento) == str(versiones.documento_fk):
+                    version = versiones
+
             if version:
-                paquete = version.paquete_set.all()
-                paquete_first = version_first.paquete_set.all()
+                paquete = version.paquete_set.first()
+                paquete_first = version_first.paquete_set.first()
                 if version.estado_cliente == 5:
-                    transmital = paquete[0].fecha_creacion - paquete_first[0].fecha_creacion
+                    transmital = abs((paquete.fecha_creacion - paquete_first.fecha_creacion).days)
                     dias_revision = 0
                 else:
-                    transmital = semana_actual - paquete_first[0].fecha_creacion
-                    fecha_version = paquete[0].fecha_creacion
+                    transmital = abs((semana_actual - paquete_first.fecha_creacion).days)
+                    fecha_version = paquete.fecha_creacion
                     dias_revision = abs((semana_actual - fecha_version).days)
 
                 version_documento = version.revision
+
                 for revision in TYPES_REVISION[1:4]:
                     if version_documento == revision[0]:
                         if dias_revision < 0:
                             dias_revision = 0
-                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
+                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first.fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
                         else:
-                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
+                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first.fecha_creacion, dias_revision]]
                             lista_final.append(lista_inicial)
+
                 for revision in TYPES_REVISION[5:]:
                     if version_documento == revision[0]:
-                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital.days, paquete_first[0].fecha_creacion, dias_revision]]
+                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital, paquete_first.fecha_creacion, dias_revision]]
                         lista_final.append(lista_inicial)
+                        
             else: 
                 if semana_actual >= fecha_emision_b:
                     lista_inicial = [doc, ['no version','Atrasado']]
@@ -103,7 +121,7 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                 else:
                     lista_inicial = [doc, ['no version','Pendiente']]
                     lista_final.append(lista_inicial)
-
+    
         return lista_final
 
 class TablaEncargado(ProyectoMixin, FormView):
@@ -198,28 +216,6 @@ class RevisorSentView(ProyectoMixin, ListView):
 
 class EncargadoGraficoView(ProyectoMixin, TemplateView):
     template_name = 'status_encargado/graficos.html'
-
-    # def get_queryset_true(self):
-    #     current_rol = self.request.user.perfil.rol_usuario
-    #     if current_rol <= 3 and current_rol >= 1:
-    #         rols = [2,3]
-    #     elif current_rol <= 6 and current_rol >= 4:
-    #         rols = [5,6]
-
-    #     tareas_true = Tarea.objects.select_related("encargado").filter(encargado__perfil__rol_usuario__in=rols, documento__proyecto=self.proyecto, estado=True)
-
-    #     return tareas_true
-
-    # def get_queryset_false(self):
-    #     current_rol = self.request.user.perfil.rol_usuario
-    #     if current_rol <= 3 and current_rol >= 1:
-    #         rols = [2,3]
-    #     elif current_rol <= 6 and current_rol >= 4:
-    #         rols = [5,6]
-
-    #     tareas_false = Tarea.objects.select_related("encargado").filter(encargado__perfil__rol_usuario__in=rols, documento__proyecto=self.proyecto, estado=False)
-
-    #     return tareas_false
 
     def get_queryset(self):
         current_rol = self.request.user.perfil.rol_usuario
@@ -509,19 +505,6 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         Diferencia de tareas y respuetas total del proyecto.
         """
 
-        # final_list = []
-        # tareas = self.get_queryset()
-        # total_tareas = 0
-        # total_respuestas = 0
-
-        # for tarea in tareas:
-        #     total_tareas = total_tareas + 1
-        #     if tarea.estado == True:
-        #         total_respuestas = total_respuestas + 1 
-
-        # final_list.append(total_tareas)
-        # final_list.append(total_respuestas)
-
         final_list = []
         tareas = self.get_queryset()
         total_tareas = 0
@@ -541,39 +524,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         """
         Documentos asignados vs documentos.
         """
-        # final_list = []
-        # tareas = self.get_queryset()
-        # users = self.get_queryset_user()
 
-        # for user in users:
-        #     atrasados = 0
-        #     asignados = 0
-        #     for tarea in tareas:
-        #         if tarea.encargado == user:
-        #             asignados = asignados + 1
-        #             if tarea.estado == True:
-        #                 if tarea.task_answer.contestado.year > tarea.plazo.year:
-        #                     atrasados = atrasados + 1
-        #                 else:
-        #                     if tarea.task_answer.contestado.year == tarea.plazo.year:
-        #                         if tarea.task_answer.contestado.month > tarea.plazo.month:
-        #                             atrasados = atrasados + 1
-        #                         else:
-        #                             if tarea.task_answer.contestado.month == tarea.plazo.month:
-        #                                 if tarea.task_answer.contestado.day > tarea.plazo.day:
-        #                                     atrasados = atrasados + 1
-
-        #     if asignados != 0:
-        #         final_list.append([(user.first_name+" "+user.last_name), asignados, atrasados])
-
-        # lista_grafico_uno = self.tamano_grafico_2(lista_grafico_uno = final_list)
-        # dividendo = self.espacios_grafico_2(dividendo = lista_grafico_uno)
-
-        # final = []
-        # final.append(final_list)
-        # final.append(lista_grafico_uno)
-        # final.append(dividendo)
-        
         final_list = []
         tareas = self.get_queryset()
         users = self.get_queryset_user()
