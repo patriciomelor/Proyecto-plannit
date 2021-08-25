@@ -13,8 +13,8 @@ from .roles import *
 
 class CrearUsuario(UserCreationForm):
     rol_usuario = forms.ChoiceField(choices=ROLES, required=True, label='Rol del Usuario')
-    empresa = forms.CharField(max_length=128, required=True, label='Nombre de la Empresa')
-    cargo_empresa = forms.CharField(max_length=128, required=True, label='Cargo en la Empresa')
+    empresa = forms.CharField(max_length=128, required=True, label='Nombre Empresa')
+    cargo_empresa = forms.CharField(max_length=128, required=True, label='Cargo')
 
     def __init__(self, *args, **kwargs):
         self.rol =  kwargs.pop("usuario")
@@ -27,8 +27,8 @@ class CrearUsuario(UserCreationForm):
 
 class EditUsuario(UserChangeForm):
     rol_usuario = forms.ChoiceField(choices=ROLES, required=True, label='Rol del Usuario')
-    empresa = forms.CharField(max_length=128, required=True, label='Nombre de la Empresa')
-    cargo_empresa = forms.CharField(max_length=128, required=True, label='Cargo en la Empresa')
+    empresa = forms.CharField(max_length=128, required=True, label='Nombre Empresa')
+    cargo_empresa = forms.CharField(max_length=128, required=True, label='Cargo')
 
     def __init__(self, *args, **kwargs):
         self.rol =  kwargs.pop("usuario")
