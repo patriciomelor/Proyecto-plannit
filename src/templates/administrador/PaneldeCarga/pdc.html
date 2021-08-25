@@ -26,9 +26,9 @@
            <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
           </form>
           <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
-          <form name="cruvaBase_save" method="post" action="{% url 'curva-base' %}">
+          <form onsubmit="validateMyForm();" name="cruvaBase_save" method="post" action="{% url 'curva-base' %}">
             {% csrf_token %}
-            <li class="nav-item mg-l-5"><input type="submit" class="btn btn-success" style="width: auto;" value="Guardar Curva Base"></li>
+            <li class="nav-item mg-l-5"><input type="submit" id="base_btn" class="btn btn-success" style="width: auto;" value="Guardar Curva Base"></li>
           </form>            
           <li class="nav-item mg-l-5"><a href="http://143.198.228.81/static/media/proyecto/tmp/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning">Plantilla de Carga</button></a></li>
           <li class="nav-item mg-l-5"><a href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"><i class="icon ion-trash-b mg-r-3"></i> Eliminar</button></a></li>       
@@ -121,7 +121,17 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-
+<script>
+  function CurvaBase(){
+    if (confirm('Desea sobrescribir la Curva Base anterior?\nSi no ha guardado una Curva Base, ignore este mensaje.')){
+      alert("Enviando Curva Base !");
+      return true;
+    } else {
+      alert("Acción cancelada !");
+      return false;
+    }
+  }
+</script>
 
 <script>
   function fileValidation(){
