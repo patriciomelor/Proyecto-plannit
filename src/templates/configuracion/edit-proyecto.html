@@ -51,21 +51,176 @@
   {% include "messege.html" %}
 
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-    <h4 class="tx-gray-800 mg-b-5">Registrar Usuario</h4>
+    <h4 class="tx-gray-800 mg-b-5">Editar Proyecto</h4>
   </div>
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
-    <div class="card bd-0 shadow-base">
-      <form method="POST"> {% csrf_token %}
-        <label for="" class="col-6 col-md-12 mg-20">
-          {{form|crispy}}
-        </label>
-        <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit">
-          Enviar </button>
-        <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10"
-          onClick="javascript:history.go(-1);" type="submit"> volver</button>
+   
+    <div class="row row-sm mg-t-20">
+        {% if request.user.perfil.rol_usuario == 1 %}
+        <div class="col-lg-6">
+          <div class="card shadow-base bd-0">
+            <div class="card-header bg-transparent pd-20 mg-b-10">
+              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Formulario para editar datos del proyecto</h6>
+            </div><!-- card-header -->
+             <form method="POST"> {% csrf_token %}
+              <label for="" class="col-6 col-md-12">
+                {{form|crispy}}
+              </label>
+             
+            <div class="card-footer tx-12 pd-y-15 bg-transparent">
+               <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit">
+                Guardar </button>
+              <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10"
+                onClick="javascript:history.go(-1);" type="submit"> volver</button>
 
-      </form>
+            </div><!-- card-footer -->
+            </form>
+          </div><!-- card -->
+        </div><!-- col-6 -->
+        <div class="col-lg-6 mg-t-20 mg-lg-t-0">
+          <div class="card shadow-base bd-0">
+            <div class="card-header pd-20 bg-transparent">
+              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Datos actuales del proyecto</h6>
+            </div><!-- card-header -->
+          <div class="form-layout form-layout-6">
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Nombre:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                  {{proyecto.nombre}}
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Fecha Inicio:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                  {{proyecto.fecha_inicio|date:'d-m-y'}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Fecha Término:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                  {{proyecto.fecha_termino|date:'d-m-y'}}
+                </div><!-- col-8 -->
+              </div><!-- row -->
+             
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Descripción:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                {% if proyecto.descripcion is not null %}
+                {{proyecto.descripcion}}  
+                {% else %}
+                <input class="form-control" type="text" name="fullname" placeholder="Sin Descripcion agregada" disabled>
+                {% endif %}
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                 Encargado:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                  {{proyecto.encargado}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Código:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                {{proyecto.codigo}} 
+                </div><!-- col-8 -->
+              </div><!-- row -->
+                 <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Porcentaje de Avance para Rev en letras
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                {{proyecto.rev_letra}} 
+                </div><!-- col-8 -->
+              </div><!-- row -->
+        </div>
+          </div><!-- card -->
+        </div><!-- col-6 -->
+        {% else %}
+        <div class="col-lg-12 mg-t-20 mg-lg-t-0">
+          <div class="card shadow-base bd-0">
+            <div class="card-header pd-20 bg-transparent">
+              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Datos actuales del proyecto</h6>
+            </div><!-- card-header -->
+          <div class="form-layout form-layout-6">
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Nombre:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                  {{proyecto.nombre}}
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Fecha Inicio:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                  {{proyecto.fecha_inicio|date:'d-m-y'}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Fecha Término:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                  {{proyecto.fecha_termino|date:'d-m-y'}}
+                </div><!-- col-8 -->
+              </div><!-- row -->
+             
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Descripción:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                {% if proyecto.descripcion is not null %}
+                {{proyecto.descripcion}}  
+                {% else %}
+                <input class="form-control" type="text" name="fullname" placeholder="Sin Descripcion agregada" disabled>
+                {% endif %}
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                 Encargado:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                  {{proyecto.encargado}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Código:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                {{proyecto.codigo}} 
+                </div><!-- col-8 -->
+              </div><!-- row -->
+                 <div class="row no-gutters">
+                <div class="col-5 col-sm-4">
+                  Porcentaje de Avance para Rev en letras
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8">
+                {{proyecto.rev_letra}} 
+                </div><!-- col-8 -->
+              </div><!-- row -->
+        </div>
+      </div>
+        </div>
+        {% endif %}
     </div>
+        
   </div>
 </div>
 
