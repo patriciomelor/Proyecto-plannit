@@ -60,8 +60,6 @@
                   <th style="text-align: center;border: 2px;border-color: #fff; color: white;">Nombre</th>
                   <th style="text-align: center;border: 2px;border-color: #fff; color: white;">Descripción</th>
                   <th style="text-align: center;border: 2px;border-color: #fff; color: white;">Tiempo de Control</th>
-                  <th style="text-align: center;border: 2px;border-color: #fff; color: white;">Variable de Atraso</th>
-                  <th style="text-align: center;border: 2px;border-color: #fff; color: white;">Fecha<br>Notificación</th>
                   <th style="text-align: center;border: 2px;border-color: #fff; color: white;">Acción</th>
 
                 </tr>
@@ -71,8 +69,6 @@
                 <tr>            
                   <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.h_umbral.umbral.nombre}}  </th>
                   <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.h_umbral.umbral.descripcion}}  </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.h_umbral.tiempo_control}} </th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.h_umbral.variable_atraso}}  </th>
                   <th style="text-align: center;border: 2px;border-color: grey; color: black;" >{{umbral.date|date:'d-M-y'}}</th>
                   <th style="text-align: center;border: 2px;border-color: grey; color: black;"><a href="{% url 'detail-notif-umbrales' umbral.pk %}"> <i class="icon ion-eye"></i> </a></th>
                 </tr>

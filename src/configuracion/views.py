@@ -33,6 +33,11 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
     success_message = 'Usuario Creado.'
     success_url = reverse_lazy('crear-usuario')
     
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["usuario"] = self.request.user.perfil.rol_usuario
+        return kwargs
+
     def form_valid(self, form):
         user = form.instance
         if user.is_superuser == True:
@@ -291,8 +296,7 @@ class RestriccionesView(ProyectoMixin,  FormView):
         restriccion.save()
         return super().form_valid(form)
     
-class NoCumplimientoView(ProyectoMixin, FormView):
-    http_method_names = ['get', 'post']
+class NoCumplimientoView(ProyectoMixin, CreateView):
     form_class = NoCumplimientoForm
     template_name = 'configuracion/add-no_cumplimiento.html'
     success_url = reverse_lazy('no-cumplimiento')
@@ -340,7 +344,7 @@ class UmbralIndexList(ProyectoMixin, ListView):
     context_object_name = 'umbrales'
 
     def get_queryset(self):
-        qs = HistorialUmbrales.objects.filter(proyecto=self.proyecto)
+        qs = HistorialUmbrales.objects.filter(proyecto=self.proyecto).order_by('pk')
         return qs
 
 class UmbralesEdit(ProyectoMixin, UpdateView):

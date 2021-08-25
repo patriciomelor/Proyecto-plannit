@@ -28,9 +28,8 @@ def users_notifier(proyecto, cliente=None, contratista=None):
 
     for user in participantes:
         recipients.append(user.email)
-        notification_list.append(user)
 
-    return [recipients, notification_list]
+    return [recipients, participantes]
 
 @app.task(name="umbral_2")
 def umbral_2():
@@ -64,7 +63,7 @@ def umbral_2():
                     send_email(
                         html= 'configuracion/umbral_2.html',
                         context= {
-                            "documentos": document_list,
+                            "revisiones": revision_list,
                             "proyecto": proyecto,
                             "atraso": delta_rev.days,
                         },
@@ -116,13 +115,16 @@ def umbral_3():
             for documento in documentos:
                 revision = Version.objects.filter(documento_fk=documento).last()
                 if revision is not None:
-                    if revision.estado_contratista == None:
-                        delta_rev = (fecha_actual - revision.fecha)
-                        if delta_rev.days >= last_hu.contratista_variable_atraso:
-                            revision_list.append(revision)
-                            document_list.append(documento)
-                    else:
+                    if revision.estado_cliente == 5 :
                         pass
+                    else:
+                        if revision.estado_contratista == None:
+                            delta_rev = (fecha_actual - revision.fecha)
+                            if delta_rev.days >= last_hu.contratista_variable_atraso:
+                                revision_list.append(revision)
+                                document_list.append(documento)
+                        else:
+                            pass
              
             subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Contratistas - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
             usuarios = users_notifier(proyecto=proyecto, contratista=True)
