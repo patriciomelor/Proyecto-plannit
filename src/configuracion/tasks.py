@@ -813,7 +813,7 @@ def reporte_curva_s_avance_esperado():
             contador_largo = 0
 
             for controles in fechas_controles:
-                if contador_largo < (len(fechas_controles)-1):
+                if contador_largo < len(fechas_controles):
                     calculo_avanceEsperado = 0
                     for doc in documentos:                  
                         fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
