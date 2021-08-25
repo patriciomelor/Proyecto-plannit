@@ -365,7 +365,8 @@ class UmbralesNotificados(ProyectoMixin, ListView):
     template_name = 'configuracion/umbral-notif-list.html'
 
     def get_queryset(self):
-        n_hu = NotificacionHU.objects.select_related("h_umbral", "h_umbral__umbral").filter(h_umbral__proyecto=self.proyecto).order_by("date")
+        # if self.request.user.perfil.rol_usuario == 4:
+        n_hu = NotificacionHU.objects.select_related("h_umbral", "h_umbral__umbral").filter(h_umbral__proyecto=self.proyecto, notificacion__usuario=self.request.user).order_by("date")
         return n_hu
 
     def get_context_data(self, **kwargs):
