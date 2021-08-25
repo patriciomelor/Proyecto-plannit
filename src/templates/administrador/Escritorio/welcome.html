@@ -26,7 +26,6 @@
       </div><!-- card -->
 
       <div class="ht-70 bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center shadow-base">
-      <h6 class="tx-uppercase tx-bold tx-spacing--2 tx-inverse tx-poppins">Accesos Rápidos:</h6>
         <ul class="nav nav-outline active-info align-items-center flex-row" role="tablist">
           <li class="nav-item"><a class="nav-link"  href="{% url 'index' %}" ><i class="menu-item-icon icon ion-ios-home-outline tx-22"></i><span class="menu-item-label">Escritorio</span></a></li>
           {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
@@ -37,6 +36,7 @@
           <li class="nav-item"><a class="nav-link"  href="{% url 'status-index' %}"><i class="menu-item-icon ion-ios-redo-outline tx-22"></i><span class="menu-item-label">Estatus</a></span></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'encargado-index' %}"><i class="menu-item-icon icon ion-person tx-22"></i><span class="menu-item-label">Administrador de<br>Responsabilidad</a></span></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'buscador-index' %}" ><i class="menu-item-icon icon ion-ios-list-outline tx-22"></i><span class="menu-item-label">Buscador</span></a></li>
+          <li class="nav-item"><a class="nav-link"  href="{% url 'list-notif-umbrales' %}" ><i class="menu-item-icon icon fa fa-clock-o tx-24"></i><span class="menu-item-label">Historial del<br>Umbrales</span></a></li>
           {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
           <li class="nav-item"><a class="nav-link"  href="{% url 'configuracion-index' %}"><i class="menu-item-icon icon ion-ios-gear-outline tx-22"></i><span class="menu-item-label">Configuración</span></a></li>
         {% endif %}

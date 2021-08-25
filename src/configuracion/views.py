@@ -33,6 +33,11 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
     success_message = 'Usuario Creado.'
     success_url = reverse_lazy('crear-usuario')
     
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        kwargs["usuario"] = self.request.user.perfil.rol_usuario
+        return kwargs
+
     def form_valid(self, form):
         user = form.instance
         if user.is_superuser == True:
@@ -291,8 +296,7 @@ class RestriccionesView(ProyectoMixin,  FormView):
         restriccion.save()
         return super().form_valid(form)
     
-class NoCumplimientoView(ProyectoMixin, FormView):
-    http_method_names = ['get', 'post']
+class NoCumplimientoView(ProyectoMixin, CreateView):
     form_class = NoCumplimientoForm
     template_name = 'configuracion/add-no_cumplimiento.html'
     success_url = reverse_lazy('no-cumplimiento')
@@ -340,7 +344,7 @@ class UmbralIndexList(ProyectoMixin, ListView):
     context_object_name = 'umbrales'
 
     def get_queryset(self):
-        qs = HistorialUmbrales.objects.filter(proyecto=self.proyecto)
+        qs = HistorialUmbrales.objects.filter(proyecto=self.proyecto).order_by('pk')
         return qs
 
 class UmbralesEdit(ProyectoMixin, UpdateView):
@@ -361,7 +365,8 @@ class UmbralesNotificados(ProyectoMixin, ListView):
     template_name = 'configuracion/umbral-notif-list.html'
 
     def get_queryset(self):
-        n_hu = NotificacionHU.objects.select_related("h_umbral", "h_umbral__umbral").filter(h_umbral__proyecto=self.proyecto).order_by("date")
+        # if self.request.user.perfil.rol_usuario == 4:
+        n_hu = NotificacionHU.objects.select_related("h_umbral", "h_umbral__umbral").filter(h_umbral__proyecto=self.proyecto, notificacion__usuario=self.request.user).order_by("date")
         return n_hu
 
     def get_context_data(self, **kwargs):
@@ -372,14 +377,12 @@ class UmbralesNotificados(ProyectoMixin, ListView):
 class UNDetail(ProyectoMixin, DetailView):
     model = NotificacionHU
     template_name = 'configuracion/umbral-notif-detail.html'
-    context_object_name = 'umbral_notificado'
 
 
     def get_context_data(self, **kwargs):
-        un_obj = self.get_object()
         context = super().get_context_data(**kwargs)
-
+        un_obj = self.get_object()
         if un_obj.porcentaje_atraso != None:
             context["atrasos"] = True
-
+        context["umbral_notificado"] = un_obj
         return context
