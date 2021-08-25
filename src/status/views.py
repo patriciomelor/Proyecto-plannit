@@ -36,7 +36,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         documentos = self.get_queryset()
 
-        # context['Listado'] = self.tabla()
+        context['Listado'] = self.tabla()
         # context['filter'] = DocFilter(self.request.GET, queryset=documentos)
         return context
 

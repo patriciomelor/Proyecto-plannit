@@ -377,14 +377,12 @@ class UmbralesNotificados(ProyectoMixin, ListView):
 class UNDetail(ProyectoMixin, DetailView):
     model = NotificacionHU
     template_name = 'configuracion/umbral-notif-detail.html'
-    context_object_name = 'umbral_notificado'
 
 
     def get_context_data(self, **kwargs):
-        un_obj = self.get_object()
         context = super().get_context_data(**kwargs)
-
+        un_obj = self.get_object()
         if un_obj.porcentaje_atraso != None:
             context["atrasos"] = True
-
+        context["umbral_notificado"] = un_obj
         return context
