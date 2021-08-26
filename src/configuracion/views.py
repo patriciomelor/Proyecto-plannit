@@ -1,4 +1,6 @@
 from django.shortcuts import render, redirect
+from django.utils import timezone
+from django.http import HttpResponse, HttpResponseRedirect
 from django.urls import reverse_lazy
 from django.views.generic.base import TemplateView, RedirectView
 from django.views.generic import FormView, CreateView, DeleteView, UpdateView, ListView, DetailView, FormView
@@ -85,17 +87,11 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
     context_object_name = 'usuarios'
 
     def get_queryset(self):
-        current_rol = self.request.user.perfil.rol_usuario
-        if self.request.user.is_superuser:
-            qs = self.proyecto.participantes.select_related("perfil").all()
-            return qs
-
-        if current_rol == 1:
-            rols = [2,3,4,5,6]
-        elif current_rol == 4:
-            rols = [5,6]
-
-        qs = self.proyecto.participantes.select_related("perfil").filter(perfil__rol_usuario__in=rols)
+        rol = self.request.user.perfil.rol_usuario
+        if rol <=3 and rol >=1:
+            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3]).order_by('perfil__empresa')
+        if rol <=6 and rol >=4:
+            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6]).order_by('perfil__empresa')
         return qs
     
 
@@ -203,6 +199,20 @@ class ProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
     success_url = reverse_lazy('lista-proyecto')
     form_class = ProyectoForm
 
+    def form_valid(self, form):
+        proyecto = form.save(commit=False)
+        thresholds = Umbral.objects.all()
+        proyecto.save()
+        proyecto.participantes.add(proyecto.encargado)
+
+        for umbral in thresholds:
+            HistorialUmbrales.objects.create(
+                umbral=umbral,
+                proyecto=proyecto,
+                last_checked=timezone.now()
+            )
+
+        return super(ProyectoCreate, self).form_valid(form)
 class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
     template_name = 'configuracion/invitation_form.html'
     success_message = 'Invitación enviada correctamente'
