@@ -52,7 +52,7 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> Sin Perfil </th>
               {% endif %}
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.perfil.empresa}} </th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.cargo}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.perfil.cargo_empresa}} </th>
 
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'editar-usuario' usuario.pk %}" > <i class="fa fa-pencil"></i> </a></th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'eliminar-usuario' usuario.pk %}" style="color:red;"> <i class="fa fa-trash"></i> </a></th>

@@ -61,9 +61,9 @@ class EscritorioView(ProyectoMixin, TemplateView):
     def get_users(self, *args, **kwargs):
         rol = self.request.user.perfil.rol_usuario
         if rol <=3 and rol >=1:
-            users = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3])
+            users = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3]).order_by('perfil__empresa')
         if rol <=6 and rol >=4:
-            users = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6])
+            users = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6]).order_by('perfil__empresa')
             
         return users
 
@@ -863,7 +863,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
             contador_largo = 0
 
             for controles in fechas_controles:
-                if contador_largo < (len(fechas_controles)-1):
+                if contador_largo < len(fechas_controles):
                     calculo_avanceEsperado = 0
                     for doc in documentos:                  
                         fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
