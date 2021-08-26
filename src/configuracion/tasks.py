@@ -15,9 +15,6 @@ from analitica.models import CurvasBase
 from django.utils import timezone
 import math
 
-# @app.task(name="desviacion")
-# def umbral_1(umbral, doc):
-#     pass
 
 def users_notifier(proyecto, cliente=None, contratista=None):
     recipients = []
@@ -72,7 +69,7 @@ def umbral_2():
                             "proyecto": proyecto,
                         },
                         subject=subject,
-                        recipients= ['ignaciovaldeb1996@gmail.com','patriciomelor@gmail.com', 'esteban.ams95@gmail.com'] #usuarios[0]
+                        recipients= usuarios[0]
                     )
                     for usuario in usuarios[1]:
                         noti = Notificacion(
@@ -91,8 +88,8 @@ def umbral_2():
                         noti_hu.documentos.set(document_list, clear=True)
                         noti_hu.versiones.set(revision_list, clear=True)
 
-                    # last_hu.last_checked = timezone.now()
-                    # last_hu.save()
+                    last_hu.last_checked = timezone.now()
+                    last_hu.save()
                     
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 2. {}".format(err)
@@ -146,7 +143,7 @@ def umbral_3():
                             "proyecto": proyecto,
                         },
                         subject=subject,
-                        recipients= ['ignaciovaldeb1996@gmail.com','patriciomelor@gmail.com', 'esteban.ams95@gmail.com']# usuarios[0]
+                        recipients= usuarios[0]
                     )
                     for usuario in usuarios[1]:
                         noti = Notificacion(
@@ -165,8 +162,8 @@ def umbral_3():
                         noti_hu.documentos.set(document_list, clear=True)
                         noti_hu.versiones.set(revision_list, clear=True)
 
-                    # last_hu.last_checked = timezone.now()
-                    # last_hu.save()
+                    last_hu.last_checked = timezone.now()
+                    last_hu.save()
 
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 3. {}".format(err)
@@ -910,7 +907,7 @@ def umbral_4():
                         "avance_real": proyecto[1][2],
                     },
                     subject=subject,
-                    recipients= ['ignaciovaldeb1996@gmail.com','patriciomelor@gmail.com', 'esteban.ams95@gmail.com'] #usuarios[0]
+                    recipients= usuarios[0]
                 )
                 for usuario in usuarios[1]:
                     noti = Notificacion(
@@ -928,8 +925,8 @@ def umbral_4():
                     )
                     noti_hu.save()
 
-                # last_hu.last_checked = timezone.now()
-                # last_hu.save()
+                last_hu.last_checked = timezone.now()
+                last_hu.save()
 
             except Exception as err:
                 error = "Un error Ocurrido al momento de notificar para el Umbral 4. {}".format(err)
