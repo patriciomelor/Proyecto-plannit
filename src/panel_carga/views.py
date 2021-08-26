@@ -78,20 +78,22 @@ class ListaProyecto(ProyectoMixin, ListView):
 class CreateProyecto(SuperuserViewMixin, CreateView):
     form_class = ProyectoForm
     template_name = 'panel_carga/create-proyecto.html'
-    # success_url = reverse_lazy("index")
+    success_url = reverse_lazy("index")
 
     def form_valid(self, form):
-        proyecto = form.instance
+        proyecto = form.save(commit=False)
         thresholds = Umbral.objects.all()
+        proyecto.save()
+        proyecto.participantes.add(proyecto.encargado)
+
         for umbral in thresholds:
             HistorialUmbrales.objects.create(
                 umbral=umbral,
                 proyecto=proyecto,
                 last_checked=timezone.now()
             )
-        print("Encargado desde Instancia",proyecto.encargado)
-        print("Encargado desde Formulario", form.cleaned_data["encargado"])
-        return HttpResponse("")
+
+        return super().form_valid(form)
 
 class DetailProyecto(ProyectoMixin, SuperuserViewMixin, AdminViewMixin, DetailView):
     template_name = 'panel_carga/detail-proyecto.html'

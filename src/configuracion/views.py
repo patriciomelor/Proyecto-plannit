@@ -41,13 +41,17 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
-        user = form.instance
+        user = form.save(commit=False)
+
         if user.is_superuser == True:
+            user.save()
             return super().form_valid(form)
         else:
+            user.save()
             rol = form.cleaned_data['rol_usuario']
             company = form.cleaned_data['empresa']
             cargo = form.cleaned_data['cargo_empresa']
+
             Perfil.objects.create(
                 usuario=user,
                 rol_usuario=rol,
