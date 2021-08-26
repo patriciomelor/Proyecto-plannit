@@ -346,7 +346,7 @@
       {% endif %} 
       <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
       <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.empresa}} </th>
-      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.cargo}} </th>
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.cargo_empresa}} </th>
       {% if usuario.perfil.rol_usuario %}
       <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
       {% else %}
