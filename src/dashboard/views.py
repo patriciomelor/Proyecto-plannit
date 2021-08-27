@@ -284,11 +284,20 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 contador_fechas = contador_fechas + 1
             # avance_programado = avance_esperado[puesto_esperado][0]
 
+        #Condicional para cuando el avance real posee solo un valor
+        if contador_real == 0:
+            avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real][0]) 
+            avance_semanal_programado = float(avance_esperado[contador_real][0]) - float(avance_esperado[contador_real][0])
+            avance_semanal_programado = [format(avance_semanal_programado, '.2f')]
+            avance_semanal_real = [format(avance_semanal_real, '.2f')]
+
+
         #Obtener avance semanal programado y avance semanal real
-        avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real - 1][0]) 
-        avance_semanal_programado = float(avance_esperado[contador_real][0]) - float(avance_esperado[contador_real - 1][0])
-        avance_semanal_programado = [format(avance_semanal_programado, '.2f')]
-        avance_semanal_real = [format(avance_semanal_real, '.2f')]
+        if contador_real != 0:
+            avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real - 1][0]) 
+            avance_semanal_programado = float(avance_esperado[contador_real][0]) - float(avance_esperado[contador_real - 1][0])
+            avance_semanal_programado = [format(avance_semanal_programado, '.2f')]
+            avance_semanal_real = [format(avance_semanal_real, '.2f')]
         
         #Se almacenan los datos obtenidos
         lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente,  documentos_revision_contratista,  documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0,cantidad_paquetes_contratista, cantidad_paquetes_cliente,  avance_programado, avance_real, avance_semanal_programado[0], avance_semanal_real[0]]
