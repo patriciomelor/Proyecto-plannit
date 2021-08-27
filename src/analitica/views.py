@@ -87,46 +87,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['curvaBase'] = qs
         return context
     
-    def Obtener_documentos_versiones(self):
-
-        lista_final = []
-        lista_final_versiones = []
-        lista_final_no_versiones = []
-        lista_actual = []
-        documentos = self.get_queryset()
-        documentos_totales = len(documentos)
-        versiones_documentos = self.get_versiones()
-        version_final = 0
-
-        #Obtener lista de las últimas versiones de cada documento
-        if documentos_totales != 0:
-            if versiones_documentos:
-                for doc in documentos: 
-                    comprobacion = 0
-                    for version in versiones_documentos:
-                        if str(doc.Codigo_documento) == str(version.documento_fk):
-                            version_final = version
-                            comprobacion = 1
-                        
-                    if comprobacion == 1:
-                        lista_actual = [version_final, doc]
-                        lista_final_versiones.append(lista_actual)
-                    
-                    if comprobacion == 0:
-                        lista_final_no_versiones.append(doc)
-
-                lista_final.append(lista_final_versiones)
-                lista_final.append(lista_final_no_versiones)
-
-            if not versiones_documentos:    
-                pass
-
-        else:
-            lista_actual = [0,0] 
-            lista_final.append(lista_actual)
-            
-        return lista_final
-
     def Obtener_documentos_versiones_tablas(self):
 
         documentos = self.get_queryset()
@@ -183,7 +143,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         estados_final = []
 
         #Obtener lista de cantidad de documentos por tipo de versión
-        if len(lista_final) != 0:
+        if lista_final[0][0] != 0:
             for estado in TYPES_REVISION[1:]:
                 cont = 0
                 for lista in lista_final[0]:
@@ -194,7 +154,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     estados_documentos = [cont, estado[1]]
                     estados_final.append(estados_documentos)
 
-        if len(lista_final) == 0:
+        else:
             estados_documento = [0, 'Sin registros']
             estados_final.append(estados_documento)
 
@@ -1301,7 +1261,7 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
 
 
         if valor_ganado == 0:
-            avance_esperado = [int(valor_ganado)]
+            avance_esperado = ['Sin registro']
             lista_final_esperado.append(avance_esperado)
 
         return lista_final_esperado
@@ -1312,12 +1272,16 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         value = self.Obtener_linea_base()
-        curva = CurvasBase(
-            datos_lista= value,
-            proyecto= self.proyecto
-        )
-        curva.save()
-        messages.success(request, message="Curva base Guardada con éxito.")
+        if value[0] == 'Sin registro':
+            messages.success(request, message="La línea base no puede ser almacenada. Ingrese documentos para realizar esta acción.")
+        
+        else: 
+            curva = CurvasBase(
+                datos_lista= value,
+                proyecto= self.proyecto
+            )
+            curva.save()
+            messages.success(request, message="Curva base Guardada con éxito.")
         return redirect('PanelCarga')
 
     def get(self, request, *args, **kwargs):

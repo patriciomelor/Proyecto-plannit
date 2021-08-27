@@ -114,6 +114,34 @@
               color: black;
             }
         }
+     
+     .buttons-excel{
+              color: #fff!important;
+              background: #23BF08!important;
+              border-color: #23BF08!important;
+              display: block!important;
+              width: 100%!important;
+              border-radius: 50px!important;
+              margin-left:20px!important;
+          }
+          
+    .pagination{
+      margin-left:auto;
+      margin-right:auto;
+      padding-right: 80px;
+    }
+    .page-link {
+      width:15vh;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding : 0px;
+    margin-left: 0px;
+    display: inline;
+    border: 0px;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        border: 0px;
+    }
     </style>
   </head>
   <body class="collapsed-menu with-subleft">
@@ -260,8 +288,6 @@
     <script src="{% static 'js/ResizeSensor.js' %}"></script>
     <script src="{% static 'js/dashboard.js' %}"></script>
     
-    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/pdfmake.min.js"></script>
@@ -269,7 +295,19 @@
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.flash.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+   
     <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.js"></script>
+    
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
+
+     <script>
+    $('#alert').fadeIn();     
+      setTimeout(function() {
+          $("#alert").fadeOut();           
+      },2000);
+    </script>
 
         <script>
       axios.defaults.xsrfCookieName = 'csrftoken';

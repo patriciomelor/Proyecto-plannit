@@ -277,7 +277,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
             # puesto_esperado = 0
             unico = 1
             for date in fechas:
-                if date >= semana_actual and unico == 1:
+                if str(date) >= str(semana_actual) and unico == 1:
                     # puesto_esperado = contador_fechas
                     avance_programado = avance_esperado[contador_fechas][0]
                     unico = 0
