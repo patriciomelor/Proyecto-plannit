@@ -59,7 +59,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                 cargo_empresa=cargo,
                 client=True
             )
-            
+
             self.proyecto.participantes.add(user)
             
         return super().form_valid(form)
@@ -93,9 +93,9 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
 
     def get_queryset(self):
         rol = self.request.user.perfil.rol_usuario
-        if rol <=3 and rol >=1:
+        if rol == 1:
             qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6]).order_by('perfil__empresa')
-        if rol <=6 and rol >=4:
+        if rol == 4:
             qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6]).order_by('perfil__empresa')
         return qs
     
@@ -129,10 +129,13 @@ class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
         context = super().get_context_data(**kwargs)
         user_list = []
         all_users = User.objects.all()
-        current_users = self.proyecto.participantes.all()
+        current_users = self.proyecto.participantes.prefetch_related("perfil").all()
         for user in all_users:
-            if not user in current_users:
-                user_list.append(user)
+            if user.is_superuser:
+                pass
+            else:
+                if not user in current_users:
+                    user_list.append(user)
 
         context['users'] = user_list
         return context
