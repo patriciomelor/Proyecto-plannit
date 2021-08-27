@@ -143,7 +143,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         estados_final = []
 
         #Obtener lista de cantidad de documentos por tipo de versión
-        if lista_final[0][0] != 0:
+        if lista_final[0] != 0:
             for estado in TYPES_REVISION[1:]:
                 cont = 0
                 for lista in lista_final[0]:
