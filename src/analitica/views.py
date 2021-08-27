@@ -100,7 +100,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         version_final = 0
 
         if documentos_totales != 0:
-            if versiones_documentos != 0:
+            if versiones_documentos:
                 for doc in documentos:
                     comprobacion = 0
                     for version in versiones_documentos:
@@ -121,9 +121,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if not versiones_documentos:
                 pass
         
-        else:
-            lista_actual = [0,0] 
-            lista_final.append(lista_actual)
+        else: 
+            lista_final.append([])
+            lista_final.append([])
     
         return lista_final
 
@@ -143,7 +143,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         estados_final = []
 
         #Obtener lista de cantidad de documentos por tipo de versión
-        if lista_final[0] != 0:
+        if lista_final[0]:
             for estado in TYPES_REVISION[1:]:
                 cont = 0
                 for lista in lista_final[0]:
@@ -188,7 +188,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         versiones_documentos = self.Obtener_documentos_versiones_tablas()
 
         if documentos_totales != 0:
-            if len(versiones_documentos[0]) != 0:
+            if versiones_documentos[0]:
                 #Obtener versiones que no poseen un estado de revisión
                 for si_version in versiones_documentos[0]:
                     cont = 0
@@ -1271,11 +1271,13 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
         return qs
 
     def post(self, request, *args, **kwargs):
-        value = self.Obtener_linea_base()
-        if value[0] == 'Sin registro':
-            messages.success(request, message="La línea base no puede ser almacenada. Ingrese documentos para realizar esta acción.")
+        docs = Documento.objects.filter(proyecto=self.proyecto)
+        #value = self.Obtener_linea_base()
+        if not docs:
+            messages.error(request, message="La línea base no puede ser almacenada. Ingrese documentos para realizar esta acción.")
         
         else: 
+            value = self.Obtener_linea_base()
             curva = CurvasBase(
                 datos_lista= value,
                 proyecto= self.proyecto
