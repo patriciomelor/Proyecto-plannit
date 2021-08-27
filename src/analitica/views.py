@@ -1261,7 +1261,7 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
 
 
         if valor_ganado == 0:
-            avance_esperado = [int(valor_ganado)]
+            avance_esperado = ['Sin registro']
             lista_final_esperado.append(avance_esperado)
 
         return lista_final_esperado
@@ -1272,12 +1272,16 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         value = self.Obtener_linea_base()
-        curva = CurvasBase(
-            datos_lista= value,
-            proyecto= self.proyecto
-        )
-        curva.save()
-        messages.success(request, message="Curva base Guardada con éxito.")
+        if value[0] == 'Sin registro':
+            messages.success(request, message="La línea base no puede ser almacenada. Ingrese documentos para realizar esta acción.")
+        
+        else: 
+            curva = CurvasBase(
+                datos_lista= value,
+                proyecto= self.proyecto
+            )
+            curva.save()
+            messages.success(request, message="Curva base Guardada con éxito.")
         return redirect('PanelCarga')
 
     def get(self, request, *args, **kwargs):
