@@ -14,6 +14,7 @@
 
 {% block content %}
 
+
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -27,161 +28,193 @@
               <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link  mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
               <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15"><i class="icon fa fa-share"></i> Enviados</a></li>
               <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15 active"><i class="icon icon ion-edit"></i> Borradores</a></li>
+              <li class="nav-item"><a type="button" onclick="printDiv('print')"  class="nav-link mg-l-15 active"><i class="fa fa-print"></i> Imprimir</a></li>
             </ul>
   </div>
-
+<div id="print">
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Detalle de Transmittal</h4>
+   
   </div>
- <div class="col-lg-12">
-            <div class="card shadow-base bd-0">
-            <div class="form-layout form-layout-7 ">               
-              <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                  Emisor
-                </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                  {{paquete.owner}}
-                </div><!-- col-8 -->
-              </div>
-              <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                  Destinatario
-                </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                  {{paquete.destinatario}}
-                </div><!-- col-8 -->
-              </div>
-               <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                  Asunto
-                </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                  {{paquete.asunto}}
-                </div><!-- col-8 -->
-              </div>                
-              <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                  Fecha creación
-                </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                  {{paquete.fecha_creacion|date:"d-M-Y H:i"}}
-                </div><!-- col-8 -->
-              </div>               
-              <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-transform: none ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                Anexo de comentarios
-                </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                {% if paquete.comentario %}
-                <a href="{{paquete.comentario.url}}">  <button class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10">Descargar</button></a>
-                {% else %}    
-                <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                  NO HAY ANEXO DE COMENTARIOS
-                </div>
-                {% endif %}
-                </div><!-- col-8 -->
-              </div>  
-              <div class="row no-gutters">
-                <div class="col-5 col-sm-4" style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-                Descargar Archivos
-                </div><!-- col-4 -->
-                <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                {% if correcto %}
-                <form method="POST">{% csrf_token %}
-                  <input type="submit" class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" value="Descargar todo"></input>                         
-                </form>
-                {% else %}    
-                <div class="col-7 col-sm-8" style="justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                  NO HAY ARCHIVOS EN ESTE TRANSMITTAL
-                </div>
-                {% endif %}
-                </div><!-- col-8 -->
-              </div>                                     
-            </div>
-              <table class="table table-striped mg-b-0 table-bordered table-primary">
-                <thead class="thead-colored thead-primary">
-                  <tr class="tx-10">
-                    <th class="pd-y-5"style="text-align: center;">Especialidad</th>     
-                    <th class="pd-y-5"style="text-align: center;">Descripción</th>                     
-                    <th class="pd-y-5"style="text-align: center;">Tipo</th>  
-                    <th class="pd-y-5"style="text-align: center;">Código</th>  
-                    <th class="pd-y-5"style="text-align: center;">Revisión</th>
-                    <th class="pd-y-5"style="text-align: center;">Estado</th>                                  
-                    <th class="pd-y-5"style="text-align: center;">Archivo</th>
-                   
-                  </tr>
-                </thead>
-               
-                <tbody>
-                {% for version in versiones %}
-                  <tr>                    
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Especialidad}} </td>       
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Descripcion}}</td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>  
-                    <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
-                   
-                    {% if request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario <= 3 %} 
-                        {% if version.estado_contratista is None %}
-                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td> 
-                        {% else %}
-                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td> 
-                        {% endif %}  
-                    {% elif request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario <= 6 %}  
-                        {% if version.estado_cliente is None %}
-                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td> 
-                        {% else %}
-                          <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td> 
-                        {% endif %}
-                    {% endif %}     
-      
-                    {% if version.archivo.url is not None %}
-                      <td class="tx-12"style="text-align: center;font-weight:800;"colspan="2">
-                      <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a>
-                    </td>
-                    {% else %}
-                    
-                       <th class="pd-y-5"style="text-align: center;">No hay documento para Descargar</th>  
 
-                    {% endif %}
-                  </tr>    
-                {% empty %}
-                    <tr>
-          <th style="background-color:#fff;" colspan="7">
-          <div class="alert alert-info alert-bordered pd-y-20" role="alert">
-            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">×</span>
-            </button>
-            <div class="d-sm-flex align-items-center justify-content-start">
-              <i class="icon ion-ios-information alert-icon tx-52 mg-r-20"></i>
-              <div class="mg-t-20 mg-sm-t-0">
-                <h5 class="mg-b-2">AVISO!</h5>
-                <p class="mg-b-0 tx-gray">El Transmittal no tiene documentos</p>
-              </div>
-            </div><!-- d-flex -->
+<div class="col-lg-12">
+  <div class="card shadow-base bd-0">
+     <div class="form-layout form-layout-7 ">
+      <div class="row no-gutters">
+        <div class="col-5 col-sm-4"
+          style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
+          Emisor
+        </div><!-- col-4 -->
+        <div class="col-7 col-sm-8"
+          style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
+          {{paquete.owner}}
+        </div><!-- col-8 -->
+      </div>
+      <div class="row no-gutters">
+        <div class="col-5 col-sm-4"
+          style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
+          Destinatario
+        </div><!-- col-4 -->
+        <div class="col-7 col-sm-8"
+          style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
+          {{paquete.destinatario}}
+        </div><!-- col-8 -->
+      </div>
+      <div class="row no-gutters">
+        <div class="col-5 col-sm-4"
+          style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
+          Asunto
+        </div><!-- col-4 -->
+        <div class="col-7 col-sm-8"
+          style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
+          {{paquete.asunto}}
+        </div><!-- col-8 -->
+      </div>
+      <div class="row no-gutters">
+        <div class="col-5 col-sm-4"
+          style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
+          Fecha creación
+        </div><!-- col-4 -->
+        <div class="col-7 col-sm-8"
+          style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
+          {{paquete.fecha_creacion|date:"d-M-Y H:i"}}
+        </div><!-- col-8 -->
+      </div>
+      <div class="row no-gutters">
+        <div class="col-5 col-sm-4"
+          style="text-transform: none ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
+          Anexo de comentarios
+        </div><!-- col-4 -->
+        <div class="col-7 col-sm-8" 
+          style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
+          {% if paquete.comentario %}
+          <a href="{{paquete.comentario.url}}"> <button
+              class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10">Descargar</button></a>
+          {% else %}
+          <div class="col-7 col-sm-8"
+            style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
+            NO HAY ANEXO DE COMENTARIOS
           </div>
+          {% endif %}
+        </div><!-- col-8 -->
+      </div>
+      <div class="row no-gutters" id="descargas">
+        <div class="col-5 col-sm-4"
+          style="display: inline-flex;text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
+          Descargar Archivos
+        </div><!-- col-4 -->
+        <div class="col-7 col-sm-8"
+          style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
+          {% if correcto %}
+          <form method="POST">{% csrf_token %}
+            <input type="submit"
+              class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10"
+              value="Descargar todo"></input>
+          </form>
+          {% else %}
+          <div class="col-7 col-sm-8" style="justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
+            NO HAY ARCHIVOS EN ESTE TRANSMITTAL
+          </div>
+          {% endif %}
+        </div><!-- col-8 -->
+      </div>
+    </div>
+    <table class="table table-striped mg-b-0 table-bordered table-primary">
+      <thead class="thead-colored thead-primary">
+        <tr class="tx-10">
+          <th class="pd-y-5" id="titulo" style="text-align: center;background: #0866C6!important;">Especialidad</th>
+          <th class="pd-y-5" id="titulo2"style="text-align: center;background: #0866c6!important;">Descripción</th>
+          <th class="pd-y-5" id="titulo3"style="text-align: center;background: #0866C6!important;">Tipo</th>
+          <th class="pd-y-5" id="titulo4"style="text-align: center;background: #0866C6!important;">Código</th>
+          <th class="pd-y-5" id="titulo5"style="text-align: center;background: #0866C6!important;">Revisión</th>
+          <th class="pd-y-5" id="titulo6"style="text-align: center;background: #0866C6!important;">Estado</th>
+          <th class="pd-y-5" id="titulo7"style="text-align: center;background: #0866C6!important;">Archivo</th>
+
+        </tr>
+      </thead>
+
+      <tbody>
+        {% for version in versiones %}
+        <tr>
+          <td class="tx-12" style="text-align: center;font-weight:800;">{{version.documento_fk.Especialidad}} </td>
+          <td class="tx-12" style="text-align: center;font-weight:800;">{{version.documento_fk.Descripcion}}</td>
+          <td class="tx-12" style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
+          <td class="tx-12" style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>
+          <td class="tx-12" style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
+
+          {% if request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario <= 3 %} 
+          {% if version.estado_contratista is None %} 
+          <td class="tx-12" style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>
+            {% else %}
+            <td class="tx-12" style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}
+            </td>
+            {% endif %}
+            {% elif request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario <= 6 %} 
+            {% if version.estado_cliente is None %} <td class="tx-12" style="text-align: center;font-weight:800;">
+              {{version.get_estado_contratista_display}}</td>
+              {% else %}
+              <td class="tx-12" style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>
+              {% endif %}
+              {% endif %}
+
+              {% if version.archivo.url is not None %}
+              <td class="tx-12" style="text-align: center;font-weight:800;" colspan="2">
+                <a href="{{version.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a>
+              </td>
+              {% else %}
+
+              <th class="pd-y-5" style="text-align: center;">No hay documento para Descargar</th>
+
+              {% endif %}
+        </tr>
+        {% empty %}
+        <tr>
+          <th style="background-color:#fff;" colspan="7">
+            <div class="alert alert-info alert-bordered pd-y-20" role="alert">
+              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">×</span>
+              </button>
+              <div class="d-sm-flex align-items-center justify-content-start">
+                <i class="icon ion-ios-information alert-icon tx-52 mg-r-20"></i>
+                <div class="mg-t-20 mg-sm-t-0">
+                  <h5 class="mg-b-2">AVISO!</h5>
+                  <p class="mg-b-0 tx-gray">El Transmittal no tiene documentos</p>
+                </div>
+              </div><!-- d-flex -->
+            </div>
           </th>
-          </tr>
-                {% endfor %}          
-                </tbody>
-               
-              </table>
-              <div class="card col-12 bd-0 mg-t-20 mg-b-30 ">
-                <div class="card-header tx-medium bd-0 tx-white bg-info">
-                  Descripción:
-                </div><!-- card-header -->
-                <div class="card-body bd bd-t-0 rounded-bottom">
-                  {{paquete.descripcion|safe}}
-                </div><!-- card-body -->
-              </div>
-            </div><!-- card -->
-  </div>    
+        </tr>
+        {% endfor %}
+      </tbody>
+
+    </table>
+    <div class="card col-12 bd-0 mg-t-20 mg-b-30 ">
+      <div class="card-header tx-medium bd-0 tx-white bg-info">
+        Descripción:
+      </div><!-- card-header -->
+      <div class="card-body bd bd-t-0 rounded-bottom">
+        {{paquete.descripcion|safe}}
+      </div><!-- card-body -->
+    </div>
+  </div><!-- card -->
+</div>
+</div>
  <script>
     $(document).ready(function() {
   $('#summernote').summernote({
     lang: 'es-ES' // default: 'en-US'
   });
 });
+  </script>
+  <script>
+  function printDiv(print) {
+  
+
+    var printContents = document.getElementById(print).innerHTML;
+     var originalContents = document.body.innerHTML;
+     document.body.innerHTML = printContents;
+     window.print({});
+     document.body.innerHTML = originalContents; 
+    }
   </script>
   {% endblock content %}
