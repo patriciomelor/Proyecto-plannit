@@ -175,7 +175,6 @@ def umbral_3():
 
     return revision_list
 
-
 def get_queryset():
     proyectos = Proyecto.objects.all()
     final_list = []
@@ -204,12 +203,13 @@ def Obtener_fechas():
     for proyecto in proyectos:
         elementos_final = []
         valor_ganado = len(documentos[contador_proyecto])
-        curva_base = CurvasBase.objects.filter(proyecto=proyecto).last().datos_lista
+        curva_base = CurvasBase.objects.filter(proyecto=proyecto).last()
 
         if valor_ganado !=0:
 
             if curva_base:
-
+                
+                curva_base = curva_base.datos_lista
                 valor_ganado = (100 / valor_ganado)
 
                 #Se alamacena la primera fecha de Emisión en B en la Lista de Controles

@@ -152,23 +152,25 @@ class ListDocumento(ProyectoMixin, ListView):
 
         if imported_data:
             for data in imported_data:
-                print(type(data),data)
+                print("Fecha B --->", type(data[4]),data[4])
+                print("Fecha 0 --->", type(data[5]),data[5])
                 try:
-                    # if isinstance(data[4], str):
-                    #     fecha_b = data[4]
-                    # else:
-                    #     fecha_b = data[4].strftime("%Y-%m-%d")
-                    # if isinstance(data[5], str):
-                    #     fecha_0 = data[5]
-                    # else:
-                    #     fecha_0 = data[5].strftime("%Y-%m-%d")
+                    pass
+                    if isinstance(data[4], str):
+                        fecha_b = data[4]
+                    else:
+                        fecha_b = timezone.make_aware(data[4], is_dst=True) 
+                    if isinstance(data[5], str):
+                        fecha_0 = data[5]
+                    else:
+                        fecha_0 = timezone.make_aware(data[5], is_dst=True) #.strftime("%Y-%m-%d")
                     documento = Documento(
                         Especialidad= data[0],
                         Descripcion= data[1],
                         Codigo_documento= data[2],
                         Tipo_Documento= data[3],
-                        fecha_Emision_B= data[4], #fecha_b,
-                        fecha_Emision_0= data[5], #fecha_0,
+                        fecha_Emision_B=fecha_b, #data[4], #fecha_b,
+                        fecha_Emision_0=fecha_0, #data[5], #fecha_0,
                         proyecto= self.proyecto,
                         owner= request.user
                     )
@@ -186,7 +188,7 @@ class ListDocumento(ProyectoMixin, ListView):
                     documentos_erroneos.append(data)
                     messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
         else:
-            messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
+            messages.add_message(request, level=messages.ERROR, message="No se encontró información para almacenar")
             return render(request, 'panel_carga/list-error.html', context={'exception': "Error en la Importación. Excel inválido."})
             
         return render(request, 'panel_carga/list-error.html', context={'errores': documentos_erroneos})
