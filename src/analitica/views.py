@@ -119,7 +119,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 lista_final.append(lista_final_no_versiones)
 
             if not versiones_documentos:
-                pass
+                for doc in documentos:
+                    lista_final_no_versiones.append(doc)
+
+                lista_final_versiones.append([])
         
         else: 
             lista_final.append([])
@@ -143,7 +146,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         estados_final = []
 
         #Obtener lista de cantidad de documentos por tipo de versión
-        if lista_final[0]:
+        if lista_final:
             for estado in TYPES_REVISION[1:]:
                 cont = 0
                 for lista in lista_final[0]:
@@ -188,7 +191,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         versiones_documentos = self.Obtener_documentos_versiones_tablas()
 
         if documentos_totales != 0:
-            if versiones_documentos[0]:
+            if versiones_documentos:
                 #Obtener versiones que no poseen un estado de revisión
                 for si_version in versiones_documentos[0]:
                     cont = 0
@@ -258,7 +261,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             #Obtener lista final de cantidad de versiones/documentos por especialidad emitidos
             for especialidad in especialidad_list:
                 cont = 0 
-                for lista in versiones_documentos[0]: 
+                for lista in versiones_documentos: 
                     mi_especialidad = lista[1].Especialidad
                     if mi_especialidad == especialidad:
                         cont = cont + 1
@@ -333,18 +336,19 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         if documentos_totales != 0:
 
             #Obtener lista de todas las especialidades 
-            for version in versiones_documentos[0]:
-                if version[0]:
-                    estado_cliente = version[0].estado_cliente
-                    if estado_cliente == 5:
-                        documentos_valido_contruccion = documentos_valido_contruccion + 1
-                    else:
-                        documentos_no_valido_contruccion = documentos_no_valido_contruccion + 1
-            
-            documentos_no_valido_contruccion = documentos_no_valido_contruccion + len(versiones_documentos[1])
+            if versiones_documentos:
+                for version in versiones_documentos:
+                    if version:
+                        estado_cliente = version.estado_cliente
+                        if estado_cliente == 5:
+                            documentos_valido_contruccion = documentos_valido_contruccion + 1
+                        else:
+                            documentos_no_valido_contruccion = documentos_no_valido_contruccion + 1
+                
+                documentos_no_valido_contruccion = documentos_no_valido_contruccion + len(versiones_documentos[1])
 
-            lista_final.append(documentos_valido_contruccion)
-            lista_final.append(documentos_no_valido_contruccion)
+                lista_final.append(documentos_valido_contruccion)
+                lista_final.append(documentos_no_valido_contruccion)
 
         if documentos_totales == 0:
             lista_final.append(0)
