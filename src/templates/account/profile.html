@@ -26,9 +26,7 @@
           <p class="mg-b-0 tx-24">
            
             {% if request.user.is_superuser %}
-            <a href="{% url 'proyecto-select' %}"><input type="button" class="btn btn-warning" value="Elegir Proyecto"></a>
-            <a href="{% url 'proyecto-crear' %}"><input type="button" class="btn btn-warning" value="Crear Proyecto"></a>
-            {% else %}
+          
             <a href="{% url 'proyecto-select' %}"><input type="button" class="btn btn-warning" value="Elegir Proyecto"></a>
             {% endif %}
           </p>
