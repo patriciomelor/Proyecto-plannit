@@ -204,18 +204,24 @@ def export_document(request):
 class DeleteDocumento(ProyectoMixin, ListView):
     template_name = 'panel_carga/delete-lista_documentos.html'
     model = Documento
-    success_url = reverse_lazy('PanelCarga')
+    # success_url = reverse_lazy('PanelCarga')
     context_object_name = 'documentos'
 
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
     
     def post(self, request, *args, **kwargs):
-        documentos_ids = self.request.POST.getlist('id[]')
-        for documento in documentos_ids:
-            doc = Documento.objects.get(pk=documento)
-            doc.delete()
-        return render(request, self.template_name)
+        documentos_ids = self.request.POST.getlist('document')
+        if documentos_ids:
+            for documento in documentos_ids:
+                doc = Documento.objects.get(pk=documento)
+                doc.delete()
+            
+            messages.success(request,  "Documentos eliminados correctamente")
+            return redirect('PanelCarga')
+        else:
+            messages.info(request,  "No se ha seleccionado ningun documento. Intente otra vez")
+            return redirect('documento-eliminar')
 
 
 class DeleteAllDocuments(ProyectoMixin, TemplateView):

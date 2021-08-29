@@ -21,10 +21,11 @@
     
          <thead>
           <tr>
-           <th style="background-color: #fff;"><button class="btn btn-warning"  id="delete_btn" style=" text-align: left;vertical-align: middle;padding:5px; font-size: 10px;align-items: flex-start;" type="submit"> Eliminar Registros <br> Seleccionados </button></a></th>
+           <th style="background-color: #fff;" > <a  href="{% url 'documento-eliminar-multiple' %}"  style="align-items: flex-end;"><button class="btn btn-danger mg-l-10" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;align-items: flex-end;" type="button"> Eliminar todo <br> Registro </button></a></th>
           </th>
+         <form action="{% url 'documento-eliminar' %}" method="POST">{% csrf_token %} 
            <th style="background-color: #fff;" colspan="5"></th>
-           <th style="background-color: #fff;" > <a  href="{% url 'documento-eliminar-multiple' %}"  style="align-items: flex-end;"><button class="btn btn-danger mg-l-10" style="text-align: center;vertical-align: middle;padding:5px; font-size: 10px;align-items: flex-end;" type="submit"> Eliminar todo <br> Registro </button></a></th>
+           <th style="background-color: #fff;"><button class="btn btn-warning" style=" text-align: left;vertical-align: middle;padding:5px; font-size: 10px;align-items: flex-start;" type="submit"> Eliminar Registros <br> Seleccionados </button></a></th>
           </th>
             
           </tr>
@@ -43,16 +44,12 @@
               <th style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">Emisión en Rev 0</th>
             </tr>
           </thead>
+
           <tbody>
-          
-            
-          
-          <tbody>   
               <!--Loop Listar Documento-->
-              {% csrf_token %}
               {% for documento in documentos %}
-              <tr id="{{documento.pk}}" >
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"  ><input type="checkbox" name="document_id[]" value="{{documento.pk}}" id="delete_document"></th>
+              <tr>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"  ><input type="checkbox" name="document" value="{{ documento.pk }}"></th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Especialidad}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Descripcion}} </th>
                 <th style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;"> {{documento.Codigo_documento}} </th>
@@ -91,12 +88,15 @@
           </table>
 
       </div>
+</form>
+
     </div>
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
-
+{% comment %} 
+<!-- 
 <script type="text/javascript">
   $(document).ready(function(){
     $('#delete_btn').click(function(){
@@ -130,5 +130,5 @@
     })
   })
 
-</script>
+</script> --> {% endcomment %}
 {% endblock content %}
