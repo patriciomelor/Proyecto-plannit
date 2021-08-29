@@ -318,12 +318,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
         documentos = self.get_queryset()
         valor_ganado = len(documentos)
 
-        curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last().datos_lista
-
+        curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last()
         if valor_ganado !=0:
 
             if curva_base:
 
+                curva_base = curva_base.datos_lista
                 valor_ganado = (100 / valor_ganado)
 
                 #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
@@ -850,7 +850,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         if valor_ganado == 0:
                avance_inicial = []
                avance_final = []
-               avance_inicial = [valor_ganado]
+               avance_inicial = [valor_ganado, -1, 0]
                avance_final.append(avance_inicial)
 
         return avance_final
