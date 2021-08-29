@@ -141,12 +141,18 @@ class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
         return context
     
     def post(self, request, *args, **kwargs):
-        usuario_ids = self.request.POST.getlist('id[]')
-        for usuario in usuario_ids:
-            user = User.objects.get(pk=usuario)
-            proyecto_add = self.proyecto
-            proyecto_add.participantes.add(user)
-        return redirect('listar-usuarios')
+        usuario_ids = self.request.POST.getlist('user')
+        if usuario_ids:
+            for usuario in usuario_ids:
+                user = User.objects.get(pk=usuario)
+                proyecto_add = self.proyecto
+                proyecto_add.participantes.add(user)
+            messages.success(self.request, "Usuarios añadidos correctamente al proyecto")
+
+            return redirect('listar-usuarios')
+        else:
+            messages.info(self.request, "No se ha seleccionado ningun usuario. Intente otra vez.")
+            return redirect('add-user-proyecto')
 
 class UsuarioRemove(ProyectoMixin, SuperuserViewMixin, ListView):
     template_name = 'configuracion/remove-user.html'

@@ -17,9 +17,10 @@
 
   <div class="card bd-0 shadow-base">
     <div class="row col-8 mg-t-10 mg-b-20">
-      <a><button class="btn btn-danger" id="delete_btn"
+<form action="{% url 'add-user-proyecto' %}" method='POST'>{% csrf_token %}
+        <a><button class="btn btn-danger"
           style="text-align: center;vertical-align: middle;margin-left:20px" type="submit"> Agregar Seleccionados
-        </button></a></th>
+        </button></a>
     </div>
     <table border="1" style="width:auto; height:20px;white-space: nowrap;"
       class="table table-striped mg-b-0 table-bordered table-primary" style="width:100%;">
@@ -44,10 +45,10 @@
       {% csrf_token %}
       {% for user in users %}
       <tbody>
-        <tr id="{{user.pk}}">
+        <tr>
           <th
             style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">
-            <input type="checkbox" name="user_id[]" value="{{user.pk}}" id="delete_document"></th>
+            <input name="user" type="checkbox" value="{{ user.pk }}" ></th>
           <th
             style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">
             {{user.username}} </th>
@@ -76,6 +77,7 @@
     {% endfor %}
     <!--Fin Loop-->
 
+</form>
 
   </div>
 </div>
@@ -84,7 +86,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 
 
-<script type="text/javascript">
+<!-- {% comment %} <script type="text/javascript">
   $(document).ready(function(){
     $('#delete_btn').click(function(){
       if(confirm("Seguro que desea añadir los usuarios\nseleccionados al proyecto actual?")){
@@ -117,5 +119,5 @@
     })
   })
 
-</script>
+</script> {% endcomment %} -->
 {% endblock content %}
