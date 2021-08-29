@@ -772,14 +772,14 @@ def reporte_curva_s_avance_real():
                         largo_necesitado = largo_necesitado - largo_inicial_fechas
 
             if contador_versiones == 0:
-                avance_inicial = [0]
+                avance_inicial = [0, -1, 0]
                 avance_final.append(avance_inicial)
 
         #Si no existen documentos, se almacenan valores vacios en el arreglo final
         if valor_ganado == 0:
                 avance_inicial = []
                 avance_final = []
-                avance_inicial = [valor_ganado]
+                avance_inicial = [valor_ganado, -1, 0]
                 avance_final.append(avance_inicial)
         
         conjunto_finales.append(avance_final)
@@ -860,6 +860,7 @@ def umbral_4():
     lista_proyectos_atrasados = []
     contador_proyecto = 0
     fecha_actual = timezone.now()
+    fechas_controles = Obtener_fechas()
     proyectos = Proyecto.objects.all()
 
     for proyecto in proyectos:  
@@ -867,13 +868,26 @@ def umbral_4():
         contador_real = 0
         if valor_ganado != 0:
             lista_avance_real = lista_avance_real_all[contador_proyecto]
-            for avance in lista_avance_real:
-                if avance[1] == 0:
-                    avance_real = avance[0]
-                    contador_real = contador_real + 1
-            contador_real = contador_real - 1
-            #Obtener avance esperado curva s 
-            avance_programado = avance_esperado_all[contador_proyecto][contador_real][0]
+            if lista_avance_real[0][1] != -1:
+                for avance in lista_avance_real:
+                    if avance[1] == 0:
+                        avance_real = avance[0]
+                        contador_real = contador_real + 1
+                contador_real = contador_real - 1
+                #Obtener avance esperado curva s 
+                avance_programado = avance_esperado_all[contador_proyecto][contador_real][0]
+            
+            if lista_avance_real[0][1] == -1: 
+                avance_real = 0.00
+                contador_fechas = 0
+                unico = 1
+                semana_actual = fecha_actual.replace(tzinfo = None)
+                fechas = fechas_controles[contador_proyecto][0][0]
+                for date in fechas:
+                    if str(date) >= str(semana_actual) and unico == 1:
+                        avance_programado = avance_esperado_all[contador_proyecto][contador_fechas][0]
+                        unico = 0
+                    contador_fechas = contador_fechas + 1
 
             #### Filtros de verificación para notificar a encargados del Proyecto
             last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=4).last()
