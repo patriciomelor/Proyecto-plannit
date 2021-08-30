@@ -136,6 +136,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         contador_0 = 0
         contador_emitidos_b = 0
         contador_emitidos_0 = 0
+        avance_semanal_programado = 0
+        avance_semanal_real = 0
 
         #Obtener paquetes
         clientes = [1,2,3]        
@@ -200,11 +202,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 
                 #Se realizan calculos para aprobado con comentarios
                 #Preguntar a deavys si aprobado con comentarios se encuentra en disposicion del contratista
-                if estado_cliente == 5:
-                    fecha_paquete = paquete_first[0].fecha_creacion.replace(tzinfo = None)
-                    diferencia = abs((fecha_version - fecha_paquete).days)
-                    tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
-                    documentos_aprobados = documentos_aprobados + 1
+                if paquete_first:
+                    if estado_cliente == 5:
+                        fecha_paquete = paquete_first[0].fecha_creacion.replace(tzinfo = None)
+                        diferencia = abs((fecha_version - fecha_paquete).days)
+                        tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
+                        documentos_aprobados = documentos_aprobados + 1
 
                 #calculos para revisiones de documentos
                 revision = version_last.revision
@@ -259,48 +262,61 @@ class EscritorioView(ProyectoMixin, TemplateView):
             documentos_atrasados_0 = abs(documentos_atrasados_0)
 
         #Obtener avance real y esperado
-        if contador_emitidos != 0:
-            #Obtener avance real curva s       
-            if total_documentos != 0:
-                for avance in lista_avance_real:
-                    if avance[1] == 0:
-                        avance_real = avance[0]
-                        contador_real = contador_real + 1
-                contador_real = contador_real - 1
-                #Obtener avance esperado curva s 
-                avance_programado = avance_esperado[contador_real][0]  
+        if lista_avance_real[0][1] != -1:
+            if contador_emitidos != 0:
+                #Obtener avance real curva s 
+                if total_documentos != 0:
+                    for avance in lista_avance_real:
+                        if avance[1] == 0:
+                            avance_real = avance[0]
+                            contador_real = contador_real + 1
+                    contador_real = contador_real - 1
+                    #Obtener avance esperado curva s 
+                    avance_programado = avance_esperado[contador_real][0] 
+            
+            #Condicional para cuando el avance real posee solo un valor
+            if contador_real == 0:
+                avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real][0]) 
+                avance_semanal_programado = float(avance_esperado[contador_real][0]) - float(avance_esperado[contador_real][0])
+                avance_semanal_programado = format(avance_semanal_programado, '.2f')
+                avance_semanal_real = format(avance_semanal_real, '.2f')
 
-        #Avance real y esperado en caso no existir documentos emitidos
-        if contador_emitidos == 0:
-            avance_real = '0.0'
+            #Obtener avance semanal programado y avance semanal real
+            if contador_real != 0:
+                avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real - 1][0]) 
+                avance_semanal_programado = float(avance_esperado[contador_real][0]) - float(avance_esperado[contador_real - 1][0])
+                avance_semanal_programado = format(avance_semanal_programado, '.2f')
+                avance_semanal_real = format(avance_semanal_real, '.2f')
+
+        if lista_avance_real[0][1] == -1: 
+            avance_real = '0.00'
             contador_fechas = 0
-            # puesto_esperado = 0
             unico = 1
+            semana = 0
             for date in fechas:
                 if str(date) >= str(semana_actual) and unico == 1:
-                    # puesto_esperado = contador_fechas
                     avance_programado = avance_esperado[contador_fechas][0]
+                    semana = contador_fechas
                     unico = 0
                 contador_fechas = contador_fechas + 1
-            # avance_programado = avance_esperado[puesto_esperado][0]
+            
+            if semana != 0:
+                avance_semanal_programado = float(avance_esperado[semana][0]) - float(avance_esperado[semana - 1][0])
+                avance_semanal_programado = format(avance_semanal_programado, '.2f') 
 
-        #Condicional para cuando el avance real posee solo un valor
-        if contador_real == 0:
-            avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real][0]) 
-            avance_semanal_programado = float(avance_esperado[contador_real][0]) - float(avance_esperado[contador_real][0])
-            avance_semanal_programado = [format(avance_semanal_programado, '.2f')]
-            avance_semanal_real = [format(avance_semanal_real, '.2f')]
-
-
-        #Obtener avance semanal programado y avance semanal real
-        if contador_real != 0:
-            avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real - 1][0]) 
-            avance_semanal_programado = float(avance_esperado[contador_real][0]) - float(avance_esperado[contador_real - 1][0])
-            avance_semanal_programado = [format(avance_semanal_programado, '.2f')]
-            avance_semanal_real = [format(avance_semanal_real, '.2f')]
+        # #Avance real y esperado en caso no existir documentos emitidos
+        # if contador_emitidos == 0:
+        #     avance_real = '0.0'
+        #     contador_fechas = 0
+        #     unico = 1
+        #     for date in fechas:
+        #         if str(date) >= str(semana_actual) and unico == 1:
+        #             avance_programado = avance_esperado[contador_fechas][0]
+        #             unico = 0
+        #         contador_fechas = contador_fechas + 1
         
         #Se almacenan los datos obtenidos
-        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente,  documentos_revision_contratista,  documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0,cantidad_paquetes_contratista, cantidad_paquetes_cliente,  avance_programado, avance_real, avance_semanal_programado[0], avance_semanal_real[0]]
+        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente,  documentos_revision_contratista,  documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0,cantidad_paquetes_contratista, cantidad_paquetes_cliente,  avance_programado, avance_real, avance_semanal_programado, avance_semanal_real]
         lista_final.append(lista_inicial)
 
         return lista_inicial
@@ -318,12 +334,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
         documentos = self.get_queryset()
         valor_ganado = len(documentos)
 
-        curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last().datos_lista
-
+        curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last()
         if valor_ganado !=0:
 
             if curva_base:
 
+                curva_base = curva_base.datos_lista
                 valor_ganado = (100 / valor_ganado)
 
                 #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
@@ -843,14 +859,14 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         largo_necesitado = largo_necesitado - largo_inicial_fechas
     
             if contador_versiones == 0:
-                avance_inicial = [0]
+                avance_inicial = [0, -1, 0]
                 avance_final.append(avance_inicial)
 
         #Si no existen documentos, se almacenan valores vacios en el arreglo final
         if valor_ganado == 0:
                avance_inicial = []
                avance_final = []
-               avance_inicial = [valor_ganado]
+               avance_inicial = [valor_ganado, -1, 0]
                avance_final.append(avance_inicial)
 
         return avance_final

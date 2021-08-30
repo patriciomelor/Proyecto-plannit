@@ -121,8 +121,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             if not versiones_documentos:
                 for doc in documentos:
                     lista_final_no_versiones.append(doc)
-
-                lista_final_versiones.append([])
+                
+                lista_final.append([])
+                lista_final.append(lista_final_no_versiones)
         
         else: 
             lista_final.append([])
@@ -259,15 +260,20 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     especialidad_list = especialidad_list + (str(especialidad_actual),)
 
             #Obtener lista final de cantidad de versiones/documentos por especialidad emitidos
-            for especialidad in especialidad_list:
-                cont = 0 
-                for lista in versiones_documentos: 
-                    mi_especialidad = lista[1].Especialidad
-                    if mi_especialidad == especialidad:
-                        cont = cont + 1
-                if cont != 0:
-                    aprobados_inicial = [cont, especialidad]
-                    aprobados_final.append(aprobados_inicial) 
+            if versiones_documentos[1]:
+                for especialidad in especialidad_list:
+                    cont = 0 
+                    for lista in versiones_documentos[1]: 
+                        mi_especialidad = lista.Especialidad
+                        if mi_especialidad == especialidad:
+                            cont = cont + 1
+                    if cont != 0:
+                        aprobados_inicial = [cont, especialidad]
+                        aprobados_final.append(aprobados_inicial) 
+            
+            if not versiones_documentos[1]:
+                aprobados_inicial = [0, 'Sin registros']
+                aprobados_final.append()
 
         if documentos_totales == 0:
             aprobados_inicial = [0, 'Sin registros']
@@ -332,14 +338,15 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos_valido_contruccion = 0
         documentos_no_valido_contruccion = 0
         versiones_documentos = self.Obtener_documentos_versiones_tablas()
+        print(versiones_documentos)
         
         if documentos_totales != 0:
 
             #Obtener lista de todas las especialidades 
-            if versiones_documentos:
-                for version in versiones_documentos:
+            if versiones_documentos[0]:
+                for version in versiones_documentos[0]:
                     if version:
-                        estado_cliente = version.estado_cliente
+                        estado_cliente = version[0].estado_cliente
                         if estado_cliente == 5:
                             documentos_valido_contruccion = documentos_valido_contruccion + 1
                         else:
@@ -460,11 +467,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         elementos_final = []
         documentos = self.get_queryset()
         valor_ganado = len(documentos)
-        curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last().datos_lista
+        curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last()
 
         if valor_ganado !=0:
 
             if curva_base:
+
+                curva_base = curva_base.datos_lista
 
                 valor_ganado = (100 / valor_ganado)
 
