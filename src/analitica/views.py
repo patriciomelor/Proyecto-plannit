@@ -260,11 +260,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     especialidad_list = especialidad_list + (str(especialidad_actual),)
 
             #Obtener lista final de cantidad de versiones/documentos por especialidad emitidos
-            if versiones_documentos[1]:
+            if versiones_documentos[0]:
                 for especialidad in especialidad_list:
                     cont = 0 
-                    for lista in versiones_documentos[1]: 
-                        mi_especialidad = lista.Especialidad
+                    for lista in versiones_documentos[0]: 
+                        mi_especialidad = lista[1].Especialidad
                         if mi_especialidad == especialidad:
                             cont = cont + 1
                     if cont != 0:
@@ -338,7 +338,6 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         documentos_valido_contruccion = 0
         documentos_no_valido_contruccion = 0
         versiones_documentos = self.Obtener_documentos_versiones_tablas()
-        print(versiones_documentos)
         
         if documentos_totales != 0:
 
@@ -356,6 +355,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                 lista_final.append(documentos_valido_contruccion)
                 lista_final.append(documentos_no_valido_contruccion)
+
+            if not versiones_documentos[0]:
+                documentos_no_valido_contruccion = len(versiones_documentos[1])
+
+                lista_final.append(documentos_valido_contruccion)
+                lista_final.append(documentos_no_valido_contruccion)
+
 
         if documentos_totales == 0:
             lista_final.append(0)
