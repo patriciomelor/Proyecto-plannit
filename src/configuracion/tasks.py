@@ -185,7 +185,7 @@ def get_queryset():
     return final_list
  
 def get_versiones():
-    user_roles = [4,5]
+    user_roles = [1,2,4,5]
     qs1 = get_queryset()
     final_list = []
     for documento in qs1:
@@ -899,10 +899,10 @@ def umbral_4():
                 diferencia_avance =  float(avance_programado) - float(avance_real)
                 diferencia_avance = format(diferencia_avance, '.2f')
                 if last_hu.cliente_variable_atraso >= 0:
-                    if diferencia_avance >= float(last_hu.cliente_variable_atraso):
+                    if float(diferencia_avance) >= float(last_hu.cliente_variable_atraso):
                         lista_proyectos_atrasados.append([proyecto, [diferencia_avance, avance_programado, avance_real]])
                 if last_hu.cliente_variable_atraso < 0:
-                    if diferencia_avance <= float(last_hu.cliente_variable_atraso):
+                    if float(diferencia_avance) <= float(last_hu.cliente_variable_atraso):
                         lista_proyectos_atrasados.append([proyecto, diferencias])
 
         contador_proyecto = contador_proyecto + 1
