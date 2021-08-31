@@ -40,7 +40,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         return qs1
  
     def get_versiones(self):
-        user_roles = [4,5]
+        user_roles = [1,2,4,5]
         qs1 = self.get_queryset()
         qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1, owner__perfil__rol_usuario__in=user_roles) #.select_related("owner").filter(owner__in=users)
         return qs2

@@ -65,15 +65,17 @@ class StatusIndex(ProyectoMixin, TemplateView):
                     version = versiones
 
             if version:
-                paquete = version.paquete_set.select_related("destinatario").first()
-                paquete_first = version_first.paquete_set.select_related("destinatario").first()
-                if version.estado_cliente == 5:
-                    transmital = abs((paquete.fecha_creacion - paquete_first.fecha_creacion).days)
-                    dias_revision = 0
-                else:
-                    transmital = abs((semana_actual - paquete_first.fecha_creacion).days)
-                    fecha_version = paquete.fecha_creacion
-                    dias_revision = abs((semana_actual - fecha_version).days)
+                paquete = version.paquete_set.first()
+                paquete_first = version_first.paquete_set.first()
+
+                if paquete and paquete_first:
+                    if version.estado_cliente == 5:
+                        transmital = abs((paquete.fecha_creacion - paquete_first.fecha_creacion).days)
+                        dias_revision = 0
+                    else:
+                        transmital = abs((semana_actual - paquete_first.fecha_creacion).days)
+                        fecha_version = paquete.fecha_creacion
+                        dias_revision = abs((semana_actual - fecha_version).days)
 
                 version_documento = version.revision
 
@@ -81,15 +83,15 @@ class StatusIndex(ProyectoMixin, TemplateView):
                     if version_documento == revision[0]:
                         if dias_revision < 0:
                             dias_revision = 0
-                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first.fecha_creacion, dias_revision]]
+                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first, dias_revision]]
                             lista_final.append(lista_inicial)
                         else:
-                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first.fecha_creacion, dias_revision]]
+                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first, dias_revision]]
                             lista_final.append(lista_inicial)
 
                 for revision in TYPES_REVISION[5:]:
                     if version_documento == revision[0]:
-                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital, paquete_first.fecha_creacion, dias_revision]]
+                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital, paquete_first, dias_revision]]
                         lista_final.append(lista_inicial)
                         
             else: 

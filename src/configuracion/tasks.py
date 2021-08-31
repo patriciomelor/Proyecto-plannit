@@ -185,7 +185,7 @@ def get_queryset():
     return final_list
  
 def get_versiones():
-    user_roles = [4,5]
+    user_roles = [1,2,4,5]
     qs1 = get_queryset()
     final_list = []
     for documento in qs1:
