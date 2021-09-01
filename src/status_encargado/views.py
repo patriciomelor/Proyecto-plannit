@@ -74,6 +74,7 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         dias_revision = 0
         fecha_emision_b = 0
         versiones_documento = self.get_versiones_last()
+        rev_letra = self.proyecto.rev_letra
 
         for doc in documentos:
             fecha_emision_b = doc.fecha_Emision_B
@@ -105,10 +106,10 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                     if version_documento == revision[0]:
                         if dias_revision < 0:
                             dias_revision = 0
-                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first, dias_revision]]
+                            lista_inicial =[doc, [version, paquete, semana_actual, rev_letra, transmital, paquete_first, dias_revision]]
                             lista_final.append(lista_inicial)
                         else:
-                            lista_inicial =[doc, [version, paquete, semana_actual, '70%', transmital, paquete_first, dias_revision]]
+                            lista_inicial =[doc, [version, paquete, semana_actual, rev_letra, transmital, paquete_first, dias_revision]]
                             lista_final.append(lista_inicial)
 
                 for revision in TYPES_REVISION[5:]:
