@@ -456,335 +456,337 @@ def reporte_curva_s_avance_real():
     dia_actual = timezone.now()
     dia_actual = dia_actual.replace(tzinfo = None)
     versiones_documentos = get_versiones()
-    rev_letra = self.proyecto.rev_letra
-
-    for documentos in documentos_totales:
-        valor_ganado = len(documentos)
+    proyectos = Proyecto.objects.all()
     
-        if valor_ganado !=0:
+    for proyecto in proyectos:
+        rev_letra = proyecto.rev_letra
+        for documentos in documentos_totales:
+            valor_ganado = len(documentos)
+        
+            if valor_ganado !=0:
 
-            #Variables
-            valor_ganado = (100 / valor_ganado)                  
-            avance_inicial = []
-            avance_final = []
-            fecha_version = 0
-            fechas_controles = lista_final[contador_fechas_grupo][0][0]
-            avance_fechas_controles = []
-            contador_versiones = 0
-            fechas_controles_recorrer = []
-            ultima_fecha = 0
-            contador_fechas = 1
-            lista_versiones = []
+                #Variables
+                valor_ganado = (100 / valor_ganado)                  
+                avance_inicial = []
+                avance_final = []
+                fecha_version = 0
+                fechas_controles = lista_final[contador_fechas_grupo][0][0]
+                avance_fechas_controles = []
+                contador_versiones = 0
+                fechas_controles_recorrer = []
+                ultima_fecha = 0
+                contador_fechas = 1
+                lista_versiones = []
 
-            #Variables final
-            largo_inicial_fechas = len(fechas_controles)
-            largo_necesitado = 0
+                #Variables final
+                largo_inicial_fechas = len(fechas_controles)
+                largo_necesitado = 0
 
-            #Se recorren las fechas de control para guardar las que necesitan evaluarse
-            for fechas in fechas_controles:
-                if fechas <= dia_actual:
-                    fechas_controles_recorrer.append(fechas)
-                    avance_fechas_controles.append(0)
-                else:
-                    if fechas > dia_actual and contador_fechas == 1:
+                #Se recorren las fechas de control para guardar las que necesitan evaluarse
+                for fechas in fechas_controles:
+                    if fechas <= dia_actual:
                         fechas_controles_recorrer.append(fechas)
                         avance_fechas_controles.append(0)
-                        contador_fechas = 0
-                ultima_fecha = fechas
+                    else:
+                        if fechas > dia_actual and contador_fechas == 1:
+                            fechas_controles_recorrer.append(fechas)
+                            avance_fechas_controles.append(0)
+                            contador_fechas = 0
+                    ultima_fecha = fechas
 
-            #Se almacenan los dato del documento
-            for doc in documentos:
-                cont = 0
-                cont2 = 0
-                for versiones in versiones_documentos[contador_fechas_grupo]:
-                    if str(doc.Codigo_documento) == str(versiones.documento_fk):
-                        if versiones.revision < 5 and cont == 0:               
-                            version_letras = versiones
-                            cont = 1
-                        if versiones.revision > 4:             
-                            version_numerica = versiones
-                            cont2 = 1
-
-                if cont == 1 and cont2 == 1:
-                    lista_versiones.append([doc, [version_letras, version_numerica]])
-
-                if cont == 1 and cont2 == 0:
-                    lista_versiones.append([doc, [version_letras]])
-
-                if cont == 0 and cont2 == 1:
-                    lista_versiones.append([doc, [version_numerica]])
-
-            #Se recorren las versiones a calcular el avance real
-            for docs in lista_versiones:
-                contador_avance = 0
-
-                for versiones in docs[1]:
-                    contador_versiones = contador_versiones + 1
-                    fecha_version = versiones.fecha.replace(tzinfo=None)
-                    revision_documento = versiones.revision
-                    valor_documento = 0
+                #Se almacenan los dato del documento
+                for doc in documentos:
                     cont = 0
+                    cont2 = 0
+                    for versiones in versiones_documentos[contador_fechas_grupo]:
+                        if str(doc.Codigo_documento) == str(versiones.documento_fk):
+                            if versiones.revision < 5 and cont == 0:               
+                                version_letras = versiones
+                                cont = 1
+                            if versiones.revision > 4:             
+                                version_numerica = versiones
+                                cont2 = 1
 
-                    #Se calcula el avance real en la fecha de control que corresponda
-                    for controles in fechas_controles_recorrer:
-                        if valor_documento == 0:
-                            calculo_real_0 = 0
-                            calculo_real_b = 0
-                            avance_documento = 0
+                    if cont == 1 and cont2 == 1:
+                        lista_versiones.append([doc, [version_letras, version_numerica]])
 
-                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                            for revision in TYPES_REVISION[1:4]:
-                                if revision[0] == revision_documento and fecha_version <= controles:
-                                    calculo_real_b = valor_ganado * float(rev_letra/100)
-                                if cont == (len(fechas_controles) - 1):
-                                    if revision[0] == revision_documento and fecha_version > controles:                              
+                    if cont == 1 and cont2 == 0:
+                        lista_versiones.append([doc, [version_letras]])
+
+                    if cont == 0 and cont2 == 1:
+                        lista_versiones.append([doc, [version_numerica]])
+
+                #Se recorren las versiones a calcular el avance real
+                for docs in lista_versiones:
+                    contador_avance = 0
+
+                    for versiones in docs[1]:
+                        contador_versiones = contador_versiones + 1
+                        fecha_version = versiones.fecha.replace(tzinfo=None)
+                        revision_documento = versiones.revision
+                        valor_documento = 0
+                        cont = 0
+
+                        #Se calcula el avance real en la fecha de control que corresponda
+                        for controles in fechas_controles_recorrer:
+                            if valor_documento == 0:
+                                calculo_real_0 = 0
+                                calculo_real_b = 0
+                                avance_documento = 0
+
+                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                for revision in TYPES_REVISION[1:4]:
+                                    if revision[0] == revision_documento and fecha_version <= controles:
                                         calculo_real_b = valor_ganado * float(rev_letra/100)
-
-                            if contador_avance == 0:
-                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                for revision in TYPES_REVISION[5:]:
-                                    if revision[0] == revision_documento and fecha_version <= controles:
-                                        calculo_real_0 = valor_ganado * 1
                                     if cont == (len(fechas_controles) - 1):
-                                        if revision[0] == revision_documento and fecha_version > controles:                                
+                                        if revision[0] == revision_documento and fecha_version > controles:                              
+                                            calculo_real_b = valor_ganado * float(rev_letra/100)
+
+                                if contador_avance == 0:
+                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                    for revision in TYPES_REVISION[5:]:
+                                        if revision[0] == revision_documento and fecha_version <= controles:
                                             calculo_real_0 = valor_ganado * 1
+                                        if cont == (len(fechas_controles) - 1):
+                                            if revision[0] == revision_documento and fecha_version > controles:                                
+                                                calculo_real_0 = valor_ganado * 1
 
-                            if contador_avance != 0:
-                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                for revision in TYPES_REVISION[5:]:
-                                    if revision[0] == revision_documento and fecha_version <= controles:
-                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
-                                    if cont == (len(fechas_controles) - 1):
-                                        if revision[0] == revision_documento and fecha_version > controles:                                
+                                if contador_avance != 0:
+                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                    for revision in TYPES_REVISION[5:]:
+                                        if revision[0] == revision_documento and fecha_version <= controles:
                                             calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+                                        if cont == (len(fechas_controles) - 1):
+                                            if revision[0] == revision_documento and fecha_version > controles:                                
+                                                calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
 
-                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                            if calculo_real_b > calculo_real_0:
-                                avance_documento = calculo_real_b                               
+                                #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                if calculo_real_b > calculo_real_0:
+                                    avance_documento = calculo_real_b                               
 
-                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                            if calculo_real_b < calculo_real_0:
-                                avance_documento = calculo_real_0
+                                #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                if calculo_real_b < calculo_real_0:
+                                    avance_documento = calculo_real_0
 
-                            #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
-                            if avance_documento != 0:
-                                avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
-                                valor_documento = 1 
-                                contador_avance = contador_avance + 1
-                            cont = cont + 1
+                                #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                if avance_documento != 0:
+                                    avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                    valor_documento = 1 
+                                    contador_avance = contador_avance + 1
+                                cont = cont + 1
 
-            if contador_versiones != 0:
-                #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
-                contador_final = 0
-                calculo_avance_final = 0
-                largo_fechas = len(avance_fechas_controles)
-                
-                for avance in avance_fechas_controles: 
-                    if contador_final < largo_fechas:
-                        calculo_avance_final = calculo_avance_final + avance
-                        avance_inicial = [format(calculo_avance_final, '.2f'), 0]
-                        avance_final.append(avance_inicial)
-                        contador_final = contador_final + 1
+                if contador_versiones != 0:
+                    #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
+                    contador_final = 0
+                    calculo_avance_final = 0
+                    largo_fechas = len(avance_fechas_controles)
+                    
+                    for avance in avance_fechas_controles: 
+                        if contador_final < largo_fechas:
+                            calculo_avance_final = calculo_avance_final + avance
+                            avance_inicial = [format(calculo_avance_final, '.2f'), 0]
+                            avance_final.append(avance_inicial)
+                            contador_final = contador_final + 1
 
-                #Funcion en caso de que el avance real no sea el 100%
-                diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
-                diferencia = 100 - calculo_avance_final
-                avance_semanal = calculo_avance_final/(largo_fechas - 1)
+                    #Funcion en caso de que el avance real no sea el 100%
+                    diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
+                    diferencia = 100 - calculo_avance_final
+                    avance_semanal = calculo_avance_final/(largo_fechas - 1)
 
-                if calculo_avance_final == 100:
-                    #Se calcula el avance porcentual
-                    largo_curva_s = len(avance_final)
-                    contador_curva_s = 1
-                    diferencia = 0
-                    arreglo_valores = []
-                    arreglo_valores_final = []
-
-                    arreglo_valores = [avance_final[0][0], avance_final[0][1], '0.0']
-                    arreglo_valores_final.append(arreglo_valores)
-
-                    while contador_curva_s < largo_curva_s:
-                        if avance_final[contador_curva_s][1] == 0:
-                            diferencia = float(avance_final[contador_curva_s][0]) - float(avance_final[contador_curva_s - 1][0])
-                            diferencia = format(diferencia, '.2f')
-                            arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
-                            arreglo_valores_final.append(arreglo_valores)
-                        else:
-                            diferencia = float(avance_final[contador_curva_s][0]) - float(avance_final[contador_curva_s - 1][0])
-                            diferencia = format(diferencia, '.2f')
-                            arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
-                            arreglo_valores_final.append(arreglo_valores)
-                        contador_curva_s = contador_curva_s + 1                                                                                       
-
-                    #Se almacena avance real en lista final
-                    avance_final = arreglo_valores_final
-                
-                if avance_semanal != 0:
-                    proyeccion = (diferencia / avance_semanal) - diferencia_arreglo_fecha
-                    contador = 0
-
-                    if  calculo_avance_final < 100 and calculo_avance_final > 0:
-
-                        #Variables
-                        avance_inicial_dos = []
-                        avance_final_dos = []
-                        avance_fechas_controles = []
-                        fechas_controles_recorrer = []
-                        contador_versiones = 0
-                        contador_fechas = 1
-
-                        #Funcion para agregar nuevas fechas
-                        while contador < proyeccion:
-                            ultima_fecha = ultima_fecha + timedelta(days=7)
-                            fechas_controles.append(ultima_fecha)
-                            contador = contador + 1
-
-                        #Se recorren las fechas de control para guardar las que necesitan evaluarse
-                        for fechas in fechas_controles:
-                            if fechas <= dia_actual:
-                                fechas_controles_recorrer.append(fechas)
-                                avance_fechas_controles.append(0)
-                            else:
-                                if fechas > dia_actual and contador_fechas == 1:
-                                    fechas_controles_recorrer.append(fechas)
-                                    avance_fechas_controles.append(0)
-                                    contador_fechas = 0
-
-                        #Se recorren las versiones a calcular el avance real
-                        for docs in lista_versiones:
-                            contador_avance = 0
-
-                            for versiones in docs[1]:
-                                contador_versiones = contador_versiones + 1
-                                fecha_version = versiones.fecha.replace(tzinfo=None)
-                                revision_documento = versiones.revision
-                                valor_documento = 0
-                                cont = 0
-
-                                #Se calcula el avance real en la fecha de control que corresponda
-                                for controles in fechas_controles_recorrer:
-                                    if valor_documento == 0:
-                                        calculo_real_0 = 0
-                                        calculo_real_b = 0
-                                        avance_documento = 0
-
-                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                        for revision in TYPES_REVISION[1:4]:
-                                            if revision[0] == revision_documento and fecha_version <= controles:
-                                                calculo_real_b = valor_ganado * float(rev_letra/100)
-                                            if cont == (len(fechas_controles) - 1):
-                                                if revision[0] == revision_documento and fecha_version > controles:                              
-                                                    calculo_real_b = valor_ganado * float(rev_letra/100)
-
-                                        if contador_avance == 0:
-                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[5:]:
-                                                if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_0 = valor_ganado * 1
-                                                if cont == (len(fechas_controles) - 1):
-                                                    if revision[0] == revision_documento and fecha_version > controles:                                
-                                                        calculo_real_0 = valor_ganado * 1
-
-                                        if contador_avance != 0:
-                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[5:]:
-                                                if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
-                                                if cont == (len(fechas_controles) - 1):
-                                                    if revision[0] == revision_documento and fecha_version > controles:                                
-                                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
-
-                                        #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                                        if calculo_real_b > calculo_real_0:
-                                            avance_documento = calculo_real_b                               
-
-                                        #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                                        if calculo_real_b < calculo_real_0:
-                                            avance_documento = calculo_real_0
-
-                                        #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
-                                        if avance_documento != 0:
-                                            avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
-                                            valor_documento = 1 
-                                            contador_avance = contador_avance + 1
-                                        cont = cont + 1
-
-                        #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
-                        contador_final = 0
-                        calculo_avance_final = 0
-                        largo_fechas = len(avance_fechas_controles)
-                        
-                        for avance in avance_fechas_controles: 
-                            if contador_final < largo_fechas:
-                                calculo_avance_final = calculo_avance_final + avance
-                                avance_inicial_dos = [format(calculo_avance_final, '.2f'), 0]
-                                avance_final_dos.append(avance_inicial_dos)
-                                contador_final = contador_final + 1
-
-                        #Funcion en caso de que el avance real no sea el 100%
-                        diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
-                        diferencia = 100 - calculo_avance_final
-                        avance_semanal = calculo_avance_final/(largo_fechas - 1)
-                        proyeccion = (diferencia / avance_semanal)
-                        contador = 0
-
-                        proyeccion = math.ceil(proyeccion)
-                        if  calculo_avance_final < 100 and calculo_avance_final > 0:
-                            while contador < proyeccion:
-                                if contador == (proyeccion - 1):
-                                    calculo_avance_final = 100
-                                    avance_inicial_dos = [format(calculo_avance_final, '.2f'), 1]
-                                    avance_final_dos.append(avance_inicial_dos)
-                                    contador = contador + 1
-
-                                else:
-                                    calculo_avance_final = calculo_avance_final + avance_semanal
-                                    avance_inicial_dos = [format(calculo_avance_final, '.2f'), 1]
-                                    avance_final_dos.append(avance_inicial_dos)
-                                    contador = contador + 1
-
+                    if calculo_avance_final == 100:
                         #Se calcula el avance porcentual
-                        largo_curva_s = len(avance_final_dos)
+                        largo_curva_s = len(avance_final)
                         contador_curva_s = 1
                         diferencia = 0
                         arreglo_valores = []
                         arreglo_valores_final = []
 
-                        arreglo_valores = [avance_final_dos[0][0], avance_final_dos[0][1], '0.0']
+                        arreglo_valores = [avance_final[0][0], avance_final[0][1], '0.0']
                         arreglo_valores_final.append(arreglo_valores)
 
                         while contador_curva_s < largo_curva_s:
-                            if avance_final_dos[contador_curva_s][1] == 0:
-                                diferencia = float(avance_final_dos[contador_curva_s][0]) - float(avance_final_dos[contador_curva_s - 1][0])
+                            if avance_final[contador_curva_s][1] == 0:
+                                diferencia = float(avance_final[contador_curva_s][0]) - float(avance_final[contador_curva_s - 1][0])
                                 diferencia = format(diferencia, '.2f')
-                                arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
+                                arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
                                 arreglo_valores_final.append(arreglo_valores)
                             else:
-                                diferencia = float(avance_final_dos[contador_curva_s][0]) - float(avance_final_dos[contador_curva_s - 1][0])
+                                diferencia = float(avance_final[contador_curva_s][0]) - float(avance_final[contador_curva_s - 1][0])
                                 diferencia = format(diferencia, '.2f')
-                                arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
+                                arreglo_valores = [avance_final[contador_curva_s][0], avance_final[contador_curva_s][1], str(diferencia)]
                                 arreglo_valores_final.append(arreglo_valores)
                             contador_curva_s = contador_curva_s + 1                                                                                       
 
                         #Se almacena avance real en lista final
                         avance_final = arreglo_valores_final
+                    
+                    if avance_semanal != 0:
+                        proyeccion = (diferencia / avance_semanal) - diferencia_arreglo_fecha
+                        contador = 0
 
-                        #Calcular extension de fechas
-                        largo_necesitado = largo_fechas + proyeccion
-                        largo_necesitado = largo_necesitado - largo_inicial_fechas
+                        if  calculo_avance_final < 100 and calculo_avance_final > 0:
 
-            if contador_versiones == 0:
-                avance_inicial = [0, -1, 0]
-                avance_final.append(avance_inicial)
+                            #Variables
+                            avance_inicial_dos = []
+                            avance_final_dos = []
+                            avance_fechas_controles = []
+                            fechas_controles_recorrer = []
+                            contador_versiones = 0
+                            contador_fechas = 1
 
-        #Si no existen documentos, se almacenan valores vacios en el arreglo final
-        if valor_ganado == 0:
-                avance_inicial = []
-                avance_final = []
-                avance_inicial = [valor_ganado, -1, 0]
-                avance_final.append(avance_inicial)
-        
-        conjunto_finales.append(avance_final)
-        contador_fechas_grupo = contador_fechas_grupo + 1
+                            #Funcion para agregar nuevas fechas
+                            while contador < proyeccion:
+                                ultima_fecha = ultima_fecha + timedelta(days=7)
+                                fechas_controles.append(ultima_fecha)
+                                contador = contador + 1
+
+                            #Se recorren las fechas de control para guardar las que necesitan evaluarse
+                            for fechas in fechas_controles:
+                                if fechas <= dia_actual:
+                                    fechas_controles_recorrer.append(fechas)
+                                    avance_fechas_controles.append(0)
+                                else:
+                                    if fechas > dia_actual and contador_fechas == 1:
+                                        fechas_controles_recorrer.append(fechas)
+                                        avance_fechas_controles.append(0)
+                                        contador_fechas = 0
+
+                            #Se recorren las versiones a calcular el avance real
+                            for docs in lista_versiones:
+                                contador_avance = 0
+
+                                for versiones in docs[1]:
+                                    contador_versiones = contador_versiones + 1
+                                    fecha_version = versiones.fecha.replace(tzinfo=None)
+                                    revision_documento = versiones.revision
+                                    valor_documento = 0
+                                    cont = 0
+
+                                    #Se calcula el avance real en la fecha de control que corresponda
+                                    for controles in fechas_controles_recorrer:
+                                        if valor_documento == 0:
+                                            calculo_real_0 = 0
+                                            calculo_real_b = 0
+                                            avance_documento = 0
+
+                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                            for revision in TYPES_REVISION[1:4]:
+                                                if revision[0] == revision_documento and fecha_version <= controles:
+                                                    calculo_real_b = valor_ganado * float(rev_letra/100)
+                                                if cont == (len(fechas_controles) - 1):
+                                                    if revision[0] == revision_documento and fecha_version > controles:                              
+                                                        calculo_real_b = valor_ganado * float(rev_letra/100)
+
+                                            if contador_avance == 0:
+                                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                                for revision in TYPES_REVISION[5:]:
+                                                    if revision[0] == revision_documento and fecha_version <= controles:
+                                                        calculo_real_0 = valor_ganado * 1
+                                                    if cont == (len(fechas_controles) - 1):
+                                                        if revision[0] == revision_documento and fecha_version > controles:                                
+                                                            calculo_real_0 = valor_ganado * 1
+
+                                            if contador_avance != 0:
+                                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                                for revision in TYPES_REVISION[5:]:
+                                                    if revision[0] == revision_documento and fecha_version <= controles:
+                                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+                                                    if cont == (len(fechas_controles) - 1):
+                                                        if revision[0] == revision_documento and fecha_version > controles:                                
+                                                            calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+
+                                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                            if calculo_real_b > calculo_real_0:
+                                                avance_documento = calculo_real_b                               
+
+                                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                            if calculo_real_b < calculo_real_0:
+                                                avance_documento = calculo_real_0
+
+                                            #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                            if avance_documento != 0:
+                                                avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                                valor_documento = 1 
+                                                contador_avance = contador_avance + 1
+                                            cont = cont + 1
+
+                            #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
+                            contador_final = 0
+                            calculo_avance_final = 0
+                            largo_fechas = len(avance_fechas_controles)
+                            
+                            for avance in avance_fechas_controles: 
+                                if contador_final < largo_fechas:
+                                    calculo_avance_final = calculo_avance_final + avance
+                                    avance_inicial_dos = [format(calculo_avance_final, '.2f'), 0]
+                                    avance_final_dos.append(avance_inicial_dos)
+                                    contador_final = contador_final + 1
+
+                            #Funcion en caso de que el avance real no sea el 100%
+                            diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
+                            diferencia = 100 - calculo_avance_final
+                            avance_semanal = calculo_avance_final/(largo_fechas - 1)
+                            proyeccion = (diferencia / avance_semanal)
+                            contador = 0
+
+                            proyeccion = math.ceil(proyeccion)
+                            if  calculo_avance_final < 100 and calculo_avance_final > 0:
+                                while contador < proyeccion:
+                                    if contador == (proyeccion - 1):
+                                        calculo_avance_final = 100
+                                        avance_inicial_dos = [format(calculo_avance_final, '.2f'), 1]
+                                        avance_final_dos.append(avance_inicial_dos)
+                                        contador = contador + 1
+
+                                    else:
+                                        calculo_avance_final = calculo_avance_final + avance_semanal
+                                        avance_inicial_dos = [format(calculo_avance_final, '.2f'), 1]
+                                        avance_final_dos.append(avance_inicial_dos)
+                                        contador = contador + 1
+
+                            #Se calcula el avance porcentual
+                            largo_curva_s = len(avance_final_dos)
+                            contador_curva_s = 1
+                            diferencia = 0
+                            arreglo_valores = []
+                            arreglo_valores_final = []
+
+                            arreglo_valores = [avance_final_dos[0][0], avance_final_dos[0][1], '0.0']
+                            arreglo_valores_final.append(arreglo_valores)
+
+                            while contador_curva_s < largo_curva_s:
+                                if avance_final_dos[contador_curva_s][1] == 0:
+                                    diferencia = float(avance_final_dos[contador_curva_s][0]) - float(avance_final_dos[contador_curva_s - 1][0])
+                                    diferencia = format(diferencia, '.2f')
+                                    arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
+                                    arreglo_valores_final.append(arreglo_valores)
+                                else:
+                                    diferencia = float(avance_final_dos[contador_curva_s][0]) - float(avance_final_dos[contador_curva_s - 1][0])
+                                    diferencia = format(diferencia, '.2f')
+                                    arreglo_valores = [avance_final_dos[contador_curva_s][0], avance_final_dos[contador_curva_s][1], str(diferencia)]
+                                    arreglo_valores_final.append(arreglo_valores)
+                                contador_curva_s = contador_curva_s + 1                                                                                       
+
+                            #Se almacena avance real en lista final
+                            avance_final = arreglo_valores_final
+
+                            #Calcular extension de fechas
+                            largo_necesitado = largo_fechas + proyeccion
+                            largo_necesitado = largo_necesitado - largo_inicial_fechas
+
+                if contador_versiones == 0:
+                    avance_inicial = [0, -1, 0]
+                    avance_final.append(avance_inicial)
+
+            #Si no existen documentos, se almacenan valores vacios en el arreglo final
+            if valor_ganado == 0:
+                    avance_inicial = []
+                    avance_final = []
+                    avance_inicial = [valor_ganado, -1, 0]
+                    avance_final.append(avance_inicial)
+            
+            conjunto_finales.append(avance_final)
+            contador_fechas_grupo = contador_fechas_grupo + 1
 
     return conjunto_finales
 
@@ -794,61 +796,64 @@ def reporte_curva_s_avance_esperado():
     documentos_totales = get_queryset()
     contador_fechas_grupo = 0
     conjunto_finales = []
+    proyectos = Proyecto.objects.all()
     
-    for documentos in documentos_totales:
-        valor_ganado = len(documentos)
-        diferencia = 0
-        avance_esperado = []
-        lista_final_esperado = []
+    for proyecto in proyectos:
+        rev_letra = proyecto.rev_letra
+        for documentos in documentos_totales:
+            valor_ganado = len(documentos)
+            diferencia = 0
+            avance_esperado = []
+            lista_final_esperado = []
 
-        if valor_ganado != 0:
-            
-            #Calculo del avance esperado por fecha de control
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
-            fechas_controles = lista_final[contador_fechas_grupo][0][0]
-            valor_ganado = (100 / valor_ganado)
-            contador_largo = 0
+            if valor_ganado != 0:
+                
+                #Calculo del avance esperado por fecha de control
+                fecha_emision_b = 0
+                fecha_emision_0 = 0
+                fechas_controles = lista_final[contador_fechas_grupo][0][0]
+                valor_ganado = (100 / valor_ganado)
+                contador_largo = 0
 
-            for controles in fechas_controles:
-                if contador_largo < len(fechas_controles):
-                    calculo_avanceEsperado = 0
-                    for doc in documentos:                  
-                        fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
-                        fecha_emision_0 = doc.fecha_Emision_0.replace(tzinfo=None)
+                for controles in fechas_controles:
+                    if contador_largo < len(fechas_controles):
+                        calculo_avanceEsperado = 0
+                        for doc in documentos:                  
+                            fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
+                            fecha_emision_0 = doc.fecha_Emision_0.replace(tzinfo=None)
 
-                        #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                        if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                            calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
-                        if fecha_emision_0 <= controles and fecha_emision_b < controles:
-                            calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
+                            #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
+                            if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                                calculo_avanceEsperado = valor_ganado * float(rev_letra/100) + calculo_avanceEsperado                      
+                            if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                                calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 
-                    #Se almacena el avance esperado hasta la fecha de control
-                    avance_esperado = [format(calculo_avanceEsperado, '.2f')]
-                    lista_final_esperado.append(avance_esperado)
-                contador_largo = contador_largo + 1
-            
-            calculo_parcial = []
-            calculo_parcial_final = []
-            contador_parcial = 1
+                        #Se almacena el avance esperado hasta la fecha de control
+                        avance_esperado = [format(calculo_avanceEsperado, '.2f')]
+                        lista_final_esperado.append(avance_esperado)
+                    contador_largo = contador_largo + 1
+                
+                calculo_parcial = []
+                calculo_parcial_final = []
+                contador_parcial = 1
 
-            calculo_parcial = [lista_final_esperado[0][0], '0.0']
-            calculo_parcial_final.append(calculo_parcial)
-
-            while contador_parcial < len(lista_final_esperado):
-                diferencia = float(lista_final_esperado[contador_parcial][0]) - float(lista_final_esperado[contador_parcial - 1][0])
-                diferencia = format(diferencia, '.2f')
-                calculo_parcial = [lista_final_esperado[contador_parcial][0], str(diferencia)]
+                calculo_parcial = [lista_final_esperado[0][0], '0.0']
                 calculo_parcial_final.append(calculo_parcial)
-                contador_parcial = contador_parcial + 1
 
-            lista_final_esperado = calculo_parcial_final
+                while contador_parcial < len(lista_final_esperado):
+                    diferencia = float(lista_final_esperado[contador_parcial][0]) - float(lista_final_esperado[contador_parcial - 1][0])
+                    diferencia = format(diferencia, '.2f')
+                    calculo_parcial = [lista_final_esperado[contador_parcial][0], str(diferencia)]
+                    calculo_parcial_final.append(calculo_parcial)
+                    contador_parcial = contador_parcial + 1
 
-        if valor_ganado == 0:
-            avance_esperado = [int(valor_ganado)]
-            lista_final_esperado.append(avance_esperado)
+                lista_final_esperado = calculo_parcial_final
 
-        conjunto_finales.append(lista_final_esperado)
+            if valor_ganado == 0:
+                avance_esperado = [int(valor_ganado)]
+                lista_final_esperado.append(avance_esperado)
+
+            conjunto_finales.append(lista_final_esperado)
 
     return conjunto_finales
 
