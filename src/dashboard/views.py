@@ -59,12 +59,15 @@ class EscritorioView(ProyectoMixin, TemplateView):
         ###################################################
 
     def get_users(self, *args, **kwargs):
+        users=[]
         rol = self.request.user.perfil.rol_usuario
         if rol == 1:
-            users = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6]).order_by('perfil__empresa')
-        if rol == 4:
-            users = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6]).order_by('perfil__empresa')
-            
+            users = self.proyecto.participantes.prefetch_related("perfil").all().exclude(is_superuser=True).filter(perfil__rol_usuario__in=[1,2,3,4,5,6]).order_by('perfil__empresa')
+        elif rol == 4:
+            users = self.proyecto.participantes.prefetch_related("perfil").all().exclude(is_superuser=True).filter(perfil__rol_usuario__in=[4,5,6]).order_by('perfil__empresa')
+        else:
+            users = None
+
         return users
 
     ###################################################
