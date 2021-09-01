@@ -456,6 +456,7 @@ def reporte_curva_s_avance_real():
     dia_actual = timezone.now()
     dia_actual = dia_actual.replace(tzinfo = None)
     versiones_documentos = get_versiones()
+    rev_letra = self.proyecto.rev_letra
 
     for documentos in documentos_totales:
         valor_ganado = len(documentos)
@@ -534,10 +535,10 @@ def reporte_curva_s_avance_real():
                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                             for revision in TYPES_REVISION[1:4]:
                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                    calculo_real_b = valor_ganado * 0.7
+                                    calculo_real_b = valor_ganado * float(rev_letra/100)
                                 if cont == (len(fechas_controles) - 1):
                                     if revision[0] == revision_documento and fecha_version > controles:                              
-                                        calculo_real_b = valor_ganado * 0.7
+                                        calculo_real_b = valor_ganado * float(rev_letra/100)
 
                             if contador_avance == 0:
                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
@@ -552,10 +553,10 @@ def reporte_curva_s_avance_real():
                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                 for revision in TYPES_REVISION[5:]:
                                     if revision[0] == revision_documento and fecha_version <= controles:
-                                        calculo_real_0 = valor_ganado * 0.3
+                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                     if cont == (len(fechas_controles) - 1):
                                         if revision[0] == revision_documento and fecha_version > controles:                                
-                                            calculo_real_0 = valor_ganado * 0.3
+                                            calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
 
                             #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b > calculo_real_0:
@@ -669,10 +670,10 @@ def reporte_curva_s_avance_real():
                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                         for revision in TYPES_REVISION[1:4]:
                                             if revision[0] == revision_documento and fecha_version <= controles:
-                                                calculo_real_b = valor_ganado * 0.7
+                                                calculo_real_b = valor_ganado * float(rev_letra/100)
                                             if cont == (len(fechas_controles) - 1):
                                                 if revision[0] == revision_documento and fecha_version > controles:                              
-                                                    calculo_real_b = valor_ganado * 0.7
+                                                    calculo_real_b = valor_ganado * float(rev_letra/100)
 
                                         if contador_avance == 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
@@ -687,10 +688,10 @@ def reporte_curva_s_avance_real():
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                             for revision in TYPES_REVISION[5:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_0 = valor_ganado * 0.3
+                                                    calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                                 if cont == (len(fechas_controles) - 1):
                                                     if revision[0] == revision_documento and fecha_version > controles:                                
-                                                        calculo_real_0 = valor_ganado * 0.3
+                                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
 
                                         #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                         if calculo_real_b > calculo_real_0:
