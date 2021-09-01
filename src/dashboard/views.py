@@ -59,12 +59,15 @@ class EscritorioView(ProyectoMixin, TemplateView):
         ###################################################
 
     def get_users(self, *args, **kwargs):
+        users=[]
         rol = self.request.user.perfil.rol_usuario
         if rol == 1:
-            users = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6]).order_by('perfil__empresa')
-        if rol == 4:
-            users = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6]).order_by('perfil__empresa')
-            
+            users = self.proyecto.participantes.prefetch_related("perfil").all().exclude(is_superuser=True).filter(perfil__rol_usuario__in=[1,2,3,4,5,6]).order_by('perfil__empresa')
+        elif rol == 4:
+            users = self.proyecto.participantes.prefetch_related("perfil").all().exclude(is_superuser=True).filter(perfil__rol_usuario__in=[4,5,6]).order_by('perfil__empresa')
+        else:
+            users = None
+
         return users
 
     ###################################################
@@ -586,6 +589,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         dia_actual = timezone.now()
         dia_actual = dia_actual.replace(tzinfo = None)
         versiones_documentos = self.get_versiones()
+        rev_letra = self.proyecto.rev_letra
         
         if valor_ganado !=0:
 
@@ -661,10 +665,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                             for revision in TYPES_REVISION[1:4]:
                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                    calculo_real_b = valor_ganado * 0.7
+                                    calculo_real_b = valor_ganado * float(rev_letra/100)
                                 if cont == (len(fechas_controles) - 1):
                                     if revision[0] == revision_documento and fecha_version > controles:                              
-                                        calculo_real_b = valor_ganado * 0.7
+                                        calculo_real_b = valor_ganado * float(rev_letra/100)
 
                             if contador_avance == 0:
                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
@@ -679,10 +683,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                 for revision in TYPES_REVISION[5:]:
                                     if revision[0] == revision_documento and fecha_version <= controles:
-                                        calculo_real_0 = valor_ganado * 0.3
+                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                     if cont == (len(fechas_controles) - 1):
                                         if revision[0] == revision_documento and fecha_version > controles:                                
-                                            calculo_real_0 = valor_ganado * 0.3
+                                            calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
 
                             #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b > calculo_real_0:
@@ -775,10 +779,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                         for revision in TYPES_REVISION[1:4]:
                                             if revision[0] == revision_documento and fecha_version <= controles:
-                                                calculo_real_b = valor_ganado * 0.7
+                                                calculo_real_b = valor_ganado * float(rev_letra/100)
                                             if cont == (len(fechas_controles) - 1):
                                                 if revision[0] == revision_documento and fecha_version > controles:                              
-                                                    calculo_real_b = valor_ganado * 0.7
+                                                    calculo_real_b = valor_ganado * float(rev_letra/100)
 
                                         if contador_avance == 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
@@ -793,10 +797,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                             for revision in TYPES_REVISION[5:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_0 = valor_ganado * 0.3
+                                                    calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                                 if cont == (len(fechas_controles) - 1):
                                                     if revision[0] == revision_documento and fecha_version > controles:                                
-                                                        calculo_real_0 = valor_ganado * 0.3
+                                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
 
                                         #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                         if calculo_real_b > calculo_real_0:
@@ -878,6 +882,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         valor_ganado = len(documentos)
         avance_esperado = []
         lista_final_esperado = []
+        rev_letra = self.proyecto.rev_letra
+
         if valor_ganado != 0:
             
             #Calculo del avance esperado por fecha de control
@@ -896,7 +902,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                         #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
                         if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                            calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
+                            calculo_avanceEsperado = valor_ganado * float(rev_letra/100) + calculo_avanceEsperado                      
                         if fecha_emision_0 <= controles and fecha_emision_b < controles:
                             calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 

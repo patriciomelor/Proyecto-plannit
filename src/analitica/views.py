@@ -267,9 +267,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                         mi_especialidad = lista[1].Especialidad
                         if mi_especialidad == especialidad:
                             cont = cont + 1
-                    if cont != 0:
-                        aprobados_inicial = [cont, especialidad]
-                        aprobados_final.append(aprobados_inicial) 
+
+                    aprobados_inicial = [cont, especialidad]
+                    aprobados_final.append(aprobados_inicial) 
             
             if not versiones_documentos[1]:
                 aprobados_inicial = [0, 'Sin registros']
@@ -305,6 +305,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     mi_especialidad = lista.Especialidad
                     if mi_especialidad == especialidad:
                         cont = cont + 1
+                
                 lista_actual = [cont, especialidad]
                 lista_final.append(lista_actual)
 
@@ -400,7 +401,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-        maximo = maximo + 1
+        
+        if maximo <= 20:
+            maximo = maximo + 1
 
         return maximo
 
@@ -408,7 +411,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         #Llamado para un método definido anteriormente
         # dividendo = self.valor_eje_x_grafico_uno() - 1
-        dividendo = dividendo - 1
+
+        if dividendo <= 21:
+            dividendo = dividendo - 1
+
+        # dividendo = dividendo - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -442,7 +449,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-        maximo = maximo + 1
+        
+        if maximo <= 20:
+            maximo = maximo + 1
 
         return maximo
 
@@ -450,7 +459,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         #Llamado para un método definido anteriormente
         # dividendo = self.valor_eje_x_grafico_tres() - 1
-        dividendo = dividendo - 1
+        
+        if dividendo <= 21:
+            dividendo = dividendo - 1
+
+        # dividendo = dividendo - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -723,6 +736,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         dia_actual = timezone.now()
         dia_actual = dia_actual.replace(tzinfo = None)
         versiones_documentos = self.get_versiones()
+        rev_letra = self.proyecto.rev_letra
         
         if valor_ganado !=0:
 
@@ -798,10 +812,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                             for revision in TYPES_REVISION[1:4]:
                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                    calculo_real_b = valor_ganado * 0.7
+                                    calculo_real_b = valor_ganado * float(rev_letra/100)
                                 if cont == (len(fechas_controles) - 1):
                                     if revision[0] == revision_documento and fecha_version > controles:                              
-                                        calculo_real_b = valor_ganado * 0.7
+                                        calculo_real_b = valor_ganado * float(rev_letra/100)
 
                             if contador_avance == 0:
                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
@@ -816,10 +830,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                 for revision in TYPES_REVISION[5:]:
                                     if revision[0] == revision_documento and fecha_version <= controles:
-                                        calculo_real_0 = valor_ganado * 0.3
+                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                     if cont == (len(fechas_controles) - 1):
                                         if revision[0] == revision_documento and fecha_version > controles:                                
-                                            calculo_real_0 = valor_ganado * 0.3
+                                            calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
 
                             #Se comparan los avances en emision b y 0, para guardar el mayor valor
                             if calculo_real_b > calculo_real_0:
@@ -933,10 +947,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                         for revision in TYPES_REVISION[1:4]:
                                             if revision[0] == revision_documento and fecha_version <= controles:
-                                                calculo_real_b = valor_ganado * 0.7
+                                                calculo_real_b = valor_ganado * float(rev_letra/100)
                                             if cont == (len(fechas_controles) - 1):
                                                 if revision[0] == revision_documento and fecha_version > controles:                              
-                                                    calculo_real_b = valor_ganado * 0.7
+                                                    calculo_real_b = valor_ganado * float(rev_letra/100)
 
                                         if contador_avance == 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
@@ -951,10 +965,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                             for revision in TYPES_REVISION[5:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_0 = valor_ganado * 0.3
+                                                    calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                                 if cont == (len(fechas_controles) - 1):
                                                     if revision[0] == revision_documento and fecha_version > controles:                                
-                                                        calculo_real_0 = valor_ganado * 0.3
+                                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
 
                                         #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                         if calculo_real_b > calculo_real_0:
@@ -1056,6 +1070,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         avance_esperado = []
         lista_final_esperado = []
         diferencia = 0
+        rev_letra = self.proyecto.rev_letra
         
         if valor_ganado != 0:
             
@@ -1075,7 +1090,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                         #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
                         if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                            calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
+                            calculo_avanceEsperado = valor_ganado * float(rev_letra/100) + calculo_avanceEsperado                      
                         if fecha_emision_0 <= controles and fecha_emision_b < controles:
                             calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 
@@ -1250,6 +1265,7 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         avance_esperado = []
         lista_final_esperado = []
+        rev_letra = self.proyecto.rev_letra
         
         if valor_ganado != 0:
             
@@ -1269,7 +1285,7 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
 
                         #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
                         if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                            calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
+                            calculo_avanceEsperado = valor_ganado * float(rev_letra/100) + calculo_avanceEsperado                      
                         if fecha_emision_0 <= controles and fecha_emision_b < controles:
                             calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 

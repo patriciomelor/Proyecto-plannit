@@ -1,5 +1,5 @@
-{% extends "account/base.html" %}
-
+{% extends "account/login_base.html" %}
+{% load crispy_forms_tags %}
 {% load i18n %}
 {% load account %}
 
@@ -7,6 +7,8 @@
 
 
 {% block content %}
+<div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+
 <h1>{% trans "Confirm E-mail Address" %}</h1>
 
 {% if confirmation %}
@@ -27,5 +29,5 @@
 <p>{% blocktrans %}This e-mail confirmation link expired or is invalid. Please <a href="{{ email_url }}">issue a new e-mail confirmation request</a>.{% endblocktrans %}</p>
 
 {% endif %}
-
+</div>
 {% endblock %}

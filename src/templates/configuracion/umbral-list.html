@@ -15,14 +15,11 @@
     {% include "configuracion/menu.html"%}
 
 {% include "messege.html" %}  
-    <div class="br-pagebody mg-t-5 pd-x-30">
-
-      <div class="br-section-wrapper">    
-        <div class="pd-x-20 pd-sm-x-30 mg-b-10">
+        <div class="pd-x-20 pd-sm-x-30 mg-b-10 b-t-10">
           <h4 class="tx-gray-800 mg-b-5">Lista de Umbrales / {{proyecto}}</h4>
         </div> 
+    <div class="br-pagebody mg-t-5 pd-x-30"> 
 
-        <div class="row row-sm d-flex justify-content-center">
           <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary">       
       <!--Table-->
               <thead>
@@ -31,7 +28,7 @@
                   <th style="text-align: center;border: 2px;border-color: grey; color: white;width:auto;">Descripción</th>
                   <th style="text-align: center;border: 2px;border-color: grey; color: white;width:5%;margin:0px;padding:0px;">Tiempo de Control</th>
                   <th style="text-align: center;border: 2px;border-color: grey; color: white;width:5%;margin:0px;padding:0px;">Variable de Atraso</th>
-                  <th style="text-align: center;border: 2px;border-color: grey; color: white;width:auto;">Última<br>Revisión</th>
+                  <th style="text-align: center;border: 2px;border-color: grey; color: white;width:auto;">Última Revisión</th>
                   <th style="text-align: center;border: 2px;border-color: grey; color: white;width:auto;">Acción</th>
 
                 </tr>
@@ -56,9 +53,7 @@
                 <!--Fin Loop-->
               </tbody>
             </table>
-        </div>
       </div>  
-  </div>
-</div>
+
 
 {% endblock content %}

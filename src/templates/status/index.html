@@ -59,12 +59,12 @@
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.0.Tipo_Documento}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.0.get_revision_display}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.1.destinatario.perfil.empresa}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if documento.1.1 %} <a href="{% url 'paquete-detalle' documento.1.1.pk %}"> </a></th> {% else %} {% endif %}
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if documento.1.1 %} <a href="{% url 'paquete-detalle' documento.1.1.pk %}"> {{documento.1.1}} </a></th> {% else %} {% endif %}
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.6}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not documento.1.0.get_estado_cliente_display %} {{ documento.1.0.get_estado_contratista_display }} {% else %}{{documento.1.0.get_estado_cliente_display}} {% endif %}  </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.5.fecha_creacion|date:"d-m-y"}}</th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.1.fecha_creacion|date:"d-m-y"}} </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.3}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.3}}% </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.4}} </th>
               </tr>
               {% endif %}
