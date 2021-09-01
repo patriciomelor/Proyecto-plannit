@@ -267,9 +267,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                         mi_especialidad = lista[1].Especialidad
                         if mi_especialidad == especialidad:
                             cont = cont + 1
-                    if cont != 0:
-                        aprobados_inicial = [cont, especialidad]
-                        aprobados_final.append(aprobados_inicial) 
+
+                    aprobados_inicial = [cont, especialidad]
+                    aprobados_final.append(aprobados_inicial) 
             
             if not versiones_documentos[1]:
                 aprobados_inicial = [0, 'Sin registros']
@@ -305,6 +305,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     mi_especialidad = lista.Especialidad
                     if mi_especialidad == especialidad:
                         cont = cont + 1
+                
                 lista_actual = [cont, especialidad]
                 lista_final.append(lista_actual)
 
@@ -400,7 +401,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-        maximo = maximo + 1
+        
+        if maximo <= 20:
+            maximo = maximo + 1
 
         return maximo
 
@@ -408,7 +411,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         #Llamado para un método definido anteriormente
         # dividendo = self.valor_eje_x_grafico_uno() - 1
-        dividendo = dividendo - 1
+
+        if dividendo <= 21:
+            dividendo = dividendo - 1
+
+        # dividendo = dividendo - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -442,7 +449,9 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-        maximo = maximo + 1
+        
+        if maximo <= 20:
+            maximo = maximo + 1
 
         return maximo
 
@@ -450,7 +459,11 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
         #Llamado para un método definido anteriormente
         # dividendo = self.valor_eje_x_grafico_tres() - 1
-        dividendo = dividendo - 1
+        
+        if dividendo <= 21:
+            dividendo = dividendo - 1
+
+        # dividendo = dividendo - 1
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales

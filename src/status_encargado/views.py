@@ -324,7 +324,9 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-        maximo = maximo + 1
+
+        if maximo <= 20:
+            maximo = maximo + 1
 
         return maximo
 
@@ -332,7 +334,10 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         #Llamado para un método definido anteriormente
         # dividendo = self.tamano_grafico_1() - 1
-        dividendo = dividendo - 1
+        
+        if dividendo <= 21:
+            dividendo = dividendo - 1
+
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -392,7 +397,9 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-        maximo = maximo + 1
+
+        if maximo <= 20:
+            maximo = maximo + 1
 
         return maximo
 
@@ -400,7 +407,9 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         #Llamado para un método definido anteriormente
         # dividendo = self.tamano_grafico_2() - 1
-        dividendo = dividendo - 1
+        if dividendo <= 21:
+            dividendo = dividendo - 1
+
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -464,7 +473,9 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-        maximo = maximo + 1
+
+        if maximo <= 20:
+            maximo = maximo + 1
 
         return maximo
 
@@ -472,7 +483,10 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         #Llamado para un método definido anteriormente
         # dividendo = self.tamano_grafico_3() - 1
-        dividendo = dividendo - 1
+
+        if dividendo <= 21:
+            dividendo = dividendo - 1
+
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
@@ -614,7 +628,9 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             while division_exacta != 0:
                 maximo = maximo + 1
                 division_exacta = maximo % 10
-        maximo = maximo + 1
+
+        if maximo <= 20:
+            maximo = maximo + 1
 
         return maximo
 
@@ -622,7 +638,10 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         #Llamado para un método definido anteriormente
         # dividendo = self.tamano_grafico_6() - 1
-        dividendo = dividendo - 1
+
+        if dividendo <= 21:
+            dividendo = dividendo - 1
+
         espacios = 0
 
         #Se secciona el eje en 10 partes iguales
