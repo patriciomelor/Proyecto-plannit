@@ -23,20 +23,19 @@
         </button></a>
     </div>
     <table border="1" style="width:auto; height:20px;white-space: nowrap;"
-      class="table table-striped mg-b-0 table-bordered table-primary" style="width:100%;">
+      class="table table-striped mg-b-0 table-bordered table-primary">
       <!--Table-->
 
       <thead>
         <tr>
           <th
-            style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
+            style="text-align: center;vertical-align: middle;padding: 5px; font-size: 10px;">
             <label class="ckbox"></th>
-          <th
-            style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
-            Usuario </th>
-          <th
-            style="text-align: center;border: 2px #fff solid; color: white;vertical-align: middle;padding: 5px; font-size: 10px;">
-            Email </th>
+             <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Nombre</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Correo</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">ROL</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Empresa</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Cargo</th>
         </tr>
       </thead>
 
@@ -47,14 +46,18 @@
       <tbody>
         <tr>
           <th
-            style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">
+            style="text-align: center;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">
             <input name="user" type="checkbox" value="{{ user.pk }}" ></th>
-          <th
-            style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">
-            {{user.username}} </th>
-          <th
-            style="text-align: center;border: 2px;border-color: grey; color: black;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">
-            {{user.email}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{user.first_name}} {{user.last_name}} </th>
+           
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{user.email}} </th>
+              {% if user.perfil.rol_usuario %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{user.perfil.get_rol_usuario_display}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> Sin Perfil </th>
+              {% endif %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{user.perfil.empresa}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{user.perfil.cargo_empresa}} </th>
         </tr>
       </tbody>
 

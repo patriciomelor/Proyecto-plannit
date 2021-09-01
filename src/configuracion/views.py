@@ -187,7 +187,7 @@ class ProyectoDetail(ProyectoMixin, AdminViewMixin, DetailView):
     template_name='configuracion/detail-proyecto.html'       
     context_object_name = 'proyecto'
 
-class ProyectoEdit(ProyectoMixin, AdminViewMixin, UpdateView):
+class ProyectoEdit(ProyectoMixin, UpdateView):
     template_name = 'configuracion/edit-proyecto.html'
     form_class = ProyectoForm
     success_url = reverse_lazy('lista-proyecto')

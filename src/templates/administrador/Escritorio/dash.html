@@ -353,6 +353,11 @@
       <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
       {% endif %}
        </tr>         
+       {% empty %}
+           <tr>            
+      <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="5"> Este Proyecto no tiene participantes </th>
+     
+       </tr>  
  {% endfor %}
         </tbody>
       </table>
