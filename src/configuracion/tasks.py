@@ -822,7 +822,9 @@ def reporte_curva_s_avance_esperado():
                         for doc in documentos:                  
                             fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
                             fecha_emision_0 = doc.fecha_Emision_0.replace(tzinfo=None)
+                            print(controles)
                             controles = datetime.strptime(controles,'%Y-%m-%d %H:%M:%S')
+                            
                             #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
                             if fecha_emision_b <= controles and fecha_emision_0 > controles:
                                 calculo_avanceEsperado = valor_ganado * float(rev_letra/100) + calculo_avanceEsperado                      
