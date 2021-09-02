@@ -723,7 +723,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 #Funcion en caso de que el avance real no sea el 100%
                 diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                 diferencia = 100 - calculo_avance_final
-                avance_semanal = calculo_avance_final/(largo_fechas - 1)
+                avance_semanal = calculo_avance_final/largo_fechas
                 
                 if avance_semanal != 0:
                     proyeccion = (diferencia / avance_semanal) - diferencia_arreglo_fecha
@@ -836,7 +836,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         #Funcion en caso de que el avance real no sea el 100%
                         diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                         diferencia = 100 - calculo_avance_final
-                        avance_semanal = calculo_avance_final/(largo_fechas - 1)
+                        avance_semanal = calculo_avance_final/largo_fechas
                         proyeccion = (diferencia / avance_semanal)
                         contador = 0
 
