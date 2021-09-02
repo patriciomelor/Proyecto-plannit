@@ -797,61 +797,64 @@ def reporte_curva_s_avance_esperado():
     documentos_totales = get_queryset()
     contador_fechas_grupo = 0
     conjunto_finales = []
-    
-    for documentos in documentos_totales:
-        valor_ganado = len(documentos)
-        diferencia = 0
-        avance_esperado = []
-        lista_final_esperado = []
+    proyectos = Proyecto.objects.all()
 
-        if valor_ganado != 0:
-            
-            #Calculo del avance esperado por fecha de control
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
-            fechas_controles = lista_final[contador_fechas_grupo][0][0]
-            valor_ganado = (100 / valor_ganado)
-            contador_largo = 0
+    for proyecto in proyectos:    
+        rev_letra = proyecto.rev_letra
+        for documentos in documentos_totales:
+            valor_ganado = len(documentos)
+            diferencia = 0
+            avance_esperado = []
+            lista_final_esperado = []
 
-            for controles in fechas_controles:
-                if contador_largo < len(fechas_controles):
-                    calculo_avanceEsperado = 0
-                    for doc in documentos:                  
-                        fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
-                        fecha_emision_0 = doc.fecha_Emision_0.replace(tzinfo=None)
+            if valor_ganado != 0:
+                
+                #Calculo del avance esperado por fecha de control
+                fecha_emision_b = 0
+                fecha_emision_0 = 0
+                fechas_controles = lista_final[contador_fechas_grupo][0][0]
+                valor_ganado = (100 / valor_ganado)
+                contador_largo = 0
 
-                        #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                        if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                            calculo_avanceEsperado = valor_ganado * 0.7 + calculo_avanceEsperado                      
-                        if fecha_emision_0 <= controles and fecha_emision_b < controles:
-                            calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
+                for controles in fechas_controles:
+                    if contador_largo < len(fechas_controles):
+                        calculo_avanceEsperado = 0
+                        for doc in documentos:                  
+                            fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
+                            fecha_emision_0 = doc.fecha_Emision_0.replace(tzinfo=None)
 
-                    #Se almacena el avance esperado hasta la fecha de control
-                    avance_esperado = [format(calculo_avanceEsperado, '.2f')]
-                    lista_final_esperado.append(avance_esperado)
-                contador_largo = contador_largo + 1
-            
-            calculo_parcial = []
-            calculo_parcial_final = []
-            contador_parcial = 1
+                            #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
+                            if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                                calculo_avanceEsperado = valor_ganado * float(rev_letra/100) + calculo_avanceEsperado                      
+                            if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                                calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 
-            calculo_parcial = [lista_final_esperado[0][0], '0.0']
-            calculo_parcial_final.append(calculo_parcial)
+                        #Se almacena el avance esperado hasta la fecha de control
+                        avance_esperado = [format(calculo_avanceEsperado, '.2f')]
+                        lista_final_esperado.append(avance_esperado)
+                    contador_largo = contador_largo + 1
+                
+                calculo_parcial = []
+                calculo_parcial_final = []
+                contador_parcial = 1
 
-            while contador_parcial < len(lista_final_esperado):
-                diferencia = float(lista_final_esperado[contador_parcial][0]) - float(lista_final_esperado[contador_parcial - 1][0])
-                diferencia = format(diferencia, '.2f')
-                calculo_parcial = [lista_final_esperado[contador_parcial][0], str(diferencia)]
+                calculo_parcial = [lista_final_esperado[0][0], '0.0']
                 calculo_parcial_final.append(calculo_parcial)
-                contador_parcial = contador_parcial + 1
 
-            lista_final_esperado = calculo_parcial_final
+                while contador_parcial < len(lista_final_esperado):
+                    diferencia = float(lista_final_esperado[contador_parcial][0]) - float(lista_final_esperado[contador_parcial - 1][0])
+                    diferencia = format(diferencia, '.2f')
+                    calculo_parcial = [lista_final_esperado[contador_parcial][0], str(diferencia)]
+                    calculo_parcial_final.append(calculo_parcial)
+                    contador_parcial = contador_parcial + 1
 
-        if valor_ganado == 0:
-            avance_esperado = [int(valor_ganado)]
-            lista_final_esperado.append(avance_esperado)
+                lista_final_esperado = calculo_parcial_final
 
-        conjunto_finales.append(lista_final_esperado)
+            if valor_ganado == 0:
+                avance_esperado = [int(valor_ganado)]
+                lista_final_esperado.append(avance_esperado)
+
+            conjunto_finales.append(lista_final_esperado)
 
     return conjunto_finales
 
