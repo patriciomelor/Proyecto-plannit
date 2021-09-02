@@ -819,13 +819,11 @@ def reporte_curva_s_avance_esperado():
                     for doc in documentos:                  
                         fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
                         fecha_emision_0 = doc.fecha_Emision_0.replace(tzinfo=None)
-                        print(controles)
-                        controles = datetime.strptime(controles,'%Y-%m-%d %H:%M:%S')
                         
                         #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                        if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                        if str(fecha_emision_b) <= str(controles) and str(fecha_emision_0) > str(controles):
                             calculo_avanceEsperado = valor_ganado * float(rev_letra/100) + calculo_avanceEsperado                      
-                        if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                        if str(fecha_emision_0) <= str(controles) and str(fecha_emision_b) < str(controles):
                             calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
 
                     #Se almacena el avance esperado hasta la fecha de control
@@ -901,7 +899,6 @@ def umbral_4():
             delta_proyect = (fecha_actual - last_hu.last_checked)
 
             if delta_proyect.days >= last_hu.cliente_tiempo_control:
-                print("Se notifica para proyecto {}!".format(proyecto.nombre))
                 diferencias = []
                 diferencia_avance =  float(avance_programado) - float(avance_real)
                 diferencia_avance = format(diferencia_avance, '.2f')
@@ -916,6 +913,7 @@ def umbral_4():
 
     if len(lista_proyectos_atrasados) != 0:
         for proyecto in lista_proyectos_atrasados:
+            print("Se notifica para proyecto {}!".format(proyecto.nombre))
             subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto[0].codigo, date=timezone.now().strftime("%d-%B-%y"))
             usuarios = users_notifier(proyecto=proyecto[0], cliente=True)
             try:
