@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es-ES">
+  <head>
+    {% include "header.html" %}
+  </head>
+  <body>
+    <!-- ########## START: LEFT PANEL ########## -->
+    <div class="br-logo">
+      <span>[</span>{{proyecto.nombre}}<span>]</span>
+    </div>
+    {% include "br-sideleft.html" %}
+    <!-- ########## END: LEFT PANEL ########## -->
+    <!-- ########## START: HEAD PANEL ########## -->
+    {% include "br-header.html" %}
+    <!-- ########## END: HEAD PANEL ########## -->
+    <!-- ########## START: MAIN PANEL ########## -->
+    <div class="br-mainpanel">
+      <div class="br-pagebody mg-t-5 pd-x-30">
+        {% include "messege.html" %} 
+        {% block content %} 
+        {% endblock content %}
+      </div>
+    </div>
+    <!-- ########## END: MAIN PANEL ########## -->
+    <!--Scripts-->
+    {% include "script.html" %}
+  </body>
+</html>
