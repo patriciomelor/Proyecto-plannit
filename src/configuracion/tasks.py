@@ -457,9 +457,10 @@ def reporte_curva_s_avance_real():
     dia_actual = dia_actual.replace(tzinfo = None)
     versiones_documentos = get_versiones()
     proyectos = Proyecto.objects.all()
-    
+
     for proyecto in proyectos:
         rev_letra = proyecto.rev_letra
+
         for documentos in documentos_totales:
             valor_ganado = len(documentos)
         
@@ -591,7 +592,7 @@ def reporte_curva_s_avance_real():
                     #Funcion en caso de que el avance real no sea el 100%
                     diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                     diferencia = 100 - calculo_avance_final
-                    avance_semanal = calculo_avance_final/(largo_fechas - 1)
+                    avance_semanal = calculo_avance_final/largo_fechas
 
                     if calculo_avance_final == 100:
                         #Se calcula el avance porcentual
@@ -725,7 +726,7 @@ def reporte_curva_s_avance_real():
                             #Funcion en caso de que el avance real no sea el 100%
                             diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                             diferencia = 100 - calculo_avance_final
-                            avance_semanal = calculo_avance_final/(largo_fechas - 1)
+                            avance_semanal = calculo_avance_final/largo_fechas
                             proyeccion = (diferencia / avance_semanal)
                             contador = 0
 
@@ -797,8 +798,8 @@ def reporte_curva_s_avance_esperado():
     contador_fechas_grupo = 0
     conjunto_finales = []
     proyectos = Proyecto.objects.all()
-    
-    for proyecto in proyectos:
+
+    for proyecto in proyectos:    
         rev_letra = proyecto.rev_letra
         for documentos in documentos_totales:
             valor_ganado = len(documentos)
@@ -821,7 +822,9 @@ def reporte_curva_s_avance_esperado():
                         for doc in documentos:                  
                             fecha_emision_b = doc.fecha_Emision_B.replace(tzinfo=None)
                             fecha_emision_0 = doc.fecha_Emision_0.replace(tzinfo=None)
-
+                            print(controles)
+                            controles = datetime.strptime(controles,'%Y-%m-%d %H:%M:%S')
+                            
                             #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
                             if fecha_emision_b <= controles and fecha_emision_0 > controles:
                                 calculo_avanceEsperado = valor_ganado * float(rev_letra/100) + calculo_avanceEsperado                      

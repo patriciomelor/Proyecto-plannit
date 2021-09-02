@@ -88,7 +88,52 @@
     <!--Fin b-->
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
+<style>
+        #mydatatable tfoot input {
+            width: 100% !important;
+        }
 
+        #mydatatable tfoot {
+            display: table-header-group !important;
+        }
+          @media print {
+            #titulo{
+              background-color: #0866C6;
+              background: #0866C6;
+            }
+            body{
+              color: black;
+            }
+        }
+     
+     .buttons-excel{
+              color: #fff!important;
+              background: #23BF08!important;
+              border-color: #23BF08!important;
+              display: block!important;
+              width: 100%!important;
+              border-radius: 50px!important;
+              margin-left:20px!important;
+          }
+          
+    .pagination{
+      margin-left:auto;
+      margin-right:auto;
+      padding-right: 80px;
+    }
+    .page-link {
+      width:15vh;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding : 0px;
+    margin-left: 0px;
+    display: inline;
+    border: 0px;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        border: 0px;
+    }
+    </style>
     <!-- Bracket CSS -->
   </head>
   <body class="collapsed-menu">
@@ -243,7 +288,18 @@
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.print.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/vfs_fonts.js"></script>
+   
+    <script src="https://cdn.datatables.net/v/bs4-4.1.1/dt-1.10.18/datatables.min.js"></script>
+    
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
 
+    
      <script>
     $('#alert').fadeIn();     
       setTimeout(function() {
