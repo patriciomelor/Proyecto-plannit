@@ -1,28 +1,40 @@
-from django.shortcuts import render, redirect
-from django.utils import timezone
-from django.http import HttpResponse, HttpResponseRedirect
-from django.urls import reverse_lazy
-from django.views.generic.base import TemplateView, RedirectView
-from django.views.generic import FormView, CreateView, DeleteView, UpdateView, ListView, DetailView, FormView
-from django.views.generic.edit import FormMixin
-from panel_carga.views import ProyectoMixin
-from django.contrib.auth.models import User, Group, Permission, PermissionsMixin
-
-from status_encargado import forms
-from .roles import ROLES
-from django.contrib import messages
-from django.contrib.contenttypes.models import ContentType
-from django.conf import settings 
-from django.template.loader import render_to_string
-from django.core.mail import send_mail 
-from panel_carga.models import *
-from panel_carga.forms import ProyectoForm
+from email.mime import text
 from bandeja_es.models import *
-from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check, is_admin_check
-
-from .models import CausasNoCumplimiento, HistorialUmbrales, NotificacionHU, Perfil, Restricciones, Umbral
-from .forms import CrearUsuario, EditUsuario, InvitationForm, NoCumplimientoForm, RestriccionForm, UmbralForm
+from django.conf import settings
+from django.contrib import messages
+from django.contrib.auth import login
+from django.contrib.auth.models import (Group, Permission, PermissionsMixin,
+                                        User)
+from django.contrib.contenttypes.models import ContentType
+from django.core.mail import EmailMessage
+from django.http import HttpResponse, HttpResponseRedirect, request
+from django.shortcuts import redirect, render
+from django.template.loader import render_to_string
+from django.urls import reverse_lazy
+from django.utils import timezone
+from django.views.generic import (CreateView, DeleteView, DetailView, FormView,
+                                  ListView, UpdateView)
+from django.views.generic.base import RedirectView, TemplateView, View
+from django.views.generic.edit import FormMixin
 from invitations.utils import get_invitation_model
+from panel_carga.forms import ProyectoForm
+from panel_carga.models import *
+from panel_carga.views import ProyectoMixin
+from status_encargado import forms
+from tools.objects import (AdminViewMixin, SuperuserViewMixin, is_admin_check,
+                           is_superuser_check)
+
+from .forms import (CrearUsuario, EditUsuario, InvitationForm,
+                    NoCumplimientoForm, RestriccionForm, UmbralForm)
+from .models import (CausasNoCumplimiento, HistorialUmbrales, NotificacionHU,
+                     Perfil, Restricciones, Umbral)
+from .roles import ROLES
+from .user_token import token_generator
+from notifications.emails import send_email
+from django.contrib.sites.shortcuts import get_current_site
+from django.utils.http import urlsafe_base64_decode, urlsafe_base64_encode
+from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeError
+from django.urls import reverse
 
 
 class ConfiguracionIndex(ProyectoMixin, TemplateView):
@@ -41,28 +53,71 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
         return kwargs
 
     def form_valid(self, form):
-        user = form.save(commit=False)
+        usuario = form.save(commit=False)
 
-        if user.is_superuser == True:
-            user.save()
+        if usuario.is_superuser == True:
+            usuario.save()
             return super().form_valid(form)
         else:
-            user.save()
+            usuario.is_active = False
+            usuario.save()
             rol = form.cleaned_data['rol_usuario']
             company = form.cleaned_data['empresa']
             cargo = form.cleaned_data['cargo_empresa']
 
-            Perfil.objects.create(
-                usuario=user,
+            perfil =Perfil(
+                usuario=usuario,
                 rol_usuario=rol,
                 empresa=company,
                 cargo_empresa=cargo,
                 client=True
             )
+            perfil.save()
+            self.proyecto.participantes.add(usuario)
 
-            self.proyecto.participantes.add(user)
-            
+            ######## Creación de Token, captura de sitio y envío de correo a usuario registrado ########
+            sitio = get_current_site(self.request).domain
+            uidb64 = urlsafe_base64_encode(force_bytes(usuario.pk))
+            url = reverse('validate-usuario', kwargs={
+                'uidb64': uidb64,
+                'token': token_generator.make_token(user=usuario),
+            })
+
+            send_email(
+                html = "tools/confirmación.html",
+                context = {
+                    "usuario": usuario,
+                    "proyecto": self.proyecto,
+                    "perfil": perfil,
+                    "sitio": sitio,
+                    "url": url,
+                },
+                subject = "Confirnmación ",
+                recipients= ["{email}".format(email=usuario.email)]
+            )
+
         return super().form_valid(form)
+
+class UserValidation(ProyectoMixin, View):
+    def get(self, request, uidb64, token, *args, **kwargs):
+        try:
+            id = force_text(urlsafe_base64_decode(uidb64))
+            usuario = User.objects.get(pk=id)
+
+            if usuario.is_active:
+                return redirect('login')
+
+            if token_generator.check_token(user=usuario, token=token):
+                usuario.is_active = True
+                usuario.save()
+                messages.success(request, 'Cuenta activada Exitosamente')
+                return redirect('change-password')
+            else:
+                return redirect('login'+'?message='+'Usuario ya activado')
+        except Exception as error:
+            messages.success(request, 'Cuenta activada Exitosamente')
+            return redirect('login'+'?message='+'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación.')
+
 
 class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     model = User
@@ -99,12 +154,18 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
             qs = self.proyecto.participantes.prefetch_related("perfil").all().exclude(is_superuser=True).filter(perfil__rol_usuario__in=[4,5,6]).order_by('perfil__empresa')
         return qs
     
-
-class UsuarioDelete(ProyectoMixin, AdminViewMixin, DeleteView):
+class UsuarioDelete(ProyectoMixin, AdminViewMixin, UpdateView):
     model = User
     template_name = 'configuracion/delete-user.html'
     success_url = reverse_lazy('listar-usuarios')
     context_object_name = 'usuario'
+    success_message = 'Usuario inhabilitado correctamente.'
+
+    def form_valid(self, form) -> HttpResponse:
+        user = self.get_object()
+        user.is_active = False
+        user.save()
+        return super().form_valid(form)
     
 class UsuarioDetail(ProyectoMixin, AdminViewMixin, DetailView):
     model = User
