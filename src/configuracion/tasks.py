@@ -589,7 +589,7 @@ def reporte_curva_s_avance_real():
                 #Funcion en caso de que el avance real no sea el 100%
                 diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                 diferencia = 100 - calculo_avance_final
-                avance_semanal = calculo_avance_final/(largo_fechas - 1)
+                avance_semanal = calculo_avance_final/largo_fechas
 
                 if calculo_avance_final == 100:
                     #Se calcula el avance porcentual
@@ -723,7 +723,7 @@ def reporte_curva_s_avance_real():
                         #Funcion en caso de que el avance real no sea el 100%
                         diferencia_arreglo_fecha = len(fechas_controles) - largo_fechas
                         diferencia = 100 - calculo_avance_final
-                        avance_semanal = calculo_avance_final/(largo_fechas - 1)
+                        avance_semanal = calculo_avance_final/largo_fechas
                         proyeccion = (diferencia / avance_semanal)
                         contador = 0
 
