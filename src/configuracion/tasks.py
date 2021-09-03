@@ -1,19 +1,21 @@
 from __future__ import absolute_import, unicode_literals
 
-from django.db import connection
-from bandeja_es.models import Version
+import math
+from datetime import date, datetime, time, timedelta
 from os import name
 
+from analitica.models import CurvasBase
+from bandeja_es.models import Version
+from django.db import connection
+from django.utils import timezone
 from dmp.celery import app
 from notifications.emails import send_email
 from notifications.models import Notificacion
+from panel_carga.choices import (ESTADO_CONTRATISTA, ESTADOS_CLIENTE,
+                                 TYPES_REVISION)
 from panel_carga.models import Documento, Proyecto
-from configuracion.models import Umbral, HistorialUmbrales, NotificacionHU
-from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE, ESTADO_CONTRATISTA
-from datetime import date, datetime, time, timedelta
-from analitica.models import CurvasBase
-from django.utils import timezone
-import math
+
+from configuracion.models import HistorialUmbrales, NotificacionHU, Umbral
 
 
 def users_notifier(proyecto, cliente=None, contratista=None):
@@ -913,7 +915,6 @@ def umbral_4():
 
     if len(lista_proyectos_atrasados) != 0:
         for proyecto in lista_proyectos_atrasados:
-            print("Se notifica para proyecto {}!".format(proyecto.nombre))
             subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto[0].codigo, date=timezone.now().strftime("%d-%B-%y"))
             usuarios = users_notifier(proyecto=proyecto[0], cliente=True)
             try:
