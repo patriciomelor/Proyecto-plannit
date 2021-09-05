@@ -84,13 +84,13 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
             })
 
             send_email(
-                html = "tools/confirmación.html",
+                html = "tools/confirmacion.html",
                 context = {
                     "usuario": usuario,
                     "proyecto": self.proyecto,
                     "perfil": perfil,
                     "sitio": sitio,
-                    "url": url,
+                    "url": sitio+url,
                 },
                 subject = "Confirnmación ",
                 recipients= ["{email}".format(email=usuario.email)]
@@ -111,6 +111,7 @@ class UserValidation(ProyectoMixin, View):
                 usuario.is_active = True
                 usuario.save()
                 messages.success(request, 'Cuenta activada Exitosamente')
+                login(request, user=usuario)
                 return redirect('change-password')
             else:
                 return redirect('login'+'?message='+'Usuario ya activado')

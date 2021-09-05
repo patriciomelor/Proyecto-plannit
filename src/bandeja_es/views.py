@@ -227,8 +227,8 @@ def create_paquete(request, paquete_pk, versiones_pk):
         paquete.save()
         paquete_prev.delete()
 
-        for v in versiones_pk_list:
-            vertion = PrevVersion.objects.get(pk=v)
+        vertions = PrevVersion.objects.get(pk__in=versiones_pk_list)
+        for vertion in vertions:
             vertion_f = Version(
                 owner= vertion.prev_owner,
                 documento_fk= vertion.prev_documento_fk,
@@ -241,21 +241,9 @@ def create_paquete(request, paquete_pk, versiones_pk):
             paquete.version.add(vertion_f)
             vertion.delete()
 
+        messages.success(request, message="Transmittal envíado correctamente.")
         return redirect('Bandejaeys')
 
-def verificar_nombre_archivo(nombre_documento, nombre_archivo):
-    try:
-        index = nombre_archivo.index('.')
-    except ValueError:
-        index = len(nombre_archivo)
-
-    cleaned_name = nombre_archivo[:index]
-    extencion = nombre_archivo[index:]
-
-    if nombre_documento == cleaned_name:
-        return True, extencion
-    else:
-        return False, extencion
 
 # URL PARA SELECT2
 def documentos_ajax(request):
