@@ -92,7 +92,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
 
                 for revision in TYPES_REVISION[5:]:
                     if version_documento == revision[0]:
-                        lista_inicial = [doc, [version, paquete, semana_actual, '100%', transmital, paquete_first, dias_revision]]
+                        lista_inicial = [doc, [version, paquete, semana_actual, '100', transmital, paquete_first, dias_revision]]
                         lista_final.append(lista_inicial)
                         
             else: 

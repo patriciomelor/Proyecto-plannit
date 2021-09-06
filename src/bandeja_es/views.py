@@ -227,7 +227,7 @@ def create_paquete(request, paquete_pk, versiones_pk):
         paquete.save()
         paquete_prev.delete()
 
-        vertions = PrevVersion.objects.get(pk__in=versiones_pk_list)
+        vertions = PrevVersion.objects.filter(pk__in=versiones_pk_list)
         for vertion in vertions:
             vertion_f = Version(
                 owner= vertion.prev_owner,
