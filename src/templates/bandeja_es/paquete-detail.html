@@ -39,7 +39,7 @@
 
 <div class="col-lg-12">
   <div class="card shadow-base bd-0">
-     <div class="form-layout form-layout-7 ">
+     <div class="form-layout form-layout-7 "style="margin-bottom: 20px;">
       <div class="row no-gutters">
         <div class="col-5 col-sm-4"
           style="text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
@@ -119,8 +119,8 @@
         </div><!-- col-8 -->
       </div>
     </div>
-    <table class="table table-striped mg-b-0 table-bordered table-primary">
-      <thead class="thead-colored thead-primary">
+    <table class="table table-striped mg-b-0 table-bordered table-primary" id="datatable1">
+      <thead class="thead-colored thead-primary" >
         <tr class="tx-10">
           <th class="pd-y-5" id="titulo" style="text-align: center;background: #0866C6!important;">Especialidad</th>
           <th class="pd-y-5" id="titulo2"style="text-align: center;background: #0866c6!important;">Descripción</th>
@@ -217,4 +217,46 @@
      document.body.innerHTML = originalContents; 
     }
   </script>
+  <script>
+  $(document).ready(function() {
+      $('#datatable1').DataTable(
+        {
+          "dom": 'B',
+          "responsive": true,
+          "bSort": false,
+          "language": {
+          "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          },
+          "order":[[4,"desc"]],
+          buttons:{
+            dom: {
+                button: {
+                    className: 'btn btn-success'
+                }
+            },
+          },
+          buttons:[ 
+            {
+                //definimos estilos del boton de excel
+                extend: "excelHtml5",
+                text:'Exportar a Excel',
+                className:'btn btn-success',
+
+                // 1 - ejemplo básico - uso de templates pre-definidos
+                //definimos los parametros al exportar a excel
+              customize: function( xlsx ) {
+                var sheet = xlsx.xl.worksheets['sheet1.xml'];
+ 
+                $('row c[r^="C"]', sheet).attr( 's', '2' );
+            },
+                 excelStyles: {               // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
+                    template:"blue_medium",
+                    
+                    
+                },
+
+            }]	     
+        });
+  } );
+</script>
   {% endblock content %}

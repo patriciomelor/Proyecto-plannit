@@ -637,7 +637,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 elementos = [fechas_controles]
                 elementos_final.append(elementos)
 
-            if  not curva_base:
+            if not curva_base:
 
                 valor_ganado = (100 / valor_ganado)
 

@@ -1,4 +1,5 @@
-from django.urls import path, include
+from django.urls import path, include, reverse_lazy
+from django.contrib.auth import views as auth_views
 from . import views
 
 urlpatterns = [
@@ -10,6 +11,8 @@ urlpatterns = [
     path('editar-user/<pk>/', views.UsuarioEdit.as_view(), name='editar-usuario'),
     path('eliminar-user/<pk>/', views.UsuarioDelete.as_view(), name='eliminar-usuario'),
     path('detalle-user/<pk>/', views.UsuarioDetail.as_view(), name ='detalle-usuario'),
+    path('validate/<uidb64>/<token>/', views.UserValidation.as_view(), name='validate-usuario'),
+    path('change-password/', auth_views.PasswordChangeView.as_view(template_name='account/password_change.html', success_url=reverse_lazy('screen')), name='change-password'),
     #URL DE PROYECTOS
     path('proyecto-detalle/<pk>/', views.ProyectoDetail.as_view(), name='detalle-proyecto'),
     path('proyecto-editar/<pk>/', views.ProyectoEdit.as_view(), name='editar-proyecto'),

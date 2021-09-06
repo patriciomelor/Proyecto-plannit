@@ -5,7 +5,7 @@ from django.conf import settings
 from django.utils.html import strip_tags
 # CONFIGURACION PARA ENVIO DE CORREO PARA UMBRAL DOCUMENTOS ATRASADOS
 
-def send_email(html, context, subject, recipients):
+def send_email(html: str, context: dict, subject: str, recipients: list):
     """
     Función pre-cargada con las configuraciones y valores necesarios para ser enviado.
     Se le puede pasar:

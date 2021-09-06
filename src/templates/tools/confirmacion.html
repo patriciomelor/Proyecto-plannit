@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es-ES">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Meta -->
+    <meta name="description" content="Software de Gestion y administracion de archivos.">
+    <meta name="author" content="STOD CHILE for DM">
+
+     <link rel="stylesheet" href="https://www.stod.cl/bracket.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+ 
+   
+  </head>
+
+  <body>
+     <div class="d-flex align-items-center justify-content-center bg-br-primary ht-100v">
+
+      <div class="login-wrapper wd-300 wd-xs-400 pd-25 pd-xs-40 bg-white rounded shadow-base">
+        <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-normal">[</span> Planit <span class="tx-normal">]</span></div>
+        <div class="tx-center mg-b-40">Plataforma de gestión de ingenieria</div>
+        <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">Hola!:</h6>
+        <p class="mg-b-25 mg-lg-b-50">Se ha creado tu perfil de usuario como {{perfil.rol_usuario}},
+                                      en la platafor <strong>Planit</strong>. <br><br>
+                                      Para Realizar el ingreso debe crear su contraseña de acceso en el siguiente link.
+                                      </p>
+        <a type="submit" href="{{url}}" class="btn btn-info btn-block">Pinchar Aqui.</button>
+      </div><!-- login-wrapper -->
+    </div>
+  </body>
+</html>
