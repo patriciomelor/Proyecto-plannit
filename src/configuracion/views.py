@@ -150,20 +150,27 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
     def get_queryset(self):
         rol = self.request.user.perfil.rol_usuario
         if rol == 1:
-            qs = self.proyecto.participantes.prefetch_related("perfil").all().exclude(is_superuser=True).filter(perfil__rol_usuario__in=[1,2,3,4,5,6]).order_by('perfil__empresa')
-        if rol == 4:
-            qs = self.proyecto.participantes.prefetch_related("perfil").all().exclude(is_superuser=True).filter(perfil__rol_usuario__in=[4,5,6]).order_by('perfil__empresa')
+            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6]).exclude(is_superuser=True, is_active=False).order_by('perfil__empresa')
+        elif rol == 4:
+            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6]).exclude(is_superuser=True, is_active=False).order_by('perfil__empresa')
+        else:
+            qs = [] # self.proyecto.participantes.prefetch_related("perfil").exclude(is_superuser=True)
+        
         return qs
     
-class UsuarioDelete(ProyectoMixin, AdminViewMixin, UpdateView):
+class UsuarioDelete(ProyectoMixin, AdminViewMixin, TemplateView):
     model = User
     template_name = 'configuracion/delete-user.html'
     success_url = reverse_lazy('listar-usuarios')
-    context_object_name = 'usuario'
     success_message = 'Usuario inhabilitado correctamente.'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
+        return context
+
     def form_valid(self, form) -> HttpResponse:
-        user = self.get_object()
+        user = User.objects.get(pk=self.kwargs["pk"])
         user.is_active = False
         user.save()
         return super().form_valid(form)
