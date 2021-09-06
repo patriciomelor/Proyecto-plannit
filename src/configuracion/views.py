@@ -104,9 +104,6 @@ class UserValidation(ProyectoMixin, View):
             id = force_text(urlsafe_base64_decode(uidb64))
             usuario = User.objects.get(pk=id)
 
-            if usuario.is_active:
-                return redirect('login')
-
             if token_generator.check_token(user=usuario, token=token):
                 usuario.is_active = True
                 usuario.save()
@@ -115,10 +112,13 @@ class UserValidation(ProyectoMixin, View):
                 return redirect('change-password')
             else:
                 return redirect('login'+'?message='+'Usuario ya activado')
+
+            # if usuario.is_active:
+            #     return redirect('login')
+                
         except Exception as error:
             messages.success(request, 'Cuenta activada Exitosamente')
             return redirect('login'+'?message='+'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación.')
-
 
 class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     model = User
@@ -150,20 +150,27 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
     def get_queryset(self):
         rol = self.request.user.perfil.rol_usuario
         if rol == 1:
-            qs = self.proyecto.participantes.prefetch_related("perfil").all().exclude(is_superuser=True).filter(perfil__rol_usuario__in=[1,2,3,4,5,6]).order_by('perfil__empresa')
-        if rol == 4:
-            qs = self.proyecto.participantes.prefetch_related("perfil").all().exclude(is_superuser=True).filter(perfil__rol_usuario__in=[4,5,6]).order_by('perfil__empresa')
+            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6]).exclude(is_superuser=True, is_active=False).order_by('perfil__empresa')
+        elif rol == 4:
+            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6]).exclude(is_superuser=True, is_active=False).order_by('perfil__empresa')
+        else:
+            qs = [] # self.proyecto.participantes.prefetch_related("perfil").exclude(is_superuser=True)
+        
         return qs
     
-class UsuarioDelete(ProyectoMixin, AdminViewMixin, UpdateView):
+class UsuarioDelete(ProyectoMixin, AdminViewMixin, TemplateView):
     model = User
     template_name = 'configuracion/delete-user.html'
     success_url = reverse_lazy('listar-usuarios')
-    context_object_name = 'usuario'
     success_message = 'Usuario inhabilitado correctamente.'
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
+        return context
+
     def form_valid(self, form) -> HttpResponse:
-        user = self.get_object()
+        user = User.objects.get(pk=self.kwargs["pk"])
         user.is_active = False
         user.save()
         return super().form_valid(form)
@@ -255,7 +262,6 @@ class ProyectoEdit(ProyectoMixin, UpdateView):
     success_url = reverse_lazy('lista-proyecto')
     success_message = 'Información del Proyecto Actualizada'
 
-
 class ProyectoDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     template_name = 'configuracion/delete-proyecto.html'
     success_message = 'Proyecto Eliminado'
@@ -289,6 +295,7 @@ class ProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
             )
 
         return super(ProyectoCreate, self).form_valid(form)
+
 class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
     template_name = 'configuracion/invitation_form.html'
     success_message = 'Invitación enviada correctamente'
@@ -381,7 +388,7 @@ class RestriccionesView(ProyectoMixin,  FormView):
         restriccion.proyecto = self.proyecto
         restriccion.save()
         return super().form_valid(form)
-    
+
 class NoCumplimientoView(ProyectoMixin, CreateView):
     form_class = NoCumplimientoForm
     template_name = 'configuracion/add-no_cumplimiento.html'
@@ -408,6 +415,7 @@ class RestriccionesEdit(ProyectoMixin, UpdateView):
     form_class = RestriccionForm
     success_url = reverse_lazy('restriccion')
     success_message = 'Restriccion editada correctamente'
+
 class NoCumplimientoEdit(ProyectoMixin, UpdateView):
     template_name = "configuracion/no_cumplimiento-edit.html"
     form_class = NoCumplimientoForm
@@ -418,7 +426,6 @@ class RestriccionesDelete(ProyectoMixin, DeleteView):
     template_name = "configuracion/restriccion-delete.html"
     success_url = reverse_lazy('restriccion')
     success_message = 'Restriccion eliminada correctamente'
-
 
 class NoCumplimientoDelete(ProyectoMixin, DeleteView):
     template_name = "configuracion/no_cumplimiento-delete.html"
