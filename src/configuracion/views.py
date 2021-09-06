@@ -104,9 +104,6 @@ class UserValidation(ProyectoMixin, View):
             id = force_text(urlsafe_base64_decode(uidb64))
             usuario = User.objects.get(pk=id)
 
-            if usuario.is_active:
-                return redirect('login')
-
             if token_generator.check_token(user=usuario, token=token):
                 usuario.is_active = True
                 usuario.save()
@@ -115,10 +112,13 @@ class UserValidation(ProyectoMixin, View):
                 return redirect('change-password')
             else:
                 return redirect('login'+'?message='+'Usuario ya activado')
+
+            # if usuario.is_active:
+            #     return redirect('login')
+                
         except Exception as error:
             messages.success(request, 'Cuenta activada Exitosamente')
             return redirect('login'+'?message='+'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación.')
-
 
 class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     model = User
@@ -255,7 +255,6 @@ class ProyectoEdit(ProyectoMixin, UpdateView):
     success_url = reverse_lazy('lista-proyecto')
     success_message = 'Información del Proyecto Actualizada'
 
-
 class ProyectoDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     template_name = 'configuracion/delete-proyecto.html'
     success_message = 'Proyecto Eliminado'
@@ -289,6 +288,7 @@ class ProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
             )
 
         return super(ProyectoCreate, self).form_valid(form)
+
 class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
     template_name = 'configuracion/invitation_form.html'
     success_message = 'Invitación enviada correctamente'
@@ -381,7 +381,7 @@ class RestriccionesView(ProyectoMixin,  FormView):
         restriccion.proyecto = self.proyecto
         restriccion.save()
         return super().form_valid(form)
-    
+
 class NoCumplimientoView(ProyectoMixin, CreateView):
     form_class = NoCumplimientoForm
     template_name = 'configuracion/add-no_cumplimiento.html'
@@ -408,6 +408,7 @@ class RestriccionesEdit(ProyectoMixin, UpdateView):
     form_class = RestriccionForm
     success_url = reverse_lazy('restriccion')
     success_message = 'Restriccion editada correctamente'
+
 class NoCumplimientoEdit(ProyectoMixin, UpdateView):
     template_name = "configuracion/no_cumplimiento-edit.html"
     form_class = NoCumplimientoForm
@@ -418,7 +419,6 @@ class RestriccionesDelete(ProyectoMixin, DeleteView):
     template_name = "configuracion/restriccion-delete.html"
     success_url = reverse_lazy('restriccion')
     success_message = 'Restriccion eliminada correctamente'
-
 
 class NoCumplimientoDelete(ProyectoMixin, DeleteView):
     template_name = "configuracion/no_cumplimiento-delete.html"
