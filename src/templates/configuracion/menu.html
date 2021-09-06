@@ -1,26 +1,15 @@
-<div
-  class=" ht-md-65 bd bg-gray-100 pd-y-20 pd-md-y-0 pd-x-20 d-md-flex align-items-center justify-content-between mg-t-20"
-  style="align-items: baseline;">
-  <ul
-    class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-md-row pd-t-20 pd-md-t-0"
-    role="tablist">
-    {% if request.user.perfil.rol_usuario is not 3 or request.user.perfil.rol_usuario is not 6 %}
-    
-    
+<div class=" ht-65 bd bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center mg-t-20"style="align-items: baseline;justify-content: center;">
+  <ul class="nav nav-pills flex-column flex-md-row justify-content-center" style="align-items: baseline;justify-content: center;">
     {% if request.user.is_superuser == true %}
     <li class="nav-item"><a class="nav-link" href="{% url 'crear-proyecto' %}">Agregar Proyectos</a></li>
     <li class="nav-item"><a class="nav-link" href="{% url 'lista-proyecto' %}">Lista de Proyectos</a></li>
     {% endif %}
     {% if request.user.perfil.rol_usuario == 1 %}
-    <li class="nav-item"><a class="nav-link tx-white" href="{% url 'editar-proyecto' proyecto.pk %}"><i class="fa fa-pencil"></i>
-      &numsp;Editar Proyectos</a></li>
-      {% else %}
-      <li class="nav-item"><a class="nav-link tx-white" href="{% url 'editar-proyecto' proyecto.pk %}"><i class="fa fa-pencil"></i>
-        &numsp;Ver datos Proyectos</a></li>
-
-    {% endif %}
-   
-    <li class="nav-item mg-l-10 mg-r-10">
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'editar-proyecto' proyecto.pk %}">
+        <i class="fa fa-pencil"></i>&numsp;Editar Proyectos</a>
+    </li>
+    <li class="nav-item">
       <div class="dropdown">
         <button class="btn btn-info btn-block dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
           aria-haspopup="true" aria-expanded="false">
@@ -36,7 +25,6 @@
         </div>
       </div>
     </li>
-    
     <li class="nav-item">
       <div class="dropdown">
         <button class="btn btn-info btn-block dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
@@ -51,14 +39,54 @@
         </div>
       </div>
     </li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'list-umbrales' %}"><i
-          class="fas fa-business-time"></i>&numsp;Umbrales</a></li>
-    {% else %}
-     
-    <li class="nav-item"><a class="nav-link" href="{% url 'restriccion' %}">
-    <i class="icon ion-backspace-outline"></i>&numsp;Restricciones</li>  
-    <li class="nav-item"><a class="nav-link" href="{% url 'no-cumplimiento' %}">
-    <i class="fas fa-ban"></i>&numsp; No cumplimiento</li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'list-umbrales' %}">
+        <i class="fas fa-business-time"></i>&numsp;Umbrales</a>
+    </li>
+    {% elif request.user.perfil.rol_usuario == 4 %}
+    <li class="nav-item">
+      <a class="nav-link tx-white" href="{% url 'editar-proyecto' proyecto.pk %}"><i
+          class="fa fa-pencil"></i>
+        &numsp;Ver datos Proyectos</a>
+    </li>
+    <li class="nav-item">
+      <div class="dropdown">
+        <button class="btn btn-info btn-block dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="icon ion-person-stalker"></i>&numsp;Gestionar&numsp;Usuarios
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <a class="nav-link" href="{% url 'crear-usuario' %}"><button class="dropdown-item" type="button"><i
+                class="icon ion-person-add"></i> Agregar Usuario</button></a>
+          <a class="nav-link" href="{% url 'listar-usuarios' %}"><button class="dropdown-item" type="button"><i
+                class="icon ion-person"></i> Listar Usuarios</button></a>
+          <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i
+                class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
+        </div>
+      </div>
+    </li>
+    <li class="nav-item">
+      <div class="dropdown">
+        <button class="btn btn-info btn-block dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
+          <i class="fa fa-close"></i>&numsp;Restricciones
+        </button>
+        <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+          <a class="nav-link" href="{% url 'restriccion' %}"><button class="dropdown-item" type="button"><i
+                class="icon ion-backspace-outline"></i>&numsp;Restricciones</button></a>
+          <a class="nav-link" href="{% url 'no-cumplimiento' %}"><button class="dropdown-item" type="button"><i
+                class="fas fa-ban"></i>&numsp; No cumplimiento</button></a>
+        </div>
+      </div>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'list-umbrales' %}">
+        <i class="fas fa-business-time"></i>&numsp;Umbrales</a>
+    </li>
+    {% endif %}
+    {% if not request.user.perfil.rol_usuario == 1 and not request.user.perfil.rol_usuario == 4%}
+    <li class="nav-item"><a class="nav-link" href="{% url 'restriccion' %}"><i class="icon ion-backspace-outline"></i>&numsp;Restricciones</li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp;No&numsp;cumplimiento</li>
     {% endif %}
   </ul>
 </div><!-- ht-65 -->
