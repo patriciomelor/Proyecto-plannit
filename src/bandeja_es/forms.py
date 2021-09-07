@@ -72,25 +72,9 @@ class PaquetePreviewForm(forms.ModelForm):
         }
         
     def __init__(self, **kwargs):
-        user_list = []
-        self.usuario = kwargs.pop('usuario')
         self.participantes = kwargs.pop('participantes')
-        current_rol = self.usuario.perfil.rol_usuario
-        for user in self.participantes:
-            try:
-                rol = user.perfil.rol_usuario
-                if rol >= 1 and rol <= 3:
-                    if current_rol >= 1 and current_rol <= 3:
-                        user_list.append(user.pk)
-                elif rol <= 6 and rol >= 4:
-                    if current_rol <= 6 and current_rol >= 4:
-                        user_list.append(user.pk)
-            except:
-                continue
-        qs = self.participantes.exclude(pk__in=user_list)
-        print(qs)
         super(PaquetePreviewForm, self).__init__(**kwargs)
-        self.fields["prev_receptor"] = forms.ModelChoiceField(queryset=qs)
+        self.fields["prev_receptor"] = forms.ModelChoiceField(queryset=self.participantes)
         self.fields["prev_receptor"].label = 'Destinatario'
 
     def clean(self):
