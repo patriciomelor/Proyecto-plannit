@@ -85,7 +85,7 @@
       <table class="table mg-b-0 tx-12 table-primary">
         <thead>
           <tr class="tx-10">
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Encargado</th>
+        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">RESPONSABLE</th>
         <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Fecha Contestado</th>
         <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">No Cumplimiento</th>
         <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Cantidad HH</th>
@@ -99,7 +99,7 @@
         <tbody>
             {% if tarea.task_answer %}
             <tr role="row" class="odd">
-              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.encargado}} </th>
+              <th style="text-align: center;vertical-align:middle;" > {{tarea.encargado}} </th>
               <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contestado|date:'d-M-y H:i'}} </th>
               <th style="text-align: center;vertical-align:middle;" > {% if tarea.task_answer.not_done is None %} No registrado             
               {% else %}

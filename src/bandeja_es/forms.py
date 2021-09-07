@@ -64,8 +64,8 @@ class PaquetePreviewForm(forms.ModelForm):
         model = PrevPaquete
         fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion', 'prev_comentario']
         labels = {
-            'prev_receptor': 'Destinatario',
-            'prev_comentario': 'Archivo de Comentario'
+            'prev_receptor': 'Destinatario:',
+            'prev_comentario': 'Anexo:'
         }
         widgets = {
             'prev_descripcion': SummernoteInplaceWidget()
@@ -77,12 +77,7 @@ class PaquetePreviewForm(forms.ModelForm):
         self.fields["prev_receptor"] = forms.ModelChoiceField(queryset=self.participantes)
         self.fields["prev_receptor"].label = 'Destinatario'
 
-    def clean(self):
-        cleaned_data = super().clean()
-        destinatario = cleaned_data.get('prev_receptor')
-        if self.usuario == destinatario:
-            raise ValidationError('No puedes enviarte un paquete a ti mismo!')
-        pass
+    
 
 
 class PrevVersionForm(forms.ModelForm):
