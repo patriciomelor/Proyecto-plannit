@@ -37,9 +37,9 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'listar-usuarios' %}">
           <i class="icon ion-person"></i>&numsp;Listar Usuarios</a>
         </li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'add-user-proyecto' %}">
+        {% comment %} <li class="nav-item"><a class="nav-link" href="{% url 'add-user-proyecto' %}">
             <i class="fas fa-user-chart"></i>&numsp;Agregar Usuarios a Proyectos</a>
-        </li>
+        </li> {% endcomment %}
         <li class="nav-item">
           <a class="nav-link" href="{% url 'restriccion' %}"><i
               class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
@@ -64,10 +64,10 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'listar-usuarios' %}">
           <i class="icon ion-person"></i>&numsp;Listar Usuarios</a>
         </li>
-        <li class="nav-item">
+        {% comment %} <li class="nav-item">
           <a class="nav-link" href="{% url 'add-user-proyecto' %}">
             <i class="fas fa-user-chart"></i>&numsp;Agregar Usuarios a Proyectos</a>
-        </li>
+        </li> {% endcomment %}
         <li class="nav-item"><a class="nav-link" href="{% url 'restriccion' %}">
           <i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
         </li>
