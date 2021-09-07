@@ -1,5 +1,7 @@
 {% extends 'index-config.html' %}
 
+{% load crispy_forms_tags %}
+
 
 {% block content %}
 <div class="br-mainpanel">
@@ -22,28 +24,24 @@
           style="text-align: center;vertical-align: middle;margin-left:20px" type="submit"> Agregar Seleccionados
         </button></a>
     </div>
-    <table border="1" style="width:auto; height:20px;white-space: nowrap;"
-      class="table table-striped mg-b-0 table-bordered table-primary">
-      <!--Table-->
-
-      <thead>
+    <table style="width:auto; height:20px;" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary">
+     <thead>
         <tr>
           <th
             style="text-align: center;vertical-align: middle;padding: 5px; font-size: 10px;">
             <label class="ckbox"></th>
-             <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Nombre</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Correo</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">ROL</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Empresa</th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Cargo</th>
+              <th style="text-align: center;  color: white;"style="width:auto;">Nombre</th>
+              <th style="text-align: center;  color: white;"style="width:auto;">Correo</th>
+              <th style="text-align: center;  color: white;"style="width:auto;">ROL</th>
+              <th style="text-align: center;  color: white;"style="width:auto;">Empresa</th>
+              <th style="text-align: center;  color: white;"style="width:auto;">Cargo</th>
         </tr>
       </thead>
-
-
       <!--Loop Listar Documento-->
       {% csrf_token %}
-      {% for user in users %}
+      
       <tbody>
+      {% for user in users %}
         <tr>
           <th
             style="text-align: center;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">
@@ -59,9 +57,7 @@
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{user.perfil.empresa}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{user.perfil.cargo_empresa}} </th>
         </tr>
-      </tbody>
-
-      {% empty %}
+          {% empty %}
     </table>
     <div class="alert alert-info alert-bordered pd-y-20" role="alert">
       <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -78,6 +74,9 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
     {% endfor %}
+      </tbody>
+
+    
     <!--Fin Loop-->
 
 </form>
