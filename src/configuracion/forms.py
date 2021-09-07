@@ -42,6 +42,18 @@ class EditUsuario(UserChangeForm):
         exclude = ['password1', 'password2']
         
 
+class EditProfile(UserChangeForm):
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.fields["password"].widget = forms.HiddenInput()
+        # self.fields["password2"].widget = forms.HiddenInput()
+
+
+    class Meta:
+        model = User
+        fields = ['username', 'email', 'first_name', 'last_name']
+        exclude = ['password1', 'password2']
 class InvitationForm(forms.Form):
     nombres = forms.CharField(max_length=30)
     correo = forms.CharField(max_length=30)

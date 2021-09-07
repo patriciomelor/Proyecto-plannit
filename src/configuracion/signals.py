@@ -15,8 +15,8 @@ def VPC_signal(sender, instance, *args, **kwargs):
     else:
         current = instance
         previous = Version.objects.get(pk=instance.pk)
-        if instance.estado_cliente is not None and previous.estado_cliente == 5:
-            if previous.estado_cliente != current.estado_cliente :
+        if previous.estado_cliente == 5:
+            if previous.revision != current.revision :
                 recipients = []
                 notification_list = []
                 proyecto = instance.documento_fk.proyecto

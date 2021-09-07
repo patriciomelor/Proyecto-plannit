@@ -90,29 +90,28 @@
 
                   </thead>
                   <tbody>
-                    {% for version in lista_final %}
+                    {% for version in versiones %}
                     <tr role="row" class="odd">
-                      <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{version.0.owner.first_name}} {{version.0.owner.last_name}}</td>            
-                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{version.0.get_revision_display}} </td>           
-                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> <a href="{% url 'paquete-detalle' version.1.pk %}" >{{version.1.codigo}} </a></td>
-                      {% if not version.0.estado_contratista %}
-                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.get_estado_cliente_display}}</td>
+                      <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{version.owner.first_name}} {{version.owner.last_name}}</td>            
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{version.get_revision_display}} </td>           
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> <a href="{% url 'paquete-detalle' version.paquete_set.all.0.pk %}" >{{version.paquete_set.all.0.codigo}} </a></td>
+                      {% if not version.estado_contratista %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.get_estado_cliente_display}}</td>
                       {% endif %}
-                      {% if not version.0.estado_cliente %}
-                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.get_estado_contratista_display}}</td>
+                      {% if not version.estado_cliente %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.get_estado_contratista_display}}</td>
                       {% endif %}
-                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.fecha|date:'d-m-y'}}</td>
-                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.0.fecha|date:'H:i'}}</td>
-                      {% if version.0.archivo.url is not None %}
-                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{{version.0.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.fecha|date:'d-m-y'}}</td>
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.fecha|date:'H:i'}}</td>
+                      {% if version.archivo.url is not None %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{{version.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
                       {% else %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">Sin documento adjunto.</td>
                       {% endif %} 
                      
                       {% empty %}
                       <h4> El Documento {{documento}}, no tiene Versiones </h4>
-                      
-                      {% endfor %}   
+                      {% endfor %}    
                     </tr>
                     </tbody>
                   </table>

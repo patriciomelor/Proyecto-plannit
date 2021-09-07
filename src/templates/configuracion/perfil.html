@@ -29,8 +29,27 @@
   {% endif %}
   <div class="br-pagebody pd-x-20 pd-sm-x-30">   
     <div class="row row-sm mg-t-20">
-        
-        <div class="col-lg-12 mg-t-20 mg-lg-t-0">
+        <div class="col-lg-6">
+          <div class="card shadow-base bd-0">
+            <div class="card-header bg-transparent pd-20 mg-b-10">
+              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Formulario para editar datos del proyecto</h6>
+            </div><!-- card-header -->
+            <form method="POST"> {% csrf_token %}
+              <label for="" class="col-6 col-md-12">
+                {{form|crispy}}
+              </label>
+            
+            <div class="card-footer tx-12 pd-y-15 bg-transparent">
+              <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit">
+                Guardar </button>
+              <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10"
+                onClick="javascript:history.go(-1);" type="submit"> volver</button>
+
+            </div><!-- card-footer -->
+            </form>
+          </div><!-- card -->
+        </div><!-- col-6 -->
+        <div class="col-lg-6 mg-t-20 mg-lg-t-0">
           <div class="card shadow-base bd-0">
             <div class="card-header pd-20 bg-transparent">
               <h6 class="card-title tx-uppercase tx-12 mg-b-0">Datos del usuario</h6>
@@ -90,7 +109,6 @@
         </div>
       </div>
         </div>
-        {% endif %}
     </div>
         
   </div>
