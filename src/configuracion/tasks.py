@@ -255,7 +255,6 @@ def umbral_3_contratista():
 
     return revision_list
 
-
 @app.task(name="umbral_3_cliente")
 def umbral_3_cliente():
     proyectos = Proyecto.objects.all()
@@ -1055,7 +1054,7 @@ def umbral_4():
 
             if delta_proyect.days >= last_hu.cliente_tiempo_control:
                 diferencias = []
-                diferencia_avance =  float(avance_programado) - float(avance_real)
+                diferencia_avance =  float(avance_real) - float(avance_programado) 
                 diferencia_avance = format(diferencia_avance, '.2f')
                 if last_hu.cliente_variable_atraso >= 0:
                     if float(diferencia_avance) >= float(last_hu.cliente_variable_atraso):
@@ -1148,8 +1147,8 @@ def umbral_4():
             else:
                 pass
 
-            if delta_proyect.days >= last_hu.contratista_tiempo_control:    
-                diferencia_avance =  float(avance_programado) - float(avance_real)
+            if delta_proyect.days >= last_hu.contratista_tiempo_control:
+                diferencia_avance =  float(avance_real) - float(avance_programado) 
                 diferencia_avance = format(diferencia_avance, '.2f')
                 if last_hu.contratista_variable_atraso >= 0:
                     if float(diferencia_avance) >= float(last_hu.contratista_variable_atraso):
@@ -1238,5 +1237,3 @@ def umbral_4():
 
         else:
             pass
-
-

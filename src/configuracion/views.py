@@ -150,11 +150,11 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
     def get_queryset(self):
         rol = self.request.user.perfil.rol_usuario
         if rol == 1:
-            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6]).exclude(is_superuser=True, is_active=False).order_by('perfil__empresa')
+            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6], is_superuser=False, is_active=True).order_by('perfil__empresa')
         elif rol == 4:
-            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6]).exclude(is_superuser=True, is_active=False).order_by('perfil__empresa')
+            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6], is_superuser=False, is_active=True).order_by('perfil__empresa')
         else:
-            qs = [] # self.proyecto.participantes.prefetch_related("perfil").exclude(is_superuser=True)
+            qs = self.proyecto.participantes.prefetch_related("perfil").exclude(is_superuser=True)
         
         return qs
     
@@ -175,18 +175,11 @@ class UsuarioDelete(ProyectoMixin, AdminViewMixin, TemplateView):
         user.save()
         return super().form_valid(form)
     
-class UsuarioDetail(ProyectoMixin, AdminViewMixin, DetailView):
+class UsuarioDetail(ProyectoMixin, DetailView):
     model = User
-    template_name = 'configuracion/detail-user.html'
+    template_name = 'configuracion/perfil.html'
     context_object_name = "usuario"
 
-    def get_context_data(self, **kwargs):
-        context = {}
-        user = self.get_object()
-        grupos = user.groups.all()
-        print(grupos)
-        context["grupos"] = grupos
-        return context
 
 # Añade usuarios al proyecto actual seleccionado
 class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
