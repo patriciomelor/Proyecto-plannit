@@ -6,7 +6,14 @@
 
 
 {% block content %}
-
+<div class="br-pageheader pd-y-15 pd-l-20">
+  <nav class="breadcrumb pd-0 mg-0 tx-12">
+    <a class="breadcrumb-item"> {{proyecto}}</a>
+    <a class="breadcrumb-item">Bandeja Entrada</a>
+    <span class="breadcrumb-item active"> Nuevo Transmital</span>
+  </nav>
+</div>
+{% include "messege.html" %}
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
         <div class="br-section-wrapper">
@@ -55,8 +62,6 @@
     </div>     
 
 </div>
-  
-  </div>
   
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
@@ -115,8 +120,8 @@ $(document).ready(function() {
 
 <script>
  $(document).ready(function() {
-        $('#summernote').summernote({
-            placeholder: 'Hello stand alone ui',
+        $('#prev_descripcion').summernote({
+        placeholder: 'Hello stand alone ui',
         tabsize: 2,
         height: 120,
         toolbar: [

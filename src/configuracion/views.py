@@ -25,7 +25,8 @@ from tools.objects import (AdminViewMixin, SuperuserViewMixin, is_admin_check,
                            is_superuser_check)
 
 from .forms import (CrearUsuario, EditUsuario, InvitationForm,
-                    NoCumplimientoForm, RestriccionForm, UmbralForm)
+                    NoCumplimientoForm, RestriccionForm, UmbralForm,
+                    EditProfile)
 from .models import (CausasNoCumplimiento, HistorialUmbrales, NotificacionHU,
                      Perfil, Restricciones, Umbral)
 from .roles import ROLES
@@ -175,10 +176,17 @@ class UsuarioDelete(ProyectoMixin, AdminViewMixin, TemplateView):
         user.save()
         return super().form_valid(form)
     
-class UsuarioDetail(ProyectoMixin, DetailView):
+class UsuarioDetail(ProyectoMixin, UpdateView):
     model = User
+    form_class = EditProfile
     template_name = 'configuracion/perfil.html'
-    context_object_name = "usuario"
+    success_url = reverse_lazy('listar-usuarios')
+    success_message = "Datos Actualizados correctamente"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
+        return context
 
 
 # Añade usuarios al proyecto actual seleccionado

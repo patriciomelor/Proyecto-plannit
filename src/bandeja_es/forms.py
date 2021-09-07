@@ -77,12 +77,7 @@ class PaquetePreviewForm(forms.ModelForm):
         self.fields["prev_receptor"] = forms.ModelChoiceField(queryset=self.participantes)
         self.fields["prev_receptor"].label = 'Destinatario'
 
-    def clean(self):
-        cleaned_data = super().clean()
-        destinatario = cleaned_data.get('prev_receptor')
-        if self.usuario == destinatario:
-            raise ValidationError('No puedes enviarte un paquete a ti mismo!')
-        pass
+    
 
 
 class PrevVersionForm(forms.ModelForm):

@@ -254,22 +254,24 @@ def documentos_ajax(request):
     # return JsonResponse(response_content,safe=False)
     return JsonResponse(response_content, safe=False)
 
-def version_prev(request, paquete_pk):
-    context = {}
+# def version_prev(request, paquete_pk):
+#     context = {}
 
-    if request.method == 'GET':
-        form = VersionDocPreview()
-        context['form'] = form
-        context['paquete'] = paquete_pk
-        lista_versiones_pk = []
-        package = PrevPaquete.objects.get(pk=paquete_pk)
-        pkg_versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=package)
-        for version in pkg_versiones:
-            pk = version.prev_version.pk
-            lista_versiones_pk.append(pk)
-        versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
-        response_content = list(versiones.values())
-    return render(request, 'bandeja_es/tabla-versiones-form.html', context)
+#     if request.method == 'GET':
+#         form = VersionDocPreview()
+#         context['form'] = form
+#         context['paquete'] = paquete_pk
+#         lista_versiones_pk = []
+#         package = PrevPaquete.objects.get(pk=paquete_pk)
+#         pkg_versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=package)
+#         for version in pkg_versiones:
+#             pk = version.prev_version.pk
+#             lista_versiones_pk.append(pk)
+#         versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
+#         response_content = list(versiones.values())
+#     return render(request, 'bandeja_es/tabla-versiones-form.html', context)
+
+
     #### AJAX Request ####
 
 def vue_version(request, paquete_pk):

@@ -38,7 +38,19 @@
                 <tr>            
                   <th style="text-align: center;border: 2px;border-color: grey; color: black;width:auto;" >{{umbral.umbral.nombre}}  </th>
                   <th style="text-align: center;border: 2px;border-color: grey; color: black;width:auto;" >{{umbral.umbral.descripcion}}  </th>
+                  {% if umbral.umbral.pk == 1 %}
                   {% if request.user.perfil.rol_usuario == 1 %}
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;margin:0px;padding:0px;" > </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;margin:0px;padding:0px;" >  </th>
+                  {% endif %}
+                  {% if request.user.perfil.rol_usuario == 4 %}
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;margin:0px;padding:0px;" > </th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;margin:0px;padding:0px;" > </th>
+                  {% endif %}
+                   <th style="text-align: center;border: 2px;border-color: grey; color: black;width:auto;" >{{umbral.last_checked|date:'d-M-y'}}</th>
+              
+                  {% else %}
+                      {% if request.user.perfil.rol_usuario == 1 %}
                     <th style="text-align: center;border: 2px;border-color: grey; color: black;margin:0px;padding:0px;" >{{umbral.cliente_tiempo_control}} </th>
                     <th style="text-align: center;border: 2px;border-color: grey; color: black;margin:0px;padding:0px;" >{{umbral.cliente_variable_atraso}}  </th>
                   {% endif %}
@@ -46,9 +58,12 @@
                     <th style="text-align: center;border: 2px;border-color: grey; color: black;margin:0px;padding:0px;" >{{umbral.contratista_tiempo_control}} </th>
                     <th style="text-align: center;border: 2px;border-color: grey; color: black;margin:0px;padding:0px;" >{{umbral.contratista_variable_atraso}}  </th>
                   {% endif %}
-          <th style="text-align: center;border: 2px;border-color: grey; color: black;width:auto;" >{{umbral.last_checked|date:'d-M-y'}}</th>
+                   <th style="text-align: center;border: 2px;border-color: grey; color: black;width:auto;" >{{umbral.last_checked|date:'d-M-y'}}</th>
                   <th style="text-align: center;border: 2px;border-color: grey; color: black;width:auto;"><a href="{% url 'edit-umbrales' umbral.pk %}" > <i class="fa fa-pencil"></i> </a></th>
-                </tr>
+              
+                  {% endif %}
+               
+                   </tr>
             {% endfor %}
                 <!--Fin Loop-->
               </tbody>

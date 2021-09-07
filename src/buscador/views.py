@@ -42,21 +42,14 @@ class VersionesList(ProyectoMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        doc = Documento.objects.get(pk=self.kwargs['pk'])
-        versiones = Version.objects.filter(documento_fk=doc)
-        first_v_date = versiones.first().fecha
-        last_v_date = versiones.last().fecha
-        delta_date = abs((last_v_date - first_v_date).days)
-        paquetes = Paquete.objects.filter(version__in=versiones)
-        lista_actual = []
-        lista_final = []
-        for version, paquete in zip(versiones, paquetes):
-            lista_actual = [version, paquete]
-            lista_final.append(lista_actual)
-        print(lista_final)
-        context['lista_final'] = lista_final
-        context['first_date'] = first_v_date
-        context['last_date'] = last_v_date
+        versiones = Version.objects.select_related("documento_fk").prefetch_related("paquete_set", "paquete_set__owner").filter(documento_fk__pk=self.kwargs['pk']).order_by("-fecha")
+        first_v_date = versiones[0]
+        last_v_date = versiones[len(versiones)-1]
+        delta_date = abs((last_v_date.fecha - first_v_date.fecha).days)
+
+        context['versiones'] = versiones
+        context['first_date'] = first_v_date.fecha
+        context['last_date'] = last_v_date.fecha
         context['delta_date'] = delta_date
         # context['paquete'] = paquete
         return context

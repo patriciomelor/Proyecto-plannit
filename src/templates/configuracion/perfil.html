@@ -1,0 +1,119 @@
+{% extends 'index-config.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="br-mainpanel">
+
+  <div class="br-pageheader pd-y-15 pd-md-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item"> {{proyecto.codigo}}</a>
+      <a class="breadcrumb-item" href="">Configuración</a>
+      <span class="breadcrumb-item active">Editar Proyecto </span>
+    </nav>
+  </div><!-- br-pageheader -->
+
+  {% include "configuracion/menu.html"%}
+
+  {% include "messege.html" %}
+  {% if request.user.perfil.rol_usuario == 1 %}
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+    <h4 class="tx-gray-800 mg-b-5">Mi Perfil</h4>
+  </div>
+  {% else %}
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+      <h4 class="tx-gray-800 mg-b-5">Ver datos del Proyecto</h4>
+    </div>
+  {% endif %}
+  <div class="br-pagebody pd-x-20 pd-sm-x-30">   
+    <div class="row row-sm mg-t-20">
+        <div class="col-lg-6">
+          <div class="card shadow-base bd-0">
+            <div class="card-header bg-transparent pd-20 mg-b-10">
+              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Formulario para editar datos del proyecto</h6>
+            </div><!-- card-header -->
+            <form method="POST"> {% csrf_token %}
+              <label for="" class="col-6 col-md-12">
+                {{form|crispy}}
+              </label>
+            
+            <div class="card-footer tx-12 pd-y-15 bg-transparent">
+              <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit">
+                Guardar </button>
+              <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10"
+                onClick="javascript:history.go(-1);" type="submit"> volver</button>
+
+            </div><!-- card-footer -->
+            </form>
+          </div><!-- card -->
+        </div><!-- col-6 -->
+        <div class="col-lg-6 mg-t-20 mg-lg-t-0">
+          <div class="card shadow-base bd-0">
+            <div class="card-header pd-20 bg-transparent">
+              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Datos del usuario</h6>
+            </div><!-- card-header -->
+          <div class="form-layout form-layout-6">
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4"style="color:black;">
+                  Nombre:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8"style="color:black;">
+                  {{usuario.first_name}}
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4"style="color:black;">
+                  Apellido:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8"style="color:black;">
+                  {{usuario.last_name}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4"style="color:black;">
+                  Correo:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8"style="color:black;">
+                  {{usuario.email}}
+                </div><!-- col-8 -->
+              </div><!-- row -->
+             
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4"style="color:black;">
+                  Empresa:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8"style="color:black;">
+                {{usuario.perfil.empresa}}  
+             
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4"style="color:black;">
+                 Cargo:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8"style="color:black;">
+                  {{usuario.perfil.cargo_empresa}}   
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters">
+                <div class="col-5 col-sm-4"style="color:black;">
+                  Rol de Usuario:
+                </div><!-- col-4 -->
+                <div class="col-7 col-sm-8"style="color:black;">
+                {{usuario.perfil.get_rol_usuario_display}}
+                </div><!-- col-8 -->
+              </div><!-- row -->
+            
+        </div>
+      </div>
+        </div>
+    </div>
+        
+  </div>
+</div>
+
+
+{% endblock content %}
+
