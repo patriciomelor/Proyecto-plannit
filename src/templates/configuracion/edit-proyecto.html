@@ -18,10 +18,15 @@
   {% include "configuracion/menu.html"%}
 
   {% include "messege.html" %}
-
+  {% if request.user.perfil.rol_usuario == 1 %}
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Editar Proyecto</h4>
   </div>
+  {% else %}
+  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+      <h4 class="tx-gray-800 mg-b-5">Ver datos del Proyecto</h4>
+    </div>
+  {% endif %}
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
    
     <div class="row row-sm mg-t-20">

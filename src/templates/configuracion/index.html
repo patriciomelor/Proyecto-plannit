@@ -72,13 +72,9 @@
         {% endif %}
 
         {% if not request.user.perfil.rol_usuario == 1 and not request.user.perfil.rol_usuario == 4 %}
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'restriccion' %}"><i
-              class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp;No cumplimiento</a>
-        </li>
+         <li class="nav-item"><a class="nav-link" href="{% url 'editar-proyecto' proyecto.pk %}"><i class="fa fa-pencil"></i> &numsp;Ver datos de Proyecto</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'restriccion' %}"><i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp;No cumplimiento</a></li>
         {% endif %}
       </ul>
     </div>
