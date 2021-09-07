@@ -64,8 +64,8 @@ class PaquetePreviewForm(forms.ModelForm):
         model = PrevPaquete
         fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion', 'prev_comentario']
         labels = {
-            'prev_receptor': 'Destinatario',
-            'prev_comentario': 'ANEXO'
+            'prev_receptor': 'Destinatario:',
+            'prev_comentario': 'Anexo:'
         }
         widgets = {
             'prev_descripcion': SummernoteInplaceWidget()
