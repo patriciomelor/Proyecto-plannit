@@ -171,9 +171,8 @@ class UsuarioDelete(ProyectoMixin, AdminViewMixin, TemplateView):
 
     def post(self, request, *args, **kwargs) -> HttpResponse:
         user = User.objects.get(pk=self.kwargs["pk"])
-        # user.is_active = False
-        # user.save()
-        user.delete()
+        user.is_active = False
+        user.save()
         return redirect('listar-usuarios')
     
 class UsuarioDetail(ProyectoMixin, UpdateView):
