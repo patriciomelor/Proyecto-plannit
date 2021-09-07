@@ -99,27 +99,25 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
 
         return super().form_valid(form)
 
-class UserValidation(ProyectoMixin, View):
+class UserValidation(View):
     def get(self, request, uidb64, token, *args, **kwargs):
         try:
             id = force_text(urlsafe_base64_decode(uidb64))
             usuario = User.objects.get(pk=id)
-
-            if token_generator.check_token(user=usuario, token=token):
-                usuario.is_active = True
-                usuario.save()
-                messages.success(request, 'Cuenta activada Exitosamente')
-                login(request, user=usuario)
-                return redirect('change-password')
-            else:
-                return redirect('login'+'?message='+'Usuario ya activado')
-
             # if usuario.is_active:
             #     return redirect('login')
-                
         except Exception as error:
+            messages.error(request, 'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación')
+            return redirect('login'+'?message='+'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación')
+        
+        if usuario is not None and token_generator.check_token(usuario, token):
+            usuario.is_active = True
+            usuario.save()
+            login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, 'Cuenta activada Exitosamente')
-            return redirect('login'+'?message='+'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación.')
+            return redirect('change-password')
+        else:
+            return redirect('login')
 
 class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     model = User
@@ -154,15 +152,16 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
             qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6], is_superuser=False, is_active=True).order_by('perfil__empresa')
         elif rol == 4:
             qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6], is_superuser=False, is_active=True).order_by('perfil__empresa')
-        else:
-            qs = self.proyecto.participantes.prefetch_related("perfil").exclude(is_superuser=True)
-        
+        # else:
+        #     qs = self.proyecto.participantes.prefetch_related("perfil").exclude(is_superuser=True)
+        if self.request.user.is_superuser:
+            qs = User.objects.all()
+
         return qs
     
 class UsuarioDelete(ProyectoMixin, AdminViewMixin, TemplateView):
     model = User
     template_name = 'configuracion/delete-user.html'
-    success_url = reverse_lazy('listar-usuarios')
     success_message = 'Usuario inhabilitado correctamente.'
 
     def get_context_data(self, **kwargs):
@@ -170,11 +169,12 @@ class UsuarioDelete(ProyectoMixin, AdminViewMixin, TemplateView):
         context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
         return context
 
-    def form_valid(self, form) -> HttpResponse:
+    def post(self, request, *args, **kwargs) -> HttpResponse:
         user = User.objects.get(pk=self.kwargs["pk"])
-        user.is_active = False
-        user.save()
-        return super().form_valid(form)
+        # user.is_active = False
+        # user.save()
+        user.delete()
+        return redirect('listar-usuarios')
     
 class UsuarioDetail(ProyectoMixin, UpdateView):
     model = User
@@ -285,8 +285,10 @@ class ProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
     def form_valid(self, form):
         proyecto = form.save(commit=False)
         thresholds = Umbral.objects.all()
+        superusers = User.objects.filter(is_superuser=True)
         proyecto.save()
         proyecto.participantes.add(proyecto.encargado)
+        proyecto.participantes.add(*superusers)
 
         for umbral in thresholds:
             HistorialUmbrales.objects.create(

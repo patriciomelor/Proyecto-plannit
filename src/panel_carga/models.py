@@ -12,7 +12,7 @@ class Proyecto(models.Model):
     fecha_inicio = models.DateTimeField(verbose_name="Fecha de Inicio")
     fecha_termino = models.DateTimeField(verbose_name="Fecha de Termino", blank=True)
     descripcion = models.TextField(verbose_name="Descripción", blank=True)
-    encargado = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Encargado")
+    encargado = models.ForeignKey(User, on_delete=models.SET_DEFAULT, verbose_name="Encargado", default=1)
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
     participantes = models.ManyToManyField(User, related_name="participantes")
     rev_letra = models.FloatField(verbose_name="Porcentaje de Avance para Rev en letras", max_length=3, default=70.0)
