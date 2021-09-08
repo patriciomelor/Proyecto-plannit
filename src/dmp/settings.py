@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'zes0))g)ouv+_he(zl)(8*@+(l$vn$p+4$ue$&2gp=(wu2na11'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['plannit-app.cl']
 
