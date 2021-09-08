@@ -73,20 +73,22 @@ class NoCumplimientoForm(forms.ModelForm):
 class UmbralForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.usuario = kwargs.pop('usuario', None)
+        self.umbral_pk = kwargs.pop('umbral_pk', None)
         current_rol = self.usuario.perfil.rol_usuario
         #### recorre a todos los participantes e incluye en un listado solo el equipo de la empresa
         super(UmbralForm, self).__init__(*args, **kwargs)
-        try:
-            if current_rol == 1:
-                self.fields["contratista_tiempo_control"].widget = forms.HiddenInput()
-                self.fields["contratista_variable_atraso"].widget = forms.HiddenInput()
+        if current_rol == 1:
+            self.fields["contratista_tiempo_control"].widget = forms.HiddenInput()
+            self.fields["contratista_variable_atraso"].widget = forms.HiddenInput()
 
-            if current_rol == 4:
-                self.fields["cliente_tiempo_control"].widget = forms.HiddenInput()
-                self.fields["cliente_variable_atraso"].widget = forms.HiddenInput()
-        except Exception:
-            pass
-        
+        if current_rol == 4:
+            self.fields["cliente_tiempo_control"].widget = forms.HiddenInput()
+            self.fields["cliente_variable_atraso"].widget = forms.HiddenInput()
+
+        if self.umbral_pk == 4:
+            self.fields["cliente_variable_atraso"].label = "Desviación Porcentual (%)"
+            self.fields["contratista_variable_atraso"].label = "Desviación Porcentual (%)"
+
     class Meta:
         model = HistorialUmbrales
         exclude = ["umbral", "proyecto", "last_checked"]
