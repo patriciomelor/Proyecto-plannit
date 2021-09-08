@@ -34,10 +34,20 @@
           <li class="nav-item"><a class="nav-link"  href="{% url 'Bandejaeys' %}" ><i class="menu-item-icon icon ion-ios-email-outline tx-22"></i> <span class="menu-item-label">Bandeja de entrada</a><span></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'analitica-index' %}"><i class="menu-item-icon ion-ios-pie-outline tx-22"></i><span class="menu-item-label"> Analíticas</a></span></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'status-index' %}"><i class="menu-item-icon ion-ios-redo-outline tx-22"></i><span class="menu-item-label">Estatus</a></span></li>
+          {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
+          
+          {% else %}
           <li class="nav-item"><a class="nav-link"  href="{% url 'encargado-index' %}"><i class="menu-item-icon icon ion-person tx-22"></i><span class="menu-item-label">Administrador de<br>Responsabilidad</a></span></li>
+
+          {% endif %}
           <li class="nav-item"><a class="nav-link"  href="{% url 'buscador-index' %}" ><i class="menu-item-icon icon ion-ios-list-outline tx-22"></i><span class="menu-item-label">Buscador</span></a></li>
+           {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
+          
+          {% else %}
           <li class="nav-item"><a class="nav-link"  href="{% url 'list-notif-umbrales' %}" ><i class="menu-item-icon icon fa fa-clock-o tx-24"></i><span class="menu-item-label">Historial de<br>Umbrales</span></a></li>
 
+          {% endif %}
+    
           <li class="nav-item"><a class="nav-link"  href="{% url 'configuracion-index' %}"><i class="menu-item-icon icon ion-ios-gear-outline tx-22"></i><span class="menu-item-label">Configuración</span></a></li>
         </ul>
       </div>
