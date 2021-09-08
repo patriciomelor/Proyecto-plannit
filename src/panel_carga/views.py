@@ -23,7 +23,7 @@ from .models import Proyecto, Documento, Revision, Historial
 from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
 from .filters import DocFilter
 from tools.views import ProyectoSeleccionadoMixin
-from tools.objects import SuperuserViewMixin, AdminViewMixin, is_superuser_check, is_admin_check
+from tools.objects import SuperuserViewMixin, AdminViewMixin, VisualizadorViewMixin, is_superuser_check, is_admin_check
 
 # Create your views here.
 
@@ -104,7 +104,7 @@ class EditProyecto(ProyectoMixin, SuperuserViewMixin, AdminViewMixin, UpdateView
     form_class = ProyectoForm
     template_name = 'panel_carga/edit-proyecto.html'
 
-class CreateDocumento(ProyectoMixin, CreateView):
+class CreateDocumento(ProyectoMixin, VisualizadorViewMixin, CreateView):
     model = Documento
     form_class = DocumentoForm
     # fields = ['especialidad', 'descripcion', 'num_documento', 'tipo', 'fecha_inicio_Emision','fecha_fin_Emision', 'archivo']
@@ -124,7 +124,7 @@ class DetailDocumento(ProyectoMixin, DetailView):
     model = Documento
     template_name = 'panel_carga/detail-docuemnto.html'
 
-class ListDocumento(ProyectoMixin, ListView):
+class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
     model = Documento
     template_name = 'administrador/PaneldeCarga/pdc.html'
     context_object_name = "documentos"
@@ -201,7 +201,8 @@ def export_document(request):
     response  = HttpResponse(dataset.xlsx , content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename="Panel_Carga.xlsx"'
     return response
-class DeleteDocumento(ProyectoMixin, ListView):
+
+class DeleteDocumento(ProyectoMixin, AdminViewMixin, ListView):
     template_name = 'panel_carga/delete-lista_documentos.html'
     model = Documento
     # success_url = reverse_lazy('PanelCarga')
@@ -223,8 +224,7 @@ class DeleteDocumento(ProyectoMixin, ListView):
             messages.info(request,  "No se ha seleccionado ningun documento. Intente otra vez")
             return redirect('documento-eliminar')
 
-
-class DeleteAllDocuments(ProyectoMixin, TemplateView):
+class DeleteAllDocuments(ProyectoMixin, AdminViewMixin, TemplateView):
     model = Documento
     template_name = 'panel_carga/delete-documento.html'
     
@@ -241,7 +241,7 @@ class DeleteAllDocuments(ProyectoMixin, TemplateView):
         self.get_queryset().delete()
         return HttpResponseRedirect(reverse_lazy("PanelCarga"))
 
-class UpdateDocumento(ProyectoMixin, UpdateView):
+class UpdateDocumento(ProyectoMixin, AdminViewMixin, UpdateView):
     model = Documento
     form_class = DocumentoForm
     template_name = 'panel_carga/update-documento.html'

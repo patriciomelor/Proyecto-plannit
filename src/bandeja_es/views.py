@@ -1,5 +1,6 @@
 import pathlib
 import os.path
+from tools.objects import AdminViewMixin, VisualizadorViewMixin
 import zipfile
 import time
 import datetime
@@ -142,7 +143,7 @@ class PaqueteUpdate(ProyectoMixin, UpdateView):
     form_class = CreatePaqueteForm
     success_url = reverse_lazy('paquete-detalle')
 
-class PaqueteDelete(ProyectoMixin, DeleteView):
+class PaqueteDelete(ProyectoMixin, AdminViewMixin, DeleteView):
     model = Paquete
     template_name = 'bandeja_es/paquete-delete.html'
     success_url = reverse_lazy('Bandejaeys')
@@ -289,7 +290,7 @@ def vue_version(request, paquete_pk):
         
     return JsonResponse(response_content, safe=False)
 
-class PrevPaqueteView(ProyectoMixin, FormView):
+class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm
 
@@ -316,7 +317,7 @@ class PrevPaqueteView(ProyectoMixin, FormView):
         paquete_pk = paquete.pk
         return redirect('nueva-version', paquete_pk=paquete_pk)
 
-class TablaPopupView(ProyectoMixin, ListView):
+class TablaPopupView(ProyectoMixin, VisualizadorViewMixin, ListView):
     model = PrevVersion
     template_name = 'bandeja_es/tabla-versiones-form.html'
 
@@ -348,7 +349,7 @@ class TablaPopupView(ProyectoMixin, ListView):
             messages.add_message(request, messages.ERROR, message='No se puede obtener la vista previa de un tramital sin revisiones.')
             return redirect('nueva-version', paquete_pk=paquete.pk)
 
-class PrevVersionView(ProyectoMixin, FormView):
+class PrevVersionView(ProyectoMixin, VisualizadorViewMixin, FormView):
     model = PrevVersion
     template_name = 'bandeja_es/popup-archivo.html'
     form_class = PrevVersionForm
@@ -374,7 +375,7 @@ class PrevVersionView(ProyectoMixin, FormView):
         paquete.prev_documento.add(version)
         return HttpResponse('<script type="text/javascript"> window.opener.location.reload(); window.close(); </script>')
 
-class UpdatePrevVersion(ProyectoMixin, UpdateView):
+class UpdatePrevVersion(ProyectoMixin, VisualizadorViewMixin, UpdateView):
     model = PrevVersion
     template_name = 'bandeja_es/popup-archivo.html'
     form_class = PrevVersionForm
