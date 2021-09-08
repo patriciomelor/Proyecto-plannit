@@ -298,9 +298,9 @@ class PrevPaqueteView(ProyectoMixin, FormView):
         usuario = self.request.user
         rol = usuario.perfil.rol_usuario
         if rol >= 1 and rol <= 3:
-            participantes = self.proyecto.participantes.filter(perfil__rol_usuario__in=[1,2,3], is_superuser=False, is_active=True).exclude(pk=usuario.pk)
-        elif rol <= 6 and rol >= 4:
             participantes = self.proyecto.participantes.filter(perfil__rol_usuario__in=[4,5,6], is_superuser=False, is_active=True).exclude(pk=usuario.pk)
+        elif rol <= 6 and rol >= 4:
+            participantes = self.proyecto.participantes.filter(perfil__rol_usuario__in=[1,2,3], is_superuser=False, is_active=True).exclude(pk=usuario.pk)
         else:
             participantes = []
 
