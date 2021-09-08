@@ -8,8 +8,8 @@
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
-      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entrada y Salida</a>      
-      <span class="breadcrumb-item active">Detalle Paquete</span>
+      <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Panel Buscador</a>      
+      <span class="breadcrumb-item active">Detalle Documento</span>
     </nav>
   </div><!-- br-pageheader -->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
@@ -82,11 +82,18 @@
                     <tr>
                      <th style="text-align: center;vertical-align: middle;padding: 5px; font-size: 10px;"colspan="6">
                       </th>
+                       {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
+                      <th style="text-align: center; vertical-align: middle;padding: 5px; font-size: 10px;">
+                     
+                      </th >
+                      {% else %}
                       <th style="text-align: center; vertical-align: middle;padding: 5px; font-size: 10px;">
                       <form method="POST">{% csrf_token %}
                         <input type="submit" class="btn btn-warning" style="text-align: center;padding:2px;"value="Descargar ZIP">
                       </form>
-                  </th >
+                      </th >
+
+                      {% endif %}
 
                   </thead>
                   <tbody>
@@ -109,11 +116,20 @@
                       {% endif %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.fecha|date:'d-m-y'}}</td>
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.fecha|date:'H:i'}}</td>
+                      
+                     {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
+                      {% if version.archivo.url is not None %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"></td>
+                      {% else %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">Sin documento adjunto.</td>
+                      {% endif %} 
+                     {% else %}
                       {% if version.archivo.url is not None %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{{version.archivo.url}}"><i class="icon ion-archive fa-1x"></i></a></td>
                       {% else %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">Sin documento adjunto.</td>
                       {% endif %} 
+                     {% endif %}
                      
                       {% empty %}
                       <h4> El Documento {{documento}}, no tiene Versiones </h4>
