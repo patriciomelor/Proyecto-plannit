@@ -92,6 +92,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                     "usuario": usuario,
                     "proyecto": self.proyecto,
                     "perfil": perfil,
+                    "rol": perfil.get_rol_usuario_display(),
                     "sitio": sitio,
                     "url": sitio+url,
                 },
