@@ -1,6 +1,7 @@
 from email.mime import text
 from django.contrib.auth import views as auth_views
 from django.contrib.auth.forms import SetPasswordForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from bandeja_es.models import *
 from django.conf import settings
 from django.contrib import messages
@@ -190,7 +191,7 @@ class UsuarioDetail(ProyectoMixin, UpdateView):
         context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
         return context
 
-class PasswordSetView(ProyectoMixin, auth_views.PasswordChangeView):
+class PasswordSetView(LoginRequiredMixin, auth_views.PasswordChangeView):
     form_class = SetPasswordForm
     template_name='account/password_change.html'
     success_message = "contraseña actualizada correctamente"
