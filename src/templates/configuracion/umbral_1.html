@@ -30,6 +30,7 @@
         <table class="table table-bordered table-primary mg-b-0">
               <thead>
                 <tr style="border: black 2px;">
+                  <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Autor</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Codigo Documento</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Descripción</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Tipo Documento</th>
@@ -40,12 +41,13 @@
               </thead>
               <tbody>
                   <tr style="border: black 2px;">
-                    <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{revision.documento_fk.Codigo_documento}} </th>
+                    <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{revision.owner}}</th>
+                    <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{revision.documento_fk.Codigo_documento}}</th>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.documento_fk.Descripcion}}</td>
                     <td style="border: black 2px;color: black; background-color: rgb(252, 251, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.documento_fk.Tipo_Documento}}</td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.documento_fk.Especialidad}}</td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_revision_display}}</td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_estado_cliente_display}}</td>
+                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_estado_contratista_display}}</td>
                   </tr>
 
               </tbody>

@@ -462,6 +462,10 @@ class UmbralesEdit(ProyectoMixin, UpdateView):
         user = self.request.user
         kwargs = super().get_form_kwargs()
         kwargs["usuario"] = user
+        h_umbral = self.get_object()
+        umbral_pk = h_umbral.umbral.pk
+        print(umbral_pk)
+        kwargs["umbral_pk"] = umbral_pk
         return kwargs
 
 class UmbralesNotificados(ProyectoMixin, ListView):

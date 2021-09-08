@@ -1,3 +1,4 @@
+from tools.objects import AdminViewMixin, VisualizadorViewMixin
 from django.db.models.query_utils import select_related_descend
 from django.forms.forms import Form
 from django.shortcuts import redirect, render
@@ -130,7 +131,7 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
 class TablaEncargado(ProyectoMixin, FormView):
     template_name = 'status_encargado/list-encargado.html'
 
-class CreateTarea(ProyectoMixin, CreateView):
+class CreateTarea(ProyectoMixin, AdminViewMixin, CreateView):
     model = Tarea
     template_name = 'status_encargado/create-tarea.html'
     form_class = TareaForm

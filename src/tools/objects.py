@@ -20,6 +20,21 @@ class AdminViewMixin(object):
         else:
             raise PermissionDenied
 
+class VisualizadorViewMixin(object):
+    """
+    Mixin que bloquea el acceso de los usuarios con rol "visualizador"
+    """
+    def dispatch(self, request, *args, **kwargs):
+        authorized = super(VisualizadorViewMixin, self).dispatch(request, *args, **kwargs)
+        if request.user.is_superuser:
+            return authorized
+        rol = request.user.perfil.rol_usuario
+        if rol == 3 or rol == 6:
+            return PermissionDenied
+        else:
+            raise authorized
+
+
 def is_admin_check(view_func):
     def wrapper_func(request, *args, **kwargs):
         if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4:
@@ -31,6 +46,15 @@ def is_admin_check(view_func):
 def is_superuser_check(view_func):
     def wrapper_func(request, *args, **kwargs):
         if not request.user.is_superuser:
+            raise PermissionDenied
+        else:
+            return view_func(request, *args, **kwargs)
+    return wrapper_func
+
+def is_visualizador_check(view_func):
+    def wrapper_func(request, *args, **kwargs):
+        rol = request.user.perfil.rol_usuario
+        if rol == 3 and rol == 6:
             raise PermissionDenied
         else:
             return view_func(request, *args, **kwargs)
