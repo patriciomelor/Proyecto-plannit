@@ -110,7 +110,7 @@ class UserValidation(View):
             #     return redirect('login')
         except Exception as error:
             messages.error(request, 'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación')
-            return redirect('login'+'?message='+'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación')
+            return redirect('account_login'+'?message='+'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación')
         
         if usuario is not None and token_generator.check_token(usuario, token):
             usuario.is_active = True
@@ -119,7 +119,7 @@ class UserValidation(View):
             messages.success(request, 'Cuenta activada Exitosamente')
             return redirect('change-password')
         else:
-            return redirect('login')
+            return redirect('account_login')
 
 class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
     model = User
