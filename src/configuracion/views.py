@@ -95,7 +95,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                     "sitio": sitio,
                     "url": sitio+url,
                 },
-                subject = "Confirnmación ",
+                subject = "Confirmación de Email",
                 recipients= ["{email}".format(email=usuario.email)]
             )
 
