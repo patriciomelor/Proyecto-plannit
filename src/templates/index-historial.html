@@ -142,9 +142,7 @@
 
 <body class="collapsed-menu">
   <!-- ########## START: LEFT PANEL ########## -->
-  <div class="br-logo">
-    <a href=""><span>[</span>{{proyecto.nombre}}<span>]</span></a>
-  </div>
+  {% include 'titulo.html' %}
   <div class="br-sideleft overflow-y-auto">
     <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
     <div class="br-sideleft-menu">
@@ -264,7 +262,8 @@
   <!-- br-header -->
   <!-- ########## END: HEAD PANEL ########## -->
 
-  {% include "messege.html" %} {% block content %}
+  {% include "messege.html" %} 
+  {% block content %}
   {% endblock content %}
 
   <!-- ########## END: MAIN PANEL ########## -->

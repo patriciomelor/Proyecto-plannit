@@ -4,7 +4,8 @@
 
 {% block content %}
 <!--Titulo-->
-<div class="br-pagebody">
+<div class="br-mainpanel" style="position: relative;">
+
 
 <div class="row row-sm mg-t-10 pd-y-15">
   <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -12,9 +13,9 @@
     <span class="breadcrumb-item active">Panel Administrador</span>
   </nav>
 </div>
+<div class="br-pagebody mg-t-5 pd-x-30">
 <div class="br-section-wrapper">
   {% include "messege.html" %}
-
 <div class="row row-sm mg-t-20">
           <div class="col-lg-12">
             <div class="card shadow-base bd-0">
@@ -104,6 +105,6 @@
 </div>
 </div>
 </div>
- 
+</div>
 
 {% endblock content %}

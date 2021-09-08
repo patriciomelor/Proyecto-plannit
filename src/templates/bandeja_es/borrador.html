@@ -1,13 +1,8 @@
 {% extends 'index-blank.html' %}
 
 {% load crispy_forms_tags %}
-
-
-
-
 {% block content %}
-
-
+<div class="br-mainpanel" style="position: relative;">
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -15,21 +10,17 @@
       <span class="breadcrumb-item active">Borradores</span>
     </nav>
   </div><!-- br-pageheader -->
-<div class="pd-10 bg-gray-900 rounded">
-            <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" role="tablist">
-              <li class="nav-item"><a href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose" role="tab">Nuevo Transmittal</a></li>
-              <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link  mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
-              <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15"><i class="icon fa fa-share"></i> Enviados</a></li>
-              <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15 active"><i class="icon icon ion-edit"></i> Borradores</a></li>
-            </ul>
-          </div>
-
+  <div class="pd-10 bg-gray-900 rounded">
+              <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" role="tablist">
+                <li class="nav-item"><a href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose" role="tab">Nuevo Transmittal</a></li>
+                <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link  mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
+                <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15"><i class="icon fa fa-share"></i> Enviados</a></li>
+                <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15 active"><i class="icon icon ion-edit"></i> Borradores</a></li>
+              </ul>
+  </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Bandeja de Borradores</h4>
   </div>
- 
-
-
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
         <div class="card bd-0 shadow-base dataTables_wrapper no-footer " style="padding:20px;"id="mydatatable-container">
 
@@ -79,6 +70,7 @@
 
           {% endfor %}
       </table>    
+</div>
 </div>
 <script>
 $(document).ready(function() {

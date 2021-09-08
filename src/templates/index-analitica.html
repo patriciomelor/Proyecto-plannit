@@ -38,7 +38,7 @@
   <body class="collapsed-menu with-subleft">
 
 <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href=""><span>[</span>{{proyecto.nombre}}<span>]</span></a></div>
+    {% include 'titulo.html' %}
     <div class="br-sideleft overflow-y-auto">
       <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
       <div class="br-sideleft-menu">
@@ -137,21 +137,9 @@
     </div><!-- br-header -->
     <!-- ########## END: HEAD PANEL ########## -->
    <!-- ########## START: MAIN PANEL ########## -->
-    <div class="br-mainpanel">
-      <div class="br-pagebody mg-t-5 pd-x-30">
-    
-      
-      {% block navegacion %}
-      
-      {% endblock navegacion %}
-      
-         {% include "messege.html" %}
+      {% include "messege.html" %}
       {% block content %}
-        
-
       {% endblock content %}
-      </div><!-- br-pagebody -->
-    </div><!-- br-mainpanel -->
     <!-- ########## END: MAIN PANEL ########## -->
 
     

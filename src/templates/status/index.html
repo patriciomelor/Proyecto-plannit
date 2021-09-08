@@ -4,13 +4,18 @@
 
 {% block content %}
 <!--Titulo-->
+<div class="br-mainpanel" style="position: relative;">
+
  <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
       <span class="breadcrumb-item active">Estatus</span>
     </nav>
   </div>
-  <h4 class="tx-gray-800 mg-b-5" style="text-align: left; margin-right: 30px;" >Estatus documental del proyecto / {{proyecto}}</h4>
+  <div class="pd-30">
+    <h4 class="tx-gray-800 mg-b-5">Estatus documental del proyecto / {{proyecto}}</h4>
+ </div>
+   <div class="br-pagebody mg-t-5 pd-x-30">
 
   <div class="br-section-wrapper" style="overflow-x: auto;padding:10px 10px 2px 2px;margin: 2px;">
 <!--Tabla-->
@@ -109,10 +114,10 @@
              </div>
             {% endif %}
 
-    </div>
+  </div>
 
 </div>
-
+</div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
