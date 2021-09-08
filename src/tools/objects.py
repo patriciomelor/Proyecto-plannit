@@ -25,7 +25,7 @@ class VisualizadorViewMixin(object):
     Mixin que bloquea el acceso de los usuarios con rol "visualizador"
     """
     def dispatch(self, request, *args, **kwargs):
-        authorized = super(AdminViewMixin, self).dispatch(request, *args, **kwargs)
+        authorized = super(VisualizadorViewMixin, self).dispatch(request, *args, **kwargs)
         if request.user.is_superuser:
             return authorized
         rol = request.user.perfil.rol_usuario
