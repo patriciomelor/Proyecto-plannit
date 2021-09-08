@@ -1,6 +1,8 @@
 {% extends 'index-analitica.html' %}
 {% for real_linea in curvaBase.datos_lista %} {{real_linea}}, {% endfor %}
 {% block content %}
+<div class="br-mainpanel" style="position: relative;">
+
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
@@ -10,6 +12,7 @@
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Panel de Analítica</h4>
   </div>
+<div class="br-pagebody mg-t-5 pd-x-30">
   <!--Curva S-->
   <div class="row row-sm mg-t-20">
     <div class="col-md-12">
@@ -112,7 +115,8 @@
     </div>
   
   </div>
-
+</div>
+</div>
 
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>          

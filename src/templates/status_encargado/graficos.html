@@ -3,106 +3,112 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
-  <div class="br-pagebody">
-
-  <div class="row row-sm mg-t-10 pd-y-15">
+<div class="br-mainpanel" style="position: relative;">
+  <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
-      <a class="breadcrumb-item" > {{proyecto}} </a>
+      <a class="breadcrumb-item"> {{proyecto}} </a>
       <span class="breadcrumb-item active">Panel Administrador</span>
     </nav>
   </div>
-        <div class="card bd-0">
-            <div class="card-header bg-dark">
-                <ul class="nav nav-tabs nav-tabs-for-dark card-header-tabs">
-                <li class="nav-item">
-                    <a class="nav-link bd-0 tx-gray-light" href="{% url 'encargado-index' %}">Agregar Responsable</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link bd-0 active pd-y-8" href="{% url 'encargado-grafico' %}">Gráficas</a>
-                </li>
-                </ul>
-            </div><!-- card-header -->
-            <div class="card-body">
-                <!--AREA DE GRAFICOS-->
-                <div class="row row-sm mg-t-10 pd-y-15">
-                    <div class="col-lg-6">
-                    <div class="card shadow-base card-body pd-25 bd-0">
-                        <div class="row">
-                        <div class="col-sm-12" >
-                            <h6 class="card-title tx-uppercase tx-12" style="text-align:center; " >Documentos Asignados Vs Documentos Realizado</h6>
-                        <canvas id="chartBar1" width="100%"></canvas>
-                        </div><!-- col-6 -->                
-                        </div><!-- row -->
-                    </div><!-- card -->
-                    </div><!-- col-6 -->
-                    <div class="col-lg-6 mg-t-30 mg-lg-t-0">
-                    <div class="card shadow-base card-body pd-25 bd-0">
-                        <div class="row">
-                        <div class="col-sm-12">
-                            <h6 class="card-title tx-uppercase tx-12 tx-inverse" style="text-align:center;">Documentos pendientes</h6>
-                            <canvas id="chartBar2" width="100%"></canvas>
-                        </div><!-- col-6 -->                
-                        </div><!-- row -->
-                    </div><!-- card -->
-                    </div><!-- col-6 -->
-                </div>
-                <div class="row row-sm mg-t-10 pd-y-15">
-                    <div class="col-lg-6">
-                    <div class="card shadow-base card-body pd-25 bd-0">
-                        <div class="row">
-                        <div class="col-sm-12">
-                         <h6 class="card-title tx-uppercase tx-12" style="text-align:center;">Documentos Asignados Vs Documentos realizados
-                            </h6>
-                        <canvas id="chartBar5" style="display: block;width:650px;height: 325px; text-align: center; margin-left: auto; margin-right: auto;"></canvas>
-                         
-                        </div><!-- col-6 -->                
-                        </div><!-- row -->
-                    </div><!-- card -->
-                    </div><!-- col-6 -->
-                    <div class="col-lg-6 mg-t-30 mg-lg-t-0">
-                    <div class="card shadow-base card-body pd-25 bd-0">
-                        <div class="row">
-                        <div class="col-sm-12">
-                            <h6 class="card-title tx-uppercase tx-12 tx-inverse" style="text-align:center;">Asignadas VS Gastadas</h6>
-                            <canvas id="chartBar4" width="100%"></canvas>
-                        </div><!-- col-6 -->                
-                        </div><!-- row -->
-                    </div><!-- card -->
-                    </div><!-- col-6 -->
-                </div>
-                <div class="row row-sm mg-t-10 pd-y-15">
-                    <div class="col-lg-6">
-                    <div class="card shadow-base card-body pd-25 bd-0">
-                        <div class="row">
-                        <div class="col-lg-12 mg-t-30 mg-lg-t-0"style="display: block; text-align: center; margin-left: auto; margin-right: auto;">
-                             <h6 class="card-title tx-uppercase tx-12" style="text-align:center;">HH Asignadas VS HH Gastadas</h6>
-                        <canvas id="chartBar3" width="auto"></canvas>
-                        </div><!-- col-6 -->  
-                                      
-                        </div><!-- row -->
-                    </div><!-- card -->
-                    </div><!-- col-6 -->
-                    <div class="col-lg-6">
-                    <div class="card shadow-base card-body pd-25 bd-0">
-                        <div class="row">
-                        <div class="col-lg-12 mg-t-30 mg-lg-t-0"style="display: block; text-align: center; margin-left: auto; margin-right: auto;">
-                             <h6 class="card-title tx-uppercase tx-12" style="text-align:center;">Documentos Asignados VS Documentos Atrasados</h6>
-                        <canvas id="chartBar6" width="100%"></canvas>
-                        </div><!-- col-6 -->  
-                                      
-                        </div><!-- row -->
-                    </div><!-- card -->
-                    </div><!-- col-6 -->
-                </div>
-            </div>
-     </div><!-- card -->
+  <div class="br-pagebody mg-t-5 pd-x-30">
+    <div class="card bd-0">
+      <div class="card-header bg-dark">
+        <ul class="nav nav-tabs nav-tabs-for-dark card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link bd-0 tx-gray-light" href="{% url 'encargado-index' %}">Agregar Responsable</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link bd-0 active pd-y-8" href="{% url 'encargado-grafico' %}">Gráficas</a>
+          </li>
+        </ul>
+      </div><!-- card-header -->
+      <div class="card-body">
+        <!--AREA DE GRAFICOS-->
+        <div class="row row-sm mg-t-10 pd-y-15">
+          <div class="col-lg-6">
+            <div class="card shadow-base card-body pd-25 bd-0">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h6 class="card-title tx-uppercase tx-12" style="text-align:center; ">Documentos Asignados Vs
+                    Documentos Realizado</h6>
+                  <canvas id="chartBar1" width="100%"></canvas>
+                </div><!-- col-6 -->
+              </div><!-- row -->
+            </div><!-- card -->
+          </div><!-- col-6 -->
+          <div class="col-lg-6 mg-t-30 mg-lg-t-0">
+            <div class="card shadow-base card-body pd-25 bd-0">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h6 class="card-title tx-uppercase tx-12 tx-inverse" style="text-align:center;">Documentos pendientes
+                  </h6>
+                  <canvas id="chartBar2" width="100%"></canvas>
+                </div><!-- col-6 -->
+              </div><!-- row -->
+            </div><!-- card -->
+          </div><!-- col-6 -->
+        </div>
+        <div class="row row-sm mg-t-10 pd-y-15">
+          <div class="col-lg-6">
+            <div class="card shadow-base card-body pd-25 bd-0">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h6 class="card-title tx-uppercase tx-12" style="text-align:center;">Documentos Asignados Vs
+                    Documentos realizados
+                  </h6>
+                  <canvas id="chartBar5"
+                    style="display: block;width:650px;height: 325px; text-align: center; margin-left: auto; margin-right: auto;"></canvas>
+
+                </div><!-- col-6 -->
+              </div><!-- row -->
+            </div><!-- card -->
+          </div><!-- col-6 -->
+          <div class="col-lg-6 mg-t-30 mg-lg-t-0">
+            <div class="card shadow-base card-body pd-25 bd-0">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h6 class="card-title tx-uppercase tx-12 tx-inverse" style="text-align:center;">Asignadas VS Gastadas
+                  </h6>
+                  <canvas id="chartBar4" width="100%"></canvas>
+                </div><!-- col-6 -->
+              </div><!-- row -->
+            </div><!-- card -->
+          </div><!-- col-6 -->
+        </div>
+        <div class="row row-sm mg-t-10 pd-y-15">
+          <div class="col-lg-6">
+            <div class="card shadow-base card-body pd-25 bd-0">
+              <div class="row">
+                <div class="col-lg-12 mg-t-30 mg-lg-t-0"
+                  style="display: block; text-align: center; margin-left: auto; margin-right: auto;">
+                  <h6 class="card-title tx-uppercase tx-12" style="text-align:center;">HH Asignadas VS HH Gastadas</h6>
+                  <canvas id="chartBar3" width="auto"></canvas>
+                </div><!-- col-6 -->
+
+              </div><!-- row -->
+            </div><!-- card -->
+          </div><!-- col-6 -->
+          <div class="col-lg-6">
+            <div class="card shadow-base card-body pd-25 bd-0">
+              <div class="row">
+                <div class="col-lg-12 mg-t-30 mg-lg-t-0"
+                  style="display: block; text-align: center; margin-left: auto; margin-right: auto;">
+                  <h6 class="card-title tx-uppercase tx-12" style="text-align:center;">Documentos Asignados VS
+                    Documentos Atrasados</h6>
+                  <canvas id="chartBar6" width="100%"></canvas>
+                </div><!-- col-6 -->
+
+              </div><!-- row -->
+            </div><!-- card -->
+          </div><!-- col-6 -->
+        </div>
+      </div>
+    </div><!-- card -->
+  </div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
 <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-
-
-
 
 <script>
   $(document).ready(function() {

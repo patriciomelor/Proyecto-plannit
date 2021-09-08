@@ -4,7 +4,7 @@
 
 
 {% block content %}   
-
+<div class="br-mainpanel" style="position: relative;">
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -20,13 +20,11 @@
               <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15 active"><i class="icon fa fa-share"></i> Enviados</a></li>
               <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15"><i class="icon icon ion-edit"></i> Borradores</a></li>
             </ul>
-          </div>
+  </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Enviados</h4>
    
   </div>
-
-
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base dataTables_wrapper no-footer" style="padding:20px;"id="mydatatable-container">
       <table class="records_list table table-striped table-bordered table-hover table-primary" id="mydatatable" role="grid" aria-describedby="datatable2_info">
@@ -85,51 +83,6 @@
 </div><!-- br-contentpanel -->
  
 <!--Script-->
-<script>
-  $(function(){
-    'use strict';
-
-    // show only the icons and hide left menu label by default
-    $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
-
-    $(document).on('mouseover', function(e){
-      e.stopPropagation();
-      if($('body').hasClass('collapsed-menu')) {
-        var targ = $(e.target).closest('.br-sideleft').length;
-        if(targ) {
-          $('body').addClass('expand-menu');
-
-          // show current shown sub menu that was hidden from collapsed
-          $('.show-sub + .br-menu-sub').slideDown();
-
-          var menuText = $('.menu-item-label,.menu-item-arrow');
-          menuText.removeClass('d-lg-none');
-          menuText.removeClass('op-lg-0-force');
-
-        } else {
-          $('body').removeClass('expand-menu');
-
-          // hide current shown menu
-          $('.show-sub + .br-menu-sub').slideUp();
-
-          var menuText = $('.menu-item-label,.menu-item-arrow');
-          menuText.addClass('op-lg-0-force');
-          menuText.addClass('d-lg-none');
-        }
-      }
-    });
-
-    // Showing sub left menu
-    $('#showSubLeft').on('click', function(){
-      if($('body').hasClass('show-subleft')) {
-        $('body').removeClass('show-subleft');
-      } else {
-        $('body').addClass('show-subleft');
-      }
-    });
-
-  });
-</script>
 <script>
   $(document).ready(function() {
       $('#mydatatable').DataTable(

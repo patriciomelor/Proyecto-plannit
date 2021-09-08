@@ -137,10 +137,9 @@
     <!-- Bracket CSS -->
   </head>
   <body class="collapsed-menu">
-  {% block menublank %}
  
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href=""><span>[</span>{{proyecto.nombre}}<span>]</span></a></div>
+      {% include 'titulo.html' %}
     <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-x ps--active-y" data-ps-id="9f275960-8fc4-263c-8019-2d3495e7d5c1">
       <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
       <div class="br-sideleft-menu">
@@ -191,7 +190,7 @@
             <span class="menu-item-label">Buscador</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
- <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
+      <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon fa fa-clock-o tx-24"></i>
             <span class="menu-item-label">Historial de<br>Umbrales</span>
@@ -238,18 +237,9 @@
       </div><!-- br-header-right -->
     </div><!-- br-header -->
     <!-- ########## END: HEAD PANEL ########## -->
-
-
- {% endblock menublank %}
- <div class="br-mainpanel">
-  <div class="br-pagebody mg-t-5 pd-x-30">
-  {% include "messege.html" %}
-
-{% block content %}
-{% endblock content %}
-</div><!-- br-pagebody -->
-</div><!-- br-mainpanel -->
-
+    {% include "messege.html" %}
+    {% block content %}
+    {% endblock content %}
 
     <!-- ########## END: MAIN PANEL ########## -->
 
@@ -305,35 +295,7 @@
       setTimeout(function() {
           $("#alert").fadeOut();           
       },2000);
-    </script>
-    <script>
-      $(function(){
-        'use strict'
-
-        // FOR DEMO ONLY
-        // menu collapsed by default during first page load or refresh with screen
-        // having a size between 992px and 1299px. This is intended on this page only
-        // for better viewing of widgets demo.
-        $(window).resize(function(){
-          minimizeMenu();
-        });
-
-        minimizeMenu();
-
-        function minimizeMenu() {
-          if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
-            // show only the icons and hide left menu label by default
-            $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
-            $('body').addClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideUp();
-          } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
-            $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
-            $('body').removeClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideDown();
-          }
-        }
-      });
-     </script>
+    </script>    
     
   </body>
 </html>

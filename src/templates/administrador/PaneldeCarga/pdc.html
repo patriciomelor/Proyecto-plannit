@@ -4,18 +4,19 @@
 
 {% block content %}
 <!--Titulo-->
+<div class="br-mainpanel" style="position: relative;">
  <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
       <span class="breadcrumb-item active">Panel De Carga</span>
     </nav>
   </div>
+
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Panel de entregables / {{proyecto}} </h4>
     <p class="mg-b-0"></p>
   </div>
-
-  <div class="br-section-wrapper">
+<div class="br-pagebody mg-t-5 pd-x-30">
 <!--Tabla-->
     {% if request.user.perfil.rol_usuario == 1 %}
       <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
@@ -35,8 +36,7 @@
         </ul>
       </div><!-- ht-65 -->
     {% else %}
-    {% endif %}
-                 
+    {% endif %}             
 
   <!--Upload Archivos-->
     <div class="row row-sm d-flex">
@@ -118,9 +118,10 @@
 
 
 </div>
+</div>
+</div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-
 <script>
   function CurvaBase(){
     if (confirm('Desea sobrescribir la Curva Base anterior?\nSi no ha guardado una Curva Base, ignore este mensaje.')){
@@ -132,7 +133,6 @@
     }
   }
 </script>
-
 <script>
   function fileValidation(){
       var fileInput = document.getElementById('file');
@@ -154,13 +154,11 @@
       }
   }
 </script>
-
 <script>
   $("#fileInput").change(function(){
     $("button").prop("disabled", this.files.length == 0);
 });
 </script>
-
 <script>
    $(document).ready(function() {
       $('#datatable2').DataTable(
@@ -198,8 +196,8 @@
             }]	     
         });
   } );
-  </script>
-   <script type="text/javascript">
+</script>
+<script type="text/javascript">
      function confirmation() 
      {
         if(confirm("Desea guardar curva base?"))
@@ -211,6 +209,6 @@
 	   return false;
 	}
      }
-    </script>
+</script>
 {% endblock content %}
     
