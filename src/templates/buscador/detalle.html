@@ -92,9 +92,15 @@
                   <tbody>
                     {% for version in versiones %}
                     <tr role="row" class="odd">
-                      <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{version.owner.first_name}} {{version.owner.last_name}}</td>            
-                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{version.get_revision_display}} </td>           
+                      <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{version.owner.first_name}} {{version.owner.last_name}}</td>
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{version.get_revision_display}} </td>    
+                      {% if version.paquete_set.all.0 %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> <a href="{% url 'paquete-detalle' version.paquete_set.all.0.pk %}" >{{version.paquete_set.all.0.codigo}} </a></td>
+                      
+                      {% else %}
+                      <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> <a></a></td>
+
+                      {% endif %}       
                       {% if not version.estado_contratista %}
                       <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{version.get_estado_cliente_display}}</td>
                       {% endif %}

@@ -57,7 +57,7 @@ def umbral_2_cliente():
                 if revision is not None:
                     if revision.estado_cliente == None:
                         delta_rev = (fecha_actual - revision.fecha)
-                        if delta_rev.days > last_hu.cliente_variable_atraso:
+                        if delta_rev.days >= last_hu.cliente_variable_atraso:
                             revision_list.append(revision)
                             document_list.append(documento)
                             aux = [revision, delta_rev.days]
@@ -69,7 +69,7 @@ def umbral_2_cliente():
             if len(revision_list) != 0:
                 usuarios = users_notifier(proyecto=proyecto, cliente=True)
                 try:
-                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Cliente - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Cliente ".format(proyecto=proyecto.codigo)
                     send_email(
                         html= 'configuracion/umbral_2.html',
                         context= {
@@ -134,7 +134,7 @@ def umbral_2_contratista():
                 if revision is not None:
                     if revision.estado_cliente == None:
                         delta_rev = (fecha_actual - revision.fecha)
-                        if delta_rev.days > last_hu.contratista_variable_atraso:
+                        if delta_rev.days >= last_hu.contratista_variable_atraso:
                             revision_list.append(revision)
                             document_list.append(documento)
                             aux = [revision, delta_rev.days]
@@ -148,7 +148,7 @@ def umbral_2_contratista():
             if len(revision_list) != 0:
                 usuarios = users_notifier(proyecto=proyecto, contratista=True)
                 try:
-                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Cliente - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Cliente ".format(proyecto=proyecto.codigo)
                     send_email(
                         html= 'configuracion/umbral_2.html',
                         context= {
@@ -227,7 +227,7 @@ def umbral_3_contratista():
             if len(revision_list) != 0:
                 usuarios = users_notifier(proyecto=proyecto, contratista=True)
                 try:
-                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Contratistas - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Contratistas ".format(proyecto=proyecto.codigo)
                     send_email(
                         html= 'configuracion/umbral_3.html',
                         context= {
@@ -304,7 +304,7 @@ def umbral_3_cliente():
             if len(revision_list) != 0:
                 usuarios = users_notifier(proyecto=proyecto, cliente=True)
                 try:
-                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Contratistas - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Contratistas ".format(proyecto=proyecto.codigo)
                     send_email(
                         html= 'configuracion/umbral_3.html',
                         context= {
@@ -1078,7 +1078,7 @@ def umbral_4():
                 if last_hu.cliente_variable_atraso >= 0:
                     if float(diferencia_avance) >= float(last_hu.cliente_variable_atraso):
                         ## Se notifica la diferencia % del proyecto actual de la iteración ##
-                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto ".format(proyecto=proyecto.codigo)
                         usuarios = users_notifier(proyecto=proyecto, cliente=True)
                         try:
                             send_email(
@@ -1104,7 +1104,7 @@ def umbral_4():
                                 noti_hu = NotificacionHU(
                                     h_umbral=last_hu,
                                     notificacion=noti,
-                                    porcentaje_atraso=proyecto[1]
+                                    porcentaje_atraso=proyecto
                                 )
                                 noti_hu.save()
 
@@ -1123,7 +1123,7 @@ def umbral_4():
                 if last_hu.cliente_variable_atraso < 0:
                     if float(diferencia_avance) <= float(last_hu.cliente_variable_atraso):
                         ## Se notifica la diferencia % del proyecto actual de la iteración ##
-                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto ".format(proyecto=proyecto.codigo)
                         usuarios = users_notifier(proyecto=proyecto, cliente=True)
                         try:
                             send_email(
@@ -1149,7 +1149,7 @@ def umbral_4():
                                 noti_hu = NotificacionHU(
                                     h_umbral=last_hu,
                                     notificacion=noti,
-                                    porcentaje_atraso=proyecto[1]
+                                    porcentaje_atraso=proyecto
                                 )
                                 noti_hu.save()
 
@@ -1173,7 +1173,7 @@ def umbral_4():
                 if last_hu.contratista_variable_atraso >= 0:
                     if float(diferencia_avance) >= float(last_hu.contratista_variable_atraso):
                         ## Se notifica la diferencia % del proyecto actual de la iteración ##
-                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto ".format(proyecto=proyecto.codigo)
                         usuarios = users_notifier(proyecto=proyecto, contratista=True)
                         try:
                             send_email(
@@ -1214,7 +1214,7 @@ def umbral_4():
                 if last_hu.contratista_variable_atraso < 0:
                     if float(diferencia_avance) <= float(last_hu.contratista_variable_atraso):
                         ## Se notifica la diferencia % del proyecto actual de la iteración ##
-                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto ".format(proyecto=proyecto.codigo)
                         usuarios = users_notifier(proyecto=proyecto, contratista=True)
                         try:
                             send_email(
