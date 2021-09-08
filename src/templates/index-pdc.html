@@ -141,8 +141,8 @@
   <body class="collapsed-menu">
  
     <!-- ########## START: LEFT PANEL ########## -->
-    <div class="br-logo"><a href=""><span>[</span>{{proyecto.nombre}}<span>]</span></a></div>
-    <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-x ps--active-y" data-ps-id="9f275960-8fc4-263c-8019-2d3495e7d5c1">
+           {% include 'titulo.html' %}
+   <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-x ps--active-y" data-ps-id="9f275960-8fc4-263c-8019-2d3495e7d5c1">
       <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
       <div class="br-sideleft-menu">
         <a href="{% url 'index' %}" class="br-menu-link">
@@ -236,17 +236,10 @@
     </div><!-- br-header -->
     <!-- ########## END: HEAD PANEL ########## -->
 
+      {% include "messege.html" %}
 
- <div class="br-mainpanel">
-  <div class="br-pagebody mg-t-5 pd-x-30">
-  {% include "messege.html" %}
-
-{% block content %}
-{% endblock content %}
-</div><!-- br-pagebody -->
-</div><!-- br-mainpanel -->
-
-
+      {% block content %}
+      {% endblock content %}
     <!-- ########## END: MAIN PANEL ########## -->
 
     <script src="{% static 'jquery/jquery.js' %}"></script> 

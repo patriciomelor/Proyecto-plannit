@@ -1,6 +1,9 @@
 {% extends 'index-pdc.html' %}
+{% load crispy_forms_tags %}
 
-{% block navegacion %}
+{% block content %}
+<div class="br-mainpanel" style="position: relative;">
+
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}} </a>
@@ -8,18 +11,14 @@
       <span class="breadcrumb-item active">Listado de Errores</span>
     </nav>
   </div>
-{% endblock navegacion %}
-
-{% block content %}
-
 <!--Titulo-->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Listado de Errores de importacion.</h4>
     <p class="mg-b-0"></p>
   </div>
+  <div class="br-pagebody mg-t-5 pd-x-30">
 
  <div class="rounded table-responsive">
-{% load crispy_forms_tags %}
 
    <div class="pd-x-10 pd-sm-x-10 pd-t-10 pd-sm-t-10 mg-b-10">
     <input onClick="javascript:history.go(-1);" class="btn btn-warning  tx-11 tx-uppercase pd-y-12 pd-x-25 pd-t-10 pd-b-10 tx-mont tx-medium" type="button" value="volver">
@@ -95,5 +94,7 @@
           </tbody>
         </table>
          </div>
+  </div>
+</div>
 {% endblock content %}
 

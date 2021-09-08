@@ -3,6 +3,7 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<div class="br-mainpanel" style="position: relative;">
  
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
@@ -24,10 +25,9 @@
     <h4 class="tx-gray-800 mg-b-5">Detalle del Transmittal</h4>
   </div>
 
-  {% comment %} {% if invalido == 0 %} {% endcomment %}
   <div class="alert alert-success alert-bordered pd-y-20" role="alert">
             <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-              <span aria-hidden="true">×</span>
+              <span aria-hidden="true"></span>
             </button>
             <div class="d-sm-flex align-items-center justify-content-start">
               <i class="icon ion-ios-checkmark alert-icon tx-52 mg-r-20 tx-success"></i>
@@ -36,7 +36,7 @@
                 <p class="mg-b-0 tx-gray"></p>
               </div>
             </div><!-- d-flex -->
-          </div>
+  </div>
    <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">   
        <div class="form-layout form-layout-7 ">
@@ -137,26 +137,8 @@
         </div><!-- card -->
     </div> 
     </div><!-- card-header -->
-</div>
-  {% comment %} {% else %}
-              <div class="modal-dialog" role="document">
-                <div class="modal-content">
-                  <div class="modal-body tx-center pd-y-20 pd-x-20">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <span aria-hidden="true">×</span>
-                    </button>
-                    <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                    <h4 class="tx-danger mg-b-20">Error: Los Campos no Coinciden.</h4>
-                    <p class="mg-b-20 mg-x-20">Recuerde que el documento que adjunta debe llamarse igual que el documento seleccionado.</p>
-                    <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20"  onclick="history.back();" aria-label="Volver">
-                      Volver</button>
-                    </div><!-- modal-body -->
-                  </div><!-- modal-content -->
-                </div><!-- modal-dialog -->
-    
-  {% endif %} {% endcomment %}
-  
-
+  </div>
+ </div>
 <script>
   $(function () {
     $("#id_date").datepicker({

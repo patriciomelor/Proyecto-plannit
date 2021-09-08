@@ -1,10 +1,12 @@
 {% extends 'index-base.html' %}
+{% load crispy_forms_tags %}
 
 {% block content %}
+<div class="br-mainpanel" style="position: relative;">
+  <div class="br-pagebody mg-t-5 pd-x-30">
 
 <!--Tabla-->
   <div class="row row-sm d-flex justify-content-center mg-t-20" >
-{% load crispy_forms_tags %}
 
       <div class="bd bd-gray-300 rounded table-responsive">
         <table class="table table-striped mg-b-0 table-bordered table-primary"id="tblData">
@@ -37,5 +39,6 @@
       </div>
     </div>
   </div>
-
+</div>
+</div>
 {% endblock content %}

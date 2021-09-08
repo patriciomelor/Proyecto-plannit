@@ -57,7 +57,7 @@ def umbral_2_cliente():
                 if revision is not None:
                     if revision.estado_cliente == None:
                         delta_rev = (fecha_actual - revision.fecha)
-                        if delta_rev.days > last_hu.cliente_variable_atraso:
+                        if delta_rev.days >= last_hu.cliente_variable_atraso:
                             revision_list.append(revision)
                             document_list.append(documento)
                             aux = [revision, delta_rev.days]
@@ -69,7 +69,7 @@ def umbral_2_cliente():
             if len(revision_list) != 0:
                 usuarios = users_notifier(proyecto=proyecto, cliente=True)
                 try:
-                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Cliente - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Cliente ".format(proyecto=proyecto.codigo)
                     send_email(
                         html= 'configuracion/umbral_2.html',
                         context= {
@@ -134,7 +134,7 @@ def umbral_2_contratista():
                 if revision is not None:
                     if revision.estado_cliente == None:
                         delta_rev = (fecha_actual - revision.fecha)
-                        if delta_rev.days > last_hu.contratista_variable_atraso:
+                        if delta_rev.days >= last_hu.contratista_variable_atraso:
                             revision_list.append(revision)
                             document_list.append(documento)
                             aux = [revision, delta_rev.days]
@@ -148,7 +148,7 @@ def umbral_2_contratista():
             if len(revision_list) != 0:
                 usuarios = users_notifier(proyecto=proyecto, contratista=True)
                 try:
-                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Cliente - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Cliente ".format(proyecto=proyecto.codigo)
                     send_email(
                         html= 'configuracion/umbral_2.html',
                         context= {
@@ -227,7 +227,7 @@ def umbral_3_contratista():
             if len(revision_list) != 0:
                 usuarios = users_notifier(proyecto=proyecto, contratista=True)
                 try:
-                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Contratistas - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Contratistas ".format(proyecto=proyecto.codigo)
                     send_email(
                         html= 'configuracion/umbral_3.html',
                         context= {
@@ -304,7 +304,7 @@ def umbral_3_cliente():
             if len(revision_list) != 0:
                 usuarios = users_notifier(proyecto=proyecto, cliente=True)
                 try:
-                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Contratistas - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                    subject = "[UMBRAL {proyecto}] Listado de Revisiones Atrasadas Contratistas ".format(proyecto=proyecto.codigo)
                     send_email(
                         html= 'configuracion/umbral_3.html',
                         context= {
@@ -666,6 +666,10 @@ def reporte_curva_s_avance_real():
                         contador_fechas = 0
                 ultima_fecha = fechas
 
+            if len(fechas_controles_recorrer) == 1:
+                fechas_controles_recorrer.append(fechas_controles[1])
+                avance_fechas_controles.append(0)
+
             #Se almacenan los dato del documento
             for doc in documentos:
                 cont = 0
@@ -698,54 +702,61 @@ def reporte_curva_s_avance_real():
                     revision_documento = versiones.revision
                     valor_documento = 0
                     cont = 0
+                    validacion = 1
 
                     #Se calcula el avance real en la fecha de control que corresponda
                     for controles in fechas_controles_recorrer:
-                        if valor_documento == 0:
-                            calculo_real_0 = 0
-                            calculo_real_b = 0
-                            avance_documento = 0
-
-                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                            for revision in TYPES_REVISION[1:4]:
-                                if revision[0] == revision_documento and fecha_version <= controles:
-                                    calculo_real_b = valor_ganado * float(rev_letra/100)
-                                if cont == (len(fechas_controles) - 1):
-                                    if revision[0] == revision_documento and fecha_version > controles:                              
-                                        calculo_real_b = valor_ganado * float(rev_letra/100)
-
-                            if contador_avance == 0:
-                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                for revision in TYPES_REVISION[5:]:
-                                    if revision[0] == revision_documento and fecha_version <= controles:
-                                        calculo_real_0 = valor_ganado * 1
-                                    if cont == (len(fechas_controles) - 1):
-                                        if revision[0] == revision_documento and fecha_version > controles:                                
-                                            calculo_real_0 = valor_ganado * 1
-
-                            if contador_avance != 0:
-                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                for revision in TYPES_REVISION[5:]:
-                                    if revision[0] == revision_documento and fecha_version <= controles:
-                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
-                                    if cont == (len(fechas_controles) - 1):
-                                        if revision[0] == revision_documento and fecha_version > controles:                                
-                                            calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
-
-                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                            if calculo_real_b > calculo_real_0:
-                                avance_documento = calculo_real_b                               
-
-                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                            if calculo_real_b < calculo_real_0:
-                                avance_documento = calculo_real_0
-
-                            #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
-                            if avance_documento != 0:
-                                avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
-                                valor_documento = 1 
-                                contador_avance = contador_avance + 1
+                        if validacion == 1:
+                            validacion = 0
                             cont = cont + 1
+                            continue
+
+                        if validacion == 0:
+                            if valor_documento == 0:
+                                calculo_real_0 = 0
+                                calculo_real_b = 0
+                                avance_documento = 0
+
+                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                for revision in TYPES_REVISION[1:4]:
+                                    if revision[0] == revision_documento and fecha_version <= controles:
+                                        calculo_real_b = valor_ganado * float(rev_letra/100)
+                                    if cont == (len(fechas_controles) - 1):
+                                        if revision[0] == revision_documento and fecha_version > controles:                              
+                                            calculo_real_b = valor_ganado * float(rev_letra/100)
+
+                                if contador_avance == 0:
+                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                    for revision in TYPES_REVISION[5:]:
+                                        if revision[0] == revision_documento and fecha_version <= controles:
+                                            calculo_real_0 = valor_ganado * 1
+                                        if cont == (len(fechas_controles) - 1):
+                                            if revision[0] == revision_documento and fecha_version > controles:                                
+                                                calculo_real_0 = valor_ganado * 1
+
+                                if contador_avance != 0:
+                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                    for revision in TYPES_REVISION[5:]:
+                                        if revision[0] == revision_documento and fecha_version <= controles:
+                                            calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+                                        if cont == (len(fechas_controles) - 1):
+                                            if revision[0] == revision_documento and fecha_version > controles:                                
+                                                calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+
+                                #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                if calculo_real_b > calculo_real_0:
+                                    avance_documento = calculo_real_b                               
+
+                                #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                if calculo_real_b < calculo_real_0:
+                                    avance_documento = calculo_real_0
+
+                                #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                if avance_documento != 0:
+                                    avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                    valor_documento = 1 
+                                    contador_avance = contador_avance + 1
+                                cont = cont + 1
 
             if contador_versiones != 0:
                 #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
@@ -823,6 +834,10 @@ def reporte_curva_s_avance_real():
                                     avance_fechas_controles.append(0)
                                     contador_fechas = 0
 
+                        if len(fechas_controles_recorrer) == 1:
+                            fechas_controles_recorrer.append(fechas_controles[1])
+                            avance_fechas_controles.append(0)
+
                         #Se recorren las versiones a calcular el avance real
                         for docs in lista_versiones:
                             contador_avance = 0
@@ -833,54 +848,61 @@ def reporte_curva_s_avance_real():
                                 revision_documento = versiones.revision
                                 valor_documento = 0
                                 cont = 0
+                                validacion = 1
 
                                 #Se calcula el avance real en la fecha de control que corresponda
                                 for controles in fechas_controles_recorrer:
-                                    if valor_documento == 0:
-                                        calculo_real_0 = 0
-                                        calculo_real_b = 0
-                                        avance_documento = 0
-
-                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                        for revision in TYPES_REVISION[1:4]:
-                                            if revision[0] == revision_documento and fecha_version <= controles:
-                                                calculo_real_b = valor_ganado * float(rev_letra/100)
-                                            if cont == (len(fechas_controles) - 1):
-                                                if revision[0] == revision_documento and fecha_version > controles:                              
-                                                    calculo_real_b = valor_ganado * float(rev_letra/100)
-
-                                        if contador_avance == 0:
-                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[5:]:
-                                                if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_0 = valor_ganado * 1
-                                                if cont == (len(fechas_controles) - 1):
-                                                    if revision[0] == revision_documento and fecha_version > controles:                                
-                                                        calculo_real_0 = valor_ganado * 1
-
-                                        if contador_avance != 0:
-                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[5:]:
-                                                if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
-                                                if cont == (len(fechas_controles) - 1):
-                                                    if revision[0] == revision_documento and fecha_version > controles:                                
-                                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
-
-                                        #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                                        if calculo_real_b > calculo_real_0:
-                                            avance_documento = calculo_real_b                               
-
-                                        #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                                        if calculo_real_b < calculo_real_0:
-                                            avance_documento = calculo_real_0
-
-                                        #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
-                                        if avance_documento != 0:
-                                            avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
-                                            valor_documento = 1 
-                                            contador_avance = contador_avance + 1
+                                    if validacion == 1:
+                                        validacion = 0
                                         cont = cont + 1
+                                        continue
+
+                                    if validacion == 0:
+                                        if valor_documento == 0:
+                                            calculo_real_0 = 0
+                                            calculo_real_b = 0
+                                            avance_documento = 0
+
+                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                            for revision in TYPES_REVISION[1:4]:
+                                                if revision[0] == revision_documento and fecha_version <= controles:
+                                                    calculo_real_b = valor_ganado * float(rev_letra/100)
+                                                if cont == (len(fechas_controles) - 1):
+                                                    if revision[0] == revision_documento and fecha_version > controles:                              
+                                                        calculo_real_b = valor_ganado * float(rev_letra/100)
+
+                                            if contador_avance == 0:
+                                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                                for revision in TYPES_REVISION[5:]:
+                                                    if revision[0] == revision_documento and fecha_version <= controles:
+                                                        calculo_real_0 = valor_ganado * 1
+                                                    if cont == (len(fechas_controles) - 1):
+                                                        if revision[0] == revision_documento and fecha_version > controles:                                
+                                                            calculo_real_0 = valor_ganado * 1
+
+                                            if contador_avance != 0:
+                                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                                for revision in TYPES_REVISION[5:]:
+                                                    if revision[0] == revision_documento and fecha_version <= controles:
+                                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+                                                    if cont == (len(fechas_controles) - 1):
+                                                        if revision[0] == revision_documento and fecha_version > controles:                                
+                                                            calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+
+                                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                            if calculo_real_b > calculo_real_0:
+                                                avance_documento = calculo_real_b                               
+
+                                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                            if calculo_real_b < calculo_real_0:
+                                                avance_documento = calculo_real_0
+
+                                            #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                            if avance_documento != 0:
+                                                avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                                valor_documento = 1 
+                                                contador_avance = contador_avance + 1
+                                            cont = cont + 1
 
                         #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
                         contador_final = 0
@@ -1078,7 +1100,7 @@ def umbral_4():
                 if last_hu.cliente_variable_atraso >= 0:
                     if float(diferencia_avance) >= float(last_hu.cliente_variable_atraso):
                         ## Se notifica la diferencia % del proyecto actual de la iteración ##
-                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto ".format(proyecto=proyecto.codigo)
                         usuarios = users_notifier(proyecto=proyecto, cliente=True)
                         try:
                             send_email(
@@ -1104,7 +1126,7 @@ def umbral_4():
                                 noti_hu = NotificacionHU(
                                     h_umbral=last_hu,
                                     notificacion=noti,
-                                    porcentaje_atraso=proyecto[1]
+                                    porcentaje_atraso=proyecto
                                 )
                                 noti_hu.save()
 
@@ -1123,7 +1145,7 @@ def umbral_4():
                 if last_hu.cliente_variable_atraso < 0:
                     if float(diferencia_avance) <= float(last_hu.cliente_variable_atraso):
                         ## Se notifica la diferencia % del proyecto actual de la iteración ##
-                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto ".format(proyecto=proyecto.codigo)
                         usuarios = users_notifier(proyecto=proyecto, cliente=True)
                         try:
                             send_email(
@@ -1149,7 +1171,7 @@ def umbral_4():
                                 noti_hu = NotificacionHU(
                                     h_umbral=last_hu,
                                     notificacion=noti,
-                                    porcentaje_atraso=proyecto[1]
+                                    porcentaje_atraso=proyecto
                                 )
                                 noti_hu.save()
 
@@ -1173,7 +1195,7 @@ def umbral_4():
                 if last_hu.contratista_variable_atraso >= 0:
                     if float(diferencia_avance) >= float(last_hu.contratista_variable_atraso):
                         ## Se notifica la diferencia % del proyecto actual de la iteración ##
-                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto ".format(proyecto=proyecto.codigo)
                         usuarios = users_notifier(proyecto=proyecto, contratista=True)
                         try:
                             send_email(
@@ -1214,7 +1236,7 @@ def umbral_4():
                 if last_hu.contratista_variable_atraso < 0:
                     if float(diferencia_avance) <= float(last_hu.contratista_variable_atraso):
                         ## Se notifica la diferencia % del proyecto actual de la iteración ##
-                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto - {date}".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+                        subject = "[UMBRAL {proyecto}] Atraso Porcentual del Proyecto ".format(proyecto=proyecto.codigo)
                         usuarios = users_notifier(proyecto=proyecto, contratista=True)
                         try:
                             send_email(
