@@ -201,18 +201,12 @@
         </div>
         <!-- menu-item -->
       </a><!-- br-menu-link -->
-      
-                 {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
-       
-        {% else %}
-         <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
+       <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon fa fa-clock-o tx-24"></i>
             <span class="menu-item-label">Historial de<br>Umbrales</span>
           </div>
-          <!-- menu-item --> 
           </a>
-        {% endif %}
       <a href="{% url 'configuracion-index' %}" class="br-menu-link  ">
         <div class="br-menu-item ">
           <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
