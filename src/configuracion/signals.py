@@ -18,7 +18,7 @@ def VPC_signal(sender, instance, *args, **kwargs):
             recipients = []
             notification_list = []
             proyecto = instance.documento_fk.proyecto
-            participantes = proyecto.participantes.all().filter(perfil__rol_usuario__in =[1,4])
+            participantes = proyecto.participantes.all()
             for user in participantes:
                 recipients.append(user.email)
                 notification_list.append(user)
