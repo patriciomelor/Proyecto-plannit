@@ -183,8 +183,19 @@ elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
-        "default": dj_database_url.parse(os.environ.get("DATABASE_URL")),
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'PLANNIT',
+            'USER': 'postgres',
+            'PASSWORD': 'dmp.2020',
+            'HOST': os.getenv("DATABASE_URL", "134.209.78.27"),
+            'PORT': 5432,
+            'SSLMODE': 'require',
+            'DISABLE_SERVER_SIDE_CURSORS': True,
+        }
     }
+
+
 
 # Password validation
 # https://docs.djangoproject.com/en/3.1/ref/settings/#auth-password-validators
