@@ -27,7 +27,7 @@ SECRET_KEY = 'zes0))g)ouv+_he(zl)(8*@+(l$vn$p+4$ue$&2gp=(wu2na11'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['plannit-app.cl']
+ALLOWED_HOSTS = ['plannit-app.cl','*','127.0.0.1:8000']
 
 
 # Application definition
