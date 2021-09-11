@@ -87,9 +87,10 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                 'token': token_generator.make_token(user=usuario),
             })
             #busqueda rol usuarios
+            nuevo_rol = None
             for rol in ROLES:
                 if perfil.rol_usuario == rol[0]:
-                    nuevorol = rol[1]
+                    nuevo_rol = rol[1]
 
             send_email(
                 html = "tools/confirmacion.html",
@@ -97,7 +98,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                     "usuario": usuario,
                     "proyecto": self.proyecto,
                     "perfil": perfil,
-                    "rol": nuevorol,
+                    "rol": nuevo_rol,
                     "sitio": sitio,
                     "url": sitio+url,
                 },
