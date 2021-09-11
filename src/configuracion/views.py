@@ -163,7 +163,7 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
         # else:
         #     qs = self.proyecto.participantes.prefetch_related("perfil").exclude(is_superuser=True)
         if self.request.user.is_superuser:
-            qs = User.objects.all()
+            qs = self.proyecto.participantes.prefetch_related("perfil").all()
 
         return qs
     
