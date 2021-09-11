@@ -30,9 +30,9 @@ class VisualizadorViewMixin(object):
             return authorized
         rol = request.user.perfil.rol_usuario
         if rol == 3 or rol == 6:
-            return PermissionDenied
+            raise PermissionDenied
         else:
-            raise authorized
+            return authorized
 
 
 def is_admin_check(view_func):

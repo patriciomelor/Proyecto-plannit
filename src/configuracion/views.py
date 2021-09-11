@@ -86,6 +86,10 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                 'uidb64': uidb64,
                 'token': token_generator.make_token(user=usuario),
             })
+            #busqueda rol usuarios
+            for rol in ROLES:
+                if perfil.rol_usuario == rol[0]:
+                    nuevorol = rol[1]
 
             send_email(
                 html = "tools/confirmacion.html",
@@ -93,7 +97,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                     "usuario": usuario,
                     "proyecto": self.proyecto,
                     "perfil": perfil,
-                    "rol": perfil.get_rol_usuario_display(),
+                    "rol": nuevorol,
                     "sitio": sitio,
                     "url": sitio+url,
                 },
@@ -195,7 +199,7 @@ class PasswordSetView(LoginRequiredMixin, auth_views.PasswordChangeView):
     form_class = SetPasswordForm
     template_name='account/password_change.html'
     success_message = "contraseña actualizada correctamente"
-    success_url = reverse_lazy('welcome')
+    success_url = reverse_lazy('account_login')
 
 # Añade usuarios al proyecto actual seleccionado
 class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
