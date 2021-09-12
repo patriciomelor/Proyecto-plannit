@@ -199,7 +199,7 @@ class UsuarioDetail(ProyectoMixin, UpdateView):
         context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
         return context
 
-class PrimeraContrasenaView(LoginRequiredMixin, FormView):
+class PrimeraContrasenaView(LoginRequiredMixin, auth_views.PasswordChangeView):
     form_class = SetPasswordForm
     template_name='configuracion/password_change.html'
     success_message = "Contraseña actualizada correctamente"
