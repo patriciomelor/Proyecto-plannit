@@ -13,7 +13,12 @@ def VPC_signal(sender, instance, *args, **kwargs):
 
     current = instance
     try:
-        last = Version.objects.filter(documento_fk=instance.documento_fk).last()
+        last = Version.objects.filter(documento_fk=instance.documento_fk).last()        
+    except Version.DoesNotExist:
+        print('No existe una Versión todavía.') 
+        last = None
+
+    if not last == None:
         if last.estado_cliente == 5:
             if last.revision != current.revision :
                 recipients = []
@@ -69,8 +74,5 @@ def VPC_signal(sender, instance, *args, **kwargs):
                 pass
         else:
             pass
-        
-    except Version.DoesNotExist:
-        print('No existe una Versión todavía.') 
+    else:
         pass
-
