@@ -88,9 +88,11 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
             })
             #busqueda rol usuarios
             nuevo_rol = None
-            for rol in ROLES:
-                if perfil.rol_usuario == rol[0]:
-                    nuevo_rol = rol[1]
+            for roles in ROLES:
+                if rol == roles[0]:
+                    nuevo_rol = roles[1]
+                else:
+                    pass
 
             send_email(
                 html = "tools/confirmacion.html",
@@ -117,6 +119,7 @@ class UserValidation(View):
             #     return redirect('login')
         except Exception as error:
             messages.error(request, 'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación')
+            usuario = None
             return redirect('account_login'+'?message='+'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación')
         
         if usuario is not None and token_generator.check_token(usuario, token):
@@ -124,7 +127,7 @@ class UserValidation(View):
             usuario.save()
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, 'Cuenta activada Exitosamente')
-            return redirect('change-password')
+            return redirect('cambiar-contrasena')
         else:
             return redirect('account_login')
 
@@ -196,10 +199,10 @@ class UsuarioDetail(ProyectoMixin, UpdateView):
         context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
         return context
 
-class PasswordSetView(LoginRequiredMixin, auth_views.PasswordChangeView):
+class PrimeraContrasenaView(LoginRequiredMixin, FormView):
     form_class = SetPasswordForm
-    template_name='account/password_change.html'
-    success_message = "contraseña actualizada correctamente"
+    template_name='configuracion/password_change.html'
+    success_message = "Contraseña actualizada correctamente"
     success_url = reverse_lazy('account_login')
 
 # Añade usuarios al proyecto actual seleccionado

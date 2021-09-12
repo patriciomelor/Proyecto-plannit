@@ -104,15 +104,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Allauth methods
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
-# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
-# ACCOUNT_SIGNUP_FORM_CLASS = 'dashboard.forms.CrearUsuario'
 
-#Invitation methods
-#ACCOUNT_ADAPTER = 'configuracion.adapters.AccountAdapter'
-# ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
-# INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
 
 LOGIN_URL = reverse_lazy("account_login")
 
