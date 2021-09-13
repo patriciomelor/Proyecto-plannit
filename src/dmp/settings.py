@@ -184,11 +184,18 @@ WSGI_APPLICATION = 'dmp.wsgi.application'
 
 if DEVELOPMENT_MODE is True:
     DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'dmpdb5',
+            'USER': 'postgres',
+            'PASSWORD': 'dmp.2020',
+            'HOST': os.getenv("DATABASE_URL", "134.209.78.27"),
+            'PORT': 5432,
+            'SSLMODE': 'require',
+            'DISABLE_SERVER_SIDE_CURSORS': True,
         }
     }
+    
 elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
