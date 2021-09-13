@@ -6,4 +6,4 @@ class StaticRootS3Boto3Storage(S3Boto3Storage):
 
 class MediaRootS3Boto3Storage(S3Boto3Storage):
     bucket_name = 'plannit-spaces'
-    location = 'media' 
+    location = 'static/media' 
