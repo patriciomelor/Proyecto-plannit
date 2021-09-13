@@ -10,9 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 import os
+import sys
+import dj_database_url
 from pathlib import Path
 from django.urls import reverse_lazy
 from django.contrib.messages import constants as messages
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -22,12 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'zes0))g)ouv+_he(zl)(8*@+(l$vn$p+4$ue$&2gp=(wu2na11'
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG", "False") == "True"
 
-ALLOWED_HOSTS = ['plannit-app.cl','*','127.0.0.1:8000']
+DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "True"
+
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,plannit-app.cl,165.232.156.255").split(",")
 
 
 # Application definition
@@ -58,6 +63,7 @@ INSTALLED_APPS = [
     'invitations',
     'django_summernote',
     'django_celery_beat',
+    'storages',
     
     'dashboard',
     'tools',
@@ -73,6 +79,22 @@ INSTALLED_APPS = [
 
 ]
 
+
+# Digital Ocean's AWS s3 Storage (Spaces)
+
+# AWS_S3_ENDPOINT_URL = "sfo3.digitaloceanspaces.com"
+
+# AWS_ACCESS_KEY_ID = os.getenv("AWS_ACCESS_KEY_ID")
+# AWS_SECRET_ACCESS_KEY = os.getenv("AWS_SECRET_ACCESS_KEY")
+# AWS_STORAGE_BUCKET_NAME=os.environ.get("AWS_STORAGE_BUCKET_NAME")
+# AWS_S3_OBJECT_PARAMETERS = {
+#     "CacheControl": "max-age=86400",
+# }
+# AWS_LOCATION = "https://plannit-spaces.sfo3.digitaloceanspaces.com/"
+
+# DEFAULT_FILE_STORAGE = "dmp.cdn.backends.StaticRootS3Boto3Storage"
+# STATICFILE_STORAGE = "dmp.cdn.backends.MediaRootS3Boto3Storage"
+
 # AUTH_USER_MODEL = 'dashboard.Usuario'
 
 SITE_ID = 3
@@ -82,15 +104,8 @@ CRISPY_TEMPLATE_PACK = 'bootstrap4'
 # Allauth methods
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_AUTHENTICATION_METHOD = "email"
-ACCOUNT_SIGNUP_EMAIL_ENTER_TWICE = True
-# ACCOUNT_EMAIL_VERIFICATION = "mandatory"
 ACCOUNT_AUTHENTICATED_LOGIN_REDIRECTS = True
-# ACCOUNT_SIGNUP_FORM_CLASS = 'dashboard.forms.CrearUsuario'
 
-#Invitation methods
-#ACCOUNT_ADAPTER = 'configuracion.adapters.AccountAdapter'
-# ACCOUNT_ADAPTER = 'invitations.models.InvitationsAdapter'
-# INVITATIONS_ACCEPT_INVITE_AFTER_SIGNUP = True
 
 LOGIN_URL = reverse_lazy("account_login")
 
@@ -167,18 +182,29 @@ WSGI_APPLICATION = 'dmp.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dmpdb5',
-        'USER': 'postgres',
-        'PASSWORD': 'dmp.2020',
-        'HOST': '134.209.78.27',
-        'PORT': 5432,
-        'SSLMODE': 'require',
-        'DISABLE_SERVER_SIDE_CURSORS': True,
+if DEVELOPMENT_MODE is True:
+    DATABASES = {
+        "default": {
+            "ENGINE": "django.db.backends.sqlite3",
+            "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        }
     }
-}
+elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+    if os.getenv("DATABASE_URL", None) is None:
+        raise Exception("DATABASE_URL environment variable not defined")
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.postgresql_psycopg2',
+            'NAME': 'PLANNIT',
+            'USER': 'postgres',
+            'PASSWORD': 'dmp.2020',
+            'HOST': os.getenv("DATABASE_URL", "134.209.78.27"),
+            'PORT': 5432,
+            'SSLMODE': 'require',
+            'DISABLE_SERVER_SIDE_CURSORS': True,
+        }
+    }
+
 
 
 # Password validation
@@ -227,10 +253,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+STATICFILES_DIRS = (os.path.join(BASE_DIR, "static"),)
 
-STATICFILES_DIRS = (str(BASE_DIR.joinpath('static')),)
-STATIC_ROOT = STATIC_ROOT = str(BASE_DIR.joinpath('staticfiles'))
+# from .cdn.conf import *
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+
 
 MEDIA_ROOT = os.path.join(BASE_DIR,'static/media')
 
