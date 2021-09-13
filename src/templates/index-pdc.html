@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="es">
 <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -10,7 +10,7 @@
     <meta name="description" content="Software de Gestion y administracion de archivos.">
     <meta name="author" content="STOD CHILE for DM">
 
-    <title>{{proyecto.nombre}}</title>
+    <title>{{site}} || {{proyecto.nombre}}</title>
 
     <!-- vendor css -->
     <link rel="stylesheet" href="{% static 'file_form/file_form.css' %}">
@@ -21,7 +21,6 @@
     <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
     <link href="{% static 'chartist/chartist.css' %}" rel="stylesheet">
     <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
-    <link href="{% static 'jquery-ui/jquery-ui.min.css' %}" rel="stylesheet" />
 
     <link href="{% static 'select2/css/select2.css' %}" rel="stylesheet" />
     <link href="{% static 'select2/css/select2.min.css' %}" rel="stylesheet" />
@@ -106,11 +105,17 @@
     <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.templates.min.js"></script>
     
+            <!-- Development version -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+
+    <!-- Production version -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.js"integrity="sha256-bLjSmbMs5XYwqLIj5ppZFblCo0/9jfdiG/WjPhg52/M=" crossorigin="anonymous"></script>
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
   <style>
      
-     .buttons-excel{
+    .buttons-excel{
               color: #fff!important;
               background: #23BF08!important;
               border-color: #23BF08!important;
@@ -118,7 +123,7 @@
               width: 100%!important;
               border-radius: 50px!important;
               margin-left:20px!important;
-          }
+    }
           
     .pagination{
       margin-left:auto;
@@ -251,7 +256,6 @@
     <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
     <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
     <script src="{% static 'moment/moment.js' %}"></script>
-    <script src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
     <script src="{% static 'jquery-switchbutton/jquery.switchButton.js' %}"></script>
     <script src="{% static 'peity/jquery.peity.js' %}"></script>
     <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
@@ -300,40 +304,19 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
 
+            <!-- Development version -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+
+    <!-- Production version -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.js"integrity="sha256-bLjSmbMs5XYwqLIj5ppZFblCo0/9jfdiG/WjPhg52/M=" crossorigin="anonymous"></script>
      <script>
     $('#alert').fadeIn();     
       setTimeout(function() {
           $("#alert").fadeOut();           
       },2000);
     </script>
-    <script>
-      $(function(){
-        'use strict'
-
-        // FOR DEMO ONLY
-        // menu collapsed by default during first page load or refresh with screen
-        // having a size between 992px and 1299px. This is intended on this page only
-        // for better viewing of widgets demo.
-        $(window).resize(function(){
-          minimizeMenu();
-        });
-
-        minimizeMenu();
-
-        function minimizeMenu() {
-          if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
-            // show only the icons and hide left menu label by default
-            $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
-            $('body').addClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideUp();
-          } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
-            $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
-            $('body').removeClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideDown();
-          }
-        }
-      });
-     </script>
+  
     
   </body>
 </html>

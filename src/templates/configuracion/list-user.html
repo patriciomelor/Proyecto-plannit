@@ -23,8 +23,58 @@
       <h4 class="tx-gray-800 mg-b-5">Lista de Usuarios</h4>
     </div>    
     <div class="row row-sm d-flex justify-content-center" >
+    {% if or request.user.perfil.rol_usuario = 1 or request.user.perfil.rol_usuario = 4 %}
       <table class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">       
-  <!--Table-->
+         <!--Table-->
+          <thead>
+            <tr>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Nombre</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Correo</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">ROL</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Empresa</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Cargo</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Estado Usuario</th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Modificar </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Eliminar  </th>
+            </tr>
+          </thead>
+          <tbody>
+            <!--Loop Listar Documento-->
+            {% for usuario in usuarios %}
+            <tr>            
+              {% if usuario.first_name %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.first_name}} {{usuario.last_name}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> No hay nombre registrado</th>
+              {% endif %} 
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.email}} </th>
+              {% if usuario.perfil.rol_usuario %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.perfil.get_rol_usuario_display}} </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> Sin Perfil </th>
+              {% endif %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.perfil.empresa}} </th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.perfil.cargo_empresa}} </th>
+              {% if request.user.is_active = True %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> Habilitado </th>              
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> Desabilitado </th>
+
+              {% endif %}
+
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'editar-usuario' usuario.pk %}" > <i class="fa fa-pencil"></i> </a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'eliminar-usuario' usuario.pk %}" style="color:red;"> <i class="fa fa-trash"></i> </a></th>
+            </tr>           
+            
+          
+            {% endfor %}
+            <!--Fin Loop-->
+          </tbody>
+      </table>
+        
+    {% else %}
+       <table class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"style="width:100%;table-layout:Inherit;">       
+         <!--Table-->
           <thead>
             <tr>
               <th style="text-align: center;border: 2px;border-color: grey; color: white;"style="width:auto;">Nombre</th>
@@ -59,46 +109,13 @@
             </tr>           
             
           
-      {% endfor %}
+            {% endfor %}
             <!--Fin Loop-->
           </tbody>
-        </table>
-        
-
-
-      
-    </div>
-{% if is_paginated %}
-    <div class="ht-80 d-flex align-items-center justify-content-center">
-      <nav aria-label="Page navigation">      
-        <ul class="pagination pagination-basic mg-b-0">
-        {% if page_obj.has_previous %}
-          <li class="page-item"><a class="page-link" href="?page=1"><i class="fa fa-angle-double-left"></i></a></li>
-          <li class="page-item"><a class="page-link" href="?page={{ page_obj.previous_page_number }}" aria-label="ANTERIOR"><i class="fa fa-angle-left"></i></a></li>
-          
-          {% if page_obj.has_previous %}
-            <li class="page-item active"><a class="page-link active" href="page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a></li>
-          {% endif %}
-          <li class="page-item"><a class="page-link" href="?page={{ page_obj.number }}">{{ page_obj.number }}</a></li>
-          <li class="page-item disabled"><span class="page-link">...</span></li>
-          <li class="page-item"><a class="page-link" href="#">{{ page_obj.paginator.num_pages }}</a></li>          
-       {% endif %}
-       {% if page_obj.has_next %}   
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.next_page_number }}" aria-label="Next">
-              <i class="fa fa-angle-right"></i>
-            </a>
-          </li>
-          <li class="page-item">
-            <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}" aria-label="Last">
-              <i class="fa fa-angle-double-right"></i>
-            </a>
-          </li>          
+      </table>
     {% endif %}
-        </ul>
-      </nav>
+   
     </div>
-{% endif %}
   </div>
   </div>
 </div>

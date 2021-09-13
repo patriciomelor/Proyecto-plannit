@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="es">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -10,7 +10,7 @@
     <meta name="description" content="Software de Gestion y administracion de archivos.">
     <meta name="author" content="STOD CHILE for DM">
 
-    <title>{{proyecto.nombre}}</title>
+    <title>{{site}} || {{proyecto.nombre}}</title>
    
     <!-- vendor css -->
     <link rel="stylesheet" href="{% static 'file_form/file_form.css' %}">
@@ -33,7 +33,11 @@
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <link href="{% static 'jquery.steps/jquery.steps.css' %}" rel="stylesheet" />
 
-   
+           <!-- Development version -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+
+    <!-- Production version -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
 
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
@@ -48,11 +52,9 @@
     <!-- ########## END: MAIN PANEL ########## -->
 
     <script src="{% static 'jquery/jquery.js' %}"></script> 
-    <script src="{% static 'popper.js/popper.js' %}"></script>
     <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
     <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
     <script src="{% static 'moment/moment.js' %}"></script>
-    <script src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
     <script src="{% static 'jquery-switchbutton/jquery.switchButton.js' %}"></script>
     <script src="{% static 'peity/jquery.peity.js' %}"></script>
     <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
@@ -74,10 +76,12 @@
     <script src="{% static 'js/dashboard.js' %}"></script>
     <script src="https://cdn.jsdelivr.net/npm/vue@2.6.12/dist/vue.js"></script>
     <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+            <!-- Development version -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
 
-
-    {% block js %} {% endblock js %}
-
+    <!-- Production version -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.js"integrity="sha256-bLjSmbMs5XYwqLIj5ppZFblCo0/9jfdiG/WjPhg52/M=" crossorigin="anonymous"></script>
     <script>
       axios.defaults.xsrfCookieName = 'csrftoken';
       axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
