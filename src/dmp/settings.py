@@ -268,6 +268,7 @@ STATICFILES_DIRS = (BASE_DIR / 'static',)
 USE_SPACES = os.getenv("USE_SPACES", "0")  == "True"
 if USE_SPACES:
     from .cdn.conf import *
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
 else:
     STATIC_URL = '/static/'
     STATIC_ROOT = BASE_DIR / 'staticfiles'
