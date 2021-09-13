@@ -262,15 +262,20 @@ USE_TZ = True
 
 
 # Add Digital Ocean's Spaces Config Variables
-from .cdn.conf import *
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 STATICFILES_DIRS = (BASE_DIR / 'static',)
-STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles")
+
+USE_SPACES = os.getenv("USE_SPACES", "0")  == "True"
+if USE_SPACES:
+    from .cdn.conf import *
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+else:
+    STATIC_URL = '/static/'
+    STATIC_ROOT = BASE_DIR / 'staticfiles'
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'static/media'
 
 
-MEDIA_ROOT = os.path.join(BASE_DIR,'static/media')
-
-MEDIA_URL = '/media/'
 
 MESSAGE_TAGS = {
     messages.DEBUG: 'alert alert-bordered alert-info',
