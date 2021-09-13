@@ -87,12 +87,19 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                 'token': token_generator.make_token(user=usuario),
             })
             #busqueda rol usuarios
-            nuevo_rol = None
-            for roles in ROLES:
-                if rol == roles[0]:
-                    nuevo_rol = roles[1]
-                else:
-                    pass
+            nuevo_rol = ""
+            if rol == 1:
+                nuevo_rol = "Administrador Cliente"
+            elif rol == 2:
+                nuevo_rol = "Revisor Cliente"
+            elif rol == 3:
+                nuevo_rol = "Vizualizador Cliente"
+            elif rol == 4:
+                nuevo_rol = "Administrador Contratista"
+            elif rol == 5:
+                nuevo_rol = "Revisor Contratista"
+            elif rol == 6:
+                nuevo_rol = "Vizualizador Contratista"
 
             send_email(
                 html = "tools/confirmacion.html",
