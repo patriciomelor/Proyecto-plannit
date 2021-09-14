@@ -14,10 +14,10 @@ AWS_S3_OBJECT_PARAMETERS={
 # static settings
 AWS_LOCATION= f'https://{AWS_STORAGE_BUCKET_NAME}.{AWS_S3_REGION_NAME}.digitaloceanspaces.com'
 STATICFILES_STORAGE ="dmp.cdn.backends.StaticRootS3Boto3Storage"
-# STATIC_URL = f'https://{AWS_S3_ENDPOINT_URL}/{AWS_LOCATION}/'
+# STATIC_URL = f'https://{AWS_LOCATION}/static/'
 
 # media settings
 # PUBLIC_MEDIA_LOCATION = 'static/media'
-# MEDIA_URL = f'https://{AWS_S3_ENDPOINT_URL}/{PUBLIC_MEDIA_LOCATION}/'
+# MEDIA_URL = f'https://{AWS_LOCATION}/{PUBLIC_MEDIA_LOCATION}/'
 DEFAULT_FILE_STORAGE ="dmp.cdn.backends.MediaRootS3Boto3Storage"
 
