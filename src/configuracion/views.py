@@ -111,7 +111,7 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                     "sitio": sitio,
                     "url": sitio+url,
                 },
-                subject = "Confirmación de Email",
+                subject = "Confirmación de Correo Electrónico",
                 recipients= ["{email}".format(email=usuario.email)]
             )
 
@@ -181,7 +181,7 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
 class UsuarioDelete(ProyectoMixin, AdminViewMixin, View):
     model = User
     template_name = 'configuracion/delete-user.html'
-    success_message = 'Usuario inhabilitado correctamente.'
+    success_message = 'Usuario deshabilitado correctamente.'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

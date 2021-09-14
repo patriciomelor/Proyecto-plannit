@@ -152,8 +152,6 @@ class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
 
         if imported_data:
             for data in imported_data:
-                print("Fecha B --->", type(data[4]),data[4])
-                print("Fecha 0 --->", type(data[5]),data[5])
                 try:
                     pass
                     if isinstance(data[4], str):
@@ -176,17 +174,23 @@ class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
                     )
                     documento.save()
                 except IntegrityError as error:
-                    documentos_erroneos.append(data)
-                    messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
+                    aux = [data, error]
+                    documentos_erroneos.append(aux)
                 except ValueError as error:
-                    documentos_erroneos.append(data)
-                    messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
+                    aux = [data, error]
+                    documentos_erroneos.append(aux)
                 except TypeError as error:
-                    documentos_erroneos.append(data)
-                    messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
+                    aux = [data, error]
+                    documentos_erroneos.append(aux)
                 except ValidationError as error:
-                    documentos_erroneos.append(data)
-                    messages.add_message(request, level=messages.ERROR, message="{err}".format(err=error))
+                    aux = [data, error]
+                    documentos_erroneos.append(aux)
+                except AttributeError as error:
+                    aux = [data, error]
+                    documentos_erroneos.append(aux)
+                except Exception as error:
+                    aux = [data, error]
+                    documentos_erroneos.append(aux)
         else:
             messages.add_message(request, level=messages.ERROR, message="No se encontró información para almacenar")
             return render(request, 'panel_carga/list-error.html', context={'exception': "Error en la Importación. Excel inválido."})
