@@ -192,69 +192,31 @@
                     </thead>
                     <tbody>
                       <!--Loop Listar Documento-->
-                      {% for documento in Listado %} {% if documento.1.0 == 'no version' %}
+                      {% for documento in Listado %} 
+                      {% if documento.1.0 == 'no version' %}
                       <tr role="row" class="odd">
-                        <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                          <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                          <!-- <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a> -->
                         </th>
-                        <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
                           {{documento.0.Especialidad}}
                         </th>
-                        <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
                           {{documento.0.Descripcion}}
                         </th>
-                        <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
                           {{documento.0.Codigo_documento}}
                         </th>
-                        <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
                           {{documento.0.Tipo_Documento}}
                         </th>
-                        <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        "></th>
-                        <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        "></th>
-                        <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        "></th>
-                        <th style="
-                          text-align: center;
-                          vertical-align: middle;
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         "></th>
@@ -287,12 +249,7 @@
                       </tr>
                       {% else %}
                       <tr role="row" class="odd">
-                        <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
                           <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a>
                         </th>
                         <th style="
@@ -654,6 +611,7 @@
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json",
       },
+      order: [0, "asc"],
 
       buttons: {
         dom: {
