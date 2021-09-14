@@ -189,7 +189,8 @@ class UsuarioDelete(ProyectoMixin, AdminViewMixin, View):
         return context
 
     def post(self, request, *args, **kwargs):
-        user = User.objects.get(pk=self.kwargs["pk"])
+        user_id = self.kwargs["pk"]
+        user = User.objects.get(pk=user_id)
         user.is_active = False
         user.save()
         return redirect('listar-usuarios')
