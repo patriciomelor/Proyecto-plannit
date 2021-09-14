@@ -17,7 +17,7 @@ STATICFILES_STORAGE ="dmp.cdn.backends.StaticRootS3Boto3Storage"
 # STATIC_URL = f'https://{AWS_LOCATION}/static/'
 
 # media settings
-# PUBLIC_MEDIA_LOCATION = 'static/media'
-# MEDIA_URL = f'https://{AWS_LOCATION}/{PUBLIC_MEDIA_LOCATION}/'
+# PUBLIC_MEDIA_LOCATION = 'media'
+# MEDIA_URL = f'https://{STATIC_URL}/{PUBLIC_MEDIA_LOCATION}/'
 DEFAULT_FILE_STORAGE ="dmp.cdn.backends.MediaRootS3Boto3Storage"
 

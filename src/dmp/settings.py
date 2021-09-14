@@ -196,7 +196,7 @@ if DEVELOPMENT_MODE is True:
         }
     }
 
-elif len(sys.argv) > 0 and sys.argv[1] != 'collectstatic':
+else:
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
@@ -265,11 +265,13 @@ USE_TZ = True
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
 STATICFILES_DIRS = (BASE_DIR / 'static',)
 
-USE_SPACES = os.getenv("USE_SPACES", "0")  == "True"
+USE_SPACES = os.getenv("USE_SPACES", "0")  == "1"
 if USE_SPACES:
     from .cdn.conf import *
     STATIC_ROOT = BASE_DIR / 'staticfiles'
+    STATIC_URL = '/static/'
     MEDIA_ROOT = BASE_DIR / 'static/media'
+    MEDIA_URL = '/media/'
 else:
     STATIC_URL = '/static/'
     STATIC_ROOT = BASE_DIR / 'staticfiles'

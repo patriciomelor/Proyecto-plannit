@@ -178,7 +178,7 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
 
         return qs
     
-class UsuarioDelete(ProyectoMixin, AdminViewMixin, TemplateView):
+class UsuarioDelete(ProyectoMixin, AdminViewMixin, View):
     model = User
     template_name = 'configuracion/delete-user.html'
     success_message = 'Usuario inhabilitado correctamente.'
@@ -188,8 +188,9 @@ class UsuarioDelete(ProyectoMixin, AdminViewMixin, TemplateView):
         context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
         return context
 
-    def post(self, request, *args, **kwargs) -> HttpResponse:
-        user = User.objects.get(pk=self.kwargs["pk"])
+    def post(self, request, *args, **kwargs):
+        user_id = self.kwargs["pk"]
+        user = User.objects.get(pk=user_id)
         user.is_active = False
         user.save()
         return redirect('listar-usuarios')
