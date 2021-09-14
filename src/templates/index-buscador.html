@@ -94,7 +94,7 @@
     <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.js"integrity="sha256-bLjSmbMs5XYwqLIj5ppZFblCo0/9jfdiG/WjPhg52/M=" crossorigin="anonymous"></script>
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
-<style>
+    <style>
         #mydatatable tfoot input {
             width: 100% !important;
         }
@@ -112,7 +112,7 @@
             }
         }
      
-     .buttons-excel{
+        .buttons-excel{
               color: #fff!important;
               background: #23BF08!important;
               border-color: #23BF08!important;
@@ -122,23 +122,23 @@
               margin-left:20px!important;
           }
           
-    .pagination{
-      margin-left:auto;
-      margin-right:auto;
-      padding-right: 80px;
-    }
-    .page-link {
-      width:15vh;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-    padding : 0px;
-    margin-left: 0px;
-    display: inline;
-    border: 0px;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        .pagination{
+          margin-left:auto;
+          margin-right:auto;
+          padding-right: 80px;
+        }
+        .page-link {
+          width:15vh;
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding : 0px;
+        margin-left: 0px;
+        display: inline;
         border: 0px;
-    }
+        }
+        .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+            border: 0px;
+        }
     </style>
     <!-- Bracket CSS -->
   </head>
@@ -224,25 +224,26 @@
         <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
     
       </div><!-- br-header-left -->
-      <div class="br-header-right">
-        <nav class="nav">
-          <div class="dropdown">
-            <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-              <span class="logged-name hidden-md-down"> {{user.first_name}} {{user.last_name}}</span>
-              <img src="https://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
-              <span class="square-10 bg-success"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-header wd-200">
-              <ul class="list-unstyled user-profile-nav">
-                <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
-                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
-                <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
-                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>-->
-                <li><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
-                <li><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a></li>
+       <div class="br-header-right">
+        <nav class="nav" style="display: inline-flex;">
+              <ul class="list-unstyled user-profile-nav"style="
+              display: flex;
+              align-items: baseline;
+          ">        
+                <li style="
+                text-align: center;
+            "><strong>Conectado como:&numsp;</strong><br>{{user.first_name}} {{user.last_name}}</a></li>&numsp;
+                <li style="
+                text-align: center;
+            "><strong>Proyecto Actual:&numsp;</strong><br>{{proyecto.nombre}}</a></li>
+                <li style="
+                text-align: center;
+            "><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
+                <li style="
+                text-align: center;
+            "><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a></li>
+
               </ul>
-            </div><!-- dropdown-menu -->
-          </div><!-- dropdown -->
         </nav>
       </div><!-- br-header-right -->
     </div><!-- br-header -->
