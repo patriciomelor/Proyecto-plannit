@@ -83,9 +83,11 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
             version_first = 0
             version = 0
             for versiones in versiones_documento:
-                if str(doc.Codigo_documento) == str(versiones.documento_fk) and comprobacion_first == 0:
+                if doc == versiones.documento_fk and comprobacion_first == 0:
                     version_first = versiones
-                if str(doc.Codigo_documento) == str(versiones.documento_fk):
+                    version = versiones
+                    comprobacion_first = 1 
+                if doc == versiones.documento_fk:
                     version = versiones
 
             if version:
