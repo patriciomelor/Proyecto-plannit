@@ -181,16 +181,31 @@
 
   <!-- ########## START: HEAD PANEL ########## -->
   <div class="br-header">
-    <div class="br-header-left">
-      <div class="navicon-left hidden-md-down">
-        <a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a>
+      <div class="br-header-left">
+        <div class="navicon-left hidden-md-down">
+          <a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a>
+        </div>
+        <div class="navicon-left hidden-lg-up">
+          <a id="btnLeftMenuMobile" href=""
+            ><i class="icon ion-navicon-round"></i
+          ></a>
+        </div>
+                <nav class="nav" style="display: inline-flex;">
+              <ul class="list-unstyled user-profile-nav"style="
+              display: flex;
+              align-items: center;
+              margin: 0 15px;
+          
+          ">        
+                <li style="
+                text-align: center;
+            ">{{user.first_name}} {{user.last_name}}</a></li>&numsp;
+           
+              </ul>
+        </nav>
       </div>
-      <div class="navicon-left hidden-lg-up">
-        <a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a>
-      </div>
-    </div>
-    <!-- br-header-left -->
-          <div class="br-header-right">
+      <!-- br-header-left -->
+         <div class="br-header-right">
         <nav class="nav" style="display: inline-flex;">
               <ul class="list-unstyled user-profile-nav"style="
               display: flex;
@@ -199,9 +214,7 @@
                 <li style="
                 text-align: center;
             "><strong>Conectado como:&numsp;</strong><br>{{user.first_name}} {{user.last_name}}</a></li>&numsp;
-                <li style="
-                text-align: center;
-            "><strong>Proyecto Actual:&numsp;</strong><br>{{proyecto.nombre}}</a></li>
+                
                 <li style="
                 text-align: center;
             "><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
@@ -212,8 +225,8 @@
               </ul>
         </nav>
       </div><!-- br-header-right -->
-    <!-- br-header-right -->
-  </div>
+      <!-- br-header-right -->
+    </div>
   <!-- br-header -->
   <!-- ########## END: HEAD PANEL ########## -->
 
