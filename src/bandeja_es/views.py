@@ -1,8 +1,14 @@
+from os import path
 import pathlib
 import os.path
+
+from django.views.generic import base
 from tools.objects import AdminViewMixin, VisualizadorViewMixin
 import zipfile
 import time
+import base64
+import requests
+import shutil
 import datetime
 from io import BytesIO
 from django.conf import settings
@@ -100,7 +106,8 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         versiones = paquete.version.all()
         for version in versiones:
             try:
-                static = version.archivo.path
+                static = version.archivo
+                print(static)
                 listado_versiones_url.append(static)
             except ValueError:
                 pass
@@ -119,18 +126,29 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         versiones = paquete.version.all()
         for version in versiones:
             try:
-                static = version.archivo.path
-                listado_versiones_url.append(static)
+                static = version.archivo.url
+                if static:
+                    listado_versiones_url.append(version)
             except ValueError:
                 pass
         zip_subdir = "Documentos-{0}-{1}".format(paquete.codigo, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
-        s = BytesIO()
+        s = BytesIO()   
         zf = zipfile.ZipFile(s, "w")
-        for fpath in listado_versiones_url:
-            fdir, fname = os.path.split(fpath)
-            zip_path = os.path.join(zip_subdir, fname)
-            zf.write(fpath, zip_path)
+        for version in listado_versiones_url:
+            r = requests.get(version.archivo.url, stream=True)
+            zf.writestr(version.archivo, r.content)
+
+            # if r.status_code == 200:
+            #     r.raw.decode_content = True
+            #     a = version.archivo.name.split('/')
+            #     name = next(iter(a[::-1]))
+            #     with open("{}".format(name), 'cb') as out_file:
+            #         shutil.copyfileobj(r.raw, out_file)
+            #         out_file.close()
+
+            # zf.write(out_file)
+
         zf.close()
         response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename

@@ -25,7 +25,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", get_random_secret_key())
+SECRET_KEY = os.getenv("DJANGO_SECRET_KEY", "km6#3j^s+5kd-mq+#nbse$&_k=ee=#2$f$5in)v4d&x=dt*!=8")
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.getenv("DEBUG", "False") == "1"
@@ -183,6 +183,7 @@ WSGI_APPLICATION = 'dmp.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 if DEVELOPMENT_MODE is True:
+    print('using dmpdb5')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -197,6 +198,7 @@ if DEVELOPMENT_MODE is True:
     }
 
 else:
+    print('using Plannit')
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {
