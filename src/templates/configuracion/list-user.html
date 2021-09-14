@@ -55,10 +55,10 @@
               {% endif %}
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.perfil.empresa}} </th>
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> {{usuario.perfil.cargo_empresa}} </th>
-              {% if request.user.is_active == True %}
+              {% if usuario.is_active == True %}
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> Habilitado </th>              
-              {% elif request.user.is_active == False%}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> Desabilitado </th>
+              {% else %}
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"> Deshabilitado </th>
 
               {% endif %}
 

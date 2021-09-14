@@ -357,10 +357,10 @@
             {% else %}
             <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Sin Perfil </th>
             {% endif %}
-            {% if request.user.is_active == True %}
+            {% if usuario.is_active == True %}
             <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Habilitado </th>            
             {% else %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Desabilitado </th>
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Deshabilitado </th>
 
             {% endif %}
           </tr>
