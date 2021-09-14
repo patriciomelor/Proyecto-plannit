@@ -169,10 +169,11 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
             #Se recorren las versiones por documento para obtener la primera y ultima
             for versiones in versiones_documentos:
-                if str(doc.Codigo_documento) == str(versiones.documento_fk) and comprobacion_first == 0:
+                if doc.Codigo_documento == versiones.documento_fk and comprobacion_first == 0:
                     version_first = versiones
+                    version_last = versiones
                     comprobacion_first = 1
-                if str(doc.Codigo_documento) == str(versiones.documento_fk):
+                if doc == versiones.documento_fk:
                     version_last = versiones
 
             #calculos respecto al estado cliente
