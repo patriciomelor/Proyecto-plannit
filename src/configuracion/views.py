@@ -188,6 +188,9 @@ class UsuarioDelete(ProyectoMixin, AdminViewMixin, View):
         context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
         return context
 
+    def get(self, request, *args, **kwargs):
+        return render(request,self.template_name,context=self.get_context_data())
+
     def post(self, request, *args, **kwargs):
         user_id = self.kwargs["pk"]
         user = User.objects.get(pk=user_id)
