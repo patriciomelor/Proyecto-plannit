@@ -47,7 +47,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
     def get_versiones_last(self):
         qs1 = self.get_queryset()
-        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1) #.select_related("owner").filter(owner__in=users)
+        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1).order_by('fecha') #.select_related("owner").filter(owner__in=users)
         return qs2
 
         ###################################################
@@ -169,7 +169,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
             #Se recorren las versiones por documento para obtener la primera y ultima
             for versiones in versiones_documentos:
-                if doc.Codigo_documento == versiones.documento_fk and comprobacion_first == 0:
+                if doc == versiones.documento_fk and comprobacion_first == 0:
                     version_first = versiones
                     version_last = versiones
                     comprobacion_first = 1
