@@ -225,7 +225,7 @@ class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_list = []
-        all_users = User.objects.all()
+        all_users = User.objects.prefetch_related("perfil").all()
         current_users = self.proyecto.participantes.prefetch_related("perfil").all()
         for user in all_users:
             if user.is_superuser:
