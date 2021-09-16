@@ -3,10 +3,6 @@
     {% if request.user.is_superuser == true %}
     <li class="nav-item"><a class="nav-link" href="{% url 'crear-proyecto' %}">Agregar Proyectos</a></li>
     <li class="nav-item"><a class="nav-link" href="{% url 'lista-proyecto' %}">Lista de Proyectos</a></li>
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i
-                class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
-    </li>  
     {% endif %}
     {% if request.user.perfil.rol_usuario == 1 %}
     <li class="nav-item">
@@ -25,16 +21,14 @@
      <a class="nav-link" href="{% url 'listar-usuarios' %}"><i class="icon ion-person"></i> Listar Usuarios</a>
     </li>
      <li class="nav-item">
-     <a class="nav-link" href="{% url 'restriccion' %}"><i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
-    </li>  
-         <li class="nav-item">
-      <a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp; No cumplimiento</a>
-    </li>  
+      <a class="nav-link" href="{% url 'restriccion' %}"><i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
+     </li>  
+     <li class="nav-item" style="text-align:center;"> 
+    <a class="nav-link" href="{% url 'add-user-proyecto' %}"><i class="fas fa-user-chart"></i>&numsp;Agregar Usuarios<br> a Proyectos</a> 
+    </li> 
     <li class="nav-item">
-      <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i
-                class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
-    </li>  
-
+      <a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp; No cumplimiento</a>
+    </li>     
     <li class="nav-item">
       <a class="nav-link" href="{% url 'list-umbrales' %}">
         <i class="fas fa-business-time"></i>&numsp;Umbrales</a>
@@ -55,13 +49,16 @@
      <li class="nav-item">
        <a class="nav-link" href="{% url 'listar-usuarios' %}"><i class="icon ion-person"></i> Listar Usuarios</a> 
     </li>
+     <li class="nav-item">
+    <a class="nav-link" href="{% url 'add-user-proyecto' %}"><i  class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</a> 
+    </li>
     <li class="nav-item">
        <a class="nav-link" href="{% url 'restriccion' %}"><i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
     </li>
     <li class="nav-item">
        <a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp; No cumplimiento</a>
     </li>
- 
+   
     <li class="nav-item">
       <a class="nav-link" href="{% url 'list-umbrales' %}">
         <i class="fas fa-business-time"></i>&numsp;Umbrales</a>
