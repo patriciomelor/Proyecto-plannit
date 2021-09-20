@@ -15,17 +15,14 @@
     </div><!-- card -->
 
     <div class="ht-70 bg-gray-200 pd-x-20 d-flex align-items-center justify-content-center shadow-base"
-      style="height: auto!important;">
+      style="height: auto!important;justify-content: center;">
 
       <ul class="nav nav-outline active-info align-items-center flex-row" role="tablist">
         {% if request.user.is_superuser == True %}
         <li class="nav-item"><a class="nav-link" href="{% url 'crear-proyecto' %}">Agregar Proyectos</a></li>
 
         <li class="nav-item"><a class="nav-link" href="{% url 'lista-proyecto' %}">Lista de Proyectos</a></li>
-        <li class="nav-item">
-          <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i
-                    class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
-        </li>  
+ 
         {% endif %}
 
         {% if request.user.perfil.rol_usuario == 1 %}
