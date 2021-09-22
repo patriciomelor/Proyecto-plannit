@@ -265,7 +265,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         if documentos_atrasados_B < 0:
             documentos_atrasados_B = 0
         if documentos_atrasados_0 < 0:
-            documentos_atrasados_0 = abs(documentos_atrasados_0)
+            documentos_atrasados_0 = 0
 
         #Obtener avance real y esperado
         if lista_avance_real[0][1] != -1:
