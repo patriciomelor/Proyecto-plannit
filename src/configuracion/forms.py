@@ -88,7 +88,14 @@ class UmbralForm(forms.ModelForm):
         if self.umbral_pk == 4:
             self.fields["cliente_variable_atraso"].label = "Desviación Porcentual (%)"
             self.fields["contratista_variable_atraso"].label = "Desviación Porcentual (%)"
-
+    
     class Meta:
         model = HistorialUmbrales
         exclude = ["umbral", "proyecto", "last_checked"]
+        labels = {
+            'cliente_tiempo_control': "Frecuencia de notificación",
+            'cliente_variable_atraso': "Días de revisión",
+            'contratista_tiempo_control': "Frecuencia de notificación",
+            'contratista_variable_atraso': "Días de revisión" ,
+
+        }
