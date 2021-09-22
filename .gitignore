@@ -327,6 +327,8 @@ __pycache__/
 # C extensions
 *.so
 
+*.sqlite3
+
 # Distribution / packaging
 .Python
 build/
@@ -376,7 +378,7 @@ coverage.xml
 *.log
 local_settings.py
 db.sqlite3
-
+*.sqlite3
 # Flask stuff:
 instance/
 .webassets-cache

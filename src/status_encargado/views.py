@@ -34,7 +34,7 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
     
     def get_versiones_last(self):
         qs1 = self.get_queryset()
-        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1) #.select_related("owner").filter(owner__in=users)
+        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1).order_by('fecha') #.select_related("owner").filter(owner__in=users)
         return qs2
 
     def get_context_data(self, **kwargs):
