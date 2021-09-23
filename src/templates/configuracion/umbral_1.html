@@ -24,7 +24,7 @@
     <!-- ########## START: MAIN PANEL ########## -->
       </div><!-- br-pageheader -->
       <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30" style="margin-top:30px!important;">
-        <h4 class="tx-gray-800 mg-b-5">Documentos validos para construccion del proyecto <strong>{{proyecto.codigo}} - {{proyecto.nombre}}</strong></h4>
+        <h4 class="tx-gray-800 mg-b-5">Documentos validos para construccion del proyecto <strong>{{revision.documento_fk.proyecto.codigo}} - {{revision.documento_fk.proyecto.nombre}}</strong></h4>
        </div>
 
         <table class="table table-bordered table-primary mg-b-0"style="margin-top:30px!important;">
@@ -47,8 +47,13 @@
                     <td style="border: black 2px;color: black; background-color: rgb(252, 251, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.documento_fk.Tipo_Documento}}</td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.documento_fk.Especialidad}}</td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_revision_display}}</td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_estado_contratista_display}}</td>
-                  </tr>
+                    {% if not version.estado_contratista %}
+                      <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_estado_cliente_display}}</td>
+                    {% endif %}
+                    {% if not version.estado_cliente %}
+                      <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_estado_contratista_display}}</td>
+                    {% endif %}
+                    </tr>
 
               </tbody>
             </table>
