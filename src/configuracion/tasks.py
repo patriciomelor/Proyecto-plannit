@@ -48,7 +48,6 @@ def umbral_2_cliente():
 
 
         if delta_proyect.days >= last_hu.cliente_tiempo_control:
-            print("Se notifica para proyecto {}!".format(proyecto.nombre))
             documentos = Documento.objects.filter(proyecto=proyecto)
             for documento in documentos:
                 revision = Version.objects.filter(documento_fk=documento).last()
@@ -125,7 +124,6 @@ def umbral_2_contratista():
 
 
         if delta_proyect.days >= last_hu.contratista_tiempo_control:
-            print("Se notifica para proyecto {}!".format(proyecto.nombre))
             documentos = Documento.objects.filter(proyecto=proyecto)
             for documento in documentos:
                 revision = Version.objects.filter(documento_fk=documento).last()
@@ -203,7 +201,6 @@ def umbral_3_contratista():
         delta_proyect = (fecha_actual - last_hu.last_checked)
 
         if delta_proyect.days >= last_hu.contratista_tiempo_control:
-            print("Se notifica para proyecto {}!".format(proyecto.nombre))
             documentos = Documento.objects.filter(proyecto=proyecto)
             for documento in documentos:
                 revision = Version.objects.filter(documento_fk=documento).last()
