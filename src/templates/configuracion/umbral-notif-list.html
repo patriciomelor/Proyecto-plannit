@@ -48,13 +48,12 @@
 <script>
   $(document).ready(function () {
     $("#datatable1").DataTable({
-      dom: 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
-      paging: true,
-      pageLength: 5,
-      responsive: true,
-      language: {
-        url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json",
-      },
+        "dom": 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
+          "responsive": true,
+          "bSort": false,
+          "language": {
+          "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          },
 
       buttons: {
         dom: {
