@@ -19,19 +19,19 @@ def get_users(proyecto):
 
     return [recipients, notification_list]
 
-@receiver(pre_save, sender=Version)
+@receiver(post_save, sender=Version)
 def VPC_signal(sender, instance, *args, **kwargs):
     notified = []
     current = instance
     try:
-        last = Version.objects.filter(documento_fk=instance.documento_fk).last()        
+        previous = Version.objects.filter(documento_fk=instance.documento_fk).reverse()[1]
     except Version.DoesNotExist:
         print('No existe una Versión todavía.') 
-        last = None
+        previous = None
 
-    if not last == None:
-        if last.estado_cliente == 5:
-            if last.revision != current.revision :                
+    if not previous == None:
+        if previous.estado_cliente == 5:
+            if previous.revision != current.revision:                
                 try:
                     proyecto = instance.documento_fk.proyecto
                     usuarios = get_users(proyecto=proyecto)

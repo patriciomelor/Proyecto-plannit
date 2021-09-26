@@ -8,6 +8,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
+import requests
 import os.path
 import zipfile
 from io import BytesIO
@@ -61,19 +62,17 @@ class VersionesList(ProyectoMixin, DetailView):
         for version in versiones:
             try:
                 static = version.archivo.url
-                print(static)
-                listado_versiones_url.append(static)
+                if static:
+                    listado_versiones_url.append(version)
             except ValueError:
                 pass
-        print(listado_versiones_url)
         zip_subdir = "Documento-{0}-{1}".format(doc.Codigo_documento, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
         s = BytesIO()
         zf = zipfile.ZipFile(s, "w")
-        for fpath in listado_versiones_url:
-            fdir, fname = os.path.split(fpath)
-            zip_path = os.path.join(zip_subdir, fname)
-            zf.write(fpath, zip_path)
+        for version in listado_versiones_url:
+            r = requests.get(version.archivo.url, stream=True)
+            zf.writestr(str(version.archivo), r.content)
         zf.close()
         response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
