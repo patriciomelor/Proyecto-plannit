@@ -148,18 +148,7 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         zf = zipfile.ZipFile(s, "w")
         for version in listado_versiones_url:
             r = requests.get(version.archivo.url, stream=True)
-            zf.writestr(version.archivo, r.content)
-
-            # if r.status_code == 200:
-            #     r.raw.decode_content = True
-            #     a = version.archivo.name.split('/')
-            #     name = next(iter(a[::-1]))
-            #     with open("{}".format(name), 'cb') as out_file:
-            #         shutil.copyfileobj(r.raw, out_file)
-            #         out_file.close()
-
-            # zf.write(out_file)
-
+            zf.writestr(str(version.archivo), r.content)
         zf.close()
         response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
