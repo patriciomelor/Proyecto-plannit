@@ -183,6 +183,7 @@ WSGI_APPLICATION = 'dmp.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 if DEVELOPMENT_MODE is True:
+    print('using dmpdb5')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -197,6 +198,7 @@ if DEVELOPMENT_MODE is True:
     }
 
 else:
+    print('using Plannit')
     if os.getenv("DATABASE_URL", None) is None:
         raise Exception("DATABASE_URL environment variable not defined")
     DATABASES = {

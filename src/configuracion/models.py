@@ -12,6 +12,8 @@ def get_full_name(self):
     return str(self.first_name+" "+self.last_name)
 
 User.add_to_class("__str__", get_full_name)
+User._meta.get_field('email')._unique = True
+
 class Perfil(models.Model):
     usuario = models.OneToOneField(User, verbose_name="Usuario", on_delete=models.CASCADE)
     foto_de_perfil = models.ImageField(upload_to="perfil/foto/%Y/%m/%d", blank=True, null=True )

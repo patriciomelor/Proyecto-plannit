@@ -60,7 +60,8 @@ class VersionesList(ProyectoMixin, DetailView):
         versiones = Version.objects.filter(documento_fk=doc)
         for version in versiones:
             try:
-                static = version.archivo.path
+                static = version.archivo.url
+                print(static)
                 listado_versiones_url.append(static)
             except ValueError:
                 pass

@@ -3,6 +3,10 @@
     {% if request.user.is_superuser == true %}
     <li class="nav-item"><a class="nav-link" href="{% url 'crear-proyecto' %}">Agregar Proyectos</a></li>
     <li class="nav-item"><a class="nav-link" href="{% url 'lista-proyecto' %}">Lista de Proyectos</a></li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i
+                class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
+    </li>  
     {% endif %}
     {% if request.user.perfil.rol_usuario == 1 %}
     <li class="nav-item">
@@ -26,8 +30,10 @@
          <li class="nav-item">
       <a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp; No cumplimiento</a>
     </li>  
-          {% comment %} <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i
-                class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a> {% endcomment %}
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i
+                class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a>
+    </li>  
 
     <li class="nav-item">
       <a class="nav-link" href="{% url 'list-umbrales' %}">
@@ -55,8 +61,6 @@
     <li class="nav-item">
        <a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp; No cumplimiento</a>
     </li>
-   {% comment %} <a class="nav-link" href="{% url 'add-user-proyecto' %}"><button class="dropdown-item" type="button"><i
-                class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</button></a> {% endcomment %}
  
     <li class="nav-item">
       <a class="nav-link" href="{% url 'list-umbrales' %}">
