@@ -1,23 +1,28 @@
-{% extends "index-base.html" %}
+{% extends "index-config.html" %}
 
 {% block navegacion %}
-<div class="br-pageheader pd-y-15 pd-l-20">
+
+{% endblock navegacion %}
+
+
+{% block content %}
+  <div class="br-mainpanel">
+
+  <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
       <a class="breadcrumb-item" href="{% url 'listar-usuarios' %}">Configuración</a>      
       <span class="breadcrumb-item active"> Eliminar Usuario</span>
     </nav>
 </div>
-{% endblock navegacion %}
+  {% include "messege.html" %}  
 
-
-{% block content %}
-  
+    <div class="br-pagebody mg-t-5 pd-x-30">
     <div id="modaldemo5" >
               <div class="modal-dialog" role="document">
                 <div class="modal-content tx-size-sm">
                   <div class="modal-body tx-center pd-y-20 pd-x-20">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <button onclick="history.back();"type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                     <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
@@ -25,7 +30,8 @@
                      <form method="POST" action="{% url 'disable-usuario' usuario.pk %}">{% csrf_token %}
                     <p class="mg-b-20 mg-x-20">
                         <p class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10">¿Estás seguro que quieres quitar a {{usuario.first_name}} {{usuario.last_name}} <br> del Proyecto {{ proyecto.nombre }} ?</p>
-                        <input type="submit" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" onclick="windows.close();" value="Confirmar">
+                        <input type="submit" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" onclick="windows.close();" value="Confirmar">
+                        <a onclick="history.back();"><button  class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="buttom"> volver </button></a>
                     </p>
                     </form>
                     
@@ -33,5 +39,6 @@
                   </div><!-- modal-content -->
                 </div><!-- modal-dialog -->
               </div><!-- modal -->
-
+</div>
+</div>
 {% endblock content %}

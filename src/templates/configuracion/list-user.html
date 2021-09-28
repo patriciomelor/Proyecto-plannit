@@ -77,9 +77,14 @@
               {% else %}
               {% endif %}
               {% if request.user.is_superuser  %}
+                {% if  usuario.is_active == True %}
               <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'eliminar-usuario' usuario.pk %}" ><h6 style="color: red"><strong>&#9587;</strong></h6></a></th>
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'enable-usuario' usuario.pk %}" ><h6 style="color: green"><strong>&#10004;</strong></h6></a></th>
+                
+                {% else %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'enable-usuario' usuario.pk %}" ><h6 style="color: green"><strong>&#10004;</strong></h6></a></th>
            
+                {% endif %}
+              
               {% else %}
               {% endif %}
                </tr>           
