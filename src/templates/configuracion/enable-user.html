@@ -1,0 +1,34 @@
+{% extends 'index-config.html' %}
+
+{% block content %}
+  <div class="br-mainpanel">
+<div class="br-pageheader pd-y-15 pd-l-20">
+    <nav class="breadcrumb pd-0 mg-0 tx-12">
+      <a class="breadcrumb-item"> {{proyecto}}</a>
+      <a class="breadcrumb-item" href="{% url 'listar-usuarios' %}">Configuración</a>      
+      <span class="breadcrumb-item active"> habilitar Usuario</span>
+    </nav>
+</div>
+    {% include "messege.html" %}  
+
+    <div class="br-pagebody mg-t-5 pd-x-30">
+<div id="modaldemo4" class="modal fade show" style="display: block;">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content tx-size-sm">
+                <div class="modal-body tx-center pd-y-20 pd-x-20">
+                  <button onclick="history.back();" type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                  </button>
+                  <i class="icon ion-ios-checkmark-outline tx-100 tx-success lh-1 mg-t-20 d-inline-block"></i>
+                  <h4 class="tx-success tx-semibold mg-b-20">HABILITAR USUARIO!</h4>
+                  <form method="POST" action="{% url 'enable-usuario' usuario.pk %}">{% csrf_token %}
+                  <p class="mg-b-20 mg-x-20">Desea habilitar este usuario? el usuario <strong>{{usuario.first_name}} {{usuario.last_name}}</strong> volvera a tener acceso a la plataforma.</p>
+                  <input type="submit" class="btn btn-success tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" onclick="windows.close();" value="Confirmar">
+                  <a onclick="history.back();"><button  class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="buttom"> volver </button></a>
+                  </div><!-- modal-body -->
+                </div><!-- modal-content -->
+              </div><!-- modal-dialog -->
+            </div>
+            </div>
+            </div>
+{% endblock content %}

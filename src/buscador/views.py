@@ -1,6 +1,6 @@
 import time
 from django.db.models.query import ValuesIterable
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -8,6 +8,7 @@ from django.views.generic.base import TemplateView, RedirectView, View
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
+import requests
 import os.path
 import zipfile
 from io import BytesIO
@@ -19,14 +20,14 @@ from bandeja_es.models import Version, Paquete
 
 # Create your views here.
 
-class BuscadorIndex(ProyectoMixin, ListView):
+class BuscadorIndex(ProyectoMixin, View):
     template_name = 'buscador/index.html'
     model = Documento
     context_object_name = 'documentos'
     
 
     def get_queryset(self):
-        # qs = self.documentos_con_versiones()
+        qs = self.documentos_con_versiones()
         lista_documentos_filtrados = DocFilter(self.request.GET, queryset= documentos_con_versiones(self.request))
         return lista_documentos_filtrados.qs.order_by('Numero_documento_interno')
     
@@ -34,7 +35,20 @@ class BuscadorIndex(ProyectoMixin, ListView):
         context = super().get_context_data(**kwargs)
         context["filter"] = DocFilter(self.request.GET, queryset=self.get_queryset())
         return context
-
+    
+    def post(self, request, *args, **kwargs):
+        versiones = self.request.POST.getlist('users')
+        zip_subdir = "Ultimas-Versiones-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
+        zip_filename = "%s.zip" % zip_subdir
+        s = BytesIO()
+        zf = zipfile.ZipFile(s, "w")
+        for version in versiones:
+            r = requests.get(version.archivo.url, stream=True)
+            zf.writestr(str(version.archivo), r.content)
+        zf.close()
+        response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+        response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+        return redirect('buscador-index')
 class VersionesList(ProyectoMixin, DetailView):
     model = Documento
     template_name = 'buscador/detalle.html'
@@ -60,19 +74,18 @@ class VersionesList(ProyectoMixin, DetailView):
         versiones = Version.objects.filter(documento_fk=doc)
         for version in versiones:
             try:
-                static = version.archivo.path
-                listado_versiones_url.append(static)
+                static = version.archivo.url
+                if static:
+                    listado_versiones_url.append(version)
             except ValueError:
                 pass
-        print(listado_versiones_url)
         zip_subdir = "Documento-{0}-{1}".format(doc.Codigo_documento, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
         s = BytesIO()
         zf = zipfile.ZipFile(s, "w")
-        for fpath in listado_versiones_url:
-            fdir, fname = os.path.split(fpath)
-            zip_path = os.path.join(zip_subdir, fname)
-            zf.write(fpath, zip_path)
+        for version in listado_versiones_url:
+            r = requests.get(version.archivo.url, stream=True)
+            zf.writestr(str(version.archivo), r.content)
         zf.close()
         response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename

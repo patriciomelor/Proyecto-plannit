@@ -12,401 +12,353 @@
     </nav>
   </div>
   {% include "messege.html" %}
-<div class="br-pagebody mg-t-5 pd-x-30">
-  <div class="card bd-0">
-    <div class="card-header bg-dark">
-      <ul class="nav nav-tabs nav-tabs-for-dark card-header-tabs">
-        <li class="nav-item">
-          <a class="nav-link bd-0 active pd-y-8" href="{% url 'encargado-index' %}">Agregar Responsable</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link bd-0 tx-gray-light" href="{% url 'encargado-grafico' %}">Graficas</a>
-        </li>
-      </ul>
-    </div>
-    <!-- card-header -->
-    <div class="card-body">
-      <div class="row row-sm mg-t-10 pd-y-15">
-        <div class="col-lg-12">
-          <div class="card shadow-base card-body bd-0">
-            <div class="row">
-              <div class="col-sm-12">
-                <h4 class="
-                    mg-b-0
-                    tx-uppercase tx-bold tx-inverse tx-poppins
-                    mg-t-10 mg-b-20
-                  " style="text-align: left; margin-right: 30px">
-                  Asignacion de responsabilidad
-                </h4>
-                <table id="datatable1" class="
-                    records_list
-                    table table-striped table-bordered table-hover
-                    dataTable
-                    no-footer
-                    table-primary
-                  " style="width: 100%; table-layout: inherit">
-                  <thead>
-                    <tr role="row">
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+  <div class="br-pagebody mg-t-5 pd-x-30">
+    <div class="card bd-0">
+      <div class="card-header bg-dark">
+        <ul class="nav nav-tabs nav-tabs-for-dark card-header-tabs">
+          <li class="nav-item">
+            <a class="nav-link bd-0 active pd-y-8" href="{% url 'encargado-index' %}">Agregar Responsable</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link bd-0 tx-gray-light" href="{% url 'encargado-grafico' %}">Graficas</a>
+          </li>
+        </ul>
+      </div>
+      <!-- card-header -->
+      <div class="card-body">
+        <div class="row row-sm mg-t-10 pd-y-15">
+          <div class="col-lg-12">
+            <div class="card shadow-base card-body bd-0">
+              <div class="row">
+                <div class="col-sm-12">
+                  <h4 class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10 mg-b-20 " style="text-align: left; margin-right: 30px">
+                    Asignacion de responsabilidad
+                  </h4>
+                  <table id="datatable1" class=" records_list table table-striped table-bordered table-hover dataTable no-footer table-primary " style="width: 100%; table-layout: inherit">
+                    <thead>
+                      <tr role="row">
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="color: #fff; text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;width: auto;"></th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="color: #fff;text-align: center;vertical-align: middle;font-size: 10px;padding: 5px; width: auto; ">
+                          Especialidad
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                           width: auto;
+                        ">
+                          Descripción
+                        </th>
+                        <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
+                          color: #fff;
+                          text-align: center;
+                          vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
+                          width: auto;
+                        ">
+                          Código
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
+                          color: #fff;
+                          text-align: center;
+                          vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
+                          width: auto;
+                        ">
+                          Tipo
+                        </th>
+                        <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
+                          color: #fff;
+                          text-align: center;
+                          vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
+                          width: auto;
+                        ">
+                          Revisión <br />Actual
+                        </th>
+                        <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
+                          color: #fff;
+                          text-align: center;
+                          vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
+                          width: auto;
+                        ">
+                          A cargo de:
+                        </th>
+                        <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
+                          color: #fff;
+                          text-align: center;
+                          vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
+                          width: auto;
+                        ">
+                          Último Transmital
+                        </th>
+                        <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
+                          color: #fff;
+                          text-align: center;
+                          vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
+                          width: auto;
+                        ">
+                          Días de revisión
+                        </th>
+                        <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
+                          color: #fff;
+                          text-align: center;
+                          vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
+                          width: auto;
+                        ">
+                          Estado
+                        </th>
+                        <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
+                          color: #fff;
+                          text-align: center;
+                          vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
+                          width: auto;
+                        ">
+                          Fecha Inicial
+                        </th>
+                        <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
+                          color: #fff;
+                          text-align: center;
+                          vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
+                          width: auto;
+                        ">
+                          Fecha Final
+                        </th>
+                        <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
+                          color: #fff;
+                          text-align: center;
+                          vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
+                          width: auto;
+                        ">
+                          (%) de Avance
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!--Loop Listar Documento-->
+                      {% for documento in Listado %} 
+                      {% if documento.1.0 == 'no version' %}
+                      <tr role="row" class="odd">
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                          <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a>
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                          {{documento.0.Especialidad}}
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                          {{documento.0.Descripcion}}
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                          {{documento.0.Codigo_documento}}
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                          {{documento.0.Tipo_Documento}}
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;
+                          font-size: 10px;
+                          padding: 5px;
                         "></th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        Especialidad
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        Descripción
-                      </th>
-                      <th class="wd-20p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        Código
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        Tipo
-                      </th>
-                      <th class="wd-10p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        Revisión <br />Actual
-                      </th>
-                      <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        A cargo de:
-                      </th>
-                      <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        Último Transmital
-                      </th>
-                      <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        Días de revisión
-                      </th>
-                      <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        Estado
-                      </th>
-                      <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        Fecha Inicial
-                      </th>
-                      <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        Fecha Final
-                      </th>
-                      <th class="wd-25p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
-                          color: #fff;
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                          width: auto;
-                        ">
-                        (%) de Avance
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!--Loop Listar Documento-->
-                    {% for documento in Listado %} {% if documento.1.0 == 'no version' %}
-                    <tr role="row" class="odd">
-                      <th style="
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a>
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        {{documento.0.Especialidad}}
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        {{documento.0.Descripcion}}
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        {{documento.0.Codigo_documento}}
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        {{documento.0.Tipo_Documento}}
-                      </th>
-                      <th style="
+                          {{documento.1.1}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         "></th>
-                      <th style="
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         "></th>
-                      <th style="
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         "></th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        "></th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        {{documento.1.1}}
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        "></th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        "></th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        "></th>
-                    </tr>
-                    {% else %}
-                    <tr role="row" class="odd">
-                      <th style="
+                      </tr>
+                      {% else %}
+                      <tr role="row" class="odd">
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                          <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a>
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        <a href="{% url 'create-tarea' documento.0.pk %}"><i class="fa fa-pencil"></i></a>
-                      </th>
-                      <th style="
+                          {{documento.0.Especialidad}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{documento.0.Especialidad}}
-                      </th>
-                      <th style="
+                          {{documento.0.Descripcion}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{documento.0.Descripcion}}
-                      </th>
-                      <th style="
+                          <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a>
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a>
-                      </th>
-                      <th style="
+                          {{documento.0.Tipo_Documento}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{documento.0.Tipo_Documento}}
-                      </th>
-                      <th style="
+                          {{documento.1.0.get_revision_display}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{documento.1.0.get_revision_display}}
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        {{documento.1.1.destinatario.perfil.empresa}}
-                      </th>
-                      <th style="
+                          {{documento.1.1.destinatario.perfil.empresa}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         "> {% if documento.1.1 %}
-                        <a href="{% url 'paquete-detalle' documento.1.1.pk %}">{{documento.1.1}}
-                        </a>
-                        {% else %}
-                        {% endif %}
-                      </th>
-                      <th style="
+                          <a href="{% url 'paquete-detalle' documento.1.1.pk %}">{{documento.1.1}}
+                          </a>
+                          {% else %}
+                          {% endif %}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{documento.1.6}}
-                      </th>
-                      <th style="
+                          {{documento.1.6}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {% if not documento.1.0.get_estado_cliente_display %}
-                        {{ documento.1.0.get_estado_contratista_display }}
-                        {% else %}{{documento.1.0.get_estado_cliente_display}}
-                        {% endif %}
-                      </th>
-                      <th style="
+                          {% if not documento.1.0.get_estado_cliente_display %}
+                          {{ documento.1.0.get_estado_contratista_display }}
+                          {% else %}{{documento.1.0.get_estado_cliente_display}}
+                          {% endif %}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{documento.1.5.fecha_creacion|date:"d-m-y"}}
-                      </th>
-                      <th style="
+                          {{documento.1.5.fecha_creacion|date:"d-m-y"}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{documento.1.1.fecha_creacion|date:"d-m-y"}}
-                      </th>
-                      <th style="
+                          {{documento.1.1.fecha_creacion|date:"d-m-y"}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{documento.1.3}}%
-                      </th>
-                    </tr>
-                    {% endif %} {% endfor %}
-                  </tbody>
-                </table>
+                          {{documento.1.3}}%
+                        </th>
+                      </tr>
+                      {% endif %} {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div class="row row-sm mg-t-10 pd-y-15">
-        <div class="col-lg-12">
-          <div class="card shadow-base card-body bd-0">
-            <div class="row">
-              <div class="col-sm-12">
-                <table id="datatable2" class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary" style="width: 100%; table-layout: inherit">
-                  <thead>
-                    <tr role="row">
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color: #fff; text-align: center; vertical-align: middle; font-size: 10px; padding: 5px; width: auto;">CODIGO
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="color: #fff;text-align: center;vertical-align: middle;font-size: 10px;padding: 5px; width: auto;">
-                        Nombre
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+        <div class="row row-sm mg-t-10 pd-y-15">
+          <div class="col-lg-12">
+            <div class="card shadow-base card-body bd-0">
+              <div class="row">
+                <div class="col-sm-12">
+                  <table id="datatable2"
+                    class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary"
+                    style="width: 100%; table-layout: inherit">
+                    <thead>
+                      <tr role="row">
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="color: #fff; text-align: center; vertical-align: middle; font-size: 10px; padding: 5px; width: auto;">
+                          CODIGO
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="color: #fff;text-align: center;vertical-align: middle;font-size: 10px;padding: 5px; width: auto;">
+                          Nombre
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -414,9 +366,10 @@
                           padding: 5px;
                           width: auto;
                         ">
-                        ESTADO
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+                          ESTADO
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -424,9 +377,10 @@
                           padding: 5px;
                           width: auto;
                         ">
-                        RESPONSABLE
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+                          RESPONSABLE
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -434,9 +388,10 @@
                           padding: 5px;
                           width: auto;
                         ">
-                        HH ASIGNADAS
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+                          HH ASIGNADAS
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -444,9 +399,10 @@
                           padding: 5px;
                           width: auto;
                         ">
-                        HH REALES
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+                          HH REALES
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -454,9 +410,10 @@
                           padding: 5px;
                           width: auto;
                         ">
-                        RESTRICCION
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+                          RESTRICCION
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -464,9 +421,10 @@
                           padding: 5px;
                           width: auto;
                         ">
-                        FECHA SOLICITUD
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+                          FECHA SOLICITUD
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -474,9 +432,10 @@
                           padding: 5px;
                           width: auto;
                         ">
-                        FECHA REQUERIDO
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+                          FECHA REQUERIDO
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -484,9 +443,10 @@
                           padding: 5px;
                           width: auto;
                         ">
-                        FECHA REALIZADO
-                      </th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+                          FECHA REALIZADO
+                        </th>
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -494,7 +454,8 @@
                           padding: 5px;
                           width: auto;
                         "></th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -502,7 +463,8 @@
                           padding: 5px;
                           width: auto;
                         "></th>
-                      <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="
+                        <th class="wd-15p sorting" tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                          style="
                           color: #fff;
                           text-align: center;
                           vertical-align: middle;
@@ -510,135 +472,105 @@
                           padding: 5px;
                           width: auto;
                         "></th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <!--Loop Listar Documento-->
-                    {% for tarea in tareas %}
-                    <tr role="row" class="odd">
-                      <th style="
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <!--Loop Listar Documento-->
+                      {% for tarea in tareas %}
+                      <tr role="row" class="odd">
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{tarea.documento.Codigo_documento}}
-                      </th>
-                      <th style="
+                          {{tarea.documento.Codigo_documento}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{tarea.documento.Descripcion}}
-                      </th>
-                      <th style="
+                          {{tarea.documento.Descripcion}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {% if tarea.estado == False %}
-                        <h6 style="color: red"><strong>&#9587;</strong></h6>
-                        {% else %}
-                        <h5 style="color: green"><strong>&#10004;</strong></h5>
-                        {% endif %}
-                      </th>
+                          {% if tarea.estado == False %}
+                          <h6 style="color: red"><strong>&#9587;</strong></h6>
+                          {% else %}
+                          <h5 style="color: green"><strong>&#10004;</strong></h5>
+                          {% endif %}
+                        </th>
 
-                      <th style="
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{tarea.encargado}}
-                      </th>
-                      <th style="
+                          {{tarea.encargado}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{tarea.contidad_hh}}
-                      </th>
-                      <th style="
+                          {{tarea.contidad_hh}}
+                        </th>
+                        <th style="
                           text-align: center;
                           vertical-align: middle;
                           font-size: 10px;
                           padding: 5px;
                         ">
-                        {{tarea.task_answer.contidad_hh}}
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        {% if tarea.restricciones == None %}Sin restricción {% else %}{{tarea.restricciones}}{% endif %}
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        {{tarea.created_at|date:'d-M-y'}}
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        {{tarea.plazo|date:'d-M-y'}}
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        {{tarea.task_answer.contestado|date:'d-M-y'}}
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        <a href="{% url 'detail-tarea' tarea.pk %}"><i class="fa fa-eye" style="color: teal"></i></a>
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        <a href="{% url 'edit-tarea' tarea.pk %}"><i class="icon ion-edit" style="color: blue"></i></a>
-                      </th>
-                      <th style="
-                          text-align: center;
-                          vertical-align: middle;
-                          font-size: 10px;
-                          padding: 5px;
-                        ">
-                        <a href="{% url 'delete-tarea' tarea.pk %}"><i class="icon ion-trash-b"
-                            style="color: red"></i></a>
-                      </th>
-                    </tr>
-                    {% endfor %}
-                  </tbody>
-                </table>
+                          {{tarea.task_answer.contidad_hh}}
+                        </th>
+                        <th style="text-align: center; vertical-align: middle; font-size: 10px; padding: 5px; ">
+                          {% if tarea.restricciones == None %}
+                          Sin restricción 
+                          {% else %}
+                          {{tarea.restricciones}}
+                          {% endif %}
+                        </th>
+                        <th style="text-align: center; vertical-align: middle; font-size: 10px; padding: 5px;">
+                          {{tarea.created_at|date:'d-M-y'}}
+                        </th>
+                        <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
+                          {{tarea.plazo|date:'d-M-y'}}
+                        </th>
+                        <th style="text-align: center; vertical-align: middle; font-size: 10px;padding: 5px;">
+                          {{tarea.task_answer.contestado|date:'d-M-y'}}
+                        </th>
+                        <th style="text-align: center; vertical-align: middle; font-size: 10px; padding: 5px;">
+                          <a href="{% url 'detail-tarea' tarea.pk %}"><i class="fa fa-eye" style="color: teal"></i></a>
+                        </th>
+                        <th style="text-align: center; vertical-align: middle;  font-size: 10px;padding: 5px;">
+                          <a href="{% url 'edit-tarea' tarea.pk %}"><i class="icon ion-edit"
+                              style="color: blue"></i></a>
+                        </th>
+                        <th style=" text-align: center; vertical-align: middle; font-size: 10px; padding: 5px;">
+                          <a href="{% url 'delete-tarea' tarea.pk %}"><i class="icon ion-trash-b"
+                              style="color: red"></i></a>
+                        </th>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                  </table>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
+    <!-- card -->
   </div>
-  <!-- card -->
-</div>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
@@ -655,6 +587,7 @@
       language: {
         url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json",
       },
+      order: [0, "asc"],
 
       buttons: {
         dom: {

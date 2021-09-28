@@ -34,7 +34,7 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
     
     def get_versiones_last(self):
         qs1 = self.get_queryset()
-        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1) #.select_related("owner").filter(owner__in=users)
+        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1).order_by('fecha') #.select_related("owner").filter(owner__in=users)
         return qs2
 
     def get_context_data(self, **kwargs):
@@ -83,9 +83,11 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
             version_first = 0
             version = 0
             for versiones in versiones_documento:
-                if str(doc.Codigo_documento) == str(versiones.documento_fk) and comprobacion_first == 0:
+                if doc == versiones.documento_fk and comprobacion_first == 0:
                     version_first = versiones
-                if str(doc.Codigo_documento) == str(versiones.documento_fk):
+                    version = versiones
+                    comprobacion_first = 1 
+                if doc == versiones.documento_fk:
                     version = versiones
 
             if version:

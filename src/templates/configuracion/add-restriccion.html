@@ -16,8 +16,11 @@
 {% include "configuracion/menu.html"%}
  
  {% include "messege.html" %} 
+   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+        <h4 class="tx-gray-800 mg-b-5">Agregar Restricciones</h4>
+    </div>
 <div class="br-pagebody pd-x-20 pd-sm-x-30"> 
-  <div class="row row-sm d-flex justify-content-center" >
+  <div class="row row-sm col-md-12 d-flex justify-content-center" >
             <table class="table table-responsive table-striped mg-b-0 table-bordered table-primary" style="width: auto;">        
         <!--Table-->
                 <thead>
@@ -33,7 +36,7 @@
                     </tr>
                       {% empty %}
                   <tr>            
-                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">Lo ingresado se listaran aqui</th>
+                    <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width: auto;">Lo ingresado se listará aqui</th>
                     </tr>
                 {% endfor %}
                 

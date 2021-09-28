@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="es">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -19,11 +19,19 @@
     <link href="{% static 'jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
     <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
     <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     
-    
-    <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
     <script src="{% static 'Jquery-Autosave/autosaveform.js' %}"></script>
 
+            <!-- Development version -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+
+    <!-- Production version -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
   
@@ -36,33 +44,47 @@
     <!-- ########## END: LEFT PANEL ########## -->
 
      <!-- ########## START: HEAD PANEL ########## -->
-    <div class="br-header">
+
+      <div class="br-header">
       <div class="br-header-left">
-      {% include "messege.html" %}
+        
+                <nav class="nav" style="display: inline-flex;">
+              <ul class="list-unstyled user-profile-nav"style="
+              display: flex;
+              align-items: center;
+              margin: 0 15px;
+          
+          ">        
+                <li style="
+                text-align: center;
+            ">{{user.first_name}} {{user.last_name}}</li>&numsp;
+            <li style="
+                text-align: center;
+            ">  {% include "messege.html" %}
+           </li>&numsp;
     
-      </div><!-- br-header-left -->
-      <div class="br-header-right">
-        <nav class="nav">
-          <div class="dropdown">
-            <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-              <span class="logged-name hidden-md-down"> {{user.first_name}} {{user.last_name}} </span>
-              <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
-              <span class="square-10 bg-success"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-header wd-200">
-              <ul class="list-unstyled user-profile-nav">
-                <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
-                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
-                <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
-                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>-->
-                <li><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
-                <li><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a></li>
               </ul>
-            </div><!-- dropdown-menu -->
-          </div><!-- dropdown -->
+        </nav>
+      </div>
+      <!-- br-header-left -->
+         <div class="br-header-right">
+        <nav class="nav" style="display: inline-flex;">
+              <ul class="list-unstyled user-profile-nav"style="
+              display: flex;
+              align-items: unset;
+          ">    
+                <li style="
+                text-align: center;
+            "><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
+                <li style="
+                text-align: center;
+            "><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a></li>
+
+              </ul>
         </nav>
       </div><!-- br-header-right -->
-    </div><!-- br-header -->
+      <!-- br-header-right -->
+    </div>
     <!-- ########## END: HEAD PANEL ########## -->
 
   
@@ -73,7 +95,6 @@
     <!-- ########## END: MAIN PANEL ########## -->
 
     <script src="{% static 'jquery/jquery.js' %}"></script> 
-    <script src="{% static 'popper.js/popper.js' %}"></script>
     <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
     <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
     <script src="{% static 'moment/moment.js' %}"></script>
@@ -82,7 +103,6 @@
     <script src="{% static 'peity/jquery.peity.js' %}"></script>
     <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
     <script src="{% static 'd3/d3.js' %}"></script>
-    <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
     <script src="{% static 'jt.timepicker/jquery.timepicker.js' %}"></script>
     <script src="{% static 'highlightjs/highlight.pack.js' %}"></script>    
 
@@ -90,33 +110,11 @@
     <script src="{% static 'js/bracket.js' %}"></script>
     <script src="{% static 'js/ResizeSensor.js' %}"></script>
     <script src="{% static 'js/dashboard.js' %}"></script> 
-    <script>
-      $(function(){
-        'use strict'
 
-        // FOR DEMO ONLY
-        // menu collapsed by default during first page load or refresh with screen
-        // having a size between 992px and 1299px. This is intended on this page only
-        // for better viewing of widgets demo.
-        $(window).resize(function(){
-          minimizeMenu();
-        });
+            <!-- Development version -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
 
-        minimizeMenu();
-
-        function minimizeMenu() {
-          if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
-            // show only the icons and hide left menu label by default
-            $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
-            $('body').addClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideUp();
-          } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
-            $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
-            $('body').removeClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideDown();
-          }
-        }
-      });
-    </script>
+    <!-- Production version -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
   </body>
 </html>

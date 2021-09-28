@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="es">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -10,7 +10,7 @@
     <meta name="description" content="Software de Gestion y administracion de archivos.">
     <meta name="author" content="STOD CHILE for DM">
 
-    <title>DMP</title>
+    <title>PLANNIT</title>
      <link rel="stylesheet" href="https://www.stod.cl/bracket.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
  
@@ -23,13 +23,14 @@
 
     <!-- ########## START: MAIN PANEL ########## -->
       </div><!-- br-pageheader -->
-      <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
-        <h4 class="tx-gray-800 mg-b-5">Documentos validos para construccion del proyecto <strong>{{proyecto.codigo}}</strong></h4>
+      <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30" style="margin-top:30px!important;">
+        <h4 class="tx-gray-800 mg-b-5">Documentos validos para construccion del proyecto <strong>{{revision.documento_fk.proyecto.codigo}} - {{revision.documento_fk.proyecto.nombre}}</strong></h4>
        </div>
 
-        <table class="table table-bordered table-primary mg-b-0">
+        <table class="table table-bordered table-primary mg-b-0"style="margin-top:30px!important;">
               <thead>
                 <tr style="border: black 2px;">
+                  <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Autor</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Codigo Documento</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Descripción</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Tipo Documento</th>
@@ -40,13 +41,19 @@
               </thead>
               <tbody>
                   <tr style="border: black 2px;">
-                    <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{revision.documento_fk.Codigo_documento}} </th>
+                    <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{revision.owner}}</th>
+                    <th style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{revision.documento_fk.Codigo_documento}}</th>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.documento_fk.Descripcion}}</td>
                     <td style="border: black 2px;color: black; background-color: rgb(252, 251, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.documento_fk.Tipo_Documento}}</td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.documento_fk.Especialidad}}</td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_revision_display}}</td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_estado_cliente_display}}</td>
-                  </tr>
+                    {% if not version.estado_contratista %}
+                      <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_estado_cliente_display}}</td>
+                    
+                    {% elif version.estado_cliente %}
+                      <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_estado_contratista_display}}</td>
+                    {% endif %}
+                    </tr>
 
               </tbody>
             </table>

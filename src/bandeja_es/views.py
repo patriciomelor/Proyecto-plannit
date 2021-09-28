@@ -1,8 +1,14 @@
+from os import error, path
 import pathlib
 import os.path
+
+from django.views.generic import base
 from tools.objects import AdminViewMixin, VisualizadorViewMixin
 import zipfile
 import time
+import base64
+import requests
+import shutil
 import datetime
 from io import BytesIO
 from django.conf import settings
@@ -45,14 +51,18 @@ class InBoxView(ProyectoMixin, ListView):
         clientes = [1,2,3]        
         contratistas = [4,5,6]        
         user = self.request.user
-        user_rol =  user.perfil.rol_usuario
-        if user.is_superuser:
-            pkg = Paquete.objects.all().filter(proyecto=self.proyecto).order_by("-fecha_creacion")
-        elif user_rol:
-            if user_rol <= 3:
-                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=clientes, proyecto=self.proyecto)
-            elif user_rol > 3 and user_rol <= 6:
-                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto)
+        try:
+            user_rol =  user.perfil.rol_usuario
+            # if user.is_superuser:
+            #     pkg = Paquete.objects.all().filter(proyecto=self.proyecto).order_by("-fecha_creacion")
+            if user_rol:
+                if user_rol >=1 and user_rol <= 3:
+                        pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=clientes, proyecto=self.proyecto).order_by("-fecha_creacion")
+                elif user_rol >= 4 and user_rol <= 6:
+                    pkg = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto).order_by("-fecha_creacion")
+        except Exception as error:
+            messages.add_message(self.request, messages.ERROR, "Usuario no cuenta con perfil. {0}".format(error))
+            return redirect('Bandejaeys')
 
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
@@ -73,13 +83,20 @@ class EnviadosView(ProyectoMixin, ListView):
         contratistas = [4,5,6]        
         user = self.request.user
         user_rol =  user.perfil.rol_usuario
-        if user.is_superuser:
-            pkg = Paquete.objects.all().filter(proyecto=self.proyecto).order_by("-fecha_creacion")
-        elif user_rol:
-            if user_rol <= 3:
-                    pkg = Paquete.objects.filter(owner__perfil__rol_usuario__in=clientes, proyecto=self.proyecto)#.filter(proyecto=self.proyecto).order_by("-fecha_creacion")
-            elif user_rol > 3 and user_rol <= 6:
-                    pkg = Paquete.objects.filter(owner__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto)#.filter(proyecto=self.proyecto).order_by("-fecha_creacion")
+        # if user.is_superuser:
+        #     pkg = Paquete.objects.all().filter(proyecto=self.proyecto).order_by("-fecha_creacion")
+        
+        try:
+            if user_rol:
+                if user_rol >= 1 and user_rol <= 3:
+                        pkg = Paquete.objects.filter(owner__perfil__rol_usuario__in=clientes, proyecto=self.proyecto).order_by("-fecha_creacion")#.filter(proyecto=self.proyecto).order_by("-fecha_creacion")
+                elif user_rol >= 4 and user_rol <= 6:
+                        pkg = Paquete.objects.filter(owner__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto).order_by("-fecha_creacion")#.filter(proyecto=self.proyecto).order_by("-fecha_creacion")
+            
+        except Exception as error:
+            messages.add_message(self.request, messages.ERROR, "Usuario no cuenta con perfil. {0}".format(error))
+            return redirect('Bandejaeys')
+
         lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
         return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
@@ -100,7 +117,8 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         versiones = paquete.version.all()
         for version in versiones:
             try:
-                static = version.archivo.path
+                static = version.archivo
+                print(static)
                 listado_versiones_url.append(static)
             except ValueError:
                 pass
@@ -119,18 +137,18 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         versiones = paquete.version.all()
         for version in versiones:
             try:
-                static = version.archivo.path
-                listado_versiones_url.append(static)
+                static = version.archivo.url
+                if static:
+                    listado_versiones_url.append(version)
             except ValueError:
                 pass
         zip_subdir = "Documentos-{0}-{1}".format(paquete.codigo, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
-        s = BytesIO()
+        s = BytesIO()   
         zf = zipfile.ZipFile(s, "w")
-        for fpath in listado_versiones_url:
-            fdir, fname = os.path.split(fpath)
-            zip_path = os.path.join(zip_subdir, fname)
-            zf.write(fpath, zip_path)
+        for version in listado_versiones_url:
+            r = requests.get(version.archivo.url, stream=True)
+            zf.writestr(str(version.archivo), r.content)
         zf.close()
         response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
@@ -300,7 +318,7 @@ class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
         rol = usuario.perfil.rol_usuario
         if rol >= 1 and rol <= 3:
             participantes = self.proyecto.participantes.filter(perfil__rol_usuario__in=[4,5,6], is_superuser=False, is_active=True).exclude(pk=usuario.pk)
-        elif rol <= 6 and rol >= 4:
+        elif rol >= 4 and rol <= 6:
             participantes = self.proyecto.participantes.filter(perfil__rol_usuario__in=[1,2,3], is_superuser=False, is_active=True).exclude(pk=usuario.pk)
         else:
             participantes = []

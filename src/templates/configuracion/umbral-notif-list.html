@@ -19,8 +19,7 @@
         <div class="pd-x-20 pd-sm-x-30 mg-b-10">
           <h4 class="tx-gray-800 mg-b-5">Lista de Umbrales / {{proyecto}}</h4>
         </div> 
-        <div class="row row-sm d-flex justify-content-center">
-          <table class="datatable table table-responsive table-striped mg-b-0 table-bordered table-primary"id="datatable1">       
+          <table class="records_list table table-striped table-bordered table-hover table-primary"id="datatable1">       
       <!--Table-->
               <thead>
                 <tr>
@@ -43,20 +42,18 @@
                 <!--Fin Loop-->
               </tbody>
             </table>
-        </div>
       </div>  
   </div>
 </div>
 <script>
   $(document).ready(function () {
     $("#datatable1").DataTable({
-      dom: 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
-      paging: true,
-      pageLength: 5,
-      responsive: true,
-      language: {
-        url: "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json",
-      },
+        "dom": 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
+          "responsive": true,
+          "bSort": false,
+          "language": {
+          "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          },
 
       buttons: {
         dom: {

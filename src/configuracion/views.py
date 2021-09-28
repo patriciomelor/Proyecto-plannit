@@ -86,6 +86,20 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                 'uidb64': uidb64,
                 'token': token_generator.make_token(user=usuario),
             })
+            #busqueda rol usuarios
+            nuevo_rol = ""
+            if rol == 1:
+                nuevo_rol = "Administrador Cliente"
+            elif rol == 2:
+                nuevo_rol = "Revisor Cliente"
+            elif rol == 3:
+                nuevo_rol = "Vizualizador Cliente"
+            elif rol == 4:
+                nuevo_rol = "Administrador Contratista"
+            elif rol == 5:
+                nuevo_rol = "Revisor Contratista"
+            elif rol == 6:
+                nuevo_rol = "Vizualizador Contratista"
 
             send_email(
                 html = "tools/confirmacion.html",
@@ -93,11 +107,11 @@ class UsuarioView(ProyectoMixin, AdminViewMixin, CreateView):
                     "usuario": usuario,
                     "proyecto": self.proyecto,
                     "perfil": perfil,
-                    "rol": perfil.get_rol_usuario_display(),
+                    "rol": nuevo_rol,
                     "sitio": sitio,
                     "url": sitio+url,
                 },
-                subject = "Confirmación de Email",
+                subject = "Confirmación de Correo Electrónico",
                 recipients= ["{email}".format(email=usuario.email)]
             )
 
@@ -112,6 +126,7 @@ class UserValidation(View):
             #     return redirect('login')
         except Exception as error:
             messages.error(request, 'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación')
+            usuario = None
             return redirect('account_login'+'?message='+'Ha ocurrido un error al intentar activar tu cuenta. Porfavor, ponte en contato con tu proveedor para arreglar la situación')
         
         if usuario is not None and token_generator.check_token(usuario, token):
@@ -119,7 +134,7 @@ class UserValidation(View):
             usuario.save()
             login(request, usuario, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, 'Cuenta activada Exitosamente')
-            return redirect('change-password')
+            return redirect('cambiar-contrasena')
         else:
             return redirect('account_login')
 
@@ -159,22 +174,26 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
         # else:
         #     qs = self.proyecto.participantes.prefetch_related("perfil").exclude(is_superuser=True)
         if self.request.user.is_superuser:
-            qs = User.objects.all()
+            qs = self.proyecto.participantes.prefetch_related("perfil").all()
 
         return qs
     
-class UsuarioDelete(ProyectoMixin, AdminViewMixin, TemplateView):
+class UsuarioDelete(ProyectoMixin, SuperuserViewMixin, View):
     model = User
     template_name = 'configuracion/delete-user.html'
-    success_message = 'Usuario inhabilitado correctamente.'
+    success_message = 'Usuario deshabilitado correctamente.'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
         return context
 
-    def post(self, request, *args, **kwargs) -> HttpResponse:
-        user = User.objects.get(pk=self.kwargs["pk"])
+    def get(self, request, *args, **kwargs):
+        return render(request,self.template_name,context=self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        user_id = self.kwargs["pk"]
+        user = User.objects.get(pk=user_id)
         user.is_active = False
         user.save()
         return redirect('listar-usuarios')
@@ -191,11 +210,11 @@ class UsuarioDetail(ProyectoMixin, UpdateView):
         context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
         return context
 
-class PasswordSetView(LoginRequiredMixin, auth_views.PasswordChangeView):
+class PrimeraContrasenaView(LoginRequiredMixin, auth_views.PasswordChangeView):
     form_class = SetPasswordForm
-    template_name='account/password_change.html'
-    success_message = "contraseña actualizada correctamente"
-    success_url = reverse_lazy('welcome')
+    template_name='configuracion/password_change.html'
+    success_message = "Contraseña actualizada correctamente"
+    success_url = reverse_lazy('account_login')
 
 # Añade usuarios al proyecto actual seleccionado
 class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
@@ -206,7 +225,7 @@ class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_list = []
-        all_users = User.objects.all()
+        all_users = User.objects.prefetch_related("perfil").all()
         current_users = self.proyecto.participantes.prefetch_related("perfil").all()
         for user in all_users:
             if user.is_superuser:
@@ -238,22 +257,53 @@ class UsuarioRemove(ProyectoMixin, SuperuserViewMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_list = []
-        all_users = User.objects.all()
         current_users = self.proyecto.participantes.all()
-        for user in all_users:
-            if user in current_users:
-                user_list.append(user)
-
-        context['users'] = user_list
+        context['users'] = current_users
         return context
 
     def post(self, request, *args, **kwargs):
-        usuario_ids = self.request.POST.getlist('id[]')
+        usuario_ids = self.request.POST.getlist('users')
         for usuario in usuario_ids:
             user = User.objects.get(pk=usuario)
-            proyecto_remove = self.proyecto
-            proyecto_remove.participantes.remove(user)
+            self.proyecto.participantes.remove(user)
+        return redirect('listar-usuarios')
+
+class UsuarioDisable(ProyectoMixin, AdminViewMixin, View):
+    template_name = 'configuracion/disable-user.html'
+    success_message = 'Usuario deshabilitado del proyecto correctamente'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
+        return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request,self.template_name,context=self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        user_id = self.kwargs["pk"]
+        user = User.objects.get(pk=user_id)
+        self.proyecto.participantes.remove(user)
+        return redirect('listar-usuarios')
+
+
+class UsuarioEnable(ProyectoMixin, AdminViewMixin, View):
+    template_name = 'configuracion/enable-user.html'
+    success_message = 'Usuario reintegrado al sistema correctamente'
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
+        return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request,self.template_name,context=self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        user_id = self.kwargs["pk"]
+        user = User.objects.get(pk=user_id)
+        user.is_active = True
         return redirect('listar-usuarios')
 
 class ProyectoList(ProyectoMixin, AdminViewMixin, ListView):
@@ -462,6 +512,10 @@ class UmbralesEdit(ProyectoMixin, UpdateView):
         user = self.request.user
         kwargs = super().get_form_kwargs()
         kwargs["usuario"] = user
+        h_umbral = self.get_object()
+        umbral_pk = h_umbral.umbral.pk
+        print(umbral_pk)
+        kwargs["umbral_pk"] = umbral_pk
         return kwargs
 
 class UmbralesNotificados(ProyectoMixin, ListView):
@@ -470,7 +524,7 @@ class UmbralesNotificados(ProyectoMixin, ListView):
 
     def get_queryset(self):
         # if self.request.user.perfil.rol_usuario == 4:
-        n_hu = NotificacionHU.objects.select_related("h_umbral", "h_umbral__umbral").filter(h_umbral__proyecto=self.proyecto, notificacion__usuario=self.request.user).order_by("date")
+        n_hu = NotificacionHU.objects.select_related("h_umbral", "h_umbral__umbral").filter(h_umbral__proyecto=self.proyecto, notificacion__usuario=self.request.user).order_by("-date")
         return n_hu
 
     def get_context_data(self, **kwargs):

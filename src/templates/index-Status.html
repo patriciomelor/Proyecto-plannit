@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 {% load static %}
-<html lang="en">
+<html lang="es">
   <head>
     <!-- Required meta tags -->
     <meta charset="utf-8">
@@ -10,25 +10,25 @@
     <meta name="description" content="Software de Gestion y administracion de archivos.">
     <meta name="author" content="STOD CHILE for DM">
 
-    <title>{{proyecto.nombre}}</title>
+    <title>{{site}} || {{proyecto.nombre}}</title>
 
     <!-- vendor css -->
-    <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet"> 
+    <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet">
     <link href="{% static 'Ionicons/css/ionicons.css' %}" rel="stylesheet">
     <link href="{% static 'perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
     <link href="{% static 'jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
     <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
     <link href="{% static 'chartist/chartist.css' %}" rel="stylesheet">
     <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
-    <link href="{% static 'jquery-ui/jquery-ui.min.css' %}" rel="stylesheet" />
-
+    
     
     <link href="{% static 'select2/css/select2.css' %}" rel="stylesheet" />
     <link href="{% static 'select2/css/select2.min.css' %}" rel="stylesheet" />
     <link href="{% static 'select2/css/select2-boostrap4.css' %}" rel="stylesheet" />
     <link href="{% static 'select2/css/select2-boostrap4.min.css' %}" rel="stylesheet" />
     <link href="{% static 'select2/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
-
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <link href="{% static 'jquery.steps/jquery.steps.css' %}" rel="stylesheet" />
@@ -52,11 +52,12 @@
      <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
      <!-- Bootstrap CSS -->
-     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css">
-     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
-     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 
-     <!-- Datatables -->
+      <!-- Datatables -->
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css"/>
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/autofill/2.3.6/css/autoFill.bootstrap4.css"/>
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/1.7.0/css/buttons.bootstrap4.min.css"/>
@@ -103,49 +104,45 @@
            <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.4/js/buttons.html5.styles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.4/js/buttons.html5.styles.templates.min.js"></script>   
-
-     <!-- Para usar los botones -->
-    <script src="https://cdn.datatables.net/buttons/1.6.5/js/dataTables.buttons.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-    <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
-
-
-    <!-- Para los estilos en Excel     -->
-    <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/datatables-buttons-excel-styles@1.1.1/js/buttons.html5.styles.templates.min.js"></script>
+    <!-- Development version -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
     
+    <!-- Production version -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.js"
+      integrity="sha256-bLjSmbMs5XYwqLIj5ppZFblCo0/9jfdiG/WjPhg52/M=" crossorigin="anonymous"></script>
     <!-- Bracket CSS -->
     <style>
-     
-     .buttons-excel{
-              color: #fff!important;
-              background: #23BF08!important;
-              border-color: #23BF08!important;
-              display: block!important;
-              width: 100%!important;
-              border-radius: 50px!important;
-              margin-left:20px!important;
-          }
-          
-    .pagination{
-      margin-left:auto;
-      margin-right:auto;
-      padding-right: 80px;
-    }
-    .page-link {
-      width:15vh;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button {
-    padding : 0px;
-    margin-left: 0px;
-    display: inline;
-    border: 0px;
-    }
-    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+      .buttons-excel {
+        color: #fff !important;
+        background: #23BF08 !important;
+        border-color: #23BF08 !important;
+        display: block !important;
+        width: 100% !important;
+        border-radius: 50px !important;
+        margin-left: 20px !important;
+      }
+    
+      .pagination {
+        margin-left: auto;
+        margin-right: auto;
+        padding-right: 80px;
+      }
+    
+      .page-link {
+        width: 15vh;
+      }
+    
+      .dataTables_wrapper .dataTables_paginate .paginate_button {
+        padding: 0px;
+        margin-left: 0px;
+        display: inline;
         border: 0px;
-    }
+      }
+    
+      .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        border: 0px;
+      }
     </style>
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
    
@@ -192,19 +189,23 @@
             <span class="menu-item-label">Estatus</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
+       {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
+       
+        {% else %}
          <a href="{% url 'encargado-index' %}" class="br-menu-link">
           <div class="br-menu-item ">
             <i class=" menu-item-icon icon ion-person tx-24"></i>
             <span class="menu-item-label">Asignación de<br>Responsabilidades</span>
           </div>
         </a>
+        {% endif %}
         <a href="{% url 'buscador-index' %}" class="br-menu-link ">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
             <span class="menu-item-label">Buscador</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-      <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
+         <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon fa fa-clock-o tx-24"></i>
             <span class="menu-item-label">Historial de<br>Umbrales</span>
@@ -222,34 +223,50 @@
     <!-- ########## END: LEFT PANEL ########## -->
 
      <!-- ########## START: HEAD PANEL ########## -->
-    <div class="br-header">
+  <div class="br-header">
       <div class="br-header-left">
-        <div class="navicon-left hidden-md-down"><a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a></div>
-        <div class="navicon-left hidden-lg-up"><a id="btnLeftMenuMobile" href=""><i class="icon ion-navicon-round"></i></a></div>
-    
-      </div><!-- br-header-left -->
-      <div class="br-header-right">
-        <nav class="nav">
-          <div class="dropdown">
-            <a href="" class="nav-link nav-link-profile" data-toggle="dropdown">
-              <span class="logged-name hidden-md-down"> {{user.first_name}} {{user.last_name}}</span>
-              <img src="http://via.placeholder.com/64x64" class="wd-32 rounded-circle" alt="">
-              <span class="square-10 bg-success"></span>
-            </a>
-            <div class="dropdown-menu dropdown-menu-header wd-200">
-              <ul class="list-unstyled user-profile-nav">
-                <!--<li><a href=""><i class="icon ion-ios-person"></i> Edit Profile</a></li>
-                <li><a href=""><i class="icon ion-ios-gear"></i> Settings</a></li>
-                <li><a href=""><i class="icon ion-ios-download"></i> Downloads</a></li>
-                <li><a href=""><i class="icon ion-ios-star"></i> Favorites</a></li>-->
-                <li><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
-                <li><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a></li>
+        <div class="navicon-left hidden-md-down">
+          <a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a>
+        </div>
+        <div class="navicon-left hidden-lg-up">
+          <a id="btnLeftMenuMobile" href=""
+            ><i class="icon ion-navicon-round"></i
+          ></a>
+        </div>
+                <nav class="nav" style="display: inline-flex;">
+              <ul class="list-unstyled user-profile-nav"style="
+              display: flex;
+              align-items: center;
+              margin: 0 15px;
+          
+          ">        
+                <li style="
+                text-align: center;
+            ">{{user.first_name}} {{user.last_name}}</a></li>&numsp;
+           
               </ul>
-            </div><!-- dropdown-menu -->
-          </div><!-- dropdown -->
+        </nav>
+      </div>
+      <!-- br-header-left -->
+         <div class="br-header-right">
+        <nav class="nav" style="display: inline-flex;">
+              <ul class="list-unstyled user-profile-nav"style="
+              display: flex;
+              align-items: unset;
+          ">        
+            
+                <li style="
+                text-align: center;
+            "><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
+                <li style="
+                text-align: center;
+            "><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a></li>
+
+              </ul>
         </nav>
       </div><!-- br-header-right -->
-    </div><!-- br-header -->
+      <!-- br-header-right -->
+    </div>
     <!-- ########## END: HEAD PANEL ########## -->
 
 
@@ -262,16 +279,13 @@
     <!-- ########## END: MAIN PANEL ########## -->
 
     <script src="{% static 'jquery/jquery.js' %}"></script> 
-    <script src="{% static 'popper.js/popper.js' %}"></script>
     <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
     <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
     <script src="{% static 'moment/moment.js' %}"></script>
-    <script src="{% static 'jquery-ui/jquery-ui.js' %}"></script>
     <script src="{% static 'jquery-switchbutton/jquery.switchButton.js' %}"></script>
     <script src="{% static 'peity/jquery.peity.js' %}"></script>
     <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
     <script src="{% static 'd3/d3.js' %}"></script>
-    <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
     <script src="{% static 'jt.timepicker/jquery.timepicker.js' %}"></script>
     <script src="{% static 'highlightjs/highlight.pack.js' %}"></script>  
 
@@ -285,7 +299,6 @@
     <script src="{% static 'js/bracket.js' %}"></script>
     <script src="{% static 'js/ResizeSensor.js' %}"></script>
     <script src="{% static 'js/dashboard.js' %}"></script> 
-
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/dataTables.buttons.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.2/js/buttons.html5.min.js"></script>
     <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.53/build/pdfmake.min.js"></script>
@@ -300,40 +313,18 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
     <script src="https://cdn.datatables.net/buttons/1.6.5/js/buttons.html5.min.js"></script>
 
+    <!-- Development version -->
+    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
+
+    <!-- Production version -->
+    <script src="https://unpkg.com/@popperjs/core@2"></script>
+    <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.js"integrity="sha256-bLjSmbMs5XYwqLIj5ppZFblCo0/9jfdiG/WjPhg52/M=" crossorigin="anonymous"></script>
      <script>
     $('#alert').fadeIn();     
       setTimeout(function() {
           $("#alert").fadeOut();           
       },2000);
     </script>
-    <script>
-      $(function(){
-        'use strict'
-
-        // FOR DEMO ONLY
-        // menu collapsed by default during first page load or refresh with screen
-        // having a size between 992px and 1299px. This is intended on this page only
-        // for better viewing of widgets demo.
-        $(window).resize(function(){
-          minimizeMenu();
-        });
-
-        minimizeMenu();
-
-        function minimizeMenu() {
-          if(window.matchMedia('(min-width: 992px)').matches && window.matchMedia('(max-width: 1299px)').matches) {
-            // show only the icons and hide left menu label by default
-            $('.menu-item-label,.menu-item-arrow').addClass('op-lg-0-force d-lg-none');
-            $('body').addClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideUp();
-          } else if(window.matchMedia('(min-width: 1300px)').matches && !$('body').hasClass('collapsed-menu')) {
-            $('.menu-item-label,.menu-item-arrow').removeClass('op-lg-0-force d-lg-none');
-            $('body').removeClass('collapsed-menu');
-            $('.show-sub + .br-menu-sub').slideDown();
-          }
-        }
-      });
-     </script>
     
   </body>
 </html>

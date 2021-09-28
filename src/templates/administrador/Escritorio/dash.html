@@ -326,41 +326,94 @@
       <div class="card-header pd-20 bg-info">
         <h6 class="card-title tx-uppercase tx-12 mg-b-0 "style="color:#fff;text-align:center;display:flow-root;"> Lista Usuarios</h6>
       </div><!-- card-header -->
+      {% if request.user.is_superuser == True or request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
       <table class="table table-responsive table-striped table-bordered mg-b-0 tx-12">
         <thead class="bg-primary">
           <tr class="tx-10">
             <th class="wd-10p pd-y-5" style="color: white;text-align:center;width:auto;">Usuarios</th>
             <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Correo</th>
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Empresa</th>            
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Cargo</th>            
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Empresa</th>
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Cargo</th>
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">ROL</th>
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Estado Usuario</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for usuario in usuarios %}
+          <tr>
+            {% if usuario.first_name %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.first_name}}
+              {{usuario.last_name}} </th>
+            {% else %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> No hay nombre registrado</th>
+            {% endif %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.email}} </th>
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.empresa}} </th>
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.cargo_empresa}}
+            </th>
+            {% if usuario.perfil.rol_usuario %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;">
+              {{usuario.perfil.get_rol_usuario_display}} </th>
+            {% else %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Sin Perfil </th>
+            {% endif %}
+            {% if usuario.is_active == True %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Habilitado </th>            
+            {% else %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Deshabilitado </th>
+
+            {% endif %}
+          </tr>
+          {% empty %}
+          <tr>
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="5"> Este Proyecto no tiene
+              participantes </th>
+      
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% else %}
+      <table class="table table-responsive table-striped table-bordered mg-b-0 tx-12">
+        <thead class="bg-primary">
+          <tr class="tx-10">
+            <th class="wd-10p pd-y-5" style="color: white;text-align:center;width:auto;">Usuarios</th>
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Correo</th>
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Empresa</th>
+            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Cargo</th>
             <th class="pd-y-5" style="color: white;text-align:center;width:auto;">ROL</th>
           </tr>
         </thead>
         <tbody>
-         {% for usuario in usuarios %}
-    <tr>            
-      {% if usuario.first_name %}
-      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.first_name}} {{usuario.last_name}} </th>
-      {% else %}
-      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > No hay nombre registrado</th>
-      {% endif %} 
-      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.email}} </th>
-      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.empresa}} </th>
-      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.cargo_empresa}} </th>
-      {% if usuario.perfil.rol_usuario %}
-      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > {{usuario.perfil.get_rol_usuario_display}} </th>
-      {% else %}
-      <th style="text-align: center;border: 2px;border-color: grey; color: black;" > Sin Perfil </th>
-      {% endif %}
-       </tr>         
-       {% empty %}
-           <tr>            
-      <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="5"> Este Proyecto no tiene participantes </th>
-     
-       </tr>  
- {% endfor %}
+          {% for usuario in usuarios %}
+          <tr>
+            {% if usuario.first_name %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.first_name}}
+              {{usuario.last_name}} </th>
+            {% else %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> No hay nombre registrado</th>
+            {% endif %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.email}} </th>
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.empresa}} </th>
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.cargo_empresa}}
+            </th>
+            {% if usuario.perfil.rol_usuario %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;">
+              {{usuario.perfil.get_rol_usuario_display}} </th>
+            {% else %}
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Sin Perfil </th>
+            {% endif %}
+          </tr>
+          {% empty %}
+          <tr>
+            <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="5"> Este Proyecto no tiene
+              participantes </th>
+      
+          </tr>
+          {% endfor %}
         </tbody>
       </table>
+      {% endif %}
     </div>
 
   </div><!-- col-4 -->

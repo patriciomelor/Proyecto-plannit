@@ -24,11 +24,9 @@ def users_notifier(proyecto, cliente=None, contratista=None):
     recipients = []
     notification_list = []
     if cliente:
-        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario__in = [1,2])
+        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario__in = [1,2,3])
     elif contratista:
-        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario__in = [4,5])
-    elif contratista and cliente:
-        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario__in = [1,4])
+        participantes = proyecto.participantes.select_related("perfil").all().filter(perfil__rol_usuario__in = [4,5,6])
 
     for user in participantes:
         recipients.append(user.email)
@@ -50,7 +48,6 @@ def umbral_2_cliente():
 
 
         if delta_proyect.days >= last_hu.cliente_tiempo_control:
-            print("Se notifica para proyecto {}!".format(proyecto.nombre))
             documentos = Documento.objects.filter(proyecto=proyecto)
             for documento in documentos:
                 revision = Version.objects.filter(documento_fk=documento).last()
@@ -127,7 +124,6 @@ def umbral_2_contratista():
 
 
         if delta_proyect.days >= last_hu.contratista_tiempo_control:
-            print("Se notifica para proyecto {}!".format(proyecto.nombre))
             documentos = Documento.objects.filter(proyecto=proyecto)
             for documento in documentos:
                 revision = Version.objects.filter(documento_fk=documento).last()
@@ -205,7 +201,6 @@ def umbral_3_contratista():
         delta_proyect = (fecha_actual - last_hu.last_checked)
 
         if delta_proyect.days >= last_hu.contratista_tiempo_control:
-            print("Se notifica para proyecto {}!".format(proyecto.nombre))
             documentos = Documento.objects.filter(proyecto=proyecto)
             for documento in documentos:
                 revision = Version.objects.filter(documento_fk=documento).last()
@@ -346,7 +341,7 @@ def umbral_3_cliente():
         else:
             pass
 
-    return revision_list
+    return notified
 
 def get_queryset():
     proyectos = Proyecto.objects.all()
@@ -1062,6 +1057,7 @@ def umbral_4():
     fecha_actual = timezone.now()
     fechas_controles = Obtener_fechas()
     proyectos = Proyecto.objects.all()
+    notified = []
 
     for proyecto in proyectos:  
         valor_ganado = Documento.objects.filter(proyecto=proyecto).count()
@@ -1126,9 +1122,12 @@ def umbral_4():
                                 noti_hu = NotificacionHU(
                                     h_umbral=last_hu,
                                     notificacion=noti,
-                                    porcentaje_atraso=proyecto
+                                    porcentaje_atraso=[diferencia_avance, avance_programado, avance_real]
                                 )
                                 noti_hu.save()
+
+                                aux = [usuario, proyecto]
+                                notified.append(aux)
 
                             last_hu.last_checked = timezone.now()
                             last_hu.save()
@@ -1171,9 +1170,12 @@ def umbral_4():
                                 noti_hu = NotificacionHU(
                                     h_umbral=last_hu,
                                     notificacion=noti,
-                                    porcentaje_atraso=proyecto
+                                    porcentaje_atraso=[diferencia_avance, avance_programado, avance_real]
                                 )
                                 noti_hu.save()
+
+                                aux = [usuario, proyecto]
+                                notified.append(aux)
 
                             last_hu.last_checked = timezone.now()
                             last_hu.save()
@@ -1225,6 +1227,9 @@ def umbral_4():
                                 )
                                 noti_hu.save()
 
+                                aux = [usuario, proyecto]
+                                notified.append(aux)
+
                             last_hu.last_checked = timezone.now()
                             last_hu.save()
 
@@ -1266,6 +1271,9 @@ def umbral_4():
                                 )
                                 noti_hu.save()
 
+                                aux = [usuario, proyecto]
+                                notified.append(aux) 
+
                             last_hu.last_checked = timezone.now()
                             last_hu.save()
 
@@ -1274,6 +1282,7 @@ def umbral_4():
                             return error
                 else:
                     pass
+            
             else:
                 pass
 
@@ -1281,3 +1290,5 @@ def umbral_4():
 
         else:
             pass
+
+    return notified

@@ -10,9 +10,11 @@ urlpatterns = [
     path('nuevo-user/', views.UsuarioView.as_view(), name='crear-usuario'),
     path('editar-user/<pk>/', views.UsuarioEdit.as_view(), name='editar-usuario'),
     path('eliminar-user/<pk>/', views.UsuarioDelete.as_view(), name='eliminar-usuario'),
+    path('deshabilitar-user/<pk>/', views.UsuarioDisable.as_view(), name='disable-usuario'),
+    path('habilitar-user/<pk>/', views.UsuarioEnable.as_view(), name='enable-usuario'),
     path('detalle-user/<pk>/', views.UsuarioDetail.as_view(), name ='detalle-usuario'),
     path('validate/<uidb64>/<token>/', views.UserValidation.as_view(), name='validate-usuario'),
-    path('change-password/', views.PasswordSetView.as_view(), name='change-password'),
+    path('cambiar-contrasena/', views.PrimeraContrasenaView.as_view(), name='cambiar-contrasena'),
     #URL DE PROYECTOS
     path('proyecto-detalle/<pk>/', views.ProyectoDetail.as_view(), name='detalle-proyecto'),
     path('proyecto-editar/<pk>/', views.ProyectoEdit.as_view(), name='editar-proyecto'),

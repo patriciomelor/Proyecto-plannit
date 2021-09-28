@@ -28,13 +28,13 @@ class StatusIndex(ProyectoMixin, TemplateView):
 
     def get_versiones_last(self):
         qs1 = self.get_queryset()
-        qs2 = Version.objects.select_related('documento_fk').prefetch_related("paquete_set", "paquete_set__destinatario").filter(documento_fk__in=qs1) #.select_related("owner").filter(owner__in=users)
+        qs2 = Version.objects.select_related('documento_fk').prefetch_related("paquete_set", "paquete_set__destinatario").filter(documento_fk__in=qs1).order_by('fecha') #.select_related("owner").filter(owner__in=users)
+
         return qs2
     
     def get_context_data(self, **kwargs):
 
         context = super().get_context_data(**kwargs)
-        documentos = self.get_queryset()
 
         context['Listado'] = self.tabla()
         # context['filter'] = DocFilter(self.request.GET, queryset=documentos)
@@ -61,7 +61,9 @@ class StatusIndex(ProyectoMixin, TemplateView):
             version = 0
             for versiones in versiones_documento:
                 if doc == versiones.documento_fk and comprobacion_first == 0:
+                    comprobacion_first = 1
                     version_first = versiones
+                    version = versiones
                 if doc == versiones.documento_fk:
                     version = versiones
 
