@@ -178,7 +178,7 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
 
         return qs
     
-class UsuarioDelete(ProyectoMixin, AdminViewMixin, View):
+class UsuarioDelete(ProyectoMixin, SuperuserViewMixin, View):
     model = User
     template_name = 'configuracion/delete-user.html'
     success_message = 'Usuario deshabilitado correctamente.'
@@ -257,22 +257,33 @@ class UsuarioRemove(ProyectoMixin, SuperuserViewMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_list = []
-        all_users = User.objects.all()
         current_users = self.proyecto.participantes.all()
-        for user in all_users:
-            if user in current_users:
-                user_list.append(user)
-
-        context['users'] = user_list
+        context['users'] = current_users
         return context
 
     def post(self, request, *args, **kwargs):
-        usuario_ids = self.request.POST.getlist('id[]')
+        usuario_ids = self.request.POST.getlist('users')
         for usuario in usuario_ids:
             user = User.objects.get(pk=usuario)
-            proyecto_remove = self.proyecto
-            proyecto_remove.participantes.remove(user)
+            self.proyecto.participantes.remove(user)
+        return redirect('listar-usuarios')
+
+class UsuarioDisable(ProyectoMixin, AdminViewMixin, View):
+    template_name = 'configuracion/disable-user.html'
+    success_message = 'Usuario deshabilitado del proyecto correctamente'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
+        return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request,self.template_name,context=self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        user_id = self.kwargs["pk"]
+        user = User.objects.get(pk=user_id)
+        self.proyecto.participantes.remove(user)
         return redirect('listar-usuarios')
 
 class ProyectoList(ProyectoMixin, AdminViewMixin, ListView):
