@@ -65,13 +65,12 @@ def VPC_signal(sender, instance, *args, **kwargs):
                             notificacion=noti,
                         )
                         noti_hu.save()
-                        noti_hu.versiones.add(instance)
+                        noti_hu.versiones.add(current)
+                        noti_hu.documentos.add(current.documento_fk)
                         
                         aux = [usuario, proyecto]
                         notified.append(aux)
                     
-                    return notified
-
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 1. {}".format(err)
                     print(error)
@@ -83,3 +82,5 @@ def VPC_signal(sender, instance, *args, **kwargs):
             pass
     else:
         pass
+
+    return notified
