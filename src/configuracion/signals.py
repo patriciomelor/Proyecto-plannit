@@ -8,9 +8,20 @@ from notifications.models import Notificacion
 
 from bandeja_es.models import Version
 
+
+def get_users(proyecto):
+    recipients = []
+    notification_list = []
+    participantes = proyecto.participantes.all()
+    for usuario in participantes:
+        recipients.append(usuario.email)
+        notification_list.append(usuario)
+
+    return [recipients, notification_list]
+
 @receiver(pre_save, sender=Version)
 def VPC_signal(sender, instance, *args, **kwargs):
-
+    notified = []
     current = instance
     try:
         last = Version.objects.filter(documento_fk=instance.documento_fk).last()        
@@ -20,32 +31,26 @@ def VPC_signal(sender, instance, *args, **kwargs):
 
     if not last == None:
         if last.estado_cliente == 5:
-            if last.revision != current.revision :
-                recipients = []
-                notification_list = []
-                proyecto = instance.documento_fk.proyecto
-                participantes = proyecto.participantes.all()
-                for user in participantes:
-                    recipients.append(user.email)
-                    notification_list.append(user)
-                
-                subject = "[UMBRAL {proyecto}] Documento Actualizado - {date}.".format(proyecto=proyecto.nombre, date=timezone.now().strftime("%d-%B-%y"))
-
+            if last.revision != current.revision :                
                 try:
+                    proyecto = instance.documento_fk.proyecto
+                    usuarios = get_users(proyecto=proyecto)
+                    subject = "[UMBRAL {proyecto}] Documento Actualizado - {date}.".format(proyecto=proyecto.codigo, date=timezone.now().strftime("%d-%B-%y"))
+
                     send_email(
                         html= 'configuracion/umbral_1.html',
                         context= {
                             "revision": instance,
                         },
                         subject=subject,
-                        recipients= recipients
+                        recipients= usuarios[0]
                     )
 
                     last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=1).last()
                     last_hu.last_checked = timezone.now()
                     last_hu.save()
 
-                    for usuario in notification_list:
+                    for usuario in usuarios[1]:
 
                         noti = Notificacion(
                             proyecto=proyecto,
@@ -61,9 +66,11 @@ def VPC_signal(sender, instance, *args, **kwargs):
                         )
                         noti_hu.save()
                         noti_hu.versiones.add(instance)
-                        print("notification added")
-
-                    return instance
+                        
+                        aux = [usuario, proyecto]
+                        notified.append(aux)
+                    
+                    return notified
 
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 1. {}".format(err)

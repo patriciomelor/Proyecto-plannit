@@ -188,6 +188,9 @@ class UsuarioDelete(ProyectoMixin, AdminViewMixin, View):
         context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
         return context
 
+    def get(self, request, *args, **kwargs):
+        return render(request,self.template_name,context=self.get_context_data())
+
     def post(self, request, *args, **kwargs):
         user_id = self.kwargs["pk"]
         user = User.objects.get(pk=user_id)
@@ -490,7 +493,7 @@ class UmbralesNotificados(ProyectoMixin, ListView):
 
     def get_queryset(self):
         # if self.request.user.perfil.rol_usuario == 4:
-        n_hu = NotificacionHU.objects.select_related("h_umbral", "h_umbral__umbral").filter(h_umbral__proyecto=self.proyecto, notificacion__usuario=self.request.user).order_by("date")
+        n_hu = NotificacionHU.objects.select_related("h_umbral", "h_umbral__umbral").filter(h_umbral__proyecto=self.proyecto, notificacion__usuario=self.request.user).order_by("-date")
         return n_hu
 
     def get_context_data(self, **kwargs):
