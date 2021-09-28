@@ -178,7 +178,7 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
 
         return qs
     
-class UsuarioDelete(ProyectoMixin, AdminViewMixin, View):
+class UsuarioDelete(ProyectoMixin, SuperuserViewMixin, View):
     model = User
     template_name = 'configuracion/delete-user.html'
     success_message = 'Usuario deshabilitado correctamente.'
