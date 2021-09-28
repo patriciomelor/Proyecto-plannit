@@ -22,7 +22,7 @@
                     </button>
                     <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
                     <h4 class="tx-danger  tx-semibold mg-b-20">ATENCIÓN: Esta apunto de DESHABILITAR a un usuario!</h4>                    
-                     <form method="POST" action="{% url 'eliminar-usuario' usuario.pk %}">{% csrf_token %}
+                     <form method="POST" action="{% url 'disable-usuario' usuario.pk %}">{% csrf_token %}
                     <p class="mg-b-20 mg-x-20">
                         <p class="mg-b-0 tx-uppercase tx-bold tx-inverse tx-poppins mg-t-10">¿Estás seguro que quieres quitar a {{usuario.first_name}} {{usuario.last_name}} <br> del Proyecto {{ proyecto.nombre }} ?</p>
                         <input type="submit" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" onclick="windows.close();" value="Confirmar">
