@@ -68,4 +68,4 @@ class TareaForm(forms.ModelForm):
 class RespuestaForm(forms.ModelForm):
     class Meta:
         model = Respuesta
-        exclude = ["tarea", "sent"]
+        exclude = ["tarea", "sent", "estado"]

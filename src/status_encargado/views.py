@@ -186,11 +186,13 @@ class CreateRespuesta(ProyectoMixin, CreateView):
             return redirect('encargado-index')
         try:
             last_anwser = Respuesta.objects.filter(tarea=task).last()
+        except Respuesta.DoesNotExist:
+            last_anwser = None
+
+        if last_anwser:
             if last_anwser.estado == 1 or last_anwser.estado == 2:
                 messages.add_message(request, messages.INFO, "Tarea ya fue aprobada o se encuentra sin evaluación")
                 return redirect('encargado-index')
-        except Respuesta.DoesNotExist:
-            pass
 
         return super().dispatch(request, *args, **kwargs)
 
@@ -249,20 +251,18 @@ class TareaDetailView(ProyectoMixin, View):
     def post(self, request, *args, **kwargs):
         aprobado =  request.POST.getlist("aprobado")
         rechazado =  request.POST.getlist("rechazado")
-        aprobado = aprobado[0].split(",")
+
         if aprobado:
             task = self.get_queryset()
             task.estado = True
             task.save()
-            aprobado = aprobado[0].split(",")
-            answer_id = aprobado[1]
+            answer_id = aprobado[0]
             anwser = Respuesta.objects.get(pk=answer_id)
             anwser.estado = 2
             anwser.save()
             messages.add_message(request, messages.SUCCESS, "Tarea aceptada")
         elif rechazado:
-            rechazado = rechazado[0].split(",")
-            answer_id = rechazado[1]
+            answer_id = rechazado[0]
             anwser = Respuesta.objects.get(pk=answer_id)
             anwser.estado = 3
             anwser.save()
