@@ -288,7 +288,7 @@ class UsuarioDisable(ProyectoMixin, AdminViewMixin, View):
 
 
 class UsuarioEnable(ProyectoMixin, AdminViewMixin, View):
-    template_name = 'configuración/enable-user.html'
+    template_name = 'configuracion/enable-user.html'
     success_message = 'Usuario reintegrado al sistema correctamente'
 
 
