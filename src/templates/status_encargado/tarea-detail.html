@@ -77,71 +77,85 @@
             </div><!-- card -->
           </div><!-- col-6 -->
 </div>
+
 <div class="row row-sm mg-t-20">
   <div class="col-lg-12 mg-t-20 mg-lg-t-0">
     <div class="card shadow-base bd-0">
       <div class="card-header pd-20 bg-transparent">
         <h6 class="card-title tx-uppercase tx-12 mg-b-0">Datos de Respuesta revisor</h6>
       </div><!-- card-header -->
-      <table class="table mg-b-0 tx-12 table-primary">
-        <thead>
-          <tr class="tx-10">
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">RESPONSABLE</th>
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Fecha Contestado</th>
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">No Cumplimiento</th>
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Cantidad HH</th>
-        {% if tarea.task_answer.archivo.url is not None%}
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> Descargar </th>
-        {% else %}
-        <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> </th>
-        {% endif %}
-          </tr>
-        </thead>
-        <tbody>
-            {% if tarea.task_answer %}
-            <tr role="row" class="odd">
-              <th style="text-align: center;vertical-align:middle;" > {{tarea.encargado}} </th>
-              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contestado|date:'d-M-y H:i'}} </th>
-              <th style="text-align: center;vertical-align:middle;" > {% if tarea.task_answer.not_done is None %} No registrado             
-              {% else %}
-              {{tarea.task_answer.not_done}}
-              {% endif %}  </th>
-              <th style="text-align: center;vertical-align:middle;" > {{tarea.task_answer.contidad_hh}} </th>
-              {% if tarea.task_answer.archivo.url is not None%}
-              <th style="text-align: center;vertical-align:middle;" > <a type="submit" href="{{tarea.task_answer.archivo.url}}"><i class="icon ion-arrow-down-a" style="color:orange;"></i></a></th>
-              {% else %}
-              <th style="text-align: center;vertical-align:middle;" >  </th>
-              {% endif %}
 
+      {% for answer in tarea.task_answer.all %}
+      <form action="{% url 'detail-tarea' tarea.pk %}" method="post">{% csrf_token %}
+        <table class="table mg-b-0 tx-12 table-primary">
+          <thead>
+            <tr class="tx-10">
+          <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">RESPONSABLE</th>
+          <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Fecha Contestado</th>
+          <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">No Cumplimiento</th>
+          <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Cantidad HH</th>
+          {% if answer.archivo.url is not None%}
+          <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> Descargar </th>
+          {% else %}
+          <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> </th>
+          {% endif %}
             </tr>
-            <tr>
-              <th colspan="5">
-                    <div class="card bd-0">
-                      <div class="card-header tx-medium bd-0 tx-white bg-info">
-                        Comentarios:
-                      </div><!-- card-header -->
-                      <div class="card-body bd bd-t-0 rounded-bottom">
-                        <p class="mg-b-0">
-                          {{tarea.task_answer.comentarios}} 
-                        </p>
-                      </div><!-- card-body -->
-                  </div>
-              </th>
+          </thead>
+          <tbody>
+              <tr role="row" class="odd">
+                <th style="text-align: center;vertical-align:middle;" > {{tarea.encargado}} </th>
+                <th style="text-align: center;vertical-align:middle;" > {{answer.contestado|date:'d-M-y H:i'}} </th>
+                <th style="text-align: center;vertical-align:middle;" > {% if answer.not_done is None %} No registrado             
+                {% else %}
+                {{answer.not_done}}
+                {% endif %}  </th>
+                <th style="text-align: center;vertical-align:middle;" > {{answer.contidad_hh}} </th>
+                {% if answer.archivo.url is not None%}
+                <th style="text-align: center;vertical-align:middle;" > <a type="submit" href="{{answer.archivo.url}}"><i class="icon ion-arrow-down-a" style="color:orange;"></i></a></th>
+                {% else %}
+                <th style="text-align: center;vertical-align:middle;" >  </th>
+                {% endif %}
+
               </tr>
-            {% else %}   
+              <tr>
+                <th colspan="5">
+                      <div class="card bd-0">
+                        <div class="card-header tx-medium bd-0 tx-white bg-info">
+                          Comentarios:
+                        </div><!-- card-header -->
+                        <div class="card-body bd bd-t-0 rounded-bottom">
+                          <p class="mg-b-0">
+                            {{answer.comentarios}} 
+                          </p>
+                        </div><!-- card-body -->
+                    </div>
+                </th>
+                </tr>
+          </tbody>
+        </table>
+        {% if answer.estado == 1 %}
+          <div class="form-layout-footer mg-t-30">
+            <input name="aprobado" type="submit" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" value="1,{{answer.pk}}" placeholder="Aceptar">
+            <input name="rechazado" type="submit" class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" value="0,{{answer.pk}}" placeholder="Rechazar">
+          </div>
+        {% endif %}
+      </form>
+
+      {% empty %}
+      <form action="{% url 'detail-tarea' tarea.pk %}" method="post">{% csrf_token %}
+        <table class="table mg-b-0 tx-12 table-primary">
+          <thead></thead>
+          <tbody>
             <tr role="row" class="odd">
-              <th colspan="5" style="text-align: center;vertical-align:middle;"> 
-            <div class="card-header pd-20 bg-transparent">
-              <h6 class="card-title tx-uppercase tx-12 mg-b-0">Sin Respuesta</h6>
-            </div><!-- card-header -->
-              </th>
-              </tr>         
-              
-            {% endif %}
-       
-        </tbody>
-      </table>
-       <div class="form-layout-footer mg-t-30">
+              <th style="text-align: center;vertical-align:middle;" > Sin Respuesta </th>
+            </tr>
+          </tbody>
+        </table>
+      </form>
+
+      {% endfor %}
+
+      <div class="form-layout-footer mg-t-30">
         <button class="btn btn-warning mg-l-10" type="button" onClick="javascript:history.go(-1);"> volver</button></a>
       </div>
     </div><!-- card -->

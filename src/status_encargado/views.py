@@ -1,3 +1,4 @@
+from django.template import context
 from tools.objects import AdminViewMixin, VisualizadorViewMixin
 from django.db.models.query_utils import select_related_descend
 from django.forms.forms import Form
@@ -15,6 +16,7 @@ from django.contrib import messages
 from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE
 from status_encargado.forms import RespuestaForm, TareaForm
 import datetime
+from notifications.emails import send_email
 
 from .models import Tarea, Respuesta
 from status_encargado import models
@@ -155,21 +157,62 @@ class CreateTarea(ProyectoMixin, AdminViewMixin, CreateView):
         initial["documento"] = doc_pk
         return initial
 
+    # def form_valid(self, form):
+    #     task = form.save(commit=False)
+    #     send_email(
+    #         html="status_encargado/task_email.html",
+    #         context= {
+    #             "task": task
+    #         },
+    #         subject="Se te ha asignado una Tarea !",
+    #         recipients=[task.encargado]
+    #     )
+    #     return super().form_valid(form)
+
 class CreateRespuesta(ProyectoMixin, CreateView):
     template_name = 'status_encargado/create-respuesta.html'
     form_class = RespuestaForm
     success_url = reverse_lazy('revisor-index')
     success_message = 'Respuesta enviada correctamente.'
 
+    def dispatch(self, request, *args, **kwargs):
+        try:
+            task = Tarea.objects.get(pk=self.kwargs["task_pk"])
+            if task.estado:
+                messages.add_message(request, messages.INFO, "Tarea ya fue aprobada")
+                return redirect('encargado-index')
+        except Tarea.DoesNotExist:
+            messages.add_message(request, messages.INFO, "Tarea no encontrada en la base de datos")
+            return redirect('encargado-index')
+        try:
+            last_anwser = Respuesta.objects.filter(tarea=task).last()
+            if last_anwser.estado == 1 or last_anwser.estado == 2:
+                messages.add_message(request, messages.INFO, "Tarea ya fue aprobada o se encuentra sin evaluación")
+                return redirect('encargado-index')
+        except Respuesta.DoesNotExist:
+            pass
+
+        return super().dispatch(request, *args, **kwargs)
+
     def form_valid(self, form):
         answer = form.save(commit=False)
         task = Tarea.objects.get(pk=self.kwargs["task_pk"])
-        task.estado = True
-        task.save()
         answer.tarea = task
         answer.sent = True
         answer.save()
         return super().form_valid(form)
+
+    # def form_valid(self, form):
+    #     task = form.save(commit=False)
+    #     send_email(
+    #         html="status_encargado/task_email.html",
+    #         context= {
+    #             "task": task
+    #         },
+    #         subject="Se te ha asignado una Tarea !",
+    #         recipients=[task.encargado]
+    #     )
+    #     return super().form_valid(form)
 
 class RevisorView(ProyectoMixin, ListView):
     template_name = "status_encargado/revisor-index.html"
@@ -186,10 +229,47 @@ class RespuestaDetail(ProyectoMixin, DetailView):
     template_name = 'status_encargado/respuesta-detail.html'
     context_object_name = 'respuesta'
 
-class TareaDetailView(ProyectoMixin, DetailView):
+class TareaDetailView(ProyectoMixin, View):
     model = Tarea
     template_name = 'status_encargado/tarea-detail.html'
-    context_object_name = 'tarea'
+    success_message = 'Tarea ha sido aprobada con exito'
+
+    def get_queryset(self):
+        task = Tarea.objects.prefetch_related("task_answer").get(pk=self.kwargs["pk"])
+        return task
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tarea'] = self.get_queryset()
+        return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
+
+    def post(self, request, *args, **kwargs):
+        aprobado =  request.POST.getlist("aprobado")
+        rechazado =  request.POST.getlist("rechazado")
+        aprobado = aprobado[0].split(",")
+        if aprobado:
+            task = self.get_queryset()
+            task.estado = True
+            task.save()
+            aprobado = aprobado[0].split(",")
+            answer_id = aprobado[1]
+            anwser = Respuesta.objects.get(pk=answer_id)
+            anwser.estado = 2
+            anwser.save()
+            messages.add_message(request, messages.SUCCESS, "Tarea aceptada")
+        elif rechazado:
+            rechazado = rechazado[0].split(",")
+            answer_id = rechazado[1]
+            anwser = Respuesta.objects.get(pk=answer_id)
+            anwser.estado = 3
+            anwser.save()
+            messages.add_message(request, messages.INFO, "Tarea Rechazada")
+
+        return redirect('encargado-index')
+
 
 class TareaEditView(ProyectoMixin, UpdateView):
     model = Tarea
