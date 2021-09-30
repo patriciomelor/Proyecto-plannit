@@ -86,6 +86,10 @@
       </div><!-- card-header -->
 
       {% for answer in tarea.task_answer.all %}
+        <div class="card shadow-base bd-0">
+      <div class="card-header pd-20 bg-transparent">
+        <h6 class="card-title tx-uppercase tx-12 mg-b-0"></h6>
+      </div><!-- card-header -->
       <form action="{% url 'detail-tarea' tarea.pk %}" method="post">{% csrf_token %}
         <table class="table mg-b-0 tx-12 table-primary">
           <thead>
@@ -100,7 +104,7 @@
           {% else %}
           <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> </th>
           {% endif %}
-            </tr>
+            
           </thead>
           <tbody>
               <tr role="row" class="odd">
@@ -116,8 +120,11 @@
                 {% endif %}
 
               </tr>
-              <tr>
-                <th colspan="5">
+              
+              <tr >
+              
+                <th colspan="6">
+                <hr>
                       <div class="card bd-0">
                         <div class="card-header tx-medium bd-0 tx-white bg-info">
                           Comentarios:
