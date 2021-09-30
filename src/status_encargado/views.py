@@ -43,11 +43,15 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         tasks = []
         tareas = Tarea.objects.select_related('encargado', 'encargado__perfil', 'documento').filter(documento__proyecto=self.proyecto).order_by('-created_at')
+        
         current_rol = self.request.user.perfil.rol_usuario
         for tarea in tareas:
             cantidad_hh = 0
             last_answer = tarea.task_answer.last()
             all_answer = tarea.task_answer.all()
+
+            for resp in all_answer:
+                cantidad_hh = cantidad_hh + resp.contidad_hh
 
             rol = tarea.encargado.perfil.rol_usuario
 
@@ -524,7 +528,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             for tareas in task:
                 if tareas.encargado == user:
                     hh_asignados = hh_asignados + tareas.contidad_hh
-                    respuestas = Respuesta.objects.filter(tarea=tareas)
+                    respuestas = tareas.task_answer.all()
                     try:
                         for resp in respuestas:
                             hh_realizados = hh_realizados + resp.contidad_hh
@@ -533,8 +537,8 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             if hh_asignados != 0:
                 final_list.append([(user.first_name+" "+user.last_name), hh_asignados, hh_realizados])
 
-        lista_grafico_uno = self.tamano_grafico_2(lista_grafico_uno = final_list)
-        dividendo = self.espacios_grafico_2(dividendo = lista_grafico_uno)
+        lista_grafico_uno = self.tamano_grafico_3(lista_grafico_uno = final_list)
+        dividendo = self.espacios_grafico_3(dividendo = lista_grafico_uno)
 
         final = []
         final.append(final_list)
@@ -566,7 +570,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         #Se selecciona al valor mayor
         if maximo_pos_1 >= maximo_pos_2:
             maximo = maximo_pos_1
-        if maximo_pos_2 > maximo_pos_1:
+        if maximo_pos_1 < maximo_pos_2:
             maximo = maximo_pos_2
 
         #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
@@ -611,7 +615,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
         for tarea in task:
             total_asignados = total_asignados + tarea.contidad_hh
-            respuestas = Respuesta.objects.filter(tarea=tarea)
+            respuestas = tarea.task_answer.all()
             if tarea.estado == True:
                 try:
                     for resp in respuestas:
@@ -662,7 +666,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
                 if tarea.encargado == user:
                     asignados = asignados + 1
                     if tarea.estado == True:
-                        respuestas = Respuesta.objects.filter(tarea=tarea).last()
+                        respuestas = tarea.task_answer.last()
                         contador_respuesta =0
                         contador_plazo = 0     
                         tarea_respuesta = ''   
@@ -689,8 +693,8 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             if asignados != 0:
                 final_list.append([(user.first_name+" "+user.last_name), realizados_tiempo, realizados_atrasados, atrasados])
 
-        lista_grafico_uno = self.tamano_grafico_2(lista_grafico_uno = final_list)
-        dividendo = self.espacios_grafico_2(dividendo = lista_grafico_uno)
+        lista_grafico_uno = self.tamano_grafico_6(lista_grafico_uno = final_list)
+        dividendo = self.espacios_grafico_6(dividendo = lista_grafico_uno)
 
         final = []
         final.append(final_list)
