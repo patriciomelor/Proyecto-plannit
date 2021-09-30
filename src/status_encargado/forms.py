@@ -65,6 +65,8 @@ class TareaForm(forms.ModelForm):
             'plazo': forms.DateInput(attrs={'type':'date'}),
             'comentarios': forms.Textarea(attrs={'style':'margin-top: 0px; margin-bottom: 0px; height: 63px;'}),
         }
+
+
 class RespuestaForm(forms.ModelForm):
     class Meta:
         model = Respuesta

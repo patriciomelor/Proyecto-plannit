@@ -159,7 +159,7 @@ class UsuarioEdit(ProyectoMixin, AdminViewMixin, UpdateView):
         perfil.cargo_empresa = cargo
         perfil.save()
         return super().form_valid(form)
-    
+
 class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
     model = User
     template_name = 'configuracion/list-user.html'
@@ -177,27 +177,30 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
             qs = self.proyecto.participantes.prefetch_related("perfil").all()
 
         return qs
-    
+
 class UsuarioDelete(ProyectoMixin, SuperuserViewMixin, View):
     model = User
     template_name = 'configuracion/delete-user.html'
     success_message = 'Usuario deshabilitado correctamente.'
 
+    def get_queryset(self):
+        qs = User.objects.get(pk=self.kwargs["pk"])
+        return qs
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
+        context["usuario"] = self.get_queryset()
         return context
 
     def get(self, request, *args, **kwargs):
         return render(request,self.template_name,context=self.get_context_data())
 
     def post(self, request, *args, **kwargs):
-        user_id = self.kwargs["pk"]
-        user = User.objects.get(pk=user_id)
+        user = self.get_queryset()
         user.is_active = False
         user.save()
         return redirect('listar-usuarios')
-    
+
 class UsuarioDetail(ProyectoMixin, UpdateView):
     model = User
     form_class = EditProfile
@@ -272,38 +275,44 @@ class UsuarioDisable(ProyectoMixin, AdminViewMixin, View):
     template_name = 'configuracion/disable-user.html'
     success_message = 'Usuario deshabilitado del proyecto correctamente'
 
+    def get_queryset(self):
+        qs = User.objects.get(pk=self.kwargs["pk"])
+        return qs
+    
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
+        context["usuario"] = self.get_queryset()
         return context
 
     def get(self, request, *args, **kwargs):
         return render(request,self.template_name,context=self.get_context_data())
 
     def post(self, request, *args, **kwargs):
-        user_id = self.kwargs["pk"]
-        user = User.objects.get(pk=user_id)
+        user = self.get_queryset()
         self.proyecto.participantes.remove(user)
         return redirect('listar-usuarios')
-
 
 class UsuarioEnable(ProyectoMixin, AdminViewMixin, View):
     template_name = 'configuracion/enable-user.html'
     success_message = 'Usuario reintegrado al sistema correctamente'
 
+    def get_queryset(self):
+        qs = User.objects.get(pk=self.kwargs["pk"])
+        return qs
+    
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["usuario"] = User.objects.get(pk=self.kwargs["pk"])
+        context["usuario"] = self.get_queryset()
         return context
 
     def get(self, request, *args, **kwargs):
         return render(request,self.template_name,context=self.get_context_data())
 
     def post(self, request, *args, **kwargs):
-        user_id = self.kwargs["pk"]
-        user = User.objects.get(pk=user_id)
+        user = self.get_queryset()
         user.is_active = True
+        user.save()
         return redirect('listar-usuarios')
 
 class ProyectoList(ProyectoMixin, AdminViewMixin, ListView):
