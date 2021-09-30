@@ -177,7 +177,7 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
             qs = self.proyecto.participantes.prefetch_related("perfil").all()
 
         return qs
-
+#DESHABILITA LOS USUARIOS is_active = False
 class UsuarioDelete(ProyectoMixin, SuperuserViewMixin, View):
     model = User
     template_name = 'configuracion/delete-user.html'
@@ -292,7 +292,8 @@ class UsuarioDisable(ProyectoMixin, AdminViewMixin, View):
         self.proyecto.participantes.remove(user)
         return redirect('listar-usuarios')
 
-class UsuarioEnable(ProyectoMixin, AdminViewMixin, View):
+#HABILITA LOS USUARIOS is_active = True
+class UsuarioEnable(ProyectoMixin, SuperuserViewMixin, View):
     template_name = 'configuracion/enable-user.html'
     success_message = 'Usuario reintegrado al sistema correctamente'
 
