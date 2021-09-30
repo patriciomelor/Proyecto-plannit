@@ -70,18 +70,18 @@
 
               {% endif %}
 
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'editar-usuario' usuario.pk %}" > <i class="fa fa-pencil"></i> </a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'editar-usuario' usuario.pk %}" data-toggle="tooltip" data-placement="right" title="Modificar datos del usuario"> <i class="fa fa-pencil"></i> </a></th>
               {% if request.user.perfil.rol_usuario == 4 or request.user.perfil.rol_usuario == 1 %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'disable-usuario' usuario.pk %}" style="color:red;"> <i class="fa fa-trash"></i> </a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'disable-usuario' usuario.pk %}" style="color:red;"data-toggle="tooltip" data-placement="right" title="Desvincular Usuario del proyecto"> <i class="fa fa-trash"></i> </a></th>
               
               {% else %}
               {% endif %}
               {% if request.user.is_superuser  %}
                 {% if  usuario.is_active == True %}
-              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'eliminar-usuario' usuario.pk %}" ><h6 style="color: red"><strong>&#9587;</strong></h6></a></th>
+              <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'eliminar-usuario' usuario.pk %}" ><h6 style="color: red"data-toggle="tooltip" data-placement="right" title="Deshabilitar Usuario de la plataforma"><strong>&#9587;</strong></h6></a></th>
                 
                 {% else %}
-                <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'enable-usuario' usuario.pk %}" ><h6 style="color: green"><strong>&#10004;</strong></h6></a></th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" style="width:auto;"><a href="{% url 'enable-usuario' usuario.pk %}" ><h6 style="color: green"data-toggle="tooltip" data-placement="right" title="Habilitar Usuario en la Plataforma"><strong>&#10004;</strong></h6></a></th>
            
                 {% endif %}
               
