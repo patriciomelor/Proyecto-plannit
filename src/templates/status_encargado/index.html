@@ -484,7 +484,7 @@
                           font-size: 10px;
                           padding: 5px;
                         ">
-                          {{tarea.documento.Codigo_documento}}
+                          {{tarea.0.documento.Codigo_documento}}
                         </th>
                         <th style="
                           text-align: center;
@@ -492,7 +492,7 @@
                           font-size: 10px;
                           padding: 5px;
                         ">
-                          {{tarea.documento.Descripcion}}
+                          {{tarea.0.documento.Descripcion}}
                         </th>
                         <th style="
                           text-align: center;
@@ -500,7 +500,7 @@
                           font-size: 10px;
                           padding: 5px;
                         ">
-                          {% if tarea.estado == False %}
+                          {% if tarea.0.estado == False %}
                           <h6 style="color: red"><strong>&#9587;</strong></h6>
                           {% else %}
                           <h5 style="color: green"><strong>&#10004;</strong></h5>
@@ -513,7 +513,7 @@
                           font-size: 10px;
                           padding: 5px;
                         ">
-                          {{tarea.encargado}}
+                          {{tarea.0.encargado}}
                         </th>
                         <th style="
                           text-align: center;
@@ -521,7 +521,7 @@
                           font-size: 10px;
                           padding: 5px;
                         ">
-                          {{tarea.contidad_hh}}
+                          {{tarea.0.contidad_hh}}
                         </th>
                         <th style="
                           text-align: center;
@@ -529,33 +529,33 @@
                           font-size: 10px;
                           padding: 5px;
                         ">
-                          {{tarea.task_answer.contidad_hh}}
+                          {{tarea.2}}
                         </th>
                         <th style="text-align: center; vertical-align: middle; font-size: 10px; padding: 5px; ">
-                          {% if tarea.restricciones == None %}
+                          {% if tarea.0.restricciones == None %}
                           Sin restricción 
                           {% else %}
-                          {{tarea.restricciones}}
+                          {{tarea.0.restricciones}}
                           {% endif %}
                         </th>
                         <th style="text-align: center; vertical-align: middle; font-size: 10px; padding: 5px;">
-                          {{tarea.created_at|date:'d-M-y'}}
+                          {{tarea.0.created_at|date:'d-M-y'}}
                         </th>
                         <th style="text-align: center;vertical-align: middle;font-size: 10px;padding: 5px;">
-                          {{tarea.plazo|date:'d-M-y'}}
+                          {{tarea.0.plazo|date:'d-M-y'}}
                         </th>
                         <th style="text-align: center; vertical-align: middle; font-size: 10px;padding: 5px;">
-                          {{tarea.task_answer.contestado|date:'d-M-y'}}
+                          {{tarea.1.contestado|date:'d-M-y'}}
                         </th>
                         <th style="text-align: center; vertical-align: middle; font-size: 10px; padding: 5px;">
-                          <a href="{% url 'detail-tarea' tarea.pk %}"><i class="fa fa-eye" style="color: teal"></i></a>
+                          <a href="{% url 'detail-tarea' tarea.0.pk %}"><i class="fa fa-eye" style="color: teal"></i></a>
                         </th>
                         <th style="text-align: center; vertical-align: middle;  font-size: 10px;padding: 5px;">
-                          <a href="{% url 'edit-tarea' tarea.pk %}"><i class="icon ion-edit"
+                          <a href="{% url 'edit-tarea' tarea.0.pk %}"><i class="icon ion-edit"
                               style="color: blue"></i></a>
                         </th>
                         <th style=" text-align: center; vertical-align: middle; font-size: 10px; padding: 5px;">
-                          <a href="{% url 'delete-tarea' tarea.pk %}"><i class="icon ion-trash-b"
+                          <a href="{% url 'delete-tarea' tarea.0.pk %}"><i class="icon ion-trash-b"
                               style="color: red"></i></a>
                         </th>
                       </tr>

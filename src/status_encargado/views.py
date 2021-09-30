@@ -45,6 +45,10 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         tareas = Tarea.objects.select_related('encargado', 'encargado__perfil', 'documento').filter(documento__proyecto=self.proyecto).order_by('-created_at')
         current_rol = self.request.user.perfil.rol_usuario
         for tarea in tareas:
+            cantidad_hh = 0
+            last_answer = tarea.task_answer.last()
+            all_answer = tarea.task_answer.all()
+
             rol = tarea.encargado.perfil.rol_usuario
 
             if current_rol >= 1 and current_rol <= 3:
@@ -52,14 +56,16 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                     if rol == 1: 
                         pass
                     else:
-                        tasks.append(tarea)
+                        lista_aux = [tarea, last_answer, cantidad_hh]
+                        tasks.append(lista_aux)
 
             if current_rol >= 4 and current_rol <= 6:
                 if rol >= 4 and rol <= 6:
                     if rol == 4: 
                         pass
                     else:
-                        tasks.append(tarea)
+                        lista_aux = [tarea, last_answer, cantidad_hh]
+                        tasks.append(lista_aux)
 
         context["tareas"] = tasks
         context['Listado'] = self.tabla_status()
