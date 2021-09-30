@@ -501,10 +501,18 @@
                           padding: 5px;
                         ">
                           {% if tarea.estado == False %}
-                          <h6 style="color: red"><strong>&#9587;</strong></h6>
-                          {% else %}
-                          <h5 style="color: green"><strong>&#10004;</strong></h5>
+                          <h6 style="color: red"data-toggle="tooltip" data-placement="right" title="Tarea en revisión"><strong>&#9587;</strong></h6>
+                          {% elif tarea.estado == True %}
+                          <h5 style="color: green"data-toggle="tooltip" data-placement="right" title="Tarea Aprobada"><strong>&#10004;</strong></h5>
                           {% endif %}
+                           {% comment %} {% if tarea.estado == False %}
+                          <h4 style="color: orange"><strong>&#33;</strong></h4>
+                          {% elif tarea.estado == True %}
+                          <h5 style="color: green" data-toggle="tooltip" data-placement="right" title="Aprobado"><strong>&#10004;</strong></h5>
+                          {% else %}
+                          <h6 style="color: red" data-toggle="tooltip" data-placement="right" title="Rechazado"><strong>&#9587;</strong></h6>
+                          
+                          {% endif %} {% endcomment %}
                         </th>
 
                         <th style="
