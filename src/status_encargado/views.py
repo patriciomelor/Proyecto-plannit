@@ -232,8 +232,21 @@ class RevisorView(ProyectoMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         qs1 = Tarea.objects.filter(encargado=self.request.user, documento__proyecto=self.proyecto).order_by('-created_at')
+
+        qs1_final = []
+
+        for tareas in qs1:
+            qs1_inicial = []
+            answer_all = tareas.task_answer.all()
+            cantidad_hh = 0
+            for answer in answer_all:
+                cantidad_hh = cantidad_hh + answer.contidad_hh
+
+            qs1_inicial = [tareas, cantidad_hh]
+            qs1_final.append(qs1_inicial)
+
         qs2 = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True, tarea__documento__proyecto=self.proyecto).order_by('-contestado')
-        context["tareas"] = qs1
+        context["tareas"] = qs1_final
         context["respuestas"] = qs2
         return context
 

@@ -52,19 +52,19 @@
             <!--Loop Listar Documento-->
                 {% for tarea in tareas %}
                   <tr role="row" class="odd">
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.documento.Codigo_documento}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.documento.Descripcion}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {% if tarea.estado == False %} <h6 style="color:red;"><strong>&#9587;</strong></h6> {% else %} <h5 style="color:green;"><strong>&#10004;</strong></h5> {% endif %}</th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.0.documento.Codigo_documento}} </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.0.documento.Descripcion}} </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {% if tarea.0.estado == False %} <h6 style="color:red;"><strong>&#9587;</strong></h6> {% else %} <h5 style="color:green;"><strong>&#10004;</strong></h5> {% endif %}</th>
 
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.encargado}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.contidad_hh}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.task_answer.contidad_hh}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {% if tarea.restricciones == None %}Sin restricción {% else %}{{tarea.restricciones}}{% endif %} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.created_at|date:'d-M-y'}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.plazo|date:'d-M-y'}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.task_answer.contestado|date:'d-M-y'}} </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'detail-tarea' tarea.pk %}"><i class="fa fa-eye" style="color:teal;"></i></a> </th>
-                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-respuesta' tarea.pk %}"><i class="icon ion-reply" style="color:blue;"></i></a> </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.0.encargado}} </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.0.contidad_hh}} </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.1}} </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {% if tarea.0.restricciones == None %}Sin restricción {% else %}{{tarea.0.restricciones}}{% endif %} </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.0.created_at|date:'d-M-y'}} </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.0.plazo|date:'d-M-y'}} </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > {{tarea.0.task_answer.last.contestado|date:'d-M-y'}} </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'detail-tarea' tarea.0.pk %}"><i class="fa fa-eye" style="color:teal;"></i></a> </th>
+                    <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;" > <a href="{% url 'create-respuesta' tarea.0.pk %}"><i class="icon ion-reply" style="color:blue;"></i></a> </th>
                   </tr>
                 {% endfor %}
               </tbody>
