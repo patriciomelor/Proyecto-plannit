@@ -259,8 +259,9 @@ class TareaDetailView(ProyectoMixin, View):
         return render(request, self.template_name, self.get_context_data())
 
     def post(self, request, *args, **kwargs):
-        aprobado =  request.POST.getlist("aprobado")
-        rechazado =  request.POST.getlist("rechazado")
+        aprobado =  request.POST.getlist("aprobado", None)
+        rechazado =  request.POST.getlist("rechazado", None)
+        motivo = request.POST.get("motivo", None)
 
         if aprobado:
             task = self.get_queryset()
@@ -269,12 +270,14 @@ class TareaDetailView(ProyectoMixin, View):
             answer_id = aprobado[0]
             anwser = Respuesta.objects.get(pk=answer_id)
             anwser.estado = 2
+            anwser.motivo = motivo
             anwser.save()
-            messages.add_message(request, messages.SUCCESS, "Tarea aceptada")
+            messages.add_message(request, messages.SUCCESS, "Tarea Aprobada")
         elif rechazado:
             answer_id = rechazado[0]
             anwser = Respuesta.objects.get(pk=answer_id)
             anwser.estado = 3
+            anwser.motivo = motivo
             anwser.save()
             messages.add_message(request, messages.INFO, "Tarea Rechazada")
 
