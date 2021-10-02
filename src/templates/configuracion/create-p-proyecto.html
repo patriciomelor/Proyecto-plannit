@@ -1,16 +1,16 @@
-{% extends "account/login_base.html" %}
+{% extends "account/login_base_copy.html" %}
+ {% load crispy_forms_tags %} 
+ {% block content %} {% include "messege.html" %}
+<div class="login-wrapper bg-white rounded shadow-base">
+  <div class="login-wrapper pd-25 bg-white rounded shadow-base">
+    <div class="form-group"></div>
+    <!-- form-group -->
+        {{ form|crispy}}
+    <div class="mg-t-5 tx-center">
+      <input type="button" class="btn btn-teal tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" value="Crear Proyecto" />
+      <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" onClick="javascript:history.go(-1);" type="submit"> volver</button>
 
-{% block content %}
-<div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
-        <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-normal">[</span> PLANNIT <span class="tx-normal">]</span></div>
-        <div class="tx-center mg-b-60">Crear Primer Proyecto</div>
-
-        <div class="form-group">
-          {{form|crispy}}
-        </div><!-- form-group -->    
-
-        <div class="mg-t-60 tx-center">
-         <input type="button" class="btn btn-warning" value="Crear Proyecto">
-         </div>
-      </div>
+    </div>
+  </div>
+</div>
 {% endblock content %}

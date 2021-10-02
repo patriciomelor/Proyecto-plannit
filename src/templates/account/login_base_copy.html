@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="es-Es">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+
+    <title> Acceso || PLANNIT</title>
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
+    
+    <!-- vendor css -->
+    <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'Ionicons/css/ionicons.css' %}" rel="stylesheet">
+
+    <!-- Bracket CSS -->
+    <link rel="stylesheet" href="{% static 'css/bracket.css' %}">
+  </head>
+
+  <body>
+
+    <div class="d-flex align-items-center bg-info justify-content-center ">
+      
+      <div class="login-wrapper bg-white rounded shadow-base">
+        
+
+        
+
+        {% block content %}
+        
+        {% endblock content %}
+
+      </div><!-- login-wrapper -->
+    </div><!-- d-flex -->
+
+    <script src="{% static 'jquery/jquery.js' %}" ></script>
+    <script src="{% static 'popper.js/popper.js' %}" ></script>
+    <script src="{% static 'bootstrap/bootstrap.js' %}" ></script> 
+
+  </body>
+</html>

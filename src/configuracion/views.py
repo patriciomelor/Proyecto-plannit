@@ -556,7 +556,7 @@ class UNDetail(ProyectoMixin, DetailView):
         return context
 
 
-class FirstProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
+class FirstProyectoCreate(SuperuserViewMixin, CreateView):
     template_name = 'configuracion/create-p-proyecto.html'
     success_message = 'Proyecto Creado correctamente'
     success_url = reverse_lazy('lista-proyecto')
