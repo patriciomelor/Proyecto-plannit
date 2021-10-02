@@ -403,12 +403,13 @@
             {% endfor %}
           ],
           backgroundColor: [
-                  'rgba(255, 99, 132, 0.8)',
-                  'rgba(54, 162, 235, 0.8)'
+                  'rgba(54, 162, 235, 0.8)',
+                  'rgba(255, 99, 132, 0.8)'
+                  
           ],
           borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)'
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 99, 132, 1)'
           ],
           borderWidth: 1
         }]
@@ -426,7 +427,7 @@
     new Chart(ctx, {
       type: 'pie',
       data: {
-        labels: ['Documentos asignados pendientes', 'Documentos asignados'],
+        labels: ['Documentos asignados', 'Documentos asignados pendientes'],
         datasets: [{
           label: '# of Votes',
           data: [
@@ -446,12 +447,12 @@
             {% endfor %}
           ],
           backgroundColor: [
-                  'rgba(255, 99, 132, 0.8)',
-                  'rgba(54, 162, 235, 0.8)'
+                  'rgba(54, 162, 235, 0.8)',
+                  'rgba(255, 99, 132, 0.8)'
           ],
           borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)'
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 99, 132, 1)'
           ],
           borderWidth: 1
         }]
