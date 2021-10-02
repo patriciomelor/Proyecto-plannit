@@ -99,7 +99,6 @@
           <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">No Cumplimiento</th>
           <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Cantidad HH</th>
           <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Estado</th>
-          <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;">Evaluación</th>
           {% if answer.archivo.url is not None%}
           <th class="sorting_1" tabindex="0" aria-controls="datatable1" style="text-align: center;vertical-align: middle;color:#fff;"> Descargar </th>
           {% else %}
@@ -114,11 +113,7 @@
                 <th style="text-align: center;vertical-align:middle;" > {% if answer.not_done is None %} No registrado {% else %} {{answer.not_done}} {% endif %}  </th>
                 <th style="text-align: center;vertical-align:middle;" > {{answer.contidad_hh}} </th>
                 <th style="text-align: center;vertical-align:middle;" > {{answer.get_estado_display}} </th>
-                {% if answer.motivo %}
-                <th style="text-align: center;vertical-align:middle;" > {{answer.motivo}} </th>
-                {% else %}
-                <th style="text-align: center;vertical-align:middle;" > Sin comentarios de evaluación </th>
-                {% endif %}
+              
                 {% if answer.archivo.url is not None%}
                 <th style="text-align: center;vertical-align:middle;" > <a type="submit" href="{{answer.archivo.url}}"><i class="icon ion-arrow-down-a" style="color:orange;"></i></a></th>
                 {% else %}
@@ -128,7 +123,7 @@
               </tr>
               
               <tr>
-                <th colspan="6">
+                <th colspan="7">
                     <div class="card bd-0">
                       <div class="card-header tx-medium bd-0 tx-white bg-info">
                         Comentarios:
@@ -138,8 +133,8 @@
                           {{answer.comentarios}} 
                         </p>
                       </div><!-- card-body -->
-                      {% if answer.estado == 1 %}
-                        {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
+                      {% if answer.estado == 1  %}
+                        {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4  or request.user.is_superuser == True %}
                         <div class="card bd-0">
                             <div class="card-header tx-medium bd-0 tx-white bg-info">
                               Evaluación:
@@ -152,10 +147,41 @@
                         </div>
                         {% endif %}
                       {% endif %}
-
+                      
                     </div>
                 </th>
               </tr>
+              {% if answer.motivo %}
+              <tr>
+                <th colspan="7">
+                    <div class="card bd-0">
+                      <div class="card-header tx-medium bd-0 tx-white bg-teal">
+                        Evaluacionón:
+                      </div><!-- card-header -->
+                      <div class="card-body bd bd-t-0 rounded-bottom">
+                        <p class="mg-b-0">
+                          {{answer.motivo}}
+                        </p>
+                      </div><!-- card-body -->                      
+                    </div>
+                </th>
+              </tr>
+              {% else %}
+               <tr>
+                <th colspan="7">
+                    <div class="card bd-0">
+                      <div class="card-header tx-medium bd-0 tx-white bg-teal">
+                        Evaluacionón:
+                      </div><!-- card-header -->
+                      <div class="card-body bd bd-t-0 rounded-bottom">
+                        <p class="mg-b-0">
+                          Sin comentarios de evaluación
+                        </p>
+                      </div><!-- card-body -->                      
+                    </div>
+                </th>
+              </tr>
+              {% endif %}
           </tbody>
         </table>
         {% if answer.estado == 1 %}

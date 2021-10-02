@@ -27,6 +27,11 @@
            
           
             <a href="{% url 'proyecto-select' %}"><input type="button" class="btn btn-warning" value="Elegir Proyecto"></a>
+            {% if request.user.is_superuser %}
+            <a href="{% url 'crear-p-proyecto' %}"><input type="button" class="btn btn-warning" value="Crear proyecto"></a>
+
+            {% else %}
+            {% endif %}
            
           </p>
         </div><!-- card-body -->

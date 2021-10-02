@@ -1,0 +1,16 @@
+{% extends "account/login_base.html" %}
+
+{% block content %}
+<div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
+        <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-normal">[</span> PLANNIT <span class="tx-normal">]</span></div>
+        <div class="tx-center mg-b-60">Crear Primer Proyecto</div>
+
+        <div class="form-group">
+          {{form|crispy}}
+        </div><!-- form-group -->    
+
+        <div class="mg-t-60 tx-center">
+         <input type="button" class="btn btn-warning" value="Crear Proyecto">
+         </div>
+      </div>
+{% endblock content %}
