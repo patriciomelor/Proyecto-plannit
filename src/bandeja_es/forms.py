@@ -134,12 +134,10 @@ class PrevVersionForm(forms.ModelForm):
             document = Documento.objects.get(Codigo_documento=doc)
             ultima_rev = Version.objects.filter(documento_fk=document).last()
             if ultima_rev.estado_cliente is not None:
-                print("La última versión de este Documento Fue emitido por el Cliente")
                 if not ultima_rev.estado_cliente == 6 and revision == ultima_rev.revision:
                     raise ValidationError('No se puede mantener la revisión del documento {}, por favor intente con una revisión distinta'.format(document.Codigo_documento))
             else:
-                print("La última versión de este Documento Fue emitido por el Contratista")
-                
+                pass                
         except (AttributeError, Version.DoesNotExist):
             pass
 
@@ -187,8 +185,6 @@ class PrevVersionForm(forms.ModelForm):
         #Verificar que no se pueda emitir para constucción con estados Números
         if revision < 5 and estado_cliente == 5:
             raise ValidationError('No se puede emitir Válido para construcción estando en Letra')
-
-
 
 
 
