@@ -554,3 +554,27 @@ class UNDetail(ProyectoMixin, DetailView):
             context["atrasos"] = True
         context["umbral_notificado"] = un_obj
         return context
+
+
+class FirstProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
+    template_name = 'configuracion/create-p-proyecto.html'
+    success_message = 'Proyecto Creado correctamente'
+    success_url = reverse_lazy('lista-proyecto')
+    form_class = ProyectoForm
+
+    def form_valid(self, form):
+        proyecto = form.save(commit=False)
+        thresholds = Umbral.objects.all()
+        superusers = User.objects.filter(is_superuser=True)
+        proyecto.save()
+        proyecto.participantes.add(proyecto.encargado)
+        proyecto.participantes.add(*superusers)
+
+        for umbral in thresholds:
+            HistorialUmbrales.objects.create(
+                umbral=umbral,
+                proyecto=proyecto,
+                last_checked=timezone.now()
+            )
+
+        return super().form_valid(form)

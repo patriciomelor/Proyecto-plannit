@@ -23,6 +23,7 @@ urlpatterns = [
     path('proyecto-create/', views.ProyectoCreate.as_view(), name='crear-proyecto'),
     path('proyecto-add-user/', views.UsuarioAdd.as_view(), name='add-user-proyecto'),
     path('proyecto-remove-user/', views.UsuarioRemove.as_view(), name='remove-user-proyecto'),
+    path('proyecto-p-create/', views.FirstProyectoCreate.as_view(), name='crear-p-proyecto'),
     #URL DE CONFIG
     path('restricciones/', views.RestriccionesView.as_view() , name='restriccion'),
     path('restricciones-edit/<pk>/', views.RestriccionesEdit.as_view() , name='restriccion-edit'),
