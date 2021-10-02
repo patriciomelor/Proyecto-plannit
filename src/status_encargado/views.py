@@ -656,8 +656,8 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             if tarea.estado == False:
                 total_pendientes = total_pendientes + 1 
 
-        final_list.append(total_pendientes)
         final_list.append(total_tareas)
+        final_list.append(total_pendientes)
 
         return final_list
 
