@@ -27,15 +27,20 @@ class BuscadorIndex(ProyectoMixin, View):
     
 
     def get_queryset(self):
-        qs = self.documentos_con_versiones()
-        lista_documentos_filtrados = DocFilter(self.request.GET, queryset= documentos_con_versiones(self.request))
-        return lista_documentos_filtrados.qs.order_by('Numero_documento_interno')
-    
+        # qs = documentos_con_versiones(self.request)
+         lista_documentos_filtrados = DocFilter(self.request.GET, queryset= documentos_con_versiones(self.request))
+         return lista_documentos_filtrados.qs.order_by('Numero_documento_interno')
+        # return qs
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["filter"] = DocFilter(self.request.GET, queryset=self.get_queryset())
+        context["documentos"] = self.get_queryset
         return context
-    
+
+    def get (self, request, *args, **kwargs):
+        return render( request,self.template_name, self.get_context_data())
+
     def post(self, request, *args, **kwargs):
         versiones = self.request.POST.getlist('users')
         zip_subdir = "Ultimas-Versiones-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
