@@ -721,6 +721,9 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
     def tamano_grafico_6(self, lista_grafico_uno):
 
+        maximo_pos_1 = 0
+        maximo_pos_2 = 0
+        maximo_pos_3 = 0
         # lista_grafico_uno = self.grafico_6()
         maximo = 0
         cont = 0
@@ -746,6 +749,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             maximo = maximo_pos_2
         if maximo_pos_3 >= maximo_pos_2 and maximo_pos_3 >= maximo_pos_1:
             maximo = maximo_pos_3
+    
 
         #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
         division_exacta = 0
