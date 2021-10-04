@@ -3,13 +3,14 @@
  {% block content %} {% include "messege.html" %}
 <div class="login-wrapper bg-white rounded shadow-base">
   <div class="login-wrapper pd-25 bg-white rounded shadow-base">
-    <div class="form-group"></div>
+  <form method="POST"> {% csrf_token %}
+    <div class="form-group">
     <!-- form-group -->
         {{ form|crispy}}
     <div class="mg-t-5 tx-center">
-      <input type="button" class="btn btn-teal tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" value="Crear Proyecto" />
+       <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit"> Guardar </button> 
       <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" onClick="javascript:history.go(-1);" type="submit"> volver</button>
-
+</form>
     </div>
   </div>
 </div>
