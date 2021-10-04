@@ -65,13 +65,13 @@
                         ">
                             
                             {% if tarea.0.task_answer.last.estado == 1 and tarea.0.task_answer.count > 0 %}
-                              pendiente para administrador
+                              Pendiente Revisión
                             {% elif tarea.0.task_answer.last.estado == 3 and tarea.0.task_answer.count > 0 %}
-                              Pendiente para revisión
+                            En Ejecución
                             {% elif tarea.0.task_answer.last.estado == 2 and tarea.0.task_answer.count > 0 %}
                               Aprobado
                             {% else %}
-                            PENDIENTE PARA revisión
+                            En Ejecución
                             {% endif %}
                        
                          
