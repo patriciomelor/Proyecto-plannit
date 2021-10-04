@@ -168,10 +168,10 @@ INTERNAL_IPS = [
 
 EMAIL_HOST = 'mail.stod.cl'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'dmp@stod.cl'
-EMAIL_HOST_PASSWORD = 'dmp.2020'
+EMAIL_HOST_USER = 'plannit@stod.cl'
+EMAIL_HOST_PASSWORD = '5JZ=5o+2g#Jn'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'dmp@stod.cl'
+DEFAULT_FROM_EMAIL = 'plannit@stod.cl'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
