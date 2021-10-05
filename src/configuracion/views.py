@@ -166,15 +166,19 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
     context_object_name = 'usuarios'
 
     def get_queryset(self):
+        domain = self.request.user.email.split('@')[1]
+        print(domain)
         rol = self.request.user.perfil.rol_usuario
         if rol == 1:
-            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6], is_superuser=False, is_active=True).order_by('perfil__empresa')
+            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6], is_superuser=False, is_active=True, email__icontains=str(domain)).order_by('perfil__empresa')
+            #qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6], is_superuser=False, is_active=True).order_by('perfil__empresa')
         elif rol == 4:
-            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6], is_superuser=False, is_active=True).order_by('perfil__empresa')
+            qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6], is_superuser=False, is_active=True, email__icontains=str(domain)).order_by('perfil__empresa')
+            #qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6], is_superuser=False, is_active=True).order_by('perfil__empresa')
         # else:
         #     qs = self.proyecto.participantes.prefetch_related("perfil").exclude(is_superuser=True)
-        if self.request.user.is_superuser:
-            qs = self.proyecto.participantes.prefetch_related("perfil").all()
+        # if self.request.user.is_superuser:
+        #     qs = self.proyecto.participantes.prefetch_related("perfil").all()
 
         return qs
 #DESHABILITA LOS USUARIOS is_active = False
@@ -254,9 +258,15 @@ class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
             messages.info(self.request, "No se ha seleccionado ningun usuario. Intente otra vez.")
             return redirect('add-user-proyecto')
 
-class UsuarioRemove(ProyectoMixin, SuperuserViewMixin, ListView):
+class UsuarioRemove(ProyectoMixin, ListView):
     template_name = 'configuracion/remove-user.html'
     success_message = 'Usuario(s) eliminados del proyecto'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.perfil.rol_usuario == 1 or request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('revisor-index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
