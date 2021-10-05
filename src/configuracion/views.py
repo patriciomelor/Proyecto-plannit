@@ -340,13 +340,13 @@ class ProyectoDetail(ProyectoMixin, AdminViewMixin, DetailView):
 class ProyectoEdit(ProyectoMixin, UpdateView):
     template_name = 'configuracion/edit-proyecto.html'
     form_class = ProyectoForm
-    success_url = reverse_lazy('lista-proyecto')
+    success_url = reverse_lazy('configuracion-index')
     success_message = 'Información del Proyecto Actualizada'
 
 class ProyectoDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     template_name = 'configuracion/delete-proyecto.html'
     success_message = 'Proyecto Eliminado'
-    success_url = reverse_lazy('lista-proyecto')
+    success_url = reverse_lazy('configuracion-index')
 
     def delete(self, request, *args, **kwargs):
         objeto = self.get_object()
@@ -359,7 +359,7 @@ class ProyectoDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
 class ProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
     template_name = 'configuracion/create-proyecto.html'
     success_message = 'Proyecto Creado correctamente'
-    success_url = reverse_lazy('lista-proyecto')
+    success_url = reverse_lazy('configuracion-index')
     form_class = ProyectoForm
 
     def form_valid(self, form):
@@ -382,7 +382,7 @@ class ProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
 class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
     template_name = 'configuracion/invitation_form.html'
     success_message = 'Invitación enviada correctamente'
-    success_url = reverse_lazy('listar-usuarios')
+    success_url = reverse_lazy('configuracion-index')
     form_class = InvitationForm
 
     def form_valid(self, form):
