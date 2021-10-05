@@ -6,12 +6,14 @@ ESTADOS_CLIENTE = (
     (4, "Aprobado"),
     (5, "Válido para construcción"),
     (6, "Mantener Revisión"),
+    (7, "Excepción"),
 )
 
 ESTADO_CONTRATISTA =  (
     ('', "------"),
     (1, "Para revisión"),
     (2, "Para aprobación"),
+    (3, "As Built"),
 )
 
 DOCUMENT_TYPE = (
