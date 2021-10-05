@@ -32,7 +32,7 @@ class Paquete(models.Model):
     version = models.ManyToManyField(Version, through='PaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
     fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
-    asunto = models.CharField(verbose_name="Asunto", max_length=150)
+    asunto = models.CharField(verbose_name="Asunto", max_length=300)
     descripcion = models.TextField(verbose_name="Descripción", blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario")
     destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario")
@@ -87,7 +87,7 @@ class PrevPaquete(models.Model):
     prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     prev_fecha_creacion = models.DateTimeField(verbose_name="Fecha de creación", auto_now_add=True)
     prev_fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
-    prev_asunto = models.CharField(verbose_name="Asunto", max_length=50)
+    prev_asunto = models.CharField(verbose_name="Asunto", max_length=300)
     prev_descripcion = models.TextField(verbose_name="Descripción", blank=True, null=True)
     prev_propietario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevpropietario")
     prev_receptor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevdestinatario")
