@@ -233,8 +233,8 @@ class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
         context = super().get_context_data(**kwargs)
         domain = self.request.user.email.split('@')[1]
         user_list = []
-        # all_users = User.objects.prefetch_related("perfil").all()
-        all_users = User.objects.prefetch_related("perfil").filter(email__icontains=str(domain))
+        all_users = User.objects.prefetch_related("perfil").all()
+        # all_users = User.objects.prefetch_related("perfil").filter(email__icontains=str(domain))
         current_users = self.proyecto.participantes.prefetch_related("perfil").all()
         for user in all_users:
             if user.is_superuser:
