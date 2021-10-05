@@ -87,7 +87,7 @@ class PrevPaquete(models.Model):
     prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     prev_fecha_creacion = models.DateTimeField(verbose_name="Fecha de creación", auto_now_add=True)
     prev_fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
-    prev_asunto = models.CharField(verbose_name="Asunto", max_length=50)
+    prev_asunto = models.CharField(verbose_name="Asunto", max_length=300)
     prev_descripcion = models.TextField(verbose_name="Descripción", blank=True, null=True)
     prev_propietario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevpropietario")
     prev_receptor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevdestinatario")
