@@ -2,7 +2,7 @@ ESTADOS_CLIENTE = (
     ('', "------"),
     (1, "Aprobado con Comentarios"),
     (2, "Rechazado"),
-    (3, "Eliminado"),
+    (3, "Anulado"),
     (4, "Aprobado"),
     (5, "Válido para construcción"),
     (6, "Mantener Revisión"),

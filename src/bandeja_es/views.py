@@ -76,7 +76,7 @@ class EnviadosView(ProyectoMixin, ListView):
     model = Paquete
     template_name = 'bandeja_es/baes_Enviado.html'
     context_object_name = 'paquetes'
-    paginate_by = 10
+    
 
     def get_queryset(self):
         clientes = [1,2,3]        
