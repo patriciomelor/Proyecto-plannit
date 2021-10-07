@@ -45,7 +45,6 @@ class InBoxView(ProyectoMixin, ListView):
     model = Paquete
     template_name = 'bandeja_es/baes.html'
     context_object_name = 'paquetes'
-    paginate_by = 15
 
     def get_queryset(self):
         clientes = [1,2,3]        
