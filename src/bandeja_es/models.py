@@ -27,6 +27,11 @@ class Version(models.Model):
             return str(self.documento_fk.Codigo_documento)+"-"+str(self.get_revision_display()+"- "+str(self.get_estado_contratista_display()))
 
 class Paquete(models.Model):
+    TYPE_PQUETE = (
+        ('', "------"),
+        (1, "Información Técnica"),
+        (2, "Informativo"),
+    )
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
     comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     version = models.ManyToManyField(Version, through='PaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
@@ -38,6 +43,7 @@ class Paquete(models.Model):
     destinatario = models.ForeignKey(User, on_delete=models.CASCADE, related_name="destinatario")
     status = models.BooleanField(verbose_name="Status", default=0, blank=True)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="proyecto")
+    tipo = models.IntegerField(verbose_name="Tipo de Paquete", choices=TYPE_PQUETE, default=1)
 
     def __str__(self):
         return str(self.codigo)
@@ -83,6 +89,11 @@ class PrevVersion(models.Model):
 
 # PREVISUALIZACION DEL PAQUETE
 class PrevPaquete(models.Model):
+    TYPE_PQUETE = (
+        ('', "------"),
+        (1, "Información Técnica"),
+        (2, "Informativo"),
+    )
     prev_documento = models.ManyToManyField(PrevVersion, through='PrevPaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
     prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     prev_fecha_creacion = models.DateTimeField(verbose_name="Fecha de creación", auto_now_add=True)
@@ -93,6 +104,8 @@ class PrevPaquete(models.Model):
     prev_receptor = models.ForeignKey(User, on_delete=models.CASCADE, related_name="prevdestinatario")
     prev_status = models.BooleanField(verbose_name="Status", default=0, blank=True)
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, related_name="prev_paquete", null=False)
+    tipo = models.IntegerField(verbose_name="Tipo de Paquete", choices=TYPE_PQUETE, default=1)
+
 
     def __str__(self):
         return self.prev_asunto

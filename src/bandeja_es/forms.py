@@ -62,7 +62,7 @@ VersionFormset = formset_factory(VersionDocForm, extra=1)
 class PaquetePreviewForm(forms.ModelForm):
     class Meta:
         model = PrevPaquete
-        fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion', 'prev_comentario']
+        fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion', 'tipo', 'prev_comentario']
         labels = {
             'prev_receptor': 'Destinatario:',
             'prev_comentario': 'Anexo:'
