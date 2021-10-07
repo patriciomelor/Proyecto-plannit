@@ -159,7 +159,6 @@
         </div>
         <!-- menu-item -->
       </a><!-- br-menu-link -->
-      {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
       <a href="{% url 'PanelCarga' %}" class="br-menu-link">
         <div class="br-menu-item active">
           <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
@@ -167,7 +166,6 @@
         </div>
         <!-- menu-item -->
       </a>
-      {% endif %}
       <a href="{% url 'Bandejaeys' %}" class="br-menu-link">
         <div class="br-menu-item">
           <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
