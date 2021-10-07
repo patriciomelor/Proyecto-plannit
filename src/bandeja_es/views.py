@@ -168,7 +168,6 @@ class PaqueteDelete(ProyectoMixin, AdminViewMixin, DeleteView):
 
 class BorradorList(ProyectoMixin, ListView):
     template_name = 'bandeja_es/borrador.html'
-    paginate_by = 15
     context_object_name = 'borrador_paquete'
 
     def get_queryset(self):
