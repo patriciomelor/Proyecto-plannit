@@ -20,25 +20,25 @@
     <table id="datatable2" class="table table-striped table-bordered table-hover table-primary" role="grid" aria-describedby="datatable2_info" style="width: 100%;">
               <thead>
                 <tr role="row">
-                <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;"></th>
+                {% comment %} <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;"></th> {% endcomment %}
                 <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;"></th>
                 <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;">Especialidad</th>
                 <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Descripción</th>
                 <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Código</th>
                 <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Tipo</th>
-                <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Revision</th>
+               <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Revisión Actual</th> 
                 </tr>
               </thead>
               <tbody>
                {% for documento in documentos %}
                   <tr role="row" class="odd">
-                    <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><input type="checkbox" name="dnld" class="onoffswitch-checkbox"style="display: none;"checked="true"></td>            
+                    {% comment %} <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><input type="checkbox" name="dnld" class="onoffswitch-checkbox"style="display: none;"checked="true"></td>             {% endcomment %}
                     <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><a href="{% url 'buscador-detalle' documento.pk %}" class="btn btn-teal center"><i class="fa fa-plus"></i></a></td>            
                     <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Especialidad}}</td>            
                     <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Descripcion}}</td>            
                     <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Codigo_documento}}</td>            
                     <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Tipo_Documento}}</td>            
-                    <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.get_revision_display}}</td>            
+                   <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.version_set.last.get_revision_display}}</td>         
                   </tr>
                   {% endfor %} 
                 </tbody>

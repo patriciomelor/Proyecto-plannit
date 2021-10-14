@@ -25,8 +25,8 @@ def VPC_signal(sender, instance, *args, **kwargs):
     current = instance
     try:
         previous = Version.objects.filter(documento_fk=instance.documento_fk).reverse()[1]
-    except Version.DoesNotExist:
-        print('No existe una Versión todavía.') 
+    except(Version.DoesNotExist, IndexError) :
+        print('No existe una Versión previa todavía.') 
         previous = None
 
     if not previous == None:

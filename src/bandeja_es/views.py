@@ -45,7 +45,6 @@ class InBoxView(ProyectoMixin, ListView):
     model = Paquete
     template_name = 'bandeja_es/baes.html'
     context_object_name = 'paquetes'
-    paginate_by = 15
 
     def get_queryset(self):
         clientes = [1,2,3]        
@@ -76,7 +75,7 @@ class EnviadosView(ProyectoMixin, ListView):
     model = Paquete
     template_name = 'bandeja_es/baes_Enviado.html'
     context_object_name = 'paquetes'
-    paginate_by = 10
+    
 
     def get_queryset(self):
         clientes = [1,2,3]        
@@ -311,6 +310,7 @@ def vue_version(request, paquete_pk):
 class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm
+    success_url = reverse_lazy('Bandejaeys')
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
@@ -333,8 +333,36 @@ class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
         paquete.proyecto = self.proyecto
         paquete.save()
         paquete_pk = paquete.pk
-        return redirect('nueva-version', paquete_pk=paquete_pk)
+        if paquete.tipo == 1:
+            return redirect('nueva-version', paquete_pk=paquete_pk)
+        elif paquete.tipo == 2:
+            paquete_prev = paquete
+            proyecto = self.proyecto
+            rol =paquete_prev.prev_propietario.perfil.rol_usuario
+            clientes = [1,2,3]
+            contratistas = [4,5,6]
+            if rol in clientes:
+                pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario__in=clientes).count()
+                codigo_trasmital = str(proyecto.codigo) + "-" + "C" +"-" +str((pkg + 1))
+            elif rol in contratistas:
+                pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario__in=contratistas).count()
+                codigo_trasmital = str(proyecto.codigo) + "-" + "T" +"-" +str((pkg + 1))
 
+            paquete = Paquete(
+                codigo = codigo_trasmital,
+                asunto = paquete_prev.prev_asunto,
+                descripcion = paquete_prev.prev_descripcion,
+                destinatario = paquete_prev.prev_receptor,
+                owner = paquete_prev.prev_propietario,
+                proyecto= proyecto,
+                comentario=paquete_prev.prev_comentario,
+                tipo=paquete_prev.tipo
+            )
+            paquete.save()
+            paquete_prev.delete()
+
+            messages.add_message(self.request, messages.SUCCESS, "Transmittal informativo enviado correctamente")
+            return super().form_valid(form)
 class TablaPopupView(ProyectoMixin, VisualizadorViewMixin, ListView):
     model = PrevVersion
     template_name = 'bandeja_es/tabla-versiones-form.html'

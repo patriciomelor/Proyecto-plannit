@@ -28,9 +28,7 @@
       <div class="ht-70 bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center shadow-base"style="height: auto!important;">
         <ul class="nav nav-outline active-info align-items-center flex-row" role="tablist">
           <li class="nav-item"><a class="nav-link"  href="{% url 'index' %}" ><i class="menu-item-icon icon ion-ios-home-outline tx-22"></i><span class="menu-item-label">Escritorio</span></a></li>
-          {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
-          <li class="nav-item"><a class="nav-link" href="{% url 'PanelCarga' %}"><i class="menu-item-icon icon ion-ios-photos-outline tx-22"></i><span class="menu-item-label">Panel de Carga</span></a></li>
-          {% endif %}
+          <li class="nav-item"><a class="nav-link"  href="{% url 'PanelCarga' %}"><i class="menu-item-icon icon ion-ios-photos-outline tx-22"></i><span class="menu-item-label">Panel de Carga</span></a></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'Bandejaeys' %}" ><i class="menu-item-icon icon ion-ios-email-outline tx-22"></i> <span class="menu-item-label">Bandeja de entrada</a><span></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'analitica-index' %}"><i class="menu-item-icon ion-ios-pie-outline tx-22"></i><span class="menu-item-label"> Analíticas</a></span></li>
           <li class="nav-item"><a class="nav-link"  href="{% url 'status-index' %}"><i class="menu-item-icon ion-ios-redo-outline tx-22"></i><span class="menu-item-label">Estatus</a></span></li>

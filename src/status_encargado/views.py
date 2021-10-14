@@ -272,8 +272,9 @@ class TareaDetailView(ProyectoMixin, View):
         return render(request, self.template_name, self.get_context_data())
 
     def post(self, request, *args, **kwargs):
-        aprobado =  request.POST.getlist("aprobado")
-        rechazado =  request.POST.getlist("rechazado")
+        aprobado =  request.POST.getlist("aprobado", None)
+        rechazado =  request.POST.getlist("rechazado", None)
+        motivo = request.POST.get("motivo", None)
 
         if aprobado:
             task = self.get_queryset()
@@ -282,12 +283,14 @@ class TareaDetailView(ProyectoMixin, View):
             answer_id = aprobado[0]
             anwser = Respuesta.objects.get(pk=answer_id)
             anwser.estado = 2
+            anwser.motivo = motivo
             anwser.save()
-            messages.add_message(request, messages.SUCCESS, "Tarea aceptada")
+            messages.add_message(request, messages.SUCCESS, "Tarea Aprobada")
         elif rechazado:
             answer_id = rechazado[0]
             anwser = Respuesta.objects.get(pk=answer_id)
             anwser.estado = 3
+            anwser.motivo = motivo
             anwser.save()
             messages.add_message(request, messages.INFO, "Tarea Rechazada")
 
@@ -718,6 +721,9 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
     def tamano_grafico_6(self, lista_grafico_uno):
 
+        maximo_pos_1 = 0
+        maximo_pos_2 = 0
+        maximo_pos_3 = 0
         # lista_grafico_uno = self.grafico_6()
         maximo = 0
         cont = 0
@@ -743,6 +749,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             maximo = maximo_pos_2
         if maximo_pos_3 >= maximo_pos_2 and maximo_pos_3 >= maximo_pos_1:
             maximo = maximo_pos_3
+    
 
         #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
         division_exacta = 0
