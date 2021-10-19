@@ -69,6 +69,10 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
         item['fecha_creacion'] = self.fecha_creacion
         return item
 
+class VersionAttachment(models.Model):
+    version = models.ForeignKey(Version, verbose_name="Version", on_delete=models.DO_NOTHING, null=True)
+    file = models.FileField(verbose_name="Archivo", upload_to="proyecto/documentos/adjuntos")
+
 #################################################
                 # PREVIZUALIZACIONES
 #################################################
@@ -118,6 +122,10 @@ class PrevPaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo 
 
     def __str__(self):
         return str(self.prev_documento_id.Descripcion)
+
+class PrevVersionAttachment(models.Model):
+    prev_version = models.ForeignKey(PrevVersion, verbose_name="Prev Version", on_delete=models.DO_NOTHING, null=True)
+    file = models.FileField(verbose_name="Archivo", upload_to="proyecto/documentos/adjuntos")
 
 #################################################
                 # BORRADORES
