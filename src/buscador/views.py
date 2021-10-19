@@ -42,7 +42,8 @@ class BuscadorIndex(ProyectoMixin, View):
         return render( request,self.template_name, self.get_context_data())
 
     def post(self, request, *args, **kwargs):
-        versiones = self.request.POST.getlist('users')
+        listado = self.request.POST.getlist('dnld')
+        versiones = Version.objects.filter(pk__in=listado)
         zip_subdir = "Ultimas-Versiones-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
         s = BytesIO()
@@ -107,6 +108,5 @@ def documentos_con_versiones(request):
         except Version.DoesNotExist:
             pass
     queryset_final = Documento.objects.filter(pk__in=añadidos_list)
-    print(queryset_final)
     return queryset_final
     

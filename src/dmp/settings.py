@@ -265,6 +265,10 @@ USE_TZ = True
 
 # Add Digital Ocean's Spaces Config Variables
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5368709120
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5368709120
+
 STATICFILES_DIRS = (BASE_DIR / 'static',)
 
 USE_SPACES = os.getenv("USE_SPACES", "0")  == "1"
