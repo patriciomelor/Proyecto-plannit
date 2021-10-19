@@ -168,10 +168,10 @@ INTERNAL_IPS = [
 
 EMAIL_HOST = 'mail.stod.cl'
 EMAIL_PORT = 587
-EMAIL_HOST_USER = 'dmp@stod.cl'
-EMAIL_HOST_PASSWORD = 'dmp.2020'
+EMAIL_HOST_USER = 'plannit@stod.cl'
+EMAIL_HOST_PASSWORD = '5JZ=5o+2g#Jn'
 EMAIL_USE_TLS = True
-DEFAULT_FROM_EMAIL = 'dmp@stod.cl'
+DEFAULT_FROM_EMAIL = 'plannit@stod.cl'
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
@@ -204,7 +204,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'PLANNIT',
+            'NAME': 'PLANNIT-APP',
             'USER': 'postgres',
             'PASSWORD': 'dmp.2020',
             'HOST': os.getenv("DATABASE_URL", "134.209.78.27"),
@@ -265,6 +265,10 @@ USE_TZ = True
 
 # Add Digital Ocean's Spaces Config Variables
 # STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.StaticFilesStorage'
+
+FILE_UPLOAD_MAX_MEMORY_SIZE = 5368709120
+DATA_UPLOAD_MAX_MEMORY_SIZE = 5368709120
+
 STATICFILES_DIRS = (BASE_DIR / 'static',)
 
 USE_SPACES = os.getenv("USE_SPACES", "0")  == "1"

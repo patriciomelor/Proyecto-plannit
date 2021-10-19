@@ -166,10 +166,14 @@ class UsuarioLista(ProyectoMixin, AdminViewMixin, ListView):
     context_object_name = 'usuarios'
 
     def get_queryset(self):
+        domain = self.request.user.email.split('@')[1]
+        print(domain)
         rol = self.request.user.perfil.rol_usuario
         if rol == 1:
+            # qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6], is_superuser=False, is_active=True, email__icontains=str(domain)).order_by('perfil__empresa')
             qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[1,2,3,4,5,6], is_superuser=False, is_active=True).order_by('perfil__empresa')
         elif rol == 4:
+            # qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6], is_superuser=False, is_active=True, email__icontains=str(domain)).order_by('perfil__empresa')
             qs = self.proyecto.participantes.prefetch_related("perfil").all().filter(perfil__rol_usuario__in=[4,5,6], is_superuser=False, is_active=True).order_by('perfil__empresa')
         # else:
         #     qs = self.proyecto.participantes.prefetch_related("perfil").exclude(is_superuser=True)
@@ -227,8 +231,10 @@ class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        domain = self.request.user.email.split('@')[1]
         user_list = []
         all_users = User.objects.prefetch_related("perfil").all()
+        # all_users = User.objects.prefetch_related("perfil").filter(email__icontains=str(domain))
         current_users = self.proyecto.participantes.prefetch_related("perfil").all()
         for user in all_users:
             if user.is_superuser:
@@ -254,9 +260,15 @@ class UsuarioAdd(ProyectoMixin, AdminViewMixin, ListView):
             messages.info(self.request, "No se ha seleccionado ningun usuario. Intente otra vez.")
             return redirect('add-user-proyecto')
 
-class UsuarioRemove(ProyectoMixin, SuperuserViewMixin, ListView):
+class UsuarioRemove(ProyectoMixin, ListView):
     template_name = 'configuracion/remove-user.html'
     success_message = 'Usuario(s) eliminados del proyecto'
+
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.perfil.rol_usuario == 1 or request.user.is_superuser:
+            return super().dispatch(request, *args, **kwargs)
+        else:
+            return redirect('revisor-index')
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -328,13 +340,13 @@ class ProyectoDetail(ProyectoMixin, AdminViewMixin, DetailView):
 class ProyectoEdit(ProyectoMixin, UpdateView):
     template_name = 'configuracion/edit-proyecto.html'
     form_class = ProyectoForm
-    success_url = reverse_lazy('lista-proyecto')
+    success_url = reverse_lazy('configuracion-index')
     success_message = 'Información del Proyecto Actualizada'
 
 class ProyectoDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     template_name = 'configuracion/delete-proyecto.html'
     success_message = 'Proyecto Eliminado'
-    success_url = reverse_lazy('lista-proyecto')
+    success_url = reverse_lazy('configuracion-index')
 
     def delete(self, request, *args, **kwargs):
         objeto = self.get_object()
@@ -347,7 +359,7 @@ class ProyectoDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
 class ProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
     template_name = 'configuracion/create-proyecto.html'
     success_message = 'Proyecto Creado correctamente'
-    success_url = reverse_lazy('lista-proyecto')
+    success_url = reverse_lazy('configuracion-index')
     form_class = ProyectoForm
 
     def form_valid(self, form):
@@ -370,7 +382,7 @@ class ProyectoCreate(ProyectoMixin, SuperuserViewMixin, CreateView):
 class InvitationView(ProyectoMixin, SuperuserViewMixin, FormView):
     template_name = 'configuracion/invitation_form.html'
     success_message = 'Invitación enviada correctamente'
-    success_url = reverse_lazy('listar-usuarios')
+    success_url = reverse_lazy('configuracion-index')
     form_class = InvitationForm
 
     def form_valid(self, form):
@@ -554,3 +566,27 @@ class UNDetail(ProyectoMixin, DetailView):
             context["atrasos"] = True
         context["umbral_notificado"] = un_obj
         return context
+
+
+class FirstProyectoCreate(SuperuserViewMixin, CreateView):
+    template_name = 'configuracion/create-p-proyecto.html'
+    success_message = 'Proyecto Creado correctamente'
+    success_url = reverse_lazy('lista-proyecto')
+    form_class = ProyectoForm
+
+    def form_valid(self, form):
+        proyecto = form.save(commit=False)
+        thresholds = Umbral.objects.all()
+        superusers = User.objects.filter(is_superuser=True)
+        proyecto.save()
+        proyecto.participantes.add(proyecto.encargado)
+        proyecto.participantes.add(*superusers)
+
+        for umbral in thresholds:
+            HistorialUmbrales.objects.create(
+                umbral=umbral,
+                proyecto=proyecto,
+                last_checked=timezone.now()
+            )
+
+        return super().form_valid(form)

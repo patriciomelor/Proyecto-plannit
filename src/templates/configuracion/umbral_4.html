@@ -34,9 +34,11 @@
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Código</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Descripción</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Encargado</th>
-                  <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Desviación (%)</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Avance Programado (%)</th>
                   <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Avance Real (%)</th>
+
+                  <th style="border: black 2px;color: white; background-color: rgb(27, 80, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">Desviación (%)</th>
+
                 </tr>
               </thead>
               <tbody>
@@ -45,9 +47,10 @@
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{proyecto.codigo}} </td>
                     <td style="border: black 2px;color: black; background-color: rgb(252, 251, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {% if proyecto.descripcion %} {{proyecto.descripcion}} {% else %} Sin descripción {% endif %}  </td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{proyecto.encargado}} </td>
-                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{desviacion}} </td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{avance_programado}} </td>
                     <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{avance_real}} </td>
+                    <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;"> {{desviacion}} </td>
+
                   </tr>
               </tbody>
             </table>

@@ -11,7 +11,7 @@
   <meta name="description" content="Software de Gestion y administracion de archivos." />
   <meta name="author" content="STOD CHILE for DM" />
 
-  <title>{{site}} || {{proyecto.nombre}}</title>
+  <title>PLANNIT || {{proyecto.nombre}}</title>
 
   <!-- vendor css -->
       <link rel="stylesheet" href="{% static 'file_form/file_form.css' %}">
@@ -93,7 +93,6 @@
         </div>
         <!-- menu-item -->
       </a><!-- br-menu-link -->
-      {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 or request.user.is_superuser %}
       <a href="{% url 'PanelCarga' %}" class="br-menu-link">
         <div class="br-menu-item active">
           <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
@@ -101,7 +100,6 @@
         </div>
         <!-- menu-item -->
       </a>
-      {% endif %}
       <a href="{% url 'Bandejaeys' %}" class="br-menu-link">
         <div class="br-menu-item">
           <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
@@ -178,10 +176,9 @@
               margin: 0 15px;
           
           ">        
-                <li style="
-                text-align: center;
-            ">{{user.first_name}} {{user.last_name}}</a></li>&numsp;
-           
+               <li style="text-align: center;font-weight: 700;">
+                <strong>{{user.first_name}} {{user.last_name}}</strong>
+                </li>&numsp;
               </ul>
         </nav>
       </div>

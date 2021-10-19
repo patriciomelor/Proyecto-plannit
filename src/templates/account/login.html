@@ -35,7 +35,7 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
 
 <form class="form-group" method="POST" action="{% url 'account_login' %}">
   {% csrf_token %}
-  <label class="d-block tx-14 col-12 tx-uppercase tx-medium tx-spacing-1">{{ form|crispy }}</label>
+  <label class="d-block tx-14 col-12 tx-uppercase tx-medium tx-spacing-1">{{ form|crispy}}</label>
   {% if redirect_field_value %}
   <input class="form-control" type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}

@@ -43,8 +43,16 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
         context = super().get_context_data(**kwargs)
         tasks = []
         tareas = Tarea.objects.select_related('encargado', 'encargado__perfil', 'documento').filter(documento__proyecto=self.proyecto).order_by('-created_at')
+        
         current_rol = self.request.user.perfil.rol_usuario
         for tarea in tareas:
+            cantidad_hh = 0
+            last_answer = tarea.task_answer.last()
+            all_answer = tarea.task_answer.all()
+
+            for resp in all_answer:
+                cantidad_hh = cantidad_hh + resp.contidad_hh
+
             rol = tarea.encargado.perfil.rol_usuario
 
             if current_rol >= 1 and current_rol <= 3:
@@ -52,14 +60,16 @@ class EncargadoIndex(ProyectoMixin, TemplateView):
                     if rol == 1: 
                         pass
                     else:
-                        tasks.append(tarea)
+                        lista_aux = [tarea, last_answer, cantidad_hh]
+                        tasks.append(lista_aux)
 
             if current_rol >= 4 and current_rol <= 6:
                 if rol >= 4 and rol <= 6:
                     if rol == 4: 
                         pass
                     else:
-                        tasks.append(tarea)
+                        lista_aux = [tarea, last_answer, cantidad_hh]
+                        tasks.append(lista_aux)
 
         context["tareas"] = tasks
         context['Listado'] = self.tabla_status()
@@ -222,8 +232,21 @@ class RevisorView(ProyectoMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         qs1 = Tarea.objects.filter(encargado=self.request.user, documento__proyecto=self.proyecto).order_by('-created_at')
+
+        qs1_final = []
+
+        for tareas in qs1:
+            qs1_inicial = []
+            answer_all = tareas.task_answer.all()
+            cantidad_hh = 0
+            for answer in answer_all:
+                cantidad_hh = cantidad_hh + answer.contidad_hh
+
+            qs1_inicial = [tareas, cantidad_hh]
+            qs1_final.append(qs1_inicial)
+
         qs2 = Respuesta.objects.filter(tarea__encargado=self.request.user, sent=True, tarea__documento__proyecto=self.proyecto).order_by('-contestado')
-        context["tareas"] = qs1
+        context["tareas"] = qs1_final
         context["respuestas"] = qs2
         return context
 
@@ -249,8 +272,9 @@ class TareaDetailView(ProyectoMixin, View):
         return render(request, self.template_name, self.get_context_data())
 
     def post(self, request, *args, **kwargs):
-        aprobado =  request.POST.getlist("aprobado")
-        rechazado =  request.POST.getlist("rechazado")
+        aprobado =  request.POST.getlist("aprobado", None)
+        rechazado =  request.POST.getlist("rechazado", None)
+        motivo = request.POST.get("motivo", None)
 
         if aprobado:
             task = self.get_queryset()
@@ -259,12 +283,14 @@ class TareaDetailView(ProyectoMixin, View):
             answer_id = aprobado[0]
             anwser = Respuesta.objects.get(pk=answer_id)
             anwser.estado = 2
+            anwser.motivo = motivo
             anwser.save()
-            messages.add_message(request, messages.SUCCESS, "Tarea aceptada")
+            messages.add_message(request, messages.SUCCESS, "Tarea Aprobada")
         elif rechazado:
             answer_id = rechazado[0]
             anwser = Respuesta.objects.get(pk=answer_id)
             anwser.estado = 3
+            anwser.motivo = motivo
             anwser.save()
             messages.add_message(request, messages.INFO, "Tarea Rechazada")
 
@@ -509,24 +535,26 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         Diferencia entre hh asignadas y hh gastadas por cada uno de los participantes.
         """
         final_list = []
-        tareas = self.get_queryset()
+        task = self.get_queryset()
         users = self.get_queryset_user()
 
         for user in users:
             hh_realizados = 0
             hh_asignados = 0
-            for tarea in tareas:
-                if tarea.encargado == user:
-                    hh_asignados = hh_asignados + tarea.contidad_hh
+            for tareas in task:
+                if tareas.encargado == user:
+                    hh_asignados = hh_asignados + tareas.contidad_hh
+                    respuestas = tareas.task_answer.all()
                     try:
-                        hh_realizados = hh_realizados + tarea.task_answer.contidad_hh
+                        for resp in respuestas:
+                            hh_realizados = hh_realizados + resp.contidad_hh
                     except:
                         pass
             if hh_asignados != 0:
                 final_list.append([(user.first_name+" "+user.last_name), hh_asignados, hh_realizados])
 
-        lista_grafico_uno = self.tamano_grafico_2(lista_grafico_uno = final_list)
-        dividendo = self.espacios_grafico_2(dividendo = lista_grafico_uno)
+        lista_grafico_uno = self.tamano_grafico_3(lista_grafico_uno = final_list)
+        dividendo = self.espacios_grafico_3(dividendo = lista_grafico_uno)
 
         final = []
         final.append(final_list)
@@ -538,17 +566,28 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
     def tamano_grafico_3(self, lista_grafico_uno):
 
         # lista_grafico_uno = self.grafico_3()
+        maximo_pos_1 = 0
+        maximo_pos_2 = 0
         maximo = 0
         cont = 0
 
         #Se obtiene el valor máximo del gráfico
         for valores in lista_grafico_uno:
             if cont == 0:
-                maximo = valores[1]
+                maximo_pos_1 = valores[1]
+                maximo_pos_2 = valores[2]
                 cont = 1
             else:
-                if maximo < valores[1]:
-                    maximo = valores[1]
+                if maximo_pos_1 < valores[1]:
+                    maximo_pos_1 = valores[1]
+                if maximo_pos_2 < valores[2]:
+                    maximo_pos_2 = valores[2]
+
+        #Se selecciona al valor mayor
+        if maximo_pos_1 >= maximo_pos_2:
+            maximo = maximo_pos_1
+        if maximo_pos_1 < maximo_pos_2:
+            maximo = maximo_pos_2
 
         #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
         division_exacta = 0
@@ -586,15 +625,17 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         Diferencia entre hh asignadas y hh gastadas total del proyecto.
         """
         final_list = []
-        tareas = self.get_queryset()
+        task = self.get_queryset()
         total_asignados = 0
         total_realizados = 0
 
-        for tarea in tareas:
+        for tarea in task:
             total_asignados = total_asignados + tarea.contidad_hh
+            respuestas = tarea.task_answer.all()
             if tarea.estado == True:
                 try:
-                    total_realizados = total_realizados + tarea.task_answer.contidad_hh
+                    for resp in respuestas:
+                        total_realizados = total_realizados + resp.contidad_hh
                 except:
                     pass
 
@@ -618,8 +659,8 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             if tarea.estado == False:
                 total_pendientes = total_pendientes + 1 
 
-        final_list.append(total_pendientes)
         final_list.append(total_tareas)
+        final_list.append(total_pendientes)
 
         return final_list
 
@@ -629,7 +670,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
         """
 
         final_list = []
-        tareas = self.get_queryset()
+        task = self.get_queryset()
         users = self.get_queryset_user()
 
         for user in users:
@@ -637,16 +678,17 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             realizados_atrasados = 0
             atrasados = 0
             asignados = 0
-            for tarea in tareas:
+            for tarea in task:
                 if tarea.encargado == user:
                     asignados = asignados + 1
                     if tarea.estado == True:
+                        respuestas = tarea.task_answer.last()
                         contador_respuesta =0
                         contador_plazo = 0     
                         tarea_respuesta = ''   
                         tarea_plazo = ''  
                         try:              
-                            for respuesta in str(tarea.task_answer.contestado):
+                            for respuesta in str(respuestas.contestado):
                                 if contador_respuesta < 10:
                                     tarea_respuesta = tarea_respuesta + respuesta
                                     contador_respuesta = contador_respuesta + 1
@@ -667,8 +709,8 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             if asignados != 0:
                 final_list.append([(user.first_name+" "+user.last_name), realizados_tiempo, realizados_atrasados, atrasados])
 
-        lista_grafico_uno = self.tamano_grafico_2(lista_grafico_uno = final_list)
-        dividendo = self.espacios_grafico_2(dividendo = lista_grafico_uno)
+        lista_grafico_uno = self.tamano_grafico_6(lista_grafico_uno = final_list)
+        dividendo = self.espacios_grafico_6(dividendo = lista_grafico_uno)
 
         final = []
         final.append(final_list)
@@ -679,6 +721,9 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
 
     def tamano_grafico_6(self, lista_grafico_uno):
 
+        maximo_pos_1 = 0
+        maximo_pos_2 = 0
+        maximo_pos_3 = 0
         # lista_grafico_uno = self.grafico_6()
         maximo = 0
         cont = 0
@@ -704,6 +749,7 @@ class EncargadoGraficoView(ProyectoMixin, TemplateView):
             maximo = maximo_pos_2
         if maximo_pos_3 >= maximo_pos_2 and maximo_pos_3 >= maximo_pos_1:
             maximo = maximo_pos_3
+    
 
         #Se verífica que el maximo sea divisible por 10, para el caso de un maximo superior a 20
         division_exacta = 0
