@@ -79,11 +79,12 @@
       <div class="row no-gutters">
         <div class="col-5 col-sm-4"
           style="text-transform: none ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-          Anexo
+          Anexo Informativo
         </div><!-- col-4 -->
         <div class="col-7 col-sm-8" 
           style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-          {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
+          {% for file.file in versiion.attachments.all  %}
+           {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
             {% if paquete.comentario %}
           <a href="{{paquete.comentario.url}}"> <button
               class="isDisabled" class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" disabled>Descargar</button></a>
@@ -95,22 +96,24 @@
           {% endif %}
           {% else %}
             {% if paquete.comentario %}
-          <a href="{{paquete.comentario.url}}"> <button
-              class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10">Descargar</button></a>
-          {% else %}
-          <div class="col-7 col-sm-8"
-            style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-            NO HAY ANEXO
-          </div>
+              <a href="{{paquete.comentario.url}}"> 
+              <button class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10">Descargar</button></a>
+            {% else %}
+              <div class="col-7 col-sm-8"
+                style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
+                NO HAY ANEXO
+              </div>
           {% endif %}
           {% endif %}
+          {% endfor %}
+         
         
         </div><!-- col-8 -->
       </div>
       <div class="row no-gutters" id="descargas">
         <div class="col-5 col-sm-4"
           style="display: inline-flex;text-transform:capitalize  ;justify-content:flex-start;text-align: center;color:black;font-weight: 900;font-size: 18px;">
-          Descargar Archivos
+          Descargar archivos técnicos
         </div><!-- col-4 -->
         <div class="col-7 col-sm-8"
           style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
@@ -214,7 +217,7 @@
                 <i class="icon ion-ios-information alert-icon tx-52 mg-r-20"></i>
                 <div class="mg-t-20 mg-sm-t-0">
                   <h5 class="mg-b-2">AVISO!</h5>
-                  <p class="mg-b-0 tx-gray">El Transmittal no tiene documentos</p>
+                  <p class="mg-b-0 tx-gray">El Transmittal no contiene archivos técnicos</p>
                 </div>
               </div><!-- d-flex -->
             </div>
@@ -228,7 +231,7 @@
       <div class="card-header tx-medium bd-0 tx-white bg-info">
         Descripción:
       </div><!-- card-header -->
-      <div class="card-body bd bd-t-0 rounded-bottom">
+      <div class="card-body bd bd-t-0 rounded-bottom" style="color:black;">
         {{paquete.descripcion|safe}}
       </div><!-- card-body -->
     </div>
@@ -254,11 +257,11 @@
      document.body.innerHTML = originalContents; 
     }
   </script>
-  <script>
+<script>
   $(document).ready(function() {
       $('#datatable1').DataTable(
         {
-          "dom": 'B',
+          "dom": 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
           "responsive": true,
           "bSort": false,
           "language": {
