@@ -239,7 +239,10 @@ def create_paquete(request, paquete_pk, versiones_pk):
             destinatario = paquete_prev.prev_receptor,
             owner = paquete_prev.prev_propietario,
             proyecto= proyecto,
-            comentario=paquete_prev.prev_comentario
+            comentario1=paquete_prev.prev_comentario1,
+            comentario2=paquete_prev.prev_comentario1,
+            comentario3=paquete_prev.prev_comentario1,
+            comentario4=paquete_prev.prev_comentario1,
         )
         files = paquete_prev.attachments.all()
         for file in files:

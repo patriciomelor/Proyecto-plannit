@@ -33,7 +33,10 @@ class Paquete(models.Model):
         (2, "Informativo"),
     )
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
-    comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
+    comentario1 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
+    comentario2 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
+    comentario3 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
+    comentario4 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     version = models.ManyToManyField(Version, through='PaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
     fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
     fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
@@ -99,7 +102,10 @@ class PrevPaquete(models.Model):
         (2, "Informativo"),
     )
     prev_documento = models.ManyToManyField(PrevVersion, through='PrevPaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
-    prev_comentario = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
+    prev_comentario1 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
+    prev_comentario2 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
+    prev_comentario3 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
+    prev_comentario4 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     prev_fecha_creacion = models.DateTimeField(verbose_name="Fecha de creación", auto_now_add=True)
     prev_fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
     prev_asunto = models.CharField(verbose_name="Asunto", max_length=300)
