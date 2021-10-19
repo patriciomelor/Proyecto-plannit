@@ -375,7 +375,13 @@ class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
                 comentario=paquete_prev.prev_comentario,
                 tipo=paquete_prev.tipo
             )
+
             paquete.save()
+            for file in files:
+                PaqueteAttachment.objects.create(
+                    paquete = paquete,
+                    file= file
+                )
             paquete_prev.delete()
 
             messages.add_message(self.request, messages.SUCCESS, "Transmittal informativo enviado correctamente")

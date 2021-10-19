@@ -70,7 +70,7 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
         return item
 
 class PaqueteAttachment(models.Model):
-    Paquete = models.ForeignKey(Version, verbose_name="Paquete", related_name="attachments", on_delete=models.DO_NOTHING, null=True)
+    paquete = models.ForeignKey(Paquete, verbose_name="Paquete", related_name="attachments", on_delete=models.DO_NOTHING, null=True)
     file = models.FileField(verbose_name="Archivo", upload_to="proyecto/documentos/adjuntos")
 
 #################################################
@@ -124,7 +124,7 @@ class PrevPaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo 
         return str(self.prev_documento_id.Descripcion)
 
 class PrevPaqueteAttachment(models.Model):
-    prev_paquete = models.ForeignKey(PrevPaquete, related_name="attachments",verbose_name="Prev Paquete", on_delete=models.DO_NOTHING, null=True)
+    prev_paquete = models.ForeignKey(PrevPaquete, related_name="attachments",verbose_name="Prev Paquete", on_delete=models.CASCADE, null=True)
     file = models.FileField(verbose_name="Archivo", upload_to="proyecto/documentos/adjuntos")
 
 #################################################
