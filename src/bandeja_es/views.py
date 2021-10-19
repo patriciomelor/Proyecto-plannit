@@ -31,7 +31,7 @@ from rest_framework.views import APIView
 from django.db import IntegrityError
 
 from panel_carga.views import ProyectoMixin
-from .models import Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, PaqueteDocumento
+from .models import PaqueteAttachment, PrevPaqueteAttachment, Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, PaqueteDocumento
 from .forms import CreatePaqueteForm, PaquetePreviewForm, PrevVersionForm
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter
 from panel_carga.filters import DocFilter
@@ -241,6 +241,13 @@ def create_paquete(request, paquete_pk, versiones_pk):
             proyecto= proyecto,
             comentario=paquete_prev.prev_comentario
         )
+        files = paquete_prev.attachments.all()
+        for file in files:
+            PaqueteAttachment.objects.create(
+                file=file.file,
+                paquete=paquete
+            )
+            
         paquete.save()
         paquete_prev.delete()
 
@@ -306,6 +313,11 @@ def vue_version(request, paquete_pk):
         
     return JsonResponse(response_content, safe=False)
 
+def handle_uploaded_file(f):
+    with open(f.name, 'wb+') as destination:
+        for chunk in f.chunks():
+            destination.write(chunk)
+
 class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm
@@ -331,6 +343,12 @@ class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
         paquete.prev_propietario = self.request.user
         paquete.proyecto = self.proyecto
         paquete.save()
+        files = self.request.FILES.getlist('prev_comentario')
+        for file in files:
+            PrevPaqueteAttachment.objects.create(
+                prev_paquete = paquete,
+                file= file
+            )
         paquete_pk = paquete.pk
         if paquete.tipo == 1:
             return redirect('nueva-version', paquete_pk=paquete_pk)

@@ -10,7 +10,7 @@ from crispy_forms.layout import Submit
 from panel_carga.models import Documento
 from django.contrib.auth.models import User
 
-from .models import Paquete, PrevVersionAttachment, Version, PrevPaquete, PrevVersion, PrevPaqueteDocumento
+from .models import Paquete, PrevPaqueteAttachment, Version, PrevPaquete, PrevVersion, PrevPaqueteDocumento
 from panel_carga.views import ProyectoMixin
 
 from panel_carga.choices import TYPES_REVISION
@@ -69,9 +69,10 @@ class PaquetePreviewForm(forms.ModelForm):
             'prev_comentario': 'Anexo:'
         }
         widgets = {
-            'prev_descripcion': SummernoteInplaceWidget()
+            'prev_descripcion': SummernoteInplaceWidget(),
+            'prev_comentario': forms.FileInput(attrs={'class' : 'col-md-4 ', 'multiple': 'multiple'})
         }
-        
+
     def __init__(self, **kwargs):
         self.participantes = kwargs.pop('participantes')
         super(PaquetePreviewForm, self).__init__(**kwargs)
@@ -83,7 +84,7 @@ class PaquetePreviewForm(forms.ModelForm):
 
 class PrevVersionForm(forms.ModelForm):
     adjuntar = forms.BooleanField(label="Adjuntar Archivo ?", required=False, widget=forms.CheckboxInput(attrs={'onClick':'disableSending()'}))
-    prev_archivo = MultiFileField(label="Archivos", min_num=1, max_num=10, max_file_size=5368709120, widget=forms.FileInput(attrs={'class' : 'col-md-4 ','disabled':'disabled'}))
+    # prev_archivo = MultiFileField(label="Archivos multiples", min_num=1, max_num=10, max_file_size=5368709120, widget=forms.FileInput(attrs={'class' : 'col-md-4 ','disabled':'disabled'}))
     class Meta:
         model = PrevVersion
         fields = ['prev_documento_fk', 'prev_revision' ,'prev_estado_cliente', 'prev_estado_contratista', 'prev_archivo']
@@ -97,14 +98,10 @@ class PrevVersionForm(forms.ModelForm):
             'prev_revision' : forms.Select(attrs={'class' : 'form-control col-md-4 '}),
             'prev_estado_contratista': forms.Select(attrs={'class' : 'form-control col-md-4' }),
             'prev_estado_cliente' : forms.Select(attrs={'class' : 'form-control col-md-4 '}),
+            'prev_archivo' : forms.FileInput(attrs={'class' : 'col-md-4 ','disabled':'disabled', 'multiple': 'multiple'}),
         
         }
-    
-    def save(self, commit=True):
-        instance = super(PrevVersionForm, self).save(commit)
-        for each in self.cleaned_data['files']:
-            PrevVersionAttachment.objects.create(file=each, message=instance)
-        return instance
+
 
     def __init__(self, **kwargs):
         self.paquete = kwargs.pop('paquete_pk', None)
