@@ -72,8 +72,8 @@ class PaquetePreviewForm(forms.ModelForm):
         }
         widgets = {
             'prev_descripcion': SummernoteInplaceWidget(),
-            'prev_comentario1': forms.FileInput(attrs={'class' : 'col-md-4 ',}),
-            'prev_comentario2': forms.FileInput(attrs={'class' : 'col-md-4 ',}),
+            'prev_comentario1': forms.FileInput(attrs={'class' : 'form-control-file col-md-12 ', 'multiple': 'multiple','title':'MAXIMO 250MB por Archivos'}),
+            'prev_comentario2': forms.FileInput(attrs={'class' : 'form-control-file col-md-12 ', 'multiple': 'multiple','title':'MAXIMO 250MB por Archivos'}),
 
         }
 

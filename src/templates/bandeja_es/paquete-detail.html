@@ -83,29 +83,65 @@
         </div><!-- col-4 -->
         <div class="col-7 col-sm-8" 
           style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-          {% for file in paquete.attachments.all %}
-            {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
-                {% if paquete.comentario %}
-                  <a href="{{file.file.url}}"> <button 
-                      class="isDisabled" class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" disabled> Descargar </button></a>
-                  {% else %}
-                  <div class="col-7 col-sm-8"
-                    style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                    NO HAY ANEXO
-                  </div>
-                {% endif %}
-          {% else %}
-                        {% if paquete.comentario %}
-                          <a href="{{file.file.url}}"> 
-                          <button  class="btn btn-warning btn-oblong bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10"> Descargar </button></a>
-                        {% else %}
-                          <div class="col-7 col-sm-8"
-                            style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                            NO HAY ANEXO
-                          </div>
-                      {% endif %}
-            {% endif %}
-          {% endfor %}
+          {% comment %} {% if paquete.attachments.count > 0 %} {% endcomment %}
+           {% comment %} {% for file in paquete.attachments.all %} {% endcomment %}
+           {% if paquete.comentario1 %}
+             <a href="{{paquete.comentario1}}"> 
+              <button  class="btn btn-warning 
+                              btn-oblong 
+                              bd-2 pd-x-10 pd-y-5 
+                              tx-uppercase 
+                              tx-bold 
+                              tx-spacing-6 
+                              tx-10" 
+                              {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %} 
+                              disabled
+                              {% else %}
+                              <!--Nothing-->
+                              {% endif %} 
+                              Descargar Anexo 1
+               </button>
+            </a>
+        
+           {% else %}
+           {% endif %}
+             {% if paquete.comentario2 %}
+             <a href="{{paquete.comentario2}}"> 
+              <button  class="btn btn-warning 
+                              btn-oblong 
+                              bd-2 pd-x-10 pd-y-5 
+                              tx-uppercase 
+                              tx-bold 
+                              tx-spacing-6 
+                              tx-10" 
+                              {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %} 
+                              disabled
+                              {% else %}
+                              <!--Nothing-->
+                              {% endif %} 
+                              Descargar  Anexo 2
+               </button>
+            </a>
+        
+           {% else %}
+           {% endif %}
+            {% if not paquete.comentario1 and not paquete.comentario2 %}
+               <div class="col-7 col-sm-8"
+                 style="text-transform:capitalize;
+                        justify-content:flex-start;
+                        color:black;
+                        font-weight: 900;
+                        font-size: 18px;">
+                        NO HAY ANEXO
+            </div>
+        
+           {% else %}
+           {% endif %}
+          {% comment %} {% endfor %} {% endcomment %}
+          
+          
+          {% comment %} {% endif %}  {% endcomment %}
+         
          
         
         </div><!-- col-8 -->
