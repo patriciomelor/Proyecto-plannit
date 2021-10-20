@@ -375,7 +375,10 @@ class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
                 destinatario = paquete_prev.prev_receptor,
                 owner = paquete_prev.prev_propietario,
                 proyecto= proyecto,
-                comentario=paquete_prev.prev_comentario,
+                comentario1=paquete_prev.prev_comentario1,
+                comentario2=paquete_prev.prev_comentario2,
+                comentario3=paquete_prev.prev_comentario3,
+                comentario4=paquete_prev.prev_comentario4,
                 tipo=paquete_prev.tipo
             )
 
