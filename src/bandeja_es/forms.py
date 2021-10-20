@@ -67,16 +67,16 @@ class PaquetePreviewForm(forms.ModelForm):
         labels = {
             'prev_receptor': 'Destinatario:',
             'prev_comentario1': 'Anexo 1:',
-            'prev_comentario2': 'Anexo 1:',
-            'prev_comentario3': 'Anexo 1:',
-            'prev_comentario4': 'Anexo 1:',
+            'prev_comentario2': 'Anexo 2:',
+            'prev_comentario3': 'Anexo 3:',
+            'prev_comentario4': 'Anexo 4:',
         }
         widgets = {
             'prev_descripcion': SummernoteInplaceWidget(),
-            'prev_comentario1': forms.FileInput(attrs={'class' : 'col-md-4 ', 'multiple': 'multiple'}),
-            'prev_comentario2': forms.FileInput(attrs={'class' : 'col-md-4 ', 'multiple': 'multiple'}),
-            'prev_comentario3': forms.FileInput(attrs={'class' : 'col-md-4 ', 'multiple': 'multiple'}),
-            'prev_comentario4': forms.FileInput(attrs={'class' : 'col-md-4 ', 'multiple': 'multiple'}),
+            'prev_comentario1': forms.FileInput(attrs={'class' : 'form-control-file col-md-4 ', 'multiple': 'multiple','title':'MAXIMO 250MB por Archivos'}),
+            'prev_comentario2': forms.FileInput(attrs={'class' : 'form-control-file col-md-4 ', 'multiple': 'multiple','title':'MAXIMO 250MB por Archivos'}),
+            'prev_comentario3': forms.FileInput(attrs={'class' : 'form-control-file col-md-4 ', 'multiple': 'multiple','title':'MAXIMO 250MB por Archivos'}),
+            'prev_comentario4': forms.FileInput(attrs={'class' : 'form-control-file col-md-4 ', 'multiple': 'multiple','title':'MAXIMO 250MB por Archivos'}),
         }
 
     def __init__(self, **kwargs):

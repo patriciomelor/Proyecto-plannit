@@ -43,12 +43,20 @@
                 <div class="content clearfix">
                     <h3 id="wizard2-h-0" tabindex="-1" class="title current">Configuración Destinatario Transmittal</h3>
                     <section id="wizard4-p-0" role="tabpanel" aria-labelledby="wizard4-h-0" class="body current" aria-hidden="false">
-                     <div class="form-group col-md-12">
+                     <div class=" col-md-12">
                     <h3 id="wizard2-h-0" tabindex="-1" class="title current">Destinatario</h3>
                         
                           {{ form|crispy }}
                           
-                        
+                     <div class="alert alert-warning" role="alert">
+                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="d-flex align-items-center justify-content-start">
+                            <i class="icon ion-alert-circled alert-icon tx-24 mg-t-5 mg-xs-t-0"></i>
+                            <span><strong>AVISO!</strong> Los archivos adjuntados deben tener como maximo 250MB por archivo.</span>
+                        </div><!-- d-flex -->
+                    </div><!-- alert -->   
                     </div><!-- form-group -->   
                       <input type="submit"class="btn btn-teal" value="Siguiente"/>
                      
