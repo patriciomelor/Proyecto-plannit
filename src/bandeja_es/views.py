@@ -240,16 +240,15 @@ def create_paquete(request, paquete_pk, versiones_pk):
             owner = paquete_prev.prev_propietario,
             proyecto= proyecto,
             comentario1=paquete_prev.prev_comentario1,
-            comentario2=paquete_prev.prev_comentario1,
-            comentario3=paquete_prev.prev_comentario1,
-            comentario4=paquete_prev.prev_comentario1,
+            comentario2=paquete_prev.prev_comentario2,
+
         )
-        files = paquete_prev.attachments.all()
-        for file in files:
-            PaqueteAttachment.objects.create(
-                file=file.file,
-                paquete=paquete
-            )
+        # files = paquete_prev.attachments.all()
+        # for file in files:
+        #     PaqueteAttachment.objects.create(
+        #         file=file.file,
+        #         paquete=paquete
+        #     )
             
         paquete.save()
         paquete_prev.delete()
@@ -375,16 +374,17 @@ class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
                 destinatario = paquete_prev.prev_receptor,
                 owner = paquete_prev.prev_propietario,
                 proyecto= proyecto,
-                comentario=paquete_prev.prev_comentario,
+                comentario1=paquete_prev.prev_comentario1,
+                comentario2=paquete_prev.prev_comentario2,
                 tipo=paquete_prev.tipo
             )
 
             paquete.save()
-            for file in files:
-                PaqueteAttachment.objects.create(
-                    paquete = paquete,
-                    file= file
-                )
+            # for file in files:
+            #     PaqueteAttachment.objects.create(
+            #         paquete = paquete,
+            #         file= file
+            #     )
             paquete_prev.delete()
 
             messages.add_message(self.request, messages.SUCCESS, "Transmittal informativo enviado correctamente")

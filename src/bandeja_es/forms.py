@@ -63,20 +63,18 @@ VersionFormset = formset_factory(VersionDocForm, extra=1)
 class PaquetePreviewForm(forms.ModelForm):
     class Meta:
         model = PrevPaquete
-        fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion', 'tipo', 'prev_comentario1', 'prev_comentario2','prev_comentario3','prev_comentario4',]
+        fields = ['prev_receptor', 'prev_asunto', 'prev_descripcion', 'tipo', 'prev_comentario1', 'prev_comentario2',]
         labels = {
             'prev_receptor': 'Destinatario:',
             'prev_comentario1': 'Anexo 1:',
-            'prev_comentario2': 'Anexo 1:',
-            'prev_comentario3': 'Anexo 1:',
-            'prev_comentario4': 'Anexo 1:',
+            'prev_comentario2': 'Anexo 2:',
+
         }
         widgets = {
             'prev_descripcion': SummernoteInplaceWidget(),
-            'prev_comentario1': forms.FileInput(attrs={'class' : 'col-md-4 ', 'multiple': 'multiple'}),
-            'prev_comentario2': forms.FileInput(attrs={'class' : 'col-md-4 ', 'multiple': 'multiple'}),
-            'prev_comentario3': forms.FileInput(attrs={'class' : 'col-md-4 ', 'multiple': 'multiple'}),
-            'prev_comentario4': forms.FileInput(attrs={'class' : 'col-md-4 ', 'multiple': 'multiple'}),
+            'prev_comentario1': forms.FileInput(attrs={'class' : 'col-md-4 ',}),
+            'prev_comentario2': forms.FileInput(attrs={'class' : 'col-md-4 ',}),
+
         }
 
     def __init__(self, **kwargs):
