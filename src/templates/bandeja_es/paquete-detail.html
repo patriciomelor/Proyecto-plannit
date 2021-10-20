@@ -86,7 +86,7 @@
           {% comment %} {% if paquete.attachments.count > 0 %} {% endcomment %}
            {% comment %} {% for file in paquete.attachments.all %} {% endcomment %}
            {% if paquete.comentario1 %}
-             <a href="{{paquete.comentario1}}"> 
+             <a href="{{paquete.comentario1.url}}"> 
               <button  class="btn btn-warning 
                               btn-oblong 
                               bd-2 pd-x-10 pd-y-5 
@@ -106,7 +106,7 @@
            {% else %}
            {% endif %}
              {% if paquete.comentario2 %}
-             <a href="{{paquete.comentario2}}"> 
+             <a href="{{paquete.comentario2.url}}"> 
               <button  class="btn btn-warning 
                               btn-oblong 
                               bd-2 pd-x-10 pd-y-5 

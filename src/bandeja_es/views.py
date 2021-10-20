@@ -345,12 +345,12 @@ class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
         paquete.prev_propietario = self.request.user
         paquete.proyecto = self.proyecto
         paquete.save()
-        files = self.request.FILES.getlist('prev_comentario')
-        for file in files:
-            PrevPaqueteAttachment.objects.create(
-                prev_paquete = paquete,
-                file= file
-            )
+        # files = self.request.FILES.getlist('prev_comentario')
+        # for file in files:
+        #     PrevPaqueteAttachment.objects.create(
+        #         prev_paquete = paquete,
+        #         file= file
+        #     )
         paquete_pk = paquete.pk
         if paquete.tipo == 1:
             return redirect('nueva-version', paquete_pk=paquete_pk)
