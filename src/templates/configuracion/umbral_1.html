@@ -50,7 +50,7 @@
                     {% if not version.estado_contratista %}
                       <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_estado_cliente_display}}</td>
                     
-                    {% elif version.estado_cliente %}
+                    {% elif not version.estado_cliente %}
                       <td style="border: black 2px;color: black; background-color: rgb(255, 255, 255);font-weight: 400; text-align: center;font-size: 12px;width: auto;">{{revision.get_estado_contratista_display}}</td>
                     {% endif %}
                     </tr>
