@@ -328,7 +328,7 @@
                           font-size: 10px;
                           padding: 5px;
                         ">
-                          {{documento.1.3}}%
+                          {% if documento.1.0.get_estado_cliente_display == "Anulado" %} 100% {% else %} {{documento.1.3}}% {% endif %}
                         </th>
                       </tr>
                       {% endif %} {% endfor %}
