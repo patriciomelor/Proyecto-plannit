@@ -85,7 +85,7 @@
         <h6 class="card-title tx-uppercase tx-12 mg-b-0">Datos de Respuesta revisor</h6>
       </div><!-- card-header -->
 
-      {% for answer in tarea.task_answer.all %}
+      {% for answer in tarea.task_answer.all|dictsortreversed:"contestado" %}
         <div class="card shadow-base bd-0">
       <div class="card-header pd-20 bg-transparent">
         <h6 class="card-title tx-uppercase tx-12 mg-b-0"></h6>
