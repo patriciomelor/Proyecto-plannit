@@ -12,6 +12,7 @@ from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE, ESTADO_CONTRATI
 import math
 from analitica.models import CurvasBase
 from datetime import datetime, time, timedelta
+from configuracion.models import HistorialUmbrales
 
 # Create your views here.
 
@@ -86,7 +87,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         reporte_curva_s_avance_real = self.reporte_curva_s_avance_real()
         reporte_curva_s_avance_esperado = self.reporte_curva_s_avance_esperado()
         reporte_curva_s_fechas = self.reporte_curva_s_fechas()
- 
+
+        context['umbrales'] = HistorialUmbrales.objects.filter(proyecto=self.proyecto).order_by('pk')
         context['lista_curva_s_avance_real'] = reporte_curva_s_avance_real
         context['lista_curva_s_avance_real_largo'] = len(reporte_curva_s_avance_real) 
         context['lista_curva_s_avance_esperado'] = reporte_curva_s_avance_esperado
