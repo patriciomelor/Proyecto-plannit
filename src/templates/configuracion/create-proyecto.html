@@ -17,9 +17,9 @@
         <h4 class="tx-gray-800 mg-b-5">Crear Proyecto</h4>
       </div>
     <div class="br-pagebody pd-x-20 pd-sm-x-30">
-      <div class="card bd-0 shadow-base">
+      <div class="card bd-0 shadow-base pd-20">
             <form method="POST"> {% csrf_token %}
-                <label for="" class="col-6 col-md-12 mg-20">
+                <label for="" class="col-6 col-md-12 ">
                 {{form|crispy}}
                 </label>
                 <button class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" type="submit"> Enviar </button>                
