@@ -221,7 +221,12 @@
                     
                   </div><!-- col-4 -->
                   <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    {{proyecto.umbral_documento_aprobado}}
+                    {% if request.user.perfil.rol_usuario == 1 %}
+                      -
+                    {% endif %}
+                    {% if request.user.perfil.rol_usuario == 4 %}
+                      -
+                    {% endif %}
                   </div><!-- col-8 -->
                 </div><!-- row -->
                 <div class="row no-gutters">
@@ -229,23 +234,43 @@
                     Doc. Atrasados(D):
                   </div><!-- col-4 -->
                   <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    {{proyecto.umbral_documento_atrasado}}
+                    {% if request.user.perfil.rol_usuario == 1 %}
+                      -
+                    {% endif %}
+                    {% if request.user.perfil.rol_usuario == 4 %}
+                      -
+                    {% endif %}
                   </div><!-- col-8 -->
                 </div><!-- row -->
                 <div class="row no-gutters">
-                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    Rev. Atrasadas(D):
-                  </div><!-- col-4 -->
-                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    {{proyecto.umbral_revision_documento}}
-                  </div><!-- col-8 -->
+                  {% if request.user.perfil.rol_usuario == 1 %}
+                    <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                      Rev. Atrasadas Cliente(D):
+                    </div><!-- col-4 -->
+                    <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                      {{umbrales.2.cliente_variable_atraso}}
+                    </div><!-- col-8 -->
+                  {% endif %}
+                  {% if request.user.perfil.rol_usuario == 4 %}
+                    <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                      Rev. Atrasadas Contratista(D):
+                    </div><!-- col-4 -->
+                    <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                      {{umbrales.1.contratista_variable_atraso}}
+                    </div><!-- col-8 -->
+                  {% endif %}
                 </div><!-- row -->
                 <div class="row no-gutters">
                   <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
                     Desviación del Proyecto(%):
                   </div><!-- col-4 -->
                   <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    {{proyecto.umbral_desviacion_porcentual}}
+                    {% if request.user.perfil.rol_usuario == 1 %}
+                      {{umbrales.0.cliente_variable_atraso}}
+                    {% endif %}
+                    {% if request.user.perfil.rol_usuario == 4 %}
+                      {{umbrales.0.contratista_variable_atraso}}
+                    {% endif %}
                   </div><!-- col-8 -->
                 </div><!-- row -->
               </div>
