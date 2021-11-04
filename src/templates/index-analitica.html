@@ -36,6 +36,21 @@
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
     <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.js"integrity="sha256-bLjSmbMs5XYwqLIj5ppZFblCo0/9jfdiG/WjPhg52/M=" crossorigin="anonymous"></script>
+  
+  <style>
+  @media print {
+   
+    .br-sideleft .br-header .br-pageheader {
+    display: none;
+    }
+    .br-pagebody{
+      float:none;
+    }
+    .graficos6{
+      margin-top: 150px!important;
+    }
+  }
+  </style>
   </head>
 
   <body class="collapsed-menu with-subleft">
@@ -163,6 +178,7 @@
    <!-- ########## START: MAIN PANEL ########## -->
       {% include "messege.html" %}
       {% block content %}
+     
       {% endblock content %}
     <!-- ########## END: MAIN PANEL ########## -->
 
