@@ -269,6 +269,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         if documentos_atrasados_0 < 0:
             documentos_atrasados_0 = 0
 
+        esperado_corto = 0
+        
         #Obtener avance real y esperado
         if lista_avance_real[0][1] != -1:
             if contador_emitidos != 0:
@@ -279,8 +281,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
                             avance_real = avance[0]
                             contador_real = contador_real + 1
                     contador_real = contador_real - 1
-                    #Obtener avance esperado curva s 
-                    avance_programado = avance_esperado[contador_real][0] 
+                    #Obtener avance esperado curva s
+                    if contador_real > (len(str(avance_programado)) - 1): 
+                        avance_programado = avance_esperado[-1][0] 
+                        esperado_corto = 1
+                    else:
+                        avance_programado = avance_esperado[contador_real][0]
             
             #Condicional para cuando el avance real posee solo un valor
             if contador_real == 0:
@@ -290,9 +296,15 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 avance_semanal_real = format(avance_semanal_real, '.2f')
 
             #Obtener avance semanal programado y avance semanal real
-            if contador_real != 0:
+            if contador_real != 0 and esperado_corto == 0:
                 avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real - 1][0]) 
                 avance_semanal_programado = float(avance_esperado[contador_real][0]) - float(avance_esperado[contador_real - 1][0])
+                avance_semanal_programado = format(avance_semanal_programado, '.2f')
+                avance_semanal_real = format(avance_semanal_real, '.2f')
+                
+            if contador_real != 0 and esperado_corto == 1:
+                avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real - 1][0]) 
+                avance_semanal_programado = float(avance_esperado[-1][0])
                 avance_semanal_programado = format(avance_semanal_programado, '.2f')
                 avance_semanal_real = format(avance_semanal_real, '.2f')
 
