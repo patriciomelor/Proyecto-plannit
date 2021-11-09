@@ -12,6 +12,7 @@ from panel_carga.choices import TYPES_REVISION, ESTADOS_CLIENTE, ESTADO_CONTRATI
 import math
 from analitica.models import CurvasBase
 from datetime import datetime, time, timedelta
+from configuracion.models import HistorialUmbrales
 
 # Create your views here.
 
@@ -86,7 +87,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         reporte_curva_s_avance_real = self.reporte_curva_s_avance_real()
         reporte_curva_s_avance_esperado = self.reporte_curva_s_avance_esperado()
         reporte_curva_s_fechas = self.reporte_curva_s_fechas()
- 
+
+        context['umbrales'] = HistorialUmbrales.objects.filter(proyecto=self.proyecto).order_by('pk')
         context['lista_curva_s_avance_real'] = reporte_curva_s_avance_real
         context['lista_curva_s_avance_real_largo'] = len(reporte_curva_s_avance_real) 
         context['lista_curva_s_avance_esperado'] = reporte_curva_s_avance_esperado
@@ -267,6 +269,9 @@ class EscritorioView(ProyectoMixin, TemplateView):
         if documentos_atrasados_0 < 0:
             documentos_atrasados_0 = 0
 
+        esperado_corto = 0
+        largo_esperado = 0
+        
         #Obtener avance real y esperado
         if lista_avance_real[0][1] != -1:
             if contador_emitidos != 0:
@@ -276,9 +281,15 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         if avance[1] == 0:
                             avance_real = avance[0]
                             contador_real = contador_real + 1
+                    for esperado in avance_esperado:
+                        largo_esperado = largo_esperado + 1
                     contador_real = contador_real - 1
-                    #Obtener avance esperado curva s 
-                    avance_programado = avance_esperado[contador_real][0] 
+                    #Obtener avance esperado curva s
+                    if contador_real > largo_esperado: 
+                        avance_programado = avance_esperado[-1][0] 
+                        esperado_corto = 1
+                    else:
+                        avance_programado = avance_esperado[contador_real][0]
             
             #Condicional para cuando el avance real posee solo un valor
             if contador_real == 0:
@@ -288,9 +299,15 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 avance_semanal_real = format(avance_semanal_real, '.2f')
 
             #Obtener avance semanal programado y avance semanal real
-            if contador_real != 0:
+            if contador_real != 0 and esperado_corto == 0:
                 avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real - 1][0]) 
                 avance_semanal_programado = float(avance_esperado[contador_real][0]) - float(avance_esperado[contador_real - 1][0])
+                avance_semanal_programado = format(avance_semanal_programado, '.2f')
+                avance_semanal_real = format(avance_semanal_real, '.2f')
+                
+            if contador_real != 0 and esperado_corto == 1:
+                avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real - 1][0]) 
+                avance_semanal_programado = float(0)
                 avance_semanal_programado = format(avance_semanal_programado, '.2f')
                 avance_semanal_real = format(avance_semanal_real, '.2f')
 
@@ -309,17 +326,6 @@ class EscritorioView(ProyectoMixin, TemplateView):
             if semana != 0:
                 avance_semanal_programado = float(avance_esperado[semana][0]) - float(avance_esperado[semana - 1][0])
                 avance_semanal_programado = format(avance_semanal_programado, '.2f') 
-
-        # #Avance real y esperado en caso no existir documentos emitidos
-        # if contador_emitidos == 0:
-        #     avance_real = '0.0'
-        #     contador_fechas = 0
-        #     unico = 1
-        #     for date in fechas:
-        #         if str(date) >= str(semana_actual) and unico == 1:
-        #             avance_programado = avance_esperado[contador_fechas][0]
-        #             unico = 0
-        #         contador_fechas = contador_fechas + 1
         
         #Se almacenan los datos obtenidos
         lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente,  documentos_revision_contratista,  documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0,cantidad_paquetes_contratista, cantidad_paquetes_cliente,  avance_programado, avance_real, avance_semanal_programado, avance_semanal_real]
