@@ -167,17 +167,19 @@ class CreateTarea(ProyectoMixin, AdminViewMixin, CreateView):
         initial["documento"] = doc_pk
         return initial
 
-    # def form_valid(self, form):
-    #     task = form.save(commit=False)
-    #     send_email(
-    #         html="status_encargado/task_email.html",
-    #         context= {
-    #             "task": task
-    #         },
-    #         subject="Se te ha asignado una Tarea !",
-    #         recipients=[task.encargado]
-    #     )
-    #     return super().form_valid(form)
+    def form_valid(self, form):
+        task = form.save(commit=False)
+        task.autor = self.request.user
+        task.save()
+        send_email(
+            html="status_encargado/emails/tarea.html",
+            context= {
+                "task": task
+            },
+            subject="Se te ha asignado una Tarea !",
+            recipients=[task.encargado.email]
+        )
+        return super().form_valid(form)
 
 class CreateRespuesta(ProyectoMixin, CreateView):
     template_name = 'status_encargado/create-respuesta.html'
@@ -212,6 +214,14 @@ class CreateRespuesta(ProyectoMixin, CreateView):
         answer.tarea = task
         answer.sent = True
         answer.save()
+        send_email(
+            html="status_encargado/emails/Respuesta.html",
+            context= {
+                "task": task
+            },
+            subject="Tienes una nueva Respuesta en el proyecto {}".format(self.proyecto.nombre),
+            recipients=[task.autor.email]
+        )
         return super().form_valid(form)
 
     # def form_valid(self, form):

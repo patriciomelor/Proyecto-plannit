@@ -3,7 +3,7 @@ import pathlib
 import os.path
 
 from django.views.generic import base
-from tools.objects import AdminViewMixin, VisualizadorViewMixin
+from tools.objects import AdminViewMixin, SuperuserViewMixin, VisualizadorViewMixin
 import zipfile
 import time
 import base64
@@ -30,6 +30,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db import IntegrityError
 
+from notifications.emails import send_email
 from panel_carga.views import ProyectoMixin
 from .models import PaqueteAttachment, PrevPaqueteAttachment, Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, PaqueteDocumento
 from .forms import CreatePaqueteForm, PaquetePreviewForm, PrevVersionForm
@@ -160,7 +161,8 @@ class PaqueteUpdate(ProyectoMixin, UpdateView):
     form_class = CreatePaqueteForm
     success_url = reverse_lazy('paquete-detalle')
 
-class PaqueteDelete(ProyectoMixin, AdminViewMixin, DeleteView):
+
+class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     model = Paquete
     template_name = 'bandeja_es/paquete-delete.html'
     success_url = reverse_lazy('Bandejaeys')
@@ -266,6 +268,19 @@ def create_paquete(request, paquete_pk, versiones_pk):
             vertion_f.save()
             paquete.version.add(vertion_f)
             vertion.delete()
+
+        notification_list = []
+        for user in proyecto.participantes.all():
+            notification_list.append(user.email)
+
+        send_email(
+            html="status_encargado/emails/Respuesta.html",
+            context= {
+                "paquete": paquete
+            },
+            subject="Se ha emitido un Transmittal {}".format(paquete.codigo),
+            recipients=notification_list
+        )
 
         messages.success(request, message="Transmittal envíado correctamente.")
         return redirect('Bandejaeys')

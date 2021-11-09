@@ -16,19 +16,16 @@
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5"> Editar el documentos</h4>
     <p class="mg-b-0"></p>
+    <div class="br-section-wrapper">
+      <form method="post">{% csrf_token %}
+          {{ form|crispy }}
+          <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar">
+          <input class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="button" onClick="javascript:history.go(-1);" value="Volver">
+
+      </form>
+    </div>
   </div>
 
-  <div class="br-pagebody mg-t-5 pd-x-30">
 
-<div class="br-section-wrapper">
-    <form method="post">{% csrf_token %}
-        <label class="form-control col-12 col-sm-12">{{ form|crispy }}
-        
-        <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar">
-        <input class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="button" onClick="javascript:history.go(-1);" value="Volver">
-
-    </form>
-</div>
-</div>
 </div>
 {% endblock %}
