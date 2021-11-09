@@ -146,11 +146,41 @@ class EscritorioView(ProyectoMixin, TemplateView):
         avance_semanal_programado = 0
         avance_semanal_real = 0
 
+        #Variables documentos esperados y reales
+        contador_fechas_semanal = 0
+        contador_semanal_b = 0
+        contador_semanal_0 = 0
+        contador_emitidos_b_sin_0 = 0
+        contador_esperados_b_sin_0 = 0
+        contador_emitidos_semana_b = 0
+        contador_emitidos_semana_0 = 0
+
         #Obtener paquetes
         clientes = [1,2,3]        
         contratistas = [4,5,6]        
         cantidad_paquetes_cliente = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=clientes, proyecto=self.proyecto).count()
         cantidad_paquetes_contratista = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto).count()
+
+        #Funcion para calcular documentos que deberian ser emitidos en una semana
+        if fechas:
+            for fecha in fechas:
+                if str(fecha) < str(semana_actual):
+                    contador_fechas_semanal = contador_fechas_semanal + 1
+
+            fecha_control = fechas[contador_fechas_semanal]
+            fecha_anterior = fechas[contador_fechas_semanal - 1]
+
+            for doc in documentos:
+                fecha_emision_0 = doc.fecha_Emision_0
+                fecha_emision_0 = fecha_emision_0.replace(tzinfo = None)
+                fecha_emision_b = doc.fecha_Emision_B
+                fecha_emision_b = fecha_emision_b.replace(tzinfo = None)
+
+                if fecha_emision_b >= fecha_anterior and fecha_emision_b <= fecha_control:
+                    contador_semanal_b = contador_semanal_b + 1
+
+                if fecha_emision_0 >= fecha_anterior and fecha_emision_0 <= fecha_control:
+                    contador_semanal_0 = contador_semanal_0 + 1
 
         #Obtener otros datos 
         for doc in documentos:
@@ -197,6 +227,14 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 fecha_version = fecha_version.replace(tzinfo = None)
                 estado_cliente = version_last.estado_cliente
                 estado_contratista = version_last.estado_contratista
+
+                #Verisones emitidas en la semana
+                if fecha_version >= fecha_anterior and fecha_version <= fecha_control:
+                    if version_last.revision <= 4:
+                        contador_emitidos_semana_b = contador_emitidos_semana_b + 1
+
+                    if version_last.revision > 4:
+                        contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
 
                 #Se obtienen y comparan los estados del cliente
                 for cliente in ESTADOS_CLIENTE[1:]:
@@ -271,6 +309,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
         esperado_corto = 0
         largo_esperado = 0
+
+        #Calculo de documentos reales emitidos en b
+        contador_emitidos_b_sin_0 = contador_emitidos_b - contador_emitidos_0
+        contador_esperados_b_sin_0 = contador_b - contador_0
         
         #Obtener avance real y esperado
         if lista_avance_real[0][1] != -1:
@@ -328,7 +370,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 avance_semanal_programado = format(avance_semanal_programado, '.2f') 
         
         #Se almacenan los datos obtenidos
-        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente,  documentos_revision_contratista,  documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0,cantidad_paquetes_contratista, cantidad_paquetes_cliente,  avance_programado, avance_real, avance_semanal_programado, avance_semanal_real]
+        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente, documentos_revision_contratista, documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0, cantidad_paquetes_contratista, cantidad_paquetes_cliente, avance_programado, avance_real, avance_semanal_programado, avance_semanal_real, contador_esperados_b_sin_0, contador_0, contador_emitidos_b_sin_0, contador_emitidos_0, contador_semanal_b, contador_semanal_0, contador_emitidos_semana_b, contador_emitidos_semana_0]
         lista_final.append(lista_inicial)
 
         return lista_inicial
