@@ -8,8 +8,9 @@ from panel_carga.models import Documento
 
 class Tarea(models.Model):
     created_at = models.DateTimeField(verbose_name="Fecha Creación", auto_now_add=True)
+    autor = models.ForeignKey(User, on_delete=models.SET_DEFAULT, default=1, related_name="autor", verbose_name="Autor", blank=True)
     documento = models.ForeignKey(Documento, related_name="task_document", on_delete=models.CASCADE, verbose_name="Documento")
-    encargado = models.ForeignKey(User, related_name="taks_responsable", on_delete=models.SET_DEFAULT, verbose_name="Encargado", default=1)
+    encargado = models.ForeignKey(User, related_name="responsable", on_delete=models.SET_DEFAULT, verbose_name="Encargado", default=1)
     restricciones = models.ForeignKey(Restricciones, on_delete=models.SET_NULL, related_name="task_restrictions", verbose_name="Restricciones", blank=True, null=True,)
     contidad_hh = models.IntegerField(verbose_name="Cantidad Horas Hombre")
     comentarios = models.TextField(verbose_name="Comentarios")
@@ -17,6 +18,8 @@ class Tarea(models.Model):
     archivo = models.FileField(verbose_name="Archivo", upload_to="tareas/documentos/", null=True, blank=True)
     plazo = models.DateField(verbose_name="Fecha Requerimiento")
 
+    def __str__(self):
+        return "Documento"+self.documento.Codigo_documento
 class Respuesta(models.Model):
     STATES_TYPES = ((1,'Sin Evaluación'),(2,'Aprobado'), (3,'Rechazado'))
 
