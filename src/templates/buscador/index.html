@@ -28,6 +28,7 @@
         <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Código</th>
         <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Tipo</th>
        <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Revisión Actual</th> 
+       <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" > Descargar <br> Revisión Actual</th> 
         </tr>
       </thead>
       <tbody>
@@ -40,11 +41,14 @@
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Codigo_documento}}</td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Tipo_Documento}}</td>            
            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.version_set.last.get_revision_display}}</td>         
+           <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
+              <a class="btn btn-teal"href="{{documento.version_set.last.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a> 
+            </td>          
           </tr>
           {% endfor %} 
         </tbody>
     </table>  
-    {% comment %} <input type="submit" class="btn btn-success" value="Descargar Últimas Versiones"> {% endcomment %}
+    <input type="submit" class="btn btn-success" value="Descargar Últimas Versiones"> 
   </form>
 
   </div>

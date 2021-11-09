@@ -44,17 +44,24 @@ class BuscadorIndex(ProyectoMixin, View):
     def post(self, request, *args, **kwargs):
         listado = self.request.POST.getlist('dnld')
         versiones = Version.objects.filter(pk__in=listado)
-        zip_subdir = "Ultimas-Versiones-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
+        print(versiones)
+        zip_subdir = "Ultimas-Versiones-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
         s = BytesIO()
         zf = zipfile.ZipFile(s, "w")
         for version in versiones:
             r = requests.get(version.archivo.url, stream=True)
+            # print("VERSION: ", version)
+            # print("STATUS: ",r.status_code)
+            # print("CONTENIDO: ",r.content)
+            # print("TEXTO: ",r.text)
+            # print("JOSN: ",r.json)
             zf.writestr(str(version.archivo), r.content)
         zf.close()
         response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-        return redirect('buscador-index')
+
+        return response
 class VersionesList(ProyectoMixin, DetailView):
     model = Documento
     template_name = 'buscador/detalle.html'
