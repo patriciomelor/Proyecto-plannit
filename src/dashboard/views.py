@@ -118,6 +118,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         avance_esperado = self.reporte_curva_s_avance_esperado()
         semana_actual = timezone.now()
         semana_actual = semana_actual.replace(tzinfo = None)
+        fechas_para_documentos = self.reporte_curva_s_fechas()
 
         #Variables para funciones
         contador_emitidos = 0
@@ -162,13 +163,13 @@ class EscritorioView(ProyectoMixin, TemplateView):
         cantidad_paquetes_contratista = Paquete.objects.filter(destinatario__perfil__rol_usuario__in=contratistas, proyecto=self.proyecto).count()
 
         #Funcion para calcular documentos que deberian ser emitidos en una semana
-        if fechas:
-            for fecha in fechas:
-                if str(fecha) < str(semana_actual):
+        if fechas_para_documentos:
+            for fecha in fechas_para_documentos:
+                if str(fecha) <= str(semana_actual):
                     contador_fechas_semanal = contador_fechas_semanal + 1
 
-            fecha_control = fechas[contador_fechas_semanal]
-            fecha_anterior = fechas[contador_fechas_semanal - 1]
+            fecha_control = fechas_para_documentos[contador_fechas_semanal]
+            fecha_anterior = fechas_para_documentos[contador_fechas_semanal - 1]
 
             for doc in documentos:
                 fecha_emision_0 = doc.fecha_Emision_0
