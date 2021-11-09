@@ -3,7 +3,7 @@ import pathlib
 import os.path
 
 from django.views.generic import base
-from tools.objects import AdminViewMixin, VisualizadorViewMixin
+from tools.objects import AdminViewMixin, SuperuserViewMixin, VisualizadorViewMixin
 import zipfile
 import time
 import base64
@@ -161,7 +161,8 @@ class PaqueteUpdate(ProyectoMixin, UpdateView):
     form_class = CreatePaqueteForm
     success_url = reverse_lazy('paquete-detalle')
 
-class PaqueteDelete(ProyectoMixin, AdminViewMixin, DeleteView):
+
+class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     model = Paquete
     template_name = 'bandeja_es/paquete-delete.html'
     success_url = reverse_lazy('Bandejaeys')
