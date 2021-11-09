@@ -47,7 +47,10 @@
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Tipo_Documento}}</td>            
            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.version_set.last.get_revision_display}}</td>         
            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
+              {% if documento.version_set.last.archivo %}
               <a class="btn btn-teal"href="{{documento.version_set.last.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a> 
+              {% else %}
+              {% endif %}
             </td>          
           </tr>
           {% endfor %} 
