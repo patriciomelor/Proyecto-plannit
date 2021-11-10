@@ -314,7 +314,14 @@
   <div class="col-6">
     <div class="card shadow-base bd-0">
       <div class="pd-x-30 pd-t-30 pd-b-15 bg-info">
-                <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;text-align:center;display:flow-root;">Umbrales</h6>
+                <tr> 
+                <td style="float:left"> 
+                  <h6 class="tx-uppercase tx-12 mg-b-0" style="color: #fff;text-align:center;">Umbrales</h6>
+                </td>
+                <td style="float:left"> 
+                  <h6 class="tx-uppercase tx-12 mg-b-0" style="color: #fff;text-align:center;">Variable de Atraso</h6>
+                </td>
+                </tr>
               </div><!-- card-header -->
               <div class="form-layout form-layout-7">
                 <div class="row no-gutters">
@@ -350,7 +357,7 @@
                       Rev. Atrasadas Cliente(D):
                     </div><!-- col-4 -->
                     <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                      {{umbrales.2.cliente_variable_atraso}}
+                      {{umbrales.1.cliente_variable_atraso}}
                     </div><!-- col-8 -->
                   {% endif %}
                   {% if request.user.perfil.rol_usuario == 4 %}
@@ -358,7 +365,7 @@
                       Rev. Atrasadas Contratista(D):
                     </div><!-- col-4 -->
                     <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                      {{umbrales.1.contratista_variable_atraso}}
+                      {{umbrales.2.contratista_variable_atraso}}
                     </div><!-- col-8 -->
                   {% endif %}
                 </div><!-- row -->
@@ -368,10 +375,10 @@
                   </div><!-- col-4 -->
                   <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
                     {% if request.user.perfil.rol_usuario == 1 %}
-                      {{umbrales.0.cliente_variable_atraso}}
+                      {{umbrales.3.cliente_variable_atraso}}
                     {% endif %}
                     {% if request.user.perfil.rol_usuario == 4 %}
-                      {{umbrales.0.contratista_variable_atraso}}
+                      {{umbrales.3.contratista_variable_atraso}}
                     {% endif %}
                   </div><!-- col-8 -->
                 </div><!-- row -->
