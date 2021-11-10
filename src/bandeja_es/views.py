@@ -155,7 +155,7 @@ class PaqueteDetail(ProyectoMixin, DetailView):
 
         return response
 
-class PaqueteUpdate(ProyectoMixin, UpdateView):
+class PaqueteUpdate(ProyectoMixin, SuperuserViewMixin, UpdateView):
     model = Paquete
     template_name = 'bandeja_es/paquete-update.html'
     form_class = CreatePaqueteForm
@@ -167,6 +167,13 @@ class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     template_name = 'bandeja_es/paquete-delete.html'
     success_url = reverse_lazy('Bandejaeys')
     context_object_name = 'paquete'
+
+    def form_valid(self, form) -> HttpResponse:
+        paquete = self.get_object()
+        versions = paquete.version.all()
+        for version in versions:
+            print(version)
+        return HttpResponse()
 
 class BorradorList(ProyectoMixin, ListView):
     template_name = 'bandeja_es/borrador.html'
@@ -270,6 +277,8 @@ def create_paquete(request, paquete_pk, versiones_pk):
             vertion.delete()
 
         notification_list = []
+        project_numCod = str(proyecto.codigo + " - " + proyecto.nombre)
+
         for user in proyecto.participantes.all():
             notification_list.append(user.email)
 
@@ -278,7 +287,7 @@ def create_paquete(request, paquete_pk, versiones_pk):
             context= {
                 "paquete": paquete
             },
-            subject="Se ha emitido un Transmittal {}".format(paquete.codigo),
+            subject="[{}] Se ha emitido un Transmittal".format(project_numCod),
             recipients=notification_list
         )
 
