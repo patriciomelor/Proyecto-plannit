@@ -36,6 +36,8 @@
         <thead>
          <tr role="row">
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Transmittal</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Tipo</th>
+
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Asunto</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Autor</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Destinatario</th>
@@ -50,7 +52,9 @@
         </thead>
            {% for paquete in paquetes %}
           <tr role="row" class="odd">
-            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.codigo}}</a></td>            
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.codigo}}</a></td>           
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{ paquete.get_tipo_display }} </td>           
+
             <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.asunto }} </td>           
             <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.owner }}</td>
             <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">{{ paquete.destinatario }}</td>
