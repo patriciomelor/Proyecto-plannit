@@ -118,16 +118,57 @@
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
 
     <style>
-      .buttons-excel {
-        color: #fff !important;
-        background: #23bf08 !important;
-        border-color: #23bf08 !important;
-        display: block !important;
-        width: 100% !important;
-        border-radius: 50px !important;
-        margin-left: 20px !important;
-      }
-        div.dataTables_wrapper div.dataTables_filter label
+        #mydatatable tfoot input {
+            width: 100% !important;
+        }
+
+        #mydatatable tfoot {
+            display: table-header-group !important;
+        }
+          @media print {
+            #titulo{
+              background-color: #0866C6;
+              background: #0866C6;
+            }
+            body{
+              color: black;
+            }
+        }
+     
+   .buttons-pdf{
+    color: #fff!important;
+    background: hsl(0, 95%, 49%)!important;
+    border-color: #fc0f0f!important;
+    display: block!important;
+    float: left;
+  }
+  .buttons-excel{
+    color: #fff!important;
+    background: #23BF08!important;
+    border-color: #23BF08!important;
+    display: block!important;
+    float: left;
+    }
+          
+    .pagination{
+      margin-left:auto;
+      margin-right:auto;
+      padding-right: 80px;
+    }
+    .page-link {
+      width:15vh;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button {
+    padding : 0px;
+    margin-left: 0px;
+    display: inline;
+    border: 0px;
+    }
+    .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
+        border: 0px;
+    }
+    .note-editable { color: #000; }
+      div.dataTables_wrapper div.dataTables_filter label
         {font-size:22px!important;}
     </style>
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}" />

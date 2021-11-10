@@ -155,44 +155,20 @@
   $(document).ready(function() {
       $('#mydatatable').DataTable(
         {
-          "dom": 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
-          "responsive": true,
-          "bSort": false,
-           "oLanguage": {
+          dom: 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
+          responsive: true,
+          oLanguage: {
               "sSearch": "&#128270;" //search
             },
-          "language": {
-          "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
+          language: {
+              url: "https://cdn.datatables.net/plug-ins/1.11.3/i18n/es_es.json"
+              
           },
-          "order":[[4,"desc"]],
-          buttons:{
-            dom: {
-                button: {
-                    className: 'btn btn-success'
-                }
-            },
-          },
+          order:[[4,"desc"]],
+         
           buttons:[ 
-            {
-                //definimos estilos del boton de excel
-                extend: "excelHtml5",
-                text:'Exportar a Excel',
-                className:'btn btn-success',
-
-                // 1 - ejemplo básico - uso de templates pre-definidos
-                //definimos los parametros al exportar a excel
-              customize: function( xlsx ) {
-                var sheet = xlsx.xl.worksheets['sheet1.xml'];
- 
-                $('row c[r^="C"]', sheet).attr( 's', '2' );
-            },
-                 excelStyles: {               // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
-                    template:"blue_medium",
-                    
-                    
-                },
-
-            }]	     
+          'excel',  'pdf',
+           ] 
         });
   } );
 </script>
