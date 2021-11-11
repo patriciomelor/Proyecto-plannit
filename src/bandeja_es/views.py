@@ -3,7 +3,7 @@ import pathlib
 import os.path
 
 from django.views.generic import base
-from tools.objects import AdminViewMixin, VisualizadorViewMixin
+from tools.objects import AdminViewMixin, SuperuserViewMixin, VisualizadorViewMixin
 import zipfile
 import time
 import base64
@@ -30,6 +30,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from django.db import IntegrityError
 
+from notifications.emails import send_email
 from panel_carga.views import ProyectoMixin
 from .models import PaqueteAttachment, PrevPaqueteAttachment, Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, PaqueteDocumento
 from .forms import CreatePaqueteForm, PaquetePreviewForm, PrevVersionForm
@@ -154,17 +155,25 @@ class PaqueteDetail(ProyectoMixin, DetailView):
 
         return response
 
-class PaqueteUpdate(ProyectoMixin, UpdateView):
+class PaqueteUpdate(ProyectoMixin, SuperuserViewMixin, UpdateView):
     model = Paquete
     template_name = 'bandeja_es/paquete-update.html'
     form_class = CreatePaqueteForm
     success_url = reverse_lazy('paquete-detalle')
 
-class PaqueteDelete(ProyectoMixin, AdminViewMixin, DeleteView):
+
+class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     model = Paquete
     template_name = 'bandeja_es/paquete-delete.html'
     success_url = reverse_lazy('Bandejaeys')
     context_object_name = 'paquete'
+
+    def form_valid(self, form) -> HttpResponse:
+        paquete = self.get_object()
+        versions = paquete.version.all()
+        for version in versions:
+            print(version)
+        return HttpResponse()
 
 class BorradorList(ProyectoMixin, ListView):
     template_name = 'bandeja_es/borrador.html'
@@ -266,6 +275,21 @@ def create_paquete(request, paquete_pk, versiones_pk):
             vertion_f.save()
             paquete.version.add(vertion_f)
             vertion.delete()
+
+        notification_list = []
+        project_numCod = str(proyecto.codigo + " - " + proyecto.nombre)
+
+        for user in proyecto.participantes.all():
+            notification_list.append(user.email)
+
+        send_email(
+            html="status_encargado/emails/Respuesta.html",
+            context= {
+                "paquete": paquete
+            },
+            subject="[{}] Se ha emitido un Transmittal".format(project_numCod),
+            recipients=notification_list
+        )
 
         messages.success(request, message="Transmittal envíado correctamente.")
         return redirect('Bandejaeys')

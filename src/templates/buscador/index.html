@@ -13,12 +13,17 @@
  </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Panel de búsqueda / {{proyecto}}</h4>
-    <p class="mg-b-0"></p>
+    <p class="mg-b-0">
+     </p>
   </div>
 <div class="br-pagebody mg-t-5 pd-x-30">
+
   <div class="br-section-wrapper">
   <form action="{% url 'buscador-index' %}" method="post">{% csrf_token %}
+      <input type="submit" style="float: right;"class="btn btn-warning" value="⬇️ Descargar Últimas Versiones"></th>
+ 
     <table id="datatable2" class="table table-striped table-bordered table-hover table-primary" role="grid" aria-describedby="datatable2_info" style="width: 100%;">
+    
       <thead>
         <tr role="row">
         <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;"></th>
@@ -28,6 +33,7 @@
         <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Código</th>
         <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Tipo</th>
        <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Revisión Actual</th> 
+       <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" > Descargar <br> Revisión Actual</th> 
         </tr>
       </thead>
       <tbody>
@@ -40,11 +46,16 @@
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Codigo_documento}}</td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.Tipo_Documento}}</td>            
            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.version_set.last.get_revision_display}}</td>         
+           <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
+              {% if documento.version_set.last.archivo %}
+              <a class="btn btn-teal"href="{{documento.version_set.last.archivo.url}}"><i class="icon ion-archive fa-lg"></i></a> 
+              {% else %}
+              {% endif %}
+            </td>          
           </tr>
           {% endfor %} 
         </tbody>
     </table>  
-    {% comment %} <input type="submit" class="btn btn-success" value="Descargar Últimas Versiones"> {% endcomment %}
   </form>
 
   </div>

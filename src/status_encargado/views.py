@@ -220,7 +220,7 @@ class CreateRespuesta(ProyectoMixin, CreateView):
                 "task": task
             },
             subject="Tienes una nueva Respuesta en el proyecto {}".format(self.proyecto.nombre),
-            recipients=[task.encargado.email]
+            recipients=[task.autor.email]
         )
         return super().form_valid(form)
 

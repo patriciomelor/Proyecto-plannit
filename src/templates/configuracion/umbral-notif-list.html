@@ -51,6 +51,9 @@
         "dom": 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
           "responsive": true,
           "bSort": false,
+          "oLanguage": {
+              "sSearch": "&#128270;" //search
+            },
           "language": {
           "url": "https://cdn.datatables.net/plug-ins/1.10.19/i18n/Spanish.json"
           },
@@ -63,22 +66,8 @@
         },
       },
       buttons: [
-        {
-          //definimos estilos del boton de excel
-          extend: "excel",
-          text: "Exportar a Excel",
-          className: "btn btn-success",
-
-          // 1 - ejemplo básico - uso de templates pre-definidos
-          //definimos los parametros al exportar a excel
-
-          excelStyles: {
-            template: "header_blue", // Apply the 'header_blue' template part (white font on a blue background in the header/footer)
-            template: "green_medium",
-
-            template: ["blue_medium", "header_green", "title_medium"],
-          },
-        },
+      'excel',  'pdf',
+     
       ],
     });
   });
