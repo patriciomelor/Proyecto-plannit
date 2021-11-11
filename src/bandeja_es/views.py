@@ -279,8 +279,13 @@ def create_paquete(request, paquete_pk, versiones_pk):
         notification_list = []
         project_numCod = str(proyecto.codigo + " - " + proyecto.nombre)
 
-        for user in proyecto.participantes.all():
+        for user in proyecto.participantes.exclude(is_superser=True):
             notification_list.append(user.email)
+
+        try:
+            notification_list.remove("deivylop@hotmail.cl")
+        except:
+            pass
 
         send_email(
             html="status_encargado/emails/Respuesta.html",
