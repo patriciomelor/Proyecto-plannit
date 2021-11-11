@@ -235,11 +235,21 @@ def create_paquete(request, paquete_pk, versiones_pk):
         clientes = [1,2,3]
         contratistas = [4,5,6]
         if rol in clientes:
-            pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario__in=clientes).count()
-            codigo_trasmital = str(proyecto.codigo) + "-" + "C" +"-" +str((pkg + 1))
+            try:
+                pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario__in=clientes).last()
+                code_pkg = pkg.codigo.split("-")
+                last_code = code_pkg.pop()
+                codigo_trasmital = str(proyecto.codigo) + "-" + "C" +"-" + str(int(last_code) + 1)
+            except Paquete.DoesNotExist:
+                codigo_trasmital = str(proyecto.codigo) + "-" + "C" +"-1"
         elif rol in contratistas:
-            pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario__in=contratistas).count()
-            codigo_trasmital = str(proyecto.codigo) + "-" + "T" +"-" +str((pkg + 1))
+            try:
+                pkg = Paquete.objects.filter(proyecto=proyecto, owner__perfil__rol_usuario__in=clientes).last()
+                code_pkg = pkg.codigo.split("-")
+                last_code = code_pkg.pop()
+                codigo_trasmital = str(proyecto.codigo) + "-" + "T" +"-" + str(int(last_code) + 1)
+            except Paquete.DoesNotExist:
+                codigo_trasmital = str(proyecto.codigo) + "-" + "T" +"-1"
 
         paquete = Paquete(
             codigo = codigo_trasmital,
@@ -279,7 +289,7 @@ def create_paquete(request, paquete_pk, versiones_pk):
         notification_list = []
         project_numCod = str(proyecto.codigo + " - " + proyecto.nombre)
 
-        for user in proyecto.participantes.exclude(is_superser=True):
+        for user in proyecto.participantes.exclude(is_superuser=True):
             notification_list.append(user.email)
 
         try:
@@ -292,7 +302,7 @@ def create_paquete(request, paquete_pk, versiones_pk):
             context= {
                 "paquete": paquete
             },
-            subject="[{}] Se ha emitido un Transmittal".format(project_numCod),
+            subject="[{}] Se ha emitido un Transmittal".format(project_numCod), 
             recipients=notification_list
         )
 
