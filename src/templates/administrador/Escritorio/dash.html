@@ -154,7 +154,7 @@
     <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
       <div class="card">
         <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
-          <h6 class="card-title"style="color:#fff;text-align:center;display:flow-root;">% Avance real</h6>
+          <h6 class="card-title"style="color:#fff;text-align:center;display:flow-root;font-size:11.1px">% Avance real</h6>
         </div><!-- card-header -->
         <div class="card-footer"style="text-align:center;display:flow-root;">
           <div>
@@ -327,7 +327,6 @@
                 <div class="row no-gutters">
                   <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
                     Doc. Aprobados(D):
-                    
                   </div><!-- col-4 -->
                   <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
                     {% if request.user.perfil.rol_usuario == 1 %}
@@ -352,22 +351,20 @@
                   </div><!-- col-8 -->
                 </div><!-- row -->
                 <div class="row no-gutters">
-                  {% if request.user.perfil.rol_usuario == 1 %}
-                    <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                      Rev. Atrasadas Cliente(D):
-                    </div><!-- col-4 -->
-                    <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                      {{umbrales.1.cliente_variable_atraso}}
-                    </div><!-- col-8 -->
-                  {% endif %}
-                  {% if request.user.perfil.rol_usuario == 4 %}
-                    <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                      Rev. Atrasadas Contratista(D):
-                    </div><!-- col-4 -->
-                    <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                      {{umbrales.2.contratista_variable_atraso}}
-                    </div><!-- col-8 -->
-                  {% endif %}
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    Rev. Atrasadas Cliente(D):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    {{umbrales.1.cliente_variable_atraso}}
+                  </div><!-- col-8 -->
+                </div>
+                <div class="row no-gutters">
+                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    Rev. Atrasadas Contratista(D):
+                  </div><!-- col-4 -->
+                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                    {{umbrales.2.contratista_variable_atraso}}
+                  </div><!-- col-8 -->
                 </div><!-- row -->
                 <div class="row no-gutters">
                   <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
