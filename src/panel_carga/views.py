@@ -1,5 +1,6 @@
 import os.path
 import datetime
+from django import forms
 from django.utils import timezone
 from django.shortcuts import render, redirect
 from django.http import HttpResponse, HttpResponseRedirect
@@ -20,7 +21,7 @@ from django.urls import reverse_lazy
 
 from configuracion.models import HistorialUmbrales, Umbral
 from .models import Proyecto, Documento, Revision, Historial
-from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm
+from .forms import ProyectoForm, DocumentoForm, ProyectoSelectForm, RevisionForm, UploadFileForm, DocEditFormset
 from .filters import DocFilter
 from tools.views import ProyectoSeleccionadoMixin
 from tools.objects import SuperuserViewMixin, AdminViewMixin, VisualizadorViewMixin, is_superuser_check, is_admin_check
@@ -274,3 +275,12 @@ class DocumentoFileUploadView(ProyectoMixin, ListView):
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
 
+class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
+    model = Documento
+    template_name = 'panel_carga/multi-update-documento.html'
+    success_url = reverse_lazy('PanelCarga')
+    form_class = DocEditFormset
+
+    # def get_form(self, form_class):
+    #     form = DocEditFormset()
+    #     return form
