@@ -185,7 +185,7 @@ class CreateRespuesta(ProyectoMixin, CreateView):
     template_name = 'status_encargado/create-respuesta.html'
     form_class = RespuestaForm
     success_url = reverse_lazy('revisor-index')
-    success_message = 'Respuesta enviada correctamente.'
+    success_message = 'Respuesta enviada correctamente'
 
     def dispatch(self, request, *args, **kwargs):
         try:
@@ -203,7 +203,7 @@ class CreateRespuesta(ProyectoMixin, CreateView):
 
         if last_anwser:
             if last_anwser.estado == 1 or last_anwser.estado == 2:
-                messages.add_message(request, messages.INFO, "Tarea ya fue aprobada o se encuentra sin evaluación")
+                messages.add_message(request, messages.INFO, "Tarea ya fue aprobada o última respuesta aún se encuentra en revisión")
                 return redirect('encargado-index')
 
         return super().dispatch(request, *args, **kwargs)
