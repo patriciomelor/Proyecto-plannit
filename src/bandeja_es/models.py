@@ -4,7 +4,7 @@ from panel_carga.choices import (ESTADO_CONTRATISTA, ESTADOS_CLIENTE, TYPES_REVI
 from django.conf import settings
 from panel_carga.models import Documento, Proyecto
 from django.forms import model_to_dict
-
+from django.utils import timezone
 #################################################
                 # VERSION Y PAQUETE
 #################################################
@@ -36,8 +36,8 @@ class Paquete(models.Model):
     comentario1 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     comentario2 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     version = models.ManyToManyField(Version, through='PaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
-    fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", auto_now_add=True, editable=True)
-    fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", editable=True, blank=True, null=True) #a que fecha corresponde?
+    fecha_creacion = models.DateTimeField(verbose_name="Fecha de creacion", default=timezone.now, editable=True)
+    fecha_respuesta = models.DateTimeField(verbose_name="Fecha de respuesta", blank=True, null=True) #a que fecha corresponde?
     asunto = models.CharField(verbose_name="Asunto", max_length=300)
     descripcion = models.TextField(verbose_name="Descripción", blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, related_name="propietario")

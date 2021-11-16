@@ -1,9 +1,9 @@
 from django import forms
+from django.forms.models import modelformset_factory
 import django.forms.widgets
 from .models import Proyecto, Documento, Revision
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
-
 
 
 class UploadFileForm(forms.Form):
@@ -58,3 +58,5 @@ class RevisionForm(forms.ModelForm):
     class Meta:
         model = Revision
         fields = '__all__'
+
+DocEditFormset = modelformset_factory(Documento, form= DocumentoForm)
