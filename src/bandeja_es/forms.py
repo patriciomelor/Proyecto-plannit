@@ -42,6 +42,10 @@ class CreatePaqueteForm(forms.ModelForm):
     class Meta:
         model = Paquete
         fields = ['codigo', 'destinatario', 'asunto', 'tipo', 'fecha_creacion']
+        widgets ={
+                'fecha_creacion': forms.TextInput(attrs={'class': 'datapickers form-control','type':'date'}),
+                
+            }
 class VersionDocForm(forms.ModelForm):
     class Meta:
         model = Version
