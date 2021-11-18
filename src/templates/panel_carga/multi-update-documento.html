@@ -1,4 +1,4 @@
-{% extends "index-base.html" %}
+{% extends "index-pdc.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
 <div class="br-mainpanel" style="position: relative;">
@@ -20,7 +20,12 @@
 <div class="br-section-wrapper">
     <form method="post">{% csrf_token %}
     {% for f in form  %}
-        {{ f }}
+    <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">Codigo Documento</h6>
+       <div class="col-md-8" style="margin:0px auto"> 
+
+               {{ f|crispy }}
+       
+       </div>
         <br>
     {% endfor %}
         
