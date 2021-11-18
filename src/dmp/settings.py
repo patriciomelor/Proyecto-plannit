@@ -32,7 +32,7 @@ DEBUG = os.getenv("DEBUG", "False") == "1"
 
 DEVELOPMENT_MODE = os.getenv("DEVELOPMENT_MODE", "False") == "1"
 
-ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,plannit-app.cl,165.232.156.255").split(",")
+ALLOWED_HOSTS = os.getenv("DJANGO_ALLOWED_HOSTS", "127.0.0.1,localhost,plannit-app.cl,165.232.156.255,167.71.170.68").split(",")
 
 
 # Application definition
