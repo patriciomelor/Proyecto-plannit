@@ -183,11 +183,11 @@ WSGI_APPLICATION = 'dmp.wsgi.application'
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
 
 if DEVELOPMENT_MODE is True:
-    print('using dmpdb5')
+    print('using PLANNIT-DEV')
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'dmpdb5',
+            'NAME': 'PLANNIT-DEV',
             'USER': 'postgres',
             'PASSWORD': 'dmp.2020',
             'HOST': os.getenv("DATABASE_URL", "134.209.78.27"),

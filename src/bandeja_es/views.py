@@ -3,6 +3,7 @@ import pathlib
 import os.path
 
 from django.views.generic import base
+from buscador.views import VersionesList
 from tools.objects import AdminViewMixin, SuperuserViewMixin, VisualizadorViewMixin
 import zipfile
 import time
@@ -159,8 +160,18 @@ class PaqueteUpdate(ProyectoMixin, SuperuserViewMixin, UpdateView):
     model = Paquete
     template_name = 'bandeja_es/paquete-update.html'
     form_class = CreatePaqueteForm
-    success_url = reverse_lazy('paquete-detalle')
+    success_url = reverse_lazy('Bandejaeys')
 
+    def form_valid(self, form) -> HttpResponse:
+        paquete = self.get_object()
+        fecha_modificar = paquete.fecha_creacion
+        versiones = paquete.version.all()
+
+        for version in versiones:
+            version.fecha = fecha_modificar
+            version.save()
+
+        return super().form_valid(form)
 
 class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     model = Paquete

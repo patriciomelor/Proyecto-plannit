@@ -10,7 +10,7 @@ from django.utils import timezone
 #################################################
 
 class Version(models.Model):
-    fecha = models.DateTimeField(verbose_name="Fecha Versión", auto_now_add=True)
+    fecha = models.DateTimeField(verbose_name="Fecha Versión", default=timezone.now, editable=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True)
     revision = models.IntegerField(verbose_name="Revisión", choices=TYPES_REVISION)
