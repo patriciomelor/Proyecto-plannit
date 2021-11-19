@@ -142,61 +142,66 @@ class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
         return context
     
     def post(self, request, *args, **kwargs):
-        documentos_erroneos = []
-        dataset = Dataset()
-        new_documentos = request.FILES['importfile']
-        try:
-            imported_data = dataset.load(new_documentos.read(), format='xlsx')
-        except Exception as excep:
-            imported_data = None
-            error = excep
-
-        if imported_data:
-            for data in imported_data:
-                try:
-                    pass
-                    if isinstance(data[4], str):
-                        fecha_b = data[4]
-                    else:
-                        fecha_b = timezone.make_aware(data[4], is_dst=True) 
-                    if isinstance(data[5], str):
-                        fecha_0 = data[5]
-                    else:
-                        fecha_0 = timezone.make_aware(data[5], is_dst=True) #.strftime("%Y-%m-%d")
-                    documento = Documento(
-                        Especialidad= data[0],
-                        Descripcion= data[1],
-                        Codigo_documento= data[2],
-                        Tipo_Documento= data[3],
-                        fecha_Emision_B=fecha_b, #data[4], #fecha_b,
-                        fecha_Emision_0=fecha_0, #data[5], #fecha_0,
-                        proyecto= self.proyecto,
-                        owner= request.user
-                    )
-                    documento.save()
-                except IntegrityError as error:
-                    aux = [data, error]
-                    documentos_erroneos.append(aux)
-                except ValueError as error:
-                    aux = [data, error]
-                    documentos_erroneos.append(aux)
-                except TypeError as error:
-                    aux = [data, error]
-                    documentos_erroneos.append(aux)
-                except ValidationError as error:
-                    aux = [data, error]
-                    documentos_erroneos.append(aux)
-                except AttributeError as error:
-                    aux = [data, error]
-                    documentos_erroneos.append(aux)
-                except Exception as error:
-                    aux = [data, error]
-                    documentos_erroneos.append(aux)
+        to_edit = self.request.POST.getlist('dnld')
+        if to_edit:
+            return redirect('documento-update', documentos=to_edit)
         else:
-            messages.add_message(request, level=messages.ERROR, message="No se encontró información para almacenar")
-            return render(request, 'panel_carga/list-error.html', context={'exception': "Error en la Importación. Excel inválido."})
-            
-        return render(request, 'panel_carga/list-error.html', context={'errores': documentos_erroneos})
+
+            documentos_erroneos = []
+            dataset = Dataset()
+            new_documentos = request.FILES['importfile']
+            try:
+                imported_data = dataset.load(new_documentos.read(), format='xlsx')
+            except Exception as excep:
+                imported_data = None
+                error = excep
+
+            if imported_data:
+                for data in imported_data:
+                    try:
+                        pass
+                        if isinstance(data[4], str):
+                            fecha_b = data[4]
+                        else:
+                            fecha_b = timezone.make_aware(data[4], is_dst=True) 
+                        if isinstance(data[5], str):
+                            fecha_0 = data[5]
+                        else:
+                            fecha_0 = timezone.make_aware(data[5], is_dst=True) #.strftime("%Y-%m-%d")
+                        documento = Documento(
+                            Especialidad= data[0],
+                            Descripcion= data[1],
+                            Codigo_documento= data[2],
+                            Tipo_Documento= data[3],
+                            fecha_Emision_B=fecha_b, #data[4], #fecha_b,
+                            fecha_Emision_0=fecha_0, #data[5], #fecha_0,
+                            proyecto= self.proyecto,
+                            owner= request.user
+                        )
+                        documento.save()
+                    except IntegrityError as error:
+                        aux = [data, error]
+                        documentos_erroneos.append(aux)
+                    except ValueError as error:
+                        aux = [data, error]
+                        documentos_erroneos.append(aux)
+                    except TypeError as error:
+                        aux = [data, error]
+                        documentos_erroneos.append(aux)
+                    except ValidationError as error:
+                        aux = [data, error]
+                        documentos_erroneos.append(aux)
+                    except AttributeError as error:
+                        aux = [data, error]
+                        documentos_erroneos.append(aux)
+                    except Exception as error:
+                        aux = [data, error]
+                        documentos_erroneos.append(aux)
+            else:
+                messages.add_message(request, level=messages.ERROR, message="No se encontró información para almacenar")
+                return render(request, 'panel_carga/list-error.html', context={'exception': "Error en la Importación. Excel inválido."})
+                
+            return render(request, 'panel_carga/list-error.html', context={'errores': documentos_erroneos})
 
 # funcion de exportación
 def export_document(request):
