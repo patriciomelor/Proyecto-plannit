@@ -289,6 +289,12 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
         context = super().get_context_data(**kwargs)
 
         doc_pks = self.kwargs["documentos"]
+        documentos = Documento.objects.filter(pk__in=doc_pks)
+        formset = DocEditFormset(queryset=documentos)
+        return formset
+        
+    def get_form_class(self):
+        doc_pks = self.kwargs["documentos"]
     #########################################################
     #             Transformación de str                     #
     #                a Lista de Pk's                        #
@@ -303,8 +309,6 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
     #                                                       #
     #########################################################
         documentos = Documento.objects.filter(pk__in=docs_pk_list)
+        formset = DocEditFormset
 
-        context["formset"] = DocEditFormset(queryset=documentos)
-
-        return context
-    
+        return formset
