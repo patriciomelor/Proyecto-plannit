@@ -311,4 +311,13 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
         documentos = Documento.objects.filter(pk__in=docs_pk_list)
         formset = DocEditFormset
 
-        return formset
+        context["formset"] = DocEditFormset(queryset=documentos)
+
+        return context
+    
+    def form_valid(self, form) -> HttpResponse:
+        formset = form
+        for edited_form in formset:
+            edited_form.save()
+            
+        return super().form_valid(form)
