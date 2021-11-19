@@ -283,8 +283,11 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
     model = Documento
     template_name = 'panel_carga/multi-update-documento.html'
     success_url = reverse_lazy('PanelCarga')
+    form_class = DocEditFormset
 
-    def get_form_class(self):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
         doc_pks = self.kwargs["documentos"]
     #########################################################
     #             Transformación de str                     #
@@ -300,6 +303,8 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
     #                                                       #
     #########################################################
         documentos = Documento.objects.filter(pk__in=docs_pk_list)
-        formset = DocEditFormset
 
-        return formset
+        context["formset"] = DocEditFormset(queryset=documentos)
+
+        return context
+    
