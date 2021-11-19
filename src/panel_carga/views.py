@@ -308,3 +308,9 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
 
         return context
     
+    def form_valid(self, form) -> HttpResponse:
+        formset = form
+        for edited_form in formset:
+            edited_form.save()
+            
+        return super().form_valid(form)
