@@ -42,8 +42,8 @@ class DocumentoForm(forms.ModelForm):
         model = Documento
         exclude = ['tipo','owner','emision','proyecto', 'ultima_edicion', 'archivo', 'Numero_documento_interno']
         widgets = {
-            'fecha_Emision_B':forms.TextInput(attrs={'type': 'date'}),
-            'fecha_Emision_0':forms.TextInput(attrs={'type': 'date'}),
+            'fecha_Emision_B':forms.TextInput(attrs={'type': 'datetime','class':'form-control datepicker','placeholder':'DD/MM/YYYY'}),
+            'fecha_Emision_0':forms.TextInput(attrs={'type': 'datetime','class':'form-control datepicker','placeholder':'DD/MM/YYYY'}),
         }
         labels = {
             'Descripcion':'Descripción',
@@ -52,6 +52,10 @@ class DocumentoForm(forms.ModelForm):
             'fecha_Emision_B':'Fecha Emisión B',
             'fecha_Emision_0':'Fecha Emisión 0'
         }
+    def __init__(self, **kwargs):
+        super(DocumentoForm, self).__init__(**kwargs)
+        instance = getattr(self, 'instance', None)
+        self.fields['Codigo_documento'].widget.attrs['disabled'] = 'disabled'
 
 class RevisionForm(forms.ModelForm):
     
