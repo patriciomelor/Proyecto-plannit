@@ -37,13 +37,17 @@
     {% else %}
     {% endif %}           
 <!--Upload Archivos-->
-    <form method="POST">
+    <form method="POST">{% csrf_token %}
       <div class="row row-sm d-flex">
         <div id="datatable2_wrapper" class="col-md-12 dataTables_wrapper no-footer">
         <table id="datatable2" class=" table table-striped table-bordered table-hover table-primary" style="width: 100%!important;">
             <thead>
               <tr role="row">
-                <th> <a type="submit"><i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;color:#fff"></i></a></th>
+                <th style="margin-left:0px;margin-right:0px;"> 
+                  <button type="submit" class="btn"style="margin-left:0px;margin-right:0px;padding:0px;">
+                    <i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;color:#fff"></i>
+                  </button>
+                </th>
                 <th style="margin: 5px;padding: 5px; color:#fff;text-align: center;margin-left:0px;margin-right:0px;padding:0px;"  >             
                   </th>              
                 <th  style="width: auto;color:#fff;text-align: center;">Especialidad</th>
@@ -63,7 +67,7 @@
               <!--Loop Listar Documento-->
               {% for documento in documentos %}            
               <tr role="row" class="odd">
-              <th class="valign-middle hidden-xs-down"><input type="checkbox"></th>
+              <th class="valign-middle hidden-xs-down"><input type="checkbox"name="dnld" value="{{documento.pk}}" class="onoffswitch-checkbox"></th>
                 {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
                 <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;" >
                   <a href="{% url 'documento-actualizar' documento.pk %}" style="margin-left:3px;margin-right:3px;padding:3px;"> <i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;"></i> </a>
