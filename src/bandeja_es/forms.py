@@ -41,7 +41,7 @@ class CreatePaqueteForm(forms.ModelForm):
     descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
     class Meta:
         model = Paquete
-        fields = ['codigo', 'destinatario', 'asunto', 'tipo']
+        fields = ['codigo', 'destinatario', 'asunto', 'tipo', 'fecha_creacion']
 class VersionDocForm(forms.ModelForm):
     class Meta:
         model = Version

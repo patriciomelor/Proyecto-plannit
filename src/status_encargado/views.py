@@ -174,6 +174,7 @@ class CreateTarea(ProyectoMixin, AdminViewMixin, CreateView):
         send_email(
             html="status_encargado/emails/tarea.html",
             context= {
+                "usuario": self.request.user,
                 "task": task
             },
             subject="Se te ha asignado una Tarea !",
@@ -185,7 +186,7 @@ class CreateRespuesta(ProyectoMixin, CreateView):
     template_name = 'status_encargado/create-respuesta.html'
     form_class = RespuestaForm
     success_url = reverse_lazy('revisor-index')
-    success_message = 'Respuesta enviada correctamente.'
+    success_message = 'Respuesta enviada correctamente'
 
     def dispatch(self, request, *args, **kwargs):
         try:
@@ -203,7 +204,7 @@ class CreateRespuesta(ProyectoMixin, CreateView):
 
         if last_anwser:
             if last_anwser.estado == 1 or last_anwser.estado == 2:
-                messages.add_message(request, messages.INFO, "Tarea ya fue aprobada o se encuentra sin evaluación")
+                messages.add_message(request, messages.INFO, "Tarea ya fue aprobada o última respuesta aún se encuentra en revisión")
                 return redirect('encargado-index')
 
         return super().dispatch(request, *args, **kwargs)
@@ -217,7 +218,8 @@ class CreateRespuesta(ProyectoMixin, CreateView):
         send_email(
             html="status_encargado/emails/Respuesta.html",
             context= {
-                "task": task
+                "usuario": self.request.user,
+                "task": task,
             },
             subject="Tienes una nueva Respuesta en el proyecto {}".format(self.proyecto.nombre),
             recipients=[task.autor.email]

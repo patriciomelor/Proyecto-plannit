@@ -1046,13 +1046,47 @@ def reporte_curva_s_avance_esperado():
 
     return conjunto_finales
 
+def reporte_curva_s_fechas():
+    
+    lista_final = Obtener_fechas()
+    valor_ganado = get_queryset()
+    lista_avance_real = reporte_curva_s_avance_real()
+    proyectos = Proyecto.objects.all()
+    contador_proyecto = 0
+
+    for proyecto in proyectos:
+        fechas_controles = lista_final[contador_proyecto][0][0]
+        diferencia = 0
+        contador = 0
+        ultima_fecha = 0
+
+        if len(valor_ganado[contador_proyecto]) !=0:
+
+            diferencia = len(lista_avance_real[contador_proyecto]) - len(fechas_controles)
+            
+            if diferencia > 0:
+                for fechas in fechas_controles:
+                    ultima_fecha = fechas
+
+                while contador < diferencia:
+                    ultima_fecha = ultima_fecha + timedelta(days=7)
+                    fechas_controles.append(ultima_fecha)
+                    contador = contador + 1 
+
+        if len(valor_ganado[contador_proyecto]) == 0:         
+            fechas_controles = ['Sin registros']
+            fechas_controles.append(fechas_controles)
+        
+        contador_proyecto = contador_proyecto + 1
+
+    return fechas_controles    
+
 @app.task(name="umbral_4")
 def umbral_4():
     avance_esperado_all = reporte_curva_s_avance_esperado()
     lista_avance_real_all = reporte_curva_s_avance_real()
     avance_programado = 0
     avance_real = 0
-    lista_proyectos_atrasados = []
     contador_proyecto = 0
     fecha_actual = timezone.now()
     fechas_controles = Obtener_fechas()
@@ -1062,14 +1096,25 @@ def umbral_4():
     for proyecto in proyectos:  
         valor_ganado = Documento.objects.filter(proyecto=proyecto).count()
         contador_real = 0
+        largo_esperado = 0
         if valor_ganado != 0:
             lista_avance_real = lista_avance_real_all[contador_proyecto]
+
             if lista_avance_real[0][1] != -1:
+
                 for avance in lista_avance_real:
                     if avance[1] == 0:
                         avance_real = avance[0]
                         contador_real = contador_real + 1
+
+                for esperado in avance_esperado_all[contador_proyecto]:
+                    largo_esperado = largo_esperado + 1
                 contador_real = contador_real - 1
+                if contador_real > largo_esperado: 
+                    avance_programado = avance_esperado_all[contador_proyecto][-1][0]
+                else:
+                    avance_programado = avance_esperado_all[contador_proyecto][contador_real][0]
+
                 #Obtener avance esperado curva s 
                 avance_programado = avance_esperado_all[contador_proyecto][contador_real][0]
             
@@ -1089,10 +1134,14 @@ def umbral_4():
             last_hu = HistorialUmbrales.objects.filter(proyecto=proyecto, umbral__pk=4).last()
             delta_proyect = (fecha_actual - last_hu.last_checked)
 
+            print("Avance real: ", avance_real)
+            print("Avance esperado: ", avance_programado)
 
             if delta_proyect.days >= last_hu.cliente_tiempo_control:
                 diferencia_avance =  float(avance_real) - float(avance_programado) 
                 diferencia_avance = format(diferencia_avance, '.2f')
+                print("Diferencia: ", diferencia_avance)
+
                 if last_hu.cliente_variable_atraso >= 0:
                     if float(diferencia_avance) >= float(last_hu.cliente_variable_atraso):
                         ## Se notifica la diferencia % del proyecto actual de la iteración ##
@@ -1194,6 +1243,8 @@ def umbral_4():
             if delta_proyect.days >= last_hu.contratista_tiempo_control:
                 diferencia_avance =  float(avance_real) - float(avance_programado) 
                 diferencia_avance = format(diferencia_avance, '.2f')
+                print("Diferencia: ", diferencia_avance)
+                
                 if last_hu.contratista_variable_atraso >= 0:
                     if float(diferencia_avance) >= float(last_hu.contratista_variable_atraso):
                         ## Se notifica la diferencia % del proyecto actual de la iteración ##

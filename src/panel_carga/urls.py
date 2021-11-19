@@ -13,6 +13,7 @@ urlpatterns = [
     path('documento/crear/', views.CreateDocumento.as_view() , name="documento-crear"),
     path('documento/detalle/<pk>/', views.DetailDocumento.as_view() , name="documento-detalle"),
     path('documento/actualizar/<pk>/', views.UpdateDocumento.as_view() , name="documento-actualizar"),
+    path('documento/updates/<documentos>/', views.MasiveDocEdit.as_view() , name="documento-update"),
     path('documento/eliminar/', views.DeleteDocumento.as_view() , name="documento-eliminar"),
     path('documento/eliminar_multiple/', views.DeleteAllDocuments.as_view(), name="documento-eliminar-multiple"),
     path('documento/lista/', views.DocumentoFileUploadView.as_view() , name="documento-list"),
