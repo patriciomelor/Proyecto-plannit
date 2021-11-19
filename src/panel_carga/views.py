@@ -146,7 +146,6 @@ class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
         if to_edit:
             return redirect('documento-update', documentos=to_edit)
         else:
-
             documentos_erroneos = []
             dataset = Dataset()
             new_documentos = request.FILES['importfile']
@@ -286,8 +285,26 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
     success_url = reverse_lazy('PanelCarga')
     form_class = DocEditFormset
 
-    def get_form_class(self, form_class):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
         doc_pks = self.kwargs["documentos"]
-        documentos = Documento.objects.filter(pk__in=doc_pks)
-        formset = DocEditFormset(queryset=documentos)
-        return formset
+    #########################################################
+    #             Transformación de str                     #
+    #                a Lista de Pk's                        #
+        lista_nueva = doc_pks.lstrip("[").rstrip("]")
+        new_list = lista_nueva.replace(',', "")
+        new_list_1 = new_list.replace("'", "")
+        docs_pk_1 = list(new_list_1.split(" "))
+        docs_pk_list = list(map(int, docs_pk_1))
+        for i in docs_pk_list:
+            print(i)
+    #                                                       #
+    #                                                       #
+    #########################################################
+        documentos = Documento.objects.filter(pk__in=docs_pk_list)
+
+        context["formset"] = DocEditFormset(queryset=documentos)
+
+        return context
+    

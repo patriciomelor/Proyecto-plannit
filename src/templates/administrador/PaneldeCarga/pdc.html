@@ -67,7 +67,7 @@
               <!--Loop Listar Documento-->
               {% for documento in documentos %}            
               <tr role="row" class="odd">
-              <th class="valign-middle hidden-xs-down"><input type="checkbox"name="dnld" value="{{documento.pk}}" class="onoffswitch-checkbox"></th>
+              <th class="valign-middle hidden-xs-down"><input type="checkbox" name="dnld" value="{{documento.pk}}" class="onoffswitch-checkbox"></th>
                 {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
                 <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;" >
                   <a href="{% url 'documento-actualizar' documento.pk %}" style="margin-left:3px;margin-right:3px;padding:3px;"> <i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;"></i> </a>

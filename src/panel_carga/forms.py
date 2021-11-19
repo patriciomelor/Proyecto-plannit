@@ -1,5 +1,5 @@
 from django import forms
-from django.forms.models import modelformset_factory
+from django.forms.models import modelformset_factory, BaseModelFormSet
 import django.forms.widgets
 from .models import Proyecto, Documento, Revision
 from crispy_forms.helper import FormHelper
@@ -63,4 +63,11 @@ class RevisionForm(forms.ModelForm):
         model = Revision
         fields = '__all__'
 
-DocEditFormset = modelformset_factory(Documento, form= DocumentoForm)
+
+class BaseDocFormSet(BaseModelFormSet):
+    def __init__(self, *args, **kwargs):
+        super(BaseDocFormSet, self).__init__(*args, **kwargs)
+        self.documentos = self.form_kwargs["documentos"]
+        self.queryset = Documento.objects.filter(pk__in=self.documentos)
+
+DocEditFormset = modelformset_factory(Documento, form= DocumentoForm, extra=0)
