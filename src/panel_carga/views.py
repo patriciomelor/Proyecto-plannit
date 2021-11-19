@@ -281,6 +281,8 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
     success_url = reverse_lazy('PanelCarga')
     form_class = DocEditFormset
 
-    # def get_form(self, form_class):
-    #     form = DocEditFormset()
-    #     return form
+    def get_form_class(self, form_class):
+        doc_pks = self.kwargs["documentos"]
+        documentos = Documento.objects.filter(pk__in=doc_pks)
+        formset = DocEditFormset(queryset=documentos)
+        return formset
