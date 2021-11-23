@@ -204,7 +204,7 @@ else:
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.postgresql_psycopg2',
-            'NAME': 'PLANNIT-APP',
+            'NAME': 'dmp5',
             'USER': 'postgres',
             'PASSWORD': 'dmp.2020',
             'HOST': os.getenv("DATABASE_URL", "134.209.78.27"),
