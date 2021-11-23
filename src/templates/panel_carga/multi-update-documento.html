@@ -19,15 +19,17 @@
   <div class="br-pagebody mg-t-5 pd-x-30">
 <div class="br-section-wrapper">
     <form method="post">{% csrf_token %}
-      {{ formset.management_form }}
-      {% for form in formset  %}
-      <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">Codigo Documento</h6>
-        <div class="col-md-8" style="margin:0px auto"> 
 
-                {{ form|crispy }}
-        
-        </div>
-          <br>
+      {% for doc, form in zipped %}
+        {{ formset.management_form }}
+
+        <h6 class="tx-gray-800 tx-uppercase tx-bold tx-14 mg-t-80 mg-b-10">{{doc.Codigo_documento}}</h6>
+          <div class="col-md-8" style="margin:0px auto"> 
+
+            {{ form|crispy }}
+          
+          </div>
+            <br>
       {% endfor %}
           
           <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar">
