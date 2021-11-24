@@ -284,16 +284,11 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
     template_name = 'panel_carga/multi-update-documento.html'
     success_url = reverse_lazy('PanelCarga')
     form_class = DocEditFormset
+    success_message = "Documentos editados correctamente"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        doc_pks = self.kwargs["documentos"]
-        documentos = Documento.objects.filter(pk__in=doc_pks)
-        formset = DocEditFormset(queryset=documentos)
-        return formset
-        
-    def get_form_class(self):
         doc_pks = self.kwargs["documentos"]
     #########################################################
     #             Transformación de str                     #
@@ -309,15 +304,17 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
     #                                                       #
     #########################################################
         documentos = Documento.objects.filter(pk__in=docs_pk_list)
-        formset = DocEditFormset
+        # context["documentos"] = documentos
 
-        context["formset"] = DocEditFormset(queryset=documentos)
-
+        if self.request.POST:
+            context["formset"] = DocEditFormset(self.request.POST, queryset=documentos) 
+        else:
+            formset = DocEditFormset(queryset=documentos)
+            context["formset"] = formset
+            zipped_list = zip(documentos, formset)
+            context["zipped"] = zipped_list
         return context
     
     def form_valid(self, form) -> HttpResponse:
-        formset = form
-        for edited_form in formset:
-            edited_form.save()
-            
+        form.save()
         return super().form_valid(form)
