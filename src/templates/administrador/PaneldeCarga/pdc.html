@@ -11,100 +11,90 @@
       <span class="breadcrumb-item active">Panel De Carga</span>
     </nav>
  </div>
-  <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
+ <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Panel de entregables / {{proyecto}} </h4>
     <p class="mg-b-0"></p>
-  </div>
-  <div class="br-pagebody mg-t-5 pd-x-30">
+ </div>
+ <div class="br-pagebody mg-t-5 pd-x-30">
 <!--Tabla-->
-    {% if request.user.perfil.rol_usuario == 1 %}
-      <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
+{% if request.user.perfil.rol_usuario == 1 %}
+  <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
         <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-          <form class="col-5" method="POST" enctype="multipart/form-data" style="margin:0px;padding:0px;">
+          <form class="col-5 col-md-4 col-lg-3 col-xs-6 mg-t-5" method="POST" enctype="multipart/form-data" style="margin:0px;padding:0px;display: contents;">
           {% csrf_token %}
-           <li class="nav-item float-left"><input style="width: auto;margin-top:15px;" type="file" name="importfile" id="fileInput" onchange="fileValidation()"></a></li>
-           <li class="nav-item mg-l-5 float-left"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
+           <li class="nav-item mg-t-5"><input style="width: auto;" type="file" name="importfile" id="fileInput"></a></li>
+           <li class="nav-item mg-l-5 mg-t-5"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
           </form>
-          <li class="nav-item mg-l-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
+          <li class="nav-item mg-l-5 mg-t-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
           <form name="cruvaBase_save" onsubmit="return confirmation()" method="post" action="{% url 'curva-base' %}">
             {% csrf_token %}
-            <li class="nav-item mg-l-5"><input type="submit" id="base_btn" class="btn btn-success" style="width: auto;" value="Guardar Curva Base"></li>
+            <li class="nav-item mg-l-5 mg-t-5"><input type="submit" id="base_btn" class="btn btn-success" style="width: auto;" value="Guardar Curva Base"></li>
           </form>            
-          <li class="nav-item mg-l-5"><a href="https://plannit-spaces.sfo3.digitaloceanspaces.com/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning">Plantilla de Carga</button></a></li>
-          <li class="nav-item mg-l-5"><a href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"><i class="icon ion-trash-b mg-r-3"></i> Eliminar</button></a></li>       
+          <li class="nav-item mg-l-5 mg-t-5"><a href="https://plannit-spaces.sfo3.digitaloceanspaces.com/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning">Plantilla de Carga</button></a></li>
+          <li class="nav-item mg-l-5 mg-t-5"><a href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"><i class="icon ion-trash-b mg-r-3"></i> Eliminar</button></a></li>       
         </ul>
-      </div><!-- ht-65 -->
-    {% else %}
-    {% endif %}           
+  </div><!-- ht-65 -->
+{% else %}
+<!--VACIO-->
+{% endif %}           
 <!--Upload Archivos-->
     <form method="POST">{% csrf_token %}
       <div class="row row-sm d-flex">
         <div id="datatable2_wrapper" class="col-md-12 dataTables_wrapper no-footer">
           <table id="datatable2" class=" table table-striped table-bordered table-hover table-primary" style="width: 100%!important;">
-          <thead>
-            <tr role="row">
-              <th class="" tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="margin: 5px;padding: 5px; color:#fff;text-align: center;margin-left:0px;margin-right:0px;padding:0px;"  >             
-                </th>
-            
-              <th  style="width: auto;color:#fff;text-align: center;">Especialidad</th>
-              <th  style="width: auto;color:#fff;text-align: center;">Descripción</th>
-              <th  style="width: auto;color:#fff;text-align: center;">Código</th>
-              <th  style="width: auto;color:#fff;text-align: center;">Tipo</th>
-              <th  colspan="2" style="width: auto;color:#fff;text-align: center;">Fecha Programada de Emisión</th>
-            </tr>
-            <tr >
-              <th colspan="5"></th>
-              <th style="color:#fff;text-align: center;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emisión en Rev B</th>              
-              <th style="color:#fff;text-align: center;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emisión en Rev 0</th>
-            </tr>
-          </thead>
-          <tbody>
-          <!--Loop Listar Documento-->
-          {% for documento in documentos %}
-            
-          <tr role="row" class="odd">
-            {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
-            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;" >
-              <a href="{% url 'documento-actualizar' documento.pk %}" style="margin-left:3px;margin-right:3px;padding:3px;"> <i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;"></i> </a>
-            </th>  
-            {% else %} 
-            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;">
+              <thead>
+                <tr role="row">
+                  <th style="margin-left:0px;margin-right:0px;width: auto;" colspan="1"> 
+                    <button type="submit" class="btn btn-primary"style="margin-left:0px;margin-right:0px;padding:0px;">
+                      <i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;color:#fff;background:#0866C6;"></i>
+                    </button>
+                  </th>                  
+                  <th><!--Vacio--></th>                          
+                  <th  style="width: auto;color:#fff;text-align: center;">Especialidad</th>
+                  <th  style="width: auto;color:#fff;text-align: center;">Descripción</th>
+                  <th  style="width: auto;color:#fff;text-align: center;">Código</th>
+                  <th  style="width: auto;color:#fff;text-align: center;">Tipo</th>
+                  <th  colspan="2" style="width: auto;color:#fff;text-align: center;">Fecha Programada de Emisión</th>
+                </tr>
+                <tr >
+                  
+                  <th style="width: auto;"><input onclick="marcar(this);"type="checkbox"></th>
+                  <th colspan="1"></th>
+                  <th colspan="4"></th>
+                  <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en<br> Rev B</th>              
+                  <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en <br>Rev 0</th>
+                </tr>
+              </thead>
+              <tbody>
+              <!--Loop Listar Documento-->
+              {% for documento in documentos %}            
+              <tr role="row" class="odd">
+                <th ><input type="checkbox" name="dnld" value="{{documento.pk}}" class="onoffswitch-checkbox"></th>
               
-              {% empty %}
-              <div class="modal fade in" id="myModal" role="dialog" style="display: block; padding-right: 16px;">
-                <div class="modal-dialog" role="document">
-                  <div class="modal-content tx-size-sm">
-                    <div class="modal-body tx-center pd-y-20 pd-x-20">
-                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                      </button>
-                      <i class="icon icon ion-ios-close-outline tx-100 tx-danger lh-1 mg-t-20 d-inline-block"></i>
-                      <h4 class="tx-danger  tx-semibold mg-b-20">Error: No hay Información Ingresada!</h4>
-                      <p class="mg-b-20 mg-x-20">Recuerde Que puede importar desde <strong>Excel</strong> o Insertar Manualmente por formulario.</p>
-                      <h6 class="tx-info tx-semibold mg-b-20">Descargar plantilla de información <a href="{% url 'panel-export' %}">Aquí</a></h6>
-                      <button type="button" class="btn btn-danger tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-b-20" data-dismiss="modal" aria-label="Close">
-                        Continue</button>
-                      </div><!-- modal-body -->
-                    </div><!-- modal-content -->
-                  </div><!-- modal-dialog -->
-              </div>
-              <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/1.12.4/jquery.min.js" type="text/javascript"></script>
-              <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" type="text/javascript"></script>
-              <script type="text/javascript">
-              $(function(){
-                $("#myModal").modal();
-              });
-              </script>
+                {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
+                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;" >
+                  <a href="{% url 'documento-actualizar' documento.pk %}" style="margin-left:3px;margin-right:3px;padding:3px;"> <i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;"></i> </a>
+                </th>  
+                {% else %}
+                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;">
+                  
+                </th>           
+                {% endif %}
+                
+                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.Especialidad}} </th>
+                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.Descripcion}} </th>
+                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.Codigo_documento}} </th>
+                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;"> {{documento.Tipo_Documento}}  </th>                  
+                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
+                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
+              </tr>
               {% endfor %}
-              
-            </tbody>
-        </table>  
-          
+              </tbody>
+          </table>    
         </div>   
       </div>
     </form>
-  </div>
-  </div>
+ </div>
 </div>
 <script serc="https://code.jquery.com/jquery-3.1.0.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
@@ -119,27 +109,6 @@
       alert("Acción cancelada !");
       return false;
     }
-  }
-</script>
-<script>
-  function fileValidation(){
-      var fileInput = document.getElementById('file');
-      var filePath = fileInput.value;
-      var allowedExtensions = /(.xlsx|.xls|.csv)$/i;
-      if(!allowedExtensions.exec(filePath)){
-          alert('Porfavor, Adjuntar Archivos formato: .xlsx/ .xls/ .csv.');
-          fileInput.value = '';
-          return false;
-      }else{
-          //Image preview
-          if (fileInput.files && fileInput.files[0]) {
-              var reader = new FileReader();
-              reader.onload = function(e) {
-                  document.getElementById('imagePreview').innerHTML = '<img src="'+e.target.result+'"/>';
-              };
-              reader.readAsDataURL(fileInput.files[0]);
-          }
-      }
   }
 </script>
 <script>
@@ -165,15 +134,224 @@
     $('#datatable2').DataTable(
         {
           dom: 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
+          paging: true,
           responsive: true,
-          oLanguage: {
-              "sSearch": "&#128270;" //search
-            },
+          paging: true,    
+          lengthChange: true,
+          searching: true,
+          ordering: true,
+          info: true,
+          autoWidth: true,
+          lengthMenu: [[5, 25, 50, -1], [5, 25, 50, "Mostrar Todos"]],          
+          columnDefs: [
+            {
+              searchable: false,
+              pageLength: 5,
+            }
+          ],
           language: {
-            "url": "//cdn.datatables.net/plug-ins/1.10.18/i18n/Spanish.json"
-           },
-          order:[[4,"desc"]],
-         
+            "processing": "Procesando...",
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "zeroRecords": "No se encontraron resultados",
+            "emptyTable": "Ningún dato disponible en esta tabla",
+            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "search": "&#128270;",
+            "infoThousands": ",",
+            "loadingRecords": "Cargando...",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+            },
+            "aria": {
+                "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sortDescending": ": Activar para ordenar la columna de manera descendente"
+              },
+            "buttons": {
+                "copy": "Copiar",
+                "colvis": "Visibilidad",
+                "collection": "Colección",
+                "colvisRestore": "Restaurar visibilidad",
+                "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
+                "copySuccess": {
+                    "1": "Copiada 1 fila al portapapeles",
+                    "_": "Copiadas %d fila al portapapeles"
+                },
+                "copyTitle": "Copiar al portapapeles",
+                "csv": "CSV",
+                "excel": "Excel",
+                "pageLength": {
+                    "-1": "Mostrar todas las filas",
+                    "_": "Mostrar %d filas"
+                },
+                "pdf": "PDF",
+                "print": "Imprimir"
+            },
+            "autoFill": {
+                "cancel": "Cancelar",
+                "fill": "Rellene todas las celdas con <i>%d<\/i>",
+                "fillHorizontal": "Rellenar celdas horizontalmente",
+                "fillVertical": "Rellenar celdas verticalmentemente"
+            },
+            "decimal": ",",
+            "searchBuilder": {
+                "add": "Añadir condición",
+                "button": {
+                    "0": "Constructor de búsqueda",
+                    "_": "Constructor de búsqueda (%d)"
+                },
+        "clearAll": "Borrar todo",
+        "condition": "Condición",
+        "conditions": {
+            "date": {
+                "after": "Despues",
+                "before": "Antes",
+                "between": "Entre",
+                "empty": "Vacío",
+                "equals": "Igual a",
+                "notBetween": "No entre",
+                "notEmpty": "No Vacio",
+                "not": "Diferente de"
+            },
+            "number": {
+                "between": "Entre",
+                "empty": "Vacio",
+                "equals": "Igual a",
+                "gt": "Mayor a",
+                "gte": "Mayor o igual a",
+                "lt": "Menor que",
+                "lte": "Menor o igual que",
+                "notBetween": "No entre",
+                "notEmpty": "No vacío",
+                "not": "Diferente de"
+            },
+            "string": {
+                "contains": "Contiene",
+                "empty": "Vacío",
+                "endsWith": "Termina en",
+                "equals": "Igual a",
+                "notEmpty": "No Vacio",
+                "startsWith": "Empieza con",
+                "not": "Diferente de"
+            },
+            "array": {
+                "not": "Diferente de",
+                "equals": "Igual",
+                "empty": "Vacío",
+                "contains": "Contiene",
+                "notEmpty": "No Vacío",
+                "without": "Sin"
+            }
+        },
+        "data": "Data",
+        "deleteTitle": "Eliminar regla de filtrado",
+        "leftTitle": "Criterios anulados",
+        "logicAnd": "Y",
+        "logicOr": "O",
+        "rightTitle": "Criterios de sangría",
+        "title": {
+            "0": "Constructor de búsqueda",
+            "_": "Constructor de búsqueda (%d)"
+        },
+        "value": "Valor"
+    },
+            "searchPanes": {
+                "clearMessage": "Borrar todo",
+                "collapse": {
+                    "0": "Paneles de búsqueda",
+                    "_": "Paneles de búsqueda (%d)"
+                },
+        "count": "{total}",
+        "countFiltered": "{shown} ({total})",
+        "emptyPanes": "Sin paneles de búsqueda",
+        "loadMessage": "Cargando paneles de búsqueda",
+        "title": "Filtros Activos - %d"
+    },
+            "select": {
+                "cells": {
+                    "1": "1 celda seleccionada",
+                    "_": "%d celdas seleccionadas"
+                },
+        "columns": {
+            "1": "1 columna seleccionada",
+            "_": "%d columnas seleccionadas"
+        },
+        "rows": {
+            "1": "1 fila seleccionada",
+            "_": "%d filas seleccionadas"
+        }
+    },
+            "thousands": ".",
+            "datetime": {
+                "previous": "Anterior",
+                "next": "Proximo",
+                "hours": "Horas",
+                "minutes": "Minutos",
+                "seconds": "Segundos",
+                "unknown": "-",
+                "amPm": [
+                    "AM",
+                    "PM"
+                ],
+                "months": {
+                    "0": "Enero",
+                    "1": "Febrero",
+                    "10": "Noviembre",
+                    "11": "Diciembre",
+                    "2": "Marzo",
+                    "3": "Abril",
+                    "4": "Mayo",
+                    "5": "Junio",
+                    "6": "Julio",
+                    "7": "Agosto",
+                    "8": "Septiembre",
+                    "9": "Octubre"
+                },
+                "weekdays": [
+                    "Dom",
+                    "Lun",
+                    "Mar",
+                    "Mie",
+                    "Jue",
+                    "Vie",
+                    "Sab"
+                ]
+            },
+            "editor": {
+                "close": "Cerrar",
+                "create": {
+                    "button": "Nuevo",
+                    "title": "Crear Nuevo Registro",
+                    "submit": "Crear"
+                },
+                "edit": {
+                    "button": "Editar",
+                    "title": "Editar Registro",
+                    "submit": "Actualizar"
+                },
+                "remove": {
+                    "button": "Eliminar",
+                    "title": "Eliminar Registro",
+                    "submit": "Eliminar",
+                    "confirm": {
+                        "_": "¿Está seguro que desea eliminar %d filas?",
+                        "1": "¿Está seguro que desea eliminar 1 fila?"
+                    }
+                },
+                "error": {
+                    "system": "Ha ocurrido un error en el sistema (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Más información&lt;\\\/a&gt;).<\/a>"
+                },
+                "multi": {
+                    "title": "Múltiples Valores",
+                    "info": "Los elementos seleccionados contienen diferentes valores para este registro. Para editar y establecer todos los elementos de este registro con el mismo valor, hacer click o tap aquí, de lo contrario conservarán sus valores individuales.",
+                    "restore": "Deshacer Cambios",
+                    "noMulti": "Este registro puede ser editado individualmente, pero no como parte de un grupo."
+                }
+            },
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
+                   },         
           buttons:[ 
           'excel',  'pdf', 'print',
            ]
