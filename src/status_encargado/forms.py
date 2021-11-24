@@ -59,7 +59,7 @@ class TareaForm(forms.ModelForm):
 
     class Meta:
         model = Tarea
-        exclude = ["estado", "autor"]
+        exclude = ["estado","autor"]
         widgets = {
             'plazo': forms.DateInput(attrs={'type':'date'}),
             'comentarios': forms.Textarea(attrs={'style':'margin-top: 0px; margin-bottom: 0px; height: 63px;'}),

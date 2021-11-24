@@ -40,47 +40,35 @@
     <form method="POST">{% csrf_token %}
       <div class="row row-sm d-flex">
         <div id="datatable2_wrapper" class="col-md-12 dataTables_wrapper no-footer">
-        <table id="datatable2" class=" table table-striped table-bordered table-hover table-primary" style="width: 100%!important;">
-            <thead>
-              <tr role="row">
-                <th> <button type="submit"><i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;color:#fff"></i></button></th>
-                <th style="margin: 5px;padding: 5px; color:#fff;text-align: center;margin-left:0px;margin-right:0px;padding:0px;"  >             
-                  </th>              
-                <th  style="width: auto;color:#fff;text-align: center;">Especialidad</th>
-                <th  style="width: auto;color:#fff;text-align: center;">Descripción</th>
-                <th  style="width: auto;color:#fff;text-align: center;">Código</th>
-                <th  style="width: auto;color:#fff;text-align: center;">Tipo</th>
-                <th  colspan="2" style="width: auto;color:#fff;text-align: center;">Fecha Programada de Emisión</th>
-              </tr>
-              <tr >
-                <th class="valign-middle hidden-xs-down"><input onclick="marcar(this);"type="checkbox"></th>
-                <th colspan="5"></th>
-                <th style="color:#fff;text-align: center;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emisión en Rev B</th>              
-                <th style="color:#fff;text-align: center;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emisión en Rev 0</th>
-              </tr>
-            </thead>
-            <tbody>
-              <!--Loop Listar Documento-->
-              {% for documento in documentos %}            
-              <tr role="row" class="odd">
-              <th class="valign-middle hidden-xs-down"><input type="checkbox" name="dnld" value="{{documento.pk}}" class="onoffswitch-checkbox"></th>
-                {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
-                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;" >
-                  <a href="{% url 'documento-actualizar' documento.pk %}" style="margin-left:3px;margin-right:3px;padding:3px;"> <i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;"></i> </a>
-                </th>  
-                {% else %} 
-                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;">
-                  
-                </th>           
-                {% endif %}
-                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.Especialidad}} </th>
-                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.Descripcion}} </th>
-                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.Codigo_documento}} </th>
-                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;"> {{documento.Tipo_Documento}}  </th>                  
-                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
-                <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
-                
-              </tr>           
+          <table id="datatable2" class=" table table-striped table-bordered table-hover table-primary" style="width: 100%!important;">
+          <thead>
+            <tr role="row">
+              <th class="" tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1" style="margin: 5px;padding: 5px; color:#fff;text-align: center;margin-left:0px;margin-right:0px;padding:0px;"  >             
+                </th>
+            
+              <th  style="width: auto;color:#fff;text-align: center;">Especialidad</th>
+              <th  style="width: auto;color:#fff;text-align: center;">Descripción</th>
+              <th  style="width: auto;color:#fff;text-align: center;">Código</th>
+              <th  style="width: auto;color:#fff;text-align: center;">Tipo</th>
+              <th  colspan="2" style="width: auto;color:#fff;text-align: center;">Fecha Programada de Emisión</th>
+            </tr>
+            <tr >
+              <th colspan="5"></th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emisión en Rev B</th>              
+              <th style="color:#fff;text-align: center;vertical-align: middle;padding-bottom: 0px;padding-top: 0px;padding-right: 0px;padding-left: 0px; font-size: 10px;">Emisión en Rev 0</th>
+            </tr>
+          </thead>
+          <tbody>
+          <!--Loop Listar Documento-->
+          {% for documento in documentos %}
+            
+          <tr role="row" class="odd">
+            {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
+            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;" >
+              <a href="{% url 'documento-actualizar' documento.pk %}" style="margin-left:3px;margin-right:3px;padding:3px;"> <i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;"></i> </a>
+            </th>  
+            {% else %} 
+            <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;">
               
               {% empty %}
               <div class="modal fade in" id="myModal" role="dialog" style="display: block; padding-right: 16px;">
