@@ -11,7 +11,7 @@
     <meta name="author" content="STOD CHILE for DM">
 
     <title>PLANNIT || {{proyecto.nombre}}</title>
-       <link rel="stylesheet" href="{% static 'file_form/file_form.css' %}">
+    
     <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet"> 
     <link href="{% static 'Ionicons/css/ionicons.css' %}" rel="stylesheet">
     <link href="{% static 'perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
@@ -20,76 +20,66 @@
     <link href="{% static 'chartist/chartist.css' %}" rel="stylesheet">
     <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
     <link href="{% static 'jquery-ui/jquery-ui.min.css' %}" rel="stylesheet" />
-
+    <!--Select2-->
     <link href="{% static 'select2/css/select2.css' %}" rel="stylesheet" />
     <link href="{% static 'select2/css/select2.min.css' %}" rel="stylesheet" />
     <link href="{% static 'select2/css/select2-boostrap4.css' %}" rel="stylesheet" />
     <link href="{% static 'select2/css/select2-boostrap4.min.css' %}" rel="stylesheet" />
     <link href="{% static 'select2/css/select2-bootstrap4.min.css' %}" rel="stylesheet" />
-
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
     <link href="{% static 'jquery.steps/jquery.steps.css' %}" rel="stylesheet" />
-
-   
-
-     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    
      <!-- Bootstrap CSS -->
      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/css/bootstrap.min.css">
      <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.0/js/bootstrap.min.js"></script>
-
-      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/af-2.3.7/b-2.0.1/b-colvis-2.0.1/b-html5-2.0.1/b-print-2.0.1/cr-1.5.5/date-1.1.1/fc-4.0.1/fh-3.2.0/kt-2.6.4/r-2.2.9/rg-1.1.4/rr-1.2.8/sc-2.0.5/sb-1.3.0/sp-1.4.0/sl-1.3.3/datatables.min.css"/>  
-     
-
-<!--Summernote-->
- <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+     <!--datatable CDN-->
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/af-2.3.7/b-2.0.1/b-colvis-2.0.1/b-html5-2.0.1/b-print-2.0.1/cr-1.5.5/date-1.1.1/fc-4.0.1/fh-3.2.0/kt-2.6.4/r-2.2.9/rg-1.1.4/rr-1.2.8/sc-2.0.5/sb-1.3.0/sp-1.4.0/sl-1.3.3/datatables.min.css"/>  
+    <!--Summernote-->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     <link href="{% static 'summernote/lang/summernote-es-ES.js' %}" rel="stylesheet" />
     <link href="{% static 'summernote/lang/summernote-es-ES.min.js' %}" rel="stylesheet" />
-
-<!--Fin summer-->
+    
     <!-- Bracket CSS -->
     <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
-    
+    <!--Vuejs CDN-->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
     
-    
- <style>
-   .buttons-print{
-    color: #fff!important;
-    background: grey!important;
-    border-color: grey!important;
-    display: block!important;
-    float: left;
-    
-    }
-   .buttons-pdf{
-    color: #fff!important;
-    background: hsl(0, 95%, 49%)!important;
-    border-color: #fc0f0f!important;
-    display: block!important;
-    float: left;
-  }
-  .buttons-excel{
-    color: #fff!important;
-    background: #23BF08!important;
-    border-color: #23BF08!important;
-    display: block!important;
-    float: left;
-    }
-    
-    table.dataTable thead th.sorting::before, table.dataTable thead th.sorting_asc::before, table.dataTable thead th.sorting_desc::before, table.dataTable thead td.sorting::before, table.dataTable thead td.sorting_asc::before, table.dataTable thead td.sorting_desc::before{
-    display:none;
-    }
-    table.dataTable thead th.sorting::after, table.dataTable thead th.sorting_asc::after, table.dataTable thead th.sorting_desc::after, table.dataTable thead td.sorting::after, table.dataTable thead td.sorting_asc::after, table.dataTable thead td.sorting_desc::after{
-    display:none;
-    }
-    .note-editable { color: #000; }
-      div.dataTables_wrapper div.dataTables_filter label
-        {font-size:22px!important;}
-    </style>
+     <style>
+       .buttons-print{
+        color: #fff!important;
+        background: grey!important;
+        border-color: grey!important;
+        display: block!important;
+        float: left;
+        
+        }
+       .buttons-pdf{
+        color: #fff!important;
+        background: hsl(0, 95%, 49%)!important;
+        border-color: #fc0f0f!important;
+        display: block!important;
+        float: left;
+         }
+       .buttons-excel{
+        color: #fff!important;
+        background: #23BF08!important;
+        border-color: #23BF08!important;
+        display: block!important;
+        float: left;
+         }
+        
+       table.dataTable thead th.sorting::before, table.dataTable thead th.sorting_asc::before, table.dataTable thead th.sorting_desc::before, table.dataTable thead td.sorting::before, table.dataTable thead td.sorting_asc::before, table.dataTable thead td.sorting_desc::before{
+        display:none;
+        }
+       table.dataTable thead th.sorting::after, table.dataTable thead th.sorting_asc::after, table.dataTable thead th.sorting_desc::after, table.dataTable thead td.sorting::after, table.dataTable thead td.sorting_asc::after, table.dataTable thead td.sorting_desc::after{
+        display:none;
+        }
+        .note-editable { color: #000; }
+          div.dataTables_wrapper div.dataTables_filter label
+            {font-size:22px!important;}
+     </style>
   </head>
   <body class="collapsed-menu with-subleft">
  
@@ -105,41 +95,39 @@
             <span class="menu-item-label">Escritorio</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        
-         <a href="{% url 'PanelCarga' %}" class="br-menu-link ">
+        <a href="{% url 'PanelCarga' %}" class="br-menu-link ">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
             <span class="menu-item-label">Panel de Carga</span>
           </div><!-- menu-item -->
-          </a>
+        </a>
         <a href="{% url 'Bandejaeys' %}" class="br-menu-link active">
           <div class="br-menu-item active">
             <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
             <span class="menu-item-label">Bandeja</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-          <a href="{% url 'analitica-index' %}" class="br-menu-link">
+        <a href="{% url 'analitica-index' %}" class="br-menu-link">
           <div class="br-menu-item active">
            <i class="menu-item-icon fa fa-bar-chart tx-24 "></i>
             <span class="menu-item-label">Analítica</span>
           </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-       
+        </a><!-- br-menu-link -->       
         <a href="{% url 'status-index' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
             <span class="menu-item-label">Estatus</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-      {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
-       
+        {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
+         <!--Empty-->
         {% else %}
          <a href="{% url 'encargado-index' %}" class="br-menu-link">
           <div class="br-menu-item ">
             <i class=" menu-item-icon icon ion-person tx-24"></i>
             <span class="menu-item-label">Asignación de<br>Responsabilidades</span>
           </div>
-        </a>
+         </a>
         {% endif %}
         <a href="{% url 'buscador-index' %}" class="br-menu-link">
           <div class="br-menu-item">
@@ -147,27 +135,24 @@
             <span class="menu-item-label">Buscador</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-
-         <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
+        <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon fa fa-clock-o tx-24"></i>
             <span class="menu-item-label">Historial de<br>Umbrales</span>
           </div>
-          <!-- menu-item --> 
-          </a>
+        </a> <!-- menu-item --> 
         <a href="{% url 'configuracion-index' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
             <span class="menu-item-label">Configuración</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
-        
       </div><!-- br-sideleft-menu -->
     </div><!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
 
      <!-- ########## START: HEAD PANEL ########## -->
-  <div class="br-header">
+    <div class="br-header">
       <div class="br-header-left">
         <div class="navicon-left hidden-md-down">
           <a id="btnLeftMenu" href=""><i class="icon ion-navicon-round"></i></a>
@@ -191,35 +176,27 @@
         </nav>
       </div>
       <!-- br-header-left -->
-         <div class="br-header-right">
+      <div class="br-header-right">
         <nav class="nav" style="display: inline-flex;">
-              <ul class="list-unstyled user-profile-nav"style="
-              display: flex;
-              align-items: unset;
-          ">  
-                <li style="
-                text-align: center;
-            "><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
-                <li style="
-                text-align: center;
-            "><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a></li>
-
-              </ul>
+          <ul class="list-unstyled user-profile-nav" style="display: flex;align-items: unset;">  
+            <li style="text-align: center;">
+              <a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a>
+            </li>
+            <li style="text-align: center;">
+              <a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a>
+            </li>
+          </ul>
         </nav>
       </div><!-- br-header-right -->
       <!-- br-header-right -->
     </div>
     <!-- ########## END: HEAD PANEL ########## -->  
-      {% include "messege.html" %}
-      {% block content %}
-        
-
-      {% endblock content %}
+    {% include "messege.html" %}
+    {% block content %}
+    {% endblock content %}
     <!-- ########## END: MAIN PANEL ########## -->
-
-   
     <script src="{% static 'jquery/jquery.js' %}"></script> 
-    <script src="{% static 'popper.js/popper.js' %}"></script>
+    <script src="https://sfo3.digitaloceanspaces.com/plannit-spaces/static/popper.js/popper.js"></script>
     <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
     <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
     <script src="{% static 'moment/moment.js' %}"></script>
@@ -232,23 +209,24 @@
     <script src="{% static 'highlightjs/highlight.pack.js' %}"></script>    
     <script src="{% static 'jquery.steps/jquery.steps.js' %}"></script>    
     <script src="{% static 'parsleyjs/parsley.js' %}"></script>    
-
     
     <script src="{% static 'select2/js/select2.js' %}"></script>
+    <script src="{% static 'select2/js/select2.min.js' %}"></script>
     <script src="{% static 'select2/js/select2.full.js' %}"></script>
-    <script src="{% static 'select2/js/select2.full.min.js' %}"></script>
     <script src="{% static 'select2/js/select2.full.min.js' %}"></script>
     <script src="{% static 'select2/js/i18n/es.js' %}"></script> 
 
     <script src="{% static 'js/bracket.js' %}"></script>
     <script src="{% static 'js/ResizeSensor.js' %}"></script>
     <script src="{% static 'js/dashboard.js' %}"></script>
-    
+    <!--botones datatable-->
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/af-2.3.7/b-2.0.1/b-colvis-2.0.1/b-html5-2.0.1/b-print-2.0.1/cr-1.5.5/date-1.1.1/fc-4.0.1/fh-3.2.0/kt-2.6.4/r-2.2.9/rg-1.1.4/rr-1.2.8/sc-2.0.5/sb-1.3.0/sp-1.4.0/sl-1.3.3/datatables.min.js"></script>
 
- 
+    <!-- include summernote css/js -->
+    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
  <script>
     $('#alert').fadeIn();     
       setTimeout(function() {
@@ -256,21 +234,12 @@
       },2000);
     </script>
 
-        <script>
-      axios.defaults.xsrfCookieName = 'csrftoken';
-      axios.defaults.xsrfHeaderName = "X-CSRFTOKEN";
-    </script>
-    <script>
+<script>
     $(document).ready(function() {
         $('#id_prev_descripcion').summernote();
     });
-  </script>
+</script>
 
-  </body>
-   <script>
-    $('#alert').fadeIn();     
-      setTimeout(function() {
-          $("#alert").fadeOut();           
-      },2000);
-    </script>
+</body>
+ 
 </html>
