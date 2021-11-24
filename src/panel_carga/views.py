@@ -298,8 +298,7 @@ class MasiveDocEdit(ProyectoMixin, AdminViewMixin, FormView):
         new_list_1 = new_list.replace("'", "")
         docs_pk_1 = list(new_list_1.split(" "))
         docs_pk_list = list(map(int, docs_pk_1))
-        for i in docs_pk_list:
-            print(i)
+      
     #                                                       #
     #                                                       #
     #########################################################
