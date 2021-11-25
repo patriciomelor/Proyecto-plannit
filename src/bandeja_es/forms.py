@@ -41,9 +41,9 @@ class CreatePaqueteForm(forms.ModelForm):
     descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
     class Meta:
         model = Paquete
-        fields = ['codigo', 'destinatario', 'asunto', 'tipo', 'fecha_creacion']
+        fields = ['destinatario','asunto','descripcion','codigo', 'tipo', 'fecha_creacion']
         widgets ={
-                'fecha_creacion': forms.TextInput(attrs={'class': 'datapickers form-control','type':'date'}),
+                'fecha_creacion': forms.TextInput(attrs={'class': 'form-control','type':'datetime-local'}),
                 
             }
 class VersionDocForm(forms.ModelForm):
