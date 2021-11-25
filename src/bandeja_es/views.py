@@ -294,7 +294,7 @@ def create_paquete(request, paquete_pk, versiones_pk):
             notification_list.append(user.email)
 
         send_email(
-            html="status_encargado/emails/Respuesta.html",
+            html="bandeja_es/emails/Respuesta.html",
             context= {
                 "paquete": paquete
             },
