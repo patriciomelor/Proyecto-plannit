@@ -13,9 +13,12 @@
         <span class="breadcrumb-item active">Editar Documento</span>
       </nav>
   </div>
+  {% include 'bandeja_es/menu.html' %}
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5"> Editar el documentos</h4>
-    <p class="mg-b-0"></p>
+   
+  </div>
+<div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="br-section-wrapper">
       <form method="post">{% csrf_token %}
           {{ form|crispy }}
@@ -28,12 +31,9 @@
 
 
 </div>
-<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-
 <script>
  $(document).ready(function() {
-        $('#id_descripcion').summernote({
+        $('#prev_descripcion').summernote({
         placeholder: 'Hello stand alone ui',
         tabsize: 2,
         height: 120,
@@ -49,4 +49,5 @@
         });
     });
 </script>
+{% endblock co
 {% endblock %}

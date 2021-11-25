@@ -10,18 +10,8 @@
       <span class="breadcrumb-item active">Borradores</span>
     </nav>
   </div><!-- br-pageheader -->
-  <div class="pd-10 bg-gray-900 rounded">
-              <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" role="tablist">
-                {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
-              
-              {% else %}
-              <li class="nav-item"><a href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose" role="tab">Nuevo Transmittal</a></li>
+    {% include 'bandeja_es/menu.html' %}
 
-              {% endif %}<li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link  mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
-                <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15"><i class="icon fa fa-share"></i> Enviados</a></li>
-                <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15 active"><i class="icon icon ion-edit"></i> Borradores</a></li>
-              </ul>
-  </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Bandeja de Borradores</h4>
   </div>
