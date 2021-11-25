@@ -175,11 +175,9 @@ class PrevVersionForm(forms.ModelForm):
         #el nombre del documento + la version escogida.
         if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
             con_archivo = cleaned_data.get("adjuntar")
-            print(con_archivo)
             if con_archivo == True:
                 if not verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
                     raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-                print(nombre_archivo)
                 if nombre_archivo == '':
                     self.add_error('No se adjuntó archivo')
             if not estado_cliente: 
@@ -208,7 +206,6 @@ def verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
     extencion = nombre_archivo[index:]
 
     nombre_final = nombre_documento + '-' + revision_str
-    print(nombre_final)
     if cleaned_name == nombre_final:
         return True
     else:
