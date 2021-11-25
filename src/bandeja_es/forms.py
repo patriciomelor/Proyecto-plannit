@@ -38,13 +38,12 @@ class BaseArticleFormSet(BaseFormSet):
 # ***********************************
 
 class CreatePaqueteForm(forms.ModelForm):
-    descripcion = forms.CharField(widget=forms.Textarea, max_length=500)
     class Meta:
         model = Paquete
         fields = ['destinatario','asunto','descripcion','codigo', 'tipo', 'fecha_creacion']
         widgets ={
                 'fecha_creacion': forms.TextInput(attrs={'class': 'form-control','type':'datetime-local'}),
-                
+                'descripcion':SummernoteInplaceWidget(),
             }
 class VersionDocForm(forms.ModelForm):
     class Meta:
