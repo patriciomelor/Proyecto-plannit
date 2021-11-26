@@ -122,20 +122,22 @@
                                       
                                         <tbody>
                                          
-                                            <tr v-for="version in versiones">
-                                                 <td > [[ version.nombre ]]</td>
-                                                 <td > [[ version.edad ]]</td>
+                                            <tr v-for="version in versiones" :key="version.pk">
+                                                <td > [[ version.fields ]]</td>
+                                                 <!-- <td > [[ version.fields.Codigo_documento ]]</td>
+                                                 <td > [[ version.fields.Descripcion ]]</td>
+                                                 <td > [[ version.fields.Especialidad ]]</td>
                                                  <td > [[ version.sexo ]]</td>
-                                                 <td > [[ version.sexo ]]</td>
-                                                 <td > [[ version.sexo ]]</td>
+                                                 <td > [[ version.sexo ]]</td> -->
                                                  <td > <input type="file"></td>
                                                  <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a><i class="fa fa-pencil"></i></a> </td>
                                                  <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
    
-   
                                             </tr>
+
                                         </tbody>
                                         <a class="btn btn-warning" type="button"><i class="icon ion-plus mg-r-2"></i> Agregar multiple</a>
+                                        <a v-on:click="cargar_val" class="btn btn-primary" type="button"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
                      
                                     </table>
                                 </div>
@@ -173,30 +175,40 @@ function refreshAndClose() {
     }
 </script>
 <script>
+
+const baseURL = "http://127.0.0.1:8000"
+
 var app = new Vue({
+    
   el: '#app',
+  delimiters: [ '[[' ,  ']]' ],
   data: {
     message: 'Hello Vue!',
-    versiones: [
-        { 
-        nombre:'patricio',
-        edad:'29',
-        sexo:'all days'
-        },
-        { 
-        nombre:'Esteban',
-        edad:'26',
-        sexo:'segun el no todos los dias'
-        },
-    ],
+    versiones: null,
     
   },
-  delimiters: [ '[[' ,  ']]' ],
   methods:{
-    adjuntar_arch:function(){
+    adjuntar_arch: function(){
     },
-    cargar_val:function(){
-    },
+    cargar_val: function() {
+        fetch(`${baseURL}{% url 'vue-version' paquete_pk %}`, {
+            method: 'GET',
+            // credentials: "same-origin",
+            headers: {
+            'Content-Type': 'application/json'
+            }
+        }).then(
+            async response => {
+                const result = await response.json();
+                this.versiones = result;
+                console.log(this.versiones)
+
+            }
+        );
+
+
+        
+    }
     
   }
 })

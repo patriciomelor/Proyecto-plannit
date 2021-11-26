@@ -2,6 +2,8 @@ from os import error, path
 import pathlib
 import os.path
 
+from django.core import serializers
+from django.db.models import fields
 from django.views.generic import base
 from buscador.views import VersionesList
 from tools.objects import AdminViewMixin, SuperuserViewMixin, VisualizadorViewMixin
@@ -339,16 +341,19 @@ def vue_version(request, paquete_pk):
     #### GET request para   ####        
     ####  Obtener las versiones ####        
     if request.method == 'GET':
-        lista_versiones_pk = []
-        package = PrevPaquete.objects.get(pk=paquete_pk)
-        pkg_versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=package)
-        for version in pkg_versiones:
-            pk = version.prev_version.pk
-            lista_versiones_pk.append(pk)
-        versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
-        response_content = list(versiones.values())
+        versiones = Documento.objects.filter(proyecto=request.session.get('proyecto', None))
+        list_serviones = serializers.serialize('json', versiones, fields=('Codigo_documento', 'Descripcion', 'Especialidad'))
+        print(list_serviones)
+        # lista_versiones_pk = []
+        # package = PrevPaquete.objects.get(pk=paquete_pk)
+        # pkg_versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=package)
+        # for version in pkg_versiones:
+        #     pk = version.prev_version.pk
+        #     lista_versiones_pk.append(pk)
+        # versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
+        # response_content = list(versiones.values())
         
-    return JsonResponse(response_content, safe=False)
+    return JsonResponse(list_serviones, safe=False)
 
 def handle_uploaded_file(f):
     with open(f.name, 'wb+') as destination:
@@ -424,6 +429,7 @@ class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
 
             messages.add_message(self.request, messages.SUCCESS, "Transmittal informativo enviado correctamente")
             return super().form_valid(form)
+
 class TablaPopupView(ProyectoMixin, VisualizadorViewMixin, ListView):
     model = PrevVersion
     template_name = 'bandeja_es/tabla-versiones-form.html'
@@ -517,3 +523,5 @@ def delete_prev_version(request, id_version, paquete_pk):
         print(prev_version.pk)
         messages.add_message(request, messages.INFO, message='Revisión eliminada')
     return redirect('nueva-version', paquete_pk=paquete_pk)
+
+
