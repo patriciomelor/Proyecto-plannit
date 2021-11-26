@@ -163,7 +163,7 @@ class PaqueteUpdate(ProyectoMixin, SuperuserViewMixin, UpdateView):
 
     def form_valid(self, form) -> HttpResponse:
         paquete = self.get_object()
-        fecha_modificar = paquete.fecha_creacion
+        fecha_modificar = form.cleaned_data["fecha_creacion"]
         versiones = paquete.version.all()
 
         for version in versiones:
