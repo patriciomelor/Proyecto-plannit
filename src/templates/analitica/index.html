@@ -1,8 +1,7 @@
 {% extends 'index-analitica.html' %}
 {% for real_linea in curvaBase.datos_lista %} {{real_linea}}, {% endfor %}
 {% block content %}
-<div class="br-mainpanel" style="position: relative;">
- 
+<div class="br-mainpanel" style="position: relative;"> 
   <div class="br-pageheader pd-y-15 pd-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item" > {{proyecto}} </a>
@@ -18,170 +17,110 @@
         </div>
       </a>
   </div>
-<div class="br-pagebody mg-t-5 pd-x-30">
-  <!--Curva S-->
-  <div class="row row-sm mg-t-20">
-    <div class="col-md-12 graficos">
-      <div class="widget-2">
-        <div class="card shadow-base overflow-hidden chart">
-          <div class="card-header" style="text-align:center;display:flow-root;">
-            <h4 class="tx-gray-800 mg-b-5">Curva de Avance Físico Ingenieria</h4>
-  
-            <div class="card-header" style="text-align:right;display:flow-root;">
-              <thead>
-                <tr role="row">
-                  <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
-                    style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">
-                    Fecha última Línea Base: {{curvaBase.fecha_creacion|date:'d-m-y'}}</th>
-                </tr>
-              </thead>
-            </div>
-            <div class="card-body" height="1280px">
-                <canvas id="canvas" class="chartjs-render-monitor" style="width:100%;"></canvas>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-    <!--Graficos Juntos-->
+  <div class="br-pagebody mg-t-5 pd-x-30">
+    <!--Curva S-->
     <div class="row row-sm mg-t-20">
-      <!--Listado Enviados-->
-      <div class="col-md-6 graficos">
+      <div class="col-md-12 graficos">
         <div class="widget-2">
           <div class="card shadow-base overflow-hidden chart">
-  
             <div class="card-header" style="text-align:center;display:flow-root;">
-              <h4 class="tx-gray-800 mg-b-5"> Documentos emitidos por revisión </h4>
-  
-            </div>
-            <div class="card-body">
-              <div style="width: 100%">
-                <canvas id="myChart2"style="width:100%;"></canvas>
+              <h4 class="tx-gray-800 mg-b-5">Curva de Avance Físico Ingenieria</h4>
+    
+              <div class="card-header" style="text-align:right;display:flow-root;">
+                <thead>
+                  <tr role="row">
+                    <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1"
+                      style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">
+                      Fecha última Línea Base: {{curvaBase.fecha_creacion|date:'d-m-y'}}</th>
+                  </tr>
+                </thead>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <!--Lista Pendiente Pie-->
-      <div class="col-md-6 graficos">
-        <div class="widget-2">
-          <div class="card shadow-base overflow-hidden chart">
-  
-            <div class="card-header" style="text-align:center;display:flow-root;">
-              <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos pendientes por especialidad</h4>
-  
-            </div>
-            <div class="card-body">
-              <div style="width: 100%">
-                <canvas id="myChart5"style="width:100%;"></canvas>
+              <div class="card-body" height="1280px">
+                  <canvas id="canvas" class="chartjs-render-monitor" style="width:100%;"></canvas>
               </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-    <!--4to Grafico-->
-    <div class="row row-sm mg-t-20">
-      <div class="col-md-6 graficos">
-        <div class="widget-2">
-          <div class="card shadow-base overflow-hidden chart">
-            <div class="card-header">
-              <h4 class="tx-gray-800 mg-b-5" style="text-align:center;margin-left:auto;margin-right:auto;">Documentos
-                totales por especialidad vs Documentos emitidos</h4>
-  
-  
+      <!--Graficos Juntos-->
+      <div class="row row-sm mg-t-20">
+        <!--Listado Enviados-->
+        <div class="col-md-6 graficos">
+          <div class="widget-2">
+            <div class="card shadow-base overflow-hidden chart">
+    
+              <div class="card-header" style="text-align:center;display:flow-root;">
+                <h4 class="tx-gray-800 mg-b-5"> Documentos emitidos por revisión </h4>
+    
+              </div>
+              <div class="card-body">
+                <div style="width: 100%">
+                  <canvas id="myChart2"style="width:100%;"></canvas>
+                </div>
+              </div>
             </div>
-            <div class="card-body">
-              <div style="width: 100%">
-                <canvas id="myChart3"style="width:100%;"></canvas>
+          </div>
+        </div>
+        <!--Lista Pendiente Pie-->
+        <div class="col-md-6 graficos">
+          <div class="widget-2">
+            <div class="card shadow-base overflow-hidden chart">
+    
+              <div class="card-header" style="text-align:center;display:flow-root;">
+                <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos pendientes por especialidad</h4>
+    
+              </div>
+              <div class="card-body">
+                <div style="width: 100%">
+                  <canvas id="myChart5"style="width:100%;"></canvas>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    <div class="col-md-6 graficos6">
-      <div class="widget-2">
-        <div class="card shadow-base overflow-hidden chart">
-          <div class="card-header" style="text-align:center;display:flow-root;">
-            <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos válidos construcción vs Documentos en ejecución
-            </h4>
-  
+      <!--4to Grafico-->
+      <div class="row row-sm mg-t-20">
+        <div class="col-md-6 graficos">
+          <div class="widget-2">
+            <div class="card shadow-base overflow-hidden chart">
+              <div class="card-header">
+                <h4 class="tx-gray-800 mg-b-5" style="text-align:center;margin-left:auto;margin-right:auto;">Documentos
+                  totales por especialidad vs Documentos emitidos</h4>
+    
+    
+              </div>
+              <div class="card-body">
+                <div style="width: 100%">
+                  <canvas id="myChart3"style="width:100%;"></canvas>
+                </div>
+              </div>
+            </div>
           </div>
-          <div class="card-body">
-            <div style="width: 100%">
-              <canvas id="myChart7"style="width:100%;"></canvas>
+        </div>
+        <div class="col-md-6 graficos6">
+          <div class="widget-2">
+            <div class="card shadow-base overflow-hidden chart">
+              <div class="card-header" style="text-align:center;display:flow-root;">
+                <h4 class="tx-gray-800 mg-b-5 text-align-center"> Documentos válidos construcción vs Documentos en ejecución
+                </h4>
+      
+              </div>
+              <div class="card-body">
+                <div style="width: 100%">
+                  <canvas id="myChart7"style="width:100%;"></canvas>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  
   </div>
 </div>
-</div>
-
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>          
+<!--Documentos emitidos por revisión-->
 <script>
   $(document).ready(function(){
-    //DOCUMENTOS POR EMITIR POR SUBESTACION
-    var ctx = document.getElementById('myChart5').getContext('2d');
-    var myChart5 = new Chart(ctx, {
-      type: 'pie',
-      fill: false,
-      data: {
-          labels: [ '{% for emisiones in lista_emisiones %} {% if forloop.counter != lista_emisiones_largo %} {{emisiones.1}}', '{% endif %} {% if forloop.counter == lista_emisiones_largo %} {{emisiones.1}} {% endif %} {% endfor %}' ],
-          datasets: [{
-              data: [ 
-              {% for emisiones in lista_emisiones %} 
-                 {% if forloop.counter != lista_emisiones %}
-              
-                  {{emisiones.0}},
-              
-                {% endif %} 
-              {% if forloop.counter == lista_emisiones %}
-              
-                {{emisiones.0}}
-
-              {% endif %}
-              
-              {% endfor %} ],
-              backgroundColor: [
-                  'rgba(255, 99, 132, 0.8)',
-                  'rgba(54, 162, 235, 0.8)',
-                  'rgba(255, 206, 86, 0.8)',
-                  'rgba(75, 192, 192, 0.8)',
-                  'rgba(153, 102, 255, 0.8)',
-                  'rgba(255, 159, 64, 0.8)',
-                  'rgba(211, 84, 0, 0.8)',
-                  'rgba(191, 201, 202, 0.8)',
-                  'rgba(249, 231, 159, 0.8)',
-                  'rgba(210, 180, 222, 0.8)'
-              ],
-              borderColor: [
-                  'rgba(255, 99, 132, 1)',
-                  'rgba(54, 162, 235, 1)',
-                  'rgba(255, 206, 86, 1)',
-                  'rgba(75, 192, 192, 1)',
-                  'rgba(153, 102, 255, 1)',
-                  'rgba(255, 159, 64, 1)',
-                  'rgba(211, 84, 0, 1)',
-                  'rgba(191, 201, 202, 1)',
-                  'rgba(249, 231, 159, 1)',
-                  'rgba(210, 180, 222, 1)'
-              ],
-              borderWidth: 1
-          }]
-      },
-      options:{
-        scaleLabel: {
-                    display: true,
-                  },
-      }
-    });
-
-    //ESTADOS DE LOS DOCUMENTOS
     var ctx = document.getElementById('myChart2').getContext('2d');
     var largo = 0;
     var myChart2 = new Chart(ctx, {
@@ -257,7 +196,11 @@
       }
     });
   });
+</script>
+<!--Documentos totales por especialidad vs Documentos emitidos-->
+<script>
     //ESTATUS DOCUMENTOS TOTALES VS EMITIDOS POR SUBESTACION (MUESTRA HASTA EL FINAL)
+  $(document).ready(function(){
     var ctx = document.getElementById('myChart3').getContext('2d');
     var myChart3 = new Chart(ctx, {
       type: 'bar',
@@ -327,12 +270,74 @@
               }]
           }
       }
+    });
   });
+</script>
+<!--Documentos pendientes por especialidad-->
+<script>
+  $(document).ready(function(){
+    //DOCUMENTOS POR EMITIR POR SUBESTACION
+    var ctx = document.getElementById('myChart5').getContext('2d');
+    var myChart5 = new Chart(ctx, {
+      type: 'pie',
+      fill: false,
+      data: {
+          labels: [ '{% for emisiones in lista_emisiones %} {% if forloop.counter != lista_emisiones_largo %} {{emisiones.1}}', '{% endif %} {% if forloop.counter == lista_emisiones_largo %} {{emisiones.1}} {% endif %} {% endfor %}' ],
+          datasets: [{
+              data: [ 
+              {% for emisiones in lista_emisiones %} 
+                 {% if forloop.counter != lista_emisiones %}
+              
+                  {{emisiones.0}},
+              
+                {% endif %} 
+              {% if forloop.counter == lista_emisiones %}
+              
+                {{emisiones.0}}
+
+              {% endif %}
+              
+              {% endfor %} ],
+              backgroundColor: [
+                  'rgba(255, 99, 132, 0.8)',
+                  'rgba(54, 162, 235, 0.8)',
+                  'rgba(255, 206, 86, 0.8)',
+                  'rgba(75, 192, 192, 0.8)',
+                  'rgba(153, 102, 255, 0.8)',
+                  'rgba(255, 159, 64, 0.8)',
+                  'rgba(211, 84, 0, 0.8)',
+                  'rgba(191, 201, 202, 0.8)',
+                  'rgba(249, 231, 159, 0.8)',
+                  'rgba(210, 180, 222, 0.8)'
+              ],
+              borderColor: [
+                  'rgba(255, 99, 132, 1)',
+                  'rgba(54, 162, 235, 1)',
+                  'rgba(255, 206, 86, 1)',
+                  'rgba(75, 192, 192, 1)',
+                  'rgba(153, 102, 255, 1)',
+                  'rgba(255, 159, 64, 1)',
+                  'rgba(211, 84, 0, 1)',
+                  'rgba(191, 201, 202, 1)',
+                  'rgba(249, 231, 159, 1)',
+                  'rgba(210, 180, 222, 1)'
+              ],
+              borderWidth: 1
+          }]
+      },
+      options:{
+        scaleLabel: {
+                    display: true,
+                  },
+      }
+    });
+
+    
+  });
+
 </script>
 <!--Curva S-->
 <script>
-//Curva S
-
 		var chartData = {
 			labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"d-m-y"}}', '{% endfor %}'],
 			datasets: [
@@ -437,8 +442,9 @@
 				}
 			});
 		};
-	</script>
-  <script>
+</script>
+<!--Documentos válidos construcción vs Documentos en ejecución-->
+<script>
    $(document).ready(function(){
         //Documentos validos para construccion vs no validos
     var ctx = document.getElementById('myChart7').getContext('2d');
@@ -479,6 +485,6 @@
       }
     });
    });
-  </script>
+</script>
 {% endblock content %}
       
