@@ -51,7 +51,6 @@ class TareaForm(forms.ModelForm):
         # except:
         #     pass
         qs = self.participantes.filter(pk__in=user_list)
-        print(qs)
         super(TareaForm, self).__init__(**kwargs)
         self.fields["documento"].disabled = True
         self.fields["encargado"] = forms.ModelChoiceField(queryset=qs)
@@ -60,7 +59,7 @@ class TareaForm(forms.ModelForm):
 
     class Meta:
         model = Tarea
-        exclude = ["estado"]
+        exclude = ["estado","autor"]
         widgets = {
             'plazo': forms.DateInput(attrs={'type':'date'}),
             'comentarios': forms.Textarea(attrs={'style':'margin-top: 0px; margin-bottom: 0px; height: 63px;'}),
