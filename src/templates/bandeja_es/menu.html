@@ -1,4 +1,4 @@
-  <div class="pd-10 bg-gray-900 rounded">
+  <div id="myDIV" class="pd-10 bg-gray-900 rounded">
             <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" role="tablist">
               {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
               
@@ -7,7 +7,23 @@
 
               {% endif %}
               <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link  mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
-              <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15 active"><i class="icon fa fa-share"></i> Enviados</a></li>
+              <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15"><i class="icon fa fa-share"></i> Enviados</a></li>
               <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15"><i class="icon icon ion-edit"></i> Borradores</a></li>
             </ul>
   </div>
+  <script>
+  // Get the container element
+var btnContainer = document.getElementById("myDIV");
+
+// Get all buttons with class="btn" inside the container
+var btns = btnContainer.getElementsByClassName("nav-link");
+
+// Loop through the buttons and add the active class to the current/clicked button
+for (var i = 0; i < btns.length; i++) {
+  btns[i].addEventListener("click", function() {
+    var current = document.getElementsByClassName("active");
+    current[0].className = current[0].className.replace(" active", "");
+    this.className += " active";
+  });
+}
+  </script>
