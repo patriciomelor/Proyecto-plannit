@@ -26,7 +26,6 @@ def VPC_signal(sender, instance, *args, **kwargs):
     try:
         previous = Version.objects.filter(documento_fk=instance.documento_fk).reverse()[1]
     except(Version.DoesNotExist, IndexError) :
-        print('No existe una Versión previa todavía.') 
         previous = None
 
     if not previous == None:
@@ -73,7 +72,6 @@ def VPC_signal(sender, instance, *args, **kwargs):
                     
                 except Exception as err:
                     error = "Un error Ocurrido al momento de notificar para el Umbral 1. {}".format(err)
-                    print(error)
                     return error
             
             else:
