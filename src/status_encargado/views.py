@@ -174,6 +174,7 @@ class CreateTarea(ProyectoMixin, AdminViewMixin, CreateView):
         send_email(
             html="status_encargado/emails/tarea.html",
             context= {
+                "usuario": self.request.user,
                 "task": task
             },
             subject="Se te ha asignado una Tarea !",
@@ -217,7 +218,8 @@ class CreateRespuesta(ProyectoMixin, CreateView):
         send_email(
             html="status_encargado/emails/Respuesta.html",
             context= {
-                "task": task
+                "usuario": self.request.user,
+                "task": task,
             },
             subject="Tienes una nueva Respuesta en el proyecto {}".format(self.proyecto.nombre),
             recipients=[task.autor.email]
