@@ -16,27 +16,22 @@
     <link href="{% static 'font-awesome/css/font-awesome.css' %}" rel="stylesheet"> 
     <link href="{% static 'Ionicons/css/ionicons.css' %}" rel="stylesheet">
     <link href="{% static 'perfect-scrollbar/css/perfect-scrollbar.css' %}" rel="stylesheet">
-    <link href="{% static 'jquery-switchbutton/jquery.switchButton.css' %}" rel="stylesheet">
     <link href="{% static 'rickshaw/rickshaw.min.css' %}" rel="stylesheet">
-    <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">
-    
+    <link href="{% static 'jt.timepicker/jquery.timepicker.css' %}" rel="stylesheet">    
     
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.0/jquery.min.js"></script>
-    <script src="{% static 'Jquery-Autosave/autosaveform.js' %}"></script>
     <!--Chart js-->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.js" integrity="sha256-Uv9BNBucvCPipKQ2NS9wYpJmi8DTOEfTA/nH2aoJALw=" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.8.0/Chart.min.css" integrity="sha256-aa0xaJgmK/X74WM224KMQeNQC2xYKwlAt08oZqjeF0E=" crossorigin="anonymous" />
-    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-
-    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
     
-   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!-- Bracket CSS -->
-    <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
+
     <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.js"integrity="sha256-bLjSmbMs5XYwqLIj5ppZFblCo0/9jfdiG/WjPhg52/M=" crossorigin="anonymous"></script>
-  
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    
+        <!-- Bracket CSS -->
+    <link rel="stylesheet" href="{% static 'css/bracket.css' %}"> 
   <style>
   @media print {
    
@@ -116,8 +111,7 @@
             <span class="menu-item-label">Historial de<br>Umbrales</span>
           </div>
           <!-- menu-item --> 
-          </a>
-       
+          </a>       
         <a href="{% url 'configuracion-index' %}" class="br-menu-link">
           <div class="br-menu-item">
             <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
@@ -140,35 +134,20 @@
             ><i class="icon ion-navicon-round"></i
           ></a>
         </div>
-                <nav class="nav" style="display: inline-flex;">
-              <ul class="list-unstyled user-profile-nav"style="
-              display: flex;
-              align-items: center;
-              margin: 0 15px;
-          
-          ">        
+            <nav class="nav" style="display: inline-flex;">
+              <ul class="list-unstyled user-profile-nav"style="display: flex;align-items: center;margin: 0 15px;">        
                 <li style="text-align: center;font-weight: 700;">
                 <strong>{{user.first_name}} {{user.last_name}}</strong>
-                </li>&numsp;
-           
+                </li>&numsp;           
               </ul>
-        </nav>
-      </div>
+            </nav>
+        </div>
       <!-- br-header-left -->
          <div class="br-header-right">
         <nav class="nav" style="display: inline-flex;">
-              <ul class="list-unstyled user-profile-nav"style="
-              display: flex;
-              align-items: unset;
-          ">        
-            
-                <li style="
-                text-align: center;
-            "><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
-                <li style="
-                text-align: center;
-            "><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a></li>
-
+              <ul class="list-unstyled user-profile-nav"style="display: flex;align-items: unset;">                    
+                <li style="text-align: center;"><a href="{% url 'proyecto-select' %}"><i class="icon ion-ios-folder"></i> Cambiar Proyecto</a></li>
+                <li style="text-align: center;"><a href="{% url 'account_logout' %}"><i class="icon ion-power"></i> Cerrar Sesión</a></li>
               </ul>
         </nav>
       </div><!-- br-header-right -->
@@ -189,25 +168,18 @@
     <script src="{% static 'bootstrap/bootstrap.js' %}"></script>
     <script src="{% static 'perfect-scrollbar/js/perfect-scrollbar.jquery.js' %}"></script>
     <script src="{% static 'moment/moment.js' %}"></script>
-    <script src="{% static 'jquery-switchbutton/jquery.switchButton.js' %}"></script>
     <script src="{% static 'peity/jquery.peity.js' %}"></script>
     <script src="{% static 'jquery.sparkline.bower/jquery.sparkline.min.js' %}"></script>
     <script src="{% static 'd3/d3.js' %}"></script>
     <script src="{% static 'rickshaw/rickshaw.min.js' %}"></script>
     <script src="{% static 'jt.timepicker/jquery.timepicker.js' %}"></script>
     <script src="{% static 'highlightjs/highlight.pack.js' %}"></script>    
-    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
-    <script src="{% static 'select2/js/select2.min.js' %}"></script>
+    
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js" integrity="sha512-d9xgZrVZpmmQlfonhQUvTR7lMPtO7NkZMkA0ABN3PHCbKA5nqylQ/yWlFAyY6hYgdF1Qh6nYiuADWwKB4C2WSw==" crossorigin="anonymous"></script>
-        <!-- Development version -->
-    <script src="https://unpkg.com/@popperjs/core@2/dist/umd/popper.js"></script>
-  
-    <!-- Production version -->
-    <script src="https://unpkg.com/@popperjs/core@2"></script>
     <script src="https://code.jquery.com/ui/1.13.0-rc.2/jquery-ui.js"integrity="sha256-bLjSmbMs5XYwqLIj5ppZFblCo0/9jfdiG/WjPhg52/M=" crossorigin="anonymous"></script>
+    
     <script src="{% static 'js/bracket.js' %}"></script>
     <script src="{% static 'js/ResizeSensor.js' %}"></script>
-    <script src="{% static 'js/dashboard.js' %}"></script> 
  
   </body>
 </html>
