@@ -12,6 +12,7 @@ urlpatterns = [
     path('version/popup/<paquete_pk>/', views.PrevVersionView.as_view(), name='popup-version'),
     path('version-update/popup/<pk>/<paquete_pk>/', views.UpdatePrevVersion.as_view(), name='popup-version-update'),
     path('versiones/vue/<int:paquete_pk>/', login_required(views.vue_version), name='vue-version'),
+    path('versiones/vue/file/', login_required(views.vue_file_import), name='vue-file-import'),
     path('paquete/crear/<paquete_pk>/<versiones_pk>/', login_required(views.create_paquete), name='paquete-crear'),
     path('paquete/detalle/<pk>/', views.PaqueteDetail.as_view(), name='paquete-detalle'),
     path('paquete/editar/<pk>/', views.PaqueteUpdate.as_view(), name='paquete-editar'),

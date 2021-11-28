@@ -9,40 +9,25 @@ from buscador.views import VersionesList
 from tools.objects import AdminViewMixin, SuperuserViewMixin, VisualizadorViewMixin
 import zipfile
 import time
-import base64
 import requests
-import shutil
-import datetime
+from tablib import Dataset
+
 from io import BytesIO
-from django.conf import settings
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib import messages
-from django.forms import formset_factory
-from django.core.exceptions import ValidationError
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.views.generic.base import TemplateView, RedirectView, View
-from django.core.files.storage import FileSystemStorage
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
-from formtools.wizard.views import SessionWizardView
-from rest_framework import status
-from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
 from django.db import IntegrityError
-
 from notifications.emails import send_email
 from panel_carga.views import ProyectoMixin
 from .models import PaqueteAttachment, PrevPaqueteAttachment, Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, PaqueteDocumento
 from .forms import CreatePaqueteForm, PaquetePreviewForm, PrevVersionForm
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter
-from panel_carga.filters import DocFilter
 from panel_carga.models import Documento, Proyecto
-from panel_carga.choices import TYPES_REVISION
-from .serializers import PrevVersionSerializer
-from configuracion.roles import ROLES
+
+
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 class InBoxView(ProyectoMixin, ListView):
@@ -355,11 +340,47 @@ def vue_version(request, paquete_pk):
         
     return JsonResponse(list_serviones, safe=False)
 
-def handle_uploaded_file(f):
-    with open(f.name, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
+@csrf_exempt
+def vue_file_import(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            excel = request.FILES.get("file")
+            if excel:
+                dataset = Dataset()
+                try:
+                    imported_data = dataset.load(excel.read(), format='xlsx')
+                except Exception as excep:
+                    imported_data = None
+                    error = excep
+                
+                if imported_data:
+                    for data in imported_data:
+                        print(data)
 
+                        
+                else:
+                    return JsonResponse({
+                        "message": "error con el archivo"
+                        },
+                            status=500
+
+                        )
+
+                return JsonResponse({
+                    "message": "se recibió el archivo",
+                },
+                    status=200
+                )
+            else:
+
+
+
+                return JsonResponse({
+                    "message": "error con el archivo"
+                },
+                    status=500
+
+                )
 class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm

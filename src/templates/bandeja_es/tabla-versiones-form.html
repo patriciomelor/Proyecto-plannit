@@ -129,14 +129,18 @@
                                                  <td > [[ version.fields.Especialidad ]]</td>
                                                  <td > [[ version.sexo ]]</td>
                                                  <td > [[ version.sexo ]]</td> -->
-                                                 <td > <input type="file"></td>
                                                  <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a><i class="fa fa-pencil"></i></a> </td>
                                                  <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
    
                                             </tr>
 
                                         </tbody>
-                                        <a class="btn btn-warning" type="button"><i class="icon ion-plus mg-r-2"></i> Agregar multiple</a>
+                                        <input type="file" name="file" id="file">
+                                          <button @click="adjuntar_arch" class="btn btn-warning" type="button" :disabled="loading == 1">
+                                            <span v-if="loading == 1" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                [[ buttonText ]]
+                                          </button>
+                                          
                                         <a v-on:click="cargar_val" class="btn btn-primary" type="button"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
                      
                                     </table>
@@ -176,8 +180,6 @@ function refreshAndClose() {
 </script>
 <script>
 
-const baseURL = "http://127.0.0.1:8000"
-
 var app = new Vue({
     
   el: '#app',
@@ -185,25 +187,49 @@ var app = new Vue({
   data: {
     message: 'Hello Vue!',
     versiones: null,
+    loading: 0,
+    disabled: 0,
+    buttonText : 'Subir Archivo',
     
   },
   methods:{
-    adjuntar_arch: function(){
+    adjuntar_arch: function() {
+        this.loading = 1;
+        this.buttonText = 'Subiendo...';
+
+        let formData = new FormData();
+        const file = document.getElementById('file')
+        formData.append('file', file.files[0]);
+
+        fetch("{% url 'vue-file-import' %}", {
+            method: 'POST',
+            body: formData
+        }).then(
+            async response => {
+                const result = await response.json();
+                this.versiones = result;
+                console.log(this.versiones)
+                this.loading = 0;
+                this.buttonText = 'Subir Archivo';
+
+                }
+        )
     },
+
     cargar_val: function() {
-        fetch(`${baseURL}{% url 'vue-version' paquete_pk %}`, {
+        fetch("{% url 'vue-version' paquete_pk %}", {
             method: 'GET',
             // credentials: "same-origin",
             headers: {
             'Content-Type': 'application/json'
             }
         }).then(
-            async response => {
-                const result = await response.json();
+            response => {
+                const result = response.json();
                 this.versiones = result;
                 console.log(this.versiones)
 
-            }
+                }
         );
 
 
