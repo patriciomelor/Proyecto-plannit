@@ -1,8 +1,10 @@
+import json
 from os import error, path
 import pathlib
 import os.path
 
 from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import fields
 from django.views.generic import base
 from buscador.views import VersionesList
@@ -342,6 +344,7 @@ def vue_version(request, paquete_pk):
 
 @csrf_exempt
 def vue_file_import(request):
+    response_dict = []
     if request.user.is_authenticated:
         if request.method == 'POST':
             excel = request.FILES.get("file")
@@ -352,28 +355,18 @@ def vue_file_import(request):
                 except Exception as excep:
                     imported_data = None
                     error = excep
-                
-                if imported_data:
-                    for data in imported_data:
-                        print(data)
+                    return JsonResponse({"message": "Hubo un error al procesar el archivo"}, status=500)
 
+                if imported_data:
+                    return JsonResponse({ 
+                        "message": "se recibió el archivo",
+                        "data": imported_data.dict
+                        }, status=200)
                         
                 else:
-                    return JsonResponse({
-                        "message": "error con el archivo"
-                        },
-                            status=500
+                    return JsonResponse({"message": "error con el archivo"}, status=500)
 
-                        )
-
-                return JsonResponse({
-                    "message": "se recibió el archivo",
-                },
-                    status=200
-                )
             else:
-
-
 
                 return JsonResponse({
                     "message": "error con el archivo"

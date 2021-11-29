@@ -112,7 +112,7 @@
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado </th>                  
                                                {% endif %}  
                                               
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;">Campo</th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
 
@@ -122,17 +122,16 @@
                                       
                                         <tbody>
                                          
-                                            <tr v-for="version in versiones" :key="version.pk">
-                                                <td > [[ version.fields ]]</td>
-                                                 <!-- <td > [[ version.fields.Codigo_documento ]]</td>
-                                                 <td > [[ version.fields.Descripcion ]]</td>
-                                                 <td > [[ version.fields.Especialidad ]]</td>
-                                                 <td > [[ version.sexo ]]</td>
-                                                 <td > [[ version.sexo ]]</td> -->
-                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a><i class="fa fa-pencil"></i></a> </td>
-                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
-   
-                                            </tr>
+                                            <tr v-for="version in versiones" :key="version.Codigo_documento">
+                                                <td > [[ version.Codigo_documento ]]</td>
+                                                <td > [[ version.Descripcion ]]</td>
+                                                <td > [[ version.Especialidad ]]</td>
+                                                <td > [[ version.Tipo_Documento ]]</td>
+                                                <td > [[ version.fecha_Emision_0 ]]</td>
+                                                <td > [[ version.fecha_Emision_B ]]</td> 
+                                                <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a><i class="fa fa-pencil"></i></a> </td>
+                                                <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
+                                            </tr> 
 
                                         </tbody>
                                         <input type="file" name="file" id="file">
@@ -185,8 +184,7 @@ var app = new Vue({
   el: '#app',
   delimiters: [ '[[' ,  ']]' ],
   data: {
-    message: 'Hello Vue!',
-    versiones: null,
+    versiones: [],
     loading: 0,
     disabled: 0,
     buttonText : 'Subir Archivo',
@@ -207,12 +205,19 @@ var app = new Vue({
         }).then(
             async response => {
                 const result = await response.json();
-                this.versiones = result;
+                this.versiones = result.data;
                 console.log(this.versiones)
                 this.loading = 0;
                 this.buttonText = 'Subir Archivo';
 
                 }
+        ).catch(
+            error => {
+                console.log('Error:', error);
+                this.loading = 0;
+                this.buttonText = 'Subir Archivo';
+
+            }
         )
     },
 
@@ -230,7 +235,13 @@ var app = new Vue({
                 console.log(this.versiones)
 
                 }
-        );
+        ).catch(
+            error => {
+                console.log('Error:', error);
+                this
+            }
+        )
+        ;
 
 
         
@@ -239,4 +250,21 @@ var app = new Vue({
   }
 })
 </script>
+
+<!-- <script>
+    Vue.component('message', {
+        template: '#message',
+        props: {
+            type: {
+                type: String
+            },
+            header: {
+                type: String
+            },
+        }, 
+
+    })
+
+
+</script> -->
 {% endblock content %}
