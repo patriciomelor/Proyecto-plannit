@@ -128,10 +128,19 @@
                                                 <td > [[ version.Especialidad ]]</td>
                                                 <td > [[ version.Tipo_Documento ]]</td>
                                                 <td > [[ version.fecha_Emision_0 ]]</td>
-                                                <td > [[ version.fecha_Emision_B ]]</td> 
-                                                <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a><i class="fa fa-pencil"></i></a> </td>
+                                                <td > [[ version.fecha_Emision_B ]]</td>
+                                                <td><input type="file" name="file" id="file"></td>
+                                                <td style="text-align: center;border: 2px;border-color: grey; color: black;"> 
+                                                    <!-- <a v-if="send == 0" @click="cargar_val(version)" >
+                                                        <i class="fa fa-upload"></i>
+                                                    </a>  -->
+
+                                                    <div v-bind:class="spinner-border text-primary" role="status">
+                                                        <i class="fa fa-upload"></i>
+                                                    </div>
+                                                </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
-                                            </tr> 
+                                            </tr>  
 
                                         </tbody>
                                         <input type="file" name="file" id="file">
@@ -186,7 +195,7 @@ var app = new Vue({
   data: {
     versiones: [],
     loading: 0,
-    disabled: 0,
+    send: 0,
     buttonText : 'Subir Archivo',
     
   },
@@ -221,27 +230,35 @@ var app = new Vue({
         )
     },
 
-    cargar_val: function() {
-        fetch("{% url 'vue-version' paquete_pk %}", {
-            method: 'GET',
-            // credentials: "same-origin",
-            headers: {
-            'Content-Type': 'application/json'
-            }
+    cargar_val: function(version) {
+        this.send = 1;
+
+        let formData = new FormData();
+        formData.append('Codigo_documento', version['Codigo_documento'])
+        formData.append('Descripcion', version['Descripcion'])
+        formData.append('Especialidad', version['Especialidad'])
+        formData.append('Tipo_Documento', version['Tipo_Documento'])
+        formData.append('fecha_Emision_0', version['fecha_Emision_0'])
+        formData.append('fecha_Emision_B', version['fecha_Emision_B'])
+
+        console.log(formData);
+
+        fetch("{% url 'vue-version-check' %}", {
+            method: 'POST',
+            body: formData
         }).then(
             response => {
                 const result = response.json();
-                this.versiones = result;
-                console.log(this.versiones)
+
+                console.log(result);
+                this.send = 0;
 
                 }
         ).catch(
             error => {
-                console.log('Error:', error);
-                this
+                console.log(error);
             }
         )
-        ;
 
 
         

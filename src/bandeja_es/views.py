@@ -374,6 +374,25 @@ def vue_file_import(request):
                     status=500
 
                 )
+
+@csrf_exempt
+def check_version(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if request.POST:
+                print(request.POST)
+                # Codigo_documento = request.POST.get('Codigo_documento', None)
+                # Descripcion = request.POST.get('Descripcion', None)
+                # Especialidad = request.POST.get('Especialidad', None)
+                # Tipo_Documento = request.POST.get('Tipo_Documento', None)
+                # fecha_Emision_0 = request.POST.get('fecha_Emision_0', None)
+                # fecha_Emision_B = request.POST.get('fecha_Emision_B', None)
+
+                return JsonResponse({"message": "holi"})
+            else:
+                return JsonResponse({"message": "no hay nada"})
+                
+
 class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm
