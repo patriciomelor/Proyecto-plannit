@@ -5,16 +5,33 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<style>
+   input[type="file"] {
+        display: none;
+    }
+    .custom-file-upload {
+        background:#17A2B8;
+        color:#fff;
+        border: 1px solid #17A2B8;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        padding: 0.65rem 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.25;
+        border-radius: 3px;
+        display: inline-block;
+        font-weight: normal;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+</style>
+
 <div class="br-mainpanel" style="position: relative;">
 
- <div class="pd-10 bg-gray-900 rounded">
-            <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" style="margin-left:auto;margin-right:auto;"role="tablist">
-              <li class="nav-item"><a href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose" role="tab">Nuevo Transmittal</a></li>
-              <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
-              <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15"><i class="icon fa fa-share"></i> Enviados</a></li>
-              <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15"><i class="icon icon ion-edit"></i> Borradores</a></li>
-            </ul>
-</div>
+  {% include 'bandeja_es/menu.html' %}
+
 
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
@@ -39,8 +56,8 @@
                                     </li>        
                             </ul>            
                         </div>
-                        <div class="col-md-12 row " >
-                          <div class="col-md-6" >
+                        <div class="col-md-12" >
+                          <div class="col-md-12" >
                          
                               <div id="tablaVersiones" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;" >
                                   <table class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary" style="width:100%;">
@@ -93,13 +110,36 @@
                               </div>
                              
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-12" style="overflow-y: scroll; height: 500px;">
                         
-                               <div id="tablaVersiones"style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;overflow: scroll;">
-                                <div id="app">
+                                <div id="app" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;">
                                   
-                                  <table class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary" style="width:100%;">
+                                  <table class=" table table-striped table-bordered table-hover dataTable no-footer table-primary">
                                       <thead>
+                                          <tr>
+                                           <td colspan="3">
+                                                <label for="file-upload" class="custom-file-upload" style="margin: 0px;padding-bottom: 0px;padding-top: 0px;">
+                                                    <span class="iborrainputfile custom-file-upload">  <i class="fa fa-cloud-upload"></i> Seleccionar Archivo</span>
+                                                </label>
+                                                <input type="file" name="file" id="file-upload" class="inputfile inputfile-1" data-multiple-caption="{count} archivos seleccionados"accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                                                
+                                                <button @click="adjuntar_arch" class="btn btn-danger" type="button" :disabled="loading == 1">
+                                                  <span v-if="loading == 1" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                      [[ buttonText ]]
+                                                </button>
+                                            </td>
+                                            
+                                            <td colspan="3"> 
+                                                <a v-on:click="cargar_val" class="btn btn-warning" type="button"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
+                                            </td>
+                                            
+                                            <td colspan="3">
+                                               
+                                             <a href="https://plannit-spaces.sfo3.digitaloceanspaces.com/PLANNIT-PLANTILLA_MULTICARGA.xlsx">
+                                                <button class="btn btn-success"><i class="fa fa-download mg-r-10"></i> Descargar plantilla</button>
+                                             </a>
+                                            </td>
+                                          </tr>
                                           <tr>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Código </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Descripción </th>
@@ -113,6 +153,7 @@
                                                {% endif %}  
                                               
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;">Campo</th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
 
@@ -138,22 +179,14 @@
                                             </tr>  
 
                                         </tbody>
-                                        <input type="file" name="file" id="file">
-                                          <button @click="adjuntar_arch" class="btn btn-warning" type="button" :disabled="loading == 1">
-                                            <span v-if="loading == 1" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
-                                                [[ buttonText ]]
-                                          </button>
-                                          
-                                        <a v-on:click="cargar_val" class="btn btn-primary" type="button"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
-                     
+                                        
                                     </table>
                                 </div>
                                     
                                 </div>
                         
                         </div>
-                        </div>      
-                     </div>
+                </div>
                 
             </form>
         </div>
@@ -201,7 +234,7 @@ var app = new Vue({
         this.buttonText = 'Subiendo...';
 
         let formData = new FormData();
-        const file = document.getElementById('file')
+        const file = document.getElementById('file-upload')
         formData.append('file', file.files[0]);
 
         fetch("{% url 'vue-file-import' %}", {
@@ -261,7 +294,7 @@ var app = new Vue({
 })
 </script>
 
-<!-- <script>
+ <script>
     Vue.component('message', {
         template: '#message',
         props: {
@@ -276,5 +309,32 @@ var app = new Vue({
     })
 
 
-</script> -->
+</script>
+<script>
+'use strict';
+
+;( function ( document, window, index )
+{
+	var inputs = document.querySelectorAll( '.inputfile' );
+	Array.prototype.forEach.call( inputs, function( input )
+	{
+		var label	 = input.nextElementSibling,
+			labelVal = label.innerHTML;
+
+		input.addEventListener( 'change', function( e )
+		{
+			var fileName = '';
+			if( this.files && this.files.length > 1 )
+				fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+			else
+				fileName = e.target.value.split( '\\' ).pop();
+
+			if( fileName )
+				label.querySelector( 'span' ).innerHTML = fileName;
+			else
+				label.innerHTML = labelVal;
+		});
+	});
+}( document, window, 0 ));
+</script>
 {% endblock content %}

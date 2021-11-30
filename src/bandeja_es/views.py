@@ -108,7 +108,6 @@ class PaqueteDetail(ProyectoMixin, DetailView):
         for version in versiones:
             try:
                 static = version.archivo
-                print(static)
                 listado_versiones_url.append(static)
             except ValueError:
                 pass
@@ -153,7 +152,7 @@ class PaqueteUpdate(ProyectoMixin, SuperuserViewMixin, UpdateView):
 
     def form_valid(self, form) -> HttpResponse:
         paquete = self.get_object()
-        fecha_modificar = paquete.fecha_creacion
+        fecha_modificar = form.cleaned_data["fecha_creacion"]
         versiones = paquete.version.all()
 
         for version in versiones:
@@ -171,8 +170,6 @@ class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     def form_valid(self, form) -> HttpResponse:
         paquete = self.get_object()
         versions = paquete.version.all()
-        for version in versions:
-            print(version)
         return HttpResponse()
 
 class BorradorList(ProyectoMixin, ListView):
@@ -283,7 +280,7 @@ def create_paquete(request, paquete_pk, versiones_pk):
             notification_list.append(user.email)
 
         send_email(
-            html="status_encargado/emails/Respuesta.html",
+            html="bandeja_es/emails/Respuesta.html",
             context= {
                 "paquete": paquete
             },
@@ -474,7 +471,6 @@ class TablaPopupView(ProyectoMixin, VisualizadorViewMixin, ListView):
         vertions = PrevPaqueteDocumento.objects.filter(prev_paquete=paquete).order_by('-prev_fecha_creacion')
         for version in vertions:
             versiones.append(version.prev_version)
-        print(versiones)
         context['versiones'] = versiones
         context["paquete_pk"] = self.kwargs['paquete_pk']
         return context
@@ -551,9 +547,7 @@ class UpdatePrevVersion(ProyectoMixin, VisualizadorViewMixin, UpdateView):
 def delete_prev_version(request, id_version, paquete_pk):
     if request.method == 'GET':
         prev_version = PrevVersion.objects.get(pk=id_version)
-        print(prev_version)
         prev_version.delete()
-        print(prev_version.pk)
         messages.add_message(request, messages.INFO, message='Revisión eliminada')
     return redirect('nueva-version', paquete_pk=paquete_pk)
 
