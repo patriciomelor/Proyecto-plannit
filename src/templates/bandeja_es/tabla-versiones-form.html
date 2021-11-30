@@ -5,6 +5,29 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<style>
+   input[type="file"] {
+        display: none;
+    }
+    .custom-file-upload {
+        background:#17A2B8;
+        color:#fff;
+        border: 1px solid #17A2B8;
+        display: inline-block;
+        padding: 6px 12px;
+        cursor: pointer;
+        padding: 0.65rem 0.75rem;
+        font-size: 0.875rem;
+        line-height: 1.25;
+        border-radius: 3px;
+        display: inline-block;
+        font-weight: normal;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+    }
+</style>
+
 <div class="br-mainpanel" style="position: relative;">
 
   {% include 'bandeja_es/menu.html' %}
@@ -87,29 +110,33 @@
                               </div>
                              
                           </div>
-                          <div class="col-md-12">
+                          <div class="col-md-12" style="overflow-y: scroll; height: 500px;">
                         
-                                <div id="app">
+                                <div id="app" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;">
                                   
                                   <table class=" table table-striped table-bordered table-hover dataTable no-footer table-primary">
                                       <thead>
                                           <tr>
                                            <td colspan="3">
-                                                <input type="file" name="file" id="file">
-                                                <button @click="adjuntar_arch" class="btn btn-warning" type="button" :disabled="loading == 1">
+                                                <label for="file-upload" class="custom-file-upload" style="margin: 0px;padding-bottom: 0px;padding-top: 0px;">
+                                                    <span class="iborrainputfile custom-file-upload">  <i class="fa fa-cloud-upload"></i> Seleccionar Archivo</span>
+                                                </label>
+                                                <input type="file" name="file" id="file-upload" class="inputfile inputfile-1" data-multiple-caption="{count} archivos seleccionados"accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+                                                
+                                                <button @click="adjuntar_arch" class="btn btn-danger" type="button" :disabled="loading == 1">
                                                   <span v-if="loading == 1" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                       [[ buttonText ]]
                                                 </button>
                                             </td>
                                             
                                             <td colspan="3"> 
-                                                <a v-on:click="cargar_val" class="btn btn-primary" type="button"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
+                                                <a v-on:click="cargar_val" class="btn btn-warning" type="button"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
                                             </td>
                                             
                                             <td colspan="3">
                                                
                                              <a href="https://plannit-spaces.sfo3.digitaloceanspaces.com/PLANNIT-PLANTILLA_MULTICARGA.xlsx">
-                                                <button class="btn btn-success btn-block mg-b-10"><i class="fa fa-download mg-r-10"></i> Download</button>
+                                                <button class="btn btn-success"><i class="fa fa-download mg-r-10"></i> Descargar plantilla</button>
                                              </a>
                                             </td>
                                           </tr>
@@ -126,6 +153,7 @@
                                                {% endif %}  
                                               
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;">Campo</th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
 
@@ -210,7 +238,7 @@ var app = new Vue({
         this.buttonText = 'Subiendo...';
 
         let formData = new FormData();
-        const file = document.getElementById('file')
+        const file = document.getElementById('file-upload')
         formData.append('file', file.files[0]);
 
         fetch("{% url 'vue-file-import' %}", {
@@ -288,5 +316,32 @@ var app = new Vue({
     })
 
 
+</script>
+<script>
+'use strict';
+
+;( function ( document, window, index )
+{
+	var inputs = document.querySelectorAll( '.inputfile' );
+	Array.prototype.forEach.call( inputs, function( input )
+	{
+		var label	 = input.nextElementSibling,
+			labelVal = label.innerHTML;
+
+		input.addEventListener( 'change', function( e )
+		{
+			var fileName = '';
+			if( this.files && this.files.length > 1 )
+				fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+			else
+				fileName = e.target.value.split( '\\' ).pop();
+
+			if( fileName )
+				label.querySelector( 'span' ).innerHTML = fileName;
+			else
+				label.innerHTML = labelVal;
+		});
+	});
+}( document, window, 0 ));
 </script>
 {% endblock content %}
