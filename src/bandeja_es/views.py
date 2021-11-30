@@ -1,8 +1,10 @@
+import json
 from os import error, path
 import pathlib
 import os.path
 
 from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
 from django.db.models import fields
 from django.views.generic import base
 from buscador.views import VersionesList
@@ -339,6 +341,7 @@ def vue_version(request, paquete_pk):
 
 @csrf_exempt
 def vue_file_import(request):
+    response_dict = []
     if request.user.is_authenticated:
         if request.method == 'POST':
             excel = request.FILES.get("file")
@@ -349,28 +352,18 @@ def vue_file_import(request):
                 except Exception as excep:
                     imported_data = None
                     error = excep
-                
-                if imported_data:
-                    for data in imported_data:
-                        print(data)
+                    return JsonResponse({"message": "Hubo un error al procesar el archivo"}, status=500)
 
+                if imported_data:
+                    return JsonResponse({ 
+                        "message": "se recibió el archivo",
+                        "data": imported_data.dict
+                        }, status=200)
                         
                 else:
-                    return JsonResponse({
-                        "message": "error con el archivo"
-                        },
-                            status=500
+                    return JsonResponse({"message": "error con el archivo"}, status=500)
 
-                        )
-
-                return JsonResponse({
-                    "message": "se recibió el archivo",
-                },
-                    status=200
-                )
             else:
-
-
 
                 return JsonResponse({
                     "message": "error con el archivo"
@@ -378,6 +371,25 @@ def vue_file_import(request):
                     status=500
 
                 )
+
+@csrf_exempt
+def check_version(request):
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if request.POST:
+                print(request.POST)
+                # Codigo_documento = request.POST.get('Codigo_documento', None)
+                # Descripcion = request.POST.get('Descripcion', None)
+                # Especialidad = request.POST.get('Especialidad', None)
+                # Tipo_Documento = request.POST.get('Tipo_Documento', None)
+                # fecha_Emision_0 = request.POST.get('fecha_Emision_0', None)
+                # fecha_Emision_B = request.POST.get('fecha_Emision_B', None)
+
+                return JsonResponse({"message": "holi"})
+            else:
+                return JsonResponse({"message": "no hay nada"})
+                
+
 class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
     form_class = PaquetePreviewForm

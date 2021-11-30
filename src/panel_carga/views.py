@@ -158,7 +158,6 @@ class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
             if imported_data:
                 for data in imported_data:
                     try:
-                        pass
                         if isinstance(data[4], str):
                             fecha_b = data[4]
                         else:
