@@ -33,7 +33,7 @@
                                     </li>        
                             </ul>            
                         </div>
-                        <div class="col-md-12 row " >
+                        <div class="col-md-12" >
                           <div class="col-md-12" >
                          
                               <div id="tablaVersiones" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;" >
@@ -94,15 +94,23 @@
                                   <table class=" table table-striped table-bordered table-hover dataTable no-footer table-primary">
                                       <thead>
                                           <tr>
-                                           <td>
+                                           <td colspan="3">
                                                 <input type="file" name="file" id="file">
                                                 <button @click="adjuntar_arch" class="btn btn-warning" type="button" :disabled="loading == 1">
                                                   <span v-if="loading == 1" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                       [[ buttonText ]]
                                                 </button>
                                             </td>
-                                            <td>
+                                            
+                                            <td colspan="3"> 
                                                 <a v-on:click="cargar_val" class="btn btn-primary" type="button"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
+                                            </td>
+                                            
+                                            <td colspan="3">
+                                               
+                                             <a href="https://plannit-spaces.sfo3.digitaloceanspaces.com/PLANNIT-PLANTILLA_MULTICARGA.xlsx">
+                                                <button class="btn btn-success btn-block mg-b-10"><i class="fa fa-download mg-r-10"></i> Download</button>
+                                             </a>
                                             </td>
                                           </tr>
                                           <tr>
