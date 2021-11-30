@@ -141,15 +141,15 @@
                                                 <td > [[ version.Especialidad ]]</td>
                                                 <td > [[ version.Tipo_Documento ]]</td>
                                                 <td > [[ version.fecha_Emision_0 ]]</td>
-                                                <td > [[ version.fecha_Emision_B ]]</td>
+                                                <td > [[ version.fecha_Emision_B ]]</td> 
                                                 <td><input type="file" name="file" id="file"></td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> 
-                                                    <!-- <a v-if="send == 0" @click="cargar_val(version)" >
+                                                    <a v-if="send == 0" @click="cargar_val(version)" >
                                                         <i class="fa fa-upload"></i>
-                                                    </a>  -->
+                                                    </a> 
 
-                                                    <div v-bind:class="spinner-border text-primary" role="status">
-                                                        <i class="fa fa-upload"></i>
+                                                    <div v-else class="spinner-border text-primary" role="status">
+                                                        <span class="sr-only">Loading...</span>
                                                     </div>
                                                 </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
