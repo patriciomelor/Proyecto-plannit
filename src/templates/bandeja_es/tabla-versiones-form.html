@@ -122,7 +122,7 @@
                                       
                                         <tbody>
                                          
-                                            <tr v-for="version in versiones" :key="version.Codigo_documento">
+                                            <tr v-for="(version, index) in versiones" :key="version.Codigo_documento">
                                                 <td > [[ version.Codigo_documento ]]</td>
                                                 <td > [[ version.Descripcion ]]</td>
                                                 <td > [[ version.Especialidad ]]</td>
@@ -131,12 +131,7 @@
                                                 <td > [[ version.fecha_Emision_B ]]</td> 
                                                 <td><input type="file" name="file" id="file"></td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> 
-                                                    <a v-if="send == 0" @click="cargar_val(version)" >
-                                                        <i class="fa fa-upload"></i>
-                                                    </a> 
-
-                                                    <div v-else class="spinner-border text-primary" role="status">
-                                                        <span class="sr-only">Loading...</span>
+                                                    <div :value="{ 'Verificar': !send }" :class="{ 'btn btn-success': !send, 'spinner-border text-primary' : send }" role="status" style="width: 1rem; height: 1rem;" @click="cargar_val(version)" >
                                                     </div>
                                                 </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
@@ -195,8 +190,9 @@ var app = new Vue({
   data: {
     versiones: [],
     loading: 0,
-    send: 0,
+    send: false,
     buttonText : 'Subir Archivo',
+    activeIndex: null,
     
   },
   methods:{
@@ -230,8 +226,9 @@ var app = new Vue({
         )
     },
 
-    cargar_val: function(version) {
-        this.send = 1;
+    cargar_val: function(version, index) {
+        this.activeIndex = index
+        this.send = true;
 
         let formData = new FormData();
         formData.append('Codigo_documento', version['Codigo_documento'])
@@ -241,7 +238,6 @@ var app = new Vue({
         formData.append('fecha_Emision_0', version['fecha_Emision_0'])
         formData.append('fecha_Emision_B', version['fecha_Emision_B'])
 
-        console.log(formData);
 
         fetch("{% url 'vue-version-check' %}", {
             method: 'POST',
@@ -249,9 +245,8 @@ var app = new Vue({
         }).then(
             response => {
                 const result = response.json();
-
                 console.log(result);
-                this.send = 0;
+                this.send = false;
 
                 }
         ).catch(
@@ -260,8 +255,6 @@ var app = new Vue({
             }
         )
 
-
-        
     }
     
   }
