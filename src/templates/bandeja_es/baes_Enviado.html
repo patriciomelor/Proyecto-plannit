@@ -101,7 +101,11 @@
           paging: true,    
           lengthChange: true,
           searching: true,
-          ordering: true,
+          ordering: false,
+          aaSorting:[],
+          aoColumnDefs: [
+          { 'bSortable': true, 'aTargets': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] }
+            ],
           info: true,
           autoWidth: true,
           lengthMenu: [[5, 25, 50, -1], [5, 25, 50, "Mostrar Todos"]],          
@@ -126,7 +130,7 @@
                 "last": "Último",
                 "next": "Siguiente",
                 "previous": "Anterior"
-            },
+             },
             "aria": {
                 "sortAscending": ": Activar para ordenar la columna de manera ascendente",
                 "sortDescending": ": Activar para ordenar la columna de manera descendente"
@@ -150,13 +154,13 @@
                 },
                 "pdf": "PDF",
                 "print": "Imprimir"
-            },
+             },
             "autoFill": {
                 "cancel": "Cancelar",
                 "fill": "Rellene todas las celdas con <i>%d<\/i>",
                 "fillHorizontal": "Rellenar celdas horizontalmente",
                 "fillVertical": "Rellenar celdas verticalmentemente"
-            },
+             },
             "decimal": ",",
             "searchBuilder": {
                 "add": "Añadir condición",
@@ -164,87 +168,87 @@
                     "0": "Constructor de búsqueda",
                     "_": "Constructor de búsqueda (%d)"
                 },
-        "clearAll": "Borrar todo",
-        "condition": "Condición",
-        "conditions": {
-            "date": {
-                "after": "Despues",
-                "before": "Antes",
-                "between": "Entre",
-                "empty": "Vacío",
-                "equals": "Igual a",
-                "notBetween": "No entre",
-                "notEmpty": "No Vacio",
-                "not": "Diferente de"
-            },
-            "number": {
-                "between": "Entre",
-                "empty": "Vacio",
-                "equals": "Igual a",
-                "gt": "Mayor a",
-                "gte": "Mayor o igual a",
-                "lt": "Menor que",
-                "lte": "Menor o igual que",
-                "notBetween": "No entre",
-                "notEmpty": "No vacío",
-                "not": "Diferente de"
-            },
-            "string": {
-                "contains": "Contiene",
-                "empty": "Vacío",
-                "endsWith": "Termina en",
-                "equals": "Igual a",
-                "notEmpty": "No Vacio",
-                "startsWith": "Empieza con",
-                "not": "Diferente de"
-            },
-            "array": {
-                "not": "Diferente de",
-                "equals": "Igual",
-                "empty": "Vacío",
-                "contains": "Contiene",
-                "notEmpty": "No Vacío",
-                "without": "Sin"
-            }
-        },
-        "data": "Data",
-        "deleteTitle": "Eliminar regla de filtrado",
-        "leftTitle": "Criterios anulados",
-        "logicAnd": "Y",
-        "logicOr": "O",
-        "rightTitle": "Criterios de sangría",
-        "title": {
-            "0": "Constructor de búsqueda",
-            "_": "Constructor de búsqueda (%d)"
-        },
-        "value": "Valor"
-    },
+            "clearAll": "Borrar todo",
+            "condition": "Condición",
+            "conditions": {
+                "date": {
+                  "after": "Despues",
+                  "before": "Antes",
+                  "between": "Entre",
+                  "empty": "Vacío",
+                  "equals": "Igual a",
+                  "notBetween": "No entre",
+                  "notEmpty": "No Vacio",
+                  "not": "Diferente de"
+                },
+                "number": {
+                    "between": "Entre",
+                    "empty": "Vacio",
+                    "equals": "Igual a",
+                    "gt": "Mayor a",
+                    "gte": "Mayor o igual a",
+                    "lt": "Menor que",
+                    "lte": "Menor o igual que",
+                    "notBetween": "No entre",
+                    "notEmpty": "No vacío",
+                    "not": "Diferente de"
+                  },
+                "string": {
+                    "contains": "Contiene",
+                    "empty": "Vacío",
+                    "endsWith": "Termina en",
+                    "equals": "Igual a",
+                    "notEmpty": "No Vacio",
+                    "startsWith": "Empieza con",
+                    "not": "Diferente de"
+                 },
+                "array": {
+                  "not": "Diferente de",
+                  "equals": "Igual",
+                  "empty": "Vacío",
+                  "contains": "Contiene",
+                  "notEmpty": "No Vacío",
+                  "without": "Sin"
+                  }
+              },
+            "data": "Data",
+            "deleteTitle": "Eliminar regla de filtrado",
+            "leftTitle": "Criterios anulados",
+            "logicAnd": "Y",
+            "logicOr": "O",
+            "rightTitle": "Criterios de sangría",
+            "title": {
+                  "0": "Constructor de búsqueda",
+                  "_": "Constructor de búsqueda (%d)"
+                },
+                  "value": "Valor"
+             },
             "searchPanes": {
                 "clearMessage": "Borrar todo",
                 "collapse": {
                     "0": "Paneles de búsqueda",
                     "_": "Paneles de búsqueda (%d)"
+                  },
+                "count": "{total}",
+                "countFiltered": "{shown} ({total})",
+                "emptyPanes": "Sin paneles de búsqueda",
+                "loadMessage": "Cargando paneles de búsqueda",
+                "title": "Filtros Activos - %d"
                 },
-        "count": "{total}",
-        "countFiltered": "{shown} ({total})",
-        "emptyPanes": "Sin paneles de búsqueda",
-        "loadMessage": "Cargando paneles de búsqueda",
-        "title": "Filtros Activos - %d"
-    },
             "select": {
                 "cells": {
-                    "1": "1 celda seleccionada",
-                    "_": "%d celdas seleccionadas"
-                },
-        "columns": {
-            "1": "1 columna seleccionada",
-            "_": "%d columnas seleccionadas"
-        },
-        "rows": {
-            "1": "1 fila seleccionada",
-            "_": "%d filas seleccionadas"
-        }
-    },
+                      "1": "1 celda seleccionada",
+                      "_": "%d celdas seleccionadas"
+                  },
+                "columns": {
+                    "1": "1 columna seleccionada",
+                    "_": "%d columnas seleccionadas"
+                  },
+                "rows": {
+                      "1": "1 fila seleccionada",
+                      "_": "%d filas seleccionadas"
+                  }
+              },
             "thousands": ".",
             "datetime": {
                 "previous": "Anterior",
@@ -256,7 +260,7 @@
                 "amPm": [
                     "AM",
                     "PM"
-                ],
+                  ],
                 "months": {
                     "0": "Enero",
                     "1": "Febrero",
@@ -270,7 +274,7 @@
                     "7": "Agosto",
                     "8": "Septiembre",
                     "9": "Octubre"
-                },
+                 },
                 "weekdays": [
                     "Dom",
                     "Lun",
@@ -279,8 +283,8 @@
                     "Jue",
                     "Vie",
                     "Sab"
-                ]
-            },
+                  ]
+               },
             "editor": {
                 "close": "Cerrar",
                 "create": {
@@ -311,13 +315,12 @@
                     "restore": "Deshacer Cambios",
                     "noMulti": "Este registro puede ser editado individualmente, pero no como parte de un grupo."
                 }
-            },
+              },
             "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
                    },         
           buttons:[ 
           'excel',  'pdf', 'print',
-           ]
-           	     
+           ]  
         });
   } );
   
