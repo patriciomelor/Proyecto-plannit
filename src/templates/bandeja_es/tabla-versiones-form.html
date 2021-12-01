@@ -166,8 +166,8 @@
                                       <thead>
                                           <tr>
                                            <td colspan="3">
-                                                <input type="file" name="file-1" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} archivos seleccionados"/>
-                                                <label for="file-1" style="
+                                                <input type="file" name="file-1" id="file-upload" class="inputfile inputfile-1" data-multiple-caption="{count} archivos seleccionados"/>
+                                                <label for="file-upload" style="
                                                 margin-bottom: 0px;
                                                 padding-bottom: 8px;
                                             ">
@@ -221,8 +221,8 @@
                                                 <td > [[ version.Descripcion ]]</td>
                                                 <td > [[ version.Especialidad ]]</td>
                                                 <td > [[ version.Tipo_Documento ]]</td>
-                                                <td > [[ version.fecha_Emision_0 ]]</td>
-                                                <td > [[ version.fecha_Emision_B ]]</td> 
+                                                <td > [[ version.fecha_Emision_0 | moment ]]</td>
+                                                <td > [[ version.fecha_Emision_B | moment ]]</td> 
                                                 <td>
                                                     <input type="file" class="inputfile inputfile-1"name="file" id="file-2">
                                                         <label for="file-1" style="margin-bottom: 0px;padding-bottom: 8px;">
