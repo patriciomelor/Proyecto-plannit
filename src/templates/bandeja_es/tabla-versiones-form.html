@@ -6,25 +6,72 @@
 
 {% block content %}
 <style>
-   input[type="file"] {
-        display: none;
+    /**********File Inputs**********/
+   
+    
+    .inputfile {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
     }
-    .custom-file-upload {
-        background:#17A2B8;
-        color:#fff;
-        border: 1px solid #17A2B8;
-        display: inline-block;
-        padding: 6px 12px;
+    
+    .inputfile + label {
+        max-width: 80%;
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
         cursor: pointer;
-        padding: 0.65rem 0.75rem;
-        font-size: 0.875rem;
-        line-height: 1.25;
-        border-radius: 3px;
+        display: inline-block;
+        overflow: hidden;
+        padding: 0.625rem 1.25rem;
+    }
+    
+    .inputfile + label svg {
+        width: 1em;
+        height: 1em;
+        vertical-align: middle;
+        fill: currentColor;
+        margin-top: -0.25em;
+        margin-right: 0.25em;
+    }
+    
+    .iborrainputfile {
+        font-size:16px; 
+        font-weight:normal;
+        font-family: 'Lato';
+    }
+    
+    /* style 1 */
+    
+    .inputfile-1 + label {
+        color: #fff;
+        background-color: #00b297;
+        border-color: #009981;
+        cursor: pointer;
         display: inline-block;
         font-weight: normal;
         text-align: center;
         white-space: nowrap;
         vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 10px 12px;
+        font-size: 0.875rem;
+        line-height: 1.25;
+        border-radius: 3px;
+        transition: all 0.15s ease-in-out;
+    }
+    
+    .inputfile-1:focus + label,
+    .inputfile-1.has-focus + label,
+    .inputfile-1 + label:hover {
+        color: #fff;
+        background-color: #008c77;
+        border-color: #006656;
     }
 </style>
 
@@ -62,20 +109,21 @@
                               <div id="tablaVersiones" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;" >
                                   <table class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary" style="width:100%;">
                                       <thead>
+                                         
                                           <tr>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Código </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Descripción </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Especialidad </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Revisión </th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Código </th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Descripción </th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Especialidad </th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Revisión </th>
                                                {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Estado </th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Estado </th>
                                                     
                                                {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"> Estado </th>                  
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Estado </th>                  
                                                {% endif %}  
                                               
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"></th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;border: 4px solid #FFFFFF;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"></th>
 
 
                                           </tr>
@@ -101,11 +149,16 @@
                                             </tr>
                                         {% endfor %}
                                         </tbody>
+                                      
                                     </table>
+                                    <a class="btn btn-warning mg-x-10" type="button" onclick="JavaScript:window.open('{% url 'popup-version' paquete_pk %}','subir datos','toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,resizable=yes,width=450,height=620,top=100,left=600');"><i class="icon ion-plus mg-r-2"></i> Agregar Versión</a>
+                                    <input type="submit" class="mg-x-10 btn btn-teal  float-left" value="Enviar"/>
+                                    <a class="mg-x-10"href="{% url 'borrador-crear' paquete_pk %}"><button type="button" class="btn btn-primary float-left"><i class="icon ion-bookmark mg-r-2"></i> Guardar en Borrador</button></a>
+                                
                               </div>
                              
                           </div>
-                          <div class="col-md-12" style="overflow-y: scroll; height: 500px;">
+                          <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
                         
                                 <div id="app" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;">
                                   
@@ -113,11 +166,16 @@
                                       <thead>
                                           <tr>
                                            <td colspan="3">
-                                                <label for="file-upload" class="custom-file-upload" style="margin: 0px;padding-bottom: 0px;padding-top: 0px;">
-                                                    <span class="iborrainputfile custom-file-upload">  <i class="fa fa-cloud-upload"></i> Seleccionar Archivo</span>
+                                                <input type="file" name="file-1" id="file-1" class="inputfile inputfile-1" data-multiple-caption="{count} archivos seleccionados"/>
+                                                <label for="file-1" style="
+                                                margin-bottom: 0px;
+                                                padding-bottom: 8px;
+                                            ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                                <span class="iborrainputfile">Seleccionar archivo</span>
                                                 </label>
-                                                <input type="file" name="file" id="file-upload" class="inputfile inputfile-1" data-multiple-caption="{count} archivos seleccionados"accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
                                                 
+                                              
                                                 <button @click="adjuntar_arch" class="btn btn-danger" type="button" :disabled="loading == 1">
                                                   <span v-if="loading == 1" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                       [[ buttonText ]]
@@ -234,7 +292,7 @@ var app = new Vue({
         this.buttonText = 'Subiendo...';
 
         let formData = new FormData();
-        const file = document.getElementById('file-upload')
+        const file = document.getElementById('file-1')
         formData.append('file', file.files[0]);
 
         fetch("{% url 'vue-file-import' %}", {
@@ -314,30 +372,30 @@ var app = new Vue({
 
 </script>
 <script>
-'use strict';
+    'use strict';
 
-;( function ( document, window, index )
-{
-	var inputs = document.querySelectorAll( '.inputfile' );
-	Array.prototype.forEach.call( inputs, function( input )
-	{
-		var label	 = input.nextElementSibling,
-			labelVal = label.innerHTML;
-
-		input.addEventListener( 'change', function( e )
-		{
-			var fileName = '';
-			if( this.files && this.files.length > 1 )
-				fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
-			else
-				fileName = e.target.value.split( '\\' ).pop();
-
-			if( fileName )
-				label.querySelector( 'span' ).innerHTML = fileName;
-			else
-				label.innerHTML = labelVal;
-		});
-	});
-}( document, window, 0 ));
+    ;( function ( document, window, index )
+    {
+        var inputs = document.querySelectorAll( '.inputfile' );
+        Array.prototype.forEach.call( inputs, function( input )
+        {
+            var label	 = input.nextElementSibling,
+                labelVal = label.innerHTML;
+    
+            input.addEventListener( 'change', function( e )
+            {
+                var fileName = '';
+                if( this.files && this.files.length > 1 )
+                    fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+                else
+                    fileName = e.target.value.split( '\\' ).pop();
+    
+                if( fileName )
+                    label.querySelector( 'span' ).innerHTML = fileName;
+                else
+                    label.innerHTML = labelVal;
+            });
+        });
+    }( document, window, 0 ));
 </script>
 {% endblock content %}
