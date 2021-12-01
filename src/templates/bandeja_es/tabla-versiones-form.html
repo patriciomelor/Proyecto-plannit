@@ -163,16 +163,28 @@
                                       
                                         <tbody>
                                          
-                                            <tr v-for="(version, index) in versiones" :key="version.Codigo_documento">
+                                            <tr v-for="(version, index) in versiones" :key="index">
                                                 <td > [[ version.Codigo_documento ]]</td>
                                                 <td > [[ version.Descripcion ]]</td>
                                                 <td > [[ version.Especialidad ]]</td>
                                                 <td > [[ version.Tipo_Documento ]]</td>
                                                 <td > [[ version.fecha_Emision_0 ]]</td>
                                                 <td > [[ version.fecha_Emision_B ]]</td> 
-                                                <td><input type="file" name="file" id="file"></td>
+                                                <td>
+                                                    <label for="file-upload" class="custom-file-upload" style="margin: 0px;padding-bottom: 0px;padding-top: 0px;">
+                                                        <span class="iborrainputfile custom-file-upload">  <i class="fa fa-cloud-upload"></i> Seleccionar Archivo</span>
+                                                    </label>
+                                                    <input type="file" name="row-file" id="row-file-upload" class="inputfile inputfile-1" data-multiple-caption="{count} archivos seleccionados" />    
+                                                </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> 
-                                                    <div :value="{ 'Verificar': !send }" :class="{ 'btn btn-success': !send, 'spinner-border text-primary' : send }" role="status" style="width: 1rem; height: 1rem;" @click="cargar_val(version)" >
+                                                    <div 
+                                                    value="verificar" 
+                                                    :key="index" 
+                                                    :class="{ 'btn btn-success': !send && activeIndex !== index, 'spinner-border text-primary' : activeIndex === index }" 
+                                                    role="status" 
+                                                    style="width: 1rem; height: 1rem;" 
+                                                    @click="cargar_val(version, index)" 
+                                                    >
                                                     </div>
                                                 </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
@@ -226,71 +238,77 @@ var app = new Vue({
     send: false,
     buttonText : 'Subir Archivo',
     activeIndex: null,
-    
   },
+//   computed: {
+//     classObject: function(index){
+//         return {
+//             'btn btn-success': !this.send && this.activeIndex !== index,
+//             'spinner-border text-primary' : activeIndex === index
+//         }
+//     }
+//   },
   methods:{
-    adjuntar_arch: function() {
-        this.loading = 1;
-        this.buttonText = 'Subiendo...';
+        adjuntar_arch: function() {
+            this.loading = 1;
+            this.buttonText = 'Subiendo...';
 
-        let formData = new FormData();
-        const file = document.getElementById('file-upload')
-        formData.append('file', file.files[0]);
+            let formData = new FormData();
+            const file = document.getElementById('file-upload')
+            formData.append('file', file.files[0]);
 
-        fetch("{% url 'vue-file-import' %}", {
-            method: 'POST',
-            body: formData
-        }).then(
-            async response => {
-                const result = await response.json();
-                this.versiones = result.data;
-                console.log(this.versiones)
-                this.loading = 0;
-                this.buttonText = 'Subir Archivo';
+            fetch("{% url 'vue-file-import' %}", {
+                method: 'POST',
+                body: formData
+            }).then(
+                async response => {
+                    const result = await response.json();
+                    this.versiones = result.data;
+                    console.log(this.versiones)
+                    this.loading = 0;
+                    this.buttonText = 'Subir Archivo';
 
-                }
-        ).catch(
-            error => {
-                console.log('Error:', error);
-                this.loading = 0;
-                this.buttonText = 'Subir Archivo';
-
-            }
-        )
-    },
-
-    cargar_val: function(version, index) {
-        this.activeIndex = index
-        this.send = true;
-
-        let formData = new FormData();
-        formData.append('Codigo_documento', version['Codigo_documento'])
-        formData.append('Descripcion', version['Descripcion'])
-        formData.append('Especialidad', version['Especialidad'])
-        formData.append('Tipo_Documento', version['Tipo_Documento'])
-        formData.append('fecha_Emision_0', version['fecha_Emision_0'])
-        formData.append('fecha_Emision_B', version['fecha_Emision_B'])
-
-
-        fetch("{% url 'vue-version-check' %}", {
-            method: 'POST',
-            body: formData
-        }).then(
-            response => {
-                const result = response.json();
-                console.log(result);
-                this.send = false;
+                    }
+            ).catch(
+                error => {
+                    console.log('Error:', error);
+                    this.loading = 0;
+                    this.buttonText = 'Subir Archivo';
 
                 }
-        ).catch(
-            error => {
-                console.log(error);
-            }
-        )
+            )
+        },
 
+        cargar_val: function(version, index) {
+            this.activeIndex = index
+            console.log(index)
+
+            let formData = new FormData();
+            formData.append('Codigo_documento', version['Codigo_documento'])
+            formData.append('Descripcion', version['Descripcion'])
+            formData.append('Especialidad', version['Especialidad'])
+            formData.append('Tipo_Documento', version['Tipo_Documento'])
+            formData.append('fecha_Emision_0', version['fecha_Emision_0'])
+            formData.append('fecha_Emision_B', version['fecha_Emision_B'])
+
+
+            fetch("{% url 'vue-version-check' %}", {
+                method: 'POST',
+                body: formData
+            }).then(
+                response => {
+                    const result = response.json();
+                    console.log(result);
+                    this.activeIndex = null;
+
+                    }
+            ).catch(
+                error => {
+                    console.log(error);
+                }
+            )
+
+        }
     }
-    
-  }
 })
 </script>
 
