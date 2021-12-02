@@ -4,6 +4,7 @@ from . import views
 
 urlpatterns = [
     #URL DE USUARIOS
+    path('privacidad/', views.PrivacidadYCondiciones.as_view(), name='privacidad'),
     path('index/', views.ConfiguracionIndex.as_view(), name='configuracion-index'),
     path('listado-user/', views.UsuarioLista.as_view(), name='listar-usuarios'),
     path('invitation-user/', views.InvitationView.as_view(), name='invitar-usuarios'),
