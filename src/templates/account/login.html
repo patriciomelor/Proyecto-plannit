@@ -40,7 +40,7 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
   <input class="form-control" type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <a class="tx-info tx-12 d-block mg-t-10" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
-  <a class="tx-info tx-12 d-block mg-t-10" href="">Leer Politicas de seguridad.</a>
+  <a class="tx-info tx-12 d-block mg-t-10 mg-b-10" href="">Leer Politicas de seguridad.</a>
   <button class="btn btn-info btn-block col-12" type="submit">{% trans "Sign In" %}</button>
 </form>
 </div>
