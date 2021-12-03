@@ -69,14 +69,22 @@ class VersionesList(ProyectoMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        versiones = Version.objects.select_related("documento_fk").prefetch_related("paquete_set", "paquete_set__owner").filter(documento_fk__pk=self.kwargs['pk']).order_by("-fecha")
-        first_v_date = versiones[0]
-        last_v_date = versiones[len(versiones)-1]
-        delta_date = abs((last_v_date.fecha - first_v_date.fecha).days)
+        versiones = Version.objects.select_related("documento_fk").prefetch_related("paquete_set", "paquete_set__owner").filter(documento_fk__pk=self.kwargs['pk']).order_by("fecha")
+        try:
+            first_v_date = versiones[0]
+            last_v_date = versiones.reverse()[0]
+            paquete_first = first_v_date.paquete_set.first()
+            paquete_last = last_v_date.paquete_set.first()
+            delta_date = abs((last_v_date.fecha - first_v_date.fecha).days)
+            print(first_v_date.fecha)
+            print(last_v_date.fecha)
+        
+        except:
+            pass
 
         context['versiones'] = versiones
-        context['first_date'] = first_v_date.fecha
-        context['last_date'] = last_v_date.fecha
+        context['first_date'] = paquete_first.fecha_creacion
+        context['last_date'] = paquete_last.fecha_creacion
         context['delta_date'] = delta_date
         # context['paquete'] = paquete
         return context

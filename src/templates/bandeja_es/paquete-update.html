@@ -13,9 +13,12 @@
         <span class="breadcrumb-item active">Editar Documento</span>
       </nav>
   </div>
+  {% include 'bandeja_es/menu.html' %}  
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5"> Editar el documentos</h4>
-    <p class="mg-b-0"></p>
+   
+  </div>
+<div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="br-section-wrapper">
       <form method="post">{% csrf_token %}
           {{ form|crispy }}
@@ -28,4 +31,23 @@
 
 
 </div>
+<script>
+ $(document).ready(function() {
+        $('#prev_descripcion').summernote({
+        placeholder: 'Hello stand alone ui',
+        tabsize: 2,
+        height: 120,
+        toolbar: [
+          ['style', ['style']],
+          ['font', ['bold', 'underline', 'clear']],
+          ['color', ['color']],
+          ['para', ['ul', 'ol', 'paragraph']],
+          ['table', ['table']],
+          ['insert', ['link', 'picture', 'video']],
+          ['view', ['fullscreen', 'codeview', 'help']]
+        ]
+        });
+    });
+</script>
+
 {% endblock %}
