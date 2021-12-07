@@ -806,60 +806,155 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                     valor_documento = 0
                     cont = 0
                     validacion = 1
+                    prueba = versiones.estado_cliente
 
-                    #Se calcula el avance real en la fecha de control que corresponda
-                    for controles in fechas_controles_recorrer:
-                        if validacion == 1:
-                            validacion = 0
-                            cont = cont + 1
-                            continue
+                    if prueba:
 
-                        if validacion == 0:
-                            if valor_documento == 0:
-                                calculo_real_0 = 0
-                                calculo_real_b = 0
-                                avance_documento = 0
+                        if prueba == 3:
 
-                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                for revision in TYPES_REVISION[1:4]:
-                                    if revision[0] == revision_documento and fecha_version <= controles:
-                                        calculo_real_b = valor_ganado * float(rev_letra/100)
-                                    if cont == (len(fechas_controles) - 1):
-                                        if revision[0] == revision_documento and fecha_version > controles:                              
-                                            calculo_real_b = valor_ganado * float(rev_letra/100)
+                            #Se calcula el avance real en la fecha de control que corresponda
+                            for controles in fechas_controles_recorrer:
+                                if validacion == 1:
+                                    validacion = 0
+                                    cont = cont + 1
+                                    continue
 
-                                if contador_avance == 0:
-                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                    for revision in TYPES_REVISION[5:]:
-                                        if revision[0] == revision_documento and fecha_version <= controles:
-                                            calculo_real_0 = valor_ganado * 1
-                                        if cont == (len(fechas_controles) - 1):
-                                            if revision[0] == revision_documento and fecha_version > controles:                                
-                                                calculo_real_0 = valor_ganado * 1
+                                if validacion == 0:
+                                    if valor_documento == 0:
+                                        avance_documento = 0
 
-                                if contador_avance != 0:
-                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                    for revision in TYPES_REVISION[5:]:
-                                        if revision[0] == revision_documento and fecha_version <= controles:
-                                            calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
-                                        if cont == (len(fechas_controles) - 1):
-                                            if revision[0] == revision_documento and fecha_version > controles:                                
-                                                calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+                                        if contador_avance == 0:
+                                            if fecha_version <= controles:
+                                                avance_documento = valor_ganado * 1
+                                            if cont == (len(fechas_controles) - 1):
+                                                if fecha_version > controles:                                
+                                                    avance_documento = valor_ganado * 1
 
-                                #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                                if calculo_real_b > calculo_real_0:
-                                    avance_documento = calculo_real_b                               
+                                        if contador_avance != 0:
+                                            if fecha_version <= controles:
+                                                avance_documento = valor_ganado * float(1.0 - float(rev_letra/100))
+                                            if cont == (len(fechas_controles) - 1):
+                                                if fecha_version > controles:                                
+                                                    avance_documento = valor_ganado * float(1.0 - float(rev_letra/100))
 
-                                #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                                if calculo_real_b < calculo_real_0:
-                                    avance_documento = calculo_real_0
+                                        #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                        if avance_documento != 0:
+                                            avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                            valor_documento = 1 
+                                            contador_avance = contador_avance + 1
+                                        cont = cont + 1
 
-                                #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
-                                if avance_documento != 0:
-                                    avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
-                                    valor_documento = 1 
-                                    contador_avance = contador_avance + 1
+                        if prueba != 3:
+
+                            #Se calcula el avance real en la fecha de control que corresponda
+                            for controles in fechas_controles_recorrer:
+                                if validacion == 1:
+                                    validacion = 0
+                                    cont = cont + 1
+                                    continue
+
+                                if validacion == 0:
+                                    if valor_documento == 0:
+                                        calculo_real_0 = 0
+                                        calculo_real_b = 0
+                                        avance_documento = 0
+
+                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                        for revision in TYPES_REVISION[1:4]:
+                                            if revision[0] == revision_documento and fecha_version <= controles:
+                                                calculo_real_b = valor_ganado * float(rev_letra/100)
+                                            if cont == (len(fechas_controles) - 1):
+                                                if revision[0] == revision_documento and fecha_version > controles:                              
+                                                    calculo_real_b = valor_ganado * float(rev_letra/100)
+
+                                        if contador_avance == 0:
+                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                            for revision in TYPES_REVISION[5:]:
+                                                if revision[0] == revision_documento and fecha_version <= controles:
+                                                    calculo_real_0 = valor_ganado * 1
+                                                if cont == (len(fechas_controles) - 1):
+                                                    if revision[0] == revision_documento and fecha_version > controles:                                
+                                                        calculo_real_0 = valor_ganado * 1
+
+                                        if contador_avance != 0:
+                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                            for revision in TYPES_REVISION[5:]:
+                                                if revision[0] == revision_documento and fecha_version <= controles:
+                                                    calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+                                                if cont == (len(fechas_controles) - 1):
+                                                    if revision[0] == revision_documento and fecha_version > controles:                                
+                                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+
+                                        #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                        if calculo_real_b > calculo_real_0:
+                                            avance_documento = calculo_real_b                               
+
+                                        #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                        if calculo_real_b < calculo_real_0:
+                                            avance_documento = calculo_real_0
+
+                                        #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                        if avance_documento != 0:
+                                            avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                            valor_documento = 1 
+                                            contador_avance = contador_avance + 1
+                                        cont = cont + 1
+
+                    if not prueba:
+
+                        #Se calcula el avance real en la fecha de control que corresponda
+                        for controles in fechas_controles_recorrer:
+                            if validacion == 1:
+                                validacion = 0
                                 cont = cont + 1
+                                continue
+
+                            if validacion == 0:
+                                if valor_documento == 0:
+                                    calculo_real_0 = 0
+                                    calculo_real_b = 0
+                                    avance_documento = 0
+
+                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                    for revision in TYPES_REVISION[1:4]:
+                                        if revision[0] == revision_documento and fecha_version <= controles:
+                                            calculo_real_b = valor_ganado * float(rev_letra/100)
+                                        if cont == (len(fechas_controles) - 1):
+                                            if revision[0] == revision_documento and fecha_version > controles:                              
+                                                calculo_real_b = valor_ganado * float(rev_letra/100)
+
+                                    if contador_avance == 0:
+                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                        for revision in TYPES_REVISION[5:]:
+                                            if revision[0] == revision_documento and fecha_version <= controles:
+                                                calculo_real_0 = valor_ganado * 1
+                                            if cont == (len(fechas_controles) - 1):
+                                                if revision[0] == revision_documento and fecha_version > controles:                                
+                                                    calculo_real_0 = valor_ganado * 1
+
+                                    if contador_avance != 0:
+                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                        for revision in TYPES_REVISION[5:]:
+                                            if revision[0] == revision_documento and fecha_version <= controles:
+                                                calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+                                            if cont == (len(fechas_controles) - 1):
+                                                if revision[0] == revision_documento and fecha_version > controles:                                
+                                                    calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+
+                                    #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                    if calculo_real_b > calculo_real_0:
+                                        avance_documento = calculo_real_b                               
+
+                                    #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                    if calculo_real_b < calculo_real_0:
+                                        avance_documento = calculo_real_0
+
+                                    #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                    if avance_documento != 0:
+                                        avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                        valor_documento = 1 
+                                        contador_avance = contador_avance + 1
+                                    cont = cont + 1
 
             if contador_versiones != 0:
                 #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
@@ -953,59 +1048,155 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                 cont = 0
                                 validacion = 1
 
-                                #Se calcula el avance real en la fecha de control que corresponda
-                                for controles in fechas_controles_recorrer:
-                                    if validacion == 1:
-                                        validacion = 0
-                                        cont = cont + 1
-                                        continue
+                                prueba = versiones.estado_cliente
 
-                                    if validacion == 0:
-                                        if valor_documento == 0:
-                                            calculo_real_0 = 0
-                                            calculo_real_b = 0
-                                            avance_documento = 0
+                                if prueba:
 
-                                            #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[1:4]:
-                                                if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_b = valor_ganado * float(rev_letra/100)
-                                                if cont == (len(fechas_controles) - 1):
-                                                    if revision[0] == revision_documento and fecha_version > controles:                              
-                                                        calculo_real_b = valor_ganado * float(rev_letra/100)
+                                    if prueba == 3:
 
-                                            if contador_avance == 0:
-                                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                for revision in TYPES_REVISION[5:]:
-                                                    if revision[0] == revision_documento and fecha_version <= controles:
-                                                        calculo_real_0 = valor_ganado * 1
-                                                    if cont == (len(fechas_controles) - 1):
-                                                        if revision[0] == revision_documento and fecha_version > controles:                                
-                                                            calculo_real_0 = valor_ganado * 1
+                                        #Se calcula el avance real en la fecha de control que corresponda
+                                        for controles in fechas_controles_recorrer:
+                                            if validacion == 1:
+                                                validacion = 0
+                                                cont = cont + 1
+                                                continue
 
-                                            if contador_avance != 0:
-                                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                for revision in TYPES_REVISION[5:]:
-                                                    if revision[0] == revision_documento and fecha_version <= controles:
-                                                        calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
-                                                    if cont == (len(fechas_controles) - 1):
-                                                        if revision[0] == revision_documento and fecha_version > controles:                                
-                                                            calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+                                            if validacion == 0:
+                                                if valor_documento == 0:
+                                                    avance_documento = 0
 
-                                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                                            if calculo_real_b > calculo_real_0:
-                                                avance_documento = calculo_real_b                               
+                                                    if contador_avance == 0:
+                                                        if fecha_version <= controles:
+                                                            avance_documento = valor_ganado * 1
+                                                        if cont == (len(fechas_controles) - 1):
+                                                            if fecha_version > controles:                                
+                                                                avance_documento = valor_ganado * 1
 
-                                            #Se comparan los avances en emision b y 0, para guardar el mayor valor
-                                            if calculo_real_b < calculo_real_0:
-                                                avance_documento = calculo_real_0
+                                                    if contador_avance != 0:
+                                                        if fecha_version <= controles:
+                                                            avance_documento = valor_ganado * float(1.0 - float(rev_letra/100))
+                                                        if cont == (len(fechas_controles) - 1):
+                                                            if fecha_version > controles:                                
+                                                                avance_documento = valor_ganado * float(1.0 - float(rev_letra/100))
 
-                                            #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
-                                            if avance_documento != 0:
-                                                avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
-                                                valor_documento = 1 
-                                                contador_avance = contador_avance + 1
+                                                    #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                                    if avance_documento != 0:
+                                                        avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                                        valor_documento = 1 
+                                                        contador_avance = contador_avance + 1
+                                                    cont = cont + 1
+
+                                    if prueba != 3:
+
+                                        #Se calcula el avance real en la fecha de control que corresponda
+                                        for controles in fechas_controles_recorrer:
+                                            if validacion == 1:
+                                                validacion = 0
+                                                cont = cont + 1
+                                                continue
+
+                                            if validacion == 0:
+                                                if valor_documento == 0:
+                                                    calculo_real_0 = 0
+                                                    calculo_real_b = 0
+                                                    avance_documento = 0
+
+                                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                                    for revision in TYPES_REVISION[1:4]:
+                                                        if revision[0] == revision_documento and fecha_version <= controles:
+                                                            calculo_real_b = valor_ganado * float(rev_letra/100)
+                                                        if cont == (len(fechas_controles) - 1):
+                                                            if revision[0] == revision_documento and fecha_version > controles:                              
+                                                                calculo_real_b = valor_ganado * float(rev_letra/100)
+
+                                                    if contador_avance == 0:
+                                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                                        for revision in TYPES_REVISION[5:]:
+                                                            if revision[0] == revision_documento and fecha_version <= controles:
+                                                                calculo_real_0 = valor_ganado * 1
+                                                            if cont == (len(fechas_controles) - 1):
+                                                                if revision[0] == revision_documento and fecha_version > controles:                                
+                                                                    calculo_real_0 = valor_ganado * 1
+
+                                                    if contador_avance != 0:
+                                                        #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                                        for revision in TYPES_REVISION[5:]:
+                                                            if revision[0] == revision_documento and fecha_version <= controles:
+                                                                calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+                                                            if cont == (len(fechas_controles) - 1):
+                                                                if revision[0] == revision_documento and fecha_version > controles:                                
+                                                                    calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+
+                                                    #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                                    if calculo_real_b > calculo_real_0:
+                                                        avance_documento = calculo_real_b                               
+
+                                                    #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                                    if calculo_real_b < calculo_real_0:
+                                                        avance_documento = calculo_real_0
+
+                                                    #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                                    if avance_documento != 0:
+                                                        avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                                        valor_documento = 1 
+                                                        contador_avance = contador_avance + 1
+                                                    cont = cont + 1
+
+                                if not prueba:
+
+                                    #Se calcula el avance real en la fecha de control que corresponda
+                                    for controles in fechas_controles_recorrer:
+                                        if validacion == 1:
+                                            validacion = 0
                                             cont = cont + 1
+                                            continue
+
+                                        if validacion == 0:
+                                            if valor_documento == 0:
+                                                calculo_real_0 = 0
+                                                calculo_real_b = 0
+                                                avance_documento = 0
+
+                                                #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                                for revision in TYPES_REVISION[1:4]:
+                                                    if revision[0] == revision_documento and fecha_version <= controles:
+                                                        calculo_real_b = valor_ganado * float(rev_letra/100)
+                                                    if cont == (len(fechas_controles) - 1):
+                                                        if revision[0] == revision_documento and fecha_version > controles:                              
+                                                            calculo_real_b = valor_ganado * float(rev_letra/100)
+
+                                                if contador_avance == 0:
+                                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                                    for revision in TYPES_REVISION[5:]:
+                                                        if revision[0] == revision_documento and fecha_version <= controles:
+                                                            calculo_real_0 = valor_ganado * 1
+                                                        if cont == (len(fechas_controles) - 1):
+                                                            if revision[0] == revision_documento and fecha_version > controles:                                
+                                                                calculo_real_0 = valor_ganado * 1
+
+                                                if contador_avance != 0:
+                                                    #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
+                                                    for revision in TYPES_REVISION[5:]:
+                                                        if revision[0] == revision_documento and fecha_version <= controles:
+                                                            calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+                                                        if cont == (len(fechas_controles) - 1):
+                                                            if revision[0] == revision_documento and fecha_version > controles:                                
+                                                                calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
+
+                                                #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                                if calculo_real_b > calculo_real_0:
+                                                    avance_documento = calculo_real_b                               
+
+                                                #Se comparan los avances en emision b y 0, para guardar el mayor valor
+                                                if calculo_real_b < calculo_real_0:
+                                                    avance_documento = calculo_real_0
+
+                                                #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
+                                                if avance_documento != 0:
+                                                    avance_fechas_controles[cont] = avance_fechas_controles[cont] + avance_documento
+                                                    valor_documento = 1 
+                                                    contador_avance = contador_avance + 1
+                                                cont = cont + 1
 
                         #Se calcula el avance real por fecha de control, mediante las sumatorias de estas, cubriendo las fechas de controles hasta el día actual
                         contador_final = 0
@@ -1347,5 +1538,4 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
         context = self.get_context_data(**kwargs)
         qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
         context['curvaBase'] = qs
-        return self.render_to_response(context)
-        
+        return self.render_to_response(context)  
