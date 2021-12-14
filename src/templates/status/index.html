@@ -22,19 +22,19 @@
             <table id="datatable1" class="table table-striped table-bordered table-primary"style="width:100%;table-layout:Inherit;font-size:10px;">
               <thead>
                 <tr role="row">
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">Especialidad</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px; width:50%;">Descripción</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px; width:70%;">Código</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">Tipo</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">Revisión Actual</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">A cargo de:</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">Último transmittal</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">Días de revisión</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">Estado</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">Fecha Inicial</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">Fecha Final</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">(%)<br>Avance</th>
-                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size:10px;">Ciclo revisión (d)</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:170px;">Código</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">A cargo de:</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último transmittal</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Inicial</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Final</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">(%)<br>Avance</th>
+                <th   style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Ciclo revisión (d)</th>
                 </tr>
               </thead>
                 <tbody>
@@ -42,35 +42,35 @@
             {% for documento in Listado %}
               {% if documento.1.0 == 'no version' %}
               <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > {{documento.0.Especialidad}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > {{documento.0.Descripcion}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > {{documento.0.Codigo_documento}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > {{documento.0.Tipo_Documento}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > {{documento.1.1}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px" > </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > {{documento.0.Especialidad}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > {{documento.0.Descripcion}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > {{documento.0.Codigo_documento}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > {{documento.0.Tipo_Documento}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > {{documento.1.1}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
               </tr>
               {% else %}
               <tr role="row" class="odd">
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {{documento.0.Especialidad}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {{documento.0.Descripcion}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a></th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {{documento.0.Tipo_Documento}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {{documento.1.0.get_revision_display}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {{documento.1.1.destinatario.perfil.empresa}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {% if documento.1.1 %} <a href="{% url 'paquete-detalle' documento.1.1.pk %}"> {{documento.1.1}} </a></th> {% else %} {% endif %}
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {{documento.1.6}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {% if not documento.1.0.get_estado_cliente_display %} {{ documento.1.0.get_estado_contratista_display }} {% else %}{{documento.1.0.get_estado_cliente_display}} {% endif %}  </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {{documento.1.5.fecha_creacion|date:"d-m-y"}}</th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {{documento.1.1.fecha_creacion|date:"d-m-y"}} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {% if documento.1.0.get_estado_cliente_display == "Anulado" %} 100% {% else %} {{documento.1.3}}% {% endif %} </th>
-                <th style="text-align: center;vertical-align:middle; width:auto;font-size:10px"> {{documento.1.4}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.0.Especialidad}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.0.Descripcion}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> <a href="{% url 'buscador-detalle' documento.0.pk %}">{{documento.0.Codigo_documento}}</a></th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.0.Tipo_Documento}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.0.get_revision_display}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.1.destinatario.perfil.empresa}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if documento.1.1 %} <a href="{% url 'paquete-detalle' documento.1.1.pk %}"> {{documento.1.1}} </a></th> {% else %} {% endif %}
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.6}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not documento.1.0.get_estado_cliente_display %} {{ documento.1.0.get_estado_contratista_display }} {% else %}{{documento.1.0.get_estado_cliente_display}} {% endif %}  </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.5.fecha_creacion|date:"d-m-y"}}</th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.1.fecha_creacion|date:"d-m-y"}} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if documento.1.0.get_estado_cliente_display == "Anulado" %} 100% {% else %} {{documento.1.3}}% {% endif %} </th>
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{documento.1.4}} </th>
               </tr>
               {% endif %}
               {% endfor %}
