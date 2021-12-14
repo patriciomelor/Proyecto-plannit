@@ -23,40 +23,44 @@ from bandeja_es.models import Version, Paquete
 class BuscadorIndex(ProyectoMixin, View):
     template_name = 'buscador/index.html'
     model = Documento
-    context_object_name = 'documentos'
     
-
-    def get_queryset(self):
-        # qs = documentos_con_versiones(self.request)
-         lista_documentos_filtrados = DocFilter(self.request.GET, queryset= documentos_con_versiones(self.request))
-         return lista_documentos_filtrados.qs.order_by('Numero_documento_interno')
-        # return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filter"] = DocFilter(self.request.GET, queryset=self.get_queryset())
-        context["documentos"] = self.get_queryset
+        añadidos_list = []
+        qs =  Documento.objects.prefetch_related('version_set').filter(proyecto=self.proyecto)
+        for doc in qs:
+            if doc.version_set.exists():
+                last_version = doc.version_set.last()
+                try:
+                    añadidos_list.append([doc, last_version.pk, last_version.get_revision_display(), last_version.archivo.url ])
+                except ValueError:
+                    pass
+        
+        context["documentos"] = añadidos_list
         return context
 
     def get (self, request, *args, **kwargs):
-        return render( request,self.template_name, self.get_context_data())
+        return render(request, self.template_name, self.get_context_data())
 
     def post(self, request, *args, **kwargs):
         listado = self.request.POST.getlist('dnld')
         versiones = Version.objects.filter(pk__in=listado)
-        print(versiones)
         zip_subdir = "Ultimas-Versiones-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
         s = BytesIO()
         zf = zipfile.ZipFile(s, "w")
         for version in versiones:
-            r = requests.get(version.archivo.url, stream=True)
+            try:
+                r = requests.get(version.archivo.url, stream=True)
             # print("VERSION: ", version)
             # print("STATUS: ",r.status_code)
             # print("CONTENIDO: ",r.content)
             # print("TEXTO: ",r.text)
             # print("JOSN: ",r.json)
-            zf.writestr(str(version.archivo), r.content)
+                zf.writestr(str(version.archivo), r.content)
+            except ValueError:
+                error = "Error en la version {}, no tiene archivo asociado".format(version)
         zf.close()
         response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
@@ -76,8 +80,6 @@ class VersionesList(ProyectoMixin, DetailView):
             paquete_first = first_v_date.paquete_set.first()
             paquete_last = last_v_date.paquete_set.first()
             delta_date = abs((last_v_date.fecha - first_v_date.fecha).days)
-            print(first_v_date.fecha)
-            print(last_v_date.fecha)
         
         except:
             pass
@@ -111,17 +113,3 @@ class VersionesList(ProyectoMixin, DetailView):
         response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
         return response
-
-def documentos_con_versiones(request):
-    añadidos_list = []
-    qs =  Documento.objects.filter(proyecto=request.session.get('proyecto'))
-    for doc in qs:
-        try:
-            version = Version.objects.filter(documento_fk=doc).exists()
-            if version:
-                añadidos_list.append(doc.pk)
-        except Version.DoesNotExist:
-            pass
-    queryset_final = Documento.objects.filter(pk__in=añadidos_list)
-    return queryset_final
-    

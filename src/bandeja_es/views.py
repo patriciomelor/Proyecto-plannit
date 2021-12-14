@@ -377,17 +377,21 @@ def check_version(request):
     if request.user.is_authenticated:
         if request.method == 'POST':
             if request.POST:
-                print(request.POST)
-                # Codigo_documento = request.POST.get('Codigo_documento', None)
-                # Descripcion = request.POST.get('Descripcion', None)
-                # Especialidad = request.POST.get('Especialidad', None)
-                # Tipo_Documento = request.POST.get('Tipo_Documento', None)
-                # fecha_Emision_0 = request.POST.get('fecha_Emision_0', None)
-                # fecha_Emision_B = request.POST.get('fecha_Emision_B', None)
+                row_version = {}
+                row_version["Codigo_documento"]  = request.POST.get('Codigo_documento', None)
+                row_version["Descripcion"] = request.POST.get('Descripcion', None)
+                row_version["Especialidad"] = request.POST.get('Especialidad', None)
+                row_version["Tipo_Documento"] = request.POST.get('Tipo_Documento', None)
+                row_version["fecha_Emision_0"] = request.POST.get('fecha_Emision_0', None)
+                row_version["fecha_Emision_B"]= request.POST.get('fecha_Emision_B', None)
+                row_version["file"]= request.FILES.get('file', None)
 
-                return JsonResponse({"message": "holi"})
+                form = PrevVersionForm(row_version)
+                if form.is_valid():
+
+                    return JsonResponse({"message": "version Validada"})
             else:
-                return JsonResponse({"message": "no hay nada"})
+                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"})
                 
 
 class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):

@@ -221,19 +221,18 @@
                                                 <td > [[ version.Descripcion ]]</td>
                                                 <td > [[ version.Especialidad ]]</td>
                                                 <td > [[ version.Tipo_Documento ]]</td>
-                                                <td > [[ version.fecha_Emision_0 | moment ]]</td>
-                                                <td > [[ version.fecha_Emision_B | moment ]]</td> 
+                                                <td > [[ version.fecha_Emision_0 ]]</td>
+                                                <td > [[ version.fecha_Emision_B ]]</td> 
                                                 <td>
-                                                    <input type="file" class="inputfile inputfile-1"name="file" id="file-2">
-                                                        <label for="file-1" style="margin-bottom: 0px;padding-bottom: 8px;">
+                                                    <input type="file" v-bind:id="index" />
+                                                        <!-- <label for="file-1" style="margin-bottom: 0px;padding-bottom: 8px;">
                                                         <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
                                                         <span class="iborrainputfile">Seleccionar archivo</span>
-                                                        </label>
+                                                        </label> -->
                                                 </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> 
                                                     <div 
-                                                    value="verificar" 
-                                                    :key="index" 
+                                                    value="verificar"
                                                     :class="{ 'btn btn-success': !send && activeIndex !== index, 'spinner-border text-primary' : activeIndex === index }" 
                                                     role="status" 
                                                     style="width: 1rem; height: 1rem;" 
@@ -335,7 +334,7 @@ var app = new Vue({
 
         cargar_val: function(version, index) {
             this.activeIndex = index
-            console.log(index)
+            const indexInput = document.getElementById(String(index))
 
             let formData = new FormData();
             formData.append('Codigo_documento', version['Codigo_documento'])
@@ -344,6 +343,7 @@ var app = new Vue({
             formData.append('Tipo_Documento', version['Tipo_Documento'])
             formData.append('fecha_Emision_0', version['fecha_Emision_0'])
             formData.append('fecha_Emision_B', version['fecha_Emision_B'])
+            formData.append('file', indexInput.files[0])
 
 
             fetch("{% url 'vue-version-check' %}", {
@@ -383,6 +383,7 @@ var app = new Vue({
 
 
 </script>
+
 <script>
     'use strict';
 
