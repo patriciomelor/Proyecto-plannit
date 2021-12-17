@@ -53,6 +53,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
         fecha_emision_b = 0
         versiones_documento = self.get_versiones_last()
         rev_letra = self.proyecto.rev_letra
+        dias_atraso = 0
 
         for doc in documentos:
             fecha_emision_b = doc.fecha_Emision_B
@@ -99,7 +100,8 @@ class StatusIndex(ProyectoMixin, TemplateView):
                         
             else: 
                 if semana_actual >= fecha_emision_b:
-                    lista_inicial = [doc, ['no version','Atrasado']]
+                    dias_atraso = abs((semana_actual - fecha_emision_b).days)
+                    lista_inicial = [doc, ['no version','Atrasado', dias_atraso]]
                     lista_final.append(lista_inicial)
                 else:
                     lista_inicial = [doc, ['no version','Pendiente']]
