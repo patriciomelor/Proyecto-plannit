@@ -36,13 +36,15 @@ class ProyectoForm(forms.ModelForm):
 
         }
 
-class DocumentoForm(forms.ModelForm):   
+class DocumentoForm(forms.ModelForm):  
+
     class Meta:
         model = Documento
         exclude = ['tipo','owner','emision','proyecto', 'ultima_edicion', 'archivo', 'Numero_documento_interno']
         widgets = {
-            'fecha_Emision_B':forms.TextInput(attrs={'type': 'datetime','class':'form-control datepicker','placeholder':'DD/MM/YYYY'}),
-            'fecha_Emision_0':forms.TextInput(attrs={'type': 'datetime','class':'form-control datepicker','placeholder':'DD/MM/YYYY'}),
+            'fecha_Emision_B':forms.TextInput(attrs={'type': 'date','class':'form-control datetime','placeholder':'DD/MM/YYYY'}),
+            'fecha_Emision_0':forms.TextInput(attrs={'type': 'date','class':'form-control datetime','placeholder':'DD/MM/YYYY'}),
+            'Codigo_documento':forms.TextInput(attrs={'class':'form-control codigo_documento'}),
         }
         labels = {
             'Descripcion':'Descripción',
