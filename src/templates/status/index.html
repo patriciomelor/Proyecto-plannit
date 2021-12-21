@@ -49,7 +49,11 @@
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
-                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
+                {% if documento.1.1 == 'Atrasado' %} 
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > {{documento.1.2}} </th> 
+                {% else %} 
+                <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th> 
+                {% endif %}
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > {{documento.1.1}} </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
                 <th style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;" > </th>
