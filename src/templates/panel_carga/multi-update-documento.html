@@ -1,6 +1,7 @@
 {% extends "index-pdc.html" %}
 {% load crispy_forms_tags %}
 {% block content %}
+
 <div class="br-mainpanel" style="position: relative;">
 
 <div class="br-pageheader pd-y-15 pd-l-20">
@@ -18,7 +19,7 @@
   {% include "messege.html" %}
   <div class="br-pagebody mg-t-5 pd-x-30">
 <div class="br-section-wrapper">
-    <form method="post">{% csrf_token %}
+    <form class="form-group"method="post">{% csrf_token %}
 
       {% for doc, form in zipped %}
         {{ formset.management_form }}
@@ -45,5 +46,8 @@ $('#datepicker').datepicker({
   selectOtherMonths: true,
   numberOfMonths: 2
 });
+</script>
+<script type="text/javascript">
+  $('#codigo_cocumento input[type=text]').prop('disabled', true);
 </script>
 {% endblock %}

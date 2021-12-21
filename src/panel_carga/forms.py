@@ -36,7 +36,7 @@ class ProyectoForm(forms.ModelForm):
 
         }
 
-class DocumentoForm(forms.ModelForm):  
+class DocumentoForm(forms.ModelForm):   
     class Meta:
         model = Documento
         exclude = ['tipo','owner','emision','proyecto', 'ultima_edicion', 'archivo', 'Numero_documento_interno']
