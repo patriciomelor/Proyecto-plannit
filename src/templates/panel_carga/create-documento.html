@@ -1,4 +1,4 @@
-{% extends "index-base.html" %}
+{% extends "index-pdc.html" %}
 {% load crispy_forms_tags %}
 
 
@@ -22,7 +22,6 @@
 <div class="br-section-wrapper">
     <form method="POST">{% csrf_token %}
         <label class="form-control col-12 col-sm-12">
-        
         {{ form|crispy }}
         
         <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar">
@@ -34,12 +33,37 @@
 </div>
 </div>
 </div>
+<script src="https://code.jquery.com/jquery-3.6.0.js"></script>
+<script src="https://code.jquery.com/ui/1.13.0/jquery-ui.js"></script>
 <script>
-  $(function () {
-    $("#id_date").datepicker({
-      format:'dd/mm/yyyy',
-    });
-  });
+$(".datepicker").datepicker({
+  showOtherMonths: true,
+  selectOtherMonths: true,
+  numberOfMonths: 2
+});
 </script>
+<script>
+  $.datepicker.regional['es'] = {
+  closeText: 'Cerrar',
+  prevText: '< Ant',
+  nextText: 'Sig >',
+  currentText: 'Hoy',
+  monthNames: ['Enero', 'Febrero', 'Marzo', 'Abril', 'Mayo', 'Junio', 'Julio', 'Agosto', 'Septiembre', 'Octubre', 'Noviembre', 'Diciembre'],
+  monthNamesShort: ['Ene','Feb','Mar','Abr', 'May','Jun','Jul','Ago','Sep', 'Oct','Nov','Dic'],
+  dayNames: ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'],
+  dayNamesShort: ['Dom','Lun','Mar','Mié','Juv','Vie','Sáb'],
+  dayNamesMin: ['Do','Lu','Ma','Mi','Ju','Vi','Sá'],
+  weekHeader: 'Sm',
+  dateFormat: 'dd/mm/yy',
+  firstDay: 1,
+  isRTL: false,
+  showMonthAfterYear: false,
+  yearSuffix: ''
+  };
+  $.datepicker.setDefaults($.datepicker.regional['es']);
+   $(function () {
+   $("#fecha").datepicker();
+   });
+ </script>
 
 {% endblock content %}

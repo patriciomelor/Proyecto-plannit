@@ -49,7 +49,6 @@
                         <i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;color:#fff;background:#0866C6;"></i>
                       </button>
                     </th>                  
-                    <th><!--Vacio--></th>                          
                     <th  style="width: auto;color:#fff;text-align: center;">Especialidad</th>
                     <th  style="width: auto;color:#fff;text-align: center;">Descripción</th>
                     <th  style="width: auto;color:#fff;text-align: center;">Código</th>
@@ -59,7 +58,6 @@
                   <tr >
                     
                     <th style="width: auto;"><input onclick="marcar(this);"type="checkbox"></th>
-                    <th colspan="1"></th>
                     <th colspan="4"></th>
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en<br> Rev B</th>              
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en <br>Rev 0</th>
@@ -69,12 +67,10 @@
                 <!--Loop Listar Documento-->
                 {% for documento in documentos %}            
                 <tr role="row" class="odd">
-                  <th ><input type="checkbox" name="dnld" value="{{documento.pk}}" class="onoffswitch-checkbox"></th>
-                
+                  
                   {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
-                  <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;" >
-                    <a href="{% url 'documento-actualizar' documento.pk %}" style="margin-left:3px;margin-right:3px;padding:3px;"> <i class="fa fa-pencil"style="margin-left:0px;margin-right:0px;padding:0px;"></i> </a>
-                  </th>  
+                  <th ><input type="checkbox" name="dnld" value="{{documento.pk}}" class="onoffswitch-checkbox"></th>
+                 
                   {% else %}
                   <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;">
                     
