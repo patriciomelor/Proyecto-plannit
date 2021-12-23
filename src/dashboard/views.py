@@ -121,6 +121,21 @@ class EscritorioView(ProyectoMixin, TemplateView):
         fechas_para_documentos = self.reporte_curva_s_fechas()
 
         #Variables para funciones
+        doc_emitidos = []
+        doc_aprobados = []
+        doc_rev_cliente = []
+        doc_rev_contratista = []
+        doc_atrasados_b = []
+        doc_atrasados_0 = []
+        doc_esperados_rev_b = []
+        doc_real_rev_b = []
+        doc_por_emitir_rev_b = []
+        doc_emitidos_rev_b = []
+        doc_esperados_rev_0 = []
+        doc_real_rev_0 = []
+        doc_por_emitir_rev_0 = []
+        doc_emitidos_rev_0 = []
+        
         contador_emitidos = 0
         documentos_aprobados = 0
         documentos_atrasados_B = 0
@@ -179,9 +194,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                 if fecha_emision_b >= fecha_anterior and fecha_emision_b <= fecha_control:
                     contador_semanal_b = contador_semanal_b + 1
+                    doc_por_emitir_rev_b.append(doc)
 
                 if fecha_emision_0 >= fecha_anterior and fecha_emision_0 <= fecha_control:
                     contador_semanal_0 = contador_semanal_0 + 1
+                    doc_por_emitir_rev_0.append(doc)
+                    
 
         #Obtener otros datos 
         for doc in documentos:
@@ -233,19 +251,23 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 if fecha_version >= fecha_anterior and fecha_version <= fecha_control:
                     if version_last.revision <= 4:
                         contador_emitidos_semana_b = contador_emitidos_semana_b + 1
+                        doc_emitidos_rev_b.append(doc, version_last)
 
                     if version_last.revision > 4:
                         contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
+                        doc_emitidos_rev_0.append(doc, version_last)
 
                 #Se obtienen y comparan los estados del cliente
                 for cliente in ESTADOS_CLIENTE[1:]:
                     if estado_cliente == cliente[0] and estado_cliente != 3 and estado_cliente !=5:
                         documentos_revision_contratista = documentos_revision_contratista + 1
-                        
+                        doc_rev_contratista.append([doc, version_last])
+
                 #Se obtienen y comparan los estados del contratista
                 for cliente in ESTADO_CONTRATISTA[1:]:
                     if estado_contratista == cliente[0]:
                         documentos_revision_cliente = documentos_revision_cliente + 1
+                        doc_rev_cliente.append([doc, version_last])
                 
                 #Se realizan calculos para aprobado con comentarios
                 #Preguntar a deavys si aprobado con comentarios se encuentra en disposicion del contratista
@@ -255,6 +277,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                         diferencia = abs((fecha_version - fecha_paquete).days)
                         tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
                         documentos_aprobados = documentos_aprobados + 1
+                        doc_aprobados.apend([doc, version_last])
 
                 #calculos para revisiones de documentos
                 revision = version_last.revision
@@ -267,8 +290,14 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                 #contar versiones emitidas 
                 contador_emitidos = contador_emitidos + 1
+                doc_emitidos.append([doc, version_last])
+                
 
             if version_first == 0:
+
+                doc_atrasados_b.append(doc)
+                doc_atrasados_0.append(doc)
+
 
                 #Calculo del promedio de demora emisión en b
                 if semana_actual >= fecha_emision_0:
