@@ -87,6 +87,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         reporte_curva_s_avance_real = self.reporte_curva_s_avance_real()
         reporte_curva_s_avance_esperado = self.reporte_curva_s_avance_esperado()
         reporte_curva_s_fechas = self.reporte_curva_s_fechas()
+        datos_tabla = self.datos_tabla()
 
         context['umbrales'] = HistorialUmbrales.objects.filter(proyecto=self.proyecto).order_by('pk')
         context['lista_curva_s_avance_real'] = reporte_curva_s_avance_real
@@ -97,7 +98,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         context['lista_curva_s_fechas_largo'] = len(reporte_curva_s_fechas) 
         context['usuarios'] = self.get_users()
         context["proyecto"] = self.proyecto
-        context['datos_tabla'] = self.datos_tabla()
+        context['datos_tabla'] = datos_tabla[0]
+        context['datos_tabla_emergente'] = datos_tabla[1]
 
         ## Opción 2
         qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
@@ -109,6 +111,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
         lista_inicial = []
         lista_final = []
+        lista_ventanas = []
+        lista = []
         documentos = self.get_queryset()
         versiones_documentos = self.get_versiones_last()
         total_documentos = len(documentos)
@@ -214,9 +218,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
             fecha_emision_b = fecha_emision_b.replace(tzinfo = None)
             
             if semana_actual >= fecha_emision_b:
-                contador_b = contador_b + 1     
+                contador_b = contador_b + 1
+                doc_esperados_rev_b.append(doc)
+
             if semana_actual >= fecha_emision_0:
                 contador_0 = contador_0 + 1
+                doc_esperados_rev_0.append(doc)
 
             #Se recorren las versiones por documento para obtener la primera y ultima
             for versiones in versiones_documentos:
@@ -247,15 +254,21 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 estado_cliente = version_last.estado_cliente
                 estado_contratista = version_last.estado_contratista
 
+                #Versiones en revision en b
+                if version_last.revision <= 4:
+                    doc_emitidos_rev_b.append([doc, version_last])
+
+                #Versiones en revision en 0
+                if version_last.revision >4:
+                    doc_emitidos_rev_0.append([doc, version_last])
+
                 #Verisones emitidas en la semana
                 if fecha_version >= fecha_anterior and fecha_version <= fecha_control:
                     if version_last.revision <= 4:
                         contador_emitidos_semana_b = contador_emitidos_semana_b + 1
-                        doc_emitidos_rev_b.append(doc, version_last)
 
                     if version_last.revision > 4:
                         contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
-                        doc_emitidos_rev_0.append(doc, version_last)
 
                 #Se obtienen y comparan los estados del cliente
                 for cliente in ESTADOS_CLIENTE[1:]:
@@ -272,12 +285,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 #Se realizan calculos para aprobado con comentarios
                 #Preguntar a deavys si aprobado con comentarios se encuentra en disposicion del contratista
                 if paquete_first:
-                    if estado_cliente == 5:
+                    if estado_cliente == 4:
                         fecha_paquete = paquete_first[0].fecha_creacion.replace(tzinfo = None)
                         diferencia = abs((fecha_version - fecha_paquete).days)
                         tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
                         documentos_aprobados = documentos_aprobados + 1
-                        doc_aprobados.apend([doc, version_last])
+                        doc_aprobados.append([doc, version_last])
 
                 #calculos para revisiones de documentos
                 revision = version_last.revision
@@ -291,23 +304,24 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 #contar versiones emitidas 
                 contador_emitidos = contador_emitidos + 1
                 doc_emitidos.append([doc, version_last])
-                
 
             if version_first == 0:
 
-                doc_atrasados_b.append(doc)
-                doc_atrasados_0.append(doc)
-
-
-                #Calculo del promedio de demora emisión en b
-                if semana_actual >= fecha_emision_0:
+                #Calculo del promedio de demora emisión en 0
+                if semana_actual > fecha_emision_0:
                     diferencia =(semana_actual - fecha_emision_0).days
                     prom_demora_emisión_0 = prom_demora_emisión_0 + diferencia
                     contador_demora_0 = contador_demora_0 + 1
-                if semana_actual >= fecha_emision_b:
+                    doc_atrasados_0.append(doc)
+                    documentos_atrasados_0 = documentos_atrasados_0 + 1
+                #Calculo del promedio de demora emisión en b
+                if semana_actual > fecha_emision_b:
                     diferencia = (semana_actual - fecha_emision_b).days
                     prom_demora_emisión_B = prom_demora_emisión_B + diferencia
                     contador_demora_b = contador_demora_b + 1
+                    doc_atrasados_b.append(doc)
+                    documentos_atrasados_B = documentos_atrasados_B + 1
+
 
         #Dar formato a valores de los promedios
         if documentos_aprobados != 0:
@@ -328,21 +342,22 @@ class EscritorioView(ProyectoMixin, TemplateView):
         if float(prom_demora_emisión_0) < 0.0:
             prom_demora_emisión_0 = 0.0
         
-        #Calculo de documentos atrasados
-        documentos_atrasados_B = contador_b - contador_emitidos_b
-        documentos_atrasados_0 = contador_0 - contador_emitidos_0
+        # #Calculo de documentos atrasados----------------------------------------------------------------------->Preguntar a deavys
+        # documentos_atrasados_B = contador_b - contador_emitidos_b
+        # documentos_atrasados_0 = contador_0 - contador_emitidos_0
 
-        if documentos_atrasados_B < 0:
-            documentos_atrasados_B = 0
-        if documentos_atrasados_0 < 0:
-            documentos_atrasados_0 = 0
+        # if documentos_atrasados_B < 0:
+        #     documentos_atrasados_B = 0
+        # if documentos_atrasados_0 < 0:
+        #     documentos_atrasados_0 = 0
 
         esperado_corto = 0
         largo_esperado = 0
 
         #Calculo de documentos reales emitidos en b
         contador_emitidos_b_sin_0 = contador_emitidos_b - contador_emitidos_0
-        contador_esperados_b_sin_0 = contador_b - contador_0
+        # #Preguntar a deavys---------------------------------------------------------------------------------------------------->Preguntar a deavys
+        # contador_esperados_b_sin_0 = contador_b - contador_0
         
         #Obtener avance real y esperado
         if lista_avance_real[0][1] != -1:
@@ -400,10 +415,14 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 avance_semanal_programado = format(avance_semanal_programado, '.2f') 
         
         #Se almacenan los datos obtenidos
-        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente, documentos_revision_contratista, documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0, cantidad_paquetes_contratista, cantidad_paquetes_cliente, avance_programado, avance_real, avance_semanal_programado, avance_semanal_real, contador_esperados_b_sin_0, contador_0, contador_emitidos_b_sin_0, contador_emitidos_0, contador_semanal_b, contador_semanal_0, contador_emitidos_semana_b, contador_emitidos_semana_0]
+        lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente, documentos_revision_contratista, documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0, cantidad_paquetes_contratista, cantidad_paquetes_cliente, avance_programado, avance_real, avance_semanal_programado, avance_semanal_real, contador_b, contador_0, contador_emitidos_b_sin_0, contador_emitidos_0, contador_semanal_b, contador_semanal_0, contador_emitidos_semana_b, contador_emitidos_semana_0]
         lista_final.append(lista_inicial)
+        lista_ventanas = [doc_emitidos, doc_aprobados, doc_rev_cliente, doc_rev_contratista, doc_atrasados_b, doc_atrasados_0, doc_emitidos_rev_b, doc_emitidos_rev_0, doc_esperados_rev_b, doc_esperados_rev_0, doc_por_emitir_rev_b, doc_por_emitir_rev_0]
 
-        return lista_inicial
+        lista.append(lista_final)
+        lista.append(lista_ventanas)
+
+        return lista
 
         ###################################################
         #                                                 #
