@@ -266,9 +266,11 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 if fecha_version >= fecha_anterior and fecha_version <= fecha_control:
                     if version_last.revision <= 4:
                         contador_emitidos_semana_b = contador_emitidos_semana_b + 1
+                        doc_real_rev_b.append([doc, version_last])
 
                     if version_last.revision > 4:
                         contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
+                        doc_real_rev_0.append([doc, version_last])
 
                 #Se obtienen y comparan los estados del cliente
                 for cliente in ESTADOS_CLIENTE[1:]:
@@ -417,7 +419,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         #Se almacenan los datos obtenidos
         lista_inicial = [total_documentos, contador_emitidos, documentos_aprobados, documentos_atrasados_0, documentos_revision_cliente, documentos_revision_contratista, documentos_atrasados_B, tiempo_ciclo_aprobación, prom_demora_emisión_B, prom_demora_emisión_0, cantidad_paquetes_contratista, cantidad_paquetes_cliente, avance_programado, avance_real, avance_semanal_programado, avance_semanal_real, contador_b, contador_0, contador_emitidos_b_sin_0, contador_emitidos_0, contador_semanal_b, contador_semanal_0, contador_emitidos_semana_b, contador_emitidos_semana_0]
         lista_final.append(lista_inicial)
-        lista_ventanas = [doc_emitidos, doc_aprobados, doc_rev_cliente, doc_rev_contratista, doc_atrasados_b, doc_atrasados_0, doc_emitidos_rev_b, doc_emitidos_rev_0, doc_esperados_rev_b, doc_esperados_rev_0, doc_por_emitir_rev_b, doc_por_emitir_rev_0]
+        lista_ventanas = [doc_emitidos, doc_aprobados, doc_rev_cliente, doc_rev_contratista, doc_atrasados_b, doc_atrasados_0, doc_emitidos_rev_b, doc_emitidos_rev_0, doc_esperados_rev_b, doc_esperados_rev_0, doc_por_emitir_rev_b, doc_por_emitir_rev_0, doc_real_rev_b, doc_real_rev_b]
 
         lista.append(lista_final)
         lista.append(lista_ventanas)
