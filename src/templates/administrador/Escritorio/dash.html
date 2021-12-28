@@ -645,11 +645,11 @@
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
-             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
-             <!-- <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th> -->
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Emisión</th>
-             <!-- <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th> -->
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
              
             </tr>
           </thead>
@@ -662,9 +662,9 @@
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
-              <!-- <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td> -->
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.fecha|date:"d-m-y"}} </td>
-              <!-- <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td> -->
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
 
               
             </tr>
@@ -699,11 +699,11 @@
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
-              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
-              <!-- <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th> -->
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Emisión</th>
-              <!-- <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th> -->
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
             </tr>
           </thead>
           <tbody>
@@ -715,9 +715,9 @@
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
-              <!-- <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td> -->
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.fecha|date:"d-m-y"}} </td>
-              <!-- <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td> -->
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -750,11 +750,11 @@
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
-              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
-              <!-- <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th> -->
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
-              <!-- <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th> -->
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
 
             </tr>
           </thead>
@@ -767,9 +767,9 @@
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
-              <!-- <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> </td> -->
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.fecha|date:"d-m-y"}} </td>
-              <!-- <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> </td> -->
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
 
             </tr>
             {% endfor %}
@@ -803,11 +803,11 @@
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
-              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
-              <!-- <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th> -->
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
               <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
-              <!-- <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th> -->
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
 
             </tr>
           </thead>
@@ -820,9 +820,9 @@
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
-              <!-- <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> </td> -->
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.fecha|date:"d-m-y"}} </td>
-              <!-- <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> </td> -->
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
 
             </tr>
             {% endfor %}
@@ -985,8 +985,8 @@
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
-             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Ultimo Transmittal</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de Revisión</th>
@@ -1002,9 +1002,9 @@
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.fecha|date:"d-m-y"}} </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
 
             </tr>
             {% endfor %}
@@ -1081,8 +1081,8 @@
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
-             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
@@ -1098,9 +1098,9 @@
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.fecha|date:"d-m-y"}} </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -1176,8 +1176,8 @@
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
-             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
@@ -1193,9 +1193,9 @@
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.fecha|date:"d-m-y"}} </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
             </tr>
             {% endfor %}
           </tbody>
@@ -1271,8 +1271,8 @@
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
-             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
@@ -1288,9 +1288,9 @@
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
               <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.fecha|date:"d-m-y"}} </td>
-              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;">  </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
             </tr>
             {% endfor %}
           </tbody>

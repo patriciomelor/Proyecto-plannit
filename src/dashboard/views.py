@@ -120,8 +120,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         fechas = self.Obtener_fechas()
         fechas = fechas[0][0]
         avance_esperado = self.reporte_curva_s_avance_esperado()
-        semana_actual = timezone.now()
-        semana_actual = semana_actual.replace(tzinfo = None)
+        semana_actual_dias_revision = timezone.now()
+        semana_actual = semana_actual_dias_revision.replace(tzinfo = None)
         fechas_para_documentos = self.reporte_curva_s_fechas()
 
         #Variables para funciones
@@ -210,6 +210,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
             comprobacion_first = 0
             version_first = 0
             version_last = 0
+            dias_revision = 0
+            fecha_version_paquete = 0
 
             #Se cuentan los documentos atrasados
             fecha_emision_0 = doc.fecha_Emision_0
@@ -237,6 +239,20 @@ class EscritorioView(ProyectoMixin, TemplateView):
             #calculos respecto al estado cliente
             if version_first != 0:
 
+                #Calculo de días de revision
+                paquete = version_last.paquete_set.first()
+                paquete_first = version_first.paquete_set.first()
+
+                if paquete and paquete_first:
+                    fecha_paquete_semanal = paquete_first.fecha_creacion
+                    fecha_paquete_semanal = fecha_paquete_semanal.replace(tzinfo = None)
+
+                    if version_last.estado_cliente == 5:
+                        dias_revision = 0
+                    else:
+                        fecha_version_paquete = paquete.fecha_creacion
+                        dias_revision = abs((semana_actual_dias_revision - fecha_version_paquete).days)
+
                 #Se cuentan las emisiones de documentos en B
                 contador_emitidos_b = contador_emitidos_b + 1
 
@@ -256,43 +272,43 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                 #Versiones en revision en b
                 if version_last.revision <= 4:
-                    doc_emitidos_rev_b.append([doc, version_last])
+                    doc_emitidos_rev_b.append([doc, version_last, dias_revision, paquete])
 
                 #Versiones en revision en 0
                 if version_last.revision >4:
-                    doc_emitidos_rev_0.append([doc, version_last])
+                    doc_emitidos_rev_0.append([doc, version_last, dias_revision, paquete])
 
                 #Verisones emitidas en la semana
-                if fecha_version >= fecha_anterior and fecha_version <= fecha_control:
+                if fecha_paquete_semanal >= fecha_anterior and fecha_paquete_semanal <= fecha_control:
                     if version_last.revision <= 4:
                         contador_emitidos_semana_b = contador_emitidos_semana_b + 1
-                        doc_real_rev_b.append([doc, version_last])
+                        doc_real_rev_b.append([doc, version_first, dias_revision, paquete_first])
 
                     if version_last.revision > 4:
                         contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
-                        doc_real_rev_0.append([doc, version_last])
+                        doc_real_rev_0.append([doc, version_first, dias_revision, paquete_first])
 
                 #Se obtienen y comparan los estados del cliente
                 for cliente in ESTADOS_CLIENTE[1:]:
                     if estado_cliente == cliente[0] and estado_cliente != 3 and estado_cliente !=5:
                         documentos_revision_contratista = documentos_revision_contratista + 1
-                        doc_rev_contratista.append([doc, version_last])
+                        doc_rev_contratista.append([doc, version_last, dias_revision, paquete])
 
                 #Se obtienen y comparan los estados del contratista
                 for cliente in ESTADO_CONTRATISTA[1:]:
                     if estado_contratista == cliente[0]:
                         documentos_revision_cliente = documentos_revision_cliente + 1
-                        doc_rev_cliente.append([doc, version_last])
+                        doc_rev_cliente.append([doc, version_last, dias_revision, paquete])
                 
                 #Se realizan calculos para aprobado con comentarios
                 #Preguntar a deavys si aprobado con comentarios se encuentra en disposicion del contratista
                 if paquete_first:
-                    if estado_cliente == 4:
+                    if estado_cliente == 5:
                         fecha_paquete = paquete_first[0].fecha_creacion.replace(tzinfo = None)
                         diferencia = abs((fecha_version - fecha_paquete).days)
                         tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
                         documentos_aprobados = documentos_aprobados + 1
-                        doc_aprobados.append([doc, version_last])
+                        doc_aprobados.append([doc, version_last, dias_revision, paquete])
 
                 #calculos para revisiones de documentos
                 revision = version_last.revision
@@ -305,7 +321,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                 #contar versiones emitidas 
                 contador_emitidos = contador_emitidos + 1
-                doc_emitidos.append([doc, version_last])
+                doc_emitidos.append([doc, version_last, dias_revision, paquete])
 
             if version_first == 0:
 
@@ -343,23 +359,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
             prom_demora_emisión_B = 0.0
         if float(prom_demora_emisión_0) < 0.0:
             prom_demora_emisión_0 = 0.0
-        
-        # #Calculo de documentos atrasados----------------------------------------------------------------------->Preguntar a deavys
-        # documentos_atrasados_B = contador_b - contador_emitidos_b
-        # documentos_atrasados_0 = contador_0 - contador_emitidos_0
-
-        # if documentos_atrasados_B < 0:
-        #     documentos_atrasados_B = 0
-        # if documentos_atrasados_0 < 0:
-        #     documentos_atrasados_0 = 0
 
         esperado_corto = 0
         largo_esperado = 0
 
         #Calculo de documentos reales emitidos en b
         contador_emitidos_b_sin_0 = contador_emitidos_b - contador_emitidos_0
-        # #Preguntar a deavys---------------------------------------------------------------------------------------------------->Preguntar a deavys
-        # contador_esperados_b_sin_0 = contador_b - contador_0
         
         #Obtener avance real y esperado
         if lista_avance_real[0][1] != -1:

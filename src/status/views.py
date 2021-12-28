@@ -60,6 +60,8 @@ class StatusIndex(ProyectoMixin, TemplateView):
             comprobacion_first = 0
             version_first = 0
             version = 0
+            dias_revision = 0
+            
             for versiones in versiones_documento:
                 if doc == versiones.documento_fk and comprobacion_first == 0:
                     comprobacion_first = 1
