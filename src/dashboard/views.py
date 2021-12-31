@@ -171,7 +171,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         contador_semanal_b = 0
         contador_semanal_0 = 0
         contador_emitidos_b_sin_0 = 0
-        contador_esperados_b_sin_0 = 0
+        # contador_esperados_b_sin_0 = 0
         contador_emitidos_semana_b = 0
         contador_emitidos_semana_0 = 0
 
@@ -210,6 +210,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
             comprobacion_first = 0
             version_first = 0
             version_last = 0
+            version_rev_0 = 0
+            comprobacion_rev_0 = 0
             dias_revision = 0
             fecha_version_paquete = 0
 
@@ -229,6 +231,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
             #Se recorren las versiones por documento para obtener la primera y ultima
             for versiones in versiones_documentos:
+                if comprobacion_rev_0 == 0:
+                    if doc == versiones.documento_fk and versiones.revision > 4:
+                        version_rev_0 = versiones
+                        comprobacion_rev_0 = 1
                 if doc == versiones.documento_fk and comprobacion_first == 0:
                     version_first = versiones
                     version_last = versiones
@@ -264,7 +270,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 contador_demora_b = contador_demora_b + 1
 
                 #Se obtienes las variables necesarias
-                paquete_first = version_first.paquete_set.all()
+                # paquete_first = version_first.paquete_set.all()
                 fecha_version = version_last.fecha
                 fecha_version = fecha_version.replace(tzinfo = None)
                 estado_cliente = version_last.estado_cliente
@@ -275,18 +281,20 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     doc_emitidos_rev_b.append([doc, version_last, dias_revision, paquete])
 
                 #Versiones en revision en 0
-                if version_last.revision >4:
+                if version_last.revision > 4:
                     doc_emitidos_rev_0.append([doc, version_last, dias_revision, paquete])
 
                 #Verisones emitidas en la semana
                 if fecha_paquete_semanal >= fecha_anterior and fecha_paquete_semanal <= fecha_control:
-                    if version_last.revision <= 4:
+                    if version_first.revision <= 4:
                         contador_emitidos_semana_b = contador_emitidos_semana_b + 1
                         doc_real_rev_b.append([doc, version_first, dias_revision, paquete_first])
 
-                    if version_last.revision > 4:
-                        contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
-                        doc_real_rev_0.append([doc, version_first, dias_revision, paquete_first])
+                    if version_rev_0:
+                        if version_rev_0.revision > 4:
+                            paquete_rev_0 = version_rev_0.paquete_set.first()
+                            contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
+                            doc_real_rev_0.append([doc, version_rev_0, dias_revision, paquete_rev_0])
 
                 #Se obtienen y comparan los estados del cliente
                 for cliente in ESTADOS_CLIENTE[1:]:
