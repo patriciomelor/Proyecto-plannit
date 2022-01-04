@@ -3,557 +3,543 @@
 
 {% block content %}
 <div class="br-mainpanel">
-<div class="pd-15">
-  <h4 class="tx-gray-800 mg-b-5">Escritorio</h4>
-</div>
-<div class="br-pagebody mg-t-5 pd-x-30">
-  <!--Fila 1-->
-  <div class="row no-gutters widget-1 shadow-base mg-t-20">
-    <div class="col-sm-6 col-lg-3">
-      <div class="card">
-        <div class="card-header"style="background-color: #3498DB ;display:flow-root;">
-          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;vertical-align:middle;display:flow-root;">DOCUMENTOS TOTALES</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="display:flow-root;text-align:center;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.0}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;vertical-align:middle;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color: white;display:flow-root;">Doc. emitidos</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="display:flow-root;text-align:center;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.1}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;display:flow-root;text-align: center;">
-          <h6 class="card-title" style="font-size:11px;color:white;display:flow-root;text-align: center;">Doc. aprobados</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.2}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color: white;text-align:center;display:flow-root;">Tiem. de Ciclo aprobación (d)</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"style="text-align:center;display:flow-root;"> {{datos_tabla.7}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
+  <div class="pd-15">
+    <h4 class="tx-gray-800 mg-b-5">Escritorio</h4>
   </div>
-<!--Fila 2-->
-  <div class="row no-gutters widget-1 shadow-base mg-t-20">
-    <div class="col-sm-6 col-lg-3">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align: center;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color:#fff;display:flow-root;">Doc. en Rev. cliente</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="display:flow-root;text-align:center;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.4}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. en Rev. contratista</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.5}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB;text-align:center;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. atrasados Rev. B</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.6}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB;text-align:center;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. atrasados Rev. 0</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.3}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-  </div>
-  <!--Fila 3-->
-  <div class="row no-gutters widget-1 shadow-base mg-t-20">
 
-    <div class="col-sm-6 col-lg-6 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Cant. Transmittal cliente</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.10}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-6 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color:#fff;font-size:11px;text-align:center;display:flow-root;">Cant. Transmittal Contratista</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.11}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-  </div>
-  <!--Fila 4-->
-  <div class="row no-gutters widget-1 shadow-base mg-t-20">
-    <div class="col-sm-6 col-lg-3">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
-          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avance programado</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.12}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
-          <h6 class="card-title"style="color:#fff;text-align:center;display:flow-root;font-size:11.1px">% Avance real</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.13}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-     <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
-          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avan. Semana Program.</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.14}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-     <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
-          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avan. Semana Real</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.15}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-  </div>
-  <!--Fila 5-->
-  <div class="row no-gutters widget-1 shadow-base mg-t-20">
-    <div class="col-sm-6 col-lg-3">
-      <div class="card">
-        <div class="card-header"style="background-color: #3498DB ;display:flow-root;">
-          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;vertical-align:middle;display:flow-root;">DOCUMENTOS ESPERADOS REV. B</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="display:flow-root;text-align:center;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.16}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;vertical-align:middle;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color: white;display:flow-root;">DOCUMENTOS REAL REV. B</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="display:flow-root;text-align:center;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.18}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;display:flow-root;text-align: center;">
-          <h6 class="card-title" style="font-size:11px;color:white;display:flow-root;text-align: center;">DOCUMENTOS POR EMITIR SEMANAL REV. B</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.20}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color: white;text-align:center;display:flow-root;">DOCUMENTOS EMITIDOS SEMANAL REV. B</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"style="text-align:center;display:flow-root;"> {{datos_tabla.22}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-  </div>
-  <!--Fila 6-->
-  <div class="row no-gutters widget-1 shadow-base mg-t-20">
-    <div class="col-sm-6 col-lg-3">
-      <div class="card">
-        <div class="card-header"style="background-color: #3498DB ;display:flow-root;">
-          <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;vertical-align:middle;display:flow-root;">DOCUMENTOS ESPERADOS REV. 0</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="display:flow-root;text-align:center;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.17}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;vertical-align:middle;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color: white;display:flow-root;">DOCUMENTOS REAL REV. 0</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="display:flow-root;text-align:center;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.19}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;display:flow-root;text-align: center;">
-          <h6 class="card-title" style="font-size:11px;color:white;display:flow-root;text-align: center;">DOCUMENTOS POR EMITIR SEMANAL REV. 0</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"> {{datos_tabla.21}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-    <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
-      <div class="card">
-        <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
-          <h6 class="card-title" style="font-size:11px;color: white;text-align:center;display:flow-root;">DOCUMENTOS EMITIDOS SEMANAL REV. 0</h6>
-        </div><!-- card-header -->
-        <div class="card-footer"style="text-align:center;display:flow-root;">
-          <div>
-            <h6 class="tx-inverse"style="text-align:center;display:flow-root;"> {{datos_tabla.23}} </h6>
-          </div>
-        </div><!-- card-footer -->
-      </div><!-- card -->
-    </div><!-- col-3 -->
-  </div>
-<!--Cuerpo-->
-<div class="row row-sm mg-t-20 mg-b-30">
-          <div class="col-12">
-            <div class="card pd-0 bd-0 shadow-base">
-              <div class="pd-x-30 pd-t-30 pd-b-15">
-                <div class="align-items-center justify-content-between"style="text-align:center;display:flow-root;">
-                  <div style="text-align:center;display:flow-root;" >
-                    <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1"style="text-align:center;display:flow-root;">Curva de Avance Físico Ingenieria</h6>
-                  </div>
-                </div><!-- d-flex -->
-              </div>
-              <div class="pd-x-15 pd-b-15">
-                <div style="width: 100%">
-                 <canvas id="canvas"width="1507" height="653" class="chartjs-render-monitor" style="display: block; height: 603px; width: 1206px;"></canvas>
-                   </div>
-              </div>
-            </div><!-- card -->
-           </div><!-- col-9 -->
-</div><!-- row -->
-
-<div class="row row-sm mg-t-20 mg-b-30">
-  <div class="col-6">
-    <div class="card shadow-base bd-0">
-      <div class="form-layout form-layout-7 pd-t-30 pd-b-15 bg-info" style="display:flex;">
-      
-                  <div class="col-7 col-sm-8">
-                  <h6 class="col-12 tx-uppercase tx-12 mg-b-0" style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: #fff;">Umbrales</h6>
-                  </div>
-                  <div class="col-5 col-sm-4 ">
-                  <h6 class="col-12 tx-uppercase tx-12 mg-b-0" style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: #fff;">Variable de Atraso</h6>
-                  </div>
-              </div><!-- card-header -->
-              <div class="form-layout form-layout-7">
-                <div class="row no-gutters">
-                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    Doc. Aprobados(D):
-                  </div><!-- col-4 -->
-                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    {% if request.user.perfil.rol_usuario == 1 %}
-                      -
-                    {% endif %}
-                    {% if request.user.perfil.rol_usuario == 4 %}
-                      -
-                    {% endif %}
-                  </div><!-- col-8 -->
-                </div><!-- row -->
-                <div class="row no-gutters">
-                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    Doc. Atrasados(D):
-                  </div><!-- col-4 -->
-                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    {% if request.user.perfil.rol_usuario == 1 %}
-                      -
-                    {% endif %}
-                    {% if request.user.perfil.rol_usuario == 4 %}
-                      -
-                    {% endif %}
-                  </div><!-- col-8 -->
-                </div><!-- row -->
-                <div class="row no-gutters">
-                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    Rev. Atrasadas Cliente(D):
-                  </div><!-- col-4 -->
-                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    {{umbrales.1.cliente_variable_atraso}}
-                  </div><!-- col-8 -->
-                </div>
-                <div class="row no-gutters">
-                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    Rev. Atrasadas Contratista(D):
-                  </div><!-- col-4 -->
-                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    {{umbrales.2.contratista_variable_atraso}}
-                  </div><!-- col-8 -->
-                </div><!-- row -->
-                <div class="row no-gutters">
-                  <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    Desviación del Proyecto(%):
-                  </div><!-- col-4 -->
-                  <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-                    {% if request.user.perfil.rol_usuario == 1 %}
-                      {{umbrales.3.cliente_variable_atraso}}
-                    {% endif %}
-                    {% if request.user.perfil.rol_usuario == 4 %}
-                      {{umbrales.3.contratista_variable_atraso}}
-                    {% endif %}
-                  </div><!-- col-8 -->
-                </div><!-- row -->
-              </div>
-    </div><!-- card -->
-
-  </div><!-- col-3 -->
-  <div class="col-6">
-    <div class="card shadow-base bd-0">
-      <div class="card-header pd-20 bg-info">
-        <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;text-align:center;display:flow-root;">Detalles de Proyecto</h6>
-      </div><!-- card-header -->
-        <div class="form-layout form-layout-7">
-          <div class="row no-gutters text-center">
-            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              Nombre: 
-            </div><!-- col-4 -->
-            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              {{proyecto.nombre}}
-            </div><!-- col-8 -->
-          </div><!-- row -->
-          <div class="row no-gutters text-center">
-            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              Fecha Inicio: 
-            </div><!-- col-4 -->
-            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              {{proyecto.fecha_inicio|date:'d-m-y'}}  
-            </div><!-- col-8 -->
-          </div><!-- row -->
-          <div class="row no-gutters text-center">
-            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              Fecha Término:
-            </div><!-- col-4 -->
-            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              {{proyecto.fecha_termino|date:'d-m-y'}}  
-            </div><!-- col-8 -->
-          </div><!-- row -->
-          <div class="row no-gutters text-center">
-            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              Fecha Línea Base:
-            </div><!-- col-4 -->
-            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              {{curvaBase.fecha_creacion|date:'d-m-y'}}  
-            </div><!-- col-8 -->
-          </div><!-- row -->
-          <div class="row no-gutters text-center">
-            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              Descripción:
-            </div><!-- col-4 -->
-            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              {{proyecto.descripcion}}  
-            </div><!-- col-8 -->
-          </div><!-- row -->
-          <div class="row no-gutters text-center">
-            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              Encargado:
-            </div><!-- col-4 -->
-            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              {{proyecto.encargado}}  
-            </div><!-- col-8 -->
-          </div><!-- row -->
-          <div class="row no-gutters text-center">
-            <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              Código:
-            </div><!-- col-4 -->
-            <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
-              {{proyecto.codigo}}  
-            </div><!-- col-8 -->
-          </div><!-- row -->
-        </div>
-    </div><!-- card -->
-
-  </div><!-- col-3 -->
-</div><!-- row -->
-<div class="row row-sm mg-t-20 mg-b-30">
-  
-  <div class="col-12 col-md-12">
-    <div class="card shadow-base bd-0 " >
-      <div class="card-header pd-20 bg-info">
-        <h6 class="card-title tx-uppercase tx-12 mg-b-0 "style="color:#fff;text-align:center;display:flow-root;"> Lista Usuarios</h6>
-      </div><!-- card-header -->
-      {% if request.user.is_superuser == True or request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
-      <table class="table table-responsive table-striped table-bordered mg-b-0 tx-12">
-        <thead class="bg-primary">
-          <tr class="tx-10">
-            <th class="wd-10p pd-y-5" style="color: white;text-align:center;width:auto;">Usuarios</th>
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Correo</th>
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Empresa</th>
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Cargo</th>
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">ROL</th>
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Estado Usuario</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for usuario in usuarios %}
-          <tr>
-            {% if usuario.first_name %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.first_name}}
-              {{usuario.last_name}} </th>
-            {% else %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> No hay nombre registrado</th>
-            {% endif %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.email}} </th>
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.empresa}} </th>
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.cargo_empresa}}
-            </th>
-            {% if usuario.perfil.rol_usuario %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;">
-              {{usuario.perfil.get_rol_usuario_display}} </th>
-            {% else %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Sin Perfil </th>
-            {% endif %}
-            {% if usuario.is_active == True %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Habilitado </th>            
-            {% else %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Deshabilitado </th>
-
-            {% endif %}
-          </tr>
-          {% empty %}
-          <tr>
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="5"> Este Proyecto no tiene
-              participantes </th>
-      
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% else %}
-      <table class="table table-responsive table-striped table-bordered mg-b-0 tx-12">
-        <thead class="bg-primary">
-          <tr class="tx-10">
-            <th class="wd-10p pd-y-5" style="color: white;text-align:center;width:auto;">Usuarios</th>
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Correo</th>
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Empresa</th>
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Cargo</th>
-            <th class="pd-y-5" style="color: white;text-align:center;width:auto;">ROL</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for usuario in usuarios %}
-          <tr>
-            {% if usuario.first_name %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.first_name}}
-              {{usuario.last_name}} </th>
-            {% else %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> No hay nombre registrado</th>
-            {% endif %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.email}} </th>
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.empresa}} </th>
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.cargo_empresa}}
-            </th>
-            {% if usuario.perfil.rol_usuario %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;">
-              {{usuario.perfil.get_rol_usuario_display}} </th>
-            {% else %}
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Sin Perfil </th>
-            {% endif %}
-          </tr>
-          {% empty %}
-          <tr>
-            <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="5"> Este Proyecto no tiene
-              participantes </th>
-      
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-      {% endif %}
+  <div class="br-pagebody mg-t-5 pd-x-30">
+    <!--Fila 1-->
+    <div class="row no-gutters widget-1 shadow-base mg-t-20">
+      <div class="col-sm-6 col-lg-3">
+        <div class="card">
+          <div class="card-header"style="background-color: #3498DB ;display:flow-root;">
+            <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;vertical-align:middle;display:flow-root;">DOCUMENTOS TOTALES</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="display:flow-root;text-align:center;">
+            <div>
+              <h6 class="tx-inverse"> {{datos_tabla.0.0}} </h6>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;vertical-align:middle;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color: white;display:flow-root;">Doc. emitidos</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="display:flow-root;text-align:center;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.1}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;display:flow-root;text-align: center;">
+            <h6 class="card-title" style="font-size:11px;color:white;display:flow-root;text-align: center;">Doc. aprobados</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong1" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.2}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color: white;text-align:center;display:flow-root;">Tiem. de Ciclo aprobación (d)</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <h6 class="tx-inverse"style="text-align:center;display:flow-root;"> {{datos_tabla.0.7}} </h6>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
     </div>
-
-  </div><!-- col-4 -->
-</div><!-- row -->
+  <!--Fila 2-->
+    <div class="row no-gutters widget-1 shadow-base mg-t-20">
+      <div class="col-sm-6 col-lg-3">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align: center;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color:#fff;display:flow-root;">Doc. en Rev. cliente</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="display:flow-root;text-align:center;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong2" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.4}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. en Rev. contratista</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong3" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.5}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB;text-align:center;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. atrasados Rev. B</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong4" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.6}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB;text-align:center;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Doc. atrasados Rev. 0</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong5" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.3}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+    </div>
+    <!--Fila 3-->
+    <div class="row no-gutters widget-1 shadow-base mg-t-20">
+  
+      <div class="col-sm-6 col-lg-6 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color:#fff;text-align:center;display:flow-root;">Cant. Transmittal cliente</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <h6 class="tx-inverse"> {{datos_tabla.0.10}} </h6>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-6 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color:#fff;font-size:11px;text-align:center;display:flow-root;">Cant. Transmittal Contratista</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <h6 class="tx-inverse"> {{datos_tabla.0.11}} </h6>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+    </div>
+    <!--Fila 4-->
+    <div class="row no-gutters widget-1 shadow-base mg-t-20">
+      <div class="col-sm-6 col-lg-3">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+            <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avance programado</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <h6 class="tx-inverse"> {{datos_tabla.0.12}} </h6>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+            <h6 class="card-title"style="color:#fff;text-align:center;display:flow-root;font-size:11.1px">% Avance real</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <h6 class="tx-inverse"> {{datos_tabla.0.13}} </h6>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+       <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+            <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avan. Semana Program.</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <h6 class="tx-inverse"> {{datos_tabla.0.14}} </h6>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+       <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root; ">
+            <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;display:flow-root;">% Avan. Semana Real</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <h6 class="tx-inverse"> {{datos_tabla.0.15}} </h6>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+    </div>
+    <!--Fila 5-->
+    <div class="row no-gutters widget-1 shadow-base mg-t-20">
+      <div class="col-sm-6 col-lg-3">
+        <div class="card">
+          <div class="card-header"style="background-color: #3498DB ;display:flow-root;">
+            <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;vertical-align:middle;display:flow-root;">DOCUMENTOS ESPERADOS REV. B</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="display:flow-root;text-align:center;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong6" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.16}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;vertical-align:middle;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color: white;display:flow-root;">DOCUMENTOS REAL REV. B</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="display:flow-root;text-align:center;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong7" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse">{{datos_tabla.0.18}}</h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;display:flow-root;text-align: center;">
+            <h6 class="card-title" style="font-size:11px;color:white;display:flow-root;text-align: center;">DOCUMENTOS POR EMITIR SEMANAL REV. B</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong8" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.20}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color: white;text-align:center;display:flow-root;">DOCUMENTOS EMITIDOS SEMANAL REV. B</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong9" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.22}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+    </div>
+    <!--Fila 6-->
+    <div class="row no-gutters widget-1 shadow-base mg-t-20">
+      <div class="col-sm-6 col-lg-3">
+        <div class="card">
+          <div class="card-header"style="background-color: #3498DB ;display:flow-root;">
+            <h6 class="card-title"style="font-size:11px;color:#fff;text-align:center;vertical-align:middle;display:flow-root;">DOCUMENTOS ESPERADOS REV. 0</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="display:flow-root;text-align:center;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong10" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.17}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;vertical-align:middle;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color: white;display:flow-root;">DOCUMENTOS REAL REV. 0</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="display:flow-root;text-align:center;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong11" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.19}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;display:flow-root;text-align: center;">
+            <h6 class="card-title" style="font-size:11px;color:white;display:flow-root;text-align: center;">DOCUMENTOS POR EMITIR SEMANAL REV. 0</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong12" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"> {{datos_tabla.0.21}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+      <div class="col-sm-6 col-lg-3 mg-t-1 mg-sm-t-0">
+        <div class="card">
+          <div class="card-header" style="background-color: #3498DB ;text-align:center;display:flow-root;">
+            <h6 class="card-title" style="font-size:11px;color: white;text-align:center;display:flow-root;">DOCUMENTOS EMITIDOS SEMANAL REV. 0</h6>
+          </div><!-- card-header -->
+          <div class="card-footer"style="text-align:center;display:flow-root;">
+            <div>
+              <a href="" data-toggle="modal" data-target="#exampleModalLong13" style="text-decoration:underline;color: #3498DB;"><h6 class="tx-inverse"style="text-align:center;display:flow-root;"> {{datos_tabla.0.23}} </h6></a>
+            </div>
+          </div><!-- card-footer -->
+        </div><!-- card -->
+      </div><!-- col-3 -->
+    </div>
+    <!--Cuerpo-->
+    <div class="row row-sm mg-t-20 mg-b-30">
+              <div class="col-12">
+                <div class="card pd-0 bd-0 shadow-base">
+                  <div class="pd-x-30 pd-t-30 pd-b-15">
+                    <div class="align-items-center justify-content-between"style="text-align:center;display:flow-root;">
+                      <div style="text-align:center;display:flow-root;" >
+                        <h6 class="tx-13 tx-uppercase tx-inverse tx-semibold tx-spacing-1"style="text-align:center;display:flow-root;">Curva de Avance Físico Ingenieria</h6>
+                      </div>
+                    </div><!-- d-flex -->
+                  </div>
+                  <div class="pd-x-15 pd-b-15">
+                    <div style="width: 100%">
+                     <canvas id="canvas"width="1507" height="653" class="chartjs-render-monitor" style="display: block; height: 603px; width: 1206px;"></canvas>
+                       </div>
+                  </div>
+                </div><!-- card -->
+               </div><!-- col-9 -->
+    </div><!-- row -->
+  
+    <div class="row row-sm mg-t-20 mg-b-30">
+      <div class="col-6">
+        <div class="card shadow-base bd-0">
+          <div class="form-layout form-layout-7 pd-t-30 pd-b-15 bg-info" style="display:flex;">
+                      <div class="col-7 col-sm-8">
+                      <h6 class="col-12 tx-uppercase tx-12 mg-b-0" style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: #fff;">Umbrales</h6>
+                      </div>
+                      <div class="col-5 col-sm-4 ">
+                      <h6 class="col-12 tx-uppercase tx-12 mg-b-0" style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: #fff;">Variable de Atraso</h6>
+                      </div>
+                     </div><!-- card-header -->
+                    <div class="form-layout form-layout-7">
+                      <div class="row no-gutters">
+                        <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                          Doc. Aprobados(D):
+                        </div><!-- col-4 -->
+                        <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                          {% if request.user.perfil.rol_usuario == 1 %}
+                            -
+                          {% endif %}
+                          {% if request.user.perfil.rol_usuario == 4 %}
+                            -
+                          {% endif %}
+                        </div><!-- col-8 -->
+                      </div><!-- row -->
+                      <div class="row no-gutters">
+                        <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                          Rev. Atrasadas Cliente(D):
+                        </div><!-- col-4 -->
+                        <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                          {{umbrales.1.cliente_variable_atraso}}
+                        </div><!-- col-8 -->
+                      </div>
+                      <div class="row no-gutters">
+                        <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                          Rev. Atrasadas Contratista(D):
+                        </div><!-- col-4 -->
+                        <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                          {{umbrales.2.contratista_variable_atraso}}
+                        </div><!-- col-8 -->
+                      </div><!-- row -->
+                      <div class="row no-gutters">
+                        <div class="col-7 col-sm-8"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                          Desviación del Proyecto(%):
+                        </div><!-- col-4 -->
+                        <div class="col-5 col-sm-4"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                          {% if request.user.perfil.rol_usuario == 1 %}
+                            {{umbrales.3.cliente_variable_atraso}}
+                          {% endif %}
+                          {% if request.user.perfil.rol_usuario == 4 %}
+                            {{umbrales.3.contratista_variable_atraso}}
+                          {% endif %}
+                        </div><!-- col-8 -->
+                      </div><!-- row -->
+                    </div>
+        </div><!-- card -->
+    
+      </div><!-- col-3 -->
+      <div class="col-6">
+        <div class="card shadow-base bd-0">
+          <div class="card-header pd-20 bg-info">
+            <h6 class="card-title tx-uppercase tx-12 mg-b-0" style="color: #fff;text-align:center;display:flow-root;">Detalles de Proyecto</h6>
+          </div><!-- card-header -->
+            <div class="form-layout form-layout-7">
+              <div class="row no-gutters text-center">
+                <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  Nombre: 
+                </div><!-- col-4 -->
+                <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  {{proyecto.nombre}}
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters text-center">
+                <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  Fecha Inicio: 
+                </div><!-- col-4 -->
+                <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  {{proyecto.fecha_inicio|date:'d-m-y'}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters text-center">
+                <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  Fecha Término:
+                </div><!-- col-4 -->
+                <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  {{proyecto.fecha_termino|date:'d-m-y'}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters text-center">
+                <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  Fecha Línea Base:
+                </div><!-- col-4 -->
+                <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  {{curvaBase.fecha_creacion|date:'d-m-y'}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters text-center">
+                <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  Descripción:
+                </div><!-- col-4 -->
+                <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  {{proyecto.descripcion}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters text-center">
+                <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  Encargado:
+                </div><!-- col-4 -->
+                <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  {{proyecto.encargado}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+              <div class="row no-gutters text-center">
+                <div class="col-7 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  Código:
+                </div><!-- col-4 -->
+                <div class="col-5 col-sm-6 text-center"style="text-align:center;display:flow-root;padding-right: 0px;padding-left: 0px;color: black;word-wrap: break-word;">
+                  {{proyecto.codigo}}  
+                </div><!-- col-8 -->
+              </div><!-- row -->
+            </div>
+        </div><!-- card -->
+    
+      </div><!-- col-3 -->
+    </div><!-- row -->
+    <div class="row row-sm mg-t-20 mg-b-30">
+      
+    <div class="col-12 col-md-12">
+        <div class="card shadow-base bd-0 " >
+          <div class="card-header pd-20 bg-info">
+            <h6 class="card-title tx-uppercase tx-12 mg-b-0 "style="color:#fff;text-align:center;display:flow-root;"> Lista Usuarios</h6>
+          </div><!-- card-header -->
+          {% if request.user.is_superuser == True or request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
+          <table class=" records_list table table-striped table-bordered table-hover table-primary">
+            <thead >
+              <tr class="tx-10">
+                <th class="wd-10p pd-y-5" style="color: white;text-align:center;width:auto;">Usuarios</th>
+                <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Correo</th>
+                <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Empresa</th>
+                <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Cargo</th>
+                <th class="pd-y-5" style="color: white;text-align:center;width:auto;">ROL</th>
+                <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Estado Usuario</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for usuario in usuarios %}
+              <tr>
+                {% if usuario.first_name %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.first_name}}
+                  {{usuario.last_name}} </th>
+                {% else %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> No hay nombre registrado</th>
+                {% endif %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.email}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.empresa}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.cargo_empresa}}
+                </th>
+                {% if usuario.perfil.rol_usuario %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;">
+                  {{usuario.perfil.get_rol_usuario_display}} </th>
+                {% else %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Sin Perfil </th>
+                {% endif %}
+                {% if usuario.is_active == True %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Habilitado </th>            
+                {% else %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Deshabilitado </th>
+    
+                {% endif %}
+              </tr>
+              {% empty %}
+              <tr>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="5"> Este Proyecto no tiene
+                  participantes </th>
+          
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% else %}
+          <table class="table table-responsive table-striped table-bordered mg-b-0 tx-12">
+            <thead class="bg-primary">
+              <tr class="tx-10">
+                <th class="wd-10p pd-y-5" style="color: white;text-align:center;width:auto;">Usuarios</th>
+                <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Correo</th>
+                <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Empresa</th>
+                <th class="pd-y-5" style="color: white;text-align:center;width:auto;">Cargo</th>
+                <th class="pd-y-5" style="color: white;text-align:center;width:auto;">ROL</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for usuario in usuarios %}
+              <tr>
+                {% if usuario.first_name %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.first_name}}
+                  {{usuario.last_name}} </th>
+                {% else %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> No hay nombre registrado</th>
+                {% endif %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.email}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.empresa}} </th>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> {{usuario.perfil.cargo_empresa}}
+                </th>
+                {% if usuario.perfil.rol_usuario %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;">
+                  {{usuario.perfil.get_rol_usuario_display}} </th>
+                {% else %}
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;"> Sin Perfil </th>
+                {% endif %}
+              </tr>
+              {% empty %}
+              <tr>
+                <th style="text-align: center;border: 2px;border-color: grey; color: black;" colspan="5"> Este Proyecto no tiene
+                  participantes </th>
+          
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+          {% endif %}
+        </div>
+    
+      </div><!-- col-4 -->
+    </div><!-- row -->
+  </div>
 </div>
-</div>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>    
-  <script>
-//Curva S
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>    
+<script>
+  //Curva S
 		var chartData = {
 			labels: ['{% for emisiones in lista_curva_s_fechas %} {{emisiones|date:"d-m-y"}}', '{% endfor %}'],
 			datasets: [
@@ -640,6 +626,921 @@
 				}
 			});
 		};
-    </script>
+</script>
+<!--Documento Emitidos Modals-->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width: 100%;" > 
+    <div class="modal-content" style="width: 100%;">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Documentos Emitidos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid"id="mydatatable" style="width: 100%;">
+          <thead>
+            <tr role="row">
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Emisión</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.0 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
+
+              
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Fin DocEmitidos-->
+
+<!--Documento aprov Modals-->
+<div class="modal fade" id="exampleModalLong1" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width: 100%;"> 
+        <div class="modal-content"style="100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Documentos Aprobados</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="docaprov"  style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Emisión</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.1 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--Documentos Aprovados-->
+
+<!--DOC. EN REV. CLIENTE Modals-->
+<div class="modal fade" id="exampleModalLong2" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width: 100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOC. EN REV. CLIENTE</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="docrevcliente" style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.2 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
+
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- fin DOC. EN REV. CLIENTE-->
+
+<!--DOC. EN REV. CONTRATISTA Modals-->
+<div class="modal fade" id="exampleModalLong3" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width: 100%;"> 
+        <div class="modal-content"style="max-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOC. EN REV. CONTRATISTA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="DOCENREVCONTRATISTA" style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
+
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.3 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
+
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOC. EN REV. CONTRATISTA-->
+
+<!--DOC. ATRASADOS REV. B Modals-->
+<div class="modal fade" id="exampleModalLong4" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOC. ATRASADOS REV. B</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="DOCATRASADOSREVB" style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Emisión en B</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.4 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.fecha_Emision_B|date:"d-m-y"}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOC. ATRASADOS REV. B-->
+
+<!--DOC. ATRASADOS REV. 0 REV. B Modals-->
+<div class="modal fade" id="exampleModalLong5" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOC. ATRASADOS REV. 0 REV</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="DOCATRASADOSREV0REV"  style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Emisión en 0</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.5 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.fecha_Emision_0|date:"d-m-y"}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOC. ATRASADOS REV. 0-->
+
+<!--DOCUMENTOS ESPERADOS REV. B Modals-->
+<div class="modal fade" id="exampleModalLong6" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOCUMENTOS ESPERADOS REV. B</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="DOCUMENTOSESPERADOSREVB" style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Emisión en B</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.8 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.fecha_Emision_B|date:"d-m-y"}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOCUMENTOS ESPERADOS REV. B -->
+
+<!--DOCUMENTOS REAL REV. B Modals-->
+<div class="modal fade" id="exampleModalLong7" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOCUMENTOS REAL REV. B</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="DOCUMENTOSREALREVB"  style="width: 100%;">
+          <thead>
+            <tr role="row">
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Ultimo Transmittal</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de Revisión</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.6 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
+
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOCUMENTOS REAL REV. B-->
+
+<!--DOCUMENTOS POR EMITIR SEMANAL REV. B Modals-->
+<div class="modal fade" id="exampleModalLong8" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOCUMENTOS POR EMITIR SEMANAL REV. B</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="DOCATRASADOSREV0REV" style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Emisión en B</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.10 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.fecha_Emision_B|date:"d-m-y"}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOCUMENTOS POR EMITIR SEMANAL REV. B-->
+
+<!--DOCUMENTOS EMITIDOS SEMANAL REV. B Modals-->
+<div class="modal fade" id="exampleModalLong9" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOCUMENTOS EMITIDOS SEMANAL REV. B</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="DOCATRASADOSREV0REV" style="width: 100%;">
+          <thead>
+            <tr role="row">
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.12 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOCUMENTOS EMITIDOS SEMANAL REV. B-->
+
+<!--DOCUMENTOS ESPERADOS REV. 0 Modals-->
+<div class="modal fade" id="exampleModalLong10" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOCUMENTOS ESPERADOS REV. 0</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-striped table-bordered table-hover table-primary"  role="grid" id="DOCATRASADOSREV0REV" style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Emisión en 0</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.9 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.fecha_Emision_0|date:"d-m-y"}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOCUMENTOS ESPERADOS REV. 0-->
+
+<!--DOCUMENTOS REAL REV. 0 Modals-->
+<div class="modal fade" id="exampleModalLong11" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOCUMENTOS REAL REV. 0</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="DOCATRASADOSREV0REV" style="width: 100%;">
+          <thead>
+            <tr role="row">
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.7 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOCUMENTOS REAL REV. 0-->
+
+<!--DOCUMENTOS POR EMITIR SEMANAL REV. 0 Modals-->
+<div class="modal fade" id="exampleModalLong12" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOCUMENTOS POR EMITIR SEMANAL REV. 0</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="DOCATRASADOSREV0REV" style="width: 100%;">
+          <thead>
+            <tr role="row">
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+              <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha Emisión en 0</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.11 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.fecha_Emision_0|date:"d-m-y"}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOCUMENTOS POR EMITIR SEMANAL REV. 0-->
+
+<!--DOCUMENTOS EMITIDOS SEMANAL REV. 0 Modals-->
+<div class="modal fade" id="exampleModalLong13" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+  <div class="modal-dialog modal-lg" role="document" style="width:100%;"> 
+        <div class="modal-content" style="width: 100%;">
+
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">DOCUMENTOS EMITIDOS SEMANAL REV. 0</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <table class="records_list table table-lg table-striped table-bordered table-hover table-primary"  role="grid" id="DOCATRASADOSREV0REV" style="width: 100%;">
+          <thead>
+            <tr role="row">
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Especialidad</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Descripción</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Código</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Tipo</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Revisión Actual</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Estado</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Último Transmittal</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Fecha</th>
+             <th style="color:#fff;text-align: center;vertical-align: middle;font-size: 10px;padding:5px;width:auto;">Días de revisión</th>
+             
+            </tr>
+          </thead>
+          <tbody>
+            {% for info in datos_tabla_emergente.13 %}
+            <tr role="row" class="odd">
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Especialidad}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Descripcion}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Codigo_documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.0.Tipo_Documento}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.1.get_revision_display}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if not info.1.get_estado_cliente_display %} {{info.1.get_estado_contratista_display }} {% else %} {{info.1.get_estado_cliente_display}} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {% if info.3 %} {{info.3}} {% else %} {% endif %} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.3.fecha_creacion|date:"d-m-y"}} </td>
+              <td style="text-align: center;vertical-align:middle;font-size: 10px;padding:5px;width:auto;"> {{info.2}} </td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!--fin DOCUMENTOS EMITIDOS SEMANAL REV. 0-->
+
+<!--datatable Init -->
+<script type="text/javascript">
+  jQuery(document).ready(function() {
+    $('table.table').DataTable(
+        {
+          dom: 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
+          paging: true,
+          responsive: true,
+          paging: true,    
+          lengthChange: true,
+          searching: true,
+          ordering: false,
+          aaSorting:[],
+          aoColumnDefs: [
+          { 'bSortable': true, 'aTargets': [0, 1, 2, 3, 4, 5, 6, 7, 8, 9] }
+            ],
+          info: true,
+          autoWidth: true,
+          lengthMenu: [[5, 25, 50, -1], [5, 25, 50, "Mostrar Todos"]],          
+          columnDefs: [
+            {
+              searchable: false,
+              pageLength: 5,
+            }
+          ],
+          language: {
+            "processing": "Procesando...",
+            "lengthMenu": "Mostrar _MENU_ registros",
+            "zeroRecords": "No se encontraron resultados",
+            "emptyTable": "Ningún dato disponible en esta tabla",
+            "infoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "infoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "search": "&#128270;",
+            "infoThousands": ",",
+            "loadingRecords": "Cargando...",
+            "paginate": {
+                "first": "Primero",
+                "last": "Último",
+                "next": "Siguiente",
+                "previous": "Anterior"
+             },
+            "aria": {
+                "sortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sortDescending": ": Activar para ordenar la columna de manera descendente"
+              },
+            "buttons": {
+                "copy": "Copiar",
+                "colvis": "Visibilidad",
+                "collection": "Colección",
+                "colvisRestore": "Restaurar visibilidad",
+                "copyKeys": "Presione ctrl o u2318 + C para copiar los datos de la tabla al portapapeles del sistema. <br \/> <br \/> Para cancelar, haga clic en este mensaje o presione escape.",
+                "copySuccess": {
+                    "1": "Copiada 1 fila al portapapeles",
+                    "_": "Copiadas %d fila al portapapeles"
+                },
+                "copyTitle": "Copiar al portapapeles",
+                "csv": "CSV",
+                "excel": "Excel",
+                "pageLength": {
+                    "-1": "Mostrar todas las filas",
+                    "_": "Mostrar %d filas"
+                },
+                "pdf": "PDF",
+                "print": "Imprimir"
+             },
+            "autoFill": {
+                "cancel": "Cancelar",
+                "fill": "Rellene todas las celdas con <i>%d<\/i>",
+                "fillHorizontal": "Rellenar celdas horizontalmente",
+                "fillVertical": "Rellenar celdas verticalmentemente"
+             },
+            "decimal": ",",
+            "searchBuilder": {
+                "add": "Añadir condición",
+                "button": {
+                    "0": "Constructor de búsqueda",
+                    "_": "Constructor de búsqueda (%d)"
+                },
+            "clearAll": "Borrar todo",
+            "condition": "Condición",
+            "conditions": {
+                "date": {
+                  "after": "Despues",
+                  "before": "Antes",
+                  "between": "Entre",
+                  "empty": "Vacío",
+                  "equals": "Igual a",
+                  "notBetween": "No entre",
+                  "notEmpty": "No Vacio",
+                  "not": "Diferente de"
+                },
+                "number": {
+                    "between": "Entre",
+                    "empty": "Vacio",
+                    "equals": "Igual a",
+                    "gt": "Mayor a",
+                    "gte": "Mayor o igual a",
+                    "lt": "Menor que",
+                    "lte": "Menor o igual que",
+                    "notBetween": "No entre",
+                    "notEmpty": "No vacío",
+                    "not": "Diferente de"
+                  },
+                "string": {
+                    "contains": "Contiene",
+                    "empty": "Vacío",
+                    "endsWith": "Termina en",
+                    "equals": "Igual a",
+                    "notEmpty": "No Vacio",
+                    "startsWith": "Empieza con",
+                    "not": "Diferente de"
+                 },
+                "array": {
+                  "not": "Diferente de",
+                  "equals": "Igual",
+                  "empty": "Vacío",
+                  "contains": "Contiene",
+                  "notEmpty": "No Vacío",
+                  "without": "Sin"
+                  }
+              },
+            "data": "Data",
+            "deleteTitle": "Eliminar regla de filtrado",
+            "leftTitle": "Criterios anulados",
+            "logicAnd": "Y",
+            "logicOr": "O",
+            "rightTitle": "Criterios de sangría",
+            "title": {
+                  "0": "Constructor de búsqueda",
+                  "_": "Constructor de búsqueda (%d)"
+                },
+                  "value": "Valor"
+            },
+            "searchPanes": {
+                "clearMessage": "Borrar todo",
+                "collapse": {
+                    "0": "Paneles de búsqueda",
+                    "_": "Paneles de búsqueda (%d)"
+                  },
+                "count": "{total}",
+                "countFiltered": "{shown} ({total})",
+                "emptyPanes": "Sin paneles de búsqueda",
+                "loadMessage": "Cargando paneles de búsqueda",
+                "title": "Filtros Activos - %d"
+                },
+            "select": {
+                "cells": {
+                      "1": "1 celda seleccionada",
+                      "_": "%d celdas seleccionadas"
+                  },
+                "columns": {
+                    "1": "1 columna seleccionada",
+                    "_": "%d columnas seleccionadas"
+                  },
+                "rows": {
+                      "1": "1 fila seleccionada",
+                      "_": "%d filas seleccionadas"
+                  }
+              },
+            "thousands": ".",
+            "datetime": {
+                "previous": "Anterior",
+                "next": "Proximo",
+                "hours": "Horas",
+                "minutes": "Minutos",
+                "seconds": "Segundos",
+                "unknown": "-",
+                "amPm": [
+                    "AM",
+                    "PM"
+                  ],
+                "months": {
+                    "0": "Enero",
+                    "1": "Febrero",
+                    "10": "Noviembre",
+                    "11": "Diciembre",
+                    "2": "Marzo",
+                    "3": "Abril",
+                    "4": "Mayo",
+                    "5": "Junio",
+                    "6": "Julio",
+                    "7": "Agosto",
+                    "8": "Septiembre",
+                    "9": "Octubre"
+                 },
+                "weekdays": [
+                    "Dom",
+                    "Lun",
+                    "Mar",
+                    "Mie",
+                    "Jue",
+                    "Vie",
+                    "Sab"
+                  ]
+               },
+            "editor": {
+                "close": "Cerrar",
+                "create": {
+                    "button": "Nuevo",
+                    "title": "Crear Nuevo Registro",
+                    "submit": "Crear"
+                },
+                "edit": {
+                    "button": "Editar",
+                    "title": "Editar Registro",
+                    "submit": "Actualizar"
+                },
+                "remove": {
+                    "button": "Eliminar",
+                    "title": "Eliminar Registro",
+                    "submit": "Eliminar",
+                    "confirm": {
+                        "_": "¿Está seguro que desea eliminar %d filas?",
+                        "1": "¿Está seguro que desea eliminar 1 fila?"
+                    }
+                },
+                "error": {
+                    "system": "Ha ocurrido un error en el sistema (<a target=\"\\\" rel=\"\\ nofollow\" href=\"\\\">Más información&lt;\\\/a&gt;).<\/a>"
+                },
+                "multi": {
+                    "title": "Múltiples Valores",
+                    "info": "Los elementos seleccionados contienen diferentes valores para este registro. Para editar y establecer todos los elementos de este registro con el mismo valor, hacer click o tap aquí, de lo contrario conservarán sus valores individuales.",
+                    "restore": "Deshacer Cambios",
+                    "noMulti": "Este registro puede ser editado individualmente, pero no como parte de un grupo."
+                }
+              },
+            "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
+            } 
+          , 
+          buttons:[ 
+          '',  '', '',
+           ]}         
+        
+        );
+  } );
+  
+</script>
+
 {% endblock content %}
     
