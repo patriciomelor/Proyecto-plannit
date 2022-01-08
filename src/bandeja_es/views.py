@@ -374,24 +374,37 @@ def vue_file_import(request):
 
 @csrf_exempt
 def check_version(request):
+    row_version = {}
+
     if request.user.is_authenticated:
+        rol = request.user.perfil.rol_usuario
         if request.method == 'POST':
             if request.POST:
-                row_version = {}
-                row_version["Codigo_documento"]  = request.POST.get('Codigo_documento', None)
-                row_version["Descripcion"] = request.POST.get('Descripcion', None)
-                row_version["Especialidad"] = request.POST.get('Especialidad', None)
-                row_version["Tipo_Documento"] = request.POST.get('Tipo_Documento', None)
-                row_version["fecha_Emision_0"] = request.POST.get('fecha_Emision_0', None)
-                row_version["fecha_Emision_B"]= request.POST.get('fecha_Emision_B', None)
+                doc_code = request.POST.get('CODIGO', None)
+                try:
+                    doc = Documento.objects.get(Codigo_documento=doc_code)
+                except:
+                    return JsonResponse({"message": 'No existe Documento con ese Código.'})
+                    
+                row_version["prev_documento_fk"] = doc
+                row_version["prev_revision"] = request.POST.get('REVISION', None)
                 row_version["file"]= request.FILES.get('file', None)
+
+                if rol >= 1 or rol <= 3:
+                    row_version["prev_estado_cliente"] = request.POST.get('ESTADO', None)
+
+                elif rol >=4 or rol <= 6 :
+
+                    row_version["prev_estado_contratista"] = request.POST.get('ESTADO', None)
 
                 form = PrevVersionForm(row_version)
                 if form.is_valid():
-
-                    return JsonResponse({"message": "version Validada"})
+                    return JsonResponse({"message": "version Validada"}, status_code=200)
+                else:
+                    return JsonResponse({"message": "version Invalidad"}, status_code=500)
             else:
-                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"})
+
+                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"}, status_code=404)
                 
 
 class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
