@@ -379,33 +379,45 @@ def check_version(request):
     if request.user.is_authenticated:
         rol = request.user.perfil.rol_usuario
         if request.method == 'POST':
-            if request.POST:
-                doc_code = request.POST.get('CODIGO', None)
-                try:
-                    doc = Documento.objects.get(Codigo_documento=doc_code)
-                except:
-                    return JsonResponse({"message": 'No existe Documento con ese Código.'})
+            return JsonResponse({"ok": 1})
+    #
+            # if request.POST:
+            #     doc_code = request.POST.get('CODIGO', None)
+            #     try:
+            #         doc = Documento.objects.get(Codigo_documento=doc_code)
+            #     except:
+            #         return JsonResponse({"message": 'No existe Documento con ese Código.'})
                     
-                row_version["prev_documento_fk"] = doc
-                row_version["prev_revision"] = request.POST.get('REVISION', None)
-                row_version["file"]= request.FILES.get('file', None)
+            #     row_version["prev_documento_fk"] = doc
+            #     row_version["prev_revision"] = request.POST.get('REVISION', None)
+            #     row_version["file"]= request.FILES.get('file', None)
 
-                if rol >= 1 or rol <= 3:
-                    row_version["prev_estado_cliente"] = request.POST.get('ESTADO', None)
+            #     if rol >= 1 or rol <= 3:
+            #         row_version["prev_estado_cliente"] = request.POST.get('ESTADO', None)
 
-                elif rol >=4 or rol <= 6 :
+            #     elif rol >=4 or rol <= 6 :
 
-                    row_version["prev_estado_contratista"] = request.POST.get('ESTADO', None)
+            #         row_version["prev_estado_contratista"] = request.POST.get('ESTADO', None)
 
-                form = PrevVersionForm(row_version)
-                if form.is_valid():
-                    return JsonResponse({"message": "version Validada"}, status_code=200)
-                else:
-                    return JsonResponse({"message": "version Invalidad"}, status_code=500)
-            else:
+            #     form = PrevVersionForm(row_version)
 
-                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"}, status_code=404)
+            #     if form.is_valid():
+            #         form.save()
+            #         return JsonResponse({
+            #             "message": "version Validada"
+            #             }, status_code=200)
+            #     else:
+            #         return JsonResponse({"message": "version Invalidad"}, status_code=500)
+            # else:
+
+                # return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"}, status_code=404)
                 
+
+# @csrf_exempt
+# def upload_versiones_validated(request):
+#     if request.user.is_authenticated:
+        
+
 
 class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
