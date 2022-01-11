@@ -201,6 +201,7 @@
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
 
 
                                           </tr>
@@ -215,7 +216,7 @@
                                                 <td > [[ version.REVISION ]]</td>
                                                 <td > [[ version.ESTADO ]]</td>
                                                 <td>
-                                                    <input type="file" class="inputfile inputfile-1"name="file" id="file-2">
+                                                    <input type="file" name="file-2" :id=" 'file-2-' + index">
                                                 </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> 
                                                     <div
@@ -329,9 +330,13 @@ var app = new Vue({
             console.log(index)
 
             let formData = new FormData();
+            let filename = 'file-2-' + index;
+            const file = document.getElementById(filename)
             formData.append('CODIGO', version['CODIGO'])
             formData.append('REVISION', version['REVISION'])
             formData.append('ESTADO', version['ESTADO'])
+            formData.append('ESTADO', version['ESTADO'])
+            fromData.append('file', file.files[0])
 
 
             fetch("{% url 'vue-version-check' %}", {
