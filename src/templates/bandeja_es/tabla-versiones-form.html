@@ -208,7 +208,7 @@
                                       
                                         <tbody>
                                          
-                                            <!-- <tr v-for="(version, index) in versiones" :key="index">
+                                            <tr v-for="(version, index) in versiones" :key="index">
                                                 <td > [[ version.CODIGO ]]</td>
                                                 <td > [[ version.DESCRIPCION ]]</td>
                                                 <td > [[ version.ESPECIALIDAD ]]</td>
@@ -218,7 +218,8 @@
                                                     <input type="file" class="inputfile inputfile-1"name="file" id="file-2">
                                                 </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> 
-                                                    <div 
+                                                    <div
+                                                    :id="'btn_' + index"
                                                     value="verificar" 
                                                     :key="index" 
                                                     :class="{ 'btn btn-outline-success': !send && activeIndex !== index, 'spinner-border text-primary' : activeIndex === index }" 
@@ -231,13 +232,8 @@
                                                     </div>
                                                 </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
-                                            </tr>   -->
+                                            </tr>
 
-                                            <tr v-for="(version, index) in versiones" :key="index">
-                                                <div id="tableRow">
-
-                                                </div>
-                                            </tr>  
                                         </tbody>
                                         
                                     </table>
@@ -344,8 +340,13 @@ var app = new Vue({
             }).then(
                 response => {
                     const result = response.json();
-                    console.log(result);
                     this.activeIndex = null;
+                    button_id = 'btn_' + index
+                    if (response.status === 200) {
+                        console.log('ok');
+                        let button = document.getElementById(button_id);
+                        button.classList.add('disabled');
+                    } 
 
                     }
             ).catch(
@@ -366,76 +367,45 @@ var app = new Vue({
     }
 )
 
-{% comment %} let tableRow = 
-        `
-        <td > [[ version.CODIGO ]]</td>
-        <td > [[ version.DESCRIPCION ]]</td>
-        <td > [[ version.DESCRIPCION ]]</td>
-        <td > [[ version.REVISION ]]</td>
-        <td > [[ version.ESTADO ]]</td>
-        <td>
-            <input type="file" class="inputfile inputfile-1"name="file" id="file-2">
-        </td>
-        <td style="text-align: center;border: 2px;border-color: grey; color: black;"> 
-        <div 
-            value="verificar" 
-            :key="index" 
-            :class="{ 'btn btn-success': !send && activeIndex !== index, 'spinner-border text-primary' : activeIndex === index }" 
-            role="status" 
-            style="width: 1rem; height: 1rem;" 
-            @click="cargar_val(version, index)" 
-            >
-        </div>
-        </td>
-        <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
-        ` {% endcomment %}
 
-let tableRow = 
+// var app2 = new Vue({
+//         el: '#tableRow',
+//         template: tableRow,
+//         delimiters: [ '[[' ,  ']]' ],
+//         props: [
+//             'version'
+//         ],
+//         method: {
+//             cargar_val: function(version, index) {
+//             this.activeIndex = index
+//             console.log(index)
 
-        `
-        Hola Mundo
-        `
-     
-var app2 = new Vue({
-        el: '#tableRow',
-        template: tableRow,
-        delimiters: [ '[[' ,  ']]' ],
-        props: [
-            'version'
-        ],
-        method: {
-            cargar_val: function(version, index) {
-            this.activeIndex = index
-            console.log(index)
-
-            let formData = new FormData();
-            formData.append('CODIGO', version['CODIGO'])
-            formData.append('REVISION', version['REVISION'])
-            formData.append('ESTADO', version['ESTADO'])
+//             let formData = new FormData();
+//             formData.append('CODIGO', version['CODIGO'])
+//             formData.append('REVISION', version['REVISION'])
+//             formData.append('ESTADO', version['ESTADO'])
 
 
-            fetch("{% url 'vue-version-check' %}", {
-                method: 'POST',
-                body: formData
-            }).then(
-                response => {
-                    const result = response.json();
-                    console.log(result);
-                    this.activeIndex = null;
+//             fetch("{% url 'vue-version-check' %}", {
+//                 method: 'POST',
+//                 body: formData
+//             }).then(
+//                 response => {
+//                     const result = response.json();
+//                     console.log(result);
+//                     this.activeIndex = null;
 
-                    }
-            ).catch(
-                error => {
-                    console.log(error);
-                }
-            )
-            },
-        }
-    }
-)
+//                     }
+//             ).catch(
+//                 error => {
+//                     console.log(error);
+//                 }
+//             )
+//             },
+//         }
+//     }
+// )
       
- 
-
 
 </script>
 
