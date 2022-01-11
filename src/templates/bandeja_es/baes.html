@@ -18,6 +18,9 @@
   </div>
 
   <div class="br-pagebody pd-x-30 pd-sm-x-40">
+  <form method="POST">{% csrf_token %}
+    <button class="btn btn-warning bd-2 pd-x-10 pd-y-5 tx-uppercase tx-bold tx-spacing-6 tx-10" type="submit">Descargar Todas las Cartas</button>
+  </form>
     <div class="card bd-0 shadow-base dataTables_wrapper no-footer " style="padding:20px;"id="mydatatable-container">
       <table class="records_list table table-striped table-bordered table-hover table-primary" id="mydatatable" role="grid" aria-describedby="datatable2_info">
         <thead>

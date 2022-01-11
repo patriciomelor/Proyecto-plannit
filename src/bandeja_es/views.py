@@ -19,7 +19,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
+from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView,View)
 from django.db import IntegrityError
 from notifications.emails import send_email
 from panel_carga.views import ProyectoMixin
@@ -32,7 +32,7 @@ from panel_carga.models import Documento, Proyecto
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
-class InBoxView(ProyectoMixin, ListView):
+class InBoxView(ProyectoMixin, View):
     model = Paquete
     template_name = 'bandeja_es/baes.html'
     context_object_name = 'paquetes'
@@ -54,14 +54,72 @@ class InBoxView(ProyectoMixin, ListView):
             messages.add_message(self.request, messages.ERROR, "Usuario no cuenta con perfil. {0}".format(error))
             return redirect('Bandejaeys')
 
-        lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
-        return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
+        # lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
+        return   pkg #lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
+        context["paquetes"] = self.get_queryset()
         return context
+        
+    def get (self, request, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
     
+    #Descargar todos los paquetes
+    def post(self, request, *args, **kwargs):
+        # Sacado de https://stackoverflow.com/questions/12881294/django-create-a-zip-of-multiple-files-and-make-it-downloadable
+        zip_subdir = "Cartas-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
+        zip_filename = "%s.zip" % zip_subdir
+        s = BytesIO()   
+        zf = zipfile.ZipFile(s, "w")
+        
+        paquetes = self.get_queryset()
+        
+        for paquete in paquetes:
+            listado_versiones_url = []
+            listados_comentario_1 = []
+            listados_comentario_2 = []
+            try:
+                coment1 = paquete.comentario1.url
+                if coment1:
+                    listados_comentario_1.append(paquete)
+            except Exception:
+                pass
+            
+            try:
+                coment2 = paquete.comentario2.url
+                if coment2:
+                    listados_comentario_2.append(paquete)
+            except Exception:
+                pass
+                
+            versiones = paquete.version.all()
+            
+            for version in versiones:
+                try:
+                    static = version.archivo.url
+                    if static:
+                        listado_versiones_url.append(version)
+                except ValueError:
+                    pass
+                    
+            for version in listado_versiones_url:
+                r = requests.get(version.archivo.url, stream=True)
+                zf.writestr(str(version.archivo), r.content)
+            
+            for paquete_comentario1 in listados_comentario_1:
+                com1 = requests.get(paquete_comentario1.comentario1.url, stream=True)
+                zf.writestr(str(paquete_comentario1.comentario1), com1.content)
+                
+            for paquete_comentario2 in listados_comentario_2:
+                com2 = requests.get(paquete_comentario2.comentario2.url, stream=True)
+                zf.writestr(str(paquete_comentario2.comentario2), com2.content)
+                
+        zf.close()
+        response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+        response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+
+        return response
 class EnviadosView(ProyectoMixin, ListView):
     model = Paquete
     template_name = 'bandeja_es/baes_Enviado.html'
