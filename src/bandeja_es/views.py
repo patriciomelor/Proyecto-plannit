@@ -380,8 +380,7 @@ def check_version(request):
         rol = request.user.perfil.rol_usuario
         if request.method == 'POST':
             if request.POST:
-                paquete = request.POST.get('paquete', None)
-                print(paquete)
+                paquete_pk = request.POST.get('paquete', None)
                 doc_code = request.POST.get('CODIGO', None)
                 try:
                     doc = Documento.objects.get(Codigo_documento=doc_code)
@@ -405,8 +404,13 @@ def check_version(request):
                 form = PrevVersionForm(data=row_version, user=request.user)
 
                 if form.is_valid():
+                    prev_version = form.save(commit=False)
+                    prev_version.save()
+                    paquete = PrevPaquete.objects.get(pk=paquete_pk)
+                    paquete.prev_documento.add(prev_version)
+
                     return JsonResponse({
-                        "message": "version Validada"
+                        "message": "Validado Correctamente"
                         }, status=200)
                 else:
                     print(form.non_field_errors())

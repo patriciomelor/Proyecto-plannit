@@ -161,6 +161,19 @@
                           <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
                         
                                 <div id="app" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;">
+                                    <div v-show=" version_ok === 1 " id="alert" class="alert alert-bordered alert-success" role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong class="d-block d-sm-inline-block-force"> Correcto !</strong>
+                                    </div><!-- alert -->
+
+                                    <div v-show="version_ok === 0" id="alert" class="alert alert-bordered alert-warning"  role="alert">
+                                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                        <strong class="d-block d-sm-inline-block-force"> Error !</strong>
+                                    </div><!-- alert -->
                                   
                                   <table class=" table table-striped table-bordered table-hover dataTable no-footer table-primary">
                                       <thead>
@@ -278,11 +291,46 @@ function refreshAndClose() {
 
 <script>
 
+
+Vue.component('message-component', {
+    delimiters: [ '[[' ,  ']]' ],
+    props: ['isOk'],
+    mounted: function(){
+        this.alertDefined
+    },
+    template: 
+    `
+    <div id="alert" class="alert alert-bordered" :class="alertClass" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong class="d-block d-sm-inline-block-force"> [[mensajeCorto]] !</strong> [[mensaje]]
+    </div><!-- alert -->
+    `,
+    data() {
+        return {
+            alertClass: undefined,
+        }
+    },
+    methods: {
+        alertDefined: function(){
+            if (this.isOk){
+                this.alertClass = 'alert-success';
+            }else{
+                this.alertClass = 'alert-warning';
+            }
+        }
+    }
+})
+
+
+
 var app = new Vue({
 
   el: '#app',
   delimiters: [ '[[' ,  ']]' ],
   data: {
+    version_ok: undefined,
     versiones: [],
     versiones_valid: [],
     loading: 0,
@@ -311,13 +359,12 @@ var app = new Vue({
                 async response => {
                     const result = await response.json();
                     this.versiones = result.data;
-                    console.log(this.versiones)
                     this.loading = 0;
                     this.buttonText = 'Subir Archivo';
 
                     }
             ).catch(
-                error => {
+                async error => {
                     console.log('Error:', error);
                     this.loading = 0;
                     this.buttonText = 'Subir Archivo';
@@ -349,14 +396,16 @@ var app = new Vue({
                     button_id = 'btn_' + index
                     if (response.status === 200) {
                         console.log('ok');
-                        let button = document.getElementById(button_id);
-                        button.classList.add('disabled');
-                    } 
+                        this.version_ok = 1
+                    } else {
+                        this.version_ok = 0
+                    }
 
                     }
             ).catch(
                 error => {
                     console.log(error);
+
                 }
             )
 
@@ -414,26 +463,13 @@ var app = new Vue({
 
 </script>
 
+
 <script>
-
+    $('#alert').fadeIn();     
+      setTimeout(function() {
+          $("#alert").fadeOut();           
+      },5000);
 </script>
-
- {% comment %} <script>
-    Vue.component('message', {
-        template: '#message',
-        props: {
-            type: {
-                type: String
-            },
-            header: {
-                type: String
-            },
-        }, 
-
-    })
-
-
-</script> {% endcomment %}
 
 <script>
     'use strict';
