@@ -336,8 +336,8 @@ var app = new Vue({
             formData.append('REVISION', version['REVISION'])
             formData.append('ESTADO', version['ESTADO'])
             formData.append('ESTADO', version['ESTADO'])
-            fromData.append('file', file.files[0])
-
+            formData.append('file', file.files[0])
+            formData.append('paquete', {{ paquete_pk }})
 
             fetch("{% url 'vue-version-check' %}", {
                 method: 'POST',

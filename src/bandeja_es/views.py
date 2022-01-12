@@ -380,6 +380,8 @@ def check_version(request):
         rol = request.user.perfil.rol_usuario
         if request.method == 'POST':
             if request.POST:
+                paquete = request.POST.get('paquete', None)
+                print(paquete)
                 doc_code = request.POST.get('CODIGO', None)
                 try:
                     doc = Documento.objects.get(Codigo_documento=doc_code)
@@ -387,27 +389,31 @@ def check_version(request):
                     return JsonResponse({"message": 'No existe Documento con ese Código.'})
                     
                 row_version["prev_documento_fk"] = doc
+                row_version["prev_owner"] = request.user
                 row_version["prev_revision"] = request.POST.get('REVISION', None)
-                row_version["file"]= request.FILES.get('file', None)
+                row_version["prev_archivo"]= request.FILES.get('file', None)
 
                 if rol >= 1 or rol <= 3:
                     row_version["prev_estado_cliente"] = request.POST.get('ESTADO', None)
+                    row_version["prev_estado_contratista"] = None
 
-                elif rol >=4 or rol <= 6 :
-
+                elif rol >= 4 or rol <= 6 :
                     row_version["prev_estado_contratista"] = request.POST.get('ESTADO', None)
+                    row_version["prev_estado_cliente"] = None
 
-                form = PrevVersionForm(row_version)
+                print(row_version)
+                form = PrevVersionForm(data=row_version, user=request.user)
 
                 if form.is_valid():
                     return JsonResponse({
                         "message": "version Validada"
-                        }, status_code=200)
+                        }, status=200)
                 else:
-                    return JsonResponse({"message": "version Invalidad"}, status_code=500)
+                    print(form.non_field_errors())
+                    return JsonResponse({"message": "version Invalidad"}, status=500)
             else:
 
-                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"}, status_code=404)
+                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"}, status=404)
                 
 
 # @csrf_exempt

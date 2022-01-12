@@ -118,6 +118,7 @@ class PrevVersionForm(forms.ModelForm):
             self.fields["prev_archivo"].required = True
             
     def clean(self):
+        print("metodo clean ejecutado")
         cleaned_data = super().clean()
         #Verifica que el formulario venga con los datos minimos
         doc = cleaned_data.get('prev_documento_fk')
@@ -194,7 +195,7 @@ class PrevVersionForm(forms.ModelForm):
         if revision < 5 and estado_cliente == 5:
             raise ValidationError('No se puede emitir Válido para construcción estando en Letra')
 
-
+        return self.cleaned_data
 
 def verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
     try:
