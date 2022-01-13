@@ -229,21 +229,22 @@
                                                 <td > [[ version.REVISION ]]</td>
                                                 <td > [[ version.ESTADO ]]</td>
                                                 <td>
-                                                    <input type="file" name="file-2" :id=" 'file-2-' + index">
+                                                    <input type="file" name="file-2" :id=" 'file-2-' + index" :disabled="isDisabled_input(index)" >
                                                 </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> 
-                                                    <div
+                                                    <button
                                                     :id="'btn_' + index"
                                                     value="verificar" 
                                                     :key="index" 
                                                     :class="{ 'btn btn-outline-success': !send && activeIndex !== index, 'spinner-border text-primary' : activeIndex === index }" 
                                                     role="status" 
                                                     style="width: 1rem; height: 1rem;" 
-                                                    @click="cargar_val(version, index)" 
+                                                    @click.prevent="cargar_val(version, index)"
+                                                    :disabled="isDisabled_button(index)"
                                                     >
                                                     <label v-if="!send && activeIndex !== index">&check;</label>
                                                     <label v-if="activeIndex === index"></label>
-                                                    </div>
+                                                    </button>
                                                 </td>
                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
                                             </tr>
@@ -333,6 +334,7 @@ var app = new Vue({
     version_ok: undefined,
     versiones: [],
     versiones_valid: [],
+    input_valid: [],
     loading: 0,
     send: false,
     buttonText : 'Subir Archivo',
@@ -386,6 +388,10 @@ var app = new Vue({
             formData.append('file', file.files[0])
             formData.append('paquete', {{ paquete_pk }})
 
+            let button_id = 'btn_' + index
+            let input_id = 'file-2-' + index
+
+
             fetch("{% url 'vue-version-check' %}", {
                 method: 'POST',
                 body: formData
@@ -393,25 +399,52 @@ var app = new Vue({
                 response => {
                     const result = response.json();
                     this.activeIndex = null;
-                    button_id = 'btn_' + index
                     if (response.status === 200) {
-                        console.log('ok');
                         this.version_ok = 1
+                        if (!this.versiones_valid.includes(button_id)){
+                        this.versiones_valid.push(button_id)
+                        }
+                        if (!this.input_valid.includes(input_id)){
+                            this.input_valid.push(input_id)
+                        }
                     } else {
                         this.version_ok = 0
                     }
+
 
                     }
             ).catch(
                 error => {
                     console.log(error);
-
                 }
             )
 
         },
+        
+        isDisabled_button: function(index){
+            // let val = 0;
+            let button_id = 'btn_' + index
+            if (this.versiones_valid.includes(button_id) ){
+                return true
+            }else{
+                return false
+
+            }
+        },
+        isDisabled_input: function(index){
+            // let val = 0;
+            let input_id = 'file-2-' + index;
+            if (this.input_valid.includes(input_id) ){
+                console.log("si lo incluye");
+                return true
+            }else{
+                console.log("no lo incluye");
+                return false
+
+            }
+        },
     },
-    
+
     filters:{
         moment: function(date) {
             return moment(date).format('MMMM Do YYYY')

@@ -2,6 +2,7 @@ import json
 from os import error, path
 import pathlib
 import os.path
+from django.contrib.auth.models import User
 
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
@@ -377,9 +378,10 @@ def check_version(request):
     row_version = {}
 
     if request.user.is_authenticated:
-        rol = request.user.perfil.rol_usuario
         if request.method == 'POST':
             if request.POST:
+                owner = User.objects.get(pk=request.user.pk)
+                rol = owner.perfil.rol_usuario
                 paquete_pk = request.POST.get('paquete', None)
                 doc_code = request.POST.get('CODIGO', None)
                 try:
@@ -388,7 +390,6 @@ def check_version(request):
                     return JsonResponse({"message": 'No existe Documento con ese Código.'})
                     
                 row_version["prev_documento_fk"] = doc
-                row_version["prev_owner"] = request.user
                 row_version["prev_revision"] = request.POST.get('REVISION', None)
                 row_version["prev_archivo"]= request.FILES.get('file', None)
 
@@ -404,10 +405,11 @@ def check_version(request):
                 form = PrevVersionForm(data=row_version, user=request.user)
 
                 if form.is_valid():
-                    prev_version = form.save(commit=False)
-                    prev_version.save()
-                    paquete = PrevPaquete.objects.get(pk=paquete_pk)
-                    paquete.prev_documento.add(prev_version)
+                    # prev_version = form.save(commit=False)
+                    # prev_version.prev_owner = owner
+                    # prev_version.save()
+                    # paquete = PrevPaquete.objects.get(pk=paquete_pk)
+                    # paquete.prev_documento.add(prev_version)
 
                     return JsonResponse({
                         "message": "Validado Correctamente"

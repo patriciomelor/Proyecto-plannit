@@ -195,7 +195,6 @@ class PrevVersionForm(forms.ModelForm):
         if revision < 5 and estado_cliente == 5:
             raise ValidationError('No se puede emitir Válido para construcción estando en Letra')
 
-        return self.cleaned_data
 
 def verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
     try:
