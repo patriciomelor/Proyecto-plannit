@@ -22,9 +22,6 @@ import math
 
 class IndexAnalitica(ProyectoMixin, TemplateView):
     template_name =  'analitica/index.html'
-    # def get_queryset(self):
-    #     qs = Documento.objects.filter(proyecto=self.proyecto)
-    #     return qs
     
     def get_queryset(self):
         qs1 = Documento.objects.filter(proyecto=self.proyecto)
@@ -1520,7 +1517,6 @@ class CurvaBaseView(ProyectoMixin, TemplateView):
 
     def post(self, request, *args, **kwargs):
         docs = Documento.objects.filter(proyecto=self.proyecto)
-        #value = self.Obtener_linea_base()
         if not docs:
             messages.error(request, message="La línea base no puede ser almacenada. Ingrese documentos para realizar esta acción.")
         
@@ -1785,17 +1781,17 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
 
                                             if contador_avance == 0:
                                                 if fecha_version <= controles:
-                                                    avance_documento = float((hh_doc * 1)/total_hh)
+                                                    avance_documento = float((hh_doc * 100)/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
                                                     if fecha_version > controles:                                
-                                                        avance_documento = float((hh_doc * 1)/total_hh)
+                                                        avance_documento = float((hh_doc * 100)/total_hh)
 
                                             if contador_avance != 0:
                                                 if fecha_version <= controles:
-                                                    avance_documento = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                    avance_documento = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
                                                     if fecha_version > controles:                                
-                                                        avance_documento = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                        avance_documento = float((hh_doc * float(100 - rev_letra))/total_hh)
 
                                             #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
                                             if avance_documento != 0:
@@ -1822,28 +1818,28 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                             for revision in TYPES_REVISION[1:4]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_b = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                    calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
                                                     if revision[0] == revision_documento and fecha_version > controles:                              
-                                                        calculo_real_b = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                        calculo_real_b = float((hh_doc * rev_letra)/total_hh)
 
                                             if contador_avance == 0:
                                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                                 for revision in TYPES_REVISION[5:]:
                                                     if revision[0] == revision_documento and fecha_version <= controles:
-                                                        calculo_real_0 = float((hh_doc * 1)/total_hh)
+                                                        calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                     if cont == (len(fechas_controles) - 1):
                                                         if revision[0] == revision_documento and fecha_version > controles:                                
-                                                            calculo_real_0 = float((hh_doc * 1)/total_hh)
+                                                            calculo_real_0 = float((hh_doc * 100)/total_hh)
 
                                             if contador_avance != 0:
                                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                                 for revision in TYPES_REVISION[5:]:
                                                     if revision[0] == revision_documento and fecha_version <= controles:
-                                                        calculo_real_0 = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                        calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                     if cont == (len(fechas_controles) - 1):
                                                         if revision[0] == revision_documento and fecha_version > controles:                                
-                                                            calculo_real_0 = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                            calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
 
                                             #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                             if calculo_real_b > calculo_real_0:
@@ -1878,28 +1874,28 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                         for revision in TYPES_REVISION[1:4]:
                                             if revision[0] == revision_documento and fecha_version <= controles:
-                                                calculo_real_b = float(hh_doc*float((rev_letra/100)))
+                                                calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                             if cont == (len(fechas_controles) - 1):
                                                 if revision[0] == revision_documento and fecha_version > controles:                              
-                                                    calculo_real_b = float(hh_doc*float((rev_letra/100)))
+                                                    calculo_real_b = float((hh_doc * rev_letra)/total_hh)
 
                                         if contador_avance == 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                             for revision in TYPES_REVISION[5:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_0 = float((hh_doc * 1)/total_hh)
+                                                    calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
                                                     if revision[0] == revision_documento and fecha_version > controles:                                
-                                                        calculo_real_0 = float((hh_doc * 1)/total_hh)
+                                                        calculo_real_0 = float((hh_doc * 100)/total_hh)
 
                                         if contador_avance != 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                             for revision in TYPES_REVISION[5:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                                    calculo_real_0 = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                    calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
                                                     if revision[0] == revision_documento and fecha_version > controles:                                
-                                                        calculo_real_0 = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                        calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
 
                                         #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                         if calculo_real_b > calculo_real_0:
@@ -2028,17 +2024,17 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
 
                                                         if contador_avance == 0:
                                                             if fecha_version <= controles:
-                                                                avance_documento = float((hh_doc * 1)/total_hh)
+                                                                avance_documento = float((hh_doc * 100)/total_hh)
                                                             if cont == (len(fechas_controles) - 1):
                                                                 if fecha_version > controles:                                
-                                                                    avance_documento = float((hh_doc * 1)/total_hh)
+                                                                    avance_documento = float((hh_doc * 100)/total_hh)
 
                                                         if contador_avance != 0:
                                                             if fecha_version <= controles:
-                                                                avance_documento = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                                avance_documento = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                             if cont == (len(fechas_controles) - 1):
                                                                 if fecha_version > controles:                                
-                                                                    avance_documento = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                                    avance_documento = float((hh_doc * float(100 - rev_letra))/total_hh)
 
                                                         #Se almacena el avance real en la fecha de control estimada, cuando la version fue emitida antes de la emision estipulada
                                                         if avance_documento != 0:
@@ -2065,28 +2061,28 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                                         for revision in TYPES_REVISION[1:4]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
-                                                                calculo_real_b = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                                calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                                             if cont == (len(fechas_controles) - 1):
                                                                 if revision[0] == revision_documento and fecha_version > controles:                              
-                                                                    calculo_real_b = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                                    calculo_real_b = float((hh_doc * rev_letra)/total_hh)
 
                                                         if contador_avance == 0:
                                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                                             for revision in TYPES_REVISION[5:]:
                                                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                                                    calculo_real_0 = float((hh_doc * 1)/total_hh)
+                                                                    calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                                 if cont == (len(fechas_controles) - 1):
                                                                     if revision[0] == revision_documento and fecha_version > controles:                                
-                                                                        calculo_real_0 = float((hh_doc * 1)/total_hh)
+                                                                        calculo_real_0 = float((hh_doc * 100)/total_hh)
 
                                                         if contador_avance != 0:
                                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                                             for revision in TYPES_REVISION[5:]:
                                                                 if revision[0] == revision_documento and fecha_version <= controles:
-                                                                    calculo_real_0 = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                                    calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                                 if cont == (len(fechas_controles) - 1):
                                                                     if revision[0] == revision_documento and fecha_version > controles:                                
-                                                                        calculo_real_0 = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                                        calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
 
                                                         #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                                         if calculo_real_b > calculo_real_0:
@@ -2121,28 +2117,28 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
                                                     #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                                     for revision in TYPES_REVISION[1:4]:
                                                         if revision[0] == revision_documento and fecha_version <= controles:
-                                                            calculo_real_b = float(hh_doc*float((rev_letra/100)))
+                                                            calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                                         if cont == (len(fechas_controles) - 1):
                                                             if revision[0] == revision_documento and fecha_version > controles:                              
-                                                                calculo_real_b = float(hh_doc*float((rev_letra/100)))
+                                                                calculo_real_b = float((hh_doc * rev_letra)/total_hh)
 
                                                     if contador_avance == 0:
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                                         for revision in TYPES_REVISION[5:]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
-                                                                calculo_real_0 = float((hh_doc * 1)/total_hh)
+                                                                calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                             if cont == (len(fechas_controles) - 1):
                                                                 if revision[0] == revision_documento and fecha_version > controles:                                
-                                                                    calculo_real_0 = float((hh_doc * 1)/total_hh)
+                                                                    calculo_real_0 = float((hh_doc * 100)/total_hh)
 
                                                     if contador_avance != 0:
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
                                                         for revision in TYPES_REVISION[5:]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
-                                                                calculo_real_0 = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                                calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                             if cont == (len(fechas_controles) - 1):
                                                                 if revision[0] == revision_documento and fecha_version > controles:                                
-                                                                    calculo_real_0 = float((hh_doc * (1 - float(rev_letra/100)))/total_hh)
+                                                                    calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
 
                                                     #Se comparan los avances en emision b y 0, para guardar el mayor valor
                                                     if calculo_real_b > calculo_real_0:
@@ -2262,7 +2258,6 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
             contador_largo = 0
             total_hh = 0
 
-
             for doc in documentos:
                 total_hh = total_hh + doc.hh_emision_0
 
@@ -2278,9 +2273,9 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
 
                             #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
                             if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                                calculo_avanceEsperado = float((hh_doc * (1 - float(rev_letra/100)))/total_hh) + calculo_avanceEsperado                      
+                                calculo_avanceEsperado = float((hh_doc * rev_letra)/total_hh) + calculo_avanceEsperado                      
                             if fecha_emision_0 <= controles and fecha_emision_b < controles:
-                                calculo_avanceEsperado = float((hh_doc * 1)/total_hh) + calculo_avanceEsperado
+                                calculo_avanceEsperado = float((hh_doc * 100)/total_hh) + calculo_avanceEsperado
 
                         #Se almacena el avance esperado hasta la fecha de control
                         avance_esperado = [format(calculo_avanceEsperado, '.2f')]
