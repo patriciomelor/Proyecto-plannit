@@ -223,7 +223,7 @@
                                         <tbody>
                                          
                                             <tr v-for="(version, index) in versiones" :key="index">
-                                                <td > [[ version.CODIGO ]]</td>
+                                                <td > [[ version.CODIGO |  ]]</td>
                                                 <td > [[ version.DESCRIPCION ]]</td>
                                                 <td > [[ version.ESPECIALIDAD ]]</td>
                                                 <td > [[ version.REVISION ]]</td>
@@ -342,6 +342,13 @@ var app = new Vue({
 
   },
 
+//   filters: {
+//     cambiaraTexto: function(){
+//         1 --> "B",
+//         2 --> "C",
+//     }
+//   },
+
   methods:{
         moment: function (date) {
             return moment(date);
@@ -435,10 +442,8 @@ var app = new Vue({
             // let val = 0;
             let input_id = 'file-2-' + index;
             if (this.input_valid.includes(input_id) ){
-                console.log("si lo incluye");
                 return true
             }else{
-                console.log("no lo incluye");
                 return false
 
             }

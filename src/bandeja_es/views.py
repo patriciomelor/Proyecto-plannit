@@ -416,7 +416,10 @@ def check_version(request):
                         }, status=200)
                 else:
                     print(form.non_field_errors())
-                    return JsonResponse({"message": "version Invalidad"}, status=500)
+                    return JsonResponse({
+                        "message": "version Invalidad",
+                        "errors": form.non_field_errors(),
+                    }, status=500)
             else:
 
                 return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"}, status=404)
