@@ -2278,7 +2278,7 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
 
                             #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
                             if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                                calculo_avanceEsperado = float((hh_doc * (1 - float(rev_letra/100)))/total_hh) + calculo_avanceEsperado                      
+                                calculo_avanceEsperado = float((hh_doc * (1 - rev_letra))/total_hh) + calculo_avanceEsperado                      
                             if fecha_emision_0 <= controles and fecha_emision_b < controles:
                                 calculo_avanceEsperado = float((hh_doc * 1)/total_hh) + calculo_avanceEsperado
 

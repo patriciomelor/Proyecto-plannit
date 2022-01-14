@@ -59,6 +59,7 @@
                     <th  style="width: auto;color:#fff;text-align: center;">Código</th>
                     <th  style="width: auto;color:#fff;text-align: center;">Tipo</th>
                     <th  colspan="2" style="width: auto;color:#fff;text-align: center;">Fecha Programada de Emisión</th>
+                    <th  colspan="2" style="width: auto;color:#fff;text-align: center;">HH Programada de Emisión</th>
                   </tr>
                   <tr >
                     
@@ -66,6 +67,8 @@
                     <th colspan="4"></th>
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en<br> Rev B</th>              
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en <br>Rev 0</th>
+                    <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión de HH en <br>Rev B</th>
+                    <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión de HH en <br>Rev 0</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -85,6 +88,8 @@
                   <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;"> {{documento.Tipo_Documento}}  </th>                  
                   <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.fecha_Emision_B|date:'d-M-Y'}} </th>
                   <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
+                  <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.hh_emision_B}}</th>
+                  <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.hh_emision_0}}</th>
                 </tr>
                 {% endfor %}
                 </tbody>
