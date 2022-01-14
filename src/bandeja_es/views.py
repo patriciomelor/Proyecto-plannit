@@ -2,6 +2,7 @@ import json
 from os import error, path
 import pathlib
 import os.path
+from django.contrib.auth.models import User
 
 from django.core import serializers
 from django.core.serializers.json import DjangoJSONEncoder
@@ -487,25 +488,61 @@ def vue_file_import(request):
 
 @csrf_exempt
 def check_version(request):
+    row_version = {}
+
     if request.user.is_authenticated:
         if request.method == 'POST':
             if request.POST:
-                row_version = {}
-                row_version["Codigo_documento"]  = request.POST.get('Codigo_documento', None)
-                row_version["Descripcion"] = request.POST.get('Descripcion', None)
-                row_version["Especialidad"] = request.POST.get('Especialidad', None)
-                row_version["Tipo_Documento"] = request.POST.get('Tipo_Documento', None)
-                row_version["fecha_Emision_0"] = request.POST.get('fecha_Emision_0', None)
-                row_version["fecha_Emision_B"]= request.POST.get('fecha_Emision_B', None)
-                row_version["file"]= request.FILES.get('file', None)
+                owner = User.objects.get(pk=request.user.pk)
+                rol = owner.perfil.rol_usuario
+                paquete_pk = request.POST.get('paquete', None)
+                doc_code = request.POST.get('CODIGO', None)
+                try:
+                    doc = Documento.objects.get(Codigo_documento=doc_code)
+                except:
+                    return JsonResponse({"message": 'No existe Documento con ese Código.'})
+                    
+                row_version["prev_documento_fk"] = doc
+                row_version["prev_revision"] = request.POST.get('REVISION', None)
+                row_version["prev_archivo"]= request.FILES.get('file', None)
 
-                form = PrevVersionForm(row_version)
+                if rol >= 1 or rol <= 3:
+                    row_version["prev_estado_cliente"] = request.POST.get('ESTADO', None)
+                    row_version["prev_estado_contratista"] = None
+
+                elif rol >= 4 or rol <= 6 :
+                    row_version["prev_estado_contratista"] = request.POST.get('ESTADO', None)
+                    row_version["prev_estado_cliente"] = None
+
+                print(row_version)
+                form = PrevVersionForm(data=row_version, user=request.user)
+
                 if form.is_valid():
+                    # prev_version = form.save(commit=False)
+                    # prev_version.prev_owner = owner
+                    # prev_version.save()
+                    # paquete = PrevPaquete.objects.get(pk=paquete_pk)
+                    # paquete.prev_documento.add(prev_version)
 
-                    return JsonResponse({"message": "version Validada"})
+                    return JsonResponse({
+                        "message": "Validado Correctamente"
+                        }, status=200)
+                else:
+                    print(form.non_field_errors())
+                    return JsonResponse({
+                        "message": "version Invalidad",
+                        "errors": form.non_field_errors(),
+                    }, status=500)
             else:
-                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"})
+
+                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"}, status=404)
                 
+
+# @csrf_exempt
+# def upload_versiones_validated(request):
+#     if request.user.is_authenticated:
+        
+
 
 class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
