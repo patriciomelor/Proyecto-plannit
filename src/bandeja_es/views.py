@@ -497,25 +497,27 @@ def check_version(request):
                 rol = owner.perfil.rol_usuario
                 paquete_pk = request.POST.get('paquete', None)
                 doc_code = request.POST.get('CODIGO', None)
+                # file = request.FILES.getlist('file', None)
+                # print("file", file)
                 try:
                     doc = Documento.objects.get(Codigo_documento=doc_code)
                 except:
-                    return JsonResponse({"message": 'No existe Documento con ese Código.'})
+                    return JsonResponse({"message": 'No existe Documento con ese Código.'}, status=404)
                     
-                row_version["prev_documento_fk"] = doc
-                row_version["prev_revision"] = request.POST.get('REVISION', None)
-                row_version["prev_archivo"]= request.FILES.get('file', None)
+                # row_version["prev_documento_fk"] = doc
+                # row_version["prev_revision"] = request.POST.get('REVISION', None)
+                # row_version["prev_archivo"]= file
 
-                if rol >= 1 or rol <= 3:
-                    row_version["prev_estado_cliente"] = request.POST.get('ESTADO', None)
-                    row_version["prev_estado_contratista"] = None
+                # if rol >= 1 or rol <= 3:
+                    # row_version["prev_estado_cliente"] = request.POST.get('ESTADO', None)
+                    # row_version["prev_estado_contratista"] = None
 
-                elif rol >= 4 or rol <= 6 :
-                    row_version["prev_estado_contratista"] = request.POST.get('ESTADO', None)
-                    row_version["prev_estado_cliente"] = None
+                # elif rol >= 4 or rol <= 6 :
+                    # row_version["prev_estado_contratista"] = request.POST.get('ESTADO', None)
+                    # row_version["prev_estado_cliente"] = None
 
-                print(row_version)
-                form = PrevVersionForm(data=row_version, user=request.user)
+                # print(row_version)
+                form = PrevVersionForm(user=request.user, data=request.POST, files=request.FILES, )
 
                 if form.is_valid():
                     # prev_version = form.save(commit=False)
@@ -523,7 +525,7 @@ def check_version(request):
                     # prev_version.save()
                     # paquete = PrevPaquete.objects.get(pk=paquete_pk)
                     # paquete.prev_documento.add(prev_version)
-
+                    print("formulario valido")
                     return JsonResponse({
                         "message": "Validado Correctamente"
                         }, status=200)

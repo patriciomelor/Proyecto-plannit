@@ -120,8 +120,12 @@ class PrevVersionForm(forms.ModelForm):
     def clean(self):
         cleaned_data = super().clean()
         #Verifica que el formulario venga con los datos minimos
-        doc = cleaned_data.get('prev_documento_fk')
-        nombre_documento = doc.Codigo_documento
+        try:
+            doc = cleaned_data.get('prev_documento_fk')
+            nombre_documento = doc.Codigo_documento
+        except Exception:
+            doc = cleaned_data.get('prev_documento_fk')
+            nombre_documento = doc    
         nombre_archivo = str(cleaned_data.get('prev_archivo'))
         print("nombre archivo", nombre_archivo)
         estado_cliente = cleaned_data.get('prev_estado_cliente')
