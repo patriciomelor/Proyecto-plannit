@@ -496,28 +496,29 @@ def check_version(request):
                 owner = User.objects.get(pk=request.user.pk)
                 rol = owner.perfil.rol_usuario
                 paquete_pk = request.POST.get('paquete', None)
-                doc_code = request.POST.get('CODIGO', None)
-                # file = request.FILES.getlist('file', None)
-                # print("file", file)
+                doc_code = request.POST.get('prev_documento_fk', None)
+                file = request.FILES.getlist('file', None)
                 try:
                     doc = Documento.objects.get(Codigo_documento=doc_code)
-                except:
-                    return JsonResponse({"message": 'No existe Documento con ese Código.'}, status=404)
+                except Documento.DoesNotExist:
+                    return JsonResponse({"message": 'No existe Documento con ese Código.'}, status=500)
                     
-                # row_version["prev_documento_fk"] = doc
-                # row_version["prev_revision"] = request.POST.get('REVISION', None)
+                row_version["prev_documento_fk"] = doc
+                row_version["prev_revision"] = request.POST.get('prev_revision', None)
                 # row_version["prev_archivo"]= file
 
-                # if rol >= 1 or rol <= 3:
-                    # row_version["prev_estado_cliente"] = request.POST.get('ESTADO', None)
-                    # row_version["prev_estado_contratista"] = None
+                if rol >= 1 or rol <= 3:
+                    row_version["prev_estado_cliente"] = request.POST.get('prev_estado_cliente', None)
+                    row_version["adjuntar"] = request.POST.get('adjuntar', False)
+                    row_version["prev_estado_contratista"] = None
 
-                # elif rol >= 4 or rol <= 6 :
-                    # row_version["prev_estado_contratista"] = request.POST.get('ESTADO', None)
-                    # row_version["prev_estado_cliente"] = None
+                elif rol >= 4 or rol <= 6 :
+                    row_version["prev_estado_contratista"] = request.POST.get('prev_estado_contratista', None)
+                    row_version["prev_estado_cliente"] = None
 
-                # print(row_version)
-                form = PrevVersionForm(user=request.user, data=request.POST, files=request.FILES, )
+                print(row_version)
+                # form = PrevVersionForm(user=request.user, data=request.POST, files=request.FILES )
+                form = PrevVersionForm(user=request.user, data=row_version, files=request.FILES )
 
                 if form.is_valid():
                     # prev_version = form.save(commit=False)
@@ -537,7 +538,7 @@ def check_version(request):
                     }, status=500)
             else:
 
-                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"}, status=404)
+                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"}, status=500)
                 
 
 # @csrf_exempt

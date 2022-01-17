@@ -162,16 +162,10 @@
                         
                                 <div id="app" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;">
                                     <div v-show=" version_ok === 1 " id="alert" class="alert alert-bordered alert-success" role="alert">
-                                        {% comment %} <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button> {% endcomment %}
                                         <strong class="d-block d-sm-inline-block-force"> Correcto ! Los datos han sido validados correctamente</strong>
                                     </div><!-- alert -->
 
                                     <div v-show="version_ok === 0" id="alert" class="alert alert-bordered alert-warning"  role="alert">
-                                        {% comment %} <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button> {% endcomment %}
                                         <strong class="d-block d-sm-inline-block-force"> Error ! Error en la Validación</strong>
                                     </div><!-- alert -->
                                   
@@ -226,8 +220,8 @@
                                                 <td > [[ version.CODIGO ]]</td>
                                                 <td > [[ version.DESCRIPCION ]]</td>
                                                 <td > [[ version.ESPECIALIDAD ]]</td>
-                                                <td > [[ version.REVISION ]]</td>
-                                                <td > [[ version.ESTADO ]]</td>
+                                                <td > [[ version.REVISION | revision ]]</td>
+                                                <td > [[ version.ESTADO | estado ]]</td>
                                                 <td>
                                                     <input type="file" name="file-2" :id=" 'file-2-' + index" :disabled="isDisabled_input(index)" >
                                                 </td>
@@ -402,7 +396,8 @@ var app = new Vue({
 
             if (user_id >= 1 && user_id <= 3) {
                 formData.append('prev_estado_cliente', version['ESTADO']);
-            }else if (user_id >= 1 && user_id <= 3) {
+                formData.append('adjuntar', true);
+            }else if (user_id >= 4 && user_id <= 6) {
                 formData.append('prev_estado_contratista', version['ESTADO']);
 
             }
@@ -468,6 +463,63 @@ var app = new Vue({
             return moment(date).format('MMMM Do YYYY')
         }
       },
+        estado: function(value){
+            const estados_cliente_arg = [
+            "Aprobado con Comentarios",
+            "Rechazado",
+            "Anulado",
+            "Aprobado",
+            "Válido para construcción",
+            "Mantener Revisión",
+            "Excepción",
+            ];
+            const estados_contratist_arg= [
+                "Para revisión",
+                "Para aprobación",
+                "As Built",
+            ];
+            const estados_cliente_kwarg = [1,2,3,4,5,6,7,8];
+            const estados_contratista_kwarg = [1,2,3];
+
+            const user_id = {{request.user.pk}};
+            if (user_id >= 1 && user_id <= 3) {
+                if (estados_cliente_arg.includes(value)) {
+                    let  estado_index = estados_cliente_arg.indexOf(value);
+                    console.log(estado_index);
+                    let final_estado = estados_cliente_kwarg[estado_index]
+                    console.log(final_estado);
+                    return final_estado
+                }else {
+                    return "Estado No encontrado.."
+                }
+            }else if (user_id >= 4 && user_id <= 6) {
+                if (estados_contratista_arg.includes(value)){
+                    let  estado_index = estados_contratista_arg.indexOf(value);
+                    let final_estado = estados_contratista_kwarg[estado_index]
+                    return final_estado
+                }else {
+                    return "Estado No encontrado.."
+                }
+
+            };
+
+        },
+        revision: function(value){
+            const tipos_revision_kwargs = [
+                "B","C","D","E","1","2","3","4","5"
+            ];
+            const tipos_revision_args = [1,2,3,4,5,6,7,8,9,10];
+            const user_id = {{request.user.pk}};
+            if (tipos_revision_args.includes(value)){
+                let revision_index = tipos_revision_args.indexOf(value)
+                console.log(revision_index);
+                let revision_final = tipos_revision_kwargs[revision_index]
+                console.log(revision_final);
+                return revision_final
+            }else {
+                return "Revisión no econtrada..."
+            }
+        }
 
     }
 )

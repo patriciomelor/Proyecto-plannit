@@ -126,12 +126,14 @@ class PrevVersionForm(forms.ModelForm):
         except Exception:
             doc = cleaned_data.get('prev_documento_fk')
             nombre_documento = doc    
+        print("nombre documento: ", nombre_documento)
         nombre_archivo = str(cleaned_data.get('prev_archivo'))
-        print("nombre archivo", nombre_archivo)
+        print("nombre archivo: ", nombre_archivo)
         estado_cliente = cleaned_data.get('prev_estado_cliente')
         estado_contratista = cleaned_data.get('prev_estado_contratista')
         revision = cleaned_data.get('prev_revision')
         revision_str = (dict(TYPES_REVISION).get(revision))
+        print("Revision string: ", revision_str)
 
         #Verifica que primero se emita una revisión en B
         try:
@@ -139,7 +141,7 @@ class PrevVersionForm(forms.ModelForm):
             ultima_revision = Version.objects.filter(documento_fk=document)
             if not ultima_revision.exists() and revision > 1:
                 raise ValidationError('Se debe emitir una revisión en B primero')
-        except AttributeError:
+        except (AttributeError, Version.DoesNotExist, Documento.DoesNotExist):
             pass
 
 
@@ -153,7 +155,7 @@ class PrevVersionForm(forms.ModelForm):
                     raise ValidationError('No se puede mantener la revisión del documento {}, por favor intente con una revisión distinta'.format(document.Codigo_documento))
             else:
                 pass                
-        except (AttributeError, Version.DoesNotExist):
+        except (AttributeError, Version.DoesNotExist, Documento.DoesNotExist):
             pass
 
 
@@ -172,7 +174,7 @@ class PrevVersionForm(forms.ModelForm):
             ultima_revision = Version.objects.filter(documento_fk=doc).last()
             if revision < ultima_revision.revision:
                 raise ValidationError('No se puede elegir una revisión anterior a la última emitida')
-        except AttributeError:
+        except (AttributeError, Version.DoesNotExist):
             pass
 
 
@@ -181,7 +183,8 @@ class PrevVersionForm(forms.ModelForm):
         if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
             con_archivo = cleaned_data.get("adjuntar")
             if con_archivo == True:
-                if not self.verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
+                nombre_bool = verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo)
+                if not nombre_bool:
                     raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
                 if nombre_archivo == '':
                     self.add_error('No se adjuntó archivo')
@@ -189,7 +192,9 @@ class PrevVersionForm(forms.ModelForm):
                 raise ValidationError("Debes seleccionar un estado para esta revisión.")
         
         if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
-            if not self.verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
+            nombre_bool = verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo)
+            print("nombre bool: ", nombre_bool)
+            if not nombre_bool:
                 raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
             if not estado_contratista: 
                 raise ValidationError("Debes seleccionar un estado para esta revisión.")
@@ -200,18 +205,18 @@ class PrevVersionForm(forms.ModelForm):
             raise ValidationError('No se puede emitir Válido para construcción estando en Letra')
 
 
-    def verificar_nombre_archivo(self, nombre_documento, revision_str, nombre_archivo):
-        print("revisando nombre")
-        try:
-            index = nombre_archivo.index('.')
-        except ValueError:
-            index = len(nombre_archivo)
+def verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
+    print("revisando nombre...")
+    try:
+        index = nombre_archivo.index('.')
+    except ValueError:
+        index = len(nombre_archivo)
 
-        cleaned_name = nombre_archivo[:index]
-        extencion = nombre_archivo[index:]
+    cleaned_name = nombre_archivo[:index]
+    extencion = nombre_archivo[index:]
 
-        nombre_final = nombre_documento + '-' + revision_str
-        if cleaned_name == nombre_final:
-            return True
-        else:
-            return False
+    nombre_final = nombre_documento + '-' + revision_str
+    if cleaned_name == nombre_final:
+        return True
+    else:
+        return False
