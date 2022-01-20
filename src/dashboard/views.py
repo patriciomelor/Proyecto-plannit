@@ -385,14 +385,14 @@ class EscritorioView(ProyectoMixin, TemplateView):
                             contador_real = contador_real + 1
                     for esperado in avance_esperado:
                         largo_esperado = largo_esperado + 1
-                    contador_real = contador_real - 1
                     #Obtener avance esperado curva s
                     if contador_real > largo_esperado: 
                         avance_programado = avance_esperado[-1][0] 
                         esperado_corto = 1
                     else:
-                        avance_programado = avance_esperado[contador_real][0]
-            
+                        avance_programado = avance_esperado[contador_real -1][0]
+
+                    
             #Condicional para cuando el avance real posee solo un valor
             if contador_real == 0:
                 avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real][0]) 
