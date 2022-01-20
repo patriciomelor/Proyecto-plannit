@@ -170,6 +170,9 @@ class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     def form_valid(self, form) -> HttpResponse:
         paquete = self.get_object()
         versions = paquete.version.all()
+        # for version in versions:
+        #     version.delete()
+
         return HttpResponse()
 
 class BorradorList(ProyectoMixin, ListView):
