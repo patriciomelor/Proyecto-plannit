@@ -15,31 +15,31 @@
     <h4 class="tx-gray-800 mg-b-5">Panel de entregables / {{proyecto}} </h4>
     <p class="mg-b-0"></p>
  </div>
+ {% if request.user.perfil.rol_usuario == 1 %}
+ <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
+       <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
+         <form class="col-5 col-md-4 col-lg-3 col-xs-6 mg-t-5" method="POST" enctype="multipart/form-data" style="margin:0px;padding:0px;display: contents;">
+         {% csrf_token %}
+          <li class="nav-item mg-t-5"><input style="width: auto;" type="file" name="importfile" id="fileInput"></a></li>
+          <li class="nav-item mg-l-5 mg-t-5"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
+         </form>
+         <li class="nav-item mg-l-5 mg-t-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
+         <form name="cruvaBase_save" onsubmit="return confirmation()" method="post" action="{% url 'curva-base' %}">
+           {% csrf_token %}
+           <li class="nav-item mg-l-5 mg-t-5"><input type="submit" id="base_btn" class="btn btn-success" style="width: auto;" value="Guardar Curva Base"></li>
+         </form>            
+         <li class="nav-item mg-l-5 mg-t-5"><a href="https://plannit-spaces.sfo3.digitaloceanspaces.com/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning">Plantilla de Carga</button></a></li>
+         <li class="nav-item mg-l-5 mg-t-5"><a href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"><i class="icon ion-trash-b mg-r-3"></i> Eliminar</button></a></li>       
+       </ul>
+ </div><!-- ht-65 -->
+{% else %}
+<!--VACIO-->
+{% endif %} 
 <div class="br-pagebody mg-t-5 pd-x-30">
 <!--Tabla-->
-  {% if request.user.perfil.rol_usuario == 1 %}
-    <div class="col-md-12 bd bg-gray-100  d-flex align-items-center justify-content-between pd-t-50 pd-b-40 mg-b-30">
-          <ul class="col-12 nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row " role="tablist">
-            <form class="col-5 col-md-4 col-lg-3 col-xs-6 mg-t-5" method="POST" enctype="multipart/form-data" style="margin:0px;padding:0px;display: contents;">
-            {% csrf_token %}
-             <li class="nav-item mg-t-5"><input style="width: auto;" type="file" name="importfile" id="fileInput"></a></li>
-             <li class="nav-item mg-l-5 mg-t-5"><button class="btn btn-danger" type="submit" disabled="disabled"> Importar </button></li>
-            </form>
-            <li class="nav-item mg-l-5 mg-t-5"><a href="{% url 'documento-crear' %}"><button class="btn btn-primary">Insertar por formulario</button></a></li>
-            <form name="cruvaBase_save" onsubmit="return confirmation()" method="post" action="{% url 'curva-base' %}">
-              {% csrf_token %}
-              <li class="nav-item mg-l-5 mg-t-5"><input type="submit" id="base_btn" class="btn btn-success" style="width: auto;" value="Guardar Curva Base"></li>
-            </form>            
-            <li class="nav-item mg-l-5 mg-t-5"><a href="https://plannit-spaces.sfo3.digitaloceanspaces.com/Plantilla_vacio_PDC.xlsx"><button class="btn btn-warning">Plantilla de Carga</button></a></li>
-            <li class="nav-item mg-l-5 mg-t-5"><a href="{% url 'documento-eliminar' %}"><button class="btn btn-danger" id="delete_btn" type="submit"><i class="icon ion-trash-b mg-r-3"></i> Eliminar</button></a></li>       
-          </ul>
-    </div><!-- ht-65 -->
-  {% else %}
-  <!--VACIO-->
-  {% endif %}           
-  <!--Upload Archivos-->
-      <form method="POST">{% csrf_token %}
-        <div class="row row-sm d-flex">
+<div class="card bd-0 shadow-base dataTables_wrapper no-footer " style="padding:20px;"id="mydatatable-container">
+   <form method="POST">{% csrf_token %}
+      <div class="row row-sm d-flex">
           <div id="datatable2_wrapper" class="col-md-12 dataTables_wrapper no-footer">
             <table id="datatable2" class=" table table-striped table-bordered table-hover table-primary" style="width: 100%!important;">
                 <thead>
@@ -61,14 +61,12 @@
                     <th  colspan="2" style="width: auto;color:#fff;text-align: center;">Fecha Programada de Emisión</th>
                   </tr>
                   <tr >
-                  {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
-                    
-                    <th style="width: auto;"><input onclick="marcar(this);"type="checkbox"></th>
+                    {% if request.user.perfil.rol_usuario == 1  %}
+
+                      <th style="width: auto;"><input onclick="marcar(this);"type="checkbox"></th>
                     {% else %}
-                    <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;">
-                      
-                    </th>           
-                    {% endif %}
+                              
+                      {% endif %}
                     <th colspan="4"></th>
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en<br> Rev B</th>              
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en <br>Rev 0</th>
@@ -96,8 +94,9 @@
                 </tbody>
             </table>    
           </div>   
-        </div>
-      </form>
+      </div>
+   </form>
+</div>
 </div>
 </div>
 <script serc="https://code.jquery.com/jquery-3.1.0.min.js"></script>
@@ -135,7 +134,7 @@
 </script>
 <script type="text/javascript">
   jQuery(document).ready(function() {
-    $('#datatable2').DataTable(
+    $('table').DataTable(
         {
           dom: 'B<"float-right"f>t<"float-left"l>p<"clearfix">',
           paging: true,
