@@ -56,8 +56,14 @@
                     <th  colspan="2" style="width: auto;color:#fff;text-align: center;">Fecha Programada de Emisión</th>
                   </tr>
                   <tr >
+                  {% if request.user.perfil.rol_usuario == 1 or request.user.perfil.rol_usuario == 4 %}
                     
                     <th style="width: auto;"><input onclick="marcar(this);"type="checkbox"></th>
+                    {% else %}
+                    <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;margin-left:0px;margin-right:0px;padding:0px;">
+                      
+                    </th>           
+                    {% endif %}
                     <th colspan="4"></th>
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en<br> Rev B</th>              
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en <br>Rev 0</th>
