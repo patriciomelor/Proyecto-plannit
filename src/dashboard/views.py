@@ -282,6 +282,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                 #Versiones en revision en 0
                 if version_last.revision > 4:
+                    doc_emitidos_rev_b.append([doc, version_first, dias_revision, paquete_first])
                     doc_emitidos_rev_0.append([doc, version_last, dias_revision, paquete])
 
                 #Verisones emitidas en la semana
@@ -372,7 +373,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
         largo_esperado = 0
 
         #Calculo de documentos reales emitidos en b
-        contador_emitidos_b_sin_0 = contador_emitidos_b - contador_emitidos_0
+        contador_emitidos_b_sin_0 = contador_emitidos_b
         
         #Obtener avance real y esperado
         if lista_avance_real[0][1] != -1:
