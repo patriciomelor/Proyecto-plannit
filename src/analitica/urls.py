@@ -5,7 +5,6 @@ from . import views
 
 urlpatterns = [
     path('index/', views.IndexAnalitica.as_view(), name= 'analitica-index'),
-    path('index_hh/', views.IndexAnaliticaHH.as_view(), name= 'analitica-index_hh'),
     path('curva_base/', views.CurvaBaseView.as_view(), name='curva-base'),
     path('curva_hh/', views.CurvaBaseHHView.as_view(), name='curva-hh'),
 ]

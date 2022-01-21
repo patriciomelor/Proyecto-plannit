@@ -54,9 +54,16 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         reporte_total_documentos_emitidos = self.reporte_total_documentos_emitidos()
         reporte_total_documentos = self.reporte_total_documentos()
         reporte_documentos_valido_contruccion = self.reporte_documentos_valido_contruccion()
+
+        #Funciones curva s porcentual
         reporte_curva_s_avance_real = self.reporte_curva_s_avance_real()
         reporte_curva_s_avance_esperado = self.reporte_curva_s_avance_esperado()       
         reporte_curva_s_fechas = self.reporte_curva_s_fechas()
+
+        #Funciones curva s HH
+        reporte_curva_s_avance_real_hh = self.reporte_curva_s_avance_real_hh()
+        reporte_curva_s_avance_esperado_hh = self.reporte_curva_s_avance_esperado_hh()       
+        reporte_curva_s_fechas_hh = self.reporte_curva_s_fechas_hh()
 
         context['lista_final'] = reporte_general[0]
         context['lista_final_largo'] = len(reporte_general[0]) 
@@ -72,6 +79,8 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['espacios_grafico_uno'] = reporte_general[2]
         context['tamano_grafico_tres'] = reporte_total_documentos[1]
         context['espacios_grafico_tres'] = reporte_total_documentos[2]
+
+        #Llamado funciones curva s porcentual
         context['lista_curva_s_avance_real'] = reporte_curva_s_avance_real
         context['lista_curva_s_avance_real_largo'] = len(reporte_curva_s_avance_real) 
         context['lista_curva_s_avance_esperado'] = reporte_curva_s_avance_esperado
@@ -79,9 +88,22 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['lista_curva_s_fechas'] = reporte_curva_s_fechas
         context['lista_curva_s_fechas_largo'] = len(reporte_curva_s_fechas) 
 
-        ## Opción 2
+        #Llamado funciones curva s HH
+        context['lista_curva_s_avance_real_hh'] = reporte_curva_s_avance_real_hh
+        context['lista_curva_s_avance_real_largo_hh'] = len(reporte_curva_s_avance_real_hh) 
+        context['lista_curva_s_avance_esperado_hh'] = reporte_curva_s_avance_esperado_hh
+        context['lista_curva_s_avance_esperado_largo_hh'] = len(reporte_curva_s_avance_esperado_hh) 
+        context['lista_curva_s_fechas_hh'] = reporte_curva_s_fechas_hh
+        context['lista_curva_s_fechas_largo_hh'] = len(reporte_curva_s_fechas_hh) 
+
+        #Curva base porcentual
         qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
         context['curvaBase'] = qs
+
+        #Curva base HH
+        qs_hh = CurvasBaseHH.objects.filter(proyecto=self.proyecto).last()
+        context['curvaBaseHH'] = qs_hh
+
         return context
     
     def Obtener_documentos_versiones_tablas(self):
@@ -1360,221 +1382,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             fechas_controles.append(fechas_controles)
 
 
-        return fechas_controles           
-
-    ###################################################
-    #                                                 #
-    #                                                 #
-    #            METODO PARA EXPLAYAR INFO            #
-    #                                                 #
-    #                                                 #
-    ###################################################
-
-class CurvaBaseView(ProyectoMixin, TemplateView):
-
-    http_method_names = ['get', 'post']
-    template_name = 'analitica/curva_base.html'
-
-    def Obtener_fechas(self):
-        elementos_final = []
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
-
-        if valor_ganado !=0:
-
-            valor_ganado = (100 / valor_ganado)
-            documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-
-            #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
-            fechas_controles = []
-            
-            #Obtener la ultima fecha de emisión en B y en 0
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
-            ultima_fecha_b = 0
-            ultima_fecha_0 = 0
-            ultima_de_dos = 0
-            cont = 0
-
-            #Obtener la primera fecha por documento
-            primera_fecha_b = 0
-            primera_fecha_0 = 0
-            primera_de_dos = 0
-
-            for doc in documentos:
-                if cont == 0:               
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-                    ultima_fecha_b = fecha_emision_b
-                    ultima_fecha_0 = fecha_emision_0
-                    primera_fecha_b = doc.fecha_Emision_B
-                    primera_fecha_0 = doc.fecha_Emision_0
-                    cont = 1
-                
-                if cont != 0:   
-                    fecha_emision_b = doc.fecha_Emision_B
-                    fecha_emision_0 = doc.fecha_Emision_0
-                    if fecha_emision_b > ultima_fecha_b:
-                        ultima_fecha_b = fecha_emision_b
-                    if fecha_emision_0 > ultima_fecha_0:                 
-                        ultima_fecha_0 = fecha_emision_0
-                    if fecha_emision_b < primera_fecha_b:               
-                        primera_fecha_b = fecha_emision_b
-                    if fecha_emision_0 < primera_fecha_0:            
-                        primera_fecha_0 = fecha_emision_0
-
-            #Verificar cuál de las dos fechas, emisión B y 0, es la última
-            if ultima_fecha_b >= ultima_fecha_0:
-                ultima_de_dos = ultima_fecha_b
-            if ultima_fecha_b < ultima_fecha_0:
-                ultima_de_dos = ultima_fecha_0
-            if primera_fecha_b < primera_fecha_0:
-                primera_de_dos = primera_fecha_b
-            if primera_fecha_b > primera_fecha_0:
-                primera_de_dos = primera_fecha_0
-
-            #Agregar una semana antes a la primera de los documentos
-            fechas_controles = []
-            primera_de_dos = primera_de_dos + timedelta(hours=23)
-            primera_de_dos = primera_de_dos + timedelta(minutes=59)
-            primera_de_dos = primera_de_dos + timedelta(seconds=59)
-            primera_de_dos = primera_de_dos - timedelta(days=7)
-            fechas_controles.append(primera_de_dos)
-            primera_de_dos = primera_de_dos + timedelta(days=7)
-            fechas_controles.append(primera_de_dos)
-
-            #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
-            fecha_actual = primera_de_dos
-            fecha_posterior = fecha_actual + timedelta(days=7)
-            
-            #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
-            while fecha_actual < ultima_de_dos and fecha_posterior < ultima_de_dos:
-                fecha_actual = fecha_actual + timedelta(days=7)
-                fecha_posterior = fecha_actual + timedelta(days=7)
-                fechas_controles.append(fecha_actual)
-            fechas_controles.append(ultima_de_dos)
-
-            #Se almacena arreglo de fechas en la lista final
-            elementos = []
-            elementos_final = []
-            elementos = [fechas_controles]
-            elementos_final.append(elementos)
-
-        else:
-            #Se almacena arreglo de fechas en la lista final
-            elementos = []
-            elementos_final = ['Sin registro']
-            elementos_final.append(elementos)
-        
-        return elementos_final
-
-    def Obtener_linea_base(self):
-                
-        lista_final = self.Obtener_fechas()
-        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
-        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
-        avance_esperado = []
-        lista_final_esperado = []
-        rev_letra = self.proyecto.rev_letra
-        
-        if valor_ganado != 0:
-            
-            #Calculo del avance esperado por fecha de control
-            fecha_emision_b = 0
-            fecha_emision_0 = 0
-            fechas_controles = lista_final[0][0]
-            valor_ganado = (100 / valor_ganado)
-            contador_largo = 0
-
-            for controles in fechas_controles:
-                if contador_largo < len(fechas_controles):
-                    calculo_avanceEsperado = 0
-                    for doc in documentos:                  
-                        fecha_emision_b = doc.fecha_Emision_B
-                        fecha_emision_0 = doc.fecha_Emision_0
-
-                        #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
-                        if fecha_emision_b <= controles and fecha_emision_0 > controles:
-                            calculo_avanceEsperado = valor_ganado * float(rev_letra/100) + calculo_avanceEsperado                      
-                        if fecha_emision_0 <= controles and fecha_emision_b < controles:
-                            calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
-
-                    #Se almacena el avance esperado hasta la fecha de control
-                    avance_esperado = format(calculo_avanceEsperado, '.2f')
-                    lista_final_esperado.append(avance_esperado)
-                    lista_final_esperado.append(controles)
-
-
-        if valor_ganado == 0:
-            avance_esperado = ['Sin registro']
-            lista_final_esperado.append(avance_esperado)
-
-        return lista_final_esperado
-
-    def get_queryset(self, request, *args, **kwargs):
-        qs = CurvasBase.objects.filter(proyecto=self.proyecto)
-        return qs
-
-    def post(self, request, *args, **kwargs):
-        docs = Documento.objects.filter(proyecto=self.proyecto)
-        if not docs:
-            messages.error(request, message="La línea base no puede ser almacenada. Ingrese documentos para realizar esta acción.")
-        
-        else: 
-            value = self.Obtener_linea_base()
-            curva = CurvasBase(
-                datos_lista= value,
-                proyecto= self.proyecto
-            )
-            curva.save()
-            messages.success(request, message="Curva base Guardada con éxito.")
-        return redirect('PanelCarga')
-
-    def get(self, request, *args, **kwargs):
-        context = self.get_context_data(**kwargs)
-        qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
-        context['curvaBase'] = qs
-        return self.render_to_response(context)  
-
-class IndexAnaliticaHH(ProyectoMixin, TemplateView):
-
-    template_name =  'analitica/index_hh.html'
-    
-    def get_queryset(self):
-        qs1 = Documento.objects.filter(proyecto=self.proyecto)
-        return qs1
- 
-    def get_versiones(self):
-        user_roles = [1,2,4,5]
-        qs1 = self.get_queryset()
-        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1, owner__perfil__rol_usuario__in=user_roles).order_by('fecha') #.select_related("owner").filter(owner__in=users)
-        return qs2
-
-    def get_versiones_last(self):
-        qs1 = self.get_queryset()
-        qs2 = Version.objects.select_related('documento_fk').filter(documento_fk__in=qs1).order_by('fecha') #.select_related("owner").filter(owner__in=users)
-        return qs2
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-
-        reporte_curva_s_avance_real = self.reporte_curva_s_avance_real()
-        reporte_curva_s_avance_esperado = self.reporte_curva_s_avance_esperado()       
-        reporte_curva_s_fechas = self.reporte_curva_s_fechas()
-
-        context['lista_curva_s_avance_real'] = reporte_curva_s_avance_real
-        context['lista_curva_s_avance_real_largo'] = len(reporte_curva_s_avance_real) 
-        context['lista_curva_s_avance_esperado'] = reporte_curva_s_avance_esperado
-        context['lista_curva_s_avance_esperado_largo'] = len(reporte_curva_s_avance_esperado) 
-        context['lista_curva_s_fechas'] = reporte_curva_s_fechas
-        context['lista_curva_s_fechas_largo'] = len(reporte_curva_s_fechas) 
-
-        ## Opción 2
-        qs = CurvasBaseHH.objects.filter(proyecto=self.proyecto).last()
-        print(qs.datos_lista)
-        context['curvaBaseHH'] = qs
-
-        return context
+        return fechas_controles 
 
     ###################################################
     #                                                 #
@@ -1584,11 +1392,11 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
     #                                                 #
     ###################################################
 
-    def Obtener_fechas(self):
+    def Obtener_fechas_hh(self):
         elementos_final = []
         documentos = self.get_queryset()
         valor_ganado = len(documentos)
-        curva_base = CurvasBase.objects.filter(proyecto=self.proyecto).last()
+        curva_base = CurvasBaseHH.objects.filter(proyecto=self.proyecto).last()
 
         if valor_ganado !=0:
 
@@ -1830,12 +1638,12 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
         
         return elementos_final
 
-    def reporte_curva_s_avance_real(self):
+    def reporte_curva_s_avance_real_hh(self):
 
         documentos = self.get_queryset()
         valor_ganado = len(documentos)
         total_hh = 0
-        lista_final = self.Obtener_fechas()
+        lista_final = self.Obtener_fechas_hh()
         dia_actual = timezone.now()
         dia_actual = dia_actual.replace(tzinfo = None)
         versiones_documentos = self.get_versiones()
@@ -2391,9 +2199,9 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
 
         return avance_final
 
-    def reporte_curva_s_avance_esperado(self):
+    def reporte_curva_s_avance_esperado_hh(self):
                 
-        lista_final = self.Obtener_fechas()
+        lista_final = self.Obtener_fechas_hh()
         documentos = self.get_queryset()
         valor_ganado = len(documentos)
         avance_esperado = []
@@ -2461,11 +2269,11 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
 
         return lista_final_esperado
 
-    def reporte_curva_s_fechas(self):
+    def reporte_curva_s_fechas_hh(self):
         
-        lista_final = self.Obtener_fechas()
+        lista_final = self.Obtener_fechas_hh()
         valor_ganado = self.get_queryset().count()
-        lista_avance_real = self.reporte_curva_s_avance_real()
+        lista_avance_real = self.reporte_curva_s_avance_real_hh()
         fechas_controles = lista_final[0][0]
         diferencia = 0
         contador = 0
@@ -2488,12 +2296,20 @@ class IndexAnaliticaHH(ProyectoMixin, TemplateView):
             fechas_controles = ['Sin registros']
             fechas_controles.append(fechas_controles)
 
-        return fechas_controles  
+        return fechas_controles            
 
-class CurvaBaseHHView(ProyectoMixin, TemplateView):
+    ###################################################
+    #                                                 #
+    #                                                 #
+    #            METODO PARA EXPLAYAR INFO            #
+    #                                                 #
+    #                                                 #
+    ###################################################
+
+class CurvaBaseView(ProyectoMixin, TemplateView):
 
     http_method_names = ['get', 'post']
-    template_name = 'analitica/curva_hh.html'
+    template_name = 'analitica/curva_base.html'
 
     def Obtener_fechas(self):
         elementos_final = []
@@ -2591,6 +2407,172 @@ class CurvaBaseHHView(ProyectoMixin, TemplateView):
     def Obtener_linea_base(self):
                 
         lista_final = self.Obtener_fechas()
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+        avance_esperado = []
+        lista_final_esperado = []
+        rev_letra = self.proyecto.rev_letra
+        
+        if valor_ganado != 0:
+            
+            #Calculo del avance esperado por fecha de control
+            fecha_emision_b = 0
+            fecha_emision_0 = 0
+            fechas_controles = lista_final[0][0]
+            valor_ganado = (100 / valor_ganado)
+            contador_largo = 0
+
+            for controles in fechas_controles:
+                if contador_largo < len(fechas_controles):
+                    calculo_avanceEsperado = 0
+                    for doc in documentos:                  
+                        fecha_emision_b = doc.fecha_Emision_B
+                        fecha_emision_0 = doc.fecha_Emision_0
+
+                        #Se calcula el avance esperado mediante la comparación de la fecha de control y la fecha de emisión en B - 0
+                        if fecha_emision_b <= controles and fecha_emision_0 > controles:
+                            calculo_avanceEsperado = valor_ganado * float(rev_letra/100) + calculo_avanceEsperado                      
+                        if fecha_emision_0 <= controles and fecha_emision_b < controles:
+                            calculo_avanceEsperado = valor_ganado * 1 + calculo_avanceEsperado
+
+                    #Se almacena el avance esperado hasta la fecha de control
+                    avance_esperado = format(calculo_avanceEsperado, '.2f')
+                    lista_final_esperado.append(avance_esperado)
+                    lista_final_esperado.append(controles)
+
+
+        if valor_ganado == 0:
+            avance_esperado = ['Sin registro']
+            lista_final_esperado.append(avance_esperado)
+
+        return lista_final_esperado
+
+    def get_queryset(self, request, *args, **kwargs):
+        qs = CurvasBase.objects.filter(proyecto=self.proyecto)
+        return qs
+
+    def post(self, request, *args, **kwargs):
+        docs = Documento.objects.filter(proyecto=self.proyecto)
+        if not docs:
+            messages.error(request, message="La línea base no puede ser almacenada. Ingrese documentos para realizar esta acción.")
+        
+        else: 
+            value = self.Obtener_linea_base()
+            curva = CurvasBase(
+                datos_lista= value,
+                proyecto= self.proyecto
+            )
+            curva.save()
+            messages.success(request, message="Curva base Guardada con éxito.")
+        return redirect('PanelCarga')
+
+    def get(self, request, *args, **kwargs):
+        context = self.get_context_data(**kwargs)
+        qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
+        context['curvaBase'] = qs
+        return self.render_to_response(context)  
+
+class CurvaBaseHHView(ProyectoMixin, TemplateView):
+
+    http_method_names = ['get', 'post']
+    template_name = 'analitica/curva_hh.html'
+
+    def Obtener_fechas_hh(self):
+        elementos_final = []
+        documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+        valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
+
+        if valor_ganado !=0:
+
+            valor_ganado = (100 / valor_ganado)
+            documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
+
+            #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
+            fechas_controles = []
+            
+            #Obtener la ultima fecha de emisión en B y en 0
+            fecha_emision_b = 0
+            fecha_emision_0 = 0
+            ultima_fecha_b = 0
+            ultima_fecha_0 = 0
+            ultima_de_dos = 0
+            cont = 0
+
+            #Obtener la primera fecha por documento
+            primera_fecha_b = 0
+            primera_fecha_0 = 0
+            primera_de_dos = 0
+
+            for doc in documentos:
+                if cont == 0:               
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+                    ultima_fecha_b = fecha_emision_b
+                    ultima_fecha_0 = fecha_emision_0
+                    primera_fecha_b = doc.fecha_Emision_B
+                    primera_fecha_0 = doc.fecha_Emision_0
+                    cont = 1
+                
+                if cont != 0:   
+                    fecha_emision_b = doc.fecha_Emision_B
+                    fecha_emision_0 = doc.fecha_Emision_0
+                    if fecha_emision_b > ultima_fecha_b:
+                        ultima_fecha_b = fecha_emision_b
+                    if fecha_emision_0 > ultima_fecha_0:                 
+                        ultima_fecha_0 = fecha_emision_0
+                    if fecha_emision_b < primera_fecha_b:               
+                        primera_fecha_b = fecha_emision_b
+                    if fecha_emision_0 < primera_fecha_0:            
+                        primera_fecha_0 = fecha_emision_0
+
+            #Verificar cuál de las dos fechas, emisión B y 0, es la última
+            if ultima_fecha_b >= ultima_fecha_0:
+                ultima_de_dos = ultima_fecha_b
+            if ultima_fecha_b < ultima_fecha_0:
+                ultima_de_dos = ultima_fecha_0
+            if primera_fecha_b < primera_fecha_0:
+                primera_de_dos = primera_fecha_b
+            if primera_fecha_b > primera_fecha_0:
+                primera_de_dos = primera_fecha_0
+
+            #Agregar una semana antes a la primera de los documentos
+            fechas_controles = []
+            primera_de_dos = primera_de_dos + timedelta(hours=23)
+            primera_de_dos = primera_de_dos + timedelta(minutes=59)
+            primera_de_dos = primera_de_dos + timedelta(seconds=59)
+            primera_de_dos = primera_de_dos - timedelta(days=7)
+            fechas_controles.append(primera_de_dos)
+            primera_de_dos = primera_de_dos + timedelta(days=7)
+            fechas_controles.append(primera_de_dos)
+
+            #Se alamacena la primera fecha de Emisión en B en la Lista de Controles
+            fecha_actual = primera_de_dos
+            fecha_posterior = fecha_actual + timedelta(days=7)
+            
+            #Se almacenan semana a semana hasta curbrir la fecha de termino del proyecto
+            while fecha_actual < ultima_de_dos and fecha_posterior < ultima_de_dos:
+                fecha_actual = fecha_actual + timedelta(days=7)
+                fecha_posterior = fecha_actual + timedelta(days=7)
+                fechas_controles.append(fecha_actual)
+            fechas_controles.append(ultima_de_dos)
+
+            #Se almacena arreglo de fechas en la lista final
+            elementos = []
+            elementos_final = []
+            elementos = [fechas_controles]
+            elementos_final.append(elementos)
+
+        else:
+            #Se almacena arreglo de fechas en la lista final
+            elementos = []
+            elementos_final = ['Sin registro']
+            elementos_final.append(elementos)
+        
+        return elementos_final
+
+    def Obtener_linea_base(self):
+                
+        lista_final = self.Obtener_fechas_hh()
         documentos = Documento.objects.filter(proyecto=self.request.session.get('proyecto'))
         valor_ganado = Documento.objects.filter(proyecto=self.request.session.get('proyecto')).count()
         avance_esperado = []
