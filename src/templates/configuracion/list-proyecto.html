@@ -82,6 +82,14 @@
                   border: 2px;
                   border-color: grey;
                   color: white;
+                ">
+                Tipo de Porcentaje Avance
+              </th>
+              <th style="
+                  text-align: center;
+                  border: 2px;
+                  border-color: grey;
+                  color: white;
                 " colspan="2">
                 Acción
               </th>
@@ -137,6 +145,14 @@
                   color: black;
                 ">
                 {{proyecto.fecha_termino|date:'d-M-y'}}
+              </th>
+              <th style="
+                  text-align: center;
+                  border: 2px;
+                  border-color: grey;
+                  color: black;
+                ">
+                {{proyecto.get_tipo_porcentaje_avance_display}}
               </th>
 
               <th style="
