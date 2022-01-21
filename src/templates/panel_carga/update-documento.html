@@ -17,8 +17,10 @@
   </div>
   {% include "messege.html" %}
   <div class="br-pagebody mg-t-5 pd-x-30">
+ 
 <div class="br-section-wrapper">
-    <form method="post">{% csrf_token %}
+    <form class"form-group"method="post">{% csrf_token %}
+        
         {{ form|crispy }}
         
         <input class="btn btn-primary tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium" type="submit" value="Guardar">
@@ -28,4 +30,10 @@
 </div>
 </div>
 </div>
+<script>
+  $(".form-group").click(function() {
+    $(this).closest("tr").next().show() 
+      .find('.codigo_cocumento').hide()[0].disabled = 'disabled'; });
+
+</script>
 {% endblock %}

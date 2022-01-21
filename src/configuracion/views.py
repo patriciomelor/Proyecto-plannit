@@ -41,6 +41,9 @@ from django.utils.encoding import force_bytes, force_text, DjangoUnicodeDecodeEr
 from django.urls import reverse
 
 
+class PrivacidadYCondiciones(TemplateView):
+    template_name= 'account/politicas.html'
+
 class ConfiguracionIndex(ProyectoMixin, TemplateView):
     template_name = 'configuracion/index.html'
     pass 

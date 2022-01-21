@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from .choices import (ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION, DOCUMENT_TYPE)
+from configuracion.roles import *
 
 
 # Create your models here.
@@ -15,6 +16,7 @@ class Proyecto(models.Model):
     encargado = models.ForeignKey(User, on_delete=models.SET_DEFAULT, verbose_name="Encargado", default=1)
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
     participantes = models.ManyToManyField(User, related_name="participantes")
+    tipo_porcentaje_avance = models.IntegerField(verbose_name="Tipo de Porcentaje Avance", default=0, choices=TIPO_PORCENTAJE_AVANCE)
     rev_letra = models.FloatField(verbose_name="Porcentaje de Avance para Rev en letras", max_length=3, default=70.0)
     umbral_documento_aprobado = models.IntegerField(verbose_name="Umbral para Documentos Aprobados", default=0)
     umbral_documento_atrasado = models.IntegerField(verbose_name="Umbral para Documentos Atrasados", default=0)
@@ -39,6 +41,7 @@ class Documento(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha_Emision_B = models.DateTimeField(verbose_name="Fecha inicio emisión B", blank=True, default=None) 
     fecha_Emision_0 = models.DateTimeField(verbose_name="Fecha inicio emisión 0", blank=True, default=None) 
+    hh_emision_0 = models.FloatField(verbose_name="HH Emisión 0", max_length=3, default=0.0)
     
     def __str__(self):
         return self.Codigo_documento

@@ -40,10 +40,11 @@ class DocumentoForm(forms.ModelForm):
 
     class Meta:
         model = Documento
-        exclude = ['tipo','owner','emision','proyecto', 'ultima_edicion', 'archivo', 'Numero_documento_interno', 'Codigo_documento']
+        exclude = ['tipo','owner','emision','proyecto', 'ultima_edicion', 'archivo', 'Numero_documento_interno']
         widgets = {
-            'fecha_Emision_B':forms.TextInput(attrs={'type': 'datetime','class':'form-control datepicker','placeholder':'DD/MM/YYYY'}),
-            'fecha_Emision_0':forms.TextInput(attrs={'type': 'datetime','class':'form-control datepicker','placeholder':'DD/MM/YYYY'}),
+            'fecha_Emision_B':forms.TextInput(attrs={'type': 'text','class':'form-control datepicker','placeholder':'DD/MM/YYYY'}),
+            'fecha_Emision_0':forms.TextInput(attrs={'type': 'text','class':'form-control datepicker','placeholder':'DD/MM/YYYY'}),
+            'Codigo_documento':forms.TextInput(attrs={'class':'form-control codigo_documento','onkeyup':'stoppedTyping()'}),
         }
         labels = {
             'Descripcion':'Descripción',

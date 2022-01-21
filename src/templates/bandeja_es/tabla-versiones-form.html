@@ -5,6 +5,76 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<style>
+    /**********File Inputs**********/
+   
+    
+    .inputfile {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+    }
+    
+    .inputfile + label {
+        max-width: 80%;
+        font-size: 1.25rem;
+        font-weight: 700;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        display: inline-block;
+        overflow: hidden;
+        padding: 0.625rem 1.25rem;
+    }
+    
+    .inputfile + label svg {
+        width: 1em;
+        height: 1em;
+        vertical-align: middle;
+        fill: currentColor;
+        margin-top: -0.25em;
+        margin-right: 0.25em;
+    }
+    
+    .iborrainputfile {
+        font-size:16px; 
+        font-weight:normal;
+        font-family: 'Lato';
+    }
+    
+    /* style 1 */
+    
+    .inputfile-1 + label {
+        color: #fff;
+        background-color: #00b297;
+        border-color: #009981;
+        cursor: pointer;
+        display: inline-block;
+        font-weight: normal;
+        text-align: center;
+        white-space: nowrap;
+        vertical-align: middle;
+        user-select: none;
+        border: 1px solid transparent;
+        padding: 10px 12px;
+        font-size: 0.875rem;
+        line-height: 1.25;
+        border-radius: 3px;
+        transition: all 0.15s ease-in-out;
+    }
+    
+    .inputfile-1:focus + label,
+    .inputfile-1.has-focus + label,
+    .inputfile-1 + label:hover {
+        color: #fff;
+        background-color: #008c77;
+        border-color: #006656;
+    }
+</style>
+
 <div class="br-mainpanel" style="position: relative;">
 
   {% include 'bandeja_es/menu.html' %}
@@ -12,47 +82,48 @@
 
 <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base">
-        <div class="br-section-wrapper" style="padding: 30px;">
+        <div class="br-section-wrapper">
          <form method="post" class="form-group mg-t-20" id="form_paquete" >{% csrf_token %}
 
                 <div id="wizard2" role="application" class="wizard clearfix">
                         <div class="steps clearfix">
                             <ul role="tablist">
-                                <li role="tab"  class="disabled" aria-disabled="false" aria-selected="true">
-                                    <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
-                                        <span class="current-info audible">Paso: </span>
-                                        <span class="number">1</span> 
-                                        <span class="title">Configurar Destinatarios</span>
+                            <li role="tab"  class="disabled" aria-disabled="false" aria-selected="true">
+                                <a id="wizard2-t-0" href="#wizard2-h-0" aria-controls="wizard2-p-0">
+                                    <span class="current-info audible">Paso: </span>
+                                    <span class="number">1</span> 
+                                    <span class="title">Configurar Destinatarios</span>
+                                </a>
+                            </li>
+                            <li role="tab"class="first current" aria-disabled="true">
+                                    <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
+                                        <span class="number">2</span> 
+                                        <span class="title">Adjuntar Archivos</span>
                                     </a>
-                                </li>
-                                <li role="tab"class="first current" aria-disabled="true">
-                                        <a id="wizard2-t-1" href="#wizard2-h-1" aria-controls="wizard2-p-1">
-                                            <span class="number">2</span> 
-                                            <span class="title">Adjuntar Archivos</span>
-                                        </a>
-                                    </li>        
+                                </li>        
                             </ul>            
                         </div>
-                        <div class="col-md-12 row " >
-                          <div class="col-md-6" >
+                        <div class="col-md-12" >
+                          <div class="col-md-12" >
                          
                               <div id="tablaVersiones" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;" >
                                   <table class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary" style="width:100%;">
                                       <thead>
+                                         
                                           <tr>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Código </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Descripción </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Especialidad </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Revisión </th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Código </th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Descripción </th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Especialidad </th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Revisión </th>
                                                {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado </th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Estado </th>
                                                     
                                                {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado </th>                  
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"> Estado </th>                  
                                                {% endif %}  
                                               
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;"></th>
 
 
                                           </tr>
@@ -78,34 +149,65 @@
                                             </tr>
                                         {% endfor %}
                                         </tbody>
-                                        <a class="btn btn-warning" type="button" onclick="JavaScript:window.open('{% url 'popup-version' paquete_pk %}','subir datos','toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,resizable=yes,width=450,height=620,top=100,left=600');"><i class="icon ion-plus mg-r-2"></i> Agregar Versión</a>
-                     
+                                      
                                     </table>
-                                    <input type="submit" class="btn btn-teal mg-t-30 mg-b-30 float-left" value="Enviar"/>
-                                    <a href="{% url 'borrador-crear' paquete_pk %}"><button type="button" class="btn btn-primary mg-t-30 mg-l-20 mg-b-30 float-left"><i class="icon ion-bookmark mg-r-2"></i> Guardar en Borrador</button></a>
-                                   
+                                    <a class="btn btn-warning mg-x-10" type="button" onclick="JavaScript:window.open('{% url 'popup-version' paquete_pk %}','subir datos','toolbar=no,status=no,scrollbars=no,location=no,menubar=no,directories=no,resizable=yes,width=450,height=620,top=100,left=600');"><i class="icon ion-plus mg-r-2"></i> Agregar Versión</a>
+                                    <input type="submit" class="mg-x-10 btn btn-teal  float-left" value="Enviar"/>
+                                    <a class="mg-x-10"href="{% url 'borrador-crear' paquete_pk %}"><button type="button" class="btn btn-primary float-left"><i class="icon ion-bookmark mg-r-2"></i> Guardar en Borrador</button></a>
+                                
                               </div>
                              
                           </div>
-                          <div class="col-md-6">
+                          <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
                         
-                               <div id="tablaVersiones"style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;overflow: scroll;">
-                                <div id="app">
+                                <div id="app" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;">
+                                    <div v-show=" version_ok === 1 " id="alert1" class="alert alert-bordered alert-success" role="alert">
+                                        <strong class="d-block d-sm-inline-block-force"> Correcto ! Los datos han sido validados correctamente</strong>
+                                    </div><!-- alert -->
+
+                                    <div v-show="version_ok === 0" id="alert1" class="alert alert-bordered alert-warning"  role="alert">
+                                        <strong class="d-block d-sm-inline-block-force"> Error ! Error en la Validación</strong>
+                                    </div><!-- alert -->
                                   
-                                  <table class="records_list table table-striped table-bordered table-hover dataTable no-footer table-primary" style="width:100%;">
+                                  <table class=" table table-striped table-bordered table-hover dataTable no-footer table-primary">
                                       <thead>
+                                          <tr>
+                                           <td colspan="3">
+                                                <input type="file" name="file-1" id="file-upload" class="inputfile inputfile-1" data-multiple-caption="{count} archivos seleccionados"/>
+                                                <label for="file-upload" style="
+                                                margin-bottom: 0px;
+                                                padding-bottom: 8px;
+                                            ">
+                                                <svg xmlns="http://www.w3.org/2000/svg" class="iborrainputfile" width="20" height="17" viewBox="0 0 20 17"><path d="M10 0l-5.2 4.9h3.3v5.1h3.8v-5.1h3.3l-5.2-4.9zm9.3 11.5l-3.2-2.1h-2l3.4 2.6h-3.5c-.1 0-.2.1-.2.1l-.8 2.3h-6l-.8-2.2c-.1-.1-.1-.2-.2-.2h-3.6l3.4-2.6h-2l-3.2 2.1c-.4.3-.7 1-.6 1.5l.6 3.1c.1.5.7.9 1.2.9h16.3c.6 0 1.1-.4 1.3-.9l.6-3.1c.1-.5-.2-1.2-.7-1.5z"></path></svg>
+                                                <span class="iborrainputfile">Seleccionar archivo</span>
+                                                </label>
+                                                
+                                              
+                                                <button @click="adjuntar_arch" class="btn btn-danger" type="button" :disabled="loading == 1"disabled="disabled">
+                                                  <span v-if="loading == 1" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                      [[ buttonText ]]
+                                                </button>
+                                            </td>
+                                            <td style="text-align: center;vertical-align: inherit;">
+                                                <p class="tx-14 lh-3 mg-b-0 tx-white">Siga estas <a href="" class="tx-warning"data-toggle="modal" data-target="#exampleModalLong">Instrucciones</a>&nbsp;Para llenar la planillas.</p>
+                                            </td>
+                                            <td colspan="2"> 
+                                                <a v-on:click="cargar_val" class="btn btn-warning" type="button"onClick="window.location.reload();"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
+                                            </td>
+                                            
+                                            <td colspan="3">
+                                               
+                                             <a type="button"class="btn btn-success"href="https://plannit-spaces.sfo3.digitaloceanspaces.com/PLANNIT-PLANTILLA_MULTICARGA.xlsx" target="_blank" rel="noopener noreferrer">
+                                              <i class="fa fa-download mg-r-10"></i> Descargar plantilla
+                                             </a>
+                                            </td>
+                                          </tr>
                                           <tr>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Código </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Descripción </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Especialidad </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Revisión </th>
-                                               {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}                                                       
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado </th>
-                                                    
-                                               {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado </th>                  
-                                               {% endif %}  
-                                              
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
@@ -114,39 +216,76 @@
                                           </tr>
                                       </thead>
                                       
-                                        <tbody>
+                                        <tbody style="text-align:center;">
                                          
-                                            <tr v-for="version in versiones">
-                                                 <td > [[ version.nombre ]]</td>
-                                                 <td > [[ version.edad ]]</td>
-                                                 <td > [[ version.sexo ]]</td>
-                                                 <td > [[ version.sexo ]]</td>
-                                                 <td > [[ version.sexo ]]</td>
-                                                 <td > <input type="file"></td>
-                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a><i class="fa fa-pencil"></i></a> </td>
-                                                 <td style="text-align: center;border: 2px;border-color: grey; color: black;"> <a href="" ><i class="icon ion-trash-a"></i></a></td>
-   
-   
+                                            <tr v-for="(version, index) in versiones" :key="index">
+                                                <td > [[ version.CODIGO ]]</td>
+                                                <td > [[ version.DESCRIPCION ]]</td>
+                                                <td > [[ version.ESPECIALIDAD ]]</td>
+                                                <td > [[ version.REVISION | revision ]]</td>
+                                                <td > [[ version.ESTADO | estado ]]</td>
+                                                <td>
+                                                    <input type="file" name="file-2" :id=" 'file-2-' + index" :disabled="isDisabled_input(index)" >
+                                                </td>
+                                                <td> 
+                                                
+                                                    <button
+                                                    :id="'btn_' + index"
+                                                    value="verificar" 
+                                                    :key="index" 
+                                                    :class="{ 'btn btn-success': !send && activeIndex !== index, 'sr-only' : activeIndex === index }" 
+                                                    role="status" 
+                                                    @click.prevent="cargar_val(version, index)"
+                                                    :disabled="isDisabled_button(index)"
+                                                    type="button"
+                                                    >
+                                                    <span v-if="!send && activeIndex !== index">&check;</span>
+                                                   
+                                                </button>
+                                                <button v-if="activeIndex === index" class="btn btn-primary" type="button" disabled >
+                                                    <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                                </button>
+
+                                                   
+                                                </td>
+                                                <td> <a href="" ><i class="icon ion-trash-a"></i></a></td>
                                             </tr>
+
                                         </tbody>
-                                        <a class="btn btn-warning" type="button"><i class="icon ion-plus mg-r-2"></i> Agregar multiple</a>
-                     
+                                        
                                     </table>
                                 </div>
                                     
                                 </div>
                         
                         </div>
-                        </div>      
-                     </div>
+                </div>
                 
             </form>
         </div>
     </div>     
 
 </div>
-  
+<!-- Modal Instrucciones -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Instrucciones de llenado de plantilla</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">cerrar</button>
+        </div>
+      </div>
+    </div>
   </div>
+
 <script language='javascript'>
 var t;
 function doLoad() {
@@ -166,33 +305,308 @@ function refreshAndClose() {
       window.opener.location.reload();
     }
 </script>
-<script>
-var app = new Vue({
-  el: '#app',
-  data: {
-    message: 'Hello Vue!',
-    versiones: [
-        { 
-        nombre:'patricio',
-        edad:'29',
-        sexo:'all days'
-        },
-        { 
-        nombre:'Esteban',
-        edad:'26',
-        sexo:'segun el no todos los dias'
-        },
-    ],
-    
-  },
-  delimiters: [ '[[' ,  ']]' ],
-  methods:{
-    adjuntar_arch:function(){
-    },
-    cargar_val:function(){
-    },
-    
-  }
-})
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment-with-locales.min.js">
 </script>
+
+<script>
+
+
+Vue.component('message-component', {
+    delimiters: [ '[[' ,  ']]' ],
+    props: ['isOk'],
+    mounted: function(){
+        this.alertDefined
+    },
+    template: 
+    `
+    <div id="alert" class="alert alert-bordered" :class="alertClass" role="alert">
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <strong class="d-block d-sm-inline-block-force"> [[mensajeCorto]] !</strong> [[mensaje]]
+    </div><!-- alert -->
+    `,
+    data() {
+        return {
+            alertClass: undefined,
+        }
+    },
+    methods: {
+        alertDefined: function(){
+            if (this.isOk){
+                this.alertClass = 'alert-success';
+            }else{
+                this.alertClass = 'alert-warning';
+            }
+        }
+    }
+})
+
+
+Vue.filter('revision', function(value) {
+    const tipos_revision_kwargs = [
+        "B","C","D","E","1","2","3","4","5"
+    ];
+    const tipos_revision_args = [1,2,3,4,5,6,7,8,9,10];
+    if (tipos_revision_args.includes(value)){
+        let revision_index = tipos_revision_args.indexOf(value)
+        console.log(revision_index);
+        let revision_final = tipos_revision_kwargs[revision_index]
+        console.log(revision_final);
+        return revision_final
+    } else {
+        return "Revisión no econtrada..."
+    }
+})
+
+Vue.filter('estado', function(value) {
+    const estados_cliente_kwarg = [
+    "Aprobado con Comentarios",
+    "Rechazado",
+    "Anulado",
+    "Aprobado",
+    "Válido para construcción",
+    "Mantener Revisión",
+    "Excepción",
+    ];
+    const estados_contratista_kwarg= [
+        "Para revisión",
+        "Para aprobación",
+        "As Built",
+    ];
+    const estados_cliente_arg = [1,2,3,4,5,6,7,8];
+    const estados_contratista_arg = [1,2,3];
+
+    const user_id = {{request.user.perfil.rol_usuario}};
+    if (user_id >= 1 && user_id <= 3) {
+        if (estados_cliente_arg.includes(value)) {
+            let  estado_index = estados_cliente_arg.indexOf(value);
+            console.log(estado_index);
+            let final_estado = estados_cliente_kwarg[estado_index]
+            console.log(final_estado);
+            return final_estado
+        }else {
+            return "Estado No encontrado.."
+        }
+    }else if (user_id >= 4 && user_id <= 6) {
+        if (estados_contratista_arg.includes(value)){
+            let  estado_index = estados_contratista_arg.indexOf(value);
+            let final_estado = estados_contratista_kwarg[estado_index]
+            return final_estado
+        }else {
+            return "Estado No encontrado.."
+        }
+
+    };
+})
+
+var app = new Vue({
+
+  el: '#app',
+  delimiters: [ '[[' ,  ']]' ],
+  data: {
+    version_ok: undefined,
+    versiones: [],
+    versiones_valid: [],
+    input_valid: [],
+    loading: 0,
+    send: false,
+    buttonText : 'Subir Archivo',
+    activeIndex: null,
+    errors: undefined
+
+  },
+
+//   filters: {
+//     cambiaraTexto: function(){
+//         1 --> "B",
+//         2 --> "C",
+//     }
+//   },
+
+  methods:{
+        moment: function (date) {
+            return moment(date);
+        },
+        adjuntar_arch: function() {
+            this.loading = 1;
+            this.buttonText = 'Subiendo...';
+
+            let formData = new FormData();
+            const file = document.getElementById('file-upload')
+            formData.append('file', file.files[0]);
+
+            fetch("{% url 'vue-file-import' %}", {
+                method: 'POST',
+                body: formData
+            }).then(
+                async response => {
+                    const result = await response.json();
+                    this.versiones = result.data;
+                    this.loading = 0;
+                    this.buttonText = 'Subir Archivo';
+
+                    }
+            ).catch(
+                async error => {
+                    console.log('Error:', error);
+                    this.loading = 0;
+                    this.buttonText = 'Subir Archivo';
+
+                }
+            )
+        },
+        cargar_val: function(version, index) {
+            const user_id = {{request.user.perfil.rol_usuario}};
+            this.activeIndex = index
+            console.log(index)
+            
+            let formData = new FormData();
+            let filename = 'file-2-' + index;
+            const file = document.getElementById(filename)
+            formData.append('prev_documento_fk', version['CODIGO'])
+            formData.append('prev_revision', version['REVISION'])
+            formData.append('prev_archivo', file.files[0])
+            formData.append('paquete', {{ paquete_pk }});
+
+            if (user_id >= 1 && user_id <= 3) {
+                formData.append('prev_estado_cliente', version['ESTADO']);
+                formData.append('adjuntar', true);
+            }else if (user_id >= 4 && user_id <= 6) {
+                formData.append('prev_estado_contratista', version['ESTADO']);
+
+            }
+
+
+            let button_id = 'btn_' + index
+            let input_id = 'file-2-' + index
+
+
+            fetch("{% url 'vue-version-check' %}", {
+                method: 'POST',
+                body: formData
+            }).then(
+                response => {
+                    const result = response.json();
+                    this.activeIndex = null;
+                    if (response.status === 200) {
+                        this.version_ok = 1
+                        if (!this.versiones_valid.includes(button_id)){
+                        this.versiones_valid.push(button_id)
+                        }
+                        if (!this.input_valid.includes(input_id)){
+                            this.input_valid.push(input_id)
+                        }
+                    } else {
+                        this.version_ok = 0
+                    }
+                }
+            ).then(
+                data => {
+                    this.errors = data
+                }    
+            ).catch(
+                error => {
+                    console.log(error);
+                }
+            )
+
+        },
+        
+        isDisabled_button: function(index){
+            // let val = 0;
+            let button_id = 'btn_' + index
+            if (this.versiones_valid.includes(button_id) ){
+                return true
+            }else{
+                return false
+
+            }
+        },
+        isDisabled_input: function(index){
+            // let val = 0;
+            let input_id = 'file-2-' + index;
+            if (this.input_valid.includes(input_id) ){
+                return true
+            }else{
+                return false
+
+            }
+        },
+        // discard_elert: function(){
+        //     $('#alert1').fadeIn();
+        //     setTimeout(function(){
+        //         $('#alert1').fadeOut();
+        //     }, 5000);
+        //     this.errors = undefined;
+        // }
+    },
+    }
+)
+
+      
+
+</script>
+
+
+<script>
+    $('#alert').fadeIn();     
+      setTimeout(function() {
+          $("#alert").fadeOut();           
+      },5000);
+</script>
+
+<script>
+    'use strict';
+
+    ;( function ( document, window, index )
+    {
+        var inputs = document.querySelectorAll( '.inputfile' );
+        Array.prototype.forEach.call( inputs, function( input )
+        {
+            var label	 = input.nextElementSibling,
+                labelVal = label.innerHTML;
+    
+            input.addEventListener( 'change', function( e )
+            {
+                var fileName = '';
+                if( this.files && this.files.length > 1 )
+                    fileName = ( this.getAttribute( 'data-multiple-caption' ) || '' ).replace( '{count}', this.files.length );
+                else
+                    fileName = e.target.value.split( '\\' ).pop();
+    
+                if( fileName )
+                    label.querySelector( 'span' ).innerHTML = fileName;
+                else
+                    label.innerHTML = labelVal;
+            });
+        });
+    }( document, window, 0 ));
+</script>
+<script>
+    $("#file-upload").change(function(){
+      $("button").prop("disabled", this.files.length == 0);
+  });
+  </script>
+  <script>
+    $(function(){
+
+      // showing modal with effect
+      $('.modal-effect').on('click', function(){
+        var effect = $(this).attr('data-effect');
+        $('#modaldemo3').addClass(effect, function(){
+          $('#modaldemo3').modal('show');
+        });
+        return false;
+      });
+
+      // hide modal with effect
+      $('#modaldemo3').on('hidden.bs.modal', function (e) {
+        $(this).removeClass (function (index, className) {
+            return (className.match (/(^|\s)effect-\S+/g) || []).join(' ');
+        });
+      });
+    });
+  </script>
 {% endblock content %}

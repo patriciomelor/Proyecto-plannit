@@ -158,7 +158,6 @@ class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
             if imported_data:
                 for data in imported_data:
                     try:
-                        pass
                         if isinstance(data[4], str):
                             fecha_b = data[4]
                         else:
@@ -174,6 +173,7 @@ class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
                             Tipo_Documento= data[3],
                             fecha_Emision_B=fecha_b, #data[4], #fecha_b,
                             fecha_Emision_0=fecha_0, #data[5], #fecha_0,
+                            hh_emision_0=data[6],
                             proyecto= self.proyecto,
                             owner= request.user
                         )

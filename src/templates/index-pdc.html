@@ -27,34 +27,44 @@
      <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous"/>
 
   <style>  
-  .buttons-print{
-    color: #fff!important;
-    background: grey!important;
-    border-color: grey!important;
-    display: block!important;
-    float: left;
-    
-    }
-  .buttons-pdf{
-    color: #fff!important;
-    background: hsl(0, 95%, 49%)!important;
-    border-color: #fc0f0f!important;
-    display: block!important;
-    float: left;
-    }
-  .buttons-excel{
-    color: #fff!important;
-    background: #23BF08!important;
-    border-color: #23BF08!important;
-    display: block!important;
-    float: left;
-    }
-  table.dataTable thead th.sorting::before, table.dataTable thead th.sorting_asc::before, table.dataTable thead th.sorting_desc::before, table.dataTable thead td.sorting::before, table.dataTable thead td.sorting_asc::before, table.dataTable thead td.sorting_desc::before{
-    display:none;
-    }
-  table.dataTable thead th.sorting::after, table.dataTable thead th.sorting_asc::after, table.dataTable thead th.sorting_desc::after, table.dataTable thead td.sorting::after, table.dataTable thead td.sorting_asc::after, table.dataTable thead td.sorting_desc::after{
-    display:none;
-    }
+    .buttons-print{
+      color: #fff!important;
+      background: grey!important;
+      border-color: grey!important;
+      display: block!important;
+      float: left;
+      
+      }
+     .buttons-pdf{
+      color: #fff!important;
+      background: hsl(0, 95%, 49%)!important;
+      border-color: #fc0f0f!important;
+      display: block!important;
+      float: left;
+       }
+     .buttons-excel{
+      color: #fff!important;
+      background: #23BF08!important;
+      border-color: #23BF08!important;
+      display: block!important;
+      float: left;
+       }
+      
+     table.dataTable thead th.sorting::before, table.dataTable thead th.sorting_asc::before, table.dataTable thead th.sorting_desc::before, table.dataTable thead td.sorting::before, table.dataTable thead td.sorting_asc::before, table.dataTable thead td.sorting_desc::before{
+      display:none;
+      }
+     table.dataTable thead th.sorting::after, table.dataTable thead th.sorting_asc::after, table.dataTable thead th.sorting_desc::after, table.dataTable thead td.sorting::after, table.dataTable thead td.sorting_asc::after, table.dataTable thead td.sorting_desc::after{
+      display:none;
+      }
+      .note-editable { color: #000; }
+      div.dataTables_wrapper div.dataTables_filter label
+       {
+          font-size:22px!important; 
+          display: flex;
+        }
+      div.note-editor.note-frame.panel.panel-default{
+        display:none;
+      }
   .inputfile {
       width: 0.1px;
       height: 0.1px;
@@ -101,7 +111,9 @@
   .inputfile-1 + label:hover {
       background-color: #0753a1;
     }
-
+.Codigo_documento{
+  display:none;
+}
 
   </style>
 </head>

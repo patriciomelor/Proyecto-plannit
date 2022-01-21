@@ -28,7 +28,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
 
     def get_versiones_last(self):
         qs1 = self.get_queryset()
-        qs2 = Version.objects.select_related('documento_fk').prefetch_related("paquete_set", "paquete_set__destinatario").filter(documento_fk__in=qs1).order_by('fecha') #.select_related("owner").filter(owner__in=users)
+        qs2 = Version.objects.select_related('documento_fk').prefetch_related("paquete_set", "paquete_set__destinatario", "paquete_set__destinatario").filter(documento_fk__in=qs1).order_by('fecha') #.select_related("owner").filter(owner__in=users)
 
         return qs2
     
@@ -53,12 +53,15 @@ class StatusIndex(ProyectoMixin, TemplateView):
         fecha_emision_b = 0
         versiones_documento = self.get_versiones_last()
         rev_letra = self.proyecto.rev_letra
+        dias_atraso = 0
 
         for doc in documentos:
             fecha_emision_b = doc.fecha_Emision_B
             comprobacion_first = 0
             version_first = 0
             version = 0
+            dias_revision = 0
+            
             for versiones in versiones_documento:
                 if doc == versiones.documento_fk and comprobacion_first == 0:
                     comprobacion_first = 1
@@ -99,7 +102,8 @@ class StatusIndex(ProyectoMixin, TemplateView):
                         
             else: 
                 if semana_actual >= fecha_emision_b:
-                    lista_inicial = [doc, ['no version','Atrasado']]
+                    dias_atraso = abs((semana_actual - fecha_emision_b).days)
+                    lista_inicial = [doc, ['no version','Atrasado', dias_atraso]]
                     lista_final.append(lista_inicial)
                 else:
                     lista_inicial = [doc, ['no version','Pendiente']]

@@ -7,3 +7,9 @@ ROLES = (
     (5, 'Revisor Contratista'),
     (6, 'Vizualizador Contratista'),
 )
+
+TIPO_PORCENTAJE_AVANCE = (
+    (0, 'Porcentaje de Avance en Tiempo'),     
+    (1, 'Porcentaje de Avance en Unidades'),
+)
+

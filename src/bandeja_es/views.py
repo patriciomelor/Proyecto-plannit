@@ -1,49 +1,39 @@
+import json
 from os import error, path
 import pathlib
 import os.path
+from django.contrib.auth.models import User
 
+from django.core import serializers
+from django.core.serializers.json import DjangoJSONEncoder
+from django.db.models import fields
 from django.views.generic import base
 from buscador.views import VersionesList
 from tools.objects import AdminViewMixin, SuperuserViewMixin, VisualizadorViewMixin
 import zipfile
 import time
-import base64
 import requests
-import shutil
-import datetime
+from tablib import Dataset
+
 from io import BytesIO
-from django.conf import settings
 from django.shortcuts import render, redirect
-from django.contrib.auth.models import User
 from django.contrib import messages
-from django.forms import formset_factory
-from django.core.exceptions import ValidationError
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
-from django.views.generic.base import TemplateView, RedirectView, View
-from django.core.files.storage import FileSystemStorage
-from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
-from formtools.wizard.views import SessionWizardView
-from rest_framework import status
-from rest_framework.parsers import MultiPartParser, FormParser
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView,View)
 from django.db import IntegrityError
-
 from notifications.emails import send_email
 from panel_carga.views import ProyectoMixin
 from .models import PaqueteAttachment, PrevPaqueteAttachment, Version, Paquete, BorradorPaquete, PrevVersion, PrevPaquete, PrevPaqueteDocumento, PaqueteDocumento
 from .forms import CreatePaqueteForm, PaquetePreviewForm, PrevVersionForm
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter
-from panel_carga.filters import DocFilter
 from panel_carga.models import Documento, Proyecto
-from panel_carga.choices import TYPES_REVISION
-from .serializers import PrevVersionSerializer
-from configuracion.roles import ROLES
+
+
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
-class InBoxView(ProyectoMixin, ListView):
+class InBoxView(ProyectoMixin, View):
     model = Paquete
     template_name = 'bandeja_es/baes.html'
     context_object_name = 'paquetes'
@@ -65,14 +55,72 @@ class InBoxView(ProyectoMixin, ListView):
             messages.add_message(self.request, messages.ERROR, "Usuario no cuenta con perfil. {0}".format(error))
             return redirect('Bandejaeys')
 
-        lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
-        return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
+        # lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
+        return   pkg #lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
+        context["paquetes"] = self.get_queryset()
         return context
+        
+    def get (self, request, *args, **kwargs):
+        return render(request, self.template_name, self.get_context_data())
     
+    #Descargar todos los paquetes
+    def post(self, request, *args, **kwargs):
+        # Sacado de https://stackoverflow.com/questions/12881294/django-create-a-zip-of-multiple-files-and-make-it-downloadable
+        zip_subdir = "Cartas-Recibidos-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
+        zip_filename = "%s.zip" % zip_subdir
+        s = BytesIO()   
+        zf = zipfile.ZipFile(s, "w")
+        
+        paquetes = self.get_queryset()
+        
+        for paquete in paquetes:
+            listado_versiones_url = []
+            listados_comentario_1 = []
+            listados_comentario_2 = []
+            try:
+                coment1 = paquete.comentario1.url
+                if coment1:
+                    listados_comentario_1.append(paquete)
+            except Exception:
+                pass
+            
+            try:
+                coment2 = paquete.comentario2.url
+                if coment2:
+                    listados_comentario_2.append(paquete)
+            except Exception:
+                pass
+                
+            versiones = paquete.version.all()
+            
+            for version in versiones:
+                try:
+                    static = version.archivo.url
+                    if static:
+                        listado_versiones_url.append(version)
+                except ValueError:
+                    pass
+                    
+            for version in listado_versiones_url:
+                r = requests.get(version.archivo.url, stream=True)
+                zf.writestr(str(version.archivo), r.content)
+            
+            for paquete_comentario1 in listados_comentario_1:
+                com1 = requests.get(paquete_comentario1.comentario1.url, stream=True)
+                zf.writestr(str(paquete_comentario1.comentario1), com1.content)
+                
+            for paquete_comentario2 in listados_comentario_2:
+                com2 = requests.get(paquete_comentario2.comentario2.url, stream=True)
+                zf.writestr(str(paquete_comentario2.comentario2), com2.content)
+                
+        zf.close()
+        response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+        response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+
+        return response
 class EnviadosView(ProyectoMixin, ListView):
     model = Paquete
     template_name = 'bandeja_es/baes_Enviado.html'
@@ -98,14 +146,69 @@ class EnviadosView(ProyectoMixin, ListView):
             messages.add_message(self.request, messages.ERROR, "Usuario no cuenta con perfil. {0}".format(error))
             return redirect('Bandejaeys')
 
-        lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
-        return  lista_paquetes_filtrados.qs.order_by('-fecha_creacion')
+        #lista_paquetes_filtrados = PaqueteFilter(self.request.GET, queryset=pkg)
+        return  pkg
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["filter"] = PaqueteFilter(self.request.GET, queryset=self.get_queryset())
+        context["paquetes"] = self.get_queryset()
         return context
+    
+    #Descargar todos los paquetes
+    def post(self, request, *args, **kwargs):
+        # Sacado de https://stackoverflow.com/questions/12881294/django-create-a-zip-of-multiple-files-and-make-it-downloadable
+        zip_subdir = "Cartas-Enviados-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
+        zip_filename = "%s.zip" % zip_subdir
+        s = BytesIO()   
+        zf = zipfile.ZipFile(s, "w")
+        
+        paquetes = self.get_queryset()
+        
+        for paquete in paquetes:
+            listado_versiones_url = []
+            listados_comentario_1 = []
+            listados_comentario_2 = []
+            try:
+                coment1 = paquete.comentario1.url
+                if coment1:
+                    listados_comentario_1.append(paquete)
+            except Exception:
+                pass
+            
+            try:
+                coment2 = paquete.comentario2.url
+                if coment2:
+                    listados_comentario_2.append(paquete)
+            except Exception:
+                pass
+                
+            versiones = paquete.version.all()
+            
+            for version in versiones:
+                try:
+                    static = version.archivo.url
+                    if static:
+                        listado_versiones_url.append(version)
+                except ValueError:
+                    pass
+                    
+            for version in listado_versiones_url:
+                r = requests.get(version.archivo.url, stream=True)
+                zf.writestr(str(version.archivo), r.content)
+            
+            for paquete_comentario1 in listados_comentario_1:
+                com1 = requests.get(paquete_comentario1.comentario1.url, stream=True)
+                zf.writestr(str(paquete_comentario1.comentario1), com1.content)
+                
+            for paquete_comentario2 in listados_comentario_2:
+                com2 = requests.get(paquete_comentario2.comentario2.url, stream=True)
+                zf.writestr(str(paquete_comentario2.comentario2), com2.content)
+                
+        zf.close()
+        response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+        response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
 
+        return response
 class PaqueteDetail(ProyectoMixin, DetailView):
     model = Paquete
     template_name = 'bandeja_es/paquete-detail.html'
@@ -181,6 +284,9 @@ class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     def form_valid(self, form) -> HttpResponse:
         paquete = self.get_object()
         versions = paquete.version.all()
+        # for version in versions:
+        #     version.delete()
+
         return HttpResponse()
 
 class BorradorList(ProyectoMixin, ListView):
@@ -336,21 +442,112 @@ def vue_version(request, paquete_pk):
     #### GET request para   ####        
     ####  Obtener las versiones ####        
     if request.method == 'GET':
-        lista_versiones_pk = []
-        package = PrevPaquete.objects.get(pk=paquete_pk)
-        pkg_versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=package)
-        for version in pkg_versiones:
-            pk = version.prev_version.pk
-            lista_versiones_pk.append(pk)
-        versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
-        response_content = list(versiones.values())
+        versiones = Documento.objects.filter(proyecto=request.session.get('proyecto', None))
+        list_serviones = serializers.serialize('json', versiones, fields=('Codigo_documento', 'Descripcion', 'Especialidad'))
+        print(list_serviones)
+        # lista_versiones_pk = []
+        # package = PrevPaquete.objects.get(pk=paquete_pk)
+        # pkg_versiones = PrevPaqueteDocumento.objects.filter(prev_paquete=package)
+        # for version in pkg_versiones:
+        #     pk = version.prev_version.pk
+        #     lista_versiones_pk.append(pk)
+        # versiones = PrevVersion.objects.filter(pk__in=lista_versiones_pk)
+        # response_content = list(versiones.values())
         
-    return JsonResponse(response_content, safe=False)
+    return JsonResponse(list_serviones, safe=False)
 
-def handle_uploaded_file(f):
-    with open(f.name, 'wb+') as destination:
-        for chunk in f.chunks():
-            destination.write(chunk)
+@csrf_exempt
+def vue_file_import(request):
+    response_dict = []
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            excel = request.FILES.get("file")
+            if excel:
+                dataset = Dataset()
+                try:
+                    imported_data = dataset.load(excel.read(), format='xlsx')
+                except Exception as excep:
+                    imported_data = None
+                    error = excep
+                    return JsonResponse({"message": "Hubo un error al procesar el archivo"}, status=500)
+
+                if imported_data:
+                    return JsonResponse({ 
+                        "message": "se recibió el archivo",
+                        "data": imported_data.dict
+                        }, status=200)
+                        
+                else:
+                    return JsonResponse({"message": "error con el archivo"}, status=500)
+
+            else:
+
+                return JsonResponse({
+                    "message": "error con el archivo"
+                },
+                    status=500
+
+                )
+
+@csrf_exempt
+def check_version(request):
+    row_version = {}
+
+    if request.user.is_authenticated:
+        if request.method == 'POST':
+            if request.POST:
+                owner = User.objects.get(pk=request.user.pk)
+                rol = owner.perfil.rol_usuario
+                paquete_pk = request.POST.get('paquete', None)
+                doc_code = request.POST.get('prev_documento_fk', None)
+                file = request.FILES.getlist('file', None)
+                try:
+                    doc = Documento.objects.get(Codigo_documento=doc_code)
+                except Documento.DoesNotExist:
+                    return JsonResponse({"message": 'No existe Documento con ese Código.'}, status=500)
+                    
+                row_version["prev_documento_fk"] = doc
+                row_version["prev_revision"] = request.POST.get('prev_revision', None)
+                # row_version["prev_archivo"]= file
+
+                if rol >= 1 or rol <= 3:
+                    row_version["prev_estado_cliente"] = request.POST.get('prev_estado_cliente', None)
+                    row_version["adjuntar"] = request.POST.get('adjuntar', False)
+                    row_version["prev_estado_contratista"] = None
+
+                elif rol >= 4 or rol <= 6 :
+                    row_version["prev_estado_contratista"] = request.POST.get('prev_estado_contratista', None)
+                    row_version["prev_estado_cliente"] = None
+
+                print(row_version)
+                # form = PrevVersionForm(user=request.user, data=request.POST, files=request.FILES )
+                form = PrevVersionForm(user=request.user, data=row_version, files=request.FILES )
+
+                if form.is_valid():
+                    prev_version = form.save(commit=False)
+                    prev_version.prev_owner = owner
+                    prev_version.save()
+                    paquete = PrevPaquete.objects.get(pk=paquete_pk)
+                    paquete.prev_documento.add(prev_version)
+                    return JsonResponse({
+                        "message": "Validado Correctamente"
+                        }, status=200)
+                else:
+                    print(form.non_field_errors())
+                    return JsonResponse({
+                        "message": "version Invalidad",
+                        "errors": form.non_field_errors(),
+                    }, status=500)
+            else:
+
+                return JsonResponse({"message": "No se ha enviado correctamente la información necesaria"}, status=500)
+                
+
+# @csrf_exempt
+# def upload_versiones_validated(request):
+#     if request.user.is_authenticated:
+        
+
 
 class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
     template_name = 'bandeja_es/crear-pkg-modal.html'
@@ -421,6 +618,7 @@ class PrevPaqueteView(ProyectoMixin, VisualizadorViewMixin, FormView):
 
             messages.add_message(self.request, messages.SUCCESS, "Transmittal informativo enviado correctamente")
             return super().form_valid(form)
+
 class TablaPopupView(ProyectoMixin, VisualizadorViewMixin, ListView):
     model = PrevVersion
     template_name = 'bandeja_es/tabla-versiones-form.html'
@@ -511,3 +709,5 @@ def delete_prev_version(request, id_version, paquete_pk):
         prev_version.delete()
         messages.add_message(request, messages.INFO, message='Revisión eliminada')
     return redirect('nueva-version', paquete_pk=paquete_pk)
+
+

@@ -1,0 +1,27 @@
+{% extends "account/login_base.html" %}
+{% load crispy_forms_tags %}
+
+{% load i18n %}
+{% load account socialaccount %}
+
+{% block content %}
+ <div class="login-wrapper wd-xs-900 pd-25 pd-xs-40 bg-white rounded shadow-base" style="width:700px;">
+    <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-normal"><img src="https://plannit-spaces.sfo3.digitaloceanspaces.com/static/media/Plannit%20Logo.png" style="width: 30%;"alt=""></span></div>
+      
+            <h6 class="tx-inverse mg-b-25 lh-4" style="text-align:center;margin:25px auto;">POLÍTICAS DE CONFIDENCIALIDAD.</h6>
+    
+            <p>
+                De igual forma como lo establecen las Condiciones del Servicio, conservarás los derechos de propiedad intelectual que poseas sobre tu contenido. En resumen, lo que te pertenece a ti continúa siendo tuyo.
+                No reclamamos la propiedad de ningún contenido (incluidos textos, datos, información y archivos) que subas, compartas o almacenes en tu cuenta de Plannit. Nuestras Condiciones del Servicio nos permiten prestarte los servicios que quieras. <br><br>
+                <ul><span class="square-8 bg-primary mg-r-5 rounded-circle"></span>Tú controlas quiénes pueden acceder a la información que tengas almacenada en nuestra plataforma. No compartiremos tus archivos ni datos con nadie.</ul>
+                <ul><span class="square-8 bg-primary mg-r-5 rounded-circle"></span>No haremos Público ningún documento Privado.</ul>
+                <ul><span class="square-8 bg-primary mg-r-5 rounded-circle"></span>No utilizaremos documentos Privados para campañas promocionales ni de marketing.</ul>
+                <ul><span class="square-8 bg-primary mg-r-5 rounded-circle"></span>Solo guardaremos tu información y datos el tiempo que requieras.</ul>
+                <ul><span class="square-8 bg-primary mg-r-5 rounded-circle"></span>Puedes realizar la descarga de los datos almacenados si decides dejar de usar Plannit.</ul></p>
+       
+            <button class="btn btn-warning tx-11 tx-uppercase pd-y-12 pd-x-25 tx-mont tx-medium mg-l-10" onClick="javascript:history.go(-1);" type="submit"> volver</button>
+
+                
+    </div>
+</div>
+{% endblock %}

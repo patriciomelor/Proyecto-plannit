@@ -8,7 +8,7 @@
 
 {% block content %}
  <div class="login-wrapper wd-300 wd-xs-350 pd-25 pd-xs-40 bg-white rounded shadow-base">
- <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-normal">[</span> PLANNIT <span class="tx-normal">]</span></div>
+ <div class="signin-logo tx-center tx-28 tx-bold tx-inverse"><span class="tx-normal"><img src="https://plannit-spaces.sfo3.digitaloceanspaces.com/static/media/Plannit%20Logo.png" style="width: -webkit-fill-available;"alt=""></span></div>
 {% include "messege.html" %}       
 <div class="signin-logo tx-center tx-35 tx-bold tx-inverse">{% trans "Sign In" %}</div>
 
@@ -40,6 +40,7 @@ for a {{ site_name }} account and sign in below:{% endblocktrans %}</p>
   <input class="form-control" type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
   {% endif %}
   <a class="tx-info tx-12 d-block mg-t-10" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+  <a class="tx-info tx-12 d-block mg-t-10 mg-b-10" href="{% url 'privacidad' %}">Leer Politicas de seguridad.</a>
   <button class="btn btn-info btn-block col-12" type="submit">{% trans "Sign In" %}</button>
 </form>
 </div>
