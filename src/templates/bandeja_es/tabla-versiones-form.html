@@ -188,8 +188,10 @@
                                                       [[ buttonText ]]
                                                 </button>
                                             </td>
-                                            
-                                            <td colspan="3"> 
+                                            <td style="text-align: center;vertical-align: inherit;">
+                                                <p class="tx-14 lh-3 mg-b-0 tx-white">Siga estas <a href="" class="tx-warning"data-toggle="modal" data-target="#exampleModalLong">Instrucciones</a>&nbsp;Para llenar la planillas.</p>
+                                            </td>
+                                            <td colspan="2"> 
                                                 <a v-on:click="cargar_val" class="btn btn-warning" type="button"onClick="window.location.reload();"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
                                             </td>
                                             
@@ -264,7 +266,24 @@
     </div>     
 
 </div>
-  
+<!-- Modal Instrucciones -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Instrucciones de llenado de plantilla</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">cerrar</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 <script language='javascript'>
@@ -569,5 +588,25 @@ var app = new Vue({
     $("#file-upload").change(function(){
       $("button").prop("disabled", this.files.length == 0);
   });
+  </script>
+  <script>
+    $(function(){
+
+      // showing modal with effect
+      $('.modal-effect').on('click', function(){
+        var effect = $(this).attr('data-effect');
+        $('#modaldemo3').addClass(effect, function(){
+          $('#modaldemo3').modal('show');
+        });
+        return false;
+      });
+
+      // hide modal with effect
+      $('#modaldemo3').on('hidden.bs.modal', function (e) {
+        $(this).removeClass (function (index, className) {
+            return (className.match (/(^|\s)effect-\S+/g) || []).join(' ');
+        });
+      });
+    });
   </script>
 {% endblock content %}
