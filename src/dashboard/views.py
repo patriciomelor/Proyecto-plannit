@@ -442,7 +442,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     else:
                         avance_programado = avance_esperado[contador_real -1][0]
 
-                    
+            contador_real = contador_real - 1
+
             #Condicional para cuando el avance real posee solo un valor
             if contador_real == 0:
                 avance_semanal_real = float(lista_avance_real[contador_real][0]) - float(lista_avance_real[contador_real][0]) 
