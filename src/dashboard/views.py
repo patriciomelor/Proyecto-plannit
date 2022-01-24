@@ -141,10 +141,8 @@ class EscritorioView(ProyectoMixin, TemplateView):
         documentos = self.get_queryset()
         versiones_documentos = self.get_versiones_last()
         total_documentos = len(documentos)
-        lista_avance_real = self.reporte_curva_s_avance_real()
         fechas = self.Obtener_fechas()
         fechas = fechas[0][0]
-        avance_esperado = self.reporte_curva_s_avance_esperado()
         semana_actual_dias_revision = timezone.now()
         semana_actual = semana_actual_dias_revision.replace(tzinfo = None)
         fechas_para_documentos = self.reporte_curva_s_fechas()
@@ -423,6 +421,16 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
         #Calculo de documentos reales emitidos en b
         contador_emitidos_b_sin_0 = contador_emitidos_b
+        
+        proyecto = self.proyecto
+        
+        if proyecto.tipo_porcentaje_avance == 0:
+            lista_avance_real = self.reporte_curva_s_avance_real()
+            avance_esperado = self.reporte_curva_s_avance_esperado()
+        
+        if proyecto.tipo_porcentaje_avance == 1:
+            lista_avance_real = self.reporte_curva_s_avance_real_hh()
+            avance_esperado = self.reporte_curva_s_avance_esperado_hh()
         
         #Obtener avance real y esperado
         if lista_avance_real[0][1] != -1:
