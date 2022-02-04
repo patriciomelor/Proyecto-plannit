@@ -39,7 +39,6 @@ class Documento(models.Model):
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     fecha_Emision_B = models.DateTimeField(verbose_name="Fecha inicio emisión B", blank=True, default=None) 
     fecha_Emision_0 = models.DateTimeField(verbose_name="Fecha inicio emisión 0", blank=True, default=None) 
-    hh_emision_B = models.FloatField(verbose_name="HH Emisión B", max_length=3, default=0.0)
     hh_emision_0 = models.FloatField(verbose_name="HH Emisión 0", max_length=3, default=0.0)
     
     def __str__(self):

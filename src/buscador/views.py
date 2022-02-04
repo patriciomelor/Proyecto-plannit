@@ -30,12 +30,15 @@ class BuscadorIndex(ProyectoMixin, View):
         qs =  Documento.objects.prefetch_related('version_set').filter(proyecto=self.proyecto)
         for doc in qs:
             if doc.version_set.exists():
+                print("documento con version:", doc)
                 last_version = doc.version_set.last()
                 try:
                     añadidos_list.append([doc, last_version.pk, last_version.get_revision_display(), last_version.archivo.url ])
                 except ValueError:
-                    pass
+                    añadidos_list.append([doc, last_version.pk, last_version.get_revision_display()])
+
         
+        print(añadidos_list)
         context["documentos"] = añadidos_list
         return context
 

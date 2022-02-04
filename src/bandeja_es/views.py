@@ -5,10 +5,6 @@ import os.path
 from django.contrib.auth.models import User
 
 from django.core import serializers
-from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import fields
-from django.views.generic import base
-from buscador.views import VersionesList
 from tools.objects import AdminViewMixin, SuperuserViewMixin, VisualizadorViewMixin
 import zipfile
 import time

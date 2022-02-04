@@ -49,9 +49,13 @@
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Descripcion}}</td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Codigo_documento}}</td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Tipo_Documento}}</td>            
-           <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.2}}</td>         
-           <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
-              <a class="btn btn-teal"href="{{documento.3}"><i class="icon ion-archive fa-lg"></i></a> 
+            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.2}}</td>         
+            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
+              {% if documento.3 %}
+                <a class="btn btn-teal"href="{{documento.3}"><i class="icon ion-archive fa-lg"></i></a>
+              {% else %}
+                 Sin Archivo Adjunto.     
+              {% endif %}
             </td>          
           </tr>
           {% endfor %} 
