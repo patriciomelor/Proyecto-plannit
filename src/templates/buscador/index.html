@@ -43,7 +43,7 @@
       <tbody>
        {% for documento in documentos %}
           <tr role="row" class="odd">
-            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><input type="checkbox" name="dnld" value="{{documento.1}}" class="onoffswitch-checkbox"style="display: none;"checked="true"></td>
+            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><input type="checkbox" name="dnld" value="{{documento.1}}"></td>
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><a href="{% url 'buscador-detalle' documento.0.pk %}" class="btn btn-teal center"><i class="fa fa-plus"></i></a></td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Especialidad}}</td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Descripcion}}</td>            

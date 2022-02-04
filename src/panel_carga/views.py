@@ -217,10 +217,12 @@ class DeleteDocumento(ProyectoMixin, AdminViewMixin, ListView):
     # success_url = reverse_lazy('PanelCarga')
     context_object_name = 'documentos'
 
+    # Se obtienen las instancias de los objetos filtrados. 
     def get_queryset(self):
         return Documento.objects.filter(proyecto=self.proyecto)
-    
+    # 
     def post(self, request, *args, **kwargs):
+        # Se  manda de manera directa una lista desde el HTML escrito.
         documentos_ids = self.request.POST.getlist('document')
         if documentos_ids:
             for documento in documentos_ids:
@@ -228,8 +230,10 @@ class DeleteDocumento(ProyectoMixin, AdminViewMixin, ListView):
                 doc.delete()
             
             messages.success(request,  "Documentos eliminados correctamente")
+            # nombre de la URL -> Panel de Carga.
             return redirect('PanelCarga')
         else:
+            # manda el mensaje de vuelta si esque existe error. 
             messages.info(request,  "No se ha seleccionado ningun documento. Intente otra vez")
             return redirect('documento-eliminar')
 
