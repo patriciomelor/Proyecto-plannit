@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import User
 from django.conf import settings
 from .choices import (ESTADO_CONTRATISTA,ESTADOS_CLIENTE,TYPES_REVISION, DOCUMENT_TYPE)
+from configuracion.roles import *
 
 
 # Create your models here.
@@ -15,6 +16,7 @@ class Proyecto(models.Model):
     encargado = models.ForeignKey(User, on_delete=models.SET_DEFAULT, verbose_name="Encargado", default=1)
     codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
     participantes = models.ManyToManyField(User, related_name="participantes")
+    tipo_porcentaje_avance = models.IntegerField(verbose_name="Tipo de Porcentaje Avance", default=0, choices=TIPO_PORCENTAJE_AVANCE)
     rev_letra = models.FloatField(verbose_name="Porcentaje de Avance para Rev en letras", max_length=3, default=70.0)
     umbral_documento_aprobado = models.IntegerField(verbose_name="Umbral para Documentos Aprobados", default=0)
     umbral_documento_atrasado = models.IntegerField(verbose_name="Umbral para Documentos Atrasados", default=0)
