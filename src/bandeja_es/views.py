@@ -524,12 +524,11 @@ def check_version(request):
                 form = PrevVersionForm(user=request.user, data=row_version, files=request.FILES )
 
                 if form.is_valid():
-                    # prev_version = form.save(commit=False)
-                    # prev_version.prev_owner = owner
-                    # prev_version.save()
-                    # paquete = PrevPaquete.objects.get(pk=paquete_pk)
-                    # paquete.prev_documento.add(prev_version)
-                    print("formulario valido")
+                    prev_version = form.save(commit=False)
+                    prev_version.prev_owner = owner
+                    prev_version.save()
+                    paquete = PrevPaquete.objects.get(pk=paquete_pk)
+                    paquete.prev_documento.add(prev_version)
                     return JsonResponse({
                         "message": "Validado Correctamente"
                         }, status=200)

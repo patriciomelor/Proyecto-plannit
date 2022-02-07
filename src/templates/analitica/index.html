@@ -12,7 +12,7 @@
     <h4 class="tx-gray-800 mg-b-5">Panel de Analítica</h4>
   </div>
   <div class="pd-10 bd rounded bg-white">
-    <ul class="nav nav-pills flex-column flex-md-row justify-content-center" role="tablist">
+    <ul class="nav nav-pills flex-column flex-md-row justify-content-end" role="tablist">
       <li class="nav-item mg-x-5">
         <a class="nav-link" data-toggle="tab" role="tab" style="padding-top: 0px;padding-bottom: 0px;">     
           <button class="btn btn-primary" onclick="javascript:window.print()">
@@ -21,17 +21,8 @@
           </button>     
         </a>
       </li>
-      <li class="nav-item mg-x-5">
-        <select class="form-control" data-placeholder="Seleccionar tipo de Curva">
-          <option selected disabled>Seleccionar tipo de curva</option>
-          <option value="1">Porcentaje</option>
-          <option value="2">Por HH</option>
-        </select>
-      </li>
-      <form action="POST"> {% csrf_token %}
-      <li class="nav-item mg-x-5"><button class="btn btn-teal" type="submit"> Guardar </button></li>
-      </form>
-      <li class="nav-item mg-x-5"><a class="nav-link" data-toggle="tab" href="#" role="tab">Fecha última Línea Base: {{curvaBase.fecha_creacion|date:'d-m-y'}}</a></li>
+    
+      <li class="nav-item mg-x-5 tx-black"><a class="nav-link" data-toggle="tab"  role="tab">Fecha última Línea Base: {{curvaBase.fecha_creacion|date:'d-m-y'}}</a></li>
     </ul>
   </div><!-- pd-10 -->
   <div class="br-pagebody mg-t-5 pd-x-30">
@@ -41,7 +32,13 @@
         <div class="widget-2">
           <div class="card shadow-base overflow-hidden chart">
             <div class="card-header" style="text-align:center;display:flow-root;">
-              <h4 class="tx-gray-800 mg-b-5">Curva de Avance Físico Ingenieria</h4>
+            {% if proyecto.tipo_porcentaje_avance == 0 %}
+            <h4 class="tx-gray-800 mg-b-5">Curva de Avance Físico Ingenieria en Tiempo</h4>
+              
+            {% elif proyecto.tipo_porcentaje_avance == 1 %}
+            <h4 class="tx-gray-800 mg-b-5">Curva de Avance Físico Ingenieria en Unidades</h4>
+            
+            {% endif %}
               <div class="card-body" height="1280px">
                   <canvas id="canvas" class="chartjs-render-monitor" style="width:100%;"></canvas>
               </div>
