@@ -43,19 +43,15 @@
       <tbody>
        {% for documento in documentos %}
           <tr role="row" class="odd">
-            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><input type="checkbox" name="dnld" value="{{documento.1}}" class="onoffswitch-checkbox"style="display: none;"checked="true"></td>
+            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><input type="checkbox" name="dnld" value="{{documento.1}}" class="onoffswitch-checkbox"></td>
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><a href="{% url 'buscador-detalle' documento.0.pk %}" class="btn btn-teal center"><i class="fa fa-plus"></i></a></td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Especialidad}}</td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Descripcion}}</td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Codigo_documento}}</td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Tipo_Documento}}</td>            
-            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.2}}</td>         
-            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
-              {% if documento.3 %}
-                <a class="btn btn-teal"href="{{documento.3}"><i class="icon ion-archive fa-lg"></i></a>
-              {% else %}
-                 Sin Archivo Adjunto.     
-              {% endif %}
+           <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.2}}</td>         
+           <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
+              <a class="btn btn-teal"href="{{documento.3}"><i class="icon ion-archive fa-lg"></i></a> 
             </td>          
           </tr>
           {% endfor %} 
