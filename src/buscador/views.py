@@ -33,8 +33,7 @@ class BuscadorIndex(ProyectoMixin, View):
                 #Busca de manera inversa la ultima version del documento
                 last_version = doc.version_set.last()
                 try:
-
-                    añadidos_list.append([doc, last_version.pk, last_version.get_revision_display(), last_version.archivo.url ])
+                    añadidos_list.append([doc, last_version.pk, last_version.get_revision_display(), last_version.archivo ])
                 except ValueError:
                     añadidos_list.append([doc, last_version.pk, last_version.get_revision_display()])
 
