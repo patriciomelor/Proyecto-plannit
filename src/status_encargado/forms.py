@@ -33,17 +33,11 @@ class TareaForm(forms.ModelForm):
 
                 if current_rol >= 1 and current_rol <= 3:
                     if rol >= 1 and rol <= 3:
-                        if rol == 1: 
-                            pass
-                        else:
-                            user_list.append(user.pk)
+                        user_list.append(user.pk)
 
                 if current_rol >= 4 and current_rol <= 6:
                     if rol >= 4 and rol <= 6:
-                        if rol == 4: 
-                            pass
-                        else:
-                            user_list.append(user.pk)
+                        user_list.append(user.pk)
             except Exception:
                 pass
         # try:

@@ -5,10 +5,6 @@ import os.path
 from django.contrib.auth.models import User
 
 from django.core import serializers
-from django.core.serializers.json import DjangoJSONEncoder
-from django.db.models import fields
-from django.views.generic import base
-from buscador.views import VersionesList
 from tools.objects import AdminViewMixin, SuperuserViewMixin, VisualizadorViewMixin
 import zipfile
 import time
@@ -284,10 +280,11 @@ class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     def form_valid(self, form) -> HttpResponse:
         paquete = self.get_object()
         versions = paquete.version.all()
-        # for version in versions:
-        #     version.delete()
+        for version in versions:
+            version.delete()
 
-        return HttpResponse()
+        messages.add_message(self.request, messages.SUCCESS, "Paquete eliminado junto a sus versiones, correctamente")
+        return redirect('Bandejaeys')
 
 class BorradorList(ProyectoMixin, ListView):
     template_name = 'bandeja_es/borrador.html'
