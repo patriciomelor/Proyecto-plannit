@@ -71,7 +71,7 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
         return item
 
 class PaqueteAttachment(models.Model):
-    paquete = models.ForeignKey(Paquete, verbose_name="Paquete", related_name="attachments", on_delete=models.DO_NOTHING, null=True)
+    paquete = models.ForeignKey(Paquete, verbose_name="Paquete", related_name="attachments", on_delete=models.CASCADE, null=True)
     file = models.FileField(verbose_name="Archivo", upload_to="proyecto/documentos/adjuntos")
 
 #################################################
