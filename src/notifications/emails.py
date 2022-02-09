@@ -22,7 +22,6 @@ def send_email(html: str, context: dict, subject: str, recipients: list):
         body= text_content,
         from_email= settings.EMAIL_HOST_USER,
         to= recipients,
-        bcc=["deivylop@hotmail.com"],
         connection=connection
     )
     email.attach_alternative(html_content, "text/html")
