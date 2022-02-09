@@ -158,7 +158,7 @@
                               </div>
                              
                           </div>
-                          <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
+                          {% comment %} <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
                         
                                 <div id="app" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;">
                                     <div v-show=" version_ok === 1 " id="alert1" class="alert alert-bordered alert-success" role="alert">
@@ -205,7 +205,7 @@
                                           <tr>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Código </th>
                                               {% comment %} <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Descripción </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Especialidad </th> {% endcomment %}
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Especialidad </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Revisión </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
@@ -221,7 +221,7 @@
                                             <tr v-for="(version, index) in versiones" :key="index">
                                                 <td > [[ version.CODIGO ]]</td>
                                                 {% comment %} <td > [[ version.DESCRIPCION ]]</td> 
-                                                <td > [[ version.ESPECIALIDAD ]]</td> {% endcomment %}
+                                                <td > [[ version.ESPECIALIDAD ]]</td> 
                                                 <td > [[ version.REVISION | revision ]]</td>
                                                 <td > [[ version.ESTADO | estado ]]</td>
                                                 <td>
@@ -258,7 +258,7 @@
                                     
                                 </div>
                         
-                        </div>
+                        </div> {% endcomment %}
                 </div>
                 
             </form>
