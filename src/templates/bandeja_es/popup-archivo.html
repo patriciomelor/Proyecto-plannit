@@ -38,8 +38,8 @@
        <div class="card bd-0 shadow-base">
         <div class="fallback br-section-wrapper col-md-12">
             {{ form.prev_documento_fk|as_crispy_field}}
-            {{ form.prev_revision|as_crispy_field}}
             {{ form.revision_a|as_crispy_field }}
+            {{ form.prev_revision|as_crispy_field}}
 
             
                 {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}
@@ -121,4 +121,12 @@ $(document).ready(function() {
        
     </script>
 {% endif %}
+<script type="text/javascript">
+    function comprobar()
+    {   
+      if  (document.getElementById("chec").checked)
+      document.getElementById('id_prev_revision').disabled=true
+      else document.getElementById('id_prev_revision')
+    }
+</script>
 {% endblock content %}

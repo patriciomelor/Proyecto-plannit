@@ -92,7 +92,7 @@ class PaquetePreviewForm(forms.ModelForm):
 
 class PrevVersionForm(forms.ModelForm):
     adjuntar = forms.BooleanField(label="Adjuntar Archivo ?", required=False, widget=forms.CheckboxInput(attrs={'onClick':'disableSending()'}))
-    revision_a = forms.BooleanField(label="Desea envíar econ Revisión en A ?", required=False)
+    revision_a = forms.BooleanField(label="Desea envíar con Revisión en A ?", required=False,widget=forms.CheckboxInput(attrs={'onChange':'comprobar()','id':'chec'}))
     # prev_archivo = MultiFileField(label="Archivos multiples", min_num=1, max_num=10, max_file_size=5368709120, widget=forms.FileInput(attrs={'class' : 'col-md-4 ','disabled':'disabled'}))
     class Meta:
         model = PrevVersion
@@ -108,7 +108,7 @@ class PrevVersionForm(forms.ModelForm):
             'prev_estado_contratista': forms.Select(attrs={'class' : 'form-control col-md-4' }),
             'prev_estado_cliente' : forms.Select(attrs={'class' : 'form-control col-md-4 '}),
             'prev_archivo' : forms.FileInput(attrs={'class' : 'col-md-4 ','disabled':'disabled', 'multiple': 'multiple'}),
-        
+            
         }
 
 
