@@ -39,6 +39,8 @@
         <div class="fallback br-section-wrapper col-md-12">
             {{ form.prev_documento_fk|as_crispy_field}}
             {{ form.prev_revision|as_crispy_field}}
+            {{ form.revision_a|as_crispy_field }}
+
             
                 {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}
                      {{ form.prev_estado_contratista|as_crispy_field}}                    
@@ -48,9 +50,8 @@
                     <div style="padding-left:35px;">  
                         {{ form.adjuntar|as_crispy_field}}
                     </div>    
-                {% endif %}       
-
-            {{ form.prev_archivo|as_crispy_field}}
+                {% endif %}
+            {{ form.prev_archivo|as_crispy_field }}
              <button name="submit" type="submit" class="btn btn-warning" ><span class="glyphicon glyphicon-send"></span>Subir</button>
         
         </div>

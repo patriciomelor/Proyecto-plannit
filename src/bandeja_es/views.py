@@ -280,9 +280,7 @@ class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     def form_valid(self, form) -> HttpResponse:
         paquete = self.get_object()
         versions = paquete.version.all()
-        for version in versions:
-            version.delete()
-
+        versions.delete()
         messages.add_message(self.request, messages.SUCCESS, "Paquete eliminado junto a sus versiones, correctamente")
         return redirect('Bandejaeys')
 
