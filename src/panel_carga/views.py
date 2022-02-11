@@ -161,11 +161,11 @@ class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
                         if isinstance(data[4], str):
                             fecha_b = data[4]
                         else:
-                            fecha_b = timezone.make_aware(data[4], is_dst=True) 
+                            fecha_b = timezone.make_aware(data[4], is_dst=True).strftime("%Y-%m-%d") 
                         if isinstance(data[5], str):
                             fecha_0 = data[5]
                         else:
-                            fecha_0 = timezone.make_aware(data[5], is_dst=True) #.strftime("%Y-%m-%d")
+                            fecha_0 = timezone.make_aware(data[5], is_dst=True).strftime("%Y-%m-%d")
                         documento = Documento(
                             Especialidad= data[0],
                             Descripcion= data[1],
