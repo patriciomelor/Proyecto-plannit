@@ -280,9 +280,7 @@ class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     def form_valid(self, form) -> HttpResponse:
         paquete = self.get_object()
         versions = paquete.version.all()
-        for version in versions:
-            version.delete()
-
+        versions.delete()
         messages.add_message(self.request, messages.SUCCESS, "Paquete eliminado junto a sus versiones, correctamente")
         return redirect('Bandejaeys')
 
@@ -668,6 +666,7 @@ class PrevVersionView(ProyectoMixin, VisualizadorViewMixin, FormView):
     def form_valid(self, form, **kwargs):
         version = form.save(commit=False)
         version.prev_owner = self.request.user
+        version.prev_revision = 11
         version.save()
         paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
         paquete.prev_documento.add(version)
