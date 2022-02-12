@@ -666,7 +666,9 @@ class PrevVersionView(ProyectoMixin, VisualizadorViewMixin, FormView):
     def form_valid(self, form, **kwargs):
         version = form.save(commit=False)
         version.prev_owner = self.request.user
-        version.prev_revision = 11
+        rev_a = form.cleaned_data["revision_a"]
+        if rev_a:
+            version.prev_revision = 11
         version.save()
         paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
         paquete.prev_documento.add(version)
