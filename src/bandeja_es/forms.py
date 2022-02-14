@@ -115,10 +115,12 @@ class PrevVersionForm(forms.ModelForm):
     def __init__(self, **kwargs):
         self.paquete = kwargs.pop('paquete_pk', None)
         self.usuario = kwargs.pop('user', None)
+        self.choices = kwargs.pop('choices', None)
+        print(self.choices)
         super(PrevVersionForm, self).__init__(**kwargs)
         if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
             self.fields["prev_archivo"].required = True
-
+        self.fields["prev_revision"].choices = TYPES_REVISION[2:]
 
 
     def clean(self):
@@ -148,7 +150,7 @@ class PrevVersionForm(forms.ModelForm):
             try:
                 document = Documento.objects.get(Codigo_documento=doc)
                 ultima_revision = Version.objects.filter(documento_fk=document)
-                if not ultima_revision.exists() and revision > 1:
+                if not ultima_revision.exists() and revision > 2:
                     raise ValidationError('Se debe emitir una revisión en B primero')
             except (AttributeError, Version.DoesNotExist, Documento.DoesNotExist):
                 pass
@@ -171,7 +173,7 @@ class PrevVersionForm(forms.ModelForm):
             #Verificca que no se pueda emitir una revision en número antes de que en letra
             try:
                 ultima_revision = Version.objects.filter(documento_fk=doc)
-                if not ultima_revision.exists() and revision >= 5:
+                if not ultima_revision.exists() and revision >= 6:
                     raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
             except (AttributeError, Version.DoesNotExist):
                 pass

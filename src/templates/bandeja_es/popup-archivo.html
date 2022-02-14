@@ -124,9 +124,13 @@ $(document).ready(function() {
 <script type="text/javascript">
     function comprobar()
     {   
-      if  (document.getElementById("chec").checked)
-      document.getElementById('id_prev_revision').disabled=true
-      else document.getElementById('id_prev_revision')
+      if  (document.getElementById("chec").checked){
+        document.getElementById('id_prev_revision').disabled=true
+      
+      }
+      else {
+        document.getElementById('id_prev_revision').disabled=false
+      }
     }
 </script>
 {% endblock content %}

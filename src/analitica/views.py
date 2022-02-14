@@ -879,7 +879,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                         avance_documento = 0
 
                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                        for revision in TYPES_REVISION[1:4]:
+                                        for revision in TYPES_REVISION[2:5]:
                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                 calculo_real_b = valor_ganado * float(rev_letra/100)
                                             if cont == (len(fechas_controles) - 1):
@@ -888,7 +888,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                         if contador_avance == 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[5:]:
+                                            for revision in TYPES_REVISION[6:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_0 = valor_ganado * 1
                                                 if cont == (len(fechas_controles) - 1):
@@ -897,7 +897,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                         if contador_avance != 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[5:]:
+                                            for revision in TYPES_REVISION[6:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                                 if cont == (len(fechas_controles) - 1):
@@ -935,7 +935,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                     avance_documento = 0
 
                                     #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                    for revision in TYPES_REVISION[1:4]:
+                                    for revision in TYPES_REVISION[2:5]:
                                         if revision[0] == revision_documento and fecha_version <= controles:
                                             calculo_real_b = valor_ganado * float(rev_letra/100)
                                         if cont == (len(fechas_controles) - 1):
@@ -944,7 +944,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                     if contador_avance == 0:
                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                        for revision in TYPES_REVISION[5:]:
+                                        for revision in TYPES_REVISION[6:]:
                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                 calculo_real_0 = valor_ganado * 1
                                             if cont == (len(fechas_controles) - 1):
@@ -953,7 +953,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                     if contador_avance != 0:
                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                        for revision in TYPES_REVISION[5:]:
+                                        for revision in TYPES_REVISION[6:]:
                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                 calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                             if cont == (len(fechas_controles) - 1):
@@ -1121,7 +1121,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                                     avance_documento = 0
 
                                                     #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                    for revision in TYPES_REVISION[1:4]:
+                                                    for revision in TYPES_REVISION[2:5]:
                                                         if revision[0] == revision_documento and fecha_version <= controles:
                                                             calculo_real_b = valor_ganado * float(rev_letra/100)
                                                         if cont == (len(fechas_controles) - 1):
@@ -1130,7 +1130,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                                     if contador_avance == 0:
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                        for revision in TYPES_REVISION[5:]:
+                                                        for revision in TYPES_REVISION[6:]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                                 calculo_real_0 = valor_ganado * 1
                                                             if cont == (len(fechas_controles) - 1):
@@ -1139,7 +1139,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                                     if contador_avance != 0:
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                        for revision in TYPES_REVISION[5:]:
+                                                        for revision in TYPES_REVISION[6:]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                                 calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                                             if cont == (len(fechas_controles) - 1):
@@ -1177,7 +1177,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                                 avance_documento = 0
 
                                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                for revision in TYPES_REVISION[1:4]:
+                                                for revision in TYPES_REVISION[2:5]:
                                                     if revision[0] == revision_documento and fecha_version <= controles:
                                                         calculo_real_b = valor_ganado * float(rev_letra/100)
                                                     if cont == (len(fechas_controles) - 1):
@@ -1186,7 +1186,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                                 if contador_avance == 0:
                                                     #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                    for revision in TYPES_REVISION[5:]:
+                                                    for revision in TYPES_REVISION[6:]:
                                                         if revision[0] == revision_documento and fecha_version <= controles:
                                                             calculo_real_0 = valor_ganado * 1
                                                         if cont == (len(fechas_controles) - 1):
@@ -1195,7 +1195,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                                 if contador_avance != 0:
                                                     #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                    for revision in TYPES_REVISION[5:]:
+                                                    for revision in TYPES_REVISION[6:]:
                                                         if revision[0] == revision_documento and fecha_version <= controles:
                                                             calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                                         if cont == (len(fechas_controles) - 1):
@@ -1776,7 +1776,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                             avance_documento = 0
 
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[1:4]:
+                                            for revision in TYPES_REVISION[2:5]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
@@ -1785,7 +1785,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                             if contador_avance == 0:
                                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                for revision in TYPES_REVISION[5:]:
+                                                for revision in TYPES_REVISION[6:]:
                                                     if revision[0] == revision_documento and fecha_version <= controles:
                                                         calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                     if cont == (len(fechas_controles) - 1):
@@ -1794,7 +1794,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                             if contador_avance != 0:
                                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                for revision in TYPES_REVISION[5:]:
+                                                for revision in TYPES_REVISION[6:]:
                                                     if revision[0] == revision_documento and fecha_version <= controles:
                                                         calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                     if cont == (len(fechas_controles) - 1):
@@ -1832,7 +1832,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                         avance_documento = 0
 
                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                        for revision in TYPES_REVISION[1:4]:
+                                        for revision in TYPES_REVISION[2:5]:
                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                 calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                             if cont == (len(fechas_controles) - 1):
@@ -1841,7 +1841,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                         if contador_avance == 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[5:]:
+                                            for revision in TYPES_REVISION[6:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
@@ -1850,7 +1850,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                         if contador_avance != 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[5:]:
+                                            for revision in TYPES_REVISION[6:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
@@ -2019,7 +2019,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                                         avance_documento = 0
 
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                        for revision in TYPES_REVISION[1:4]:
+                                                        for revision in TYPES_REVISION[2:5]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                                 calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                                             if cont == (len(fechas_controles) - 1):
@@ -2028,7 +2028,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                                         if contador_avance == 0:
                                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                            for revision in TYPES_REVISION[5:]:
+                                                            for revision in TYPES_REVISION[6:]:
                                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                                     calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                                 if cont == (len(fechas_controles) - 1):
@@ -2037,7 +2037,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                                         if contador_avance != 0:
                                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                            for revision in TYPES_REVISION[5:]:
+                                                            for revision in TYPES_REVISION[6:]:
                                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                                     calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                                 if cont == (len(fechas_controles) - 1):
@@ -2075,7 +2075,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                                                     avance_documento = 0
 
                                                     #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                    for revision in TYPES_REVISION[1:4]:
+                                                    for revision in TYPES_REVISION[2:5]:
                                                         if revision[0] == revision_documento and fecha_version <= controles:
                                                             calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                                         if cont == (len(fechas_controles) - 1):
@@ -2084,7 +2084,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                                     if contador_avance == 0:
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                        for revision in TYPES_REVISION[5:]:
+                                                        for revision in TYPES_REVISION[6:]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                                 calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                             if cont == (len(fechas_controles) - 1):
@@ -2093,7 +2093,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
 
                                                     if contador_avance != 0:
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                        for revision in TYPES_REVISION[5:]:
+                                                        for revision in TYPES_REVISION[6:]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                                 calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                             if cont == (len(fechas_controles) - 1):
