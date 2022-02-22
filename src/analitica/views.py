@@ -798,9 +798,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 cont2 = 0
                 for versiones in versiones_documentos:
                     if str(doc.Codigo_documento) == str(versiones.documento_fk):
-                        if versiones.revision < 5 and cont == 0:               
-                            version_letras = versiones
-                            cont = 1
+                        if versiones.revision > 1 and cont == 0:
+                            if versiones.revision < 5 and cont == 0:               
+                                version_letras = versiones
+                                cont = 1
                         if versiones.revision > 4:             
                             version_numerica = versiones
                             cont2 = 1
@@ -1689,9 +1690,10 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
                 cont2 = 0
                 for versiones in versiones_documentos:
                     if str(doc.Codigo_documento) == str(versiones.documento_fk):
-                        if versiones.revision < 5 and cont == 0:               
-                            version_letras = versiones
-                            cont = 1
+                        if versiones.revision > 1 and cont == 0:
+                            if versiones.revision < 5 and cont == 0:               
+                                version_letras = versiones
+                                cont = 1
                         if versiones.revision > 4:             
                             version_numerica = versiones
                             cont2 = 1
