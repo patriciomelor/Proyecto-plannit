@@ -2,9 +2,12 @@ import time
 from django.db.models.query import ValuesIterable
 from django.shortcuts import redirect, render
 from django.contrib.auth.models import User
+from django.contrib import messages
+from django.contrib.messages.views import SuccessMessageMixin
 from django.urls import (reverse_lazy, reverse)
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.views.generic.base import TemplateView, RedirectView, View
+from django.core.exceptions import FieldError, ValidationError
 from django.views.generic import (ListView, DetailView, CreateView, UpdateView, DeleteView, FormView)
 from panel_carga.views import ProyectoMixin
 from django.contrib import messages
@@ -47,42 +50,45 @@ class BuscadorIndex(ProyectoMixin, View):
 
     def post(self, request, *args, **kwargs):
         listado = self.request.POST.getlist('dnld')
-        versiones = Version.objects.filter(pk__in=listado)
-        zip_subdir = "Ultimas-Versiones-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
-        
-        zip_filename = "%s.zip" % zip_subdir
-        #Otra manera de presentar un zip , con el .format:
-        #zip_filename = "%s.zip".format(zip_subdir)
-        s = BytesIO() 
-        zf = zipfile.ZipFile(s, "w")
-        for version in versiones:
-            try:
-                #Pertenece a una librería de python, se rige gracias al protocolo HTTP, request -> url. Todo método -> Response  
-                r = requests.get(version.archivo.url, stream=True)
-            # print("VERSION: ", version)
-            # print("STATUS: ",r.status_code)
-            # print("CONTENIDO: ",r.content)
-            # print("TEXTO: ",r.text)
-            # print("JOSN: ",r.json)
-                zf.writestr(str(version.archivo), r.content)  
-            except ValueError:
-                error = "Error en la version {}, no tiene archivo asociado".format(version)
-        zf.close()
+        lista_verdad_falsa = self.request.POST.getlist('')
+        #Primero debemos verificar si el primer elemento de la lista existe, para poder luego sacarlo, ya que será vacío
+        #Si la primera posición 0, de la lista "listado", es diferente que un espacio vacío, se empezará a leer la lista desde la posición 0
+        if listado:
+            if listado[0]:  
+                versiones = Version.objects.filter(pk__in=listado)
+            #En cambio, cualquier caso que no cumpla la condición en que la primera posición sea diferente de espacio vacío, se empezará a leer la lista desde la posición 1 
+            else:
+                #Con el operador :, podemos indicarle que el listado puede empezar desde una posición especifica hasta N veces.
+                versiones = Version.objects.filter(pk__in=listado[1:])
+            zip_subdir = "Ultimas-Versiones-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
+            
+            zip_filename = "%s.zip" % zip_subdir
+            #Otra manera de presentar un zip , con el .format:
+            #zip_filename = "%s.zip".format(zip_subdir)
+            s = BytesIO() 
+            zf = zipfile.ZipFile(s, "w")
+            for version in versiones:
+                try:
+                    #Pertenece a una librería de python, se rige gracias al protocolo HTTP, request -> url. Todo método -> Response  
+                    r = requests.get(version.archivo.url, stream=True)
+                # print("VERSION: ", version)
+                # print("STATUS: ",r.status_code)
+                # print("CONTENIDO: ",r.content)
+                # print("TEXTO: ",r.text)
+                # print("JOSN: ",r.json)
+                    zf.writestr(str(version.archivo), r.content)  
+                except ValueError:
+                    error = "Error en la version {}, no tiene archivo asociado".format(version)
+            zf.close()
 
-        response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
-        response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+            response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+            response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+            return response
 
-        return response
+        if not listado:
+            messages.info(request, "No ha seleccionado ningún documento, porfavor seleccione uno. ")
+            return redirect('buscador-index')
 
-#Empezar a escribir la función DeleteDocumento
-#Importo las vistas que necesitaré para poder mostrar la descarga de los documentos seleccionados
-class DescargaSelecciónDocumento(ProyectoMixin, ListView):
-    #Hago referencia al template HTML que quiero mostrar.
-    template_name = 'buscador/index.html'
-    #Creo el modelo en relación a la información que deseo 
-    model = Documento
-    #Dentro de esta misma función se utilizará request para la petición.
-    #Se utilizara *Args and **Kwargs para pasar un numero no especifico de argumentos.
 
 class VersionesList(ProyectoMixin, DetailView):
     model = Documento
