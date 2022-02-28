@@ -316,29 +316,23 @@
         });
   } );
 </script>
-{% comment %} <script>
-  function check_checkbox() {
-    checkboxes = document.getElementsByClassName('onoffswitch-checkbox');
-      if(checkboxes[0].checked == false){
-          return alert('Tiene que seleccionar al menos un documento para poder descargarlo.')
-        }
-    } 
-</script> {% endcomment %}
-  <script type="text/javascript">
+<script type="text/javascript">
     function confirmation() {
+      var contador = 0;
       checkboxes = document.getElementsByClassName('onoffswitch-checkbox');
-      if(checkboxes[0].checked == false){
-        if(confirm("Tiene que seleccionar al menos un documento para poder descargarlo. ¿desea continuar?")){
-          return true;
+      console.log(checkboxes.length);
+      for (i = 0; i < checkboxes.length; i++){
+        if (checkboxes[i].checked) {
+          contador = contador + 1;
         }
-        else{
-          return false;
+      }
+      if(contador === 0 ){
+        alert("Tiene que seleccionar al menos un documento para poder descargarlo. ¿Desea continuar?")
+        return false
+      }else{
+        return true
       }
     }
-      else(check_checkbox[0].checked== true){
-        return true;
-      }
-  }
-  </script>
+</script>
 {% endblock content %}
     

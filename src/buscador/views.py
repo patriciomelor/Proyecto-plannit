@@ -50,15 +50,10 @@ class BuscadorIndex(ProyectoMixin, View):
 
     def post(self, request, *args, **kwargs):
         listado = self.request.POST.getlist('dnld')
-        lista_verdad_falsa = self.request.POST.getlist('')
-        #Primero debemos verificar si el primer elemento de la lista existe, para poder luego sacarlo, ya que será vacío
-        #Si la primera posición 0, de la lista "listado", es diferente que un espacio vacío, se empezará a leer la lista desde la posición 0
         if listado:
             if listado[0]:  
                 versiones = Version.objects.filter(pk__in=listado)
-            #En cambio, cualquier caso que no cumpla la condición en que la primera posición sea diferente de espacio vacío, se empezará a leer la lista desde la posición 1 
             else:
-                #Con el operador :, podemos indicarle que el listado puede empezar desde una posición especifica hasta N veces.
                 versiones = Version.objects.filter(pk__in=listado[1:])
             zip_subdir = "Ultimas-Versiones-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
             
@@ -86,7 +81,6 @@ class BuscadorIndex(ProyectoMixin, View):
             return response
 
         if not listado:
-            messages.info(request, "No ha seleccionado ningún documento, porfavor seleccione uno. ")
             return redirect('buscador-index')
 
 
