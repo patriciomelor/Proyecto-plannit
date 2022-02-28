@@ -40,7 +40,9 @@
                   Emisor
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="color:black;font-weight: 900;font-size: 13px;justify-content: flex-start;text-transform:capitalize;">
-                {{documento.owner}}
+                {% for version in versiones %}
+                {% if forloop.last %} {{version.owner.first_name}} {{version.owner.last_name}} {% endif %}
+                {% endfor %}
                 </div><!-- col-8 -->
               </div>
               <div class="row no-gutters">

@@ -24,7 +24,7 @@ from .models import PaqueteAttachment, PrevPaqueteAttachment, Version, Paquete, 
 from .forms import CreatePaqueteForm, PaquetePreviewForm, PrevVersionForm
 from .filters import PaqueteFilter, PaqueteDocumentoFilter, BorradorFilter
 from panel_carga.models import Documento, Proyecto
-
+from panel_carga.choices import TYPES_REVISION
 
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
@@ -280,10 +280,9 @@ class PaqueteDelete(ProyectoMixin, SuperuserViewMixin, DeleteView):
     def form_valid(self, form) -> HttpResponse:
         paquete = self.get_object()
         versions = paquete.version.all()
-        # for version in versions:
-        #     version.delete()
-
-        return HttpResponse()
+        versions.delete()
+        messages.add_message(self.request, messages.SUCCESS, "Paquete eliminado junto a sus versiones, correctamente")
+        return redirect('Bandejaeys')
 
 class BorradorList(ProyectoMixin, ListView):
     template_name = 'bandeja_es/borrador.html'
@@ -661,12 +660,18 @@ class PrevVersionView(ProyectoMixin, VisualizadorViewMixin, FormView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         paquete = PrevPaquete.objects.get(pk= self.kwargs['paquete_pk'])
+        choices = TYPES_REVISION[2:]
         context["paquete_pk"] = paquete
+        context["choices"] = choices
+        
         return context
     
     def form_valid(self, form, **kwargs):
         version = form.save(commit=False)
         version.prev_owner = self.request.user
+        rev_a = form.cleaned_data["revision_a"]
+        if rev_a:
+            version.prev_revision = 1
         version.save()
         paquete = PrevPaquete.objects.get(pk=self.kwargs['paquete_pk'])
         paquete.prev_documento.add(version)

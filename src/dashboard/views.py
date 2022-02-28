@@ -282,7 +282,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 #Calculo de días de revision
                 paquete = version_last.paquete_set.first()
                 paquete_first = version_first.paquete_set.first()
-
+                fecha_paquete_semanal = 0
                 if paquete and paquete_first:
                     fecha_paquete_semanal = paquete_first.fecha_creacion
                     fecha_paquete_semanal = fecha_paquete_semanal.replace(tzinfo = None)
@@ -311,35 +311,35 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 estado_contratista = version_last.estado_contratista
 
                 #Versiones en revision en b
-                if version_last.revision <= 4:
+                if version_last.revision <= 5:
                     doc_emitidos_rev_b.append([doc, version_last, dias_revision, paquete])
 
                 #Versiones en revision en 0
-                if version_last.revision > 4:
+                if version_last.revision > 5:
                     doc_emitidos_rev_b.append([doc, version_first, dias_revision, paquete_first])
                     doc_emitidos_rev_0.append([doc, version_last, dias_revision, paquete])
 
                 #Verisones emitidas en la semana
-                if contador_fechas_semanal != 0:
+                if contador_fechas_semanal != 0 and fecha_paquete_semanal != 0:
                     if fecha_paquete_semanal >= fecha_anterior and fecha_paquete_semanal <= fecha_control:
-                        if version_first.revision <= 4:
+                        if version_first.revision <= 5:
                             contador_emitidos_semana_b = contador_emitidos_semana_b + 1
                             doc_real_rev_b.append([doc, version_first, dias_revision, paquete_first])
 
                         if version_rev_0:
-                            if version_rev_0.revision > 4:
+                            if version_rev_0.revision > 5:
                                 paquete_rev_0 = version_rev_0.paquete_set.first()
                                 contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
                                 doc_real_rev_0.append([doc, version_rev_0, dias_revision, paquete_rev_0])
 
-                if contador_fechas_semanal == 0:
+                if contador_fechas_semanal == 0 and fecha_paquete_semanal != 0:
                     if fecha_paquete_semanal <= fecha_control:
-                        if version_first.revision <= 4:
+                        if version_first.revision <= 5:
                             contador_emitidos_semana_b = contador_emitidos_semana_b + 1
                             doc_real_rev_b.append([doc, version_first, dias_revision, paquete_first])
 
                         if version_rev_0:
-                            if version_rev_0.revision > 4:
+                            if version_rev_0.revision > 5:
                                 paquete_rev_0 = version_rev_0.paquete_set.first()
                                 contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
                                 doc_real_rev_0.append([doc, version_rev_0, dias_revision, paquete_rev_0])
@@ -368,7 +368,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                 #calculos para revisiones de documentos
                 revision = version_last.revision
-                for estados in TYPES_REVISION[5:]:
+                for estados in TYPES_REVISION[6:]:
                     if revision == estados[0]:
                         contador_emitidos_0 = contador_emitidos_0 + 1
                         diferencia =(fecha_version - fecha_emision_0).days
@@ -806,9 +806,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 cont2 = 0
                 for versiones in versiones_documentos:
                     if str(doc.Codigo_documento) == str(versiones.documento_fk):
-                        if versiones.revision < 5 and cont == 0:               
-                            version_letras = versiones
-                            cont = 1
+                        if versiones.revision > 1 and cont == 0:
+                            if versiones.revision < 5 and cont == 0:               
+                                version_letras = versiones
+                                cont = 1
                         if versiones.revision > 4:             
                             version_numerica = versiones
                             cont2 = 1
@@ -848,7 +849,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                 avance_documento = 0
 
                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                for revision in TYPES_REVISION[1:4]:
+                                for revision in TYPES_REVISION[2:5]:
                                     if revision[0] == revision_documento and fecha_version <= controles:
                                         calculo_real_b = valor_ganado * float(rev_letra/100)
                                     if cont == (len(fechas_controles) - 1):
@@ -857,7 +858,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                 if contador_avance == 0:
                                     #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                    for revision in TYPES_REVISION[5:]:
+                                    for revision in TYPES_REVISION[6:]:
                                         if revision[0] == revision_documento and fecha_version <= controles:
                                             calculo_real_0 = valor_ganado * 1
                                         if cont == (len(fechas_controles) - 1):
@@ -866,7 +867,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                 if contador_avance != 0:
                                     #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                    for revision in TYPES_REVISION[5:]:
+                                    for revision in TYPES_REVISION[6:]:
                                         if revision[0] == revision_documento and fecha_version <= controles:
                                             calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                         if cont == (len(fechas_controles) - 1):
@@ -973,7 +974,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                             avance_documento = 0
 
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[1:4]:
+                                            for revision in TYPES_REVISION[2:5]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_b = valor_ganado * float(rev_letra/100)
                                                 if cont == (len(fechas_controles) - 1):
@@ -982,7 +983,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                             if contador_avance == 0:
                                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                for revision in TYPES_REVISION[5:]:
+                                                for revision in TYPES_REVISION[6:]:
                                                     if revision[0] == revision_documento and fecha_version <= controles:
                                                         calculo_real_0 = valor_ganado * 1
                                                     if cont == (len(fechas_controles) - 1):
@@ -991,7 +992,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                             if contador_avance != 0:
                                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                for revision in TYPES_REVISION[5:]:
+                                                for revision in TYPES_REVISION[6:]:
                                                     if revision[0] == revision_documento and fecha_version <= controles:
                                                         calculo_real_0 = valor_ganado * float(1.0 - float(rev_letra/100))
                                                     if cont == (len(fechas_controles) - 1):
@@ -1447,9 +1448,10 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 cont2 = 0
                 for versiones in versiones_documentos:
                     if str(doc.Codigo_documento) == str(versiones.documento_fk):
-                        if versiones.revision < 5 and cont == 0:               
-                            version_letras = versiones
-                            cont = 1
+                        if versiones.revision > 1 and cont == 0:
+                            if versiones.revision < 5 and cont == 0:               
+                                version_letras = versiones
+                                cont = 1
                         if versiones.revision > 4:             
                             version_numerica = versiones
                             cont2 = 1
@@ -1534,7 +1536,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                             avance_documento = 0
 
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[1:4]:
+                                            for revision in TYPES_REVISION[2:5]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
@@ -1543,7 +1545,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                             if contador_avance == 0:
                                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                for revision in TYPES_REVISION[5:]:
+                                                for revision in TYPES_REVISION[6:]:
                                                     if revision[0] == revision_documento and fecha_version <= controles:
                                                         calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                     if cont == (len(fechas_controles) - 1):
@@ -1552,7 +1554,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                             if contador_avance != 0:
                                                 #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                for revision in TYPES_REVISION[5:]:
+                                                for revision in TYPES_REVISION[6:]:
                                                     if revision[0] == revision_documento and fecha_version <= controles:
                                                         calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                     if cont == (len(fechas_controles) - 1):
@@ -1590,7 +1592,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                         avance_documento = 0
 
                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                        for revision in TYPES_REVISION[1:4]:
+                                        for revision in TYPES_REVISION[2:5]:
                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                 calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                             if cont == (len(fechas_controles) - 1):
@@ -1599,7 +1601,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                         if contador_avance == 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[5:]:
+                                            for revision in TYPES_REVISION[6:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
@@ -1608,7 +1610,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                         if contador_avance != 0:
                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                            for revision in TYPES_REVISION[5:]:
+                                            for revision in TYPES_REVISION[6:]:
                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                     calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                 if cont == (len(fechas_controles) - 1):
@@ -1777,7 +1779,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                                         avance_documento = 0
 
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                        for revision in TYPES_REVISION[1:4]:
+                                                        for revision in TYPES_REVISION[2:5]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                                 calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                                             if cont == (len(fechas_controles) - 1):
@@ -1786,7 +1788,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                                         if contador_avance == 0:
                                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                            for revision in TYPES_REVISION[5:]:
+                                                            for revision in TYPES_REVISION[6:]:
                                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                                     calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                                 if cont == (len(fechas_controles) - 1):
@@ -1795,7 +1797,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                                         if contador_avance != 0:
                                                             #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                            for revision in TYPES_REVISION[5:]:
+                                                            for revision in TYPES_REVISION[6:]:
                                                                 if revision[0] == revision_documento and fecha_version <= controles:
                                                                     calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                                 if cont == (len(fechas_controles) - 1):
@@ -1833,7 +1835,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                                                     avance_documento = 0
 
                                                     #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                    for revision in TYPES_REVISION[1:4]:
+                                                    for revision in TYPES_REVISION[2:5]:
                                                         if revision[0] == revision_documento and fecha_version <= controles:
                                                             calculo_real_b = float((hh_doc * rev_letra)/total_hh)
                                                         if cont == (len(fechas_controles) - 1):
@@ -1842,7 +1844,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                                     if contador_avance == 0:
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                        for revision in TYPES_REVISION[5:]:
+                                                        for revision in TYPES_REVISION[6:]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                                 calculo_real_0 = float((hh_doc * 100)/total_hh)
                                                             if cont == (len(fechas_controles) - 1):
@@ -1851,7 +1853,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                                                     if contador_avance != 0:
                                                         #Se recorren los tipos de version para obtener la del documento actual y realizar el calculo
-                                                        for revision in TYPES_REVISION[5:]:
+                                                        for revision in TYPES_REVISION[6:]:
                                                             if revision[0] == revision_documento and fecha_version <= controles:
                                                                 calculo_real_0 = float((hh_doc * float(100 - rev_letra))/total_hh)
                                                             if cont == (len(fechas_controles) - 1):

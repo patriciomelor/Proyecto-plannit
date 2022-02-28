@@ -13,7 +13,7 @@ class Version(models.Model):
     fecha = models.DateTimeField(verbose_name="Fecha Versión", default=timezone.now, editable=True)
     documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True)
-    revision = models.IntegerField(verbose_name="Revisión", choices=TYPES_REVISION)
+    revision = models.IntegerField(verbose_name="Revisión", choices=TYPES_REVISION, blank=True)
     #revision = models.CharField(verbose_name="Revisión", max_length=1, default="B")
     estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, default=1, blank=True, null=True) #Necesario para tomar los estados del primer grafico
     estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, default=1, blank=True, null=True)
@@ -71,7 +71,7 @@ class PaqueteDocumento(models.Model): #Tabla auxiliar que basicamente es lo mism
         return item
 
 class PaqueteAttachment(models.Model):
-    paquete = models.ForeignKey(Paquete, verbose_name="Paquete", related_name="attachments", on_delete=models.DO_NOTHING, null=True)
+    paquete = models.ForeignKey(Paquete, verbose_name="Paquete", related_name="attachments", on_delete=models.CASCADE, null=True)
     file = models.FileField(verbose_name="Archivo", upload_to="proyecto/documentos/adjuntos")
 
 #################################################
@@ -83,7 +83,7 @@ class PrevVersion(models.Model):
     prev_fecha = models.DateTimeField(verbose_name="Fecha Version", auto_now_add=True)
     prev_documento_fk = models.ForeignKey(Documento, on_delete=models.CASCADE) #relacion por defecto one to many en django
     prev_archivo = models.FileField(upload_to="proyecto/documentos/", blank=True, null=True)
-    prev_revision = models.IntegerField(choices=TYPES_REVISION, verbose_name="Revisión")
+    prev_revision = models.IntegerField(choices=TYPES_REVISION, verbose_name="Revisión", blank=True)
     prev_estado_cliente = models.IntegerField(choices=ESTADOS_CLIENTE, blank=True, null=True)
     prev_estado_contratista = models.IntegerField(choices=ESTADO_CONTRATISTA, blank=True, null=True)
     prev_owner = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Creador")

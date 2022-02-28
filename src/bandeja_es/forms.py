@@ -1,3 +1,4 @@
+from cProfile import label
 from django import forms
 from multiupload.fields import MultiFileField, MultiMediaField, MultiImageField
 from django.forms import BaseFormSet, widgets
@@ -91,6 +92,7 @@ class PaquetePreviewForm(forms.ModelForm):
 
 class PrevVersionForm(forms.ModelForm):
     adjuntar = forms.BooleanField(label="Adjuntar Archivo ?", required=False, widget=forms.CheckboxInput(attrs={'onClick':'disableSending()'}))
+    revision_a = forms.BooleanField(label="Desea envíar con Revisión en A ?", required=False,widget=forms.CheckboxInput(attrs={'onChange':'comprobar()','id':'chec'}))
     # prev_archivo = MultiFileField(label="Archivos multiples", min_num=1, max_num=10, max_file_size=5368709120, widget=forms.FileInput(attrs={'class' : 'col-md-4 ','disabled':'disabled'}))
     class Meta:
         model = PrevVersion
@@ -106,17 +108,21 @@ class PrevVersionForm(forms.ModelForm):
             'prev_estado_contratista': forms.Select(attrs={'class' : 'form-control col-md-4' }),
             'prev_estado_cliente' : forms.Select(attrs={'class' : 'form-control col-md-4 '}),
             'prev_archivo' : forms.FileInput(attrs={'class' : 'col-md-4 ','disabled':'disabled', 'multiple': 'multiple'}),
-        
+            
         }
 
 
     def __init__(self, **kwargs):
         self.paquete = kwargs.pop('paquete_pk', None)
         self.usuario = kwargs.pop('user', None)
+        self.choices = kwargs.pop('choices', None)
+        print(self.choices)
         super(PrevVersionForm, self).__init__(**kwargs)
         if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
             self.fields["prev_archivo"].required = True
-            
+        self.fields["prev_revision"].choices = TYPES_REVISION[2:]
+
+
     def clean(self):
         cleaned_data = super().clean()
         #Verifica que el formulario venga con los datos minimos
@@ -135,74 +141,79 @@ class PrevVersionForm(forms.ModelForm):
         revision_str = (dict(TYPES_REVISION).get(revision))
         print("Revision string: ", revision_str)
 
-        #Verifica que primero se emita una revisión en B
-        try:
-            document = Documento.objects.get(Codigo_documento=doc)
-            ultima_revision = Version.objects.filter(documento_fk=document)
-            if not ultima_revision.exists() and revision > 1:
-                raise ValidationError('Se debe emitir una revisión en B primero')
-        except (AttributeError, Version.DoesNotExist, Documento.DoesNotExist):
+        con_rev_a = cleaned_data.get("revision_a")
+        
+        if con_rev_a == True:
             pass
+        else:
+            #Verifica que primero se emita una revisión en B
+            try:
+                document = Documento.objects.get(Codigo_documento=doc)
+                ultima_revision = Version.objects.filter(documento_fk=document)
+                if not ultima_revision.exists() and revision > 2:
+                    raise ValidationError('Se debe emitir una revisión en B primero')
+            except (AttributeError, Version.DoesNotExist, Documento.DoesNotExist):
+                pass
 
 
-        #Varifica si existe una version creada en el paquete
-        #para el documento selecionado
-        try:
-            document = Documento.objects.get(Codigo_documento=doc)
-            ultima_rev = Version.objects.filter(documento_fk=document).last()
-            if ultima_rev.estado_cliente is not None:
-                if not ultima_rev.estado_cliente == 6 and revision == ultima_rev.revision:
-                    raise ValidationError('No se puede mantener la revisión del documento {}, por favor intente con una revisión distinta'.format(document.Codigo_documento))
-            else:
-                pass                
-        except (AttributeError, Version.DoesNotExist, Documento.DoesNotExist):
-            pass
+            #Varifica si existe una version creada en el paquete
+            #para el documento selecionado
+            try:
+                document = Documento.objects.get(Codigo_documento=doc)
+                ultima_rev = Version.objects.filter(documento_fk=document).last()
+                if ultima_rev.estado_cliente is not None:
+                    if not ultima_rev.estado_cliente == 6 and revision == ultima_rev.revision:
+                        raise ValidationError('No se puede mantener la revisión del documento {}, por favor intente con una revisión distinta'.format(document.Codigo_documento))
+                else:
+                    pass                
+            except (AttributeError, Version.DoesNotExist, Documento.DoesNotExist):
+                pass
 
 
-        #Verificca que no se pueda emitir una revision en número antes de que en letra
-        try:
-            ultima_revision = Version.objects.filter(documento_fk=doc)
-            if not ultima_revision.exists() and revision >= 5:
-                raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
-        except (AttributeError, Version.DoesNotExist):
-            pass
+            #Verificca que no se pueda emitir una revision en número antes de que en letra
+            try:
+                ultima_revision = Version.objects.filter(documento_fk=doc)
+                if not ultima_revision.exists() and revision >= 6:
+                    raise ValidationError('No se puede emitir una revisión en N° antes que en letra')
+            except (AttributeError, Version.DoesNotExist):
+                pass
 
 
-        #Verifica que no se pueda enviar una version igual 
-        # o anterior a la última emitida
-        try:
-            ultima_revision = Version.objects.filter(documento_fk=doc).last()
-            if revision < ultima_revision.revision:
-                raise ValidationError('No se puede elegir una revisión anterior a la última emitida')
-        except (AttributeError, Version.DoesNotExist):
-            pass
+            #Verifica que no se pueda enviar una version igual 
+            # o anterior a la última emitida
+            try:
+                ultima_revision = Version.objects.filter(documento_fk=doc).last()
+                if revision < ultima_revision.revision:
+                    raise ValidationError('No se puede elegir una revisión anterior a la última emitida')
+            except (AttributeError, Version.DoesNotExist):
+                pass
 
 
-        #Verifica que el nombre del archivo coincida con
-        #el nombre del documento + la version escogida.
-        if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
-            con_archivo = cleaned_data.get("adjuntar")
-            if con_archivo == True:
+            #Verifica que el nombre del archivo coincida con
+            #el nombre del documento + la version escogida.
+            if self.usuario.perfil.rol_usuario >= 1 and self.usuario.perfil.rol_usuario <=3:
+                if not estado_cliente: 
+                    raise ValidationError("Debes seleccionar un estado para esta revisión.")
+                con_archivo = cleaned_data.get("adjuntar")
+                if con_archivo == True:
+                    nombre_bool = verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo)
+                    if not nombre_bool:
+                        raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
+                    if nombre_archivo == '':
+                        self.add_error('No se adjuntó archivo')
+                
+            if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
                 nombre_bool = verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo)
+                print("nombre bool: ", nombre_bool)
                 if not nombre_bool:
                     raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-                if nombre_archivo == '':
-                    self.add_error('No se adjuntó archivo')
-            if not estado_cliente: 
-                raise ValidationError("Debes seleccionar un estado para esta revisión.")
-        
-        if self.usuario.perfil.rol_usuario >= 4 and self.usuario.perfil.rol_usuario <=6:
-            nombre_bool = verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo)
-            print("nombre bool: ", nombre_bool)
-            if not nombre_bool:
-                raise ValidationError('El nombre del Documento seleccionado y el del archivo no coinciden, Por favor verifique los datos.')
-            if not estado_contratista: 
-                raise ValidationError("Debes seleccionar un estado para esta revisión.")
+                if not estado_contratista: 
+                    raise ValidationError("Debes seleccionar un estado para esta revisión.")
 
-        
-        #Verificar que no se pueda emitir para constucción con estados Números
-        if revision < 5 and estado_cliente == 5:
-            raise ValidationError('No se puede emitir Válido para construcción estando en Letra')
+            
+            #Verificar que no se pueda emitir para constucción con estados Números
+            if revision < 5 and estado_cliente == 5:
+                raise ValidationError('No se puede emitir Válido para construcción estando en Letra')
 
 
 def verificar_nombre_archivo(nombre_documento, revision_str, nombre_archivo):
