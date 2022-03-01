@@ -86,77 +86,75 @@
     </style>
     <!-- Bracket CSS -->
   </head>
-  <body class="collapsed-menu">
+  <body class="show-left collapsed-menu with-subleft">
  
     <!-- ########## START: LEFT PANEL ########## -->
       {% include 'titulo.html' %}
-    <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-x ps--active-y" data-ps-id="9f275960-8fc4-263c-8019-2d3495e7d5c1">
-      <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
-      <div class="br-sideleft-menu">
-        <a href="{% url 'index' %}" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
-            <span class="menu-item-label">Escritorio</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-        
-         <a href="{% url 'PanelCarga' %}" class="br-menu-link ">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
-            <span class="menu-item-label">Panel de Carga</span>
-          </div><!-- menu-item -->
-          </a>
-        
-        <a href="{% url 'Bandejaeys' %}" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
-            <span class="menu-item-label">Bandeja</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-          <a href="{% url 'analitica-index' %}" class="br-menu-link">
-          <div class="br-menu-item active">
-           <i class="menu-item-icon fa fa-bar-chart tx-24 "></i>
-            <span class="menu-item-label">Analítica</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-       
-        <a href="{% url 'status-index' %}" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
-            <span class="menu-item-label">Estatus</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
+      <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-y">
+        <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
+        <div class="br-sideleft-menu">
+          <a href="{% url 'index' %}" class="br-menu-link">
+            <div class="br-menu-item">
+              <i class="menu-item-icon icon ion-home tx-24"></i>
+              <span class="menu-item-label">Escritorio</span>
+            </div><!-- menu-item -->
+          </a><!-- br-menu-link -->
+           <a href="{% url 'PanelCarga' %}" class="br-menu-link ">
+            <div class="br-menu-item">
+              <i class="menu-item-icon icon ion-document-text tx-24"></i>
+              <span class="menu-item-label">Panel de Carga</span>
+            </div><!-- menu-item -->
+            </a>
+          <a href="{% url 'Bandejaeys' %}" class="br-menu-link">
+            <div class="br-menu-item">
+              <i class="menu-item-icon icon  ion-email tx-24"></i>
+              <span class="menu-item-label">Bandeja</span>
+            </div><!-- menu-item -->
+          </a><!-- br-menu-link -->
+           <a href="{% url 'analitica-index' %}" class="br-menu-link">
+            <div class="br-menu-item active">
+             <i class="menu-item-icon icon ion-pie-graph tx-24 "></i>
+              <span class="menu-item-label">Analítica</span>
+            </div><!-- menu-item -->
+          </a><!-- br-menu-link -->
+         
+          <a href="{% url 'status-index' %}" class="br-menu-link">
+            <div class="br-menu-item">
+              <i class="menu-item-icon ion-ios-list-outline tx-24"></i>
+              <span class="menu-item-label">Estatus</span>
+            </div><!-- menu-item -->
+          </a><!-- br-menu-link -->
          {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
-       
-        {% else %}
-         <a href="{% url 'encargado-index' %}" class="br-menu-link">
-          <div class="br-menu-item ">
-            <i class=" menu-item-icon icon ion-person tx-24"></i>
-            <span class="menu-item-label">Asignación de<br>Responsabilidades</span>
-          </div>
-        </a>
-        {% endif %}
-        <a href="{% url 'buscador-index' %}" class="br-menu-link active">
-          <div class="br-menu-item active">
-            <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
-            <span class="menu-item-label">Buscador</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-         <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon fa fa-clock-o tx-24"></i>
-            <span class="menu-item-label">Historial de<br>Umbrales</span>
-          </div>
-          <!-- menu-item --> 
+         
+          {% else %}
+           <a href="{% url 'encargado-index' %}" class="br-menu-link">
+            <div class="br-menu-item ">
+              <i class=" menu-item-icon icon ion-person tx-24"></i>
+              <span class="menu-item-label">Asignación de<br>Responsabilidades</span>
+            </div>
           </a>
-        <a href="{% url 'configuracion-index' %}" class="br-menu-link">
-          <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
-            <span class="menu-item-label">Configuración</span>
-          </div><!-- menu-item -->
-        </a><!-- br-menu-link -->
-      </div><!-- br-sideleft-menu -->
-    </div><!-- br-sideleft -->
+          {% endif %}
+          <a href="{% url 'buscador-index' %}" class="br-menu-link active">
+            <div class="br-menu-item">
+              <i class="menu-item-icon icon fa fa-search tx-24"></i>
+              <span class="menu-item-label">Buscador</span>
+            </div><!-- menu-item -->
+          </a><!-- br-menu-link -->
+           <a href="{% url 'list-notif-umbrales' %}" class="br-menu-link">
+            <div class="br-menu-item">
+              <i class="menu-item-icon icon fa fa-clock-o tx-24"></i>
+              <span class="menu-item-label">Historial de<br>Umbrales</span>
+            </div>
+            <!-- menu-item --> 
+            </a>
+          <a href="{% url 'configuracion-index' %}" class="br-menu-link">
+            <div class="br-menu-item">
+              <i class="menu-item-icon icon fa fa-gear tx-24"></i>
+              <span class="menu-item-label">Configuración</span>
+            </div><!-- menu-item -->
+          </a><!-- br-menu-link -->
+        </div><!-- br-sideleft-menu -->
+      </div><!-- br-sideleft -->
     <!-- ########## END: LEFT PANEL ########## -->
 
      <!-- ########## START: HEAD PANEL ########## -->
