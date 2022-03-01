@@ -1,74 +1,84 @@
 <div class=" ht-65 bd bg-gray-100 pd-x-20 d-flex align-items-center justify-content-center mg-t-20"style="align-items: baseline;justify-content: center;height:auto;">
   <ul class="nav nav-gray-600 active-info tx-uppercase tx-12 tx-medium tx-spacing-2 flex-column flex-sm-row" style="align-items: baseline;justify-content: center;height:auto;">
-    {% if request.user.is_superuser == true %}
+    {% if request.user.is_superuser == True %}
     <li class="nav-item"><a class="nav-link" href="{% url 'crear-proyecto' %}">Agregar Proyectos</a></li>
     <li class="nav-item"><a class="nav-link" href="{% url 'lista-proyecto' %}">Lista de Proyectos</a></li>
     {% endif %}
+
     {% if request.user.perfil.rol_usuario == 1 %}
     <li class="nav-item">
       <a class="nav-link" href="{% url 'editar-proyecto' proyecto.pk %}">
-        <i class="fa fa-pencil"></i>&numsp;Editar Proyectos</a>
+      <i class="fa fa-pencil"></i> &numsp;Editar Proyecto</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}"><i class="fas fa-user-circle"></i>
-        &numsp;Mi Perfil</a>
+      <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}">
+      <i class="fas fa-user-circle"></i> &numsp;Mi Perfil</a>
     </li>
-        <li class="nav-item">
-     <a class="nav-link" href="{% url 'crear-usuario' %}"><i class="icon ion-person-add"></i> Agregar Usuario</a>
+    <li class="nav-item"><a class="nav-link" href="{% url 'crear-usuario' %}">
+      <i class="icon ion-person-add"></i>&numsp;Agregar Usuario</a>
     </li>
-      </li>
-        <li class="nav-item">
-     <a class="nav-link" href="{% url 'listar-usuarios' %}"><i class="icon ion-person"></i> Listar Usuarios</a>
+    <li class="nav-item"><a class="nav-link" href="{% url 'listar-usuarios' %}">
+      <i class="icon ion-person"></i>&numsp;Listar Usuarios</a>
     </li>
-     <li class="nav-item">
-      <a class="nav-link" href="{% url 'restriccion' %}"><i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
-     </li>  
-     <li class="nav-item" style="text-align:center;"> 
-    <a class="nav-link" href="{% url 'add-user-proyecto' %}"><i class="fas fa-user-chart"></i>&numsp;Agregar Usuarios<br> a Proyectos</a> 
+    <li class="nav-item"><a class="nav-link" href="{% url 'add-user-proyecto' %}">
+        <i class="fas fa-user-chart"></i>&numsp;Agregar Usuarios a Proyectos</a>
     </li> 
     <li class="nav-item">
-      <a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp; No cumplimiento</a>
-    </li>     
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'list-umbrales' %}">
-        <i class="fas fa-business-time"></i>&numsp;Umbrales</a>
+      <a class="nav-link" href="{% url 'restriccion' %}"><i
+          class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'no-cumplimiento' %}">
+      <i class="fas fa-ban"></i>&numsp;No cumplimiento</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'list-umbrales' %}">
+      <i class="fas fa-business-time"></i>&numsp; Umbrales</a>
     </li>
     {% elif request.user.perfil.rol_usuario == 4 %}
-    <li class="nav-item">
-      <a class="nav-link tx-white" href="{% url 'editar-proyecto' proyecto.pk %}"><i
-          class="fa fa-pencil"></i>
-        &numsp;Ver datos Proyectos</a>
+    <li class="nav-item"><a class="nav-link" href="{% url 'editar-proyecto' proyecto.pk %}">
+      <i class="fa fa-pencil"></i> &numsp;Ver datos de Proyecto</a>
     </li>
     <li class="nav-item">
-      <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}"><i class="fas fa-user-circle"></i>
-        &numsp;Mi Perfil</a>
+      <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}">
+      <i class="fas fa-user-circle"></i>&numsp;Mi Perfil</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'crear-usuario' %}">
+      <i class="icon ion-person-add"></i>&numsp;Agregar Usuario</a>
+    </li>
+    <li class="nav-item"><a class="nav-link" href="{% url 'listar-usuarios' %}">
+      <i class="icon ion-person"></i>&numsp;Listar Usuarios</a>
     </li>
     <li class="nav-item">
-       <a class="nav-link" href="{% url 'crear-usuario' %}"><i class="icon ion-person-add"></i> Agregar Usuario</a>
+      <a class="nav-link" href="{% url 'add-user-proyecto' %}">
+        <i class="fas fa-user-chart"></i>&numsp;Agregar Usuarios a Proyectos</a>
     </li>
-     <li class="nav-item">
-       <a class="nav-link" href="{% url 'listar-usuarios' %}"><i class="icon ion-person"></i> Listar Usuarios</a> 
+    <li class="nav-item"><a class="nav-link" href="{% url 'restriccion' %}">
+      <i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
     </li>
-     <li class="nav-item">
-    <a class="nav-link" href="{% url 'add-user-proyecto' %}"><i  class="fas fa-user-chart"></i>Agregar Usuarios a Proyectos</a> 
+    <li class="nav-item"><a class="nav-link" href="{% url 'no-cumplimiento' %}">
+        <i class="fas fa-ban"></i>&numsp;No cumplimiento</a>
     </li>
-    <li class="nav-item">
-       <a class="nav-link" href="{% url 'restriccion' %}"><i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
-    </li>
-    <li class="nav-item">
-       <a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp; No cumplimiento</a>
-    </li>
-   
-    <li class="nav-item">
-      <a class="nav-link" href="{% url 'list-umbrales' %}">
-        <i class="fas fa-business-time"></i>&numsp;Umbrales</a>
+    <li class="nav-item"><a class="nav-link" href="{% url 'list-umbrales' %}">
+      <i class="fas fa-business-time"></i>&numsp; Umbrales</a>
     </li>
     {% endif %}
-    {% if not request.user.perfil.rol_usuario == 1 and not request.user.perfil.rol_usuario == 4%}
-        <li class="nav-item"><a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}"><i class="fas fa-user-circle"></i>  &numsp;Mi Perfil</a></li>
-      <li class="nav-item"><a class="nav-link tx-white" href="{% url 'editar-proyecto' proyecto.pk %}"><i class="fa fa-pencil"></i>&numsp;Ver datos Proyectos</a></li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'restriccion' %}"><i class="icon ion-backspace-outline"></i>&numsp;Restricciones</li>
-    <li class="nav-item"><a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp;No&numsp;cumplimiento</li>
+
+    {% if not request.user.perfil.rol_usuario == 1 and not request.user.perfil.rol_usuario == 4 %}
+    <li class="nav-item">
+      <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}">
+      <i class="fas fa-user-circle"></i>&numsp;Mi Perfil</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'editar-proyecto' proyecto.pk %}">
+      <i class="fa fa-pencil"></i> &numsp;Ver datos de Proyecto</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'restriccion' %}">
+      <i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
+    </li>
+    <li class="nav-item">
+      <a class="nav-link" href="{% url 'no-cumplimiento' %}">
+      <i class="fas fa-ban"></i>&numsp;No cumplimiento</a>
+    </li>
     {% endif %}
   </ul>
 </div><!-- ht-65 -->
