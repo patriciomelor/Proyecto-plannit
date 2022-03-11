@@ -79,6 +79,8 @@
                                 <th class="pd-y-5"style="text-align: center;">Tipo</th>
                                 <th class="pd-y-5"style="text-align: center;">Código</th>
                                 <th class="pd-y-5"style="text-align: center;">Revisión</th>
+                                <th class="pd-y-5"style="text-align: center;">Estado</th>
+                                <th class="pd-y-5"style="text-align: center;">Dias Atrasos</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -88,7 +90,14 @@
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Descripcion}}</td>
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
+                                <th class="pd-y-5"style="text-align: center;">{{version.get_revision_display}}</th>
+                                  {% if version.estado_cliente is None %} 
+                                    <td class="tx-12" style="text-align: center;font-weight:800;">{{version.get_estado_contratista_display}}</td>
+                                  {% else %}
+                                    <td class="tx-12" style="text-align: center;font-weight:800;">{{version.get_estado_cliente_display}}</td>
+                                  {% endif %}
+                                  
+                               <td class="tx-12"style="text-align: center;font-weight:800;"></td>
                             </tr>
                         {% endfor %}
                           <tr>

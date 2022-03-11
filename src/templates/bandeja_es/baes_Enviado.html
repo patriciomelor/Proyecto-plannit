@@ -4,19 +4,40 @@
 
 
 {% block content %}   
-<div class="br-mainpanel" style="position: relative;">
+{% comment %} <div class="br-mainpanel" style="position: relative;">
+
+  </div><!-- br-pageheader --> {% endcomment %}
+  <div class="br-subleft">
+    <div class="pd-10">
+      <a href="" class="btn btn-teal bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Upload Files</a>
+    </div>
+
+    <nav class="nav br-nav-mailbox flex-column">
+      <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> New Folder</a>
+      <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> Share Folder</a>
+      <a href="" class="nav-link"><i class="icon ion-ios-trash-outline"></i> Deleted Files</a>
+    </nav>
+
+    <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">My Folder</h6>
+
+    <nav class="nav br-nav-mailbox flex-column">
+      <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> Camera Uploads</a>
+      <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> My Collections</a>
+      <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> E-Book</a>
+    </nav>
+  </div><!-- br-subleft -->
+<!--Filtros-->
+<div class="br-contentpanel">
+  {% include 'bandeja_es/menu.html' %}
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
       <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Salida.</a>      
       <span class="breadcrumb-item active">Enviados</span>
     </nav>
-  </div><!-- br-pageheader -->
-<!--Filtros-->
-  {% include 'bandeja_es/menu.html' %}
+  </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30" style="display:flex;align-items: end;">
     <h4 class="tx-gray-800 mg-b-5 mg-r-10">Bandeja de Enviados</h4>
-   
     <form method="POST">{% csrf_token %}
       <button class="btn btn-warning  tx-uppercase tx-bold tx-spacing-6 tx-10" type="submit"><i class="fa fa-download mg-r-10"></i>Descargar Todos</button>
     </form>
@@ -31,7 +52,7 @@
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Asunto</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Autor</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Destinatario</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Fecha</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;width:100px;">Fecha</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Hora</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Detalle</th>
             {% if request.user.is_superuser %}
@@ -91,8 +112,9 @@
     </div>
   </div><!-- br-pagebody -->  
 </div><!-- br-contentpanel -->
+</div><!-- br-contentpanel -->
  
-<!--Script-->
+<!--Script Datatable-->
 <script type="text/javascript">
   jQuery(document).ready(function() {
     $('#mydatatable').DataTable(

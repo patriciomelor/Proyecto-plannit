@@ -158,7 +158,7 @@
                               </div>
                              
                           </div>
-                          {% comment %} <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
+                          <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
                         
                                 <div id="app" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;">
                                     <div v-show=" version_ok === 1 " id="alert1" class="alert alert-bordered alert-success" role="alert">
@@ -190,12 +190,12 @@
                                                 <p class="tx-14 lh-3 mg-t-10 tx-white">Siga estas <a href="" class="tx-warning"data-toggle="modal" data-target="#exampleModalLong">Instrucciones</a>&nbsp;Para llenar la planillas.</p>
                                            
                                             </td>
-                                            <td style="text-align: center;vertical-align: inherit;"colspan="2"> 
+                                            <td style="text-align: center;vertical-align: inherit;"colspan="1"> 
                                                 <a v-on:click="cargar_val" class="btn btn-warning" type="button"onClick="window.location.reload();"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
                                                
                                             </td>
                                             
-                                            <td colspan="3"style="text-align: center;vertical-align: inherit;">
+                                            <td colspan="2"style="text-align: center;vertical-align: inherit;">
                                                
                                              <a type="button"class="btn btn-success"href="https://plannit-spaces.sfo3.digitaloceanspaces.com/PLANNIT-PLANTILLA_MC.xlsx" target="_blank" rel="noopener noreferrer">
                                               <i class="fa fa-download mg-r-10"></i> Descargar plantilla
@@ -204,12 +204,10 @@
                                           </tr>
                                           <tr>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Código </th>
-                                              {% comment %} <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Descripción </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Especialidad </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Revisión </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"><button type="button" class="btn btn-teal" id="miBoton">Validar Todo</button></th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
 
 
@@ -220,8 +218,6 @@
                                          
                                             <tr v-for="(version, index) in versiones" :key="index">
                                                 <td > [[ version.CODIGO ]]</td>
-                                                <td > [[ version.DESCRIPCION ]]</td> 
-                                                <td > [[ version.ESPECIALIDAD ]]</td> 
                                                 <td > [[ version.REVISION | revision ]]</td>
                                                 <td > [[ version.ESTADO | estado ]]</td>
                                                 <td>
@@ -230,7 +226,7 @@
                                                 <td> 
                                                 
                                                     <button
-                                                    :id="'btn_' + index"
+                                                    :id="'validar btn_' + index"
                                                     value="verificar" 
                                                     :key="index" 
                                                     :class="{ 'btn btn-success': !send && activeIndex !== index, 'sr-only' : activeIndex === index }" 
@@ -258,7 +254,7 @@
                                     
                                 </div>
                         
-                        </div> {% endcomment %}
+                        </div> 
                 </div>
                 
             </form>
@@ -718,7 +714,7 @@ var app = new Vue({
             }
 
 
-            let button_id = 'btn_' + index
+            let button_id = 'validar btn_' + index
             let input_id = 'file-2-' + index
 
 
@@ -755,7 +751,7 @@ var app = new Vue({
         
         isDisabled_button: function(index){
             // let val = 0;
-            let button_id = 'btn_' + index
+            let button_id = 'validar btn_' + index
             if (this.versiones_valid.includes(button_id) ){
                 return true
             }else{
@@ -848,4 +844,18 @@ var app = new Vue({
       });
     });
   </script>
+  <script>
+        // Obtener referencia a botón
+        // Recuerda: el numeral o # indica id
+        const boton = document.querySelector("#miBoton");
+        // Agregar listener
+        boton.addEventListener("click", function (evento) {
+        	// Aquí todo el código que se ejecuta cuando se da click al botón
+        	// El evento del click
+        	console.log("El evento es: ", evento);
+        	// Para acceder al botón usamos this
+        	// Por ejemplo cambiemos el texto
+        	document.getElementsByClassName("btn-success").click();
+        });
+    </script>
 {% endblock content %}
