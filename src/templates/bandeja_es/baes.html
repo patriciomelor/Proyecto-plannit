@@ -17,7 +17,7 @@
     <h4 class="tx-gray-800 mg-b-5 mg-r-10">Bandeja de entrada</h4>
     
     <form method="POST">{% csrf_token %}
-      <button class="btn btn-warning  tx-uppercase tx-bold tx-spacing-6 tx-10" type="submit"><i class="fa fa-download mg-r-10"></i>Descargar Todos.</button>
+      <button class="btn btn-warning  tx-uppercase tx-bold tx-spacing-6 tx-10" type="submit"><i class="fa fa-download mg-r-10"></i>Descargar Todos</button>
     </form>
     
   </div>
@@ -27,24 +27,24 @@
       <table class="records_list table table-striped table-bordered table-hover table-primary" id="mydatatable" role="grid" aria-describedby="datatable2_info">
         <thead>
           <tr role="row" style="color:#fff;"> 
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Transmittal</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Transmittal</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Tipo</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Asunto</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Emisor</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Destinatario</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down sorting_asc"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Fecha</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down sorting_asc"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Hora</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Detalle</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Asunto</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Autor</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Destinatario</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Fecha</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Hora</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Detalle</th>
             {% if request.user.is_superuser %}
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Editar</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Eliminar</th>
+              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Editar</th>
+              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Eliminar</th>
             {% endif %}
           </tr>
         </thead>
         <tbody>
         {% for paquete in paquetes %}
           <tr role="row" class="odd">
-            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
                   <a href="{% url 'paquete-detalle' paquete.pk %}">
                   {{paquete.codigo}}</a>
             </td>            

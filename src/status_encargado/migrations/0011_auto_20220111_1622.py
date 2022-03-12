@@ -13,11 +13,6 @@ class Migration(migrations.Migration):
     ]
 
     operations = [
-        migrations.AddField(
-            model_name='tarea',
-            name='autor',
-            field=models.ForeignKey(blank=True, default=1, on_delete=django.db.models.deletion.SET_DEFAULT, related_name='autor', to=settings.AUTH_USER_MODEL, verbose_name='Autor'),
-        ),
         migrations.AlterField(
             model_name='tarea',
             name='encargado',

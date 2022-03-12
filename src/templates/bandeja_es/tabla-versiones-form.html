@@ -158,21 +158,21 @@
                               </div>
                              
                           </div>
-                          <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
+                          {% comment %} <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
                         
                                 <div id="app" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;">
-                                    <div v-show=" version_ok === 1 " id="alert" class="alert alert-bordered alert-success" role="alert">
+                                    <div v-show=" version_ok === 1 " id="alert1" class="alert alert-bordered alert-success" role="alert">
                                         <strong class="d-block d-sm-inline-block-force"> Correcto ! Los datos han sido validados correctamente</strong>
                                     </div><!-- alert -->
 
-                                    <div v-show="version_ok === 0" id="alert" class="alert alert-bordered alert-warning"  role="alert">
+                                    <div v-show="version_ok === 0" id="alert1" class="alert alert-bordered alert-warning"  role="alert">
                                         <strong class="d-block d-sm-inline-block-force"> Error ! Error en la Validación</strong>
                                     </div><!-- alert -->
                                   
                                   <table class=" table table-striped table-bordered table-hover dataTable no-footer table-primary">
                                       <thead>
                                           <tr>
-                                           <td colspan="3">
+                                           <td style="text-align: center;vertical-align: inherit;"colspan="3">
                                                 <input type="file" name="file-1" id="file-upload" class="inputfile inputfile-1" data-multiple-caption="{count} archivos seleccionados"/>
                                                 <label for="file-upload" style="
                                                 margin-bottom: 0px;
@@ -187,22 +187,24 @@
                                                   <span v-if="loading == 1" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                                       [[ buttonText ]]
                                                 </button>
+                                                <p class="tx-14 lh-3 mg-t-10 tx-white">Siga estas <a href="" class="tx-warning"data-toggle="modal" data-target="#exampleModalLong">Instrucciones</a>&nbsp;Para llenar la planillas.</p>
+                                           
                                             </td>
-                                            
-                                            <td colspan="3"> 
+                                            <td style="text-align: center;vertical-align: inherit;"colspan="2"> 
                                                 <a v-on:click="cargar_val" class="btn btn-warning" type="button"onClick="window.location.reload();"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a>
+                                               
                                             </td>
                                             
-                                            <td colspan="3">
+                                            <td colspan="3"style="text-align: center;vertical-align: inherit;">
                                                
-                                             <a type="button"class="btn btn-success"href="https://plannit-spaces.sfo3.digitaloceanspaces.com/PLANNIT-PLANTILLA_MULTICARGA.xlsx" target="_blank" rel="noopener noreferrer">
+                                             <a type="button"class="btn btn-success"href="https://plannit-spaces.sfo3.digitaloceanspaces.com/PLANNIT-PLANTILLA_MC.xlsx" target="_blank" rel="noopener noreferrer">
                                               <i class="fa fa-download mg-r-10"></i> Descargar plantilla
                                              </a>
                                             </td>
                                           </tr>
                                           <tr>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Código </th>
-                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Descripción </th>
+                                              {% comment %} <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Descripción </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Especialidad </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Revisión </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado </th>
@@ -218,8 +220,8 @@
                                          
                                             <tr v-for="(version, index) in versiones" :key="index">
                                                 <td > [[ version.CODIGO ]]</td>
-                                                <td > [[ version.DESCRIPCION ]]</td>
-                                                <td > [[ version.ESPECIALIDAD ]]</td>
+                                                <td > [[ version.DESCRIPCION ]]</td> 
+                                                <td > [[ version.ESPECIALIDAD ]]</td> 
                                                 <td > [[ version.REVISION | revision ]]</td>
                                                 <td > [[ version.ESTADO | estado ]]</td>
                                                 <td>
@@ -256,7 +258,7 @@
                                     
                                 </div>
                         
-                        </div>
+                        </div> {% endcomment %}
                 </div>
                 
             </form>
@@ -264,7 +266,265 @@
     </div>     
 
 </div>
-  
+<!-- Modal Instrucciones -->
+<div class="modal fade" id="exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Instrucciones de llenado de plantilla</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <div id="accordion" class="accordion" role="tablist" aria-multiselectable="true">
+                <div class="card">
+                  <div class="card-header" role="tab" id="headingOne">
+                  
+                    <h6 class="mg-b-0">
+                      <a data-toggle="collapse" data-parent="#accordion" href="#collapseOne"
+                      aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition">
+                      <span class="number">1</span> Insertar Codigo de Documento:
+                      </a>
+                    </h6>
+                  </div><!-- card-header -->
+              
+                  <div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+                    <div class="card-block pd-20">
+                        <p style="margin-left:10px;">El codigo de documento debe ser identico al de panel de carga.<br>
+                            <u>Se recomienda copiar y pegar el codigo desde el Panel de carga.</u></p>
+                    </div>
+                  </div>
+                </div><!-- card -->
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingTwo">
+                      <h6 class="mg-b-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTwo"
+                        aria-expanded="true" aria-controls="collapseTwo" class="tx-gray-800 transition">
+                        <span class="number">2</span> Insertar Revisión:
+                        </a>
+                      </h6>
+                    </div><!-- card-header -->
+                
+                    <div id="collapseTwo" class="collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="card-block pd-20">
+                        <p style="margin-left:10px;">
+                        El Sistema por defecto reconoce la revisión atravez de codigos, por esto mismo dejamos acá una tabla con los codigos correspondientes:
+                            <table class="table table-striped table-bordered table-colored table-primary">
+                                <thead>
+                                    <tr>
+                                        <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;">Codigo</th>
+                                        <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;">Revisión</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr scope="row">
+                                    <th style="text-align: center;border: 2px;border-color: grey; color: black;">1</td>
+                                    <th style="text-align: center;border: 2px;border-color: grey; color: black;">B</td>
+                                </tr>
+                                <tr >
+                                    <th scope="row"style="text-align: center;border: 2px;border-color: grey; color: black;">2</th>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">C</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">3</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">D</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">4</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">E</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">5</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">0</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">6</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">1</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">7</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">2</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">8</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">3</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">9</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">4</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">10</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">5</td>
+                                </tr>
+                                </tbody>
+                            </table>
+                            En el campo del Excel <strong>REVISION</strong> se debe insertar el codigo de la revisión.
+                        </p>
+                       
+                      </div>
+                    </div>
+                </div><!-- card -->
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingTree">
+                      <h6 class="mg-b-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseTree"
+                        aria-expanded="true" aria-controls="collapseTree" class="tx-gray-800 transition">
+                        <span class="number">3</span> Insertar Estado:
+                        </a>
+                      </h6>
+                    </div><!-- card-header -->
+                
+                    <div id="collapseTree" class="collapse" role="tabpanel" aria-labelledby="headingTree">
+                      <div class="card-block pd-20">
+                        <p style="margin-left:10px;">El Sistema por defecto reconoce el estado atravez de codigos, por esto mismo dejamos acá una tabla con los codigos correspondientes:
+                            {% if request.user.perfil.rol_usuario >= 4 and request.user.perfil.rol_usuario < 6  %}
+                            <table class="table table-striped table-bordered table-colored table-primary">
+                                <thead>
+                                    <tr>
+                                        <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;">Codigo</th>
+                                        <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr scope="row">
+                                    <th style="text-align: center;border: 2px;border-color: grey; color: black;">1</td>
+                                    <th style="text-align: center;border: 2px;border-color: grey; color: black;">Para revisión</td>
+                                </tr>
+                                <tr >
+                                    <th scope="row"style="text-align: center;border: 2px;border-color: grey; color: black;">2</th>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">Para aprobación</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">3</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">As Built</td>
+                                </tr>
+                             
+                                </tbody>
+                            </table>
+                            {% elif request.user.perfil.rol_usuario >= 1 and request.user.perfil.rol_usuario < 3 %}
+                            <table class="table table-striped table-bordered table-colored table-primary">
+                                <thead>
+                                    <tr>
+                                        <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;">Codigo</th>
+                                        <th class="tx-10-force tx-mont tx-medium "style="text-align: center; color: white;">Estado</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                <tr >
+                                    <th style="text-align: center;border: 2px;border-color: grey; color: black;">1</td>
+                                    <th style="text-align: center;border: 2px;border-color: grey; color: black;">Aprobado con Comentarios</td>
+                                </tr>
+                                <tr >
+                                    <th style="text-align: center;border: 2px;border-color: grey; color: black;">2</th>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">Rechazado</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">3</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">Anulado</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">4</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">Aprobado</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">5</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">Válido para construcción</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">6</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">Mantener Revisión</td>
+                                </tr>
+                                <tr>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">7</td>
+                                    <td style="text-align: center;border: 2px;border-color: grey; color: black;">Excepción</td>
+                                </tr>
+                                
+                                </tbody>
+                            </table>
+                            {% endif %}       
+                        En el campo del Excel <strong>ESTADO</strong> se debe insertar el codigo de la revisión.</p>
+                   
+                       
+                      </div>
+                    </div>
+                </div><!-- card -->
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingFour">
+                      <h6 class="mg-b-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFour"
+                        aria-expanded="true" aria-controls="collapseFour" class="tx-gray-800 transition">
+                        <span class="number">4</span> Adjuntado de Archivo:
+                        </a>
+                      </h6>
+                    </div><!-- card-header -->
+                
+                    <div id="collapseFour" class="collapse" role="tabpanel" aria-labelledby="headingFour">
+                      <div class="card-block pd-20">
+                        <p style="margin-left:10px;">El Sistema para poder Validar Codigos y revision pide que el nombre del archivo adjuntado sea de la siguiente manera:
+                           <br> <strong>CODIGO-DE-DOCUMENTO-REVISION.FORMATO</strong><br>
+                       Por Ejemplo: <code>P204-C001-L001-B.xslx</code></p>
+                   
+                       
+                      </div>
+                    </div>
+                </div><!-- card -->
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingFive">
+                      <h6 class="mg-b-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseFive"
+                        aria-expanded="true" aria-controls="collapseFive" class="tx-gray-800 transition">
+                        <span class="number">5</span> Validación de Archivo:
+                        </a>
+                      </h6>
+                    </div><!-- card-header -->
+                
+                    <div id="collapseFive" class="collapse" role="tabpanel" aria-labelledby="headingFive">
+                      <div class="card-block pd-20">
+                        <p style="margin-left:10px;">Una vez adjuntado el archivo, se debe precionar el boton
+                            <button class="btn btn-success" type="button"disabled>
+                            <span >&check;</span>                           
+                            </button>
+                             que es quien se encargara de validar toda la informacion subida en la planilla junto al archivo adjunto.
+                        
+                        </p>
+                   
+                       
+                      </div>
+                    </div>
+                </div><!-- card -->
+                <div class="card">
+                    <div class="card-header" role="tab" id="headingSix">
+                      <h6 class="mg-b-0">
+                        <a data-toggle="collapse" data-parent="#accordion" href="#collapseSix"
+                        aria-expanded="true" aria-controls="collapseSix" class="tx-gray-800 transition">
+                        <span class="number">6</span> Adjuntado a Versión
+                        </a>
+                      </h6>
+                    </div><!-- card-header -->
+                
+                    <div id="collapseSix" class="collapse" role="tabpanel" aria-labelledby="headingSix">
+                      <div class="card-block pd-20">
+                        <p style="margin-left:10px;line-height:40px;">Una vez validada toda la información se debe agregar todos los archivos a
+                            la tabla principal, para eso se debe finalizar apretando el boton : 
+                            <a  class="btn btn-warning disabled" type="button" style="font-size: smaller;"><i class="icon ion-plus mg-r-2"></i> Cargar Versiones </a><br>
+                            y asi posterior mente se presiona el boton: <input type="submit" class="mg-x-10 btn btn-teal" disabled value="Enviar"style="font-size: smaller;"/> para enviar el Transmittal.
+                        
+                        </p>
+                   
+                       
+                      </div>
+                    </div>
+                </div><!-- card -->
+                <!-- ADD MORE CARD HERE -->
+            </div><!-- accordion -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-dismiss="modal">cerrar</button>
+        </div>
+      </div>
+    </div>
   </div>
 
 <script language='javascript'>
@@ -293,7 +553,7 @@ function refreshAndClose() {
 <script>
 
 
-Vue.component('message-component', {
+{% comment %} Vue.component('message-component', {
     delimiters: [ '[[' ,  ']]' ],
     props: ['isOk'],
     mounted: function(){
@@ -322,9 +582,63 @@ Vue.component('message-component', {
             }
         }
     }
+}) {% endcomment %}
+
+
+Vue.filter('revision', function(value) {
+    const tipos_revision_kwargs = [
+        "B","C","D","E","1","2","3","4","5"
+    ];
+    const tipos_revision_args = [1,2,3,4,5,6,7,8,9,10];
+    if (tipos_revision_args.includes(value)){
+        let revision_index = tipos_revision_args.indexOf(value)
+        console.log(revision_index);
+        let revision_final = tipos_revision_kwargs[revision_index]
+        console.log(revision_final);
+        return revision_final
+    } else {
+        return "Revisión no econtrada..."
+    }
 })
 
+Vue.filter('estado', function(value) {
+    const estados_cliente_kwarg = [
+    "Aprobado con Comentarios",
+    "Rechazado",
+    "Anulado",
+    "Aprobado",
+    "Válido para construcción",
+    "Mantener Revisión",
+    "Excepción",
+    ];
+    const estados_contratista_kwarg= [
+        "Para revisión",
+        "Para aprobación",
+        "As Built",
+    ];
+    const estados_cliente_arg = [1,2,3,4,5,6,7,8];
+    const estados_contratista_arg = [1,2,3];
 
+    const user_id = {{request.user.perfil.rol_usuario}};
+    if (user_id >= 1 && user_id <= 3) {
+        if (estados_cliente_arg.includes(value)) {
+            let  estado_index = estados_cliente_arg.indexOf(value);
+            let final_estado = estados_cliente_kwarg[estado_index]
+            return final_estado
+        }else {
+            return "Estado No encontrado.."
+        }
+    }else if (user_id >= 4 && user_id <= 6) {
+        if (estados_contratista_arg.includes(value)){
+            let  estado_index = estados_contratista_arg.indexOf(value);
+            let final_estado = estados_contratista_kwarg[estado_index]
+            return final_estado
+        }else {
+            return "Estado No encontrado.."
+        }
+
+    };
+})
 
 var app = new Vue({
 
@@ -339,6 +653,7 @@ var app = new Vue({
     send: false,
     buttonText : 'Subir Archivo',
     activeIndex: null,
+    errors: undefined
 
   },
 
@@ -382,7 +697,7 @@ var app = new Vue({
             )
         },
         cargar_val: function(version, index) {
-            const user_id = {{request.user.pk}};
+            const user_id = {{request.user.perfil.rol_usuario}};
             this.activeIndex = index
             console.log(index)
             
@@ -425,9 +740,11 @@ var app = new Vue({
                     } else {
                         this.version_ok = 0
                     }
-
-
-                    }
+                }
+            ).then(
+                data => {
+                    this.errors = data
+                }    
             ).catch(
                 error => {
                     console.log(error);
@@ -456,112 +773,17 @@ var app = new Vue({
 
             }
         },
+        // discard_elert: function(){
+        //     $('#alert1').fadeIn();
+        //     setTimeout(function(){
+        //         $('#alert1').fadeOut();
+        //     }, 5000);
+        //     this.errors = undefined;
+        // }
     },
-
-    filters:{
-        moment: function(date) {
-            return moment(date).format('MMMM Do YYYY')
-        }
-      },
-        estado: function(value){
-            const estados_cliente_arg = [
-            "Aprobado con Comentarios",
-            "Rechazado",
-            "Anulado",
-            "Aprobado",
-            "Válido para construcción",
-            "Mantener Revisión",
-            "Excepción",
-            ];
-            const estados_contratist_arg= [
-                "Para revisión",
-                "Para aprobación",
-                "As Built",
-            ];
-            const estados_cliente_kwarg = [1,2,3,4,5,6,7,8];
-            const estados_contratista_kwarg = [1,2,3];
-
-            const user_id = {{request.user.pk}};
-            if (user_id >= 1 && user_id <= 3) {
-                if (estados_cliente_arg.includes(value)) {
-                    let  estado_index = estados_cliente_arg.indexOf(value);
-                    console.log(estado_index);
-                    let final_estado = estados_cliente_kwarg[estado_index]
-                    console.log(final_estado);
-                    return final_estado
-                }else {
-                    return "Estado No encontrado.."
-                }
-            }else if (user_id >= 4 && user_id <= 6) {
-                if (estados_contratista_arg.includes(value)){
-                    let  estado_index = estados_contratista_arg.indexOf(value);
-                    let final_estado = estados_contratista_kwarg[estado_index]
-                    return final_estado
-                }else {
-                    return "Estado No encontrado.."
-                }
-
-            };
-
-        },
-        revision: function(value){
-            const tipos_revision_kwargs = [
-                "B","C","D","E","1","2","3","4","5"
-            ];
-            const tipos_revision_args = [1,2,3,4,5,6,7,8,9,10];
-            const user_id = {{request.user.pk}};
-            if (tipos_revision_args.includes(value)){
-                let revision_index = tipos_revision_args.indexOf(value)
-                console.log(revision_index);
-                let revision_final = tipos_revision_kwargs[revision_index]
-                console.log(revision_final);
-                return revision_final
-            }else {
-                return "Revisión no econtrada..."
-            }
-        }
-
     }
 )
 
-
-// var app2 = new Vue({
-//         el: '#tableRow',
-//         template: tableRow,
-//         delimiters: [ '[[' ,  ']]' ],
-//         props: [
-//             'version'
-//         ],
-//         method: {
-//             cargar_val: function(version, index) {
-//             this.activeIndex = index
-//             console.log(index)
-
-//             let formData = new FormData();
-//             formData.append('CODIGO', version['CODIGO'])
-//             formData.append('REVISION', version['REVISION'])
-//             formData.append('ESTADO', version['ESTADO'])
-
-
-//             fetch("{% url 'vue-version-check' %}", {
-//                 method: 'POST',
-//                 body: formData
-//             }).then(
-//                 response => {
-//                     const result = response.json();
-//                     console.log(result);
-//                     this.activeIndex = null;
-
-//                     }
-//             ).catch(
-//                 error => {
-//                     console.log(error);
-//                 }
-//             )
-//             },
-//         }
-//     }
-// )
       
 
 </script>
@@ -605,5 +827,25 @@ var app = new Vue({
     $("#file-upload").change(function(){
       $("button").prop("disabled", this.files.length == 0);
   });
+  </script>
+  <script>
+    $(function(){
+
+      // showing modal with effect
+      $('.modal-effect').on('click', function(){
+        var effect = $(this).attr('data-effect');
+        $('#modaldemo3').addClass(effect, function(){
+          $('#modaldemo3').modal('show');
+        });
+        return false;
+      });
+
+      // hide modal with effect
+      $('#modaldemo3').on('hidden.bs.modal', function (e) {
+        $(this).removeClass (function (index, className) {
+            return (className.match (/(^|\s)effect-\S+/g) || []).join(' ');
+        });
+      });
+    });
   </script>
 {% endblock content %}

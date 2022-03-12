@@ -19,18 +19,26 @@
 <div class="br-pagebody mg-t-5 pd-x-30">
 
   <div class="br-section-wrapper">
+  
   <form action="{% url 'buscador-index' %}" method="post">{% csrf_token %}
    
     <table id="datatable2" class="table table-striped table-bordered table-hover table-primary" role="grid" aria-describedby="datatable2_info" style="width: 100%;">
       <thead>
         <tr style="background:#fff;">   
-          <td colspan="8" style="background:#fff;"> 
-             <input type="submit" style="float: right;"class="btn btn-warning" value="⬇️ Descargar Últimas Versiones">
-   
+          <td colspan="8" style="background:#fff;">
+            <input type="submit" style="float: right;"class="btn btn-warning" value="⬇️ Descargar Últimas Versiones" onClick="return confirmation()">
           </td>
         </tr>
         <tr role="row">
-        <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;"></th>
+        <script type="text/javascript">
+          function toggle(source) {
+            checkboxes = document.getElementsByClassName('onoffswitch-checkbox');
+            for(var i=0, n=checkboxes.length;i<n;i++) {
+              checkboxes[i].checked = source.checked;
+            }
+          }
+        </script>
+        <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;"><input type="checkbox" name="dnld" value="{{documento.1}}" class="onoffswitch-checkbox" onClick ="toggle(this)"></th>
         <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;"></th>
         <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;">Especialidad</th>
         <th tabindex="0" aria-controls="datatable1" rowspan="1" colspan="1" style="width: auto;text-align:center;color:#fff;" >Descripción</th>
@@ -43,7 +51,7 @@
       <tbody>
        {% for documento in documentos %}
           <tr role="row" class="odd">
-            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><input type="checkbox" name="dnld" value="{{documento.1}}" class="onoffswitch-checkbox"style="display: none;"checked="true"></td>
+            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><input type="checkbox" name="dnld" value="{{documento.1}}" class="onoffswitch-checkbox"></td>
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;"><a href="{% url 'buscador-detalle' documento.0.pk %}" class="btn btn-teal center"><i class="fa fa-plus"></i></a></td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Especialidad}}</td>            
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Descripcion}}</td>            
@@ -51,7 +59,11 @@
             <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.0.Tipo_Documento}}</td>            
            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">{{documento.2}}</td>         
            <td class="valign-middle hidden-xs-down"tabindex="0" class="sorting_1"style="vertical-align:center;text-align:center;">
-              <a class="btn btn-teal"href="{{documento.3}"><i class="icon ion-archive fa-lg"></i></a> 
+            {% if documento.3 %}
+              <a class="btn btn-teal"href="{{documento.3.url}}" download="iPhone User's Guide.PDF"><i class="icon ion-archive fa-lg"></i></a>
+            {% else %}
+              SIN ARCHIVO
+            {% endif %} 
             </td>          
           </tr>
           {% endfor %} 
@@ -298,10 +310,29 @@
             "info": "Mostrando _START_ a _END_ de _TOTAL_ registros"
                    },         
           buttons:[ 
-          'excel',
-           ]
+          'excel','pdf', 
+           ],
+           "order": [[ 7, "asc" ]]
         });
   } );
+</script>
+<script type="text/javascript">
+    function confirmation() {
+      var contador = 0;
+      checkboxes = document.getElementsByClassName('onoffswitch-checkbox');
+      console.log(checkboxes.length);
+      for (i = 0; i < checkboxes.length; i++){
+        if (checkboxes[i].checked) {
+          contador = contador + 1;
+        }
+      }
+      if(contador === 0 ){
+        alert("Tiene que seleccionar al menos un documento para poder descargarlo. ¿Desea continuar?")
+        return false
+      }else{
+        return true
+      }
+    }
 </script>
 {% endblock content %}
     

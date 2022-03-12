@@ -43,7 +43,9 @@
     
      <!--datatable CDN-->
      <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/jszip-2.5.0/dt-1.11.3/af-2.3.7/b-2.0.1/b-colvis-2.0.1/b-html5-2.0.1/b-print-2.0.1/cr-1.5.5/date-1.1.1/fc-4.0.1/fh-3.2.0/kt-2.6.4/r-2.2.9/rg-1.1.4/rr-1.2.8/sc-2.0.5/sb-1.3.0/sp-1.4.0/sl-1.3.3/datatables.min.css"/>  
-    
+     
+     <script type="module" src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.esm.js"></script>
+     <script nomodule src="https://unpkg.com/ionicons@5.5.2/dist/ionicons/ionicons.js"></script>
     <script>
     $('#alert').fadeIn();     
       setTimeout(function() {
@@ -64,6 +66,9 @@
     }
    </script>
    <style>
+   .br-menu-item{
+    justify-content: center;
+   }
     .buttons-print{
      color: #fff!important;
      background: grey!important;
@@ -105,42 +110,42 @@
   </style>
   </head>
 
-  <body class="collapsed-menu">
+  <body class="show-left collapsed-menu with-subleft">
 
     <!-- ########## START: LEFT PANEL ########## -->
     {% include 'titulo.html' %}
 
-    <div class="br-sideleft overflow-y-auto">
+    <div class="br-sideleft overflow-y-auto ps ps--theme_default ps--active-y">
       <label class="sidebar-label pd-x-15 mg-t-20">Navegación</label>
       <div class="br-sideleft-menu">
         <a href="{% url 'index' %}" class="br-menu-link active">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-home-outline tx-22"></i>
+            <i class="menu-item-icon icon ion-home tx-24"></i>
             <span class="menu-item-label">Escritorio</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
          <a href="{% url 'PanelCarga' %}" class="br-menu-link ">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-photos-outline tx-20"></i>
+            <i class="menu-item-icon icon ion-document-text tx-24"></i>
             <span class="menu-item-label">Panel de Carga</span>
           </div><!-- menu-item -->
           </a>
         <a href="{% url 'Bandejaeys' %}" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-email-outline tx-24"></i>
+            <i class="menu-item-icon icon  ion-email tx-24"></i>
             <span class="menu-item-label">Bandeja</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
          <a href="{% url 'analitica-index' %}" class="br-menu-link">
           <div class="br-menu-item active">
-           <i class="menu-item-icon fa fa-bar-chart tx-24 "></i>
+           <i class="menu-item-icon icon ion-pie-graph tx-24 "></i>
             <span class="menu-item-label">Analítica</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
        
         <a href="{% url 'status-index' %}" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon ion-ios-redo-outline tx-24"></i>
+            <i class="menu-item-icon ion-ios-list-outline tx-24"></i>
             <span class="menu-item-label">Estatus</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
@@ -156,7 +161,7 @@
         {% endif %}
         <a href="{% url 'buscador-index' %}" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-list-outline tx-22"></i>
+            <i class="menu-item-icon icon fa fa-search tx-24"></i>
             <span class="menu-item-label">Buscador</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->
@@ -169,7 +174,7 @@
           </a>
         <a href="{% url 'configuracion-index' %}" class="br-menu-link">
           <div class="br-menu-item">
-            <i class="menu-item-icon icon ion-ios-gear-outline tx-24"></i>
+            <i class="menu-item-icon icon fa fa-gear tx-24"></i>
             <span class="menu-item-label">Configuración</span>
           </div><!-- menu-item -->
         </a><!-- br-menu-link -->

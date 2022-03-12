@@ -15,23 +15,23 @@
     </div><!-- card -->
 
     <div class="ht-70 bg-gray-200 pd-x-20 d-flex align-items-center justify-content-center shadow-base"
-      style="height: auto!important;justify-content: center;">
+      style="align-items: baseline;justify-content: center;height:auto;">
 
-      <ul class="nav nav-outline active-info align-items-center flex-row" role="tablist">
+      <ul class="nav nav-outline active-info align-items-center flex-row" role="tablist" style="align-items: baseline;justify-content: center;height:auto;">
         {% if request.user.is_superuser == True %}
         <li class="nav-item"><a class="nav-link" href="{% url 'crear-proyecto' %}">Agregar Proyectos</a></li>
-
         <li class="nav-item"><a class="nav-link" href="{% url 'lista-proyecto' %}">Lista de Proyectos</a></li>
- 
         {% endif %}
 
         {% if request.user.perfil.rol_usuario == 1 %}
-        <li class="nav-item"><a class="nav-link" href="{% url 'editar-proyecto' proyecto.pk %}"><i
-              class="fa fa-pencil"></i> &numsp;Editar Proyecto</a></li>
-            <li class="nav-item">
-      <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}"><i class="fas fa-user-circle"></i>
-        &numsp;Mi Perfil</a>
-    </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'editar-proyecto' proyecto.pk %}">
+          <i class="fa fa-pencil"></i> &numsp;Editar Proyecto</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}">
+          <i class="fas fa-user-circle"></i> &numsp;Mi Perfil</a>
+        </li>
         <li class="nav-item"><a class="nav-link" href="{% url 'crear-usuario' %}">
           <i class="icon ion-person-add"></i>&numsp;Agregar Usuario</a>
         </li>
@@ -55,10 +55,10 @@
         <li class="nav-item"><a class="nav-link" href="{% url 'editar-proyecto' proyecto.pk %}">
           <i class="fa fa-pencil"></i> &numsp;Ver datos de Proyecto</a>
         </li>
-            <li class="nav-item">
-      <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}"><i class="fas fa-user-circle"></i>
-        &numsp;Mi Perfil</a>
-    </li>
+        <li class="nav-item">
+          <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}">
+          <i class="fas fa-user-circle"></i>&numsp;Mi Perfil</a>
+        </li>
         <li class="nav-item"><a class="nav-link" href="{% url 'crear-usuario' %}">
           <i class="icon ion-person-add"></i>&numsp;Agregar Usuario</a>
         </li>
@@ -81,13 +81,22 @@
         {% endif %}
 
         {% if not request.user.perfil.rol_usuario == 1 and not request.user.perfil.rol_usuario == 4 %}
-            <li class="nav-item">
-      <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}"><i class="fas fa-user-circle"></i>
-        &numsp;Mi Perfil</a>
-    </li>
-         <li class="nav-item"><a class="nav-link" href="{% url 'editar-proyecto' proyecto.pk %}"><i class="fa fa-pencil"></i> &numsp;Ver datos de Proyecto</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'restriccion' %}"><i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'no-cumplimiento' %}"><i class="fas fa-ban"></i>&numsp;No cumplimiento</a></li>
+        <li class="nav-item">
+          <a class="nav-link tx-white" href="{% url 'detalle-usuario' request.user.pk %}">
+          <i class="fas fa-user-circle"></i>&numsp;Mi Perfil</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'editar-proyecto' proyecto.pk %}">
+          <i class="fa fa-pencil"></i> &numsp;Ver datos de Proyecto</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'restriccion' %}">
+          <i class="icon ion-backspace-outline"></i>&numsp;Restricciones</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="{% url 'no-cumplimiento' %}">
+          <i class="fas fa-ban"></i>&numsp;No cumplimiento</a>
+        </li>
         {% endif %}
       </ul>
     </div>
