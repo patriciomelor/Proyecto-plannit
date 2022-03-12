@@ -79,6 +79,7 @@
                                 <th class="pd-y-5"style="text-align: center;">Tipo</th>
                                 <th class="pd-y-5"style="text-align: center;">Código</th>
                                 <th class="pd-y-5"style="text-align: center;">Revisión</th>
+                                <th class="pd-y-5"style="text-align: center;">Estado</th>
                                 <th class="pd-y-5"style="text-align: center;">Atraso</th>
 
                             </tr>
@@ -91,6 +92,11 @@
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.0.documento_fk.Tipo_Documento}}</td>
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.0.documento_fk.Codigo_documento}} </td>
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.0.get_revision_display}}</td>
+                                 {% if version.estado_cliente is None %} 
+                                    <td class="tx-12" style="text-align: center;font-weight:800;">{{version.0.get_estado_contratista_display}}</td>
+                                  {% else %}
+                                    <td class="tx-12" style="text-align: center;font-weight:800;">{{version.0.get_estado_cliente_display}}</td>
+                                  {% endif %} 
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.1}}</td>
 
                             </tr>
