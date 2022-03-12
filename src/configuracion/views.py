@@ -565,9 +565,24 @@ class UNDetail(ProyectoMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         un_obj = self.get_object()
+
+        hoy = timezone.now()
+        notificados = []
+        diferencia = 0
+
         if un_obj.porcentaje_atraso != None:
             context["atrasos"] = True
-        context["umbral_notificado"] = un_obj
+        else:
+            context["atrasos"] = False
+
+        umbral_notificado = un_obj.versiones.all()
+
+        for versiones in umbral_notificado:
+            diferencia = (hoy - versiones.fecha).days
+            notificados.append([versiones, diferencia])                     
+
+        context["umbral_notificado"] = notificados
+        context["objeto"] = un_obj
         return context
 
 

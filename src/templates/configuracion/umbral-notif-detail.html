@@ -24,7 +24,7 @@
                     Umbral
                     </div><!-- col-4 -->
                     <div class="col-7 col-sm-8" style="justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                    {{umbral_notificado.h_umbral.umbral.nombre}}
+                    {{objeto.h_umbral.umbral.nombre}}
                     </div><!-- col-8 -->
                 </div>
             <div class="row no-gutters">
@@ -32,7 +32,7 @@
                   Descripcion
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                  {{umbral_notificado.h_umbral.umbral.descripcion}}
+                  {{objeto.h_umbral.umbral.descripcion}}
                 </div><!-- col-8 -->
             </div>
             
@@ -41,7 +41,7 @@
                   Fecha Notificación
                 </div><!-- col-4 -->
                 <div class="col-7 col-sm-8" style="text-transform:capitalize  ;justify-content:flex-start;color:black;font-weight: 900;font-size: 18px;">
-                  {{umbral_notificado.date|date:"d-M-Y H:i"}}
+                  {{objeto.date|date:"d-M-Y H:i"}}
                 </div><!-- col-8 -->
               </div>
               
@@ -60,11 +60,11 @@
                         </thead>
                         <tbody>
                         <tr>
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{umbral_notificado.porcentaje_atraso.2}} </td>
+                            <td class="tx-12"style="text-align: center;font-weight:800;">{{objeto.porcentaje_atraso.2}} </td>
                         
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{umbral_notificado.porcentaje_atraso.1}} </td>
+                            <td class="tx-12"style="text-align: center;font-weight:800;">{{objeto.porcentaje_atraso.1}} </td>
 
-                            <td class="tx-12"style="text-align: center;font-weight:800;">{{umbral_notificado.porcentaje_atraso.0}} </td>
+                            <td class="tx-12"style="text-align: center;font-weight:800;">{{objeto.porcentaje_atraso.0}} </td>
                         </tr>
                         </tbody>
                     </table>
@@ -79,16 +79,20 @@
                                 <th class="pd-y-5"style="text-align: center;">Tipo</th>
                                 <th class="pd-y-5"style="text-align: center;">Código</th>
                                 <th class="pd-y-5"style="text-align: center;">Revisión</th>
+                                <th class="pd-y-5"style="text-align: center;">Atraso</th>
+
                             </tr>
                         </thead>
                         <tbody>
-                        {% for version in umbral_notificado.versiones.all %}
+                        {% for version in umbral_notificado %}
                             <tr>
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Especialidad}} </td>
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Descripcion}}</td>
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Tipo_Documento}}</td>
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Codigo_documento}} </td>
-                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.get_revision_display}}</td>
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.0.documento_fk.Especialidad}} </td>
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.0.documento_fk.Descripcion}}</td>
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.0.documento_fk.Tipo_Documento}}</td>
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.0.documento_fk.Codigo_documento}} </td>
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.0.get_revision_display}}</td>
+                                <td class="tx-12"style="text-align: center;font-weight:800;">{{version.1}}</td>
+
                             </tr>
                         {% endfor %}
                           <tr>
