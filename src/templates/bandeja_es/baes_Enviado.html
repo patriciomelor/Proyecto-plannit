@@ -4,31 +4,24 @@
 
 
 {% block content %}   
-{% comment %} <div class="br-mainpanel" style="position: relative;">
-
-  </div><!-- br-pageheader --> {% endcomment %}
-  <div class="br-subleft">
-    <div class="pd-10">
-      <a href="" class="btn btn-teal bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Upload Files</a>
-    </div>
-
-    <nav class="nav br-nav-mailbox flex-column">
-      <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> New Folder</a>
-      <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> Share Folder</a>
-      <a href="" class="nav-link"><i class="icon ion-ios-trash-outline"></i> Deleted Files</a>
-    </nav>
-
-    <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">My Folder</h6>
-
-    <nav class="nav br-nav-mailbox flex-column">
-      <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> Camera Uploads</a>
-      <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> My Collections</a>
-      <a href="" class="nav-link"><i class="icon ion-ios-folder-outline"></i> E-Book</a>
-    </nav>
-  </div><!-- br-subleft -->
+<div class="br-subleft">
+  <nav class="nav br-nav-mailbox flex-column">
+    <a href="{% url 'Bandejaeys' %}"  class="nav-link active"><i class="icon icon ion-email"></i> Bandeja de Transmittal</a>
+    <a href="" class="nav-link"><i class="icon icon ion-document"></i> Bandeja de Cartas</a>
+  </nav>
+  <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">Menus</h6>
+  <div class="pd-10">
+    <a href="{% url 'paquete-preview' %}"  class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Transmittal</a>
+  </div>
+  <nav class="nav br-nav-mailbox flex-column">
+    <a href="{% url 'Bandejaeys' %}" class="nav-link "><i class="icon icon fa fa-reply"></i> Recibidos</a>
+    <a href="{% url 'bandeja-enviados' %}" class="nav-link active"><i class="icon icon fa fa-share"></i> Enviados</a>
+    <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
+  </nav>
+</div><!-- br-subleft -->
 <!--Filtros-->
 <div class="br-contentpanel">
-  {% include 'bandeja_es/menu.html' %}
+  {% comment %} {% include 'bandeja_es/menu.html' %} {% endcomment %}
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>

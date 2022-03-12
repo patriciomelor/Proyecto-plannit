@@ -84,7 +84,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                        {% for version in umbral_notificado.versiones.all %}
+                        {% for version in umbral_notificado %}
                             <tr>
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Especialidad}} </td>
                                 <td class="tx-12"style="text-align: center;font-weight:800;">{{version.documento_fk.Descripcion}}</td>
