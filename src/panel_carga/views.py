@@ -174,6 +174,7 @@ class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
                             fecha_Emision_B=fecha_b, #data[4], #fecha_b,
                             fecha_Emision_0=fecha_0, #data[5], #fecha_0,
                             hh_emision_0=data[6],
+                            valor_monetario=data[7],
                             proyecto= self.proyecto,
                             owner= request.user
                         )
