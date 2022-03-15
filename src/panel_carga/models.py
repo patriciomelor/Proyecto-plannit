@@ -42,6 +42,7 @@ class Documento(models.Model):
     fecha_Emision_B = models.DateTimeField(verbose_name="Fecha inicio emisión B", blank=True, default=None) 
     fecha_Emision_0 = models.DateTimeField(verbose_name="Fecha inicio emisión 0", blank=True, default=None) 
     hh_emision_0 = models.FloatField(verbose_name="HH Emisión 0", max_length=3, default=0.0)
+    valor_monetario = models.IntegerField(verbose_name="HH Emisión 0", default=0)
     
     def __str__(self):
         return self.Codigo_documento
