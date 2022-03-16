@@ -23,10 +23,7 @@
       <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entrada y Salida</a>      
       <span class="breadcrumb-item active">Bandeja Entradas </span>
     </nav>
-  </div><!-- br-pageheader -->
-<!--Fin Filtros-->
-   {% comment %} {% include 'bandeja_es/menu.html' %} {% endcomment %}
-
+  </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30" style="display:flex;align-items: end;">
     <h4 class="tx-gray-800 mg-b-5 mg-r-10">Bandeja de entrada</h4>
     
@@ -36,7 +33,6 @@
     
   </div>
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
-  <div class="row row-sm mg-t-20">
     <div class="card bd-0 shadow-base pd-20">
       <table class="table table-striped table-bordered table-hover table-primary" id="mydatatable">
         <thead>
@@ -108,9 +104,7 @@
           {% endfor %}
       </table>    
     </div>
-  </div>
   </div><!-- br-pagebody -->  
-</div>
 </div><!-- br-contentpanel -->
  
 <!--Script-->
