@@ -197,6 +197,9 @@ class ListDocumento(ProyectoMixin, VisualizadorViewMixin, ListView):
                     except Exception as error:
                         aux = [data, error]
                         documentos_erroneos.append(aux)
+                    except Exception as error:
+                        aux = [data, error]
+                        documentos_erroneos.append(aux)
             else:
                 messages.add_message(request, level=messages.ERROR, message="No se encontró información para almacenar")
                 return render(request, 'panel_carga/list-error.html', context={'exception': "Error en la Importación. Excel inválido."})

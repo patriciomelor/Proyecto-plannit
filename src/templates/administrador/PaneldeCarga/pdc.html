@@ -84,6 +84,8 @@
                     {% if documentos.0.hh_emision_0 != 0.0 %}
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">HH Totales</th>
                     {% endif %}         
+                    <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Valor Monetario</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -106,6 +108,7 @@
                   {% if documento.hh_emision_0 != 0.0 %}
                   <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.hh_emision_0}}</th>
                   {% endif %}   
+                  <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.valor_monetario}}</th>
                   
                 </tr>
                 {% endfor %}
