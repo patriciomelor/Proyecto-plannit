@@ -11,5 +11,7 @@ ROLES = (
 TIPO_PORCENTAJE_AVANCE = (
     (0, 'Porcentaje de Avance en Tiempo'),     
     (1, 'Porcentaje de Avance en Unidades'),
+    (2, 'Porcentaje de Avance en Valor Monetario'),
+
 )
 

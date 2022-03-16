@@ -21,8 +21,15 @@
           </button>     
         </a>
       </li>
-    
+      {% if proyecto.tipo_porcentaje_avance == 0 %}
       <li class="nav-item mg-x-5 tx-black"><a class="nav-link" data-toggle="tab"  role="tab">Fecha última Línea Base: {{curvaBase.fecha_creacion|date:'d-m-y'}}</a></li>
+      {% endif %}  
+      {% if proyecto.tipo_porcentaje_avance == 1 %}
+      <li class="nav-item mg-x-5 tx-black"><a class="nav-link" data-toggle="tab"  role="tab">Fecha última Línea Base: {{curvaBaseHH.fecha_creacion|date:'d-m-y'}}</a></li>
+      {% endif %} 
+      {% if proyecto.tipo_porcentaje_avance == 2 %}
+      <li class="nav-item mg-x-5 tx-black"><a class="nav-link" data-toggle="tab"  role="tab">Fecha última Línea Base: {{CurvasBaseValor.fecha_creacion|date:'d-m-y'}}</a></li>
+      {% endif %}   
     </ul>
   </div><!-- pd-10 -->
   <div class="br-pagebody mg-t-5 pd-x-30">
@@ -340,6 +347,7 @@
   });
 
 </script>
+
 <!--Curva S-->
 {% if proyecto.tipo_porcentaje_avance == 0 %}
 <script>
@@ -487,8 +495,8 @@
     {
       type: 'line',
           label: 'Forecast',
-          backgroundColor: [{% for esperado in lista_curva_s_avance_real_hh %} {% if forloop.counter != lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %} {% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %}],
-          borderColor: [{% for esperado in lista_curva_s_avance_real_hh %} {% if forloop.counter != lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %} {% for esperado in lista_curva_s_avance_real %} {% if forloop.counter != lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %}],
+          backgroundColor: [{% for esperado in lista_curva_s_avance_real_hh %} {% if forloop.counter != lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %} {% for esperado in lista_curva_s_avance_real_hh %} {% if forloop.counter != lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %}],
+          borderColor: [{% for esperado in lista_curva_s_avance_real_hh %} {% if forloop.counter != lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %} {% for esperado in lista_curva_s_avance_real_hh %} {% if forloop.counter != lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_hh %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %}],
           borderWidth: 0.5,
           lineTension:0.09,
           fill: false,
@@ -511,6 +519,114 @@
       fill: true,
       borderWidth: 1,
       data: [{% for esperado_barra in lista_curva_s_avance_esperado_hh %} {{esperado_barra.1}}, {% endfor %}],
+    }]
+    
+  };
+  
+  window.onload = function() {
+    var ctx = document.getElementById('canvas').getContext('2d');
+    window.myMixedChart = new Chart(ctx, {
+      type: 'line',
+      data: chartData,
+      options: {
+    
+        barPercentage: 1,
+        responsive: true,
+        plugins: {
+            tooltip: {
+            mode: 'index',
+            intersect: true
+          },
+          ticks: {
+            beginAtZero: true,
+            min: 0,
+            stepSize: 1,
+                 callback: function(value){return value+ "%"}
+
+          },
+          
+        },
+        scales: {
+        yAxes: [{
+        ticks: {
+        min: 0,
+        max: 100,
+        callback: function(value) {
+        return value + "%"
+        }
+        },
+        scaleLabel: {
+        display: true,
+        }
+        }]
+        }
+      }
+    });
+  };
+</script>
+{% endif %}
+{% if proyecto.tipo_porcentaje_avance == 2 %}
+<script>
+  var chartData = {
+    labels: ['{% for emisiones in lista_curva_s_fechas_valor %} {{emisiones|date:"d-m-y"}}', '{% endfor %}'],
+    datasets: [
+    {
+       type: 'line',
+           label: 'Línea Base',
+           backgroundColor: [{% for esperado in CurvasBaseValor.datos_lista %} {% if forloop.counter|divisibleby:2 %} {% else %} 'rgba(0, 0, 0, 1)', {% endif %} {% endfor %}],
+           borderColor: [{% for esperado in CurvasBaseValor.datos_lista %} {% if forloop.counter|divisibleby:2 %} {% else %} 'rgba(0, 0, 0, 1)', {% endif %} {% endfor %}],
+           borderWidth: 0.5,
+           lineTension:0.09,
+           fill: false,
+           data: [{% for real_linea in CurvasBaseValor.datos_lista %} {% if forloop.counter|divisibleby:2 %} {% else %} {{real_linea}},  {% endif %} {% endfor %}],
+    },
+    {
+      type: 'line',
+      label: 'Avance Esperado',
+      backgroundColor: [{% for esperado in lista_curva_s_avance_esperado_valor %} {% if forloop.counter != lista_curva_s_avance_esperado_largo_valor %} 'rgba(255, 99, 132, 0.2)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo_valor %} 'rgba(255, 99, 132, 0.2)' {% endif %} {% endfor %}],
+      borderColor: [{% for esperado in lista_curva_s_avance_esperado_valor %} {% if forloop.counter != lista_curva_s_avance_esperado_largo_valor %} 'rgba(255, 99, 132, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo_valor %} 'rgba(255, 99, 132, 1)' {% endif %} {% endfor %}],
+      borderWidth: 1,
+      lineTension:0.18,
+      fill: false,
+      data: [{% for esperado in lista_curva_s_avance_esperado_valor %} {{esperado.0}}, {% endfor %}]
+    },
+    {
+      type: 'line',
+          label: 'Avance Real',
+          backgroundColor: [{% for esperado in lista_curva_s_avance_real_valor %} {% if forloop.counter != lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% endfor %}],
+          borderColor: [{% for esperado in lista_curva_s_avance_real_valor %} {% if forloop.counter != lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 0 %} 'rgba(54, 162, 235, 1)', {% endif %} {% endif %} {% endfor %}],
+          borderWidth: 1,
+          lineTension:0.1,
+          fill: false,
+          data: [{% for real_linea in lista_curva_s_avance_real_valor %} {% if real_linea.1 == 0 %} {{real_linea.0}}, {% endif %} {% endfor %}],
+    }, 
+    {
+      type: 'line',
+          label: 'Forecast',
+          backgroundColor: [{% for esperado in lista_curva_s_avance_real_valor %} {% if forloop.counter != lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %} {% for esperado in lista_curva_s_avance_real_valor %} {% if forloop.counter != lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %}],
+          borderColor: [{% for esperado in lista_curva_s_avance_real_valor %} {% if forloop.counter != lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 0 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %} {% for esperado in lista_curva_s_avance_real_valor %} {% if forloop.counter != lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% if forloop.counter == lista_curva_s_avance_real_largo_valor %} {% if esperado.1 == 1 %} 'rgba(7, 254, 3, 0.7)', {% endif %} {% endif %} {% endfor %}],
+          borderWidth: 0.5,
+          lineTension:0.09,
+          fill: false,
+          data: [{% for real_linea in lista_curva_s_avance_real_valor %} {{real_linea.0}}, {% endfor %}],
+    },
+    {
+      type: 'bar',
+      label: 'Avance Real Parcial (Barras)',
+      backgroundColor: [{% for esperado in lista_curva_s_avance_real_valor %} {% if esperado.1 == 0 %} 'rgba(88, 150, 141 , 0.6)', {% endif %} {% endfor %}],
+      borderColor: [{% for esperado in lista_curva_s_avance_real_valor %} {% if esperado.1 == 0 %} 'rgba(88, 150, 141 , 1)', {% endif %} {% endfor %}],
+      fill: true,
+      borderWidth: 1,
+      data: [{% for real_barra in lista_curva_s_avance_real_valor %} {{real_barra.2}}, {% endfor %}],
+    },
+    {
+      type: 'bar',
+      label: 'Avance Esperado Parcial (Barras)',
+      backgroundColor: [{% for esperado in lista_curva_s_avance_esperado_valor %} {% if forloop.counter != lista_curva_s_avance_esperado_largo_valor %} 'rgba(255, 15, 132, 0.7)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo_valor %} 'rgba(255, 15, 132, 0.7)' {% endif %} {% endfor %}],
+      borderColor: [{% for esperado in lista_curva_s_avance_esperado_valor %} {% if forloop.counter != lista_curva_s_avance_esperado_largo_valor %} 'rgba(255, 15, 132, 1)', {% endif %} {% if forloop.counter == lista_curva_s_avance_esperado_largo_valor %} 'rgba(255, 15, 132, 1)' {% endif %} {% endfor %}],
+      fill: true,
+      borderWidth: 1,
+      data: [{% for esperado_barra in lista_curva_s_avance_esperado_valor %} {{esperado_barra.1}}, {% endfor %}],
     }]
     
   };

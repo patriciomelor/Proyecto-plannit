@@ -585,7 +585,6 @@ class UNDetail(ProyectoMixin, DetailView):
         context["objeto"] = un_obj
         return context
 
-
 class FirstProyectoCreate(SuperuserViewMixin, CreateView):
     template_name = 'configuracion/create-p-proyecto.html'
     success_message = 'Proyecto Creado correctamente'

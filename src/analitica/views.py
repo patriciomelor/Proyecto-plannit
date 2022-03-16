@@ -101,13 +101,13 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
         context['lista_curva_s_fechas_hh'] = reporte_curva_s_fechas_hh
         context['lista_curva_s_fechas_largo_hh'] = len(reporte_curva_s_fechas_hh) 
 
-        #Llamado funciones curva s HH
-        context['lista_curva_s_avance_real_hh'] = reporte_curva_s_avance_real_valor
-        context['lista_curva_s_avance_real_largo_hh'] = len(reporte_curva_s_avance_real_valor) 
-        context['lista_curva_s_avance_esperado_hh'] = reporte_curva_s_avance_esperado_valor
-        context['lista_curva_s_avance_esperado_largo_hh'] = len(reporte_curva_s_avance_esperado_valor) 
-        context['lista_curva_s_fechas_hh'] = reporte_curva_s_fechas_valor
-        context['lista_curva_s_fechas_largo_hh'] = len(reporte_curva_s_fechas_valor) 
+        #Llamado funciones curva s valor monetario
+        context['lista_curva_s_avance_real_valor'] = reporte_curva_s_avance_real_valor
+        context['lista_curva_s_avance_real_largo_valor'] = len(reporte_curva_s_avance_real_valor) 
+        context['lista_curva_s_avance_esperado_valor'] = reporte_curva_s_avance_esperado_valor
+        context['lista_curva_s_avance_esperado_largo_valor'] = len(reporte_curva_s_avance_esperado_valor) 
+        context['lista_curva_s_fechas_valor'] = reporte_curva_s_fechas_valor
+        context['lista_curva_s_fechas_largo_valor'] = len(reporte_curva_s_fechas_valor) 
 
         #Curva base porcentual
         qs = CurvasBase.objects.filter(proyecto=self.proyecto).last()
@@ -3584,7 +3584,7 @@ class CurvaBaseHHView(ProyectoMixin, TemplateView):
 class CurvaBaseValorView(ProyectoMixin, TemplateView):
 
     http_method_names = ['get', 'post']
-    template_name = 'analitica/curva_hh.html'
+    template_name = 'analitica/curva_valor_monetario.html'
 
     def Obtener_fechas_valor(self):
         elementos_final = []
