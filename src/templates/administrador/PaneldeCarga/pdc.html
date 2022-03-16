@@ -39,7 +39,7 @@
          {% if proyecto.tipo_porcentaje_avance == 2 %}
          <form name="cruvaBase_save" onsubmit="return confirmation()" method="post" action="{% url 'curva_valor_monetario' %}">
           {% csrf_token %}
-          <li class="nav-item mg-l-5 mg-t-5"><input type="submit" id="base_btn" class="btn btn-success" style="width: auto;" value="Guardar Curva Base Valor Monetario"></li>
+          <li class="nav-item mg-l-5 mg-t-5"><input type="submit" id="base_btn" class="btn btn-success" style="width: auto;" value="Guardar Curva Base Valor Mone"></li>
         </form>    
          {% endif %}       
          <li class="nav-item mg-l-5 mg-t-5"><a href="https://plannit-spaces.sfo3.digitaloceanspaces.com/Plantilla_vacia.xlsx"><button class="btn btn-warning">Plantilla de Carga</button></a></li>
@@ -89,7 +89,10 @@
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Emisión en <br>Rev 0</th> 
                     {% if documentos.0.hh_emision_0 != 0.0 %}
                     <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">HH Totales</th>
-                    {% endif %}         
+                    {% endif %}  
+                    {% if documentos.0.valor_monetario != 0 %}
+                    <th style="width: auto;color:#fff;text-align: center;vertical-align: middle; font-size: 10px;">Valor Monetario</th>
+                    {% endif %}       
                   </tr>
                 </thead>
                 <tbody>
@@ -111,6 +114,9 @@
                   <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.fecha_Emision_0|date:'d-M-Y'}}</th>
                   {% if documento.hh_emision_0 != 0.0 %}
                   <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > {{documento.hh_emision_0}}</th>
+                  {% endif %}
+                  {% if documento.valor_monetario != 0 %}
+                  <th class="valign-middle hidden-xs-down"style="text-align: center;vertical-align: middle;font-size: 12px;" > ${{documento.valor_monetario}}</th>
                   {% endif %}   
                   
                 </tr>
