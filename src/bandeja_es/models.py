@@ -32,7 +32,7 @@ class Paquete(models.Model):
         (1, "Información Técnica"),
         (2, "Informativo"),
     )
-    codigo = models.CharField(max_length=100, verbose_name='Codigo del Proyecto', unique=True)
+    codigo = models.CharField(max_length=100, verbose_name='Codigo del Paquete', unique=True)
     comentario1 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     comentario2 = models.FileField(upload_to="proyecto/comentarios/", blank=True, null=True)
     version = models.ManyToManyField(Version, through='PaqueteDocumento') #Relacion muchos a muchos, se redirecciona a la tabla auxiliar que se indica acá de otra manera no se podrian agregar varias veces los documentos, si bien se podria agregar 2 o mas veces el mismo documento, desconozco si se puede para varios proyectos el mismo documento.
