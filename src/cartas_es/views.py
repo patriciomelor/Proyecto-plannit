@@ -15,12 +15,41 @@ from notifications.emails import send_email
 from panel_carga.views import ProyectoMixin
 from panel_carga.models import Documento, Proyecto
 from django.views.decorators.csrf import csrf_exempt
-# from .models
+from .forms import CartaForm
+from .models import Carta, CartaRespuesta
+from itertools import chain 
 
-class CartasIndex(ProyectoMixin, View):
-    pass
+
+class CartasRecibidos(ProyectoMixin, ListView):
+    template_name = 'cartas_es/cartas_recibidos.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cartas = Carta.objects.filter(proyecto=self.proyecto, destinatario=self.request.user)
+        cartas_respuesta = CartaRespuesta.objects.filter(proyecto=self.proyecto, destinatario=self.request.user)
+        #querysets unidas y ordenadas por fecha
+        result_list = sorted(chain(cartas, cartas_respuesta), key= lambda instance: instance.fecha_creacion)
+        context["cartas"] = result_list
+        return context
+
+class CartasEnviadas(ProyectoMixin, ListView):
+    template_name = 'cartas_es/index.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        cartas = Carta.objects.filter(proyecto=self.proyecto, autor=self.request.user)
+        cartas_respuesta = CartaRespuesta.objects.filter(proyecto=self.proyecto, autor=self.request.user)
+        #querysets unidas y ordenadas por fecha
+        result_list = sorted(chain(cartas, cartas_respuesta), key= lambda instance: instance.fecha_creacion)
+        context["cartas"] = result_list
+        return context
 
 class CreateCarta(ProyectoMixin, CreateView):
+    model = Carta
+    form_class = CartaForm
+
+
+class CartaDetail(ProyectoMixin, DetailView):
     pass
 
 class UpdateCarta(ProyectoMixin, UpdateView):
