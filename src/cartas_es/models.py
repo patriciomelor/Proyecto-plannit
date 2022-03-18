@@ -23,7 +23,7 @@ class Carta(models.Model):
 class CartaRespuesta(models.Model):
     fecha_creacion = models.DateField(verbose_name="Fecha de Creación", auto_now_add=True)
     codigo = models.CharField(max_length=100, verbose_name='Codigo de la CartaRespuesta', unique=True)
-    carta = models.ManyToManyField(Carta, blank=True, verbose_name="Carta de Origen")
+    carta = models.ManyToManyField(Carta, blank=True, verbose_name="Carta de Origen", related_name="cartas")
     autor = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Autor")
     proyecto = models.ForeignKey(Proyecto, on_delete=models.CASCADE, verbose_name="Proyecto", blank=True)
     destinatario = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name="Destinatario")

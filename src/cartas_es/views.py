@@ -1,3 +1,4 @@
+from django.forms import BaseForm
 from django.shortcuts import render
 
 # Create your views here.
@@ -44,10 +45,24 @@ class CartasEnviadas(ProyectoMixin, ListView):
         context["cartas"] = result_list
         return context
 
-class CreateCarta(ProyectoMixin, CreateView):
+class CreateCarta(ProyectoMixin, FormView):
     model = Carta
     form_class = CartaForm
 
+    def form_valid(self, form: BaseForm) -> HttpResponse:
+        if form.is_respuesta:
+            carta_respuesta = CartaRespuesta(
+                codigo= form.codigo,
+                proyecto = self.proyecto,
+                autor= self.request.user,
+                destinatario= form.destinatario,
+                asunto= form.asunto,
+                cuerpo= form.cuerpo,
+                anexo= form.anexo
+            )
+            carta_respuesta.save()
+            carta_respuesta.cartas.add(form.cartas)
+        return super().form_valid(form)
 
 class CartaDetail(ProyectoMixin, DetailView):
     pass

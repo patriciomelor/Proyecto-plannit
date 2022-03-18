@@ -21,6 +21,7 @@ from django_summernote.widgets import SummernoteWidget, SummernoteInplaceWidget
 
 class CartaForm(forms.ModelForm):
     is_respuesta = forms.BooleanField(initial=False, help_text="Marcar solo para enviar como Carta de Respuesta", label="¿Enviar como Respuesta?")
+    # cartas = forms.MultipleChoiceField(widget=forms.ModelMultipleChoiceField(queryset=))
     class Meta:
         model = Carta
         fields = ['destinatario', 'asunto', 'cuerpo', 'anexo']
