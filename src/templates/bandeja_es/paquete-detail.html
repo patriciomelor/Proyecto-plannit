@@ -13,9 +13,22 @@
       <span class="breadcrumb-item active">Detalle Transmittal</span>
     </nav>
   </div><!-- br-pageheader -->
-  {% include 'bandeja_es/menu.html' %}
+  <div id="myDIV" class="pd-10 bg-gray-900 rounded">
+    <ul class="nav nav-pills nav-pills-for-dark flex-column flex-md-row" role="tablist">
+      {% if request.user.perfil.rol_usuario == 3 or request.user.perfil.rol_usuario == 6 %}
+      
+      {% else %}
+      <li class="nav-item"><a href="{% url 'paquete-preview' %}" class="btn btn-warning bd-0 btn-compose" role="tab">Nuevo Transmittal</a></li>
 
-  <div id="print">
+      {% endif %}
+      <li class="nav-item"><a href="{% url 'Bandejaeys' %}" class="nav-link  mg-l-15"><i class="icon fa fa-reply"></i> Recibidos</a></li>
+      <li class="nav-item"><a href="{% url 'bandeja-enviados' %}" class="nav-link mg-l-15"><i class="icon fa fa-share"></i> Enviados</a></li>
+      <li class="nav-item"><a href="{% url 'Borradores' %}" class="nav-link mg-l-15"><i class="icon icon ion-edit"></i> Borradores</a></li>
+      <li class="nav-item"><a type="button" onclick="printDiv('print')"  class="nav-link mg-l-15 active"><i class="fa fa-print"></i> Imprimir</a></li>
+ 
+    </ul>
+    </div>
+   <div id="print">
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Detalle de Transmittal</h4>
    
@@ -282,10 +295,8 @@
 </script>
 <script>
   function printDiv(print) {
-  
-
-    var printContents = document.getElementById(print).innerHTML;
-     var originalContents = document.body.innerHTML;
+     var printContents = document.getElementById(print).innerHTML;
+     var originalContents = document.body.innerHTM
      document.body.innerHTML = printContents;
      window.print({});
      document.body.innerHTML = originalContents; 
