@@ -261,8 +261,9 @@ class EscritorioView(ProyectoMixin, TemplateView):
             comprobacion_first = 0
             version_first = 0
             version_last = 0
-            version_rev_0 = 0
-            comprobacion_rev_0 = 0
+            # version_rev_0 = 0
+            version_rev_mid = 0
+            # comprobacion_rev_0 = 0
             dias_revision = 0
             fecha_version_paquete = 0
 
@@ -282,10 +283,12 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
             #Se recorren las versiones por documento para obtener la primera y ultima
             for versiones in versiones_documentos:
-                if comprobacion_rev_0 == 0:
-                    if doc == versiones.documento_fk and versiones.revision > 4:
-                        version_rev_0 = versiones
-                        comprobacion_rev_0 = 1
+                if doc == versiones.documento_fk and versiones.revision < 5:
+                    version_rev_mid = versiones
+                # if comprobacion_rev_0 == 0:
+                #     if doc == versiones.documento_fk and versiones.revision > 4:
+                #         version_rev_0 = versiones
+                #         comprobacion_rev_0 = 1
                 if doc == versiones.documento_fk and comprobacion_first == 0:
                     version_first = versiones
                     version_last = versiones
@@ -298,11 +301,18 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
                 #Calculo de días de revision
                 paquete = version_last.paquete_set.first()
+                paquete_mid = version_rev_mid.paquete_set.first()
                 paquete_first = version_first.paquete_set.first()
-                fecha_paquete_semanal = 0
-                if paquete and paquete_first:
+                fecha_paquete_semanal_mid = 0
+                fecha_paquete_semanal_0 = 0
+
+                if paquete and paquete_first and paquete_mid:
                     fecha_paquete_semanal = paquete_first.fecha_creacion
                     fecha_paquete_semanal = fecha_paquete_semanal.replace(tzinfo = None)
+                    fecha_paquete_semanal_mid = paquete_mid.fecha_creacion
+                    fecha_paquete_semanal_mid = fecha_paquete_semanal_mid.replace(tzinfo = None)
+                    fecha_paquete_semanal_0 = paquete.fecha_creacion
+                    fecha_paquete_semanal_0 = fecha_paquete_semanal_0.replace(tzinfo = None)
 
                     if version_last.estado_cliente == 5:
                         dias_revision = 0
@@ -337,29 +347,29 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     doc_emitidos_rev_0.append([doc, version_last, dias_revision, paquete])
 
                 #Verisones emitidas en la semana
-                if contador_fechas_semanal != 0 and fecha_paquete_semanal != 0:
-                    if fecha_paquete_semanal >= fecha_anterior and fecha_paquete_semanal <= fecha_control:
-                        if version_first.revision <= 5:
+                if contador_fechas_semanal != 0 and fecha_paquete_semanal_mid != 0:
+                    if fecha_paquete_semanal_mid >= fecha_anterior and fecha_paquete_semanal_mid <= fecha_control:
+                        if version_rev_mid.revision <= 5:
                             contador_emitidos_semana_b = contador_emitidos_semana_b + 1
-                            doc_real_rev_b.append([doc, version_first, dias_revision, paquete_first])
+                            doc_real_rev_b.append([doc, version_rev_mid, dias_revision, paquete_mid])
 
-                        if version_rev_0:
-                            if version_rev_0.revision > 5:
-                                paquete_rev_0 = version_rev_0.paquete_set.first()
-                                contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
-                                doc_real_rev_0.append([doc, version_rev_0, dias_revision, paquete_rev_0])
+                if contador_fechas_semanal != 0 and fecha_paquete_semanal_0 != 0:
+                    if fecha_paquete_semanal_0 >= fecha_anterior and fecha_paquete_semanal_0 <= fecha_control:
+                        if version_last.revision > 5:
+                            contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
+                            doc_real_rev_0.append([doc, version_last, dias_revision, paquete])
 
-                if contador_fechas_semanal == 0 and fecha_paquete_semanal != 0:
-                    if fecha_paquete_semanal <= fecha_control:
-                        if version_first.revision <= 5:
+                if contador_fechas_semanal == 0 and fecha_paquete_semanal_mid != 0:
+                    if fecha_paquete_semanal_mid <= fecha_control:
+                        if version_rev_mid.revision <= 5:
                             contador_emitidos_semana_b = contador_emitidos_semana_b + 1
-                            doc_real_rev_b.append([doc, version_first, dias_revision, paquete_first])
-
-                        if version_rev_0:
-                            if version_rev_0.revision > 5:
-                                paquete_rev_0 = version_rev_0.paquete_set.first()
-                                contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
-                                doc_real_rev_0.append([doc, version_rev_0, dias_revision, paquete_rev_0])
+                            doc_real_rev_b.append([doc, version_rev_mid, dias_revision, paquete_first])
+                
+                if contador_fechas_semanal == 0 and fecha_paquete_semanal_0 != 0:
+                    if fecha_paquete_semanal_0 <= fecha_control:                        
+                        if version_last.revision > 5:
+                            contador_emitidos_semana_0 = contador_emitidos_semana_0 + 1
+                            doc_real_rev_0.append([doc, version_last, dias_revision, paquete])
 
                 #Se obtienen y comparan los estados del cliente
                 for cliente in ESTADOS_CLIENTE[1:]:
@@ -377,7 +387,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 #Preguntar a deavys si aprobado con comentarios se encuentra en disposicion del contratista
                 if paquete_first:
                     if estado_cliente == 5:
-                        fecha_paquete = paquete_first[0].fecha_creacion.replace(tzinfo = None)
+                        fecha_paquete = paquete_first.fecha_creacion.replace(tzinfo = None)
                         diferencia = abs((fecha_version - fecha_paquete).days)
                         tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
                         documentos_aprobados = documentos_aprobados + 1
