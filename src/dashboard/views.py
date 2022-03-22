@@ -387,7 +387,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                 #Preguntar a deavys si aprobado con comentarios se encuentra en disposicion del contratista
                 if paquete_first:
                     if estado_cliente == 5:
-                        fecha_paquete = paquete_first[0].fecha_creacion.replace(tzinfo = None)
+                        fecha_paquete = paquete_first.fecha_creacion.replace(tzinfo = None)
                         diferencia = abs((fecha_version - fecha_paquete).days)
                         tiempo_ciclo_aprobación = tiempo_ciclo_aprobación + diferencia
                         documentos_aprobados = documentos_aprobados + 1
