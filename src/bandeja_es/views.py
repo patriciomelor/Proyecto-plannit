@@ -1,4 +1,6 @@
+from email import message
 import json
+from multiprocessing import context
 from os import error, path
 import pathlib
 import os.path
@@ -318,7 +320,8 @@ class TransmitalDetail(ProyectoMixin, View):
             response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
             return response
         else:
-            return redirect('bandeja-enviados')
+           messages.add_message(request, messages.ERROR, message='No se puede obtener la descarga de un tramital sin Archivos.')
+           return redirect('bandeja-enviados')
 
 class PaqueteDetail(ProyectoMixin, DetailView):
     model = Paquete

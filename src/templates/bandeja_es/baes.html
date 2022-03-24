@@ -13,6 +13,7 @@
 <!--Fin Filtros-->
    {% include 'bandeja_es/menu.html' %}
 
+<!--fin error-->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30" style="display:flex;align-items: end;">
     <h4 class="tx-gray-800 mg-b-5 mg-r-10">Bandeja de entrada</h4>
     
@@ -21,6 +22,9 @@
     </form>
     
   </div>
+
+  {% include "messege.html" %}
+  
   <div class="br-pagebody pd-x-30 pd-sm-x-40">
   
     <div class="card bd-0 shadow-base dataTables_wrapper no-footer " style="padding:20px;"id="mydatatable-container">

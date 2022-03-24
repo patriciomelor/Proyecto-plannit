@@ -295,7 +295,7 @@ MESSAGE_TAGS = {
     messages.INFO: 'alert alert-bordered alert-info',
     messages.SUCCESS: 'alert alert-bordered alert-success',
     messages.WARNING: 'alert alert-bordered alert-warning',
-    messages.ERROR: 'alert alert-bordered alert-warning',
+    messages.ERROR: 'alert alert-bordered alert-danger',
 }
 #summernote
 SUMMERNOTE_CONFIG = {
