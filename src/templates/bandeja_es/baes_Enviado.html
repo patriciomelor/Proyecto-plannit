@@ -14,18 +14,17 @@
   </div><!-- br-pageheader -->
 <!--Filtros-->
   {% include 'bandeja_es/menu.html' %}
+  <form method="POST" action="{% url 'bandeja-enviados' %}">{% csrf_token %}
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30" style="display:flex;align-items: end;">
     <h4 class="tx-gray-800 mg-b-5 mg-r-10">Bandeja de Enviados</h4>
-   
-    <form method="POST">{% csrf_token %}
-      <button class="btn btn-warning  tx-uppercase tx-bold tx-spacing-6 tx-10" type="submit"><i class="fa fa-download mg-r-10"></i>Descargar Todos.</button>
-    </form>
+      <button class="btn btn-warning  tx-uppercase tx-bold tx-spacing-6 tx-10" type="submit"><i class="fa fa-download mg-r-10" ></i>Descargar Todos.</button>
   </div>
   <div class="br-pagebody pd-x-20 pd-sm-x-30">
     <div class="card bd-0 shadow-base dataTables_wrapper no-footer" style="padding:20px;"id="mydatatable-container">
       <table class="records_list table table-striped table-bordered table-hover table-primary" id="mydatatable" role="grid" aria-describedby="datatable2_info">
         <thead>
          <tr role="row">
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;"><input type="checkbox" class="onoffswitch-checkbox" onClick ="toggle(this)"></th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Transmittal</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Tipo</th>
 
@@ -39,10 +38,12 @@
               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Editar</th>
               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Eliminar</th>
             {% endif %}
+            <th th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;"> Descargar <br> Transmittal Actual</th> 
           </tr>
         </thead>
            {% for paquete in paquetes %}
           <tr role="row" class="odd">
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><input type="checkbox" name="paquetes_pk" value="{{paquete.pk}}" class="onoffswitch-checkbox"></td>
             <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"><a href="{% url 'paquete-detalle' paquete.pk %}">{{paquete.codigo}}</a></td>           
             <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;"> {{ paquete.get_tipo_display }} </td>           
 
@@ -60,6 +61,9 @@
                 <a class="btn btn-danger"href="{% url 'paquete-eliminar' paquete.pk %}"><i class="fa fa-trash"></i></a>       
               </td>
             {% endif %}
+            <td td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
+              <a class="btn btn-teal" href="{% url 'transmital-detail' paquete.pk %}"><i class="icon ion-archive fa-lg"></i></a>      
+            </td>
           </tr>
           
           {% empty %}
@@ -89,6 +93,7 @@
 
           {% endfor %}
       </table>
+    </form>
     </div>
   </div><!-- br-pagebody -->  
 </div><!-- br-contentpanel -->
@@ -327,5 +332,13 @@
         });
   } );
   
+</script>
+<script type="text/javascript">
+  function toggle(source) {
+    checkboxes = document.getElementsByClassName('onoffswitch-checkbox');
+    for(var i=0, n=checkboxes.length;i<n;i++) {
+      checkboxes[i].checked = source.checked;
+    }
+        }
 </script>
 {% endblock content %}

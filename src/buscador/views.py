@@ -50,13 +50,10 @@ class BuscadorIndex(ProyectoMixin, View):
 
     def post(self, request, *args, **kwargs):
         listado = self.request.POST.getlist('dnld')
-        if listado:
-            if listado[0]:  
-                versiones = Version.objects.filter(pk__in=listado)
-            else:
-                versiones = Version.objects.filter(pk__in=listado[1:])
+        print(listado)
+        if listado:  
+            versiones = Version.objects.filter(pk__in=listado)
             zip_subdir = "Ultimas-Versiones-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
-            
             zip_filename = "%s.zip" % zip_subdir
             #Otra manera de presentar un zip , con el .format:
             #zip_filename = "%s.zip".format(zip_subdir)
@@ -79,9 +76,6 @@ class BuscadorIndex(ProyectoMixin, View):
             response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
             response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
             return response
-
-        if not listado:
-            return redirect('buscador-index')
 
 
 class VersionesList(ProyectoMixin, DetailView):

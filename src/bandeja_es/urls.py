@@ -6,6 +6,7 @@ from . import views
 urlpatterns = [
     path('recibidos/', views.InBoxView.as_view(), name= 'Bandejaeys'),
     path('enviados/', views.EnviadosView.as_view(), name= 'bandeja-enviados'),
+    path('transmital-detail/<paquete_pk>/', views.TransmitalDetail.as_view(), name='transmital-detail'),
     path('borradores/', views.BorradorList.as_view(), name= 'Borradores'),
     path('tramital/preview/', views.PrevPaqueteView.as_view(), name='paquete-preview'),
     path('version/nuevo/<paquete_pk>/', views.TablaPopupView.as_view(), name='nueva-version'),
@@ -21,5 +22,4 @@ urlpatterns = [
     path('borrador/<paquete_pk>/', login_required(views.create_borrador), name='borrador-crear'),
     path('datos/', login_required(views.documentos_ajax), name='datos-baes'),
     path('prev_delete/<id_version>/<paquete_pk>/', login_required(views.delete_prev_version), name='delete-prev-version'),
-
 ]
