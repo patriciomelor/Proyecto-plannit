@@ -1,4 +1,6 @@
+from email import message
 import json
+from multiprocessing import context
 from os import error, path
 import pathlib
 import os.path
@@ -152,59 +154,175 @@ class EnviadosView(ProyectoMixin, ListView):
     
     #Descargar todos los paquetes
     def post(self, request, *args, **kwargs):
-        # Sacado de https://stackoverflow.com/questions/12881294/django-create-a-zip-of-multiple-files-and-make-it-downloadable
+        #Obtengo los elementos checkboxes del HTML
+        listado_checkboxes = self.request.POST.getlist('paquetes_pk')
+        paquetes = Paquete.objects.filter(pk__in=listado_checkboxes)
+        listado_versiones_url = []
+        #Formato Archivo.zip
         zip_subdir = "Cartas-Enviados-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
-        s = BytesIO()   
+        s = BytesIO()
         zf = zipfile.ZipFile(s, "w")
-        
-        paquetes = self.get_queryset()
-        
         for paquete in paquetes:
-            listado_versiones_url = []
-            listados_comentario_1 = []
-            listados_comentario_2 = []
+            versiones = paquete.version.all()
             try:
                 coment1 = paquete.comentario1.url
                 if coment1:
-                    listados_comentario_1.append(paquete)
+                    print(coment1)
+                    com1 = requests.get(coment1, stream=True)
+                    zf.writestr(str(paquete.comentario1), com1.content)
             except Exception:
                 pass
-            
             try:
                 coment2 = paquete.comentario2.url
                 if coment2:
-                    listados_comentario_2.append(paquete)
+                    print(coment2)
+                    com2 = requests.get(coment2, stream=True)
+                    zf.writestr(str(paquete.comentario2), com2.content)
             except Exception:
                 pass
-                
-            versiones = paquete.version.all()
+            for version in versiones:
+                try:
+                    static = version.archivo.url
+                    if static:
+                        listado_versiones_url.append(version)  
+                except Exception:
+                    pass
+            for version in listado_versiones_url:
+                r = requests.get(version.archivo.url, stream=True)
+                zf.writestr(str(version.archivo), r.content)
+
+        zf.close()
+        response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+        response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+        return response
+        # return redirect('bandeja-enviados')
+        
+        # Sacado de https://stackoverflow.com/questions/12881294/django-create-a-zip-of-multiple-files-and-make-it-downloadable
+        # zip_subdir = "Cartas-Enviados-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
+        # zip_filename = "%s.zip" % zip_subdir
+        # s = BytesIO()   
+        # zf = zipfile.ZipFile(s, "w")
+        
+        # paquetes = self.get_queryset()
+        
+        # for paquete in paquetes:
+        #     listado_versiones_url = []
+        #     listados_comentario_1 = []
+        #     listados_comentario_2 = []
+        #     try:
+        #         coment1 = paquete.comentario1.url
+        #         if coment1:
+        #             listados_comentario_1.append(paquete)
+        #     except Exception:
+        #         pass
             
+        #     try:
+        #         coment2 = paquete.comentario2.url
+        #         if coment2:
+        #             listados_comentario_2.append(paquete)
+        #     except Exception:
+        #         pass
+                
+        #     versiones = paquete.version.all()
+            
+        #     for version in versiones:
+        #         try:
+        #             static = version.archivo.url
+        #             if static:
+        #                 listado_versiones_url.append(version)
+        #         except ValueError:
+        #             pass
+                    
+        #     for version in listado_versiones_url:
+        #         r = requests.get(version.archivo.url, stream=True)
+        #         zf.writestr(str(version.archivo), r.content)
+            
+        #     for paquete_comentario1 in listados_comentario_1:
+        #         com1 = requests.get(paquete_comentario1.comentario1.url, stream=True)
+        #         zf.writestr(str(paquete_comentario1.comentario1), com1.content)
+                
+        #     for paquete_comentario2 in listados_comentario_2:
+        #         com2 = requests.get(paquete_comentario2.comentario2.url, stream=True)
+        #         zf.writestr(str(paquete_comentario2.comentario2), com2.content)
+                
+        # zf.close()
+        # response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+        # response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+
+        # return response
+
+class TransmitalDetail(ProyectoMixin, View):
+    http_method_names = ['get','post']
+    def get(self, request, *args, **kwargs):
+        # Sacado de https://stackoverflow.com/questions/12881294/django-create-a-zip-of-multiple-files-and-make-it-downloadable
+        listado_versiones_url = []
+        paquete = Paquete.objects.get(pk=self.kwargs['paquete_pk'])
+        #estoy obteniendo las versiones del paquete
+        versiones = paquete.version.all()
+        zip_subdir = "Documentos-{0}-{1}".format(paquete.codigo, time.strftime('%d-%m-%y'))
+        zip_filename = "%s.zip" % zip_subdir
+        s = BytesIO()   
+        zf = zipfile.ZipFile(s, "w")
+        #Contador de FieldFile Vacios
+        contador_version = 0
+        contador_comentario_1 = 0
+        contador_comentario_2 = 0
+        for version in versiones:
+            print(version)
+            try:
+                static = version.archivo.url
+                if static:
+                    contador_version += 1
+            except Exception:
+                pass
+        try:
+            coment1 = paquete.comentario1.url
+            if coment1:
+                contador_comentario_1 += 1   
+        except Exception:
+            pass
+        try:
+            coment2 = paquete.comentario2.url
+            if coment2:
+                contador_comentario_2 += 1
+        except Exception:
+            pass
+        #Compresion de documentos
+        if contador_version == 1 or contador_comentario_1 == 1 or contador_comentario_2 == 1:
+            # message.add_message(request, message.ERROR, "El paquete no tiene archivos adjuntos")
             for version in versiones:
                 try:
                     static = version.archivo.url
                     if static:
                         listado_versiones_url.append(version)
+                        for version in listado_versiones_url:
+                            r = requests.get(version.archivo.url, stream=True)
+                            zf.writestr(str(version.archivo), r.content)
                 except ValueError:
                     pass
-                    
-            for version in listado_versiones_url:
-                r = requests.get(version.archivo.url, stream=True)
-                zf.writestr(str(version.archivo), r.content)
-            
-            for paquete_comentario1 in listados_comentario_1:
-                com1 = requests.get(paquete_comentario1.comentario1.url, stream=True)
-                zf.writestr(str(paquete_comentario1.comentario1), com1.content)
-                
-            for paquete_comentario2 in listados_comentario_2:
-                com2 = requests.get(paquete_comentario2.comentario2.url, stream=True)
-                zf.writestr(str(paquete_comentario2.comentario2), com2.content)
-                
-        zf.close()
-        response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
-        response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+            try:
+                coment1 = paquete.comentario1.url
+                if coment1:
+                    com1 = requests.get(coment1, stream=True)
+                    zf.writestr(str(paquete.comentario1), com1.content)     
+            except Exception:
+                pass
+            try:
+                coment2 = paquete.comentario2.url
+                if coment2:
+                    com2 = requests.get(coment2, stream=True)
+                    zf.writestr(str(paquete.comentario2), com2.content)
+            except Exception:
+                pass    
+            zf.close()
+            response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
+            response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
+            return response
+        else:
+           messages.add_message(request, messages.ERROR, message='No se puede obtener la descarga de un tramital sin Archivos.')
+           return redirect('bandeja-enviados')
 
-        return response
 class PaqueteDetail(ProyectoMixin, DetailView):
     model = Paquete
     template_name = 'bandeja_es/paquete-detail.html'
