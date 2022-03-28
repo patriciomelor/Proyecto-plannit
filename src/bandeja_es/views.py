@@ -64,58 +64,47 @@ class InBoxView(ProyectoMixin, View):
     
     #Descargar todos los paquetes
     def post(self, request, *args, **kwargs):
-        # Sacado de https://stackoverflow.com/questions/12881294/django-create-a-zip-of-multiple-files-and-make-it-downloadable
-        zip_subdir = "Cartas-Recibidos-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
+        #Obtengo los elementos checkboxes del HTML
+        listado_checkboxes = self.request.POST.getlist('paquetes_pk')
+        paquetes = Paquete.objects.filter(pk__in=listado_checkboxes)
+        listado_versiones_url = []
+        #Formato Archivo.zip
+        zip_subdir = "Cartas-Enviados-{0}-{1}".format(self.proyecto.nombre, time.strftime('%d-%m-%y'))
         zip_filename = "%s.zip" % zip_subdir
-        s = BytesIO()   
+        s = BytesIO()
         zf = zipfile.ZipFile(s, "w")
-        
-        paquetes = self.get_queryset()
-        
         for paquete in paquetes:
-            listado_versiones_url = []
-            listados_comentario_1 = []
-            listados_comentario_2 = []
+            versiones = paquete.version.all()
             try:
                 coment1 = paquete.comentario1.url
                 if coment1:
-                    listados_comentario_1.append(paquete)
+                    print(coment1)
+                    com1 = requests.get(coment1, stream=True)
+                    zf.writestr(str(paquete.comentario1), com1.content)
             except Exception:
                 pass
-            
             try:
                 coment2 = paquete.comentario2.url
                 if coment2:
-                    listados_comentario_2.append(paquete)
+                    print(coment2)
+                    com2 = requests.get(coment2, stream=True)
+                    zf.writestr(str(paquete.comentario2), com2.content)
             except Exception:
                 pass
-                
-            versiones = paquete.version.all()
-            
             for version in versiones:
                 try:
                     static = version.archivo.url
                     if static:
-                        listado_versiones_url.append(version)
-                except ValueError:
+                        listado_versiones_url.append(version)  
+                except Exception:
                     pass
-                    
             for version in listado_versiones_url:
                 r = requests.get(version.archivo.url, stream=True)
                 zf.writestr(str(version.archivo), r.content)
-            
-            for paquete_comentario1 in listados_comentario_1:
-                com1 = requests.get(paquete_comentario1.comentario1.url, stream=True)
-                zf.writestr(str(paquete_comentario1.comentario1), com1.content)
-                
-            for paquete_comentario2 in listados_comentario_2:
-                com2 = requests.get(paquete_comentario2.comentario2.url, stream=True)
-                zf.writestr(str(paquete_comentario2.comentario2), com2.content)
-                
+
         zf.close()
         response = HttpResponse(s.getvalue(), content_type="application/x-zip-compressed")
         response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
-
         return response
 class EnviadosView(ProyectoMixin, ListView):
     model = Paquete
@@ -262,7 +251,7 @@ class TransmitalDetail(ProyectoMixin, View):
         zip_filename = "%s.zip" % zip_subdir
         s = BytesIO()   
         zf = zipfile.ZipFile(s, "w")
-        #Contador de FieldFile Vacios
+        #Contador de FileFields Vacios
         contador_version = 0
         contador_comentario_1 = 0
         contador_comentario_2 = 0
@@ -288,7 +277,6 @@ class TransmitalDetail(ProyectoMixin, View):
             pass
         #Compresion de documentos
         if contador_version == 1 or contador_comentario_1 == 1 or contador_comentario_2 == 1:
-            # message.add_message(request, message.ERROR, "El paquete no tiene archivos adjuntos")
             for version in versiones:
                 try:
                     static = version.archivo.url
@@ -318,6 +306,7 @@ class TransmitalDetail(ProyectoMixin, View):
             response['Content-Disposition'] = 'attachment; filename=%s' % zip_filename
             return response
         else:
+             # message.add_message(request, message.ERROR, "El paquete no tiene archivos adjuntos")
             return redirect('bandeja-enviados')
 
 class PaqueteDetail(ProyectoMixin, DetailView):
