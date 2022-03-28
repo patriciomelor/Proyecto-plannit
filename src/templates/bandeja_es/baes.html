@@ -13,13 +13,10 @@
 <!--Fin Filtros-->
    {% include 'bandeja_es/menu.html' %}
 
-<!--fin error-->
+  <form method="POST" action="{% url 'Bandejaeys' %}">{% csrf_token %}
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30" style="display:flex;align-items: end;">
     <h4 class="tx-gray-800 mg-b-5 mg-r-10">Bandeja de entrada</h4>
-    
-    <form method="POST">{% csrf_token %}
-      <button class="btn btn-warning  tx-uppercase tx-bold tx-spacing-6 tx-10" type="submit"><i class="fa fa-download mg-r-10"></i>Descargar Todos</button>
-    </form>
+      <button class="btn btn-warning  tx-uppercase tx-bold tx-spacing-6 tx-10" type="submit"><i class="fa fa-download mg-r-10"></i>Descargar Todos.</button>
     
   </div>
 
@@ -43,8 +40,7 @@
               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Editar</th>
               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Eliminar</th>
             {% endif %}
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Descargar Ultimo Transmittal</th>
-            
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;"> Descargar <br> Transmittal Actual</th> 
           </tr>
         </thead>
         <tbody>
@@ -103,7 +99,8 @@
         </script>
 
           {% endfor %}
-      </table>    
+      </table>
+    </form>    
     </div>
   </div><!-- br-pagebody -->  
 </div><!-- br-contentpanel -->
