@@ -13,7 +13,7 @@
 <!--Fin Filtros-->
    {% include 'bandeja_es/menu.html' %}
 
-<!--fin error-->
+  <form method="POST" action="{% url 'Bandejaeys' %}">{% csrf_token %}
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30" style="display:flex;align-items: end;">
     <h4 class="tx-gray-800 mg-b-5 mg-r-10">Bandeja de entrada</h4>
     
@@ -103,7 +103,8 @@
         </script>
 
           {% endfor %}
-      </table>    
+      </table>
+    </form>    
     </div>
   </div><!-- br-pagebody -->  
 </div><!-- br-contentpanel -->
