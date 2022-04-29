@@ -16,7 +16,10 @@
   <form method="POST" action="{% url 'Bandejaeys' %}">{% csrf_token %}
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30" style="display:flex;align-items: end;">
     <h4 class="tx-gray-800 mg-b-5 mg-r-10">Bandeja de entrada</h4>
-      <button class="btn btn-warning  tx-uppercase tx-bold tx-spacing-6 tx-10" type="submit"><i class="fa fa-download mg-r-10"></i>Descargar Todos.</button>
+    
+    <form method="POST">{% csrf_token %}
+      <button class="btn btn-warning  tx-uppercase tx-bold tx-spacing-6 tx-10" type="submit"><i class="fa fa-download mg-r-10"></i>Descargar</button>
+    </form>
     
   </div>
 
@@ -37,10 +40,11 @@
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Hora</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Detalle</th>
             {% if request.user.is_superuser %}
-              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Editar</th>
-              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Eliminar</th>
+              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Editar</th>
+              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Eliminar</th>
             {% endif %}
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;"> Descargar <br> Transmittal Actual</th> 
+            {% comment %} <th class="tx-10-force tx-mont tx-medium hidden-xs-down"tabindex="0" aria-controls="datatable2" rowspan="1" colspan="1"  style="vertical-align:center;text-align:center;color:#fff;">Descargar Ultimo Transmittal</th> {% endcomment %}
+            
           </tr>
         </thead>
         <tbody>
@@ -68,9 +72,9 @@
               <a class="btn btn-danger"href="{% url 'paquete-eliminar' paquete.pk %}"><i class="fa fa-trash"></i></a>       
             </td>
             {% endif %} 
-            <td td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
+            {% comment %} <td td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
               <a class="btn btn-teal" href="{% url 'transmital-detail' paquete.pk %}"><i class="icon ion-archive fa-lg"></i></a>      
-            </td>
+            </td> {% endcomment %}
           </tr>
           
           {% empty %}
