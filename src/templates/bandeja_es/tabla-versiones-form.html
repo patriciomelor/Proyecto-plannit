@@ -158,7 +158,7 @@
                               </div>
                              
                           </div>
-                          <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
+                         <div class="col-md-12" style="overflow-y: scroll; height: 500px;margin-top:30px;">
                         
                                 <div id="app" style="background-color: rgba(176, 182, 176, 0.603); border-radius: 3px; padding: 10px;">
                                     <div v-show=" version_ok === 1 " id="alert1" class="alert alert-bordered alert-success" role="alert">
@@ -200,10 +200,15 @@
                                              <a type="button"class="btn btn-success"href="https://plannit-spaces.sfo3.digitaloceanspaces.com/PLANNIT-PLANTILLA_MC.xlsx" target="_blank" rel="noopener noreferrer">
                                               <i class="fa fa-download mg-r-10"></i> Descargar plantilla
                                              </a>
+                                             <a @click="upload_all" type="button" class="btn btn-warning" :disabled="loadingUpload == 1" >
+                                                <span v-if="loadingUpload == 1" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span> [[ uploadButtonText ]]
+                                               </a>
                                             </td>
                                           </tr>
                                           <tr>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Código </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Descripción </th>
+                                              <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Especialidad </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Revisión </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"> Estado </th>
                                               <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="text-align: center; color: white;"></th>
@@ -588,9 +593,7 @@ Vue.filter('revision', function(value) {
     const tipos_revision_args = [1,2,3,4,5,6,7,8,9,10];
     if (tipos_revision_args.includes(value)){
         let revision_index = tipos_revision_args.indexOf(value)
-        console.log(revision_index);
         let revision_final = tipos_revision_kwargs[revision_index]
-        console.log(revision_final);
         return revision_final
     } else {
         return "Revisión no econtrada..."
@@ -646,20 +649,14 @@ var app = new Vue({
     versiones_valid: [],
     input_valid: [],
     loading: 0,
+    loadingUpload: 0,
     send: false,
     buttonText : 'Subir Archivo',
+    uploadButtonText: 'Cargar Todo',
     activeIndex: null,
     errors: undefined
 
   },
-
-//   filters: {
-//     cambiaraTexto: function(){
-//         1 --> "B",
-//         2 --> "C",
-//     }
-//   },
-
   methods:{
         moment: function (date) {
             return moment(date);
@@ -695,7 +692,6 @@ var app = new Vue({
         cargar_val: function(version, index) {
             const user_id = {{request.user.perfil.rol_usuario}};
             this.activeIndex = index
-            console.log(index)
             
             let formData = new FormData();
             let filename = 'file-2-' + index;
@@ -746,6 +742,20 @@ var app = new Vue({
                     console.log(error);
                 }
             )
+
+        },
+        upload_all: function() {
+            this.loadingUpload = 1;
+            this.uploadButtonText = 'Subiendo...';
+            
+            let len = this.versiones.length;
+
+            for (let i; i < len; i++){
+                console.log(i);
+            }
+
+            this.loadingUpload = 0;
+            this.uploadButtonText = 'Cargar Todo';
 
         },
         
