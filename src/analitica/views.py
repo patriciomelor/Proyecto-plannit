@@ -309,7 +309,7 @@ class IndexAnalitica(ProyectoMixin, TemplateView):
             
             if not versiones_documentos[1]:
                 aprobados_inicial = [0, 'Sin registros']
-                aprobados_final.append()
+                aprobados_final.append(aprobados_inicial)
 
         if documentos_totales == 0:
             aprobados_inicial = [0, 'Sin registros']
