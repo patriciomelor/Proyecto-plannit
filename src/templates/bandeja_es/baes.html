@@ -1,18 +1,8 @@
 {% extends 'index-blank.html' %}
 {% load crispy_forms_tags %}
-{% block content %}  
-<div class="br-subleft">
-  <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">Menus</h6>
-  <div class="pd-10">
-    <a href="{% url 'paquete-preview' %}"  class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Transmittal</a>
-  </div>
-  <nav class="nav br-nav-mailbox flex-column">
-    <a href="{% url 'Bandejaeys' %}" class="nav-link active"><i class="icon icon fa fa-reply"></i> Recibidos</a>
-    <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon icon fa fa-share"></i> Enviados</a>
-    <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
-  </nav>
-</div><!-- br-subleft -->
-<div class="br-contentpanel">
+{% block content %}   
+<div class="br-mainpanel" style="position: relative;">
+ 
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -23,7 +13,7 @@
 <!--Fin Filtros-->
    {% include 'bandeja_es/menu.html' %}
 
-  <form method="POST" action="{% url 'Bandejaeys' %}">{% csrf_token %}
+<!--fin error-->
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30" style="display:flex;align-items: end;">
     <h4 class="tx-gray-800 mg-b-5 mg-r-10">Bandeja de entrada</h4>
     
@@ -75,10 +65,10 @@
             <a class="btn btn-teal"href="{% url 'paquete-detalle' paquete.pk %}"><i class="icon ion-eye"></i></a>                 
             </td>
             {% if request.user.is_superuser %}
-            <td style="vertical-align:center;text-align:center;">
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
               <a class="btn btn-warning"href="{% url 'paquete-editar' paquete.pk %}"><i class="fa fa-pencil"></i></a>       
             </td>
-            <td style="vertical-align:center;text-align:center;">
+            <td class="valign-middle hidden-xs-down"style="vertical-align:center;text-align:center;">
               <a class="btn btn-danger"href="{% url 'paquete-eliminar' paquete.pk %}"><i class="fa fa-trash"></i></a>       
             </td>
             {% endif %} 
@@ -113,8 +103,7 @@
         </script>
 
           {% endfor %}
-      </table>
-    </form>    
+      </table>    
     </div>
   </div><!-- br-pagebody -->  
 </div><!-- br-contentpanel -->
@@ -165,7 +154,7 @@
 
   });
 </script>
-<!--datatable script-->
+
 <script type="text/javascript">
   jQuery(document).ready(function() {
     $('#mydatatable').DataTable(

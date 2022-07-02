@@ -4,21 +4,7 @@
 
 
 {% block content %}   
-<div class="br-subleft">
-
-  <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">Menus</h6>
-  <div class="pd-10">
-    <a href="{% url 'paquete-preview' %}"  class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Transmittal</a>
-  </div>
-  <nav class="nav br-nav-mailbox flex-column">
-    <a href="{% url 'Bandejaeys' %}" class="nav-link "><i class="icon icon fa fa-reply"></i> Recibidos</a>
-    <a href="{% url 'bandeja-enviados' %}" class="nav-link active"><i class="icon icon fa fa-share"></i> Enviados</a>
-    <a href="{% url 'Borradores' %}" class="nav-link"><i class="icon icon ion-edit"></i> Borradores</a>
-  </nav>
-</div><!-- br-subleft -->
-<!--Filtros-->
-<div class="br-contentpanel">
-  {% comment %} {% include 'bandeja_es/menu.html' %} {% endcomment %}
+<div class="br-mainpanel" style="position: relative;">
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
@@ -48,7 +34,7 @@
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Asunto</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Autor</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Destinatario</th>
-            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;width:100px;">Fecha</th>
+            <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Fecha</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Hora</th>
             <th class="tx-10-force tx-mont tx-medium hidden-xs-down"style="vertical-align:center;text-align:center;color:#fff;">Detalle</th>
             {% if request.user.is_superuser %}
@@ -114,7 +100,8 @@
     </div>
   </div><!-- br-pagebody -->  
 </div><!-- br-contentpanel -->
-<!--Script Datatable-->
+ 
+<!--Script-->
 <script type="text/javascript">
   jQuery(document).ready(function() {
     $('#mydatatable').DataTable(
