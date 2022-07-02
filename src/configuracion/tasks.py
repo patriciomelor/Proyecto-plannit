@@ -8,7 +8,6 @@ from celery.utils.functional import pass1
 
 from analitica.models import CurvasBase
 from bandeja_es.models import Version
-from django.db import connection
 from django.utils import timezone
 from dmp.celery import app
 from notifications.emails import send_email

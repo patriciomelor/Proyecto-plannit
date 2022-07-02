@@ -2,16 +2,29 @@
 
 {% load crispy_forms_tags %}
 {% block content %}
-<div class="br-mainpanel" style="position: relative;">
+<div class="br-subleft">
+  <nav class="nav br-nav-mailbox flex-column">
+    <a href="{% url 'Bandejaeys' %}"  class="nav-link active"><i class="icon icon ion-email"></i> Bandeja de Transmittal</a>
+    <a href="" class="nav-link"><i class="icon icon ion-document"></i> Bandeja de Cartas</a>
+  </nav>
+  <h6 class="tx-uppercase tx-10 mg-t-40 pd-x-10 bd-b pd-b-10 tx-roboto tx-white-7">Menus</h6>
+  <div class="pd-10">
+    <a href="{% url 'paquete-preview' %}"  class="btn btn-warning bd-0 btn-compose"><i class="icon ion-ios-compose-outline"></i> Nuevo Transmittal</a>
+  </div>
+  <nav class="nav br-nav-mailbox flex-column">
+    <a href="{% url 'Bandejaeys' %}" class="nav-link "><i class="icon icon fa fa-reply"></i> Recibidos</a>
+    <a href="{% url 'bandeja-enviados' %}" class="nav-link"><i class="icon icon fa fa-share"></i> Enviados</a>
+    <a href="{% url 'Borradores' %}" class="nav-link active"><i class="icon icon ion-edit"></i> Borradores</a>
+  </nav>
+</div><!-- br-subleft -->
+<div class="br-contentpanel">
   <div class="br-pageheader pd-y-15 pd-md-l-20">
     <nav class="breadcrumb pd-0 mg-0 tx-12">
       <a class="breadcrumb-item"> {{proyecto}}</a>
       <a class="breadcrumb-item" href="{% url 'Bandejaeys' %}">Bandeja Entrada y Salida</a>      
       <span class="breadcrumb-item active">Borradores</span>
     </nav>
-  </div><!-- br-pageheader -->
-    {% include 'bandeja_es/menu.html' %}
-
+  </div>
   <div class="pd-x-20 pd-sm-x-30 pd-t-20 pd-sm-t-30">
     <h4 class="tx-gray-800 mg-b-5">Bandeja de Borradores</h4>
   </div>
@@ -64,8 +77,8 @@
 
           {% endfor %}
       </table>    
-</div>
-</div>
+  </div><!-- br-pagebody -->
+</div><!-- br-contentpanel -->
 <script type="text/javascript">
   jQuery(document).ready(function() {
     $('#mydatatable').DataTable(
