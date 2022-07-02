@@ -75,7 +75,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
                 paquete_first = version_first.paquete_set.first()
 
                 if paquete and paquete_first:
-                    if version.estado_cliente == 5:
+                    if version.estado_cliente == 6:
                         transmital = abs((paquete.fecha_creacion - paquete_first.fecha_creacion).days)
                         dias_revision = 0
                     else:
@@ -85,7 +85,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
 
                 version_documento = version.revision
 
-                for revision in TYPES_REVISION[1:4]:
+                for revision in TYPES_REVISION[1:5]:
                     if version_documento == revision[0]:
                         if dias_revision < 0:
                             dias_revision = 0
@@ -95,7 +95,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
                             lista_inicial =[doc, [version, paquete, semana_actual, rev_letra, transmital, paquete_first, dias_revision]]
                             lista_final.append(lista_inicial)
 
-                for revision in TYPES_REVISION[5:]:
+                for revision in TYPES_REVISION[6:]:
                     if version_documento == revision[0]:
                         lista_inicial = [doc, [version, paquete, semana_actual, '100', transmital, paquete_first, dias_revision]]
                         lista_final.append(lista_inicial)
