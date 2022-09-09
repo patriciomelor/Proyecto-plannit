@@ -85,7 +85,7 @@ class StatusIndex(ProyectoMixin, TemplateView):
 
                 version_documento = version.revision
 
-                for revision in TYPES_REVISION[1:5]:
+                for revision in TYPES_REVISION[1:6]:
                     if version_documento == revision[0]:
                         if dias_revision < 0:
                             dias_revision = 0
