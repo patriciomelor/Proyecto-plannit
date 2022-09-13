@@ -36,7 +36,7 @@ django-timezone-field==4.1.2
 djangorestframework==3.12.2
 easy-thumbnails==2.7
 et-xmlfile==1.0.1
-flower==0.9.7
+flower==1.2.0
 gunicorn==20.0.4
 humanize==3.9.0
 idna==2.10
