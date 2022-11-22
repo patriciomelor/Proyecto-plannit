@@ -47,7 +47,7 @@ MarkupPy==1.14
 oauthlib==3.1.0
 odfpy==1.4.1
 openpyxl==3.0.5
-Pillow==8.0.1
+Pillow==9.3.0
 prometheus-client==0.8.0
 prompt-toolkit==3.0.18
 psycopg2-binary==2.8.6
