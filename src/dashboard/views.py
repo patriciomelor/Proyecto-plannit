@@ -238,7 +238,7 @@ class EscritorioView(ProyectoMixin, TemplateView):
                     if fecha_control >= fecha_anterior:
                         print("Todo está correcto")
                     else:
-                        print("Hay un error")
+                        print("Hay un error en el codigo")
                 else:
                     # asignar valores predeterminados para fecha_control o fecha_anterior si es necesario
                     fecha_control = datetime.datetime.now()  # asigna la fecha actual como valor predeterminado
