@@ -223,12 +223,26 @@ class EscritorioView(ProyectoMixin, TemplateView):
 
         #Funcion para calcular documentos que deberian ser emitidos en una semana
         if fechas_para_documentos:
-            for fecha in fechas_para_documentos:
-                if str(fecha) <= str(semana_actual):
-                    contador_fechas_semanal = contador_fechas_semanal + 1
+          for fecha in fechas_para_documentos:
+            if str(fecha) <= str(semana_actual):
+                contador_fechas_semanal += 1
 
-            fecha_control = fechas_para_documentos[contador_fechas_semanal]
-            fecha_anterior = fechas_para_documentos[contador_fechas_semanal - 1]
+                if contador_fechas_semanal == len(fechas_para_documentos):
+                    # El contador está apuntando al último índice de la lista, así que retrocedemos una posición
+                    contador_fechas_semanal -= 1
+
+                fecha_control = fechas_para_documentos[contador_fechas_semanal]
+                fecha_anterior = fechas_para_documentos[contador_fechas_semanal - 1] if contador_fechas_semanal > 0 else None
+
+                if fecha_control and fecha_anterior:
+                    if fecha_control >= fecha_anterior:
+                        print("Todo está correcto")
+                    else:
+                        print("Hay un error")
+                else:
+                    # asignar valores predeterminados para fecha_control o fecha_anterior si es necesario
+                    fecha_control = datetime.datetime.now()  # asigna la fecha actual como valor predeterminado
+                    fecha_anterior = datetime.datetime.now() - datetime.timedelta(days=7)  # asigna la fecha hace una semana como valor predeterminado
 
             for doc in documentos:
                 fecha_emision_0 = doc.fecha_Emision_0
