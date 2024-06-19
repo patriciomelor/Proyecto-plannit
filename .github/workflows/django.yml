@@ -3,7 +3,7 @@ name: Deploy Django to Heroku
 on:
   push:
     branches:
-      - main  # Puedes cambiar esto a la rama que prefieras
+      - master  # Puedes cambiar esto a la rama que prefieras
 
 jobs:
   deploy:
