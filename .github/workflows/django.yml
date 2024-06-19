@@ -1,9 +1,9 @@
-name: Deploy Django to Heroku
+name: Deploy to Heroku
 
 on:
   push:
     branches:
-      - master  # Puedes cambiar esto a la rama que prefieras
+      - master  # Cambia esto a la rama que prefieras
 
 jobs:
   deploy:
@@ -21,12 +21,15 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install -r requirements.txt
+          pip install -r src/requirements.txt  # Apunta al archivo dentro de src
+
+      - name: Run tests
+        run: |
+          python src/manage.py test  # Asegúrate de que apunte correctamente a manage.py dentro de src
 
       - name: Deploy to Heroku
         env:
           HEROKU_API_KEY: ${{ secrets.HEROKU_API_KEY }}
         run: |
-          git remote add heroku https://git.heroku.com/<your-heroku-app-name>.git
+          heroku git:remote -a <nombre-de-tu-app-heroku>
           git push heroku main
-
